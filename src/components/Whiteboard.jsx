@@ -9,6 +9,7 @@ import EquationSolver from "./equationSolver";
 import MY_API_KEY from "./API_KEY";
 
 export default function Whiteboard() {
+  document.body.style.height = "100%";
   const navigate = useNavigate();
 
   //FOR LINKS/NAVBAR/BREADCRUMBS
@@ -35,6 +36,7 @@ export default function Whiteboard() {
   const [questionList, setQuestions] = useState([]);
   const questionAnswers = [];
   const questionSteps = [];
+  var coefficientLetter = "";
 
   useEffect(() => {
     const data = window.localStorage.getItem("QUESTION_LIST");
@@ -48,10 +50,12 @@ export default function Whiteboard() {
 
       let answer = EquationSolver.getEquationAnswer();
       let steps = EquationSolver.getEquationSteps();
+      let coefficient = EquationSolver.getCoefficientLetter();
       //console.log("answe:" + answer);
       console.log("steps is this: " + steps);
       questionAnswers.push(answer);
       questionSteps.push(steps);
+      coefficientLetter = coefficient;
     }
   }
 
@@ -88,6 +92,7 @@ export default function Whiteboard() {
 
   computeEquation();
   console.log("answeasda:" + questionAnswers);
+  console.log("Coeff letter: " + coefficientLetter);
   //console.log("ASDROOOO:" + questionList);
   //console.log("AasdasdO:" + questionAnswers);
   /*
@@ -271,14 +276,15 @@ export default function Whiteboard() {
     if (textInput.trim() !== "") {
       axios
         .post(
-          "http://localhost:80/Prototype-React/my-app/api/user/save",
+          "http://localhost:80/Prototype-Vite/my-project/api/whiteboardLogs/save",
           inputs
         )
         .then(function (response) {
           console.log(response.data);
-          navigate("/");
         });
     }
+    //Clear inputbox
+    setAnswer("");
   };
   //PHP CONNECT END
   //=========================
@@ -325,9 +331,6 @@ export default function Whiteboard() {
 
   //=============================CLICK BUTTON=============================
   const handleClick = (event) => {
-    //Clear inputbox
-    setAnswer("");
-
     //Focus inputbox
     let inputID = document.getElementById("input_box");
     ReactDOM.findDOMNode(inputID).focus();
@@ -447,11 +450,19 @@ export default function Whiteboard() {
 
         // WRONG ANSWER or IRRELEVANT
         else {
-          let result = trimmedText.match(/[a-zA-Z]/gi);
+          let search = coefficientLetter;
+          let find = new RegExp(search, "gi");
+          let removedCoeff = trimmedText.replace(find, "");
+          // console.log("removedCoeff: " + removedCoeff);
+          let result = removedCoeff.match(/[a-zA-Z]/gi);
+          // console.log("RESULT: " + result);
+
           if (isProfanity) {
             displayAngry();
-          } else if (result.length > 2) {
-            displayConfused();
+          } else if (result != null) {
+            if (result.length > 0) {
+              displayConfused();
+            }
           } else {
             displayWrong();
           }
@@ -1021,7 +1032,7 @@ export default function Whiteboard() {
               {...(isHelp
                 ? {
                     dataTooltip:
-                      "The area for writing your answer. Please input relevant answers only.",
+                      "The area to put your answers, and submit it. Please write relevant answers only.",
                   }
                 : {})}
               {...(isHelp ? { dataTooltipPosition: "top" } : {})}
@@ -1084,14 +1095,14 @@ export default function Whiteboard() {
                         y2="-70.35"
                         gradientUnits="userSpaceOnUse"
                       >
-                        <stop offset="0" stop-color="#231f20" />
-                        <stop offset="1" stop-color="#58595b" />
+                        <stop offset="0" stopColor="#231f20" />
+                        <stop offset="1" stopColor="#58595b" />
                       </linearGradient>
                     </defs>
                     {!isHelp && <title>Clear Logs</title>}
                     <path
                       d="M84.47,16.86,231.05,37.92l1.87-13.33a28.45,28.45,0,0,1,32-24.31h0a28.65,28.65,0,0,1,24,32.35L287,46,433.62,67A21.88,21.88,0,0,1,452,91.74v0a21.69,21.69,0,0,1-24.43,18.56L78.38,60.15A21.88,21.88,0,0,1,60,35.43v0A21.72,21.72,0,0,1,84.47,16.86Zm328,92H88.56c-12.17,0-20.67,10-18.86,22.14l52.93,358.9C124.44,502.05,135.85,512,148,512H352.55c12.15,0,23.58-9.95,25.4-22.08L431.31,131C433.12,118.81,424.64,108.85,412.49,108.85ZM179.79,432.73l-.69.07a13.34,13.34,0,0,1-14.48-12.07L141.8,182.35a13.42,13.42,0,0,1,11.91-14.66l.69-.07a13.37,13.37,0,0,1,14.48,12.07l22.84,238.4A13.4,13.4,0,0,1,179.79,432.73ZM264.09,420a13.37,13.37,0,0,1-13.27,13.44h-.67A13.41,13.41,0,0,1,236.87,420V180.48A13.41,13.41,0,0,1,250.15,167h.67a13.37,13.37,0,0,1,13.27,13.44Zm71.6.78A13.35,13.35,0,0,1,321.2,432.8l-.72-.07a13.44,13.44,0,0,1-11.89-14.68l23.09-238.37a13.36,13.36,0,0,1,14.52-12l.65.07a13.44,13.44,0,0,1,11.94,14.66Z"
-                      fill-rule="evenodd"
+                      fillRule="evenodd"
                       fill="url(#linear-gradient)"
                     />
                   </svg>

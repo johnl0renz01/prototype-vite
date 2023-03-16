@@ -5,8 +5,10 @@ import { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import * as ReactDOM from "react-dom";
+import $ from "jquery";
 
 function Registration() {
+  document.body.style.height = "100vh";
   const navigate = useNavigate();
 
   const [pageList, setPageList] = useState([]);
@@ -35,6 +37,40 @@ function Registration() {
     await new Promise((resolve) => setTimeout(resolve, 1000));
     actions.resetForm();
   };
+
+  const [currentAge, setAge] = useState();
+
+  function getAge(dateString) {
+    var string = dateString.replace(/[\-]/gi, "/");
+    var today = new Date();
+    var birthDate = new Date(string);
+    var age = today.getFullYear() - birthDate.getFullYear();
+    var m = today.getMonth() - birthDate.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+    }
+    setAge(age);
+    setTimeout(setValue, 100);
+    function setValue() {
+      values.age = age;
+      handleChange.age;
+      document.getElementById("age").focus();
+      setTimeout(document.getElementById("age").blur(), 1);
+    }
+
+    console.log(values.age);
+  }
+  /*
+  document.getElementById("birthDay").date({
+    onSelect: function () {
+      document.getElementById("birthDay").blur();
+    },
+  });
+  */
+
+  function blur() {
+    setTimeout(document.getElementById("birthDay").blur(), 1);
+  }
 
   const {
     values,
@@ -174,9 +210,9 @@ function Registration() {
                         type="text "
                         placeholder="Enter First Name "
                         autoComplete="new-password"
-                        className={` grow p-2 border-2 rounded-md border-gray-500 focus:outline-teal-500 relative focus:ring-teal-500 shadow-md shadow-[#808080] ${
+                        className={` grow p-2 border-2 rounded-md border-gray-500 focus:outline-teal-500 relative focus:ring-teal-500 shadow-sm  shadow-[#808080] ${
                           errors.firstName && touched.firstName
-                            ? "shadow-red-500 shadow-md  border-red-500 focus:border-red-500 border-2 border-solid"
+                            ? "shadow-red-500  border-red-500 focus:border-red-500 border-3 border-solid"
                             : ""
                         }`}
                         value={values.firstName}
@@ -205,9 +241,9 @@ function Registration() {
                         type="text "
                         placeholder="Enter Middle Name"
                         autoComplete="new-password"
-                        className={`grow p-2 border-2  rounded-md relative border-gray-500 focus:outline-teal-500 focus:ring-teal-500  shadow-md shadow-[#808080] ${
+                        className={`grow p-2 border-2  rounded-md relative border-gray-500 focus:outline-teal-500 focus:ring-teal-500 shadow-sm  shadow-[#808080] ${
                           errors.middleName && touched.middleName
-                            ? " shadow-red-500 shadow-md border-red-500 focus:border-red-500 border-2 border-solid"
+                            ? " shadow-red-500 border-red-500 focus:border-red-500 border-3 border-solid"
                             : ""
                         }`}
                         value={values.middleName}
@@ -237,9 +273,9 @@ function Registration() {
                         type="text "
                         placeholder="Enter Last Name"
                         autoComplete="new-password"
-                        className={`grow p-2 border-2 relative rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 w-52 shadow-md shadow-[#808080] ${
+                        className={`grow p-2 border-2 relative rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 w-52 shadow-sm shadow-[#808080] ${
                           errors.lastName && touched.lastName
-                            ? " shadow-red-500 shadow-md border-red-500 focus:border-red-500 border-2 border-solid"
+                            ? " shadow-red-500 border-red-500 focus:border-red-500 border-3 border-solid"
                             : ""
                         } `}
                         value={values.lastName}
@@ -266,15 +302,20 @@ function Registration() {
                         Birth date:{" "}
                       </label>
                       <input
+                        id="birthDay"
                         name="birthDay"
                         type="date"
                         autoComplete="new-password"
-                        className="grow p-2 border-2  focus:border-none rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 shadow-md shadow-[#808080]"
+                        className="grow p-2 border-2  focus:border-none rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 shadow-sm shadow-[#808080]"
                         value={values.birthDay}
                         onChange={handleChange}
-                        onBlur={handleBlur}
+                        onBlur={function (event) {
+                          handleBlur;
+                          getAge(values.birthDay);
+                          handleChange.age;
+                        }}
                         min="2000-01-01"
-                        max="2020-12-31"
+                        max="2013-12-31"
                       />
                     </div>
                   </div>
@@ -289,18 +330,20 @@ function Registration() {
                         Age:{" "}
                       </label>
                       <input
+                        readOnly
+                        id="age"
                         type="number"
                         name="age"
                         min="1"
                         max="25"
-                        placeholder="Age"
+                        placeholder="Set birthday"
                         autoComplete="new-password"
-                        className={`p-2 border-2 w-32 rounded-md focus:border-none border-gray-500 focus:outline-teal-500 focus:ring-teal-500  shadow-md relative shadow-[#808080] ${
+                        className={`p-2 border-2 w-[9rem] rounded-md focus:border-none border-gray-500 focus:outline-teal-500 focus:ring-teal-500 relative shadow-sm shadow-[#808080] ${
                           errors.age && touched.age
-                            ? " shadow-red-500 shadow-md border-red-500 focus:border-red-500 border-2 border-solid"
+                            ? " shadow-red-500 border-red-500 focus:border-red-500 border-3 border-solid"
                             : ""
                         }`}
-                        value={values.age}
+                        value={currentAge}
                         onChange={handleChange}
                         onBlur={handleBlur}
                       />
@@ -366,7 +409,7 @@ function Registration() {
                         onChange={handleChange}
                         name="gradeLevel"
                         id="gradeLevel"
-                        className="p-2 border-2 w-32  focus:border-none rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 shadow-md shadow-[#808080]"
+                        className="p-2 border-2 w-32  focus:border-none rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 shadow-sm shadow-[#808080]"
                       >
                         <option>Grade 7</option>
                       </select>
@@ -386,7 +429,7 @@ function Registration() {
                         value={values.section}
                         onChange={handleChange}
                         name="section"
-                        className="p-2 border-2 w-32 focus:border-none rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 shadow-md shadow-[#808080] "
+                        className="p-2 border-2 w-32 focus:border-none rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 shadow-sm shadow-[#808080] "
                       >
                         <option>Rizal</option>
                         <option>Bonifacio</option>
@@ -413,7 +456,7 @@ function Registration() {
                         value={values.groupType}
                         onChange={handleChange}
                         name="groupType"
-                        className="p-2 border-2 w-52 rounded-md focus:border-none border-gray-500 focus:outline-teal-500 focus:ring-teal-500  shadow-md shadow-[#808080]"
+                        className="p-2 border-2 w-52 rounded-md focus:border-none border-gray-500 focus:outline-teal-500 focus:ring-teal-500 shadow-sm shadow-[#808080]"
                       >
                         <option>Facial Group</option>
                         <option>Non Facial Group</option>
@@ -437,9 +480,9 @@ function Registration() {
                         type="email "
                         autoComplete="off"
                         placeholder="lastname.firstname@school.edu.ph"
-                        className={`grow p-2 border-2 rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 shadow-md shadow-[#808080] ${
+                        className={`grow p-2 border-2 rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 shadow-sm shadow-[#808080] ${
                           errors.email && touched.email
-                            ? " shadow-red-500 shadow-md border-red-500 focus:border-red-500 border-2 border-solid"
+                            ? " shadow-red-500 border-red-500 focus:border-red-500 border-3 border-solid"
                             : ""
                         }`}
                         value={values.email}
@@ -470,9 +513,9 @@ function Registration() {
                         type="password"
                         autoComplete="new-password"
                         placeholder="Enter Password"
-                        className={`grow p-2 py-3 border-2  rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 focus:border-none shadow-md relative shadow-[#808080] ${
+                        className={`grow p-2 py-3 border-2  rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 focus:border-none relative shadow-sm shadow-[#808080] ${
                           errors.password && touched.password
-                            ? " shadow-red-500 shadow-md border-red-500 focus:border-red-500 border-2 border-solid"
+                            ? " shadow-red-500 border-red-500 focus:border-red-500 border-3 border-solid"
                             : ""
                         }`}
                         value={values.password}
@@ -501,9 +544,9 @@ function Registration() {
                         type="password"
                         autoComplete="new-password"
                         placeholder="Confirm Password"
-                        className={`grow p-2 border-2  rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 focus:border-none  shadow-md shadow-[#808080] ${
+                        className={`grow p-2 border-2  rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 focus:border-none shadow-sm shadow-[#808080] ${
                           errors.confirmPassword && touched.confirmPassword
-                            ? " shadow-red-500 shadow-md border-red-500 focus:border-red-500 border-2 border-solid"
+                            ? " shadow-red-500 border-red-500 focus:border-red-500 border-3 border-solid"
                             : ""
                         }`}
                         value={values.confirmPassword}

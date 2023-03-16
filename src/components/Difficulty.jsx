@@ -9,6 +9,7 @@ import QuestionList from "./questionList";
 import MY_API_KEY from "./API_KEY";
 
 export default function DifficultyPage() {
+  document.body.style.height = "100vh";
   const navigate = useNavigate();
 
   //FOR LINKS/NAVBAR/BREADCRUMBS
@@ -198,7 +199,7 @@ export default function DifficultyPage() {
     <>
       <section>
         {/* <input type="text" value={result} className="w-full"></input>*/}
-        <div className="mx-auto my-16 w-9/12 select-none">
+        <div className="mx-auto my-10 w-9/12 select-none">
           <div className="px-12">
             <div className="px-6 py-8 pb-32 rounded-6xl  border-l-12 border-b-12 border-gray-600/60 bg-gradient-to-t from-gray-200 via-white to-white border-r-12 border-r-gray-300/80 shadow-2xl shadow-yellow-400">
               <div className="px-6 py-24  rounded-4xl  mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-6 lg:py-6">

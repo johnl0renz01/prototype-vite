@@ -1882,7 +1882,7 @@ console.log(`The solution for ${equation} is: x = ${x}`);
 PARENTHESISESESESESESESI;
 ////////////////////////////////////
 ////////////////////////////////////
-var equation = "5+3x +4- 2(5*3(3x-9x-5(2-9))) = 3";
+var equation = "9(2-1)8x=7(2x+5)";
 equation = equation.replace(/\s/g, "");
 // Separate the left-hand and right-hand side of the equation
 var [lhs, rhs] = equation.split("=").map((side) => side.trim());
@@ -1920,6 +1920,14 @@ function checkParenthesis(currentString) {
           currentString.substring(0, i) + "*(" + currentString.substring(i + 1);
       }
     }
+
+    if (currentString[i].match(/[\)]/) && i > 0) {
+      if (currentString[i + 1].match(/^[0-9]+$/)) {
+        currentString =
+          currentString.substring(0, i) + ")*" + currentString.substring(i + 1);
+      }
+    }
+
     if (currentString[i].match(/[x]/)) {
       if (currentString[i - 1].match(/[\+\-\*\/\(]/)) {
         currentString =
@@ -1968,7 +1976,7 @@ function checkParenthesis(currentString) {
         checkSymbol(rhs);
         */
 
-//ABC console.log("lhs: " + lhs);
+console.log("lhs: " + lhs);
 //ABC console.log("rhs: " + rhs);
 //ABC console.log("************");
 
@@ -1987,8 +1995,8 @@ var computeRHS = false;
 computeLHS = true;
 getValues(lhs, lhsFinalCoefficient, lhsFinalConstant);
 
-console.log("lhs coefficient: " + lhsFinalCoefficient);
-console.log("lhs constant: " + lhsFinalConstant);
+//ABC console.log("lhs coefficient: " + lhsFinalCoefficient);
+//ABC console.log("lhs constant: " + lhsFinalConstant);
 
 // FOR LHS
 function getValues(currentString, currentCoefficient, currentConstant) {
@@ -2376,7 +2384,9 @@ function getValues(currentString, currentCoefficient, currentConstant) {
                     console.log("MDindex :+_+_+_+_+: " + MDindex);
                     */
     if (evaluateCoefficient) {
+      console.log("EVALUATETETETEASDASD");
       if (MDsymbol && MDindex != 0) {
+        console.log("BEFORE MD SYMBOL LETSZFXZFOZPGO: ");
         /*
                         console.log(" ");
                         console.log("IM IN MDSYMBOL!!!!");
@@ -2385,13 +2395,34 @@ function getValues(currentString, currentCoefficient, currentConstant) {
                         console.log("currentCoefficient: " + currentCoefficient );
                         */
         // FOR MULTIPLICATION
+        let isParenthesis = false;
+        let parenthesisCount = 0;
+        let firstParenthesisIndex = 0;
 
         for (let j = MDindex; j >= 0; j--) {
-          if (currentString[j].match(/[\+\-\/]/)) {
-            tempCoefficient = currentString.slice(j, MDindex);
-            //ABC   console.log("LOOB NG FOR temp coeff: " + tempCoefficient );
-            currentConstant = currentConstant.replace(tempCoefficient, "");
-            break;
+          if (currentString[j].match(/[\)]/)) {
+            isParenthesis = true;
+            parenthesisCount++;
+          }
+
+          if (currentString[j].match(/[\(]/)) {
+            parenthesisCount--;
+            if (parenthesisCount === 0) {
+              firstParenthesisIndex = j;
+              isParenthesis = false;
+              console.log("TUMIGIL KAA");
+            }
+          }
+
+          if (!isParenthesis) {
+            console.log("IM HERE!" + currentString);
+            if (currentString[j].match(/[\+\-\/]/)) {
+              tempCoefficient = currentString.slice(j, MDindex);
+              //ABC console.log("LOOB NG FOR temp coeff: " + tempCoefficient );
+              currentConstant = currentConstant.replace(tempCoefficient, "");
+              //ABC console.log("CURRENT COSNTNASTN: " + currentConstant );
+              break;
+            }
           }
         }
         if (symbolType === "*") {
@@ -2404,10 +2435,11 @@ function getValues(currentString, currentCoefficient, currentConstant) {
           if (firstCoefficientFinish) {
             currentCoefficient = currentCoefficient.concat(tempCoefficient);
           } else {
+            removeLastTerm();
             currentCoefficient = tempCoefficient;
           }
 
-          //ABC       console.log("AFTER curr coeff: " + currentCoefficient );
+          console.log("AFTER curr coeff: " + currentCoefficient);
         }
       }
       MDsymbol = false;
@@ -2420,7 +2452,7 @@ function getValues(currentString, currentCoefficient, currentConstant) {
     // CHECK for previous parenthesis and expression before opening parenthesis
     function coefficientInside() {
       if (coeffInsideTally === 1) {
-        console.log("asdad coeff: " + currentCoefficient);
+        //ABC console.log("asdad coeff: " + currentCoefficient);
         let coeffParenthesisIndex = firstParenthesisIndex;
         //expression before the opening parenthesis
         let expBeforeIndex = 0;
@@ -2443,7 +2475,7 @@ function getValues(currentString, currentCoefficient, currentConstant) {
           expBeforeIndex,
           coeffParenthesisIndex + 1
         );
-        console.log("temp coeff: " + tempCoefficient);
+        //ABC console.log("temp coeff: " + tempCoefficient);
 
         // CHECK IF THERE IS CONSTANT INSIDE PARENTHESIS
         if (parenthesisTally > 1) {
@@ -2477,7 +2509,7 @@ function getValues(currentString, currentCoefficient, currentConstant) {
                 ].join("");
 
                 tempCoefficient = tempCoefficient.replace(/!/g, "");
-                console.log("CONSTANT TERM:" + tempCoefficient);
+                //ABC console.log("CONSTANT TERM:" + tempCoefficient);
               }
             }
           }
@@ -2493,9 +2525,9 @@ function getValues(currentString, currentCoefficient, currentConstant) {
       let coefficient = coefficientTerm.slice(-1);
       var coeffValue = coefficientTerm.replace(coefficient, "");
       let coefficientIndex = currentCoefficient.lastIndexOf(coeffValue);
-      console.log("TESgsdgsdg : " + currentCoefficient);
+      //ABC console.log("TESgsdgsdg : " + currentCoefficient)
       currentCoefficient = currentCoefficient.slice(0, coefficientIndex);
-      console.log("TESgsdgsdg : " + currentCoefficient);
+      //ABC console.log("TESgsdgsdg : " + currentCoefficient)
       tempCoefficient = tempCoefficient.concat(coeffValue);
       //ABC console.log("TEMPTEMPTEMTPEM: " + tempCoefficient);
     }
@@ -2505,6 +2537,7 @@ function getValues(currentString, currentCoefficient, currentConstant) {
 
   function replaceOperators() {
     //console.log("CURREEEEEEEEEEEEEEEEENTT: " + currentCoefficient);
+    // console.log("CURREEEEEEEEEEEEEEEEENTT: " + coefficientTerm);
     let coefficientLetter = "";
     if (currentCoefficient.slice(-1).match(/[a-z]/)) {
       coefficientLetter = currentCoefficient.slice(-1);
@@ -2523,7 +2556,7 @@ function getValues(currentString, currentCoefficient, currentConstant) {
     //currentString[count - 1] != coefficientLetter &&
     //ABC console.log("COEFFICIENT  LETTER: " + currentString[count - 1]);
     if (coefficientTerm[0] === "*") {
-      //ABC console.log("ANG PASKO AY SUMAPIT");
+      // console.log("ANG PASKO AY SUMAPIT");
       //ABC console.log("FGASGASGA  count: " + (count - 1));
       MDsymbol = true;
       symbolType = "*";
@@ -2540,7 +2573,6 @@ function getValues(currentString, currentCoefficient, currentConstant) {
   // FOR MULTIPLICATION
 
   if (computeLHS) {
-    console.log(currentCoefficient);
     if (negativeCoefficient) {
       if (currentCoefficient > 0) {
         lhsFinalCoefficient = currentCoefficient * -1;
@@ -2573,16 +2605,16 @@ function getValues(currentString, currentCoefficient, currentConstant) {
 
 computeRHS = true;
 getValues(rhs, rhsFinalCoefficient, rhsFinalConstant);
-console.log("rhs coefficient: " + rhsFinalCoefficient);
-console.log("rhs constant: " + rhsFinalConstant);
+//ABC console.log("rhs coefficient: " + rhsFinalCoefficient);
+//ABC console.log("rhs constant: " + rhsFinalConstant);
 
 // Solving Process
 //ABC console.log("*************************");
 lhsFinalConstant = eval(lhsFinalConstant);
 rhsFinalConstant = eval(rhsFinalConstant);
 
-console.log(lhsFinalConstant);
-console.log(rhsFinalConstant);
+//ABC console.log(lhsFinalConstant)
+//ABC console.log(rhsFinalConstant)
 
 if (lhsFinalCoefficient === undefined) {
   lhsFinalCoefficient = 0;
@@ -2748,5 +2780,3 @@ console.log(`The solution for ${equation} is: x = ${x}`);
 
 //Push fourth step, final answer
 stepsArray.push(["x=", x].join(""));
-
-console.log(stepsArray);

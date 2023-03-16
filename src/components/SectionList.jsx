@@ -6,6 +6,8 @@ import * as ReactDOM from "react-dom";
 import $ from "jquery";
 
 export default function SectionList() {
+  document.body.style.height = "100";
+
   const navigate = useNavigate();
 
   //FOR LINKS/NAVBAR/BREADCRUMBS
@@ -47,7 +49,9 @@ export default function SectionList() {
   return (
     <>
       <section className="relative w-10/12 mx-auto my-10  p-6 rounded-6xl border-l-12 border-b-12 border-yellow-700 bg-mainBGBrown border-r-12 border-r-brTwo shadow-2xl shadow-yellow-400">
+        {/*
         <div className="mt-4 mx-6">
+           
           <div className="flex items-center justify-between">
             <div>
               <h2 className="text-gray-600 font-semibold text-3xl">
@@ -79,6 +83,7 @@ export default function SectionList() {
             </div>
           </div>
         </div>
+        */}
         <div className="overflow-hidden  py-5 h-full rounded-6xl  bg-gradient-to-t from-gray-200 via-gray-100 to-white shadow-lg border-r-12 border-t-12 border-yellow-700 border-l-12 border-l-brTwo shadow-yellow-700 ">
           <section className="relative mx-auto grid w-full p-10">
             <div className="grid place-items-center md:grid md:grid-cols-3 lg:grid-cols-4 gap-y-10">

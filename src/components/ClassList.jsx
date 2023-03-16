@@ -6,6 +6,7 @@ import * as ReactDOM from "react-dom";
 import $ from "jquery";
 
 export default function ClassList() {
+  document.body.style.height = "100%";
   const navigate = useNavigate();
 
   //FOR LINKS/NAVBAR/BREADCRUMBS

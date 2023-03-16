@@ -6,6 +6,7 @@ import * as ReactDOM from "react-dom";
 import $ from "jquery";
 
 export default function StudentDetail() {
+  document.body.style.height = "100vh";
   const navigate = useNavigate();
 
   //FOR LINKS/NAVBAR/BREADCRUMBS

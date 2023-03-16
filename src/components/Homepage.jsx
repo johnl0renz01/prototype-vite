@@ -9,6 +9,8 @@ import EquationSolver from "./equationSolver";
 import MY_API_KEY from "./API_KEY";
 
 export default function Homepage() {
+  document.body.style.height = "100vh";
+
   const navigate = useNavigate();
 
   //FOR LINKS/NAVBAR/BREADCRUMBS

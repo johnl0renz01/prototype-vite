@@ -132,7 +132,7 @@ function Navbar() {
             <ul className="p-4">
               <Menu as="div" className="relative inline-block text-left">
                 <div>
-                  <Menu.Button className="inline-flex w-full justify-center rounded-md  bg-white px-4 py-1 lg:text-xl font-medium text-gray-700  hover:bg-gray-100 focus:outline-none  focus:ring-offset-gray-200">
+                  <Menu.Button className="inline-flex w-full justify-center rounded-md  bg-white px-4 py-1 lg:text-xl font-normal text-gray-700  hover:bg-gray-100 focus:outline-none  focus:ring-offset-gray-200">
                     <span>Username</span>
                     <ChevronDownIcon
                       className="ml-2 mt-1.5 h-5 w-5 "
