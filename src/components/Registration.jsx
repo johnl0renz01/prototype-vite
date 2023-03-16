@@ -32,13 +32,31 @@ function Registration() {
   //END END END END END END END END END END END END
 
   const onSubmit = async (values, actions) => {
-    console.log(values);
-    console.log(actions);
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    console.log("SUBMITTED");
+    axios
+      .post(
+        "http://localhost:80/Prototype-Vite/my-project/api/registerAccount/save",
+        values
+      )
+      .then(function (response) {
+        console.log(response.data);
+        //window.location.reload(false);
+      });
+    await new Promise((resolve) => setTimeout(resolve, 1));
     actions.resetForm();
+
+    //ADDITIONAL RESET
+    setBirthday("");
+    setAge("");
+    setFirstName("");
+    setLastName("");
+    setEmail("");
+    values.age = "";
+    values.firstName = "";
+    values.lastName = "";
   };
 
-  const [currentAge, setAge] = useState();
+  const [currentAge, setAge] = useState("");
 
   function getAge(dateString) {
     var string = dateString.replace(/[\-]/gi, "/");
@@ -49,7 +67,7 @@ function Registration() {
     if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
       age--;
     }
-    setAge(age);
+    setAge(age.toString());
     setTimeout(setValue, 100);
     function setValue() {
       values.age = age;
@@ -60,17 +78,94 @@ function Registration() {
 
     console.log(values.age);
   }
-  /*
-  document.getElementById("birthDay").date({
-    onSelect: function () {
-      document.getElementById("birthDay").blur();
-    },
-  });
-  */
 
-  function blur() {
-    setTimeout(document.getElementById("birthDay").blur(), 1);
-  }
+  const [birthday, setBirthday] = useState("");
+
+  const dateChange = (event) => {
+    const value = event.target.value;
+    values.birthDay = value;
+    setBirthday(value);
+    getAge(values.birthDay);
+    handleChange.age;
+  };
+
+  const [email, setEmail] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+
+  var fName = "";
+  var lName = "";
+  var tempEmail = "";
+
+  const firstNameChange = (event) => {
+    const value = event.target.value;
+    var emailValue = value.replace(/\s/g, "");
+    emailValue = emailValue.toLowerCase();
+
+    values.firstName = value;
+    handleChange.firstName;
+
+    setFirstName(emailValue);
+    fName = emailValue;
+
+    if (lastName != "") {
+      setEmail(lastName + "." + emailValue + "@sanfrancisco.edu.ph");
+      tempEmail = lastName + "." + emailValue + "@sanfrancisco.edu.ph";
+    } else {
+      if (firstName === "") {
+        setEmail("");
+        tempEmail = "";
+      } else {
+        setEmail(emailValue + "@sanfrancisco.edu.ph");
+        tempEmail = emailValue + "@sanfrancisco.edu.ph";
+      }
+    }
+
+    values.email = tempEmail;
+    handleChange.email;
+
+    //UPDATE INSTANTLY
+    document.getElementById("firstName").focus();
+    document.getElementById("firstName").blur();
+    document.getElementById("email").focus();
+    document.getElementById("email").blur();
+    document.getElementById("firstName").focus();
+  };
+
+  const lastNameChange = (event) => {
+    const value = event.target.value;
+    var emailValue = value.replace(/\s/g, "");
+    emailValue = emailValue.toLowerCase();
+
+    values.lastName = value;
+    handleChange.lastName;
+
+    setLastName(emailValue);
+    lName = emailValue;
+
+    if (firstName != "") {
+      setEmail(emailValue + "." + firstName + "@sanfrancisco.edu.ph");
+      tempEmail = emailValue + "." + firstName + "@sanfrancisco.edu.ph";
+    } else {
+      if (lastName === "") {
+        setEmail("");
+        tempEmail = "";
+      } else {
+        setEmail(emailValue + "@sanfrancisco.edu.ph");
+        tempEmail = emailValue + "@sanfrancisco.edu.ph";
+      }
+    }
+
+    values.email = tempEmail;
+    handleChange.email;
+
+    //UPDATE INSTANTLY
+    document.getElementById("lastName").focus();
+    document.getElementById("lastName").blur();
+    document.getElementById("email").focus();
+    document.getElementById("email").blur();
+    document.getElementById("lastName").focus();
+  };
 
   const {
     values,
@@ -97,7 +192,7 @@ function Registration() {
     validationSchema: registrationSchema,
     onSubmit,
   });
-  console.log(errors);
+
   return (
     <>
       <div className="mx-auto my-16 w-2/3">
@@ -193,22 +288,23 @@ function Registration() {
             </div>
             <hr></hr>
 
-            <form onSubmit={handleSubmit} action="">
-              <main className="p-12 min-w-fit font-poppins font-semibold  overflow-hidden">
-                <div className="grid grid-cols-3 gap-x-3">
+            <form onSubmit={handleSubmit} action="" className="overflow-hidden">
+              <main className="py-12 pr-12 min-w-fit font-poppins font-semibold  overflow-hidden">
+                <div className="grid grid-cols-3 gap-x-3 ">
                   {/*FirstName Input*/}
                   <div>
                     <div className="inline-flex w-full">
                       <label
                         htmlFor="firstName"
-                        className="inline-block mt-2 pr-2 text-right w-24"
+                        className="inline-block mt-2 pr-2 text-right w-[136px]"
                       >
-                        First Name:{" "}
+                        Given Name:{" "}
                       </label>
                       <input
+                        id="firstName"
                         name="firstName"
                         type="text "
-                        placeholder="Enter First Name "
+                        placeholder="Enter Given Name "
                         autoComplete="new-password"
                         className={` grow p-2 border-2 rounded-md border-gray-500 focus:outline-teal-500 relative focus:ring-teal-500 shadow-sm  shadow-[#808080] ${
                           errors.firstName && touched.firstName
@@ -216,12 +312,12 @@ function Registration() {
                             : ""
                         }`}
                         value={values.firstName}
-                        onChange={handleChange}
+                        onChange={firstNameChange}
                         onBlur={handleBlur}
                       />
                     </div>
                     {errors.firstName && touched.firstName && (
-                      <p className="text-red-500 absolute ml-[95px] ">
+                      <p className="text-red-500 absolute ml-[136px] ">
                         {errors.firstName}
                       </p>
                     )}
@@ -252,7 +348,7 @@ function Registration() {
                       />
                     </div>
                     {errors.middleName && touched.middleName && (
-                      <p className="text-red-500 absolute ml-28 ">
+                      <p className="text-red-500 absolute ml-[120px] ">
                         {errors.middleName}
                       </p>
                     )}
@@ -269,6 +365,7 @@ function Registration() {
                         Last Name:{" "}
                       </label>
                       <input
+                        id="lastName"
                         name="lastName"
                         type="text "
                         placeholder="Enter Last Name"
@@ -279,12 +376,12 @@ function Registration() {
                             : ""
                         } `}
                         value={values.lastName}
-                        onChange={handleChange}
+                        onChange={lastNameChange}
                         onBlur={handleBlur}
                       />
                     </div>
                     {errors.lastName && touched.lastName && (
-                      <p className="text-red-500  absolute ml-[112px] ">
+                      <p className="text-red-500  absolute ml-[7rem] ">
                         {errors.lastName}
                       </p>
                     )}
@@ -297,7 +394,7 @@ function Registration() {
                     <div className="inline-flex w-full">
                       <label
                         htmlFor="birthDay"
-                        className="inline-block pt-2 pr-2 text-right w-24"
+                        className="inline-block pt-2 pr-2 text-right w-[136px]"
                       >
                         Birth date:{" "}
                       </label>
@@ -307,13 +404,9 @@ function Registration() {
                         type="date"
                         autoComplete="new-password"
                         className="grow p-2 border-2  focus:border-none rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 shadow-sm shadow-[#808080]"
-                        value={values.birthDay}
-                        onChange={handleChange}
-                        onBlur={function (event) {
-                          handleBlur;
-                          getAge(values.birthDay);
-                          handleChange.age;
-                        }}
+                        onChange={dateChange}
+                        onBlur={handleBlur}
+                        value={birthday}
                         min="2000-01-01"
                         max="2013-12-31"
                       />
@@ -332,10 +425,8 @@ function Registration() {
                       <input
                         readOnly
                         id="age"
-                        type="number"
                         name="age"
-                        min="1"
-                        max="25"
+                        type="text"
                         placeholder="Set birthday"
                         autoComplete="new-password"
                         className={`p-2 border-2 w-[9rem] rounded-md focus:border-none border-gray-500 focus:outline-teal-500 focus:ring-teal-500 relative shadow-sm shadow-[#808080] ${
@@ -349,7 +440,7 @@ function Registration() {
                       />
                     </div>
                     {errors.age && touched.age && (
-                      <p className="text-red-500  absolute ml-28 ">
+                      <p className="text-red-500  absolute ml-[120px] ">
                         {errors.age}
                       </p>
                     )}
@@ -357,7 +448,7 @@ function Registration() {
 
                   {/*Gender Input*/}
                   <div>
-                    <div className="inline-flex w-full">
+                    <div className="inline-flex w-full ">
                       <label
                         htmlFor="sex"
                         className="inline-block pt-2 pr-2 text-right w-[7rem]"
@@ -369,8 +460,8 @@ function Registration() {
                           name="sex"
                           type="radio"
                           className=""
-                          value="male"
-                          checked={values.sex === "male"}
+                          value="Male"
+                          checked={values.sex === "Male"}
                           onChange={handleChange}
                         />{" "}
                         Male
@@ -378,8 +469,8 @@ function Registration() {
                           name="sex"
                           type="radio"
                           className="ml-4"
-                          value="female"
-                          checked={values.sex === "female"}
+                          value="Female"
+                          checked={values.sex === "Female"}
                           onChange={handleChange}
                         />{" "}
                         Female
@@ -387,7 +478,7 @@ function Registration() {
                     </div>
                     {touched.sex ||
                       (errors.sex && (
-                        <p className="text-red-500 absolute ml-[112px]">
+                        <p className="text-red-500 absolute ml-[7rem]">
                           {errors.sex}
                         </p>
                       ))}
@@ -400,7 +491,7 @@ function Registration() {
                     <div className="inline-flex w-full">
                       <label
                         htmlFor="gradeLevel"
-                        className="inline-block pt-2 pr-2 text-right w-24"
+                        className="inline-block pt-2 pr-2 text-right w-[136px]"
                       >
                         Grade Level:{" "}
                       </label>
@@ -411,7 +502,7 @@ function Registration() {
                         id="gradeLevel"
                         className="p-2 border-2 w-32  focus:border-none rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 shadow-sm shadow-[#808080]"
                       >
-                        <option>Grade 7</option>
+                        <option className="font-semibold">Grade 7</option>
                       </select>
                     </div>
                   </div>
@@ -431,14 +522,14 @@ function Registration() {
                         name="section"
                         className="p-2 border-2 w-32 focus:border-none rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 shadow-sm shadow-[#808080] "
                       >
-                        <option>Rizal</option>
-                        <option>Bonifacio</option>
-                        <option>Mabini</option>
-                        <option>Aguinaldo</option>
-                        <option>Jacinto</option>
-                        <option>Luna</option>
-                        <option>Del Pilar</option>
-                        <option>Silang</option>
+                        <option className="font-semibold">Rizal</option>
+                        <option className="font-semibold">Bonifacio</option>
+                        <option className="font-semibold">Mabini</option>
+                        <option className="font-semibold">Aguinaldo</option>
+                        <option className="font-semibold">Jacinto</option>
+                        <option className="font-semibold">Luna</option>
+                        <option className="font-semibold">Del Pilar</option>
+                        <option className="font-semibold">Silang</option>
                       </select>
                     </div>
                   </div>
@@ -458,8 +549,10 @@ function Registration() {
                         name="groupType"
                         className="p-2 border-2 w-52 rounded-md focus:border-none border-gray-500 focus:outline-teal-500 focus:ring-teal-500 shadow-sm shadow-[#808080]"
                       >
-                        <option>Facial Group</option>
-                        <option>Non Facial Group</option>
+                        <option className="font-semibold">Facial Group</option>
+                        <option className="font-semibold">
+                          Non Facial Group
+                        </option>
                       </select>
                     </div>
                   </div>
@@ -471,13 +564,15 @@ function Registration() {
                     <div className="inline-flex w-full">
                       <label
                         htmlFor="email"
-                        className="inline-block pt-2 pr-2 text-right w-24"
+                        className="inline-block pt-2 pr-2 text-right w-[136px]"
                       >
                         Email:{" "}
                       </label>
                       <input
+                        readOnly
+                        id="email"
                         name="email"
-                        type="email "
+                        type="email"
                         autoComplete="off"
                         placeholder="lastname.firstname@school.edu.ph"
                         className={`grow p-2 border-2 rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 shadow-sm shadow-[#808080] ${
@@ -485,13 +580,13 @@ function Registration() {
                             ? " shadow-red-500 border-red-500 focus:border-red-500 border-3 border-solid"
                             : ""
                         }`}
-                        value={values.email}
+                        value={email}
                         onChange={handleChange}
                         onBlur={handleBlur}
                       />
                     </div>
                     {errors.email && touched.email && (
-                      <p className="text-red-500  absolute ml-[95px] ">
+                      <p className="text-red-500  absolute ml-[136px] ">
                         {errors.email}
                       </p>
                     )}
@@ -504,7 +599,7 @@ function Registration() {
                     <div className="inline-flex w-full">
                       <label
                         htmlFor="password"
-                        className="inline-block pt-2 pr-2 text-right w-24"
+                        className="inline-block pt-2 pr-2 text-right w-[136px]"
                       >
                         Password:{" "}
                       </label>
@@ -513,7 +608,7 @@ function Registration() {
                         type="password"
                         autoComplete="new-password"
                         placeholder="Enter Password"
-                        className={`grow p-2 py-3 border-2  rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 focus:border-none relative shadow-sm shadow-[#808080] ${
+                        className={`grow p-2 py-[14.5px] border-2  rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 focus:border-none relative shadow-sm shadow-[#808080] ${
                           errors.password && touched.password
                             ? " shadow-red-500 border-red-500 focus:border-red-500 border-3 border-solid"
                             : ""
@@ -524,7 +619,7 @@ function Registration() {
                       />
                     </div>
                     {errors.password && touched.password && (
-                      <p className="text-red-500  absolute ml-[95px] ">
+                      <p className="text-red-500  absolute ml-[136px] ">
                         {errors.password}
                       </p>
                     )}

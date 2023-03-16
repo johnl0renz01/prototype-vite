@@ -9,10 +9,7 @@ include 'DbConnect.php';
 $objDb = new DbConnect;
 $conn = $objDb->connect();
 
-
-
-$method = $_SERVER['REQUEST_METHOD'];
-switch($method) {
+switch($_SESSION['method']) {
     case "GET":
         $sql = "SELECT * FROM accounts";
         $path = explode('/', $_SERVER['REQUEST_URI']);
@@ -49,8 +46,14 @@ switch($method) {
         $stmt->bindParam(':groupType', $user->groupType);
 
         $stmt->bindParam(':email', $user->email);
-        $stmt->bindParam(':password', $user->password);
+        
+        //WITH HASH SECURITY
+        $hashedPassword = password_hash($user->password, PASSWORD_DEFAULT);
+        $stmt->bindParam(':password', $hashedPassword);
 
+        //WITHOUT HASH SECURITY
+        //$stmt->bindParam(':password', $user->password);
+        
         if($stmt->execute()) {
             $response = ['status' => 1, 'message' => 'Record created successfully.'];
         } else {

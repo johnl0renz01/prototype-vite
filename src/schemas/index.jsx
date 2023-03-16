@@ -21,10 +21,12 @@ export const registrationSchema = yup.object().shape({
   password: yup
     .string()
     .min(6, "* Must be 6 characters or more")
+    /*
     .matches(/[a-z]+/, "* One lowercase character")
     .matches(/[A-Z]+/, "* One uppercase character")
     .matches(/[@$!%*#?&]+/, "* One special character")
     .matches(/\d+/, "* One number")
+    */
     .required("* Password Required"),
   confirmPassword: yup
     .string()
