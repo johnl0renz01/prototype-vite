@@ -661,7 +661,7 @@ function Registration() {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="bg-green-500 hover:bg-green-700 shadow-lg shadow-[#808080] hover:shadow-green-500 text-white font-bold py-3 px-12  rounded-full"
+                    className="py-3 px-12 text-white font-bold  shadow-md rounded-full bg-lime-600 hover:bg-lime-700 hover:-translate-y-0.5 ease-in-out transition duration-300 transform "
                   >
                     <span className="text-xl  font-bold">Register </span>
                   </button>

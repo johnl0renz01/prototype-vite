@@ -83,7 +83,7 @@ export default function Homepage() {
                   <div className="flex mx-auto ">
                     <button
                       onClick={DifficultyPage}
-                      className="mt-10 inline-flex items-center justify-center text-xl rounded-full h-12 lg:px-28 md:lg:px-28 px-16 mr-6 font-medium tracking-wide text-white transition duration-200 shadow-md bg-yellow-600 hover:bg-yellow-700 focus:shadow-outline focus:outline-none"
+                      className="mt-10 inline-flex items-center justify-center text-xl rounded-full h-12 lg:px-28 md:lg:px-28 px-16 mr-6 font-medium tracking-wide text-white shadow-md bg-yellow-600 hover:bg-yellow-700 focus:shadow-outline focus:outline-none hover:-translate-y-0.5 ease-in-out transition duration-200 transform"
                     >
                       Start
                     </button>

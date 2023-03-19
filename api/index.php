@@ -10,6 +10,7 @@ session_start();
 
 $requestLink = $_SERVER['REQUEST_URI'];
 
+
 for ($i = strlen($requestLink) - 1; $i > 0; $i--) {
     if ($requestLink[$i] == "/") {
         $requestLink = substr($requestLink, 0, $i);
@@ -17,9 +18,9 @@ for ($i = strlen($requestLink) - 1; $i > 0; $i--) {
     }
 }
 
-echo $requestLink;
+//echo $requestLink;
 $_SESSION['method'] = $_SERVER['REQUEST_METHOD'];
-echo $_SESSION['method'];
+//echo $_SESSION['method'];
 
 switch($requestLink) {
     case "/Prototype-Vite/my-project/api/registerAccount":
@@ -28,5 +29,17 @@ switch($requestLink) {
     case "/Prototype-Vite/my-project/api/whiteboardLogs":
         include('whiteboardLogs.php');
         break;
+    case "/Prototype-Vite/my-project/api/sectionList":
+        include('sectionList.php');
+        break;
+    case "/Prototype-Vite/my-project/api/classList":
+        include('classList.php');
+        break;
+    case "/Prototype-Vite/my-project/api/studentDetail":
+        include('studentDetail.php');
+        break;
+    case "/Prototype-Vite/my-project/api/studentHistory":
+        include('studentHistory.php');
+    break;
 }
 

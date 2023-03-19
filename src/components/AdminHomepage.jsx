@@ -60,6 +60,14 @@ export default function AdminHomepage() {
     }
   };
 
+  //GREETING "GOOD EVENING,MORNING,AFTERNOON TEACHER"
+  const [currentTime, setTime] = useState();
+  useEffect(() => {
+    var now = new Date();
+    var time = now.getHours();
+    setTime(time);
+  }, []);
+
   return (
     <>
       <section className="grid place-items-center">
@@ -77,7 +85,17 @@ export default function AdminHomepage() {
                       <div className="flex-row font-poppins  font-normal text-white text-center">
                         <div className="">
                           <p className="font-bold lg:text-5xl md:text-lg sm:text-xs py-8">
-                            Good Evening Teacher
+                            {currentTime >= 6 ? (
+                              currentTime >= 12 && currentTime < 18 ? (
+                                <>Good Afternoon Teacher</>
+                              ) : currentTime >= 18 ? (
+                                <>Good Evening Teacher</>
+                              ) : (
+                                <>Good Morning Teacher</>
+                              )
+                            ) : (
+                              <>Good Evening Teacher</>
+                            )}
                           </p>
                         </div>
                         <div className="lg:text-2xl md:text-xl sm:text-xs py-10">
@@ -113,7 +131,7 @@ export default function AdminHomepage() {
               <div className="relative flex justify-evenly border-t-2 px-8 border-gray-500 py-9">
                 <div>
                   <a onClick={RegistrationPage}>
-                    <button className=" text-white font-bold lg:w-full  lg:p-5  rounded-full transition duration-200 shadow-md bg-yellow-600 hover:bg-yellow-700 text-center mx-2">
+                    <button className=" text-center mx-2  text-white font-bold lg:w-full  lg:p-5  rounded-full shadow-md bg-yellow-600 hover:bg-yellow-700 hover:-translate-y-1 ease-in-out transition duration-200 transform ">
                       <span className="lg:text-3xl md:text-xl font-poppins font-semibold">
                         Register student
                       </span>
@@ -123,7 +141,7 @@ export default function AdminHomepage() {
 
                 <div>
                   <a onClick={SectionListPage}>
-                    <button className=" text-white font-bold lg:w-full lg:p-5  rounded-full transition duration-200 shadow-md bg-yellow-600 hover:bg-yellow-700 text-center mx-2">
+                    <button className=" text-center mx-2 text-white font-bold lg:w-full lg:p-5  rounded-full shadow-md bg-yellow-600 hover:bg-yellow-700 hover:-translate-y-1 ease-in-out transition duration-200 transform">
                       <span className="lg:text-3xl md:text-xl font-poppins font-semibold">
                         Section List
                       </span>
@@ -133,7 +151,7 @@ export default function AdminHomepage() {
 
                 <div>
                   <a>
-                    <button className=" text-white font-bold lg:w-full lg:p-5 rounded-full transition duration-200 shadow-md bg-yellow-600 hover:bg-yellow-700 text-center mx-2">
+                    <button className=" text-center mx-2  text-white font-bold lg:w-full lg:p-5 rounded-full shadow-md bg-yellow-600 hover:bg-yellow-700 hover:-translate-y-1 ease-in-out transition duration-200 transform">
                       <span className="lg:text-3xl  md:text-xl font-poppins font-semibold">
                         Custom Question{" "}
                       </span>

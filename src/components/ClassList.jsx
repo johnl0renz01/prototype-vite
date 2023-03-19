@@ -6,7 +6,6 @@ import * as ReactDOM from "react-dom";
 import $ from "jquery";
 
 export default function ClassList() {
-  document.body.style.height = "100%";
   const navigate = useNavigate();
 
   //FOR LINKS/NAVBAR/BREADCRUMBS
@@ -28,6 +27,71 @@ export default function ClassList() {
     window.localStorage.setItem("NAVBAR_PAGE_LINK", JSON.stringify(pageLink));
   }, [pageLink]);
 
+  const [section, setSection] = useState("");
+  var currentSection = "";
+
+  useEffect(() => {
+    const data = window.localStorage.getItem("CURRENT_SECTION");
+    currentSection = JSON.parse(data);
+    setSection(currentSection);
+  });
+
+  const [classList, setClassList] = useState([]);
+
+  function getClassList() {
+    axios
+      .get(
+        `http://localhost:80/Prototype-Vite/my-project/api/classList/${currentSection}`
+      )
+      .then(function (response) {
+        console.log(response.data);
+        setClassList(response.data);
+      });
+  }
+
+  useEffect(() => {
+    getClassList();
+  }, []);
+
+  var inputText = "";
+
+  const handleChange = (event) => {
+    const name = event.target.name;
+    const value = event.target.value;
+    inputText = { [name]: value };
+
+    axios
+      .post(
+        `http://localhost:80/Prototype-Vite/my-project/api/classList/${currentSection}`,
+        inputText
+      )
+      .then(function (response) {
+        console.log(response.data);
+        setClassList(response.data);
+      });
+  };
+
+  var currentAccount = "";
+
+  const setCurrentAccount = () => {
+    window.localStorage.setItem(
+      "CURRENT_EMAIL",
+      JSON.stringify(currentAccount)
+    );
+    for (let i = 0; i < currentAccount.length; i++) {
+      if (currentAccount[i].match(/[\@]/)) {
+        currentAccount = currentAccount.substring(0, i);
+        currentAccount = currentAccount.replace(".", "_");
+        break;
+      }
+    }
+    console.log(currentAccount);
+    window.localStorage.setItem(
+      "CURRENT_ACCOUNT",
+      JSON.stringify(currentAccount)
+    );
+  };
+
   const StudentDetailPage = () => {
     let page = ["Home", "Section List", "Class List", "Student Detail"];
     let link = [
@@ -48,16 +112,35 @@ export default function ClassList() {
     }
   };
 
+  //Adjust BG gradient color
+  function getHeight() {
+    var divElement = document.getElementById("container");
+    var heightValue = ReactDOM.findDOMNode(divElement).offsetHeight;
+    console.log(heightValue);
+    if (heightValue > 920) {
+      document.body.style.height = "100%";
+    } else {
+      document.body.style.height = "100vh";
+    }
+  }
+
+  useEffect(() => {
+    getHeight();
+  });
+
   return (
     <>
-      <section className="relative w-10/12 mx-auto my-10 p-6 rounded-6xl border-l-12 border-b-12 border-yellow-700 bg-mainBGBrown border-r-12 border-r-brTwo shadow-2xl shadow-yellow-400">
+      <section
+        id="container"
+        className="relative w-10/12 overflow-hidden mx-auto my-10 p-6 rounded-6xl border-l-12 border-b-12 border-yellow-700 bg-mainBGBrown border-r-12 border-r-brTwo shadow-2xl shadow-yellow-400"
+      >
         <div className="">
           <div className="float-left py-2 rounded-3xl bg-white border-r-12 border-t-12 border-yellow-700 border-l-12 border-l-brTwo shadow-yellow-700">
             <div className="w-full flex items-center justify-between px-5">
               <div className="rounded-2xl  first-letter:rounded-2xl bg-gray-200 px-5 shadow-sm shadow-gray-600 flex items-center outline-title font-bold">
                 <div className="flex">
-                  <h2 className=" text-yellow-500  lg:text-3xl font-semibold ">
-                    7 - Rizal
+                  <h2 className=" text-gray-500  lg:text-3xl font-semibold ">
+                    7 - {section}
                   </h2>
                 </div>
               </div>
@@ -72,7 +155,7 @@ export default function ClassList() {
             <div className="inline-flex items-center justify-between px-5">
               <div className="w-full rounded-2xl first-letter:rounded-2xl bg-gray-200 px-5 shadow-sm shadow-gray-600 flex items-center outline-title font-bold">
                 <div className="relative "></div>
-                <h2 className=" text-yellow-500 stroke-cyan-500 lg:text-3xl font-semibold ">
+                <h2 className=" text-gray-500 stroke-cyan-500 lg:text-3xl font-semibold ">
                   Ms. Emilyn Ortencio
                 </h2>
               </div>
@@ -101,8 +184,9 @@ export default function ClassList() {
                 <input
                   className="bg-gray-200  outline-none ml-3 block w-full"
                   type="text"
-                  name=""
-                  id=""
+                  name="searchQuery"
+                  id="searchQuery"
+                  onChange={handleChange}
                   placeholder="&nbsp;Search People..."
                 />
               </div>
@@ -111,486 +195,82 @@ export default function ClassList() {
           <div className="bg-mainBGBrown  w-1/3"></div>
         </div>
 
-        <div className="bg-mainBGBrown  w-full my-10">{"\u00A0"}</div>
+        <div className="bg-mainBGBrown  w-full">{"\u00A0"}</div>
 
-        <div className="overflow-hidden h-full rounded-3xl  bg-gradient-to-t from-gray-200 via-gray-100 to-white shadow-lg border-r-12 border-t-12 border-yellow-700 border-l-12 border-l-brTwo shadow-yellow-700 ">
-          <div className="mx-auto w-fullrounded-md">
-            <div>
-              <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 overflow-x-auto">
-                <div className="inline-block min-w-full shadow rounded-lg overflow-hidden">
-                  <table className="min-w-full leading-normal">
-                    <thead className="border-b-2 border-gray-300 bg-gray-200 text-left uppercase tracking-wider text-md font-bold text-gray-600">
+        <div className="rounded-3xl overflow-hidden bg-gradient-to-t from-gray-200 via-gray-100 to-white shadow-lg border-r-12 border-t-12 border-yellow-700 border-l-12 border-l-brTwo shadow-yellow-700 ">
+          <table className="w-full leading-normal ">
+            <thead className="sticky top-0 z-50 shadow-md border-b-2 border-gray-200 bg-gray-200 text-left uppercase tracking-wider text-md font-bold text-gray-600">
+              <tr>
+                <th className="pl-20 pr-96 py-3">Student Name</th>
+                <th></th>
+                <th className="pr-24 py-3">Age</th>
+                <th className="pr-20 py-3 ">Gender</th>
+                <th className="py-3">Group Type</th>
+                <th className="pl-[196px] py-3 select-none "></th>
+              </tr>
+            </thead>
+          </table>
+          <div className="relative overflow-y-scroll style-2 min-h-[680px] max-h-[680px] mx-auto w-full rounded-md">
+            <div className="">
+              <div className="">
+                <div className="inline-block min-w-full shadow rounded-lg ">
+                  <table className="min-w-full leading-normal -mt-[28px]">
+                    <thead className="invisible">
                       <tr>
-                        <th className="pl-20 pr-96 py-3">Student Name</th>
+                        <th className="pl-20 pr-96">Student Name</th>
                         <th></th>
-                        <th className="pr-24 py-3">Age</th>
-                        <th className="pr-20 py-3 ">Gender</th>
-                        <th className="py-3">Group Type</th>
-                        <th className="pl-16 py-3 select-none "></th>
+                        <th className="pr-24">Age</th>
+                        <th className="pr-20 ">Gender</th>
+                        <th className="">Group Type</th>
+                        <th className="pl-16 select-none "></th>
                       </tr>
                     </thead>
-
-                    <tbody>
-                      <tr className="border-b border-gray-200 bg-white hover:bg-gray-100 text-gray-900 hover:text-indigo-600">
-                        <td className="flex items-center text-md px-5 py-2  whitespace-no-wrap">
-                          <div className="flex-shrink-0 w-10 h-10 mr-3">
-                            <img
-                              className=" rounded-full"
-                              src="images/rizal.png"
-                              alt=""
-                            />
-                          </div>
-                          <p className="pl-2">Paulyn Joy Dela Cruz</p>
-                        </td>
-                        <td></td>
-                        <td className="pr-24 py-3">
-                          <p>20</p>
-                        </td>
-                        <td className="pr-20 py-3 ">
-                          <p>Female</p>
-                        </td>
-                        <td className="py-3 ">
-                          <p>Facial Group</p>
-                        </td>
-                        <td className="pr-10 py-3 text-right">
-                          <a onClick={StudentDetailPage}>
-                            <button className="text-md w-36 text-white bg-lime-600 hover:bg-lime-700 py-2 rounded-xl shadow-lg">
-                              See details
-                            </button>
-                          </a>
-                        </td>
-                      </tr>
-
-                      <tr className="border-b border-gray-200 bg-white hover:bg-gray-100 text-gray-900 hover:text-indigo-600">
-                        <td className="flex items-center text-md px-5 py-2 whitespace-no-wrap">
-                          <div className="flex-shrink-0 w-10 h-10 mr-3">
-                            <img
-                              className="rounded-full"
-                              src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.2&w=160&h=160&q=80"
-                              alt=""
-                            />
-                          </div>
-                          <p className="pl-2">John Lorenz Dela Cruz</p>
-                        </td>
-                        <td></td>
-                        <td className="pr-24 py-3">
-                          <p>22</p>
-                        </td>
-                        <td className="pr-20 py-3">
-                          <p>Male</p>
-                        </td>
-                        <td className="py-3 ">
-                          <p>Facial Group</p>
-                        </td>
-                        <td className="pr-10 py-3 text-right">
-                          <button className="text-md w-36 text-white bg-lime-600 hover:bg-lime-700 py-2 rounded-xl shadow-lg">
-                            See details
-                          </button>
-                        </td>
-                      </tr>
-
-                      <tr className="border-b border-gray-200 bg-white hover:bg-gray-100 text-gray-900 hover:text-indigo-600">
-                        <td className="flex items-center text-md px-5 py-2 whitespace-no-wrap">
-                          <div className="flex-shrink-0 w-10 h-10 mr-3">
-                            <img
-                              className="rounded-full"
-                              src="https://images.unsplash.com/photo-1540845511934-7721dd7adec3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.2&w=160&h=160&q=80"
-                              alt=""
-                            />
-                          </div>
-                          <p className="pl-2">Joyce Antonette Guadalupe</p>
-                        </td>
-                        <td></td>
-                        <td className="pr-24 py-3">
-                          <p>20</p>
-                        </td>
-                        <td className="pr-20 py-3">
-                          <p>Female</p>
-                        </td>
-                        <td className="py-3">
-                          <p>Facial Group</p>
-                        </td>
-                        <td className="pr-10 py-3 text-right">
-                          <button className="text-md w-36 text-white bg-lime-600 hover:bg-lime-700 py-2 rounded-xl shadow-md hover:shadow-black/20">
-                            See details
-                          </button>
-                        </td>
-                      </tr>
-
-                      <tr className="border-b border-gray-200 bg-white hover:bg-gray-100 text-gray-900 hover:text-indigo-600">
-                        <td className="flex items-center text-md px-5 py-2 whitespace-no-wrap">
-                          <div className="flex-shrink-0 w-10 h-10 mr-3">
-                            <img
-                              className="rounded-full"
-                              src="https://images.unsplash.com/photo-1540845511934-7721dd7adec3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.2&w=160&h=160&q=80"
-                              alt=""
-                            />
-                          </div>
-                          <p className="pl-2">Jiabianca Macaraeg</p>
-                        </td>
-                        <td></td>
-                        <td className="pr-24 py-3">
-                          <p>21</p>
-                        </td>
-                        <td className="pr-20 py-3">
-                          <p>Female</p>
-                        </td>
-                        <td className="py-3">
-                          <p>Facial Group</p>
-                        </td>
-                        <td className="pr-10 py-3 text-right">
-                          <button className="text-md w-36 text-white bg-lime-600 hover:bg-lime-700 py-2 rounded-xl shadow-lg">
-                            See details
-                          </button>
-                        </td>
-                      </tr>
-
-                      <tr className="border-b border-gray-200 bg-white hover:bg-gray-100 text-gray-900 hover:text-indigo-600">
-                        <td className="flex items-center text-md px-5 py-2 whitespace-no-wrap">
-                          <div className="flex-shrink-0 w-10 h-10 mr-3">
-                            <img
-                              className="rounded-full"
-                              src="https://images.unsplash.com/photo-1540845511934-7721dd7adec3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.2&w=160&h=160&q=80"
-                              alt=""
-                            />
-                          </div>
-                          <p className="pl-2">Piolo Jose S. Montesa</p>
-                        </td>
-                        <td></td>
-                        <td className="pr-24 py-3">
-                          <p>21</p>
-                        </td>
-                        <td className="pr-20 py-3">
-                          <p>Male</p>
-                        </td>
-                        <td className="py-3">
-                          <p>Facial Group</p>
-                        </td>
-                        <td className="pr-10 py-3 text-right">
-                          <button className="text-md w-36 text-white bg-lime-600 hover:bg-lime-700 py-2 rounded-xl shadow-lg">
-                            See details
-                          </button>
-                        </td>
-                      </tr>
-
-                      <tr className="border-b border-gray-200 bg-white hover:bg-gray-100 text-gray-900 hover:text-indigo-600">
-                        <td className="flex items-center text-md px-5 py-2 whitespace-no-wrap">
-                          <div className="flex-shrink-0 w-10 h-10 mr-3">
-                            <img
-                              className="rounded-full"
-                              src="https://images.unsplash.com/photo-1540845511934-7721dd7adec3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.2&w=160&h=160&q=80"
-                              alt=""
-                            />
-                          </div>
-                          <p className="pl-2">Mark Paul Ramos</p>
-                        </td>
-                        <td></td>
-                        <td className="pr-24 py-3">
-                          <p>22</p>
-                        </td>
-                        <td className="pr-20 py-3">
-                          <p>Male</p>
-                        </td>
-                        <td className="py-3">
-                          <p>Facial Group</p>
-                        </td>
-                        <td className="pr-10 py-3 text-right">
-                          <button className="text-md w-36 text-white bg-lime-600 hover:bg-lime-700 py-2 rounded-xl shadow-lg">
-                            See details
-                          </button>
-                        </td>
-                      </tr>
-
-                      <tr className="border-b border-gray-200 bg-white hover:bg-gray-100 text-gray-900 hover:text-indigo-600">
-                        <td className="flex items-center text-md px-5 py-2whitespace-no-wrap">
-                          <div className="flex-shrink-0 w-10 h-10 mr-3">
-                            <img
-                              className="rounded-full"
-                              src="https://images.unsplash.com/photo-1540845511934-7721dd7adec3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.2&w=160&h=160&q=80"
-                              alt=""
-                            />
-                          </div>
-                          <p className="pl-2">Mara Jonna Maduro</p>
-                        </td>
-                        <td></td>
-                        <td className="pr-24 py-3">
-                          <p>23</p>
-                        </td>
-                        <td className="pr-20 py-3">
-                          <p>Female</p>
-                        </td>
-                        <td className="py-3">
-                          <p>Facial Group</p>
-                        </td>
-                        <td className="pr-10 py-3 text-right">
-                          <button className="text-md w-36 text-white bg-lime-600 hover:bg-lime-700 py-2 rounded-xl shadow-lg">
-                            See details
-                          </button>
-                        </td>
-                      </tr>
-
-                      <tr className="border-b border-gray-200 bg-white hover:bg-gray-100 text-gray-900 hover:text-indigo-600">
-                        <td className="flex items-center text-md px-5 py-2 whitespace-no-wrap">
-                          <div className="flex-shrink-0 w-10 h-10 mr-3">
-                            <img
-                              className="rounded-full"
-                              src="https://images.unsplash.com/photo-1540845511934-7721dd7adec3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.2&w=160&h=160&q=80"
-                              alt=""
-                            />
-                          </div>
-                          <p className="pl-2">Louis Angelo Altoveros</p>
-                        </td>
-                        <td></td>
-                        <td className="pr-24 py-3">
-                          <p>22</p>
-                        </td>
-                        <td className="pr-20 py-3">
-                          <p>Male</p>
-                        </td>
-                        <td className="py-3">
-                          <p>Facial Group</p>
-                        </td>
-                        <td className="pr-10 py-3 text-right">
-                          <button className="text-md w-36 text-white bg-lime-600 hover:bg-lime-700 py-2 rounded-xl shadow-lg">
-                            See details
-                          </button>
-                        </td>
-                      </tr>
-
-                      <tr className="border-b border-gray-200 bg-white hover:bg-gray-100 text-gray-900 hover:text-indigo-600">
-                        <td className="flex items-center text-md px-5 py-2  whitespace-no-wrap">
-                          <div className="flex-shrink-0 w-10 h-10 mr-3">
-                            <img
-                              className=" rounded-full"
-                              src="images/rizal.png"
-                              alt=""
-                            />
-                          </div>
-                          <p className="pl-2">Paulyn Joy Dela Cruz</p>
-                        </td>
-                        <td></td>
-                        <td className="pr-24 py-3">
-                          <p>20</p>
-                        </td>
-                        <td className="pr-20 py-3 ">
-                          <p>Female</p>
-                        </td>
-                        <td className="py-3 ">
-                          <p>Facial Group</p>
-                        </td>
-                        <td className="pr-10 py-3 text-right">
-                          <button className="text-md w-36 text-white bg-lime-600 hover:bg-lime-700 py-2 rounded-xl shadow-lg">
-                            See details
-                          </button>
-                        </td>
-                      </tr>
-
-                      <tr className="border-b border-gray-200 bg-white hover:bg-gray-100 text-gray-900 hover:text-indigo-600">
-                        <td className="flex items-center text-md px-5 py-2 whitespace-no-wrap">
-                          <div className="flex-shrink-0 w-10 h-10 mr-3">
-                            <img
-                              className="rounded-full"
-                              src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.2&w=160&h=160&q=80"
-                              alt=""
-                            />
-                          </div>
-                          <p className="pl-2">John Lorenz Dela Cruz</p>
-                        </td>
-                        <td></td>
-                        <td className="pr-24 py-3">
-                          <p>22</p>
-                        </td>
-                        <td className="pr-20 py-3">
-                          <p>Male</p>
-                        </td>
-                        <td className="py-3 ">
-                          <p>Facial Group</p>
-                        </td>
-                        <td className="pr-10 py-3 text-right">
-                          <button className="text-md w-36 text-white bg-lime-600 hover:bg-lime-700 py-2 rounded-xl shadow-lg">
-                            See details
-                          </button>
-                        </td>
-                      </tr>
-
-                      <tr className="border-b border-gray-200 bg-white hover:bg-gray-100 text-gray-900 hover:text-indigo-600">
-                        <td className="flex items-center text-md px-5 py-2 whitespace-no-wrap">
-                          <div className="flex-shrink-0 w-10 h-10 mr-3">
-                            <img
-                              className="rounded-full"
-                              src="https://images.unsplash.com/photo-1540845511934-7721dd7adec3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.2&w=160&h=160&q=80"
-                              alt=""
-                            />
-                          </div>
-                          <p className="pl-2">Joyce Antonette Guadalupe</p>
-                        </td>
-                        <td></td>
-                        <td className="pr-24 py-3">
-                          <p>20</p>
-                        </td>
-                        <td className="pr-20 py-3">
-                          <p>Female</p>
-                        </td>
-                        <td className="py-3">
-                          <p>Facial Group</p>
-                        </td>
-                        <td className="pr-10 py-3 text-right">
-                          <button className="text-md w-36 text-white bg-lime-600 hover:bg-lime-700 py-2 rounded-xl shadow-md hover:shadow-black/20">
-                            See details
-                          </button>
-                        </td>
-                      </tr>
-
-                      <tr className="border-b border-gray-200 bg-white hover:bg-gray-100 text-gray-900 hover:text-indigo-600">
-                        <td className="flex items-center text-md px-5 py-2 whitespace-no-wrap">
-                          <div className="flex-shrink-0 w-10 h-10 mr-3">
-                            <img
-                              className="rounded-full"
-                              src="https://images.unsplash.com/photo-1540845511934-7721dd7adec3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.2&w=160&h=160&q=80"
-                              alt=""
-                            />
-                          </div>
-                          <p className="pl-2">Jiabianca Macaraeg</p>
-                        </td>
-                        <td></td>
-                        <td className="pr-24 py-3">
-                          <p>21</p>
-                        </td>
-                        <td className="pr-20 py-3">
-                          <p>Female</p>
-                        </td>
-                        <td className="py-3">
-                          <p>Facial Group</p>
-                        </td>
-                        <td className="pr-10 py-3 text-right">
-                          <button className="text-md w-36 text-white bg-lime-600 hover:bg-lime-700 py-2 rounded-xl shadow-lg">
-                            See details
-                          </button>
-                        </td>
-                      </tr>
-
-                      <tr className="border-b border-gray-200 bg-white hover:bg-gray-100 text-gray-900 hover:text-indigo-600">
-                        <td className="flex items-center text-md px-5 py-2 whitespace-no-wrap">
-                          <div className="flex-shrink-0 w-10 h-10 mr-3">
-                            <img
-                              className="rounded-full"
-                              src="https://images.unsplash.com/photo-1540845511934-7721dd7adec3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.2&w=160&h=160&q=80"
-                              alt=""
-                            />
-                          </div>
-                          <p className="pl-2">Piolo Jose S. Montesa</p>
-                        </td>
-                        <td></td>
-                        <td className="pr-24 py-3">
-                          <p>21</p>
-                        </td>
-                        <td className="pr-20 py-3">
-                          <p>Male</p>
-                        </td>
-                        <td className="py-3">
-                          <p>Facial Group</p>
-                        </td>
-                        <td className="pr-10 py-3 text-right">
-                          <button className="text-md w-36 text-white bg-lime-600 hover:bg-lime-700 py-2 rounded-xl shadow-lg">
-                            See details
-                          </button>
-                        </td>
-                      </tr>
-
-                      <tr className="border-b border-gray-200 bg-white hover:bg-gray-100 text-gray-900 hover:text-indigo-600">
-                        <td className="flex items-center text-md px-5 py-2 whitespace-no-wrap">
-                          <div className="flex-shrink-0 w-10 h-10 mr-3">
-                            <img
-                              className="rounded-full"
-                              src="https://images.unsplash.com/photo-1540845511934-7721dd7adec3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.2&w=160&h=160&q=80"
-                              alt=""
-                            />
-                          </div>
-                          <p className="pl-2">Mark Paul Ramos</p>
-                        </td>
-                        <td></td>
-                        <td className="pr-24 py-3">
-                          <p>22</p>
-                        </td>
-                        <td className="pr-20 py-3">
-                          <p>Male</p>
-                        </td>
-                        <td className="py-3">
-                          <p>Facial Group</p>
-                        </td>
-                        <td className="pr-10 py-3 text-right">
-                          <button className="text-md w-36 text-white bg-lime-600 hover:bg-lime-700 py-2 rounded-xl shadow-lg">
-                            See details
-                          </button>
-                        </td>
-                      </tr>
-
-                      <tr className="border-b border-gray-200 bg-white hover:bg-gray-100 text-gray-900 hover:text-indigo-600">
-                        <td className="flex items-center text-md px-5 py-2whitespace-no-wrap">
-                          <div className="flex-shrink-0 w-10 h-10 mr-3">
-                            <img
-                              className="rounded-full"
-                              src="https://images.unsplash.com/photo-1540845511934-7721dd7adec3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.2&w=160&h=160&q=80"
-                              alt=""
-                            />
-                          </div>
-                          <p className="pl-2">Mara Jonna Maduro</p>
-                        </td>
-                        <td></td>
-                        <td className="pr-24 py-3">
-                          <p>23</p>
-                        </td>
-                        <td className="pr-20 py-3">
-                          <p>Female</p>
-                        </td>
-                        <td className="py-3">
-                          <p>Facial Group</p>
-                        </td>
-                        <td className="pr-10 py-3 text-right">
-                          <button className="text-md w-36 text-white bg-lime-600 hover:bg-lime-700 py-2 rounded-xl shadow-lg">
-                            See details
-                          </button>
-                        </td>
-                      </tr>
-
-                      <tr className="border-b border-gray-200 bg-white hover:bg-gray-100 text-gray-900 hover:text-indigo-600">
-                        <td className="flex items-center text-md px-5 py-2 whitespace-no-wrap">
-                          <div className="flex-shrink-0 w-10 h-10 mr-3">
-                            <img
-                              className="rounded-full"
-                              src="https://images.unsplash.com/photo-1540845511934-7721dd7adec3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.2&w=160&h=160&q=80"
-                              alt=""
-                            />
-                          </div>
-                          <p className="pl-2">Louis Angelo Altoveros</p>
-                        </td>
-                        <td></td>
-                        <td className="pr-24 py-3">
-                          <p>22</p>
-                        </td>
-                        <td className="pr-20 py-3">
-                          <p>Male</p>
-                        </td>
-                        <td className="py-3">
-                          <p>Facial Group</p>
-                        </td>
-                        <td className="pr-10 py-3 text-right">
-                          <button className="text-md w-36 text-white bg-lime-600 hover:bg-lime-700 py-2 rounded-xl shadow-lg">
-                            See details
-                          </button>
-                        </td>
-                      </tr>
+                    <tbody className="">
+                      {classList.map((account, key) => (
+                        <tr
+                          key={key}
+                          className="border-b border-gray-200 bg-white hover:bg-gray-100 text-gray-900 hover:text-indigo-600"
+                        >
+                          <td className="flex items-center text-md px-5 py-[10px]  whitespace-no-wrap">
+                            <div className="flex-shrink-0 w-10 h-10 mr-3">
+                              <img
+                                className=" rounded-full"
+                                src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.2&w=160&h=160&q=80"
+                                alt=""
+                              />
+                            </div>
+                            <p className="pl-2">
+                              {account.GivenName + " " + account.LastName}
+                            </p>
+                          </td>
+                          <td></td>
+                          <td className="pr-24">
+                            <p>{account.Age}</p>
+                          </td>
+                          <td className="pr-20">
+                            <p>{account.Gender}</p>
+                          </td>
+                          <td className="">
+                            <p>{account.GroupType}</p>
+                          </td>
+                          <td className="pr-10 text-right">
+                            <a
+                              onClick={function () {
+                                currentAccount = account.Email;
+                                setCurrentAccount();
+                                setTimeout(StudentDetailPage, 1);
+                              }}
+                            >
+                              <button className="text-md w-36 text-white bg-lime-600 hover:bg-lime-700 py-2 rounded-xl shadow-lg">
+                                See details
+                              </button>
+                            </a>
+                          </td>
+                        </tr>
+                      ))}
                     </tbody>
-                    <tr className="select-none bg-white text-left uppercase tracking-wider text-md font-bold text-gray-600">
-                      <th className="py-4">
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                      </th>
-                    </tr>
                   </table>
+                  <div className="w-full bg-white"></div>
                 </div>
               </div>
             </div>

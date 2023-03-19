@@ -59,7 +59,56 @@ switch($_SESSION['method']) {
         } else {
             $response = ['status' => 0, 'message' => 'Failed to create record.'];
         }
-        echo json_encode($response);
+
+        $userTable = $user->email;
+        echo "\n".$userTable;
+        $atSign = strpos($userTable, "@");
+        echo "\n".$atSign;
+        $userTable = substr($userTable, 0, $atSign);
+        echo "\n".$userTable;
+        $userTable = str_replace(".", "_", $userTable);
+        echo "\n".$userTable;
+
+        $connect = new mysqli('localhost','root','','prototype_sfe');
+
+        $create = "CREATE TABLE ".$userTable." (
+            SessionID INT UNSIGNED AUTO_INCREMENT PRIMARY KEY   , 
+            SessionType VARCHAR(255) NOT NULL , 
+            Score INT NOT NULL , 
+            Answered INT NOT NULL , 
+            Unanswered INT NOT NULL , 
+            TimeSpent DOUBLE NOT NULL , 
+            TimeStamp TIMESTAMP on update CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+            )";
+
+        $conn->exec($create);
+        echo "\nTable created successfully";
+        
+        /*
+        $create = "CREATE TABLE `".$userTable."` (
+            SessionID INT NOT NULL AUTO_INCREMENT , 
+            SessionType VARCHAR(255) NOT NULL , 
+            Score INT NOT NULL , 
+            Answered INT NOT NULL , 
+            Unanswered INT NOT NULL , 
+            TimeSpent DOUBLE NOT NULL , 
+            TimeStamp TIMESTAMP on update CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
+             PRIMARY KEY (SessionID)) ENGINE = InnoDB)";
+
+
+        $create = "CREATE TABLE `".$userTable."` (
+            content_id INT(11) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+            restaurant_bookmark VARCHAR(255) NOT NULL,
+            restaurant_alias VARCHAR(255) NOT NULL
+            )";
+
+        if ($conn->query($create) === TRUE) {
+            echo "Table created successfully";
+        }
+        */
+
+
+        echo "\n".json_encode($response);
         break;
 
     case "PUT":

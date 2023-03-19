@@ -6,6 +6,7 @@ import * as ReactDOM from "react-dom";
 import $ from "jquery";
 
 import QuestionList from "./questionList";
+import EquationSolver from "./equationSolver";
 import MY_API_KEY from "./API_KEY";
 
 export default function DifficultyPage() {
@@ -54,8 +55,6 @@ export default function DifficultyPage() {
   const [questionList, setQuestions] = useState([]);
   const [result, setResult] = useState([]);
 
-  var equationList = [];
-
   useEffect(() => {
     const data = window.localStorage.getItem("QUESTION_LIST");
     if (data !== null) setQuestions(JSON.parse(data));
@@ -99,9 +98,37 @@ export default function DifficultyPage() {
        
     };
    */
+  var difficultyType = "";
 
-  const pickDifficulty = (equationString) => {
-    equationString = "";
+  const easyType = () => {
+    difficultyType = "easy";
+    pickDifficulty();
+  };
+
+  const averageType = () => {
+    difficultyType = "average";
+    pickDifficulty();
+  };
+
+  const difficultType = () => {
+    difficultyType = "difficult";
+    pickDifficulty();
+  };
+
+  function pickDifficulty() {
+    console.log(difficultyType);
+    var prompt = "";
+    if (difficultyType == "easy") {
+      prompt =
+        '{"text":" Generate 5 linear equation to solve for, only 1 variable, it must be very difficult level and distinct to each other. The equation should be similiar as this example: 9x + 13 = -4x, or much even complicated, randomize each equation, include multiplication symbol between expressions, values can range from 1 to 1000. Put each equation inside bracket []"}';
+    } else if (difficultyType == "average") {
+      prompt =
+        '{"text":" Generate 5 linear equation to solve for, only 1 variable, it must be very difficult level and distinct to each other. The equation should be similiar as this example: 23x + 2 = 13x - 26, or much even complicated, randomize each equation, include multiplication symbol between expressions, values can range from 1 to 1000. Put each equation inside bracket []"}';
+    } else if (difficultyType == "difficult") {
+      prompt =
+        '{"text":" Generate 5 linear equation to solve for, only 1 variable, it must be very difficult level and distinct to each other. The equation should be similiar as this example: 2(3x-5) = 3(4x+2), or much even complicated, randomize each equation, include multiplication symbol between expressions, values can range from 1 to 1000. Put each equation inside bracket []"}';
+    }
+    var equationString = "";
     const options = {
       method: "POST",
       url: "https://chatgpt-ai-chat-bot.p.rapidapi.com/ask",
@@ -110,12 +137,16 @@ export default function DifficultyPage() {
         "X-RapidAPI-Key": MY_API_KEY.getGPT_KEY(),
         "X-RapidAPI-Host": "chatgpt-ai-chat-bot.p.rapidapi.com",
       },
-      data: '{"text":" Generate 5 linear equation to solve for, only 1 variable, it must be very difficult level and distinct to each other. The equation should be similiar as this example: 2(3x-5) = 3(4x+2), or much even complicated, randomize each equation, include multiplication symbol between expressions, values can range from 1-1000. Put each equation inside bracket []"}',
+      data: prompt,
     };
+
+    //Generate 5 linear equation to solve for, only 1 variable, it must be very difficult level and distinct to each other. The equation should be similiar as this example: 2(3x-5) = 3(4x+2), or much even complicated, randomize each equation, include multiplication symbol between expressions, values can range from 1-1000. Put each equation inside bracket []
 
     axios
       .request(options)
       .then(function (response) {
+        var equationList = [];
+
         console.log(response);
         console.log(response.data);
         console.log(response.data.split(""));
@@ -157,6 +188,7 @@ export default function DifficultyPage() {
             */
 
         setQuestions(equationList);
+        console.log(questionList);
         /*
             
             console.log("questionList length: " + questionList.length);
@@ -181,9 +213,35 @@ export default function DifficultyPage() {
             */
 
         console.log(equationList[0]);
-        QuestionList.setQuestionString(equationString);
+        //QuestionList.setQuestionString(equationString);
 
-        WhiteboardPage();
+        console.log("THE length: " + equationList.length);
+        if (equationList.length > 5) {
+          pickDifficulty();
+        } else {
+          computeEquation();
+        }
+
+        function computeEquation() {
+          var equationValid = false;
+          var checkEquation = "";
+          for (let i = 0; i < equationList.length; i++) {
+            EquationSolver.setEquation(equationList[i]);
+            checkEquation = EquationSolver.getEquationAnswer();
+            if (checkEquation == "invalid") {
+              equationValid = false;
+              break;
+            } else {
+              equationValid = true;
+            }
+          }
+          if (equationValid) {
+            WhiteboardPage();
+          } else {
+            pickDifficulty();
+          }
+        }
+
         /*
             for (let i = 0; i < response.data.length; i++) {
                 console.log(response.data);
@@ -193,7 +251,7 @@ export default function DifficultyPage() {
       .catch(function (error) {
         console.error(error);
       });
-  };
+  }
 
   return (
     <>
@@ -217,7 +275,8 @@ export default function DifficultyPage() {
                                 <input type="text" name="rawList" id="rawList" value={rawList}></input>
                             */}
                   <button
-                    onClick={pickDifficulty}
+                    name="easy"
+                    onClick={easyType}
                     className="w-full transform transition duration-500 hover:scale-105"
                   >
                     <div className="relative h-12 w-20 m-auto bg-gray-400 rounded-tl-full rounded-tr-full border-l-4 border-l-gray-500 border-r-4 border-r-gray-300"></div>
@@ -264,7 +323,7 @@ export default function DifficultyPage() {
                             </div>
                             <div className="col-span-3">
                               <p className="w-full  rounded lg:text-1.5xl  sm:text-md  py-3">
-                                2x - 2 = 1
+                                23x - 72 = 36
                               </p>
                             </div>
                           </div>
@@ -274,7 +333,7 @@ export default function DifficultyPage() {
                             </div>
                             <div className="col-span-3">
                               <p className="w-full  rounded lg:text-1.5xl  sm:text-md  py-3">
-                                2x - 2 = 1
+                                4 - x = 6x
                               </p>
                             </div>
                           </div>
@@ -294,7 +353,8 @@ export default function DifficultyPage() {
                   {/*<!--Average-->*/}
 
                   <button
-                    onClick={""}
+                    name="average"
+                    onClick={averageType}
                     className="w-full transform transition duration-500 hover:scale-105"
                   >
                     <div className="relative h-12 w-20 m-auto bg-gray-400 rounded-tl-full rounded-tr-full border-l-4 border-l-gray-500 border-r-4 border-r-gray-300"></div>
@@ -341,7 +401,7 @@ export default function DifficultyPage() {
                             </div>
                             <div className="col-span-3">
                               <p className="w-full  rounded lg:text-1.5xl  sm:text-md  py-3">
-                                2x - 2 = 1
+                                32x - 11 = 16 + 47x
                               </p>
                             </div>
                           </div>
@@ -351,7 +411,7 @@ export default function DifficultyPage() {
                             </div>
                             <div className="col-span-3">
                               <p className="w-full  rounded lg:text-1.5xl  sm:text-md  py-3">
-                                2x - 2 = 1
+                                75x - 42 + 25x = 6x
                               </p>
                             </div>
                           </div>
@@ -370,7 +430,8 @@ export default function DifficultyPage() {
                   {/*<!--DIFFICULT-->*/}
 
                   <button
-                    onClick={""}
+                    name="difficult"
+                    onClick={difficultType}
                     className="w-full transform transition duration-500 hover:scale-105"
                   >
                     <div className="relative h-12 w-20 m-auto bg-gray-400 rounded-tl-full rounded-tr-full border-l-4 border-l-gray-500 border-r-4 border-r-gray-300"></div>
@@ -417,7 +478,7 @@ export default function DifficultyPage() {
                             </div>
                             <div className="col-span-3">
                               <p className="w-full  rounded lg:text-1.5xl  sm:text-md  py-3">
-                                2x - 2 = 1
+                                10x + 5(2x-3) = 42x
                               </p>
                             </div>
                           </div>
@@ -427,7 +488,7 @@ export default function DifficultyPage() {
                             </div>
                             <div className="col-span-3">
                               <p className="w-full  rounded lg:text-1.5xl  sm:text-md  py-3">
-                                2x - 2 = 1
+                                8(3x + 6) = 3(2 - 32x)
                               </p>
                             </div>
                           </div>

@@ -116,10 +116,12 @@ export default function StudentDetail() {
     //console.log(difficult);
   }
 
+  function totalCount() {}
+
   return (
     <>
-      <div className="my-10  lg:scale-100 md:scale-95 w-9/12 mx-auto lg:fixed top-1/1 left-0 right-0 place-items-center  p-6 rounded-10xl border-l-12 border-b-12 border-yellow-700 bg-mainBGBrown border-r-12 border-r-brTwo shadow-2xl shadow-yellow-400">
-        <div className="overflow-hidden min-h-[805px] rounded-8xl bg-gradient-to-t from-gray-200 via-white to-white shadow-xl border-r-12 border-t-12 border-yellow-700 border-l-12 border-l-brTwo shadow-yellow-700 w-full h-full p-12 ">
+      <div className="my-10 lg:scale-100 md:scale-95 w-9/12 mx-auto lg:fixed top-1/1 left-0 right-0 place-items-center  p-6 rounded-10xl border-l-12 border-b-12 border-yellow-700 bg-mainBGBrown border-r-12 border-r-brTwo shadow-2xl shadow-yellow-400">
+        <div className="overflow-hidden rounded-8xl bg-gradient-to-t from-gray-200 via-white to-white shadow-xl border-r-12 border-t-12 border-yellow-700 border-l-12 border-l-brTwo shadow-yellow-700 w-full h-full p-12 ">
           <div className="grid sm:grid-cols-1 lg:grid-cols-2">
             <div className="">
               {accountDetail.map((account) => (
@@ -198,7 +200,7 @@ export default function StudentDetail() {
           </p>
           <div
             id="history"
-            className="overflow-auto bg-gray-300/80 rounded-md mx-3 my-2 min-h-[22rem] max-h-[22rem] style-2"
+            className="overflow-auto  mx-3 my-2 max-h-[22rem] style-2"
           >
             {accountHistory.map((history) => (
               <>
@@ -234,6 +236,181 @@ export default function StudentDetail() {
                 <hr></hr>
               </>
             ))}
+
+            <div className="grid lg:grid-cols-11 rounded-l-md shadow relative bg-green-500 p-3">
+              <div className="lg:col-span-2">
+                <p className="lg:text-3xl text-green-100 font-medium leading-4">
+                  Easy{" "}
+                  <span className="lg:text-sm sm:text-xs underline text-white font-normal">
+                    May 21, 2023
+                  </span>
+                </p>
+              </div>
+              <div className="lg:col-span-7 text-right">
+                <span className="lg:text-xl text-white font-normal">
+                  Score: 10/10
+                </span>
+              </div>
+              <div className="lg:col-span-2 text-right">
+                <span className="lg:text-xl text-white font-normal">
+                  Time: 00:15:02
+                </span>
+              </div>
+            </div>
+            <hr></hr>
+            <hr></hr>
+            <div className="grid lg:grid-cols-11 rounded-l-md shadow relative bg-yellow-500 p-3">
+              <div className="lg:col-span-2">
+                <p className="lg:text-3xl text-yellow-100 font-medium leading-4">
+                  Average{" "}
+                  <span className="lg:text-sm sm:text-xs underline text-white font-normal">
+                    May 19, 2023
+                  </span>
+                </p>
+              </div>
+              <div className="lg:col-span-7 text-right">
+                <span className="lg:text-xl text-white font-normal">
+                  Score: 10/10
+                </span>
+              </div>
+              <div className="lg:col-span-2 text-right">
+                <span className="lg:text-xl text-white font-normal">
+                  Time: 00:25:42
+                </span>
+              </div>
+            </div>
+            <hr></hr>
+            <hr></hr>
+            <div className="grid lg:grid-cols-11 rounded-l-md shadow relative bg-red-500 p-3">
+              <div className="lg:col-span-2">
+                <p className="lg:text-3xl text-red-100 font-medium leading-4">
+                  Difficult{" "}
+                  <span className="lg:text-sm sm:text-xs underline text-white font-normal">
+                    May 17, 2023
+                  </span>
+                </p>
+              </div>
+              <div className="lg:col-span-7 text-right">
+                <span className="lg:text-xl text-white font-normal">
+                  Score: 9/10
+                </span>
+              </div>
+              <div className="lg:col-span-2 text-right">
+                <span className="lg:text-xl text-white font-normal">
+                  Time: 00:34:11
+                </span>
+              </div>
+            </div>
+            <hr></hr>
+            <hr></hr>
+            <div className="grid lg:grid-cols-11 rounded-l-md shadow relative bg-red-500 p-3">
+              <div className="lg:col-span-2">
+                <p className="lg:text-3xl text-red-100 font-medium leading-4">
+                  Difficult{" "}
+                  <span className="lg:text-sm sm:text-xs underline text-white font-normal">
+                    May 14, 2023
+                  </span>
+                </p>
+              </div>
+              <div className="lg:col-span-7 text-right">
+                <span className="lg:text-xl text-white font-normal">
+                  Score: 7/10
+                </span>
+              </div>
+              <div className="lg:col-span-2 text-right">
+                <span className="lg:text-xl text-white font-normal">
+                  Time: 00:37:46
+                </span>
+              </div>
+            </div>
+            <hr></hr>
+            <hr></hr>
+            <div className="grid lg:grid-cols-11 rounded-l-md shadow relative bg-yellow-500 p-3">
+              <div className="lg:col-span-2">
+                <p className="lg:text-3xl text-yellow-100 font-medium leading-4">
+                  Average{" "}
+                  <span className="lg:text-sm sm:text-xs underline text-white font-normal">
+                    May 12, 2023
+                  </span>
+                </p>
+              </div>
+              <div className="lg:col-span-7 text-right">
+                <span className="lg:text-xl text-white font-normal">
+                  Score: 9/10
+                </span>
+              </div>
+              <div className="lg:col-span-2 text-right">
+                <span className="lg:text-xl text-white font-normal">
+                  Time: 00:28:34
+                </span>
+              </div>
+            </div>
+            <hr></hr>
+            <hr></hr>
+            <div className="grid lg:grid-cols-11 rounded-l-md shadow relative bg-yellow-500 p-3">
+              <div className="lg:col-span-2">
+                <p className="lg:text-3xl text-yellow-100 font-medium leading-4">
+                  Average{" "}
+                  <span className="lg:text-sm sm:text-xs underline text-white font-normal">
+                    May 12, 2023
+                  </span>
+                </p>
+              </div>
+              <div className="lg:col-span-7 text-right">
+                <span className="lg:text-xl text-white font-normal">
+                  Score: 9/10
+                </span>
+              </div>
+              <div className="lg:col-span-2 text-right">
+                <span className="lg:text-xl text-white font-normal">
+                  Time: 00:28:34
+                </span>
+              </div>
+            </div>
+            <hr></hr>
+            <hr></hr>
+            <div className="grid lg:grid-cols-11 rounded-l-md shadow relative bg-yellow-500 p-3">
+              <div className="lg:col-span-2">
+                <p className="lg:text-3xl text-yellow-100 font-medium leading-4">
+                  Average{" "}
+                  <span className="lg:text-sm sm:text-xs underline text-white font-normal">
+                    May 12, 2023
+                  </span>
+                </p>
+              </div>
+              <div className="lg:col-span-7 text-right">
+                <span className="lg:text-xl text-white font-normal">
+                  Score: 9/10
+                </span>
+              </div>
+              <div className="lg:col-span-2 text-right">
+                <span className="lg:text-xl text-white font-normal">
+                  Time: 00:28:34
+                </span>
+              </div>
+            </div>
+            <hr></hr>
+            <hr></hr>
+            <div className="grid lg:grid-cols-11 rounded-l-md shadow relative bg-yellow-500 p-3">
+              <div className="lg:col-span-2">
+                <p className="lg:text-3xl text-yellow-100 font-medium leading-4">
+                  Average{" "}
+                  <span className="lg:text-sm sm:text-xs underline text-white font-normal">
+                    May 12, 2023
+                  </span>
+                </p>
+              </div>
+              <div className="lg:col-span-7 text-right">
+                <span className="lg:text-xl text-white font-normal">
+                  Score: 9/10
+                </span>
+              </div>
+              <div className="lg:col-span-2 text-right">
+                <span className="lg:text-xl text-white font-normal">
+                  Time: 00:28:34
+                </span>
+              </div>
+            </div>
           </div>
         </div>
       </div>

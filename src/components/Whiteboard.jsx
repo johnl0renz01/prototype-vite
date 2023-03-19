@@ -45,6 +45,7 @@ export default function Whiteboard() {
 
   //STRING IS OKAY, FIX THE equation solver shit
   function computeEquation() {
+    let isInvalid = false;
     for (let i = 0; i < questionList.length; i++) {
       EquationSolver.setEquation(questionList[i]);
 
@@ -56,6 +57,33 @@ export default function Whiteboard() {
       questionAnswers.push(answer);
       questionSteps.push(steps);
       coefficientLetter = coefficient;
+
+      if (answer == "invalid") {
+        isInvalid = true;
+        break;
+      }
+    }
+
+    if (isInvalid) {
+      // GO BACK TO DIFFICULTY
+      setTimeout(DifficultyPage, 1);
+      function DifficultyPage() {
+        let page = ["Home", "Difficulty"];
+        let link = ["/Homepage", "/Difficulty"];
+        setPageList(page);
+        setPageLink(link);
+
+        window.localStorage.setItem("NAVBAR_PAGE", JSON.stringify(pageList));
+        window.localStorage.setItem(
+          "NAVBAR_PAGE_LINK",
+          JSON.stringify(pageLink)
+        );
+        setTimeout(proceed, 1);
+
+        function proceed() {
+          navigate("/Difficulty");
+        }
+      }
     }
   }
 
@@ -95,9 +123,13 @@ export default function Whiteboard() {
   console.log("Coeff letter: " + coefficientLetter);
   //console.log("ASDROOOO:" + questionList);
   //console.log("AasdasdO:" + questionAnswers);
+
   /*
     
   const [result, setResult] = useState([]);
+
+
+  
 
   useEffect(() => {
     $.ajax({
@@ -644,15 +676,15 @@ export default function Whiteboard() {
   };
 
   function defaultCursor() {
-    document.body.addEventListener("click", z);
-    function z() {
+    document.body.addEventListener("click", changeCursor);
+    function changeCursor() {
       document.body.style.cursor = "default";
       if (document.getElementById("help").matches(":hover")) {
         for (let i = 0; i < highestTimeoutId; i++) {
           clearTimeout(i);
         }
         document.body.style.cursor = "help";
-        document.body.removeEventListener("click", z);
+        document.body.removeEventListener("click", changeCursor);
       } else {
         setHelpState(false);
       }

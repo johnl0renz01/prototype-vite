@@ -28,7 +28,7 @@ function Navbar() {
     const data = window.localStorage.getItem("NAVBAR_PAGE");
     setPageList(JSON.parse(data));
     // UPDATE DATA ON BODY HOVER
-    document.body.addEventListener("mouseover", a);
+    document.body.addEventListener("mouseover", updateData);
   }, []);
 
   useEffect(() => {
@@ -37,7 +37,7 @@ function Navbar() {
   }, []);
 
   // UPDATE DATA ON HOVER asdasd
-  function a() {
+  function updateData() {
     const page = window.localStorage.getItem("NAVBAR_PAGE");
     setPageList(JSON.parse(page));
     const link = window.localStorage.getItem("NAVBAR_PAGE_LINK");
@@ -92,7 +92,7 @@ function Navbar() {
         url('https://fonts.googleapis.com/css2?family=League+Spartan&family=Poppins:wght@200&display=swap');
       </style>
       <div
-        onMouseEnter={() => a()}
+        onMouseEnter={() => updateData()}
         className="sticky top-0 z-50 pt-1 visible h-12 w-full grid grid-cols-3 bg-white py-0.5 shadow-md shadow-lime-500/80"
       >
         <div className=" p-1 pl-2 overflow-hidden font-sans ">
@@ -194,7 +194,7 @@ function Navbar() {
                       <a
                         onClick={() => {
                           navigate(pageLink[index]);
-                          a;
+                          updateData;
                         }}
                         className="cursor-pointer no-underline text-gray-500 hover:text-gray-800 hover:underline"
                       >
@@ -210,7 +210,7 @@ function Navbar() {
         </div>
       </div>
       <div
-        onMouseEnter={() => a()}
+        onMouseEnter={() => updateData()}
         className="absolute h-screen -z-50 bg-gray-200"
       ></div>
     </>
