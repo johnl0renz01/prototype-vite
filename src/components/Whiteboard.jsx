@@ -7,6 +7,9 @@ import $ from "jquery";
 
 import EquationSolver from "./equationSolver";
 import MY_API_KEY from "./API_KEY";
+import HintModal from "./modal/HintModal";
+import VideoModal from "./modal/VideoModal";
+import PenModal from "./modal/PenModal";
 
 export default function Whiteboard() {
   document.body.style.height = "100%";
@@ -659,10 +662,22 @@ export default function Whiteboard() {
     }
   }
 
+  {/*ITO DINADAG KO FOR MODAL */ }
+  //For Hint
+  const [showMyModal, setShowMyModal] = useState(false);
+  const handleOnClose = () => setShowMyModal(false);
+  //For Video
+  const [showMyVideo, setShowMyVideo] = useState(false);
+  const handleOnCloseVideo = () => setShowMyVideo(false);
+
+  //For Pen
+  const [showMyPen, setShowMyPen] = useState(false);
+  const handleOnClosePen = () => setShowMyPen(false);
+
   return (
     <>
       {/*<!--Container pang edit ng grids-->*/}
-      <div className="scale-x-95 scale-y-92 -mt-4" onClick={loadAnswers}>
+      <div className="scale-x-85 scale-y-80 " onClick={loadAnswers}>
         <div className="w-10/12 mx-auto rounded-bl-6xl rounded-tr-6xl rounded-tl-6xl border-l-12 border-b-12 border-yellow-700 border-r-brTwo border-r-12  md:flex-row items-center  lg:h-2/5 sm:h-1/12  bg-mainBGBrown shadow-lg shadow-yellow-400  ">
           {/*<!--Mothergrids-->*/}
           <div className="relative grid grid-cols-21 grid-rows-16 bg-mainBrown  overflow-hidden pt-3 pl-3 pr-3 ">
@@ -671,14 +686,13 @@ export default function Whiteboard() {
               <nav className="flex flex-col items  ">
                 {/*<!--Question-->*/}
                 <div
-                  className={`text-gray-500 hover:text-white focus:outline-none focus:text-white rounded-full ${
-                    isHelp ? "ml-2 my-1" : "px-3 py-2"
-                  }`}
+                  className={`text-gray-500 hover:text-white focus:outline-none focus:text-white rounded-full ${isHelp ? "ml-2 my-1" : "px-3 py-2"
+                    }`}
                   {...(isHelp
                     ? {
-                        dataTooltip:
-                          "The area for the given question and the equation you need to solve.",
-                      }
+                      dataTooltip:
+                        "The area for the given question and the equation you need to solve.",
+                    }
                     : {})}
                   {...(isHelp ? { dataTooltipPosition: "right" } : {})}
                 >
@@ -689,9 +703,8 @@ export default function Whiteboard() {
                     viewBox="0 0 24 24"
                     stroke-width="1.5"
                     stroke="currentColor"
-                    className={`cursor-pointer h-11 w-11 text-black/50 bg-gray-400/90 fill-gray-400/90 hover:fill-gray-300/90 hover:bg-gray-300/90 hover:text-white rounded-full p-1 ${
-                      isHelp ? "hover:border-3 hover:border-white " : ""
-                    }`}
+                    className={`cursor-pointer h-11 w-11 text-black/50 bg-gray-400/90 fill-gray-400/90 hover:fill-gray-300/90 hover:bg-gray-300/90 hover:text-white rounded-full p-1 ${isHelp ? "hover:border-3 hover:border-white " : ""
+                      }`}
                   >
                     {!isHelp && <title>Help</title>}
 
@@ -704,113 +717,116 @@ export default function Whiteboard() {
                 </div>
 
                 {/*<!--Hint-->*/}
+
                 <div
-                  className={`text-gray-500 hover:text-white focus:outline-none focus:text-white ${
-                    isHelp ? "ml-2 my-1" : "px-3 py-2"
-                  }`}
+                  className={`text-gray-500 hover:text-white focus:outline-none focus:text-white ${isHelp ? "ml-2 my-1" : "px-3 py-2"
+                    }`}
                   {...(isHelp
                     ? {
-                        dataTooltip:
-                          "The area for the given question and the equation you need to solve.",
-                      }
+                      dataTooltip:
+                        "The area for the given question and the equation you need to solve.",
+                    }
                     : {})}
                   {...(isHelp ? { dataTooltipPosition: "right" } : {})}
                 >
-                  <svg
-                    className={`cursor-pointer fill-yellow-400/90 h-11 w-11 text-black/50 bg-yellow-400/90 rounded-full hover:fill-yellow-300/90 hover:bg-yellow-300/90 hover:text-white/70 p-1 ${
-                      isHelp ? "hover:border-3 hover:border-white " : ""
-                    }`}
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    {!isHelp && <title>Hint</title>}
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
-                    />
-                  </svg>
+                  <button onClick={() => setShowMyModal(true)} >
+                    <svg
+                      className={`cursor-pointer fill-yellow-400/90 h-11 w-11 text-black/50 bg-yellow-400/90 rounded-full hover:fill-yellow-300/90 hover:bg-yellow-300/90 hover:text-white/70 p-1 ${isHelp ? "hover:border-3 hover:border-white " : ""
+                        }`}
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      {!isHelp && <title>Hint</title>}
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
+                      />
+                    </svg>
+
+                  </button>
+
                 </div>
+
 
                 {/*<!--Video-->*/}
                 <div
-                  className={`text-gray-500 hover:text-white focus:outline-none focus:text-white ${
-                    isHelp ? "ml-2 my-1" : "px-3 py-2"
-                  }`}
+                  className={`text-gray-500 hover:text-white focus:outline-none focus:text-white ${isHelp ? "ml-2 my-1" : "px-3 py-2"
+                    }`}
                   {...(isHelp
                     ? {
-                        dataTooltip:
-                          "The area for the given question and the equation you need to solve.",
-                      }
+                      dataTooltip:
+                        "The area for the given question and the equation you need to solve.",
+                    }
                     : {})}
                   {...(isHelp ? { dataTooltipPosition: "right" } : {})}
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    stroke-width="1.5"
-                    stroke="currentColor"
-                    className={`cursor-pointer fill-red-600/90 w-11 h-11 p-1 text-black/50 bg-red-600/90 hover:fill-red-500/90 hover:bg-red-500/90 hover:text-white rounded-full ${
-                      isHelp ? "hover:border-3 hover:border-white " : ""
-                    }`}
-                  >
-                    {!isHelp && <title>Tutorial Video</title>}
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                    />
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M15.91 11.672a.375.375 0 010 .656l-5.603 3.113a.375.375 0 01-.557-.328V8.887c0-.286.307-.466.557-.327l5.603 3.112z"
-                    />
-                  </svg>
+                  <button onClick={() => setShowMyVideo(true)} >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      className={`cursor-pointer fill-red-600/90 w-11 h-11 p-1 text-black/50 bg-red-600/90 hover:fill-red-500/90 hover:bg-red-500/90 hover:text-white rounded-full ${isHelp ? "hover:border-3 hover:border-white " : ""
+                        }`}
+                    >
+                      {!isHelp && <title>Tutorial Video</title>}
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M15.91 11.672a.375.375 0 010 .656l-5.603 3.113a.375.375 0 01-.557-.328V8.887c0-.286.307-.466.557-.327l5.603 3.112z"
+                      />
+                    </svg>
+                  </button>
                 </div>
 
                 {/*<!--Pen-->*/}
                 <div
-                  className={`text-gray-500 hover:text-white focus:outline-none focus:text-white ${
-                    isHelp ? "ml-2 my-1" : "px-3 py-2"
-                  }`}
+                  className={`text-gray-500 hover:text-white focus:outline-none focus:text-white ${isHelp ? "ml-2 my-1" : "px-3 py-2"
+                    }`}
                   {...(isHelp
                     ? {
-                        dataTooltip:
-                          "The area for the given question and the equation you need to solve.",
-                      }
+                      dataTooltip:
+                        "The area for the given question and the equation you need to solve.",
+                    }
                     : {})}
                   {...(isHelp ? { dataTooltipPosition: "right" } : {})}
                 >
-                  <svg
-                    className={`cursor-pointer fill-lime-700/90 h-11 w-11 text-black/50 bg-lime-700/90 rounded-full hover:fill-lime-600/90 hover:bg-lime-600/90 hover:text-white p-1 ${
-                      isHelp ? "hover:border-3 hover:border-white " : ""
-                    }`}
-                    viewBox="0 0 24 24"
-                    stroke-width="1.5"
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  >
-                    {!isHelp && <title>Draw</title>}{" "}
-                    <path stroke="none" d="M0 0h24v24H0z" />{" "}
-                    <path d="M4 20h4l10.5 -10.5a1.5 1.5 0 0 0 -4 -4l-10.5 10.5v4" />{" "}
-                    <line x1="13.5" y1="6.5" x2="17.5" y2="10.5" />
-                  </svg>
+                  <button onClick={() => setShowMyPen(true)} >
+                    <svg
+                      className={`cursor-pointer fill-lime-700/90 h-11 w-11 text-black/50 bg-lime-700/90 rounded-full hover:fill-lime-600/90 hover:bg-lime-600/90 hover:text-white p-1 ${isHelp ? "hover:border-3 hover:border-white " : ""
+                        }`}
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      {!isHelp && <title>Draw</title>}{" "}
+                      <path stroke="none" d="M0 0h24v24H0z" />{" "}
+                      <path d="M4 20h4l10.5 -10.5a1.5 1.5 0 0 0 -4 -4l-10.5 10.5v4" />{" "}
+                      <line x1="13.5" y1="6.5" x2="17.5" y2="10.5" />
+                    </svg>
+                  </button>
                 </div>
               </nav>
             </div>
 
             {/*<!--Given Area-->*/}
             <div
-              className={`col-span-9 bg-white row-span-2  border-l-12  border-l-brTwo border-t-12 border-t-yellow-700 ${
-                isHelp ? "hover:border-4 hover:border-red-500 " : ""
-              }`}
+              className={`col-span-9 bg-white row-span-2  border-l-12  border-l-brTwo border-t-12 border-t-yellow-700 ${isHelp ? "hover:border-4 hover:border-red-500 " : ""
+                }`}
               {...(isHelp
                 ? {
-                    dataTooltip:
-                      "The area for the given question and the equation you need to solve.",
-                  }
+                  dataTooltip:
+                    "The area for the given question and the equation you need to solve.",
+                }
                 : {})}
               {...(isHelp ? { dataTooltipPosition: "bottom" } : {})}
             >
@@ -830,17 +846,16 @@ export default function Whiteboard() {
                 className="flex  justify-center relative"
                 {...(isHelp
                   ? {
-                      dataTooltip:
-                        "This is the area for facial expression response of PIA.",
-                    }
+                    dataTooltip:
+                      "This is the area for facial expression response of PIA.",
+                  }
                   : {})}
                 {...(isHelp ? { dataTooltipPosition: "bottom" } : {})}
               >
                 <div
                   id="image_bg"
-                  className={`relative flex items-center text-center justify-center rounded-full bg-slate-200   object-cover w-65% mt-3 px-6 pt-2 ml-[70px] overflow-hidden ${
-                    isHelp ? "hover:border-[5px] hover:border-red-500" : ""
-                  }`}
+                  className={`relative flex items-center text-center justify-center rounded-full bg-slate-200   object-cover w-65% mt-3 px-6 pt-2 ml-[70px] overflow-hidden ${isHelp ? "hover:border-[5px] hover:border-red-500" : ""
+                    }`}
                 >
                   <img
                     className=""
@@ -865,24 +880,22 @@ export default function Whiteboard() {
 
             {/*<!--Synthetic Facial Message AREA-->*/}
             <div
-              className={`relative col-span-6 row-span-5 overflow-hidden bg-mainBGBrown    border-t-12 border-t-yellow-700 border-r-12 border-r-yellow-700  rounded-tr-6xl ${
-                isHelp
-                  ? "ml-2 hover:border-6 hover:border-red-500 hover:overflow-visible"
-                  : "ml-3"
-              }`}
+              className={`relative col-span-6 row-span-5 overflow-hidden bg-mainBGBrown    border-t-12 border-t-yellow-700 border-r-12 border-r-yellow-700  rounded-tr-6xl ${isHelp
+                ? "ml-2 hover:border-6 hover:border-red-500 hover:overflow-visible"
+                : "ml-3"
+                }`}
               {...(isHelp
                 ? {
-                    dataTooltip:
-                      "The feedback area of PIA. Some feedback need your response and there will be options underneath it.",
-                  }
+                  dataTooltip:
+                    "The feedback area of PIA. Some feedback need your response and there will be options underneath it.",
+                }
                 : {})}
               {...(isHelp ? { dataTooltipPosition: "bottom" } : {})}
             >
               <div
                 id="message_area_tail"
-                className={`absolute w-0 h-0 border-t-25 border-t-transparent border-b-25 border-b-transparent border-r-18 border-r-slate-200 left-0 top-1/3 z-10  bg-brTwo ${
-                  isHelp ? "left-1" : ""
-                }`}
+                className={`absolute w-0 h-0 border-t-25 border-t-transparent border-b-25 border-b-transparent border-r-18 border-r-slate-200 left-0 top-1/3 z-10  bg-brTwo ${isHelp ? "left-1" : ""
+                  }`}
               />
               <div
                 id="message_area"
@@ -942,14 +955,13 @@ export default function Whiteboard() {
             {/*&& textInput === "3"*/}
             {/*<!-- main WHITE BOARD area-->*/}
             <div
-              className={`col-span-9 row-span-12 bg-white  border-l-12  border-l-brTwo ${
-                isHelp ? "hover:border-4 hover:border-red-500" : ""
-              }`}
+              className={`col-span-9 row-span-12 bg-white  border-l-12  border-l-brTwo ${isHelp ? "hover:border-4 hover:border-red-500" : ""
+                }`}
               {...(isHelp
                 ? {
-                    dataTooltip:
-                      "The area for correct step or answers you must input.",
-                  }
+                  dataTooltip:
+                    "The area for correct step or answers you must input.",
+                }
                 : {})}
               {...(isHelp ? { dataTooltipPosition: "right" } : {})}
             >
@@ -994,14 +1006,13 @@ export default function Whiteboard() {
 
             {/*<!--userLogs STORING area --> UPDATE: ADDED +1 ROWSPAN*/}
             <div
-              className={`col-span-5 row-span-8 ml-3 border-l-18 -mr-20 border-brTwo ${
-                isHelp ? " hover:bg-red-500" : ""
-              }`}
+              className={`col-span-5 row-span-8 ml-3 border-l-18 -mr-20 border-brTwo ${isHelp ? " hover:bg-red-500" : ""
+                }`}
               {...(isHelp
                 ? {
-                    dataTooltip:
-                      "This is the area to show your input logs, You could copy and paste text from here to input box.",
-                  }
+                  dataTooltip:
+                    "This is the area to show your input logs, You could copy and paste text from here to input box.",
+                }
                 : {})}
               {...(isHelp ? { dataTooltipPosition: "bottom" } : {})}
             >
@@ -1026,14 +1037,13 @@ export default function Whiteboard() {
 
             {/*<!--text Area-->*/}
             <div
-              className={`col-span-14 row-span-2  bg-mainBGBrown border-r-yellow-700 border-r-12 ${
-                isHelp ? " hover:bg-red-500" : ""
-              }`}
+              className={`col-span-14 row-span-2  bg-mainBGBrown border-r-yellow-700 border-r-12 ${isHelp ? " hover:bg-red-500" : ""
+                }`}
               {...(isHelp
                 ? {
-                    dataTooltip:
-                      "The area to put your answers, and submit it. Please write relevant answers only.",
-                  }
+                  dataTooltip:
+                    "The area to put your answers, and submit it. Please write relevant answers only.",
+                }
                 : {})}
               {...(isHelp ? { dataTooltipPosition: "top" } : {})}
             >
@@ -1070,16 +1080,15 @@ export default function Whiteboard() {
                   onClick={clearLogs}
                   {...(isHelp
                     ? {
-                        dataTooltip:
-                          "The trash bin button. It removes all text from the current user logs.",
-                      }
+                      dataTooltip:
+                        "The trash bin button. It removes all text from the current user logs.",
+                    }
                     : {})}
                   {...(isHelp ? { dataTooltipPosition: "left" } : {})}
                 >
                   <svg
-                    className={`h-20 w-20 bg-white rounded-full p-3 hover:bg-gray-300 ${
-                      isHelp ? "hover:border-6 hover:border-red-500" : ""
-                    }`}
+                    className={`h-20 w-20 bg-white rounded-full p-3 hover:bg-gray-300 ${isHelp ? "hover:border-6 hover:border-red-500" : ""
+                      }`}
                     id="Layer_1"
                     data-name="Layer 1"
                     xmlns="http://www.w3.org/2000/svg"
@@ -1111,7 +1120,12 @@ export default function Whiteboard() {
             </div>
           </div>
         </div>
-      </div>
+      </div >
+
+      {/*iTO DINAGDAG KO */}
+      <HintModal onClose={handleOnClose} visible={showMyModal} />
+      <VideoModal onClose={handleOnCloseVideo} visible={showMyVideo} />
+      <PenModal onClose={handleOnClosePen} visible={showMyPen} />
     </>
   );
 }
