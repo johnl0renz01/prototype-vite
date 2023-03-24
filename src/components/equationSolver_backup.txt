@@ -1,7 +1,4 @@
-import { useNavigate } from "react-router-dom";
-
 var EquationSolver = (function () {
-  const navigate = useNavigate();
   var questionString = "";
   var equation = "";
   var equationSteps = [];
@@ -9,7 +6,13 @@ var EquationSolver = (function () {
 
   var getEquationAnswer = function () {
     try {
+      //Power or raise to is not yet implemented, therefore consider as invalid
+      if (equation.indexOf("^") > -1) {
+        equation = "invalid";
+        return equation;
+      }
       equation = equation.replace(/\s/g, "");
+
       // Separate the left-hand and right-hand side of the equation
       var [lhs, rhs] = equation.split("=").map((side) => side.trim());
 
@@ -950,7 +953,7 @@ var EquationSolver = (function () {
       var x = constantDifference / coefficientDifference;
 
       x = Math.round(x * 100 + Number.EPSILON) / 100;
-      console.log(`The solution for ${equation} is: x = ${x}`);
+      //console.log(`The solution for ${equation} is: x = ${x}`);
 
       //Push fourth step, final answer
       stepsArray.push(["x=", x].join(""));

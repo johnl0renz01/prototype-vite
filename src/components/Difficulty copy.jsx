@@ -9,9 +9,6 @@ import QuestionList from "./questionList";
 import EquationSolver from "./equationSolver";
 import MY_API_KEY from "./API_KEY";
 
-import EquationGeneratorEasy from "./equationsEasy";
-import EquationGeneratorAverage from "./equationsAverage";
-
 export default function DifficultyPage() {
   document.body.style.height = "100vh";
   const navigate = useNavigate();
@@ -118,24 +115,7 @@ export default function DifficultyPage() {
     pickDifficulty();
   };
 
-  function pickDifficulty() {
-    var equationList = [];
-    console.log(difficultyType);
-    if (difficultyType == "easy") {
-      equationList = EquationGeneratorEasy.getEquationList();
-    } else if (difficultyType == "average") {
-      equationList = EquationGeneratorAverage.getEquationList();
-    } else if (difficultyType == "difficult") {
-    }
-
-    setQuestions(equationList);
-    window.localStorage.setItem("QUESTION_LIST", JSON.stringify(questionList));
-    window.localStorage.setItem("QUESTION_INDEX", "0");
-    WhiteboardPage();
-  }
-
   // CHATGPT GENERATED EQUATIONS
-  /*
   function pickDifficulty() {
     console.log(difficultyType);
     var prompt = "";
@@ -199,8 +179,40 @@ export default function DifficultyPage() {
           }
         }
 
+        /*
+            console.log("equation list array : " + equationList[0]);
+            console.log("questionArray : " + questionArray.length);
+            for (let i = 0; i < questionArray.length; i++) {
+                console.log("mewo mewo : " + questionArray[i]);
+                setQuestions(questionArray[i]);
+            }
+            */
+
         setQuestions(equationList);
+
         console.log(questionList);
+        /*
+            
+            console.log("questionList length: " + questionList.length);
+            console.log("questionList array: " + questionList);
+            for (let i = 0; i < questionList.length; i++) {
+                console.log("arf arf: " + questionList[i]);
+            }
+            */
+
+        /* 
+            useEffect(() => {
+                getLogs();
+            }, []);
+            
+            function getLogs() {
+                console.log(response.data);
+                setLogs(response.data);
+            }
+
+            console.log(equationList);
+            console.log(equationList[0]);
+            */
 
         console.log(equationList[0]);
         //QuestionList.setQuestionString(equationString);
@@ -233,12 +245,17 @@ export default function DifficultyPage() {
             pickDifficulty();
           }
         }
+
+        /*
+            for (let i = 0; i < response.data.length; i++) {
+                console.log(response.data);
+            }
+            */
       })
       .catch(function (error) {
         console.error(error);
       });
   }
-  */
 
   return (
     <>

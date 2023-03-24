@@ -9,7 +9,7 @@ import EquationSolver from "./equationSolver";
 import MY_API_KEY from "./API_KEY";
 
 export default function Whiteboard() {
-  document.body.style.height = "100%";
+  document.body.style.height = "100vh";
   const navigate = useNavigate();
 
   //FOR LINKS/NAVBAR/BREADCRUMBS
@@ -691,13 +691,38 @@ export default function Whiteboard() {
     }
   }
 
+  var heightValue = 0;
+
+  function getHeight() {
+    var divElement = document.getElementById("givenArea");
+    heightValue = ReactDOM.findDOMNode(divElement).offsetHeight;
+    console.log(heightValue);
+    if (heightValue <= 135) {
+      document.getElementById("container").style.gridTemplateRows =
+        "repeat(13, 1fr)";
+    } else {
+      document.getElementById("container").style.gridTemplateRows =
+        "repeat(11, 1fr)";
+    }
+
+    //123px and //147px
+  }
+  useEffect(() => {
+    getHeight();
+  });
+
   return (
     <>
       {/*<!--Container pang edit ng grids-->*/}
-      <div className="scale-x-95 scale-y-92 -mt-4" onClick={loadAnswers}>
-        <div className="w-10/12 mx-auto rounded-bl-6xl rounded-tr-6xl rounded-tl-6xl border-l-12 border-b-12 border-yellow-700 border-r-brTwo border-r-12  md:flex-row items-center  lg:h-2/5 sm:h-1/12  bg-mainBGBrown shadow-lg shadow-yellow-400  ">
+      <div className="scale-95 my-4 " onClick={loadAnswers}>
+        <div className="w-10/12 mx-auto  rounded-bl-6xl rounded-tr-6xl rounded-tl-6xl border-l-12 border-b-12 border-yellow-700 border-r-brTwo border-r-12  md:flex-row items-center  bg-mainBGBrown shadow-lg shadow-yellow-400  ">
           {/*<!--Mothergrids-->*/}
-          <div className="relative grid grid-cols-21 grid-rows-16 bg-mainBrown  overflow-hidden pt-3 pl-3 pr-3 ">
+          <div
+            id="container"
+            className={`relative grid grid-cols-21  bg-mainBrown  overflow-hidden pt-3 pl-3 pr-3 ${
+              heightValue <= 123 ? "" : "grid-rows-11"
+            }`}
+          >
             {/*<!--Button container-->*/}
             <div className="  row-span-16 rounded-l-6xl">
               <nav className="flex flex-col items  ">
@@ -835,6 +860,7 @@ export default function Whiteboard() {
 
             {/*<!--Given Area-->*/}
             <div
+              id="givenArea"
               className={`col-span-9 bg-white row-span-2  border-l-12  border-l-brTwo border-t-12 border-t-yellow-700 ${
                 isHelp ? "hover:border-4 hover:border-red-500 " : ""
               }`}
@@ -847,12 +873,12 @@ export default function Whiteboard() {
               {...(isHelp ? { dataTooltipPosition: "bottom" } : {})}
             >
               <div className="flex relative flex-col ml-7 mt-7 ">
-                <span className="text-3.5xl font-medium">
+                <div className="text-3.5xl font-medium inline-flex">
                   <span className=" font-poppins font-bold">Given: &nbsp;</span>
                   <span className="font-poppins">
                     {questionList[currentQuestionIndex]}
                   </span>
-                </span>
+                </div>
               </div>
             </div>
 

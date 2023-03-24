@@ -964,7 +964,7 @@ var EquationSolver = (function () {
       return equation;
     } catch {
       equation = "invalid";
-
+      console.log("NAG INVALID lods");
       return equation;
     }
   };
