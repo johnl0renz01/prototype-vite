@@ -41,5 +41,11 @@ switch($requestLink) {
     case "/Prototype-Vite/my-project/api/studentHistory":
         include('studentHistory.php');
     break;
+    case "/Prototype-Vite/my-project/api/loginAdmin":
+        include('loginAdmin.php');
+    break;
+    case "/Prototype-Vite/my-project/api/loginStudent":
+        include('loginStudent.php');
+    break;
 }
 

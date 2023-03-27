@@ -15,10 +15,16 @@ export default function SectionList() {
   const [pageLink, setPageLink] = useState([]);
 
   useEffect(() => {
-    let page = ["Home", "Section List"];
-    let link = ["/AdminHomepage", "/SectionList"];
-    setPageList(page);
-    setPageLink(link);
+    setPage();
+    window.addEventListener("focus", setPage);
+    function setPage() {
+      let page = ["Home", "Section List"];
+      let link = ["/AdminHomepage", "/SectionList"];
+      setPageList(page);
+      setPageLink(link);
+      window.localStorage.setItem("NAVBAR_PAGE", JSON.stringify(pageList));
+      window.localStorage.setItem("NAVBAR_PAGE_LINK", JSON.stringify(pageLink));
+    }
   }, []);
 
   useEffect(() => {

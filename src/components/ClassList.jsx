@@ -13,10 +13,17 @@ export default function ClassList() {
   const [pageLink, setPageLink] = useState([]);
 
   useEffect(() => {
-    let page = ["Home", "Section List", "Class List"];
-    let link = ["/AdminHomepage", "/SectionList", "/ClassList"];
-    setPageList(page);
-    setPageLink(link);
+    setPage();
+
+    window.addEventListener("focus", setPage);
+    function setPage() {
+      let page = ["Home", "Section List", "Class List"];
+      let link = ["/AdminHomepage", "/SectionList", "/ClassList"];
+      setPageList(page);
+      setPageLink(link);
+      window.localStorage.setItem("NAVBAR_PAGE", JSON.stringify(pageList));
+      window.localStorage.setItem("NAVBAR_PAGE_LINK", JSON.stringify(pageLink));
+    }
   }, []);
 
   useEffect(() => {

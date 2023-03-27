@@ -18,16 +18,10 @@ export default function Login() {
   const [pageLink, setPageLink] = useState([]);
 
   useEffect(() => {
-    setPage();
-    window.addEventListener("focus", setPage);
-    function setPage() {
-      let page = ["Home", "Login"];
-      let link = ["/Homepage", "/Login"];
-      setPageList(page);
-      setPageLink(link);
-      window.localStorage.setItem("NAVBAR_PAGE", JSON.stringify(pageList));
-      window.localStorage.setItem("NAVBAR_PAGE_LINK", JSON.stringify(pageLink));
-    }
+    let page = ["Home", "Login"];
+    let link = ["/Homepage", "/Login"];
+    setPageList(page);
+    setPageLink(link);
   }, []);
 
   useEffect(() => {
@@ -38,17 +32,24 @@ export default function Login() {
     window.localStorage.setItem("NAVBAR_PAGE_LINK", JSON.stringify(pageLink));
   }, [pageLink]);
 
-  //RESET SESSION VARIABLES
-  useEffect(() => {
-    window.localStorage.setItem("SESSION_EMAIL", JSON.stringify(""));
-    window.localStorage.setItem("SESSION_USER", JSON.stringify(""));
-  }, []);
-
   //END END END END END END END END END END END END
 
-  // FOR LOGIN
+  const AdminHomepage = () => {
+    let page = ["Home"];
+    let link = ["/AdminHomepage"];
+    setPageList(page);
+    setPageLink(link);
 
-  const [accountValidation, setAccountValidation] = useState("");
+    window.localStorage.setItem("NAVBAR_PAGE", JSON.stringify(pageList));
+    window.localStorage.setItem("NAVBAR_PAGE_LINK", JSON.stringify(pageLink));
+    setTimeout(proceed, 1);
+
+    function proceed() {
+      navigate("/AdminHomepage");
+    }
+  };
+
+  // FOR LOGIN
 
   const [accType, setAccType] = useState("Student");
   var accountType = "loginStudent";
@@ -57,32 +58,30 @@ export default function Login() {
     const data = window.localStorage.getItem("LOGIN_TYPE");
     if (data !== null) setAccType(JSON.parse(data));
     accountType = "login" + JSON.parse(data);
-    //console.log("acctype: " + accountType);
-    //console.log(accountType == "loginStudent");
-    checkData();
-    function checkData() {
-      if (accountType == "loginStudent") {
-        values.username = "randomstring";
-      } else {
-        values.email = "randomstring@random";
-      }
-    }
   });
 
+  useEffect(() => {
+    if (accountType == "loginStudent") {
+      values.username = "randomstring";
+    } else {
+      values.email = "randomstring@string.com";
+    }
+  }, []);
+
+  const [currentUser, setCurrentUser] = useState("");
+
   const onSubmit = async (values, actions) => {
-    //console.log(accountType);
+    console.log(accountType);
     let isStudent = false;
-    let isAdmin = false;
     axios
       .post(
         `http://localhost:80/Prototype-Vite/my-project/api/${accountType}/save`,
         values
       )
       .then(function (response) {
-        //console.log(response.data);
+        console.log(response.data);
         var currentData = JSON.stringify(response.data);
-        setAccountValidation(currentData);
-        //console.log("CURRDATA:" + currentData);
+        console.log(currentData);
         currentData = currentData.replace("{", "");
         currentData = currentData.replace("}", "");
         currentData = currentData.replace('"GivenName":', "");
@@ -110,44 +109,40 @@ export default function Login() {
               }
             }
             if (isEnd) {
-              //console.log(currentData.substring(firstIndex, endIndex));
+              console.log(currentData.substring(firstIndex, endIndex));
               userData.push(currentData.substring(firstIndex, endIndex));
               isEnd = false;
             }
           }
         }
 
-        console.log(currentData);
-        if (currentData != '"Invalid"') {
-          if (currentData.includes(",")) {
-            window.localStorage.setItem(
-              "SESSION_USER",
-              JSON.stringify(userData[0])
-            );
-            window.localStorage.setItem(
-              "SESSION_EMAIL",
-              JSON.stringify(userData[1])
-            );
-            isStudent = true;
-          } else if (currentData != '""' && currentData != "[]") {
-            currentData = currentData.replace(/"/g, "");
-            window.localStorage.setItem(
-              "SESSION_USER",
-              JSON.stringify(currentData)
-            );
-            window.localStorage.setItem("SESSION_EMAIL", JSON.stringify(""));
-            isAdmin = true;
-          }
-        }
-        if (isStudent) {
-          navigate("/Homepage");
-        } else if (isAdmin) {
-          navigate("/AdminHomepage");
+        if (currentData.includes(",")) {
+          window.localStorage.setItem(
+            "SESSION_USER",
+            JSON.stringify(userData[0])
+          );
+          window.localStorage.setItem(
+            "SESSION_EMAIL",
+            JSON.stringify(userData[1])
+          );
+          isStudent = true;
+        } else {
+          currentData = currentData.replace(/"/g, "");
+          window.localStorage.setItem(
+            "SESSION_USER",
+            JSON.stringify(currentData)
+          );
+          window.localStorage.setItem("SESSION_EMAIL", JSON.stringify(""));
         }
       });
 
-    await new Promise((resolve) => setTimeout(resolve, 1));
+    await new Promise((resolve) => setTimeout(resolve, 1000));
     actions.resetForm();
+    if (isStudent) {
+      navigate("/Homepage");
+    } else {
+      navigate("/AdminHomepage");
+    }
   };
 
   const {
@@ -168,19 +163,25 @@ export default function Login() {
     validationSchema: loginSchema,
     onSubmit,
   });
-  //console.log(errors);
+  console.log(errors);
 
   const changeAccountType = () => {
-    setAccountValidation("");
+    const data = window.localStorage.getItem("LOGIN_TYPE");
+    accountType = "login" + JSON.parse(data);
+
     if (accountType == "loginAdmin") {
+      values.username = "randomstring";
       values.email = "";
+      errors.email = "";
       touched.email = false;
 
       accountType = "loginStudent";
       window.localStorage.setItem("LOGIN_TYPE", JSON.stringify("Student"));
       setAccType("Student");
     } else {
+      values.email = "randomstring@string.com";
       values.username = "";
+      errors.username = "";
       touched.username = false;
 
       accountType = "loginAdmin";
@@ -188,6 +189,7 @@ export default function Login() {
       setAccType("Admin");
     }
     touched.password = false;
+    errors.password = "";
     values.password = "";
   };
 
@@ -197,9 +199,7 @@ export default function Login() {
         <div className="grid grid-cols-12 gap-x-10 justify-center">
           <div className="col-span-2">
             <button
-              onClick={function () {
-                changeAccountType();
-              }}
+              onClick={changeAccountType}
               type="button"
               className="ml-9 inline-block lg:px-4 md:px-3 sm:px-2 border-b-4 border-gray-500/90 lg:rounded-tl-2xl lg:rounded-tr-2xl sm:rounded-tl-xl sm:rounded-tr-xl text-white bg-gray-400 text-sm hover:bg-gray-500 hover:border-gray-600"
             >
@@ -221,28 +221,18 @@ export default function Login() {
           <div className="col-span-2"></div>
           <div className="bg-white py-20 rounded-r-3xl border-l-12 border-l-yellow-700 border-b-12 border-b-yellow-900/50 border-r-12 border-r-yellow-900/30 col-span-10">
             <div className="lg:text-4xl sm:text-2xl font-bold text-center">
-              <div className="mb-5 select-none">{accType}</div>
-              <div className="mb-5 select-none">Account Login</div>
+              <div className="mb-5">{accType}</div>
+              <div className="mb-5">Account Login</div>
             </div>
 
-            <div className="p-1  rounded-xl lg:text-2xl  grid place-items-center text-gray-400">
-              <h1 className="select-none">(Log-in to your account)</h1>
-              <p className="text-red-500 text-center text-lg pt-12 pl-6">
-                {accType == "Student"
-                  ? accountValidation == '"Invalid"'
-                    ? "Invalid email or password. Please try again."
-                    : "\u00A0"
-                  : accountValidation == '"Invalid"'
-                  ? "Invalid username or password. Please try again."
-                  : "\u00A0"}
-              </p>
+            <div className="mb-20 p-1  rounded-xl lg:text-2xl  grid place-items-center text-gray-400">
+              <h1>(Log-in to your account)</h1>
             </div>
-
             <div className="mx-5">
-              <form onSubmit={handleSubmit} className="mt-2">
+              <form onSubmit={handleSubmit} className="mt-6">
                 {/* Email Input */}
 
-                <div className="grid grid-rows-2 text-left h-20">
+                <div className="grid grid-rows-2 text-left mt-10 h-20">
                   <div className="flex">
                     <label
                       className={`mr-2 text-lg mt-1.5 font-semibold ${
@@ -253,9 +243,6 @@ export default function Login() {
                       {accType == "Student" ? "Email:" : "Username:"}
                     </label>
                     <input
-                      onFocus={function () {
-                        setAccountValidation("");
-                      }}
                       className={`bg-[#e0e0e0] rounded-full w-full text-lg text-gray-700 px-4  py-1.5 mr-3  ${
                         accType == "Student"
                           ? errors.email && touched.email
@@ -311,9 +298,6 @@ export default function Login() {
                       Password:{" "}
                     </label>
                     <input
-                      onFocus={function () {
-                        setAccountValidation("");
-                      }}
                       className={` bg-[#e0e0e0] rounded-full w-full text-lg text-gray-700 px-4  py-1.5 mr-3 ${
                         errors.password && touched.password
                           ? " border-red-500 focus:border-red-500 border-2 border-solid"
@@ -340,11 +324,11 @@ export default function Login() {
                 </div>
 
                 {/* Login Button */}
-                <div className=" mt-12 mb-8 text-center w-full ">
+                <div className=" mt-6 mb-8 text-center w-full ">
                   <button
                     disabled={isSubmitting}
                     type="submit"
-                    className="bg-lime-600 rounded-5xl w-1/2 py-2 lg:text-lg sm:text-md font-semibold hover:bg-lime-700 text-white ease-in-out transition duration-200 transform"
+                    className="bg-lime-600 rounded-5xl w-1/2 py-2 lg:text-lg sm:text-md font-semibold hover:bg-lime-700 text-white cursor-pointer"
                   >
                     <span className="text-xl font-semibold">LOG-IN </span>
                   </button>

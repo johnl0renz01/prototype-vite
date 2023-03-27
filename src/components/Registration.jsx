@@ -7,6 +7,8 @@ import { useNavigate } from "react-router-dom";
 import * as ReactDOM from "react-dom";
 import $ from "jquery";
 
+import RegistrationModal from "./RegistrationModal";
+
 function Registration() {
   document.body.style.height = "100vh";
   const navigate = useNavigate();
@@ -15,10 +17,16 @@ function Registration() {
   const [pageLink, setPageLink] = useState([]);
 
   useEffect(() => {
-    let page = ["Home", "Registration"];
-    let link = ["/AdminHomepage", "/Registration"];
-    setPageList(page);
-    setPageLink(link);
+    setPage();
+    window.addEventListener("focus", setPage);
+    function setPage() {
+      let page = ["Home", "Registration"];
+      let link = ["/AdminHomepage", "/Registration"];
+      setPageList(page);
+      setPageLink(link);
+      window.localStorage.setItem("NAVBAR_PAGE", JSON.stringify(pageList));
+      window.localStorage.setItem("NAVBAR_PAGE_LINK", JSON.stringify(pageLink));
+    }
   }, []);
 
   useEffect(() => {
@@ -43,9 +51,11 @@ function Registration() {
         //window.location.reload(false);
       });
     await new Promise((resolve) => setTimeout(resolve, 1));
+    setShowModal(true);
     actions.resetForm();
 
     //ADDITIONAL RESET
+    /*
     setBirthday("");
     setAge("");
     setFirstName("");
@@ -54,6 +64,7 @@ function Registration() {
     values.age = "";
     values.firstName = "";
     values.lastName = "";
+    */
   };
 
   const [currentAge, setAge] = useState("");
@@ -193,9 +204,13 @@ function Registration() {
     onSubmit,
   });
 
+  //For Pen
+  const [showModal, setShowModal] = useState(false);
+  const handleOnCloseModal = () => setShowModal(false);
+
   return (
     <>
-      <div className="mx-auto my-16 w-2/3">
+      <div className="mx-auto my-24 w-2/3">
         <div className=" bg-white rounded-5xl shadow-2xl shadow-yellow-400">
           <div className="grid grid-cols-12 row-span-1 bg-mainBGBrown py-8 -mt-2  rounded-t-5xl shadow-md shadow-yellow-800/30 border-yellow-800 border-l-12 border-r-brTwo border-r-12">
             <div className="bg-black/30 rounded-full pt-2 mx-6 shadow-lg shadow-yellow-700 w-1/2">
@@ -288,7 +303,12 @@ function Registration() {
             </div>
             <hr></hr>
 
-            <form onSubmit={handleSubmit} action="" className="overflow-hidden">
+            <form
+              onSubmit={handleSubmit}
+              action=""
+              className="overflow-hidden"
+              autocomplete="off"
+            >
               <main className="py-12 pr-12 min-w-fit font-poppins font-semibold  overflow-hidden">
                 <div className="grid grid-cols-3 gap-x-3 ">
                   {/*FirstName Input*/}
@@ -337,21 +357,12 @@ function Registration() {
                         type="text "
                         placeholder="Enter Middle Name"
                         autoComplete="new-password"
-                        className={`grow p-2 border-2  rounded-md relative border-gray-500 focus:outline-teal-500 focus:ring-teal-500 shadow-sm  shadow-[#808080] ${
-                          errors.middleName && touched.middleName
-                            ? " shadow-red-500 border-red-500 focus:border-red-500 border-3 border-solid"
-                            : ""
-                        }`}
+                        className={`grow p-2 border-2  rounded-md relative border-gray-500 focus:outline-teal-500 focus:ring-teal-500 shadow-sm  shadow-[#808080]`}
                         value={values.middleName}
                         onChange={handleChange}
                         onBlur={handleBlur}
                       />
                     </div>
-                    {errors.middleName && touched.middleName && (
-                      <p className="text-red-500 absolute ml-[120px] ">
-                        {errors.middleName}
-                      </p>
-                    )}
                   </div>
 
                   {/*LastName Input*/}
@@ -671,6 +682,7 @@ function Registration() {
           </div>
         </div>
       </div>
+      <RegistrationModal onClose={handleOnCloseModal} visible={showModal} />
     </>
   );
 }

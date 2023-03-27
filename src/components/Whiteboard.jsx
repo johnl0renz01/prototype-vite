@@ -5,6 +5,10 @@ import { useNavigate } from "react-router-dom";
 import * as ReactDOM from "react-dom";
 import $ from "jquery";
 
+import HintModal from "./HintModal";
+import VideoModal from "./VideoModal";
+import PenModal from "./PenModal";
+
 import EquationSolver from "./equationSolver";
 import MY_API_KEY from "./API_KEY";
 
@@ -17,10 +21,17 @@ export default function Whiteboard() {
   const [pageLink, setPageLink] = useState([]);
 
   useEffect(() => {
-    let page = ["Home", "Difficulty", "Whiteboard"];
-    let link = ["/Homepage", "/Difficulty", "/Whiteboard"];
-    setPageList(page);
-    setPageLink(link);
+    setPage();
+
+    window.addEventListener("focus", setPage);
+    function setPage() {
+      let page = ["Home", "Difficulty", "Whiteboard"];
+      let link = ["/Homepage", "/Difficulty", "/Whiteboard"];
+      setPageList(page);
+      setPageLink(link);
+      window.localStorage.setItem("NAVBAR_PAGE", JSON.stringify(pageList));
+      window.localStorage.setItem("NAVBAR_PAGE_LINK", JSON.stringify(pageLink));
+    }
   }, []);
 
   useEffect(() => {
@@ -262,18 +273,31 @@ export default function Whiteboard() {
   const wrongColor = "#ff5842";
   const angryColor = "#f51d00";
 
+  //WRONBGWROGNWROW
+
+  /*
+  useEffect(() => {
+    window.history.pushState(null, null, document.URL);
+    window.addEventListener("popstate", function (event) {
+      window.location.replace(history.back());
+    });
+  }, []);
+  */
+
   window.addEventListener("beforeunload", function (e) {
     // Cancel the event
     e.preventDefault(); // If you prevent default behavior in Mozilla Firefox prompt will always be shown
     // Chrome requires returnValue to be set
     e.returnValue = "";
   });
+
   //=========================
   //PHP CONNECT START
 
   //GET USERLOGS
+  /*
   {
-    /*
+    
   const [logs, setLogs] = useState([]);
     useEffect(() => {
         getLogs();
@@ -285,8 +309,10 @@ export default function Whiteboard() {
           setLogs(response.data);
       });
   }
-*/
+
   }
+  */
+
   //PUT LOGS IN DATABASE
   const [inputs, setInputs] = useState([]);
 
@@ -711,6 +737,20 @@ export default function Whiteboard() {
     getHeight();
   });
 
+  {
+    /*ITO DINADAG KO FOR MODAL */
+  }
+  //For Hint
+  const [showMyModal, setShowMyModal] = useState(false);
+  const handleOnClose = () => setShowMyModal(false);
+  //For Video
+  const [showMyVideo, setShowMyVideo] = useState(false);
+  const handleOnCloseVideo = () => setShowMyVideo(false);
+
+  //For Pen
+  const [showMyPen, setShowMyPen] = useState(false);
+  const handleOnClosePen = () => setShowMyPen(false);
+
   return (
     <>
       {/*<!--Container pang edit ng grids-->*/}
@@ -774,6 +814,7 @@ export default function Whiteboard() {
                   {...(isHelp ? { dataTooltipPosition: "right" } : {})}
                 >
                   <svg
+                    onClick={() => setShowMyModal(true)}
                     className={`cursor-pointer fill-yellow-400/90 h-11 w-11 text-black/50 bg-yellow-400/90 rounded-full hover:fill-yellow-300/90 hover:bg-yellow-300/90 hover:text-white/70 p-1 ${
                       isHelp ? "hover:border-3 hover:border-white " : ""
                     }`}
@@ -804,6 +845,7 @@ export default function Whiteboard() {
                   {...(isHelp ? { dataTooltipPosition: "right" } : {})}
                 >
                   <svg
+                    onClick={() => setShowMyVideo(true)}
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
                     stroke-width="1.5"
@@ -840,6 +882,7 @@ export default function Whiteboard() {
                   {...(isHelp ? { dataTooltipPosition: "right" } : {})}
                 >
                   <svg
+                    onClick={() => setShowMyPen(true)}
                     className={`cursor-pointer fill-lime-700/90 h-11 w-11 text-black/50 bg-lime-700/90 rounded-full hover:fill-lime-600/90 hover:bg-lime-600/90 hover:text-white p-1 ${
                       isHelp ? "hover:border-3 hover:border-white " : ""
                     }`}
@@ -849,7 +892,7 @@ export default function Whiteboard() {
                     stroke-linecap="round"
                     stroke-linejoin="round"
                   >
-                    {!isHelp && <title>Draw</title>}{" "}
+                    {!isHelp && <title>Draw</title>}
                     <path stroke="none" d="M0 0h24v24H0z" />{" "}
                     <path d="M4 20h4l10.5 -10.5a1.5 1.5 0 0 0 -4 -4l-10.5 10.5v4" />{" "}
                     <line x1="13.5" y1="6.5" x2="17.5" y2="10.5" />
@@ -1170,6 +1213,9 @@ export default function Whiteboard() {
           </div>
         </div>
       </div>
+      <HintModal onClose={handleOnClose} visible={showMyModal} />
+      <VideoModal onClose={handleOnCloseVideo} visible={showMyVideo} />
+      <PenModal onClose={handleOnClosePen} visible={showMyPen} />
     </>
   );
 }

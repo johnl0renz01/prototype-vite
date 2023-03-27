@@ -20,6 +20,7 @@ function Navbar() {
   //FOR LINKS/NAVBAR/BREADCRUMBS
   const [pageList, setPageList] = useState([]);
   const [pageLink, setPageLink] = useState([]);
+  const [currentUser, setCurrentUser] = useState("");
 
   const length = pageList.length;
 
@@ -36,12 +37,19 @@ function Navbar() {
     setPageLink(JSON.parse(data));
   }, []);
 
+  useEffect(() => {
+    const data = window.localStorage.getItem("SESSION_USER");
+    setCurrentUser(JSON.parse(data));
+  }, []);
+
   // UPDATE DATA ON HOVER asdasd
   function updateData() {
     const page = window.localStorage.getItem("NAVBAR_PAGE");
     setPageList(JSON.parse(page));
     const link = window.localStorage.getItem("NAVBAR_PAGE_LINK");
     setPageLink(JSON.parse(link));
+    const user = window.localStorage.getItem("SESSION_USER");
+    setCurrentUser(JSON.parse(user));
   }
 
   const Login = () => {
@@ -83,6 +91,12 @@ function Navbar() {
     function proceed() {
       navigate("/AdminHomepage");
     }
+  };
+
+  const signOut = () => {
+    window.localStorage.setItem("SESSION_USER", JSON.stringify(""));
+    window.localStorage.setItem("SESSION_EMAIL", JSON.stringify(""));
+    navigate("/Login");
   };
 
   return (
@@ -132,12 +146,22 @@ function Navbar() {
             <ul className="p-4">
               <Menu as="div" className="relative inline-block text-left">
                 <div>
-                  <Menu.Button className="inline-flex w-full justify-center rounded-md  bg-white px-4 py-1 lg:text-xl font-normal text-gray-700  hover:bg-gray-100 focus:outline-none  focus:ring-offset-gray-200">
-                    <span>Username</span>
+                  <Menu.Button
+                    onClick={function () {
+                      currentUser == "" ? navigate("/Login") : "";
+                    }}
+                    className="inline-flex w-full justify-center rounded-md  bg-white px-3 py-1.5 lg:text-xl font-normal text-gray-700  hover:bg-gray-100 focus:outline-none  focus:ring-offset-gray-200"
+                  >
+                    {currentUser != "" ? currentUser : "Login"}
+
                     <ChevronDownIcon
-                      className="ml-2 mt-1.5 h-5 w-5 "
+                      className={` ${
+                        currentUser == ""
+                          ? "invisible aria-disabled:"
+                          : "visible h-5 w-5 ml-2 mt-1.5"
+                      }`}
                       aria-hidden="true"
-                    />
+                    ></ChevronDownIcon>
                   </Menu.Button>
                 </div>
 
@@ -150,25 +174,27 @@ function Navbar() {
                   leaveFrom="transform opacity-100 scale-100"
                   leaveTo="transform opacity-0 scale-95"
                 >
-                  <Menu.Items className="absolute right-0 z-10 mt-2 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                  <Menu.Items
+                    className={`absolute right-0 z-10 mt-2 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none ${
+                      currentUser == "" ? "invisible" : "visible"
+                    }`}
+                  >
                     <div className="py-1">
-                      <form method="POST" action="#">
-                        <Menu.Item>
-                          {({ active }) => (
-                            <button
-                              type="submit"
-                              className={classNames(
-                                active
-                                  ? "bg-gray-100 text-gray-900"
-                                  : "text-gray-700",
-                                "block w-full px-4 py-2 text-left text-sm"
-                              )}
-                            >
-                              Sign out
-                            </button>
-                          )}
-                        </Menu.Item>
-                      </form>
+                      <Menu.Item>
+                        {({ active }) => (
+                          <button
+                            onClick={signOut}
+                            className={classNames(
+                              active
+                                ? "bg-gray-100 text-gray-900"
+                                : "text-gray-700",
+                              "block w-full px-4 py-2 text-left text-sm"
+                            )}
+                          >
+                            Sign out
+                          </button>
+                        )}
+                      </Menu.Item>
                     </div>
                   </Menu.Items>
                 </Transition>

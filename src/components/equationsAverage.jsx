@@ -3,42 +3,53 @@ var EquationGeneratorAverage = (function () {
   function generateEquations() {
     averageEquationList = [];
     const lhsSchemas = [
-      "2x @ 3",
-      "2x @ 3 @ 3",
-      "3 @ 2x",
-      "3 @ 2x @ 3",
-      "3 @ 2x",
-      "3 @ 3 @ 2x",
+      "2x * 3",
+      "2x * 3 * 3",
+      "3 * 2x",
+      "3 * 2x * 3",
+      "3 * 2x",
+      "3 * 3 * 2x",
 
-      "2x @ 3 @ 2x",
-      "3 @ 2x @ 2x",
-      "2x @ 2x @ 3",
-      "2x @ 2x @ 3 @ 3",
-      "2x @ 3 @ 2x @ 3",
-      "2x @ 3 @ 3 @ 2x",
-      "3 @ 2x @ 3 @ 2x",
-      "3 @ 2x @ 2x @ 3",
-      "3 @ 3 @ 2x @ 2",
+      "2x * 3 @ 2x",
+      "2x @ 3 * 2x",
+      "3 * 2x @ 2x",
+      "2x @ 2x * 3",
+      "2x @ 2x * 3 @ 3",
+      "2x @ 2x @ 3 * 3",
+      "2x @ 2x * 3 * 3",
+
+      "2x * 3 @ 2x @ 3",
+      "2x @ 3 * 2x @ 3",
+      "2x @ 3 @ 2x * 3",
+      "2x * 3 @ 2x * 3",
+      "2x @ 3 * 2x * 3",
+
+      "2x * 3 @ 3 @ 2x",
+      "2x @ 3 @ 3 * 2x",
+      "2x @ 3 * 3 @ 2x",
+      "2x * 3 * 3 @ 2x",
+      "2x @ 3 * 3 * 2x",
+      "2x * 3 @ 3 * 2x",
+
+      "3 * 2x @ 3 @ 2x",
+      "3 @ 2x * 3 @ 2x",
+      "3 @ 2x @ 3 * 2x",
+      "3 * 2x * 3 @ 2x",
+      "3 * 2x @ 3 * 2x",
+
+      "3 * 2x @ 2x @ 3",
+      "3 @ 2x @ 2x * 3",
+      "3 * 2x @ 2x * 3",
+
+      "3 * 3 @ 2x @ 2",
+      "3 @ 3 @ 2x * 2",
+      "3 @ 3 * 2x @ 2",
+      "3 * 3 * 2x @ 2",
+      "3 @ 3 * 2x * 2",
+      "3 * 3 * 2x * 2",
     ];
 
-    const rhsSchemas = [
-      "2x @ 3",
-      "2x @ 3 @ 3",
-      "3 @ 2x",
-      "3 @ 2x @ 3",
-      "3 @ 2x",
-      "3 @ 3 @ 2x",
-
-      "2x @ 3 @ 2x",
-      "3 @ 2x @ 2x",
-      "2x @ 2x @ 3",
-      "2x @ 2x @ 3 @ 3",
-      "2x @ 3 @ 2x @ 3",
-      "2x @ 3 @ 3 @ 2x",
-      "3 @ 2x @ 3 @ 2x",
-      "3 @ 2x @ 2x @ 3",
-      "3 @ 3 @ 2x @ 2",
-    ];
+    const rhsSchemas = lhsSchemas;
 
     // GENERATE 10 EQUATIONS
     for (let i = 0; i < 10; i++) {
@@ -63,7 +74,8 @@ var EquationGeneratorAverage = (function () {
       //console.log(combinedSchema)
       averageEquationList.push(combinedSchema);
     }
-    const availableOperations = ["+", "-"]; //Double addition to increase chance
+    const availableOperations = ["+", "+", "-"]; //Double operation to increase chance
+    const anotherOperations = ["+", "-", "*", "*", "*", "*", "*"]; //With multiplication
 
     addOperations();
     changeValues();
@@ -78,9 +90,17 @@ var EquationGeneratorAverage = (function () {
             availableOperations[
               Math.floor(Math.random() * availableOperations.length)
             ];
+          const anotherOperation =
+            anotherOperations[
+              Math.floor(Math.random() * anotherOperations.length)
+            ];
           averageEquationList[i] = averageEquationList[i].replace(
             "@",
             operation
+          );
+          averageEquationList[i] = averageEquationList[i].replace(
+            "*",
+            anotherOperation
           );
         }
       }

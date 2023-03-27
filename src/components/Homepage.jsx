@@ -16,12 +16,19 @@ export default function Homepage() {
   //FOR LINKS/NAVBAR/BREADCRUMBS
   const [pageList, setPageList] = useState([]);
   const [pageLink, setPageLink] = useState([]);
+  const [currentUser, setCurrentUser] = useState(false);
 
   useEffect(() => {
-    let page = ["Home"];
-    let link = ["/Homepage"];
-    setPageList(page);
-    setPageLink(link);
+    setPage();
+    window.addEventListener("focus", setPage);
+    function setPage() {
+      let page = ["Home"];
+      let link = ["/Homepage"];
+      setPageList(page);
+      setPageLink(link);
+      window.localStorage.setItem("NAVBAR_PAGE", JSON.stringify(pageList));
+      window.localStorage.setItem("NAVBAR_PAGE_LINK", JSON.stringify(pageLink));
+    }
   }, []);
 
   useEffect(() => {
@@ -31,6 +38,15 @@ export default function Homepage() {
   useEffect(() => {
     window.localStorage.setItem("NAVBAR_PAGE_LINK", JSON.stringify(pageLink));
   }, [pageLink]);
+
+  useEffect(() => {
+    const data = window.localStorage.getItem("SESSION_USER");
+    if (data != "" && data != '""' && data != undefined) {
+      setCurrentUser(true);
+    } else {
+      setCurrentUser(false);
+    }
+  });
 
   //END END END END END END END END END END END END
 
@@ -52,7 +68,7 @@ export default function Homepage() {
   return (
     <>
       <section className="grid place-items-center">
-        <div className="py-16 w-2/3">
+        <div className="py-24 w-2/3">
           <div className="bg-white border-l-12 border-b-12 border-gray-600/60 border-r-12 border-r-gray-300/80 px-8 py-2 rounded-6xl shadow-2xl shadow-yellow-400 ">
             <div className="px-4 py-16 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-20 ">
               <div className="lg:flex w-full overflow-hidden bg-white rounded-6xl sm:mx-auto">
@@ -80,10 +96,20 @@ export default function Homepage() {
                       support students in learning their academic lessons.
                     </p>
                   </div>
-                  <div className="flex mx-auto ">
+                  <div className="flex mx-auto  ">
                     <button
-                      onClick={DifficultyPage}
-                      className="mt-10 inline-flex items-center justify-center text-xl rounded-full h-12 lg:px-28 md:lg:px-28 px-16 mr-6 font-medium tracking-wide text-white shadow-md bg-yellow-600 hover:bg-yellow-700 focus:shadow-outline focus:outline-none hover:-translate-y-0.5 ease-in-out transition duration-200 transform"
+                      onClick={currentUser ? DifficultyPage : ""}
+                      className={`mt-10 inline-flex items-center justify-center text-xl rounded-full h-12 lg:px-28 md:lg:px-28 px-16 mr-6 font-medium tracking-wide  shadow-md   
+                      ${
+                        !currentUser
+                          ? "aria-disabled: text-gray-100 bg-gray-500/50 cursor-help"
+                          : "text-white bg-yellow-600 hover:bg-yellow-700 focus:shadow-outline focus:outline-none hover:-translate-y-0.5 ease-in-out transition duration-200 transform"
+                      }`}
+                      {...(!currentUser
+                        ? {
+                            title: "Log-in to your account to start.",
+                          }
+                        : {})}
                     >
                       Start
                     </button>

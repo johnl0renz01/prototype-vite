@@ -14,10 +14,17 @@ export default function AdminHomepage() {
   const [pageLink, setPageLink] = useState([]);
 
   useEffect(() => {
-    let page = ["Home"];
-    let link = ["/AdminHomepage"];
-    setPageList(page);
-    setPageLink(link);
+    setPage();
+
+    window.addEventListener("focus", setPage);
+    function setPage() {
+      let page = ["Home"];
+      let link = ["/AdminHomepage"];
+      setPageList(page);
+      setPageLink(link);
+      window.localStorage.setItem("NAVBAR_PAGE", JSON.stringify(pageList));
+      window.localStorage.setItem("NAVBAR_PAGE_LINK", JSON.stringify(pageLink));
+    }
   }, []);
 
   useEffect(() => {
@@ -71,7 +78,7 @@ export default function AdminHomepage() {
   return (
     <>
       <section className="grid place-items-center">
-        <div className="py-16 w-2/3">
+        <div className="py-20 w-2/3">
           <main className="relative bg-white border-l-12 border-b-12 border-gray-600/60 border-r-12 border-r-gray-300/80  rounded-6xl shadow-2xl shadow-yellow-400 ">
             <div className=" border-b-16 px-8 pt-16 border-mainBGBrown overflow-hidden">
               <div class="relative w-full select-none">
@@ -128,12 +135,12 @@ export default function AdminHomepage() {
                 </div>
               </div>
 
-              <div className="relative flex justify-evenly border-t-2 px-8 border-gray-500 py-9">
+              <div className="relative flex justify-evenly border-t-2 px-8 border-gray-500 py-9 pb-16">
                 <div>
                   <a onClick={RegistrationPage}>
                     <button className=" text-center mx-2  text-white font-bold lg:w-full  lg:p-5  rounded-full shadow-md bg-yellow-600 hover:bg-yellow-700 hover:-translate-y-1 ease-in-out transition duration-200 transform ">
                       <span className="lg:text-3xl md:text-xl font-poppins font-semibold">
-                        Register student
+                        Register Student
                       </span>
                     </button>
                   </a>
