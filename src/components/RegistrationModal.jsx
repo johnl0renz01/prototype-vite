@@ -14,7 +14,7 @@ const RegistrationModal = ({ visible, onClose }) => {
       <div
         id="mainContainer"
         onClick={handleOnClose}
-        className="fixed top-0 inset-0 bg-black bg-opacity-50 backdrop-blur-[2px] flex justify-center items-center "
+        className="fixed top-0 inset-0 z-50 bg-black bg-opacity-50 backdrop-blur-[1.5px] flex justify-center items-center "
       >
         <div className="bg-white  rounded text-lg  ">
           <div className="text-right bg-gray-400 border-b-2 border-gray-300">
@@ -29,7 +29,7 @@ const RegistrationModal = ({ visible, onClose }) => {
             <div className="p-4 ">
               The account have been registered successfully.
             </div>
-            <div className="mx-auto text-center border-t-2 border-gray-300 py-2 ">
+            <div className="mx-auto text-center border-t-2 border-gray-300 py-3 ">
               <button
                 onClick={onClose}
                 className="bg-gray-400/60 h-8 w-20 inline-block rounded-2xl hover:bg-gray-400 hover:text-gray-100"

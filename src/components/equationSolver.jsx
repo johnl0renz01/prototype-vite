@@ -2,7 +2,7 @@ var EquationSolver = (function () {
   var questionString = "";
   var equation = "";
   var equationSteps = [];
-  var coefficientLetter = "";
+  var currentCoefficientLetter = "";
 
   var getEquationAnswer = function () {
     try {
@@ -12,6 +12,10 @@ var EquationSolver = (function () {
         return equation;
       }
       equation = equation.replace(/\s/g, "");
+      if (equation.split("=").length - 1 > 1) {
+        equation = "invalid";
+        return equation;
+      }
 
       // Separate the left-hand and right-hand side of the equation
       var [lhs, rhs] = equation.split("=").map((side) => side.trim());
@@ -31,16 +35,46 @@ var EquationSolver = (function () {
         rhs = ["0+", rhs, "="].join("");
       }
 
+      var coefficientLetter = "";
+      var errorOccured = false;
+
       checkLHS = true;
       checkParenthesis(lhs);
       checkRHS = true;
       checkParenthesis(rhs);
 
+      currentCoefficientLetter = coefficientLetter;
+
+      for (let i = 1; i < equation.length; i++) {
+        let firstCharacter = equation[i - 1];
+        let secondCharacter = equation[i];
+        if (firstCharacter == coefficientLetter) {
+          if (secondCharacter == coefficientLetter) {
+            errorOccured = true;
+            break;
+          } else if (secondCharacter.match(/[0-9]/)) {
+            errorOccured = true;
+            break;
+          }
+        }
+      }
+
+      if (errorOccured) {
+        equation = "invalid";
+        return equation;
+      }
+
       function checkParenthesis(currentString) {
         let coefficientSymbol = "";
         for (let i = 1; i < currentString.length; i++) {
           if (currentString[i].match(/[a-z]/)) {
-            coefficientSymbol = currentString[i];
+            if (coefficientLetter == "") {
+              coefficientSymbol = currentString[i];
+              coefficientLetter = coefficientSymbol;
+            } else if (coefficientLetter != currentString[i]) {
+              errorOccured = true;
+              break;
+            }
           }
 
           if (currentString[i].match(/[\(]/) && i > 0) {
@@ -312,14 +346,12 @@ var EquationSolver = (function () {
                 let closeParenthesisSymbol = "";
                 //  console.log(currentString[i+1])
                 if (currentString[i + 1].match(/[\+\-\*]/)) {
-                  console.log("???");
+                  //console.log("???");
                   parenthesisTally--;
 
                   isFinished = false;
                   insideParenthesisTally--;
-                  console.log(
-                    "Inside parenthesis tally: " + insideParenthesisTally
-                  );
+                  //console.log("Inside parenthesis tally: " + insideParenthesisTally);
 
                   for (let j = 0; j < insideParenthesisTally; j++) {
                     closeParenthesisSymbol = closeParenthesisSymbol.concat(")");
@@ -740,7 +772,7 @@ var EquationSolver = (function () {
                 );
                 removeConstant();
               } else {
-                console.log("SECOND IF ");
+                // console.log("SECOND IF ");
                 if (closeParenthesisIndex != null) {
                   let expressionBeforeParenthesis = "";
                   let newParenthesisIndex = 0;
@@ -949,7 +981,7 @@ var EquationSolver = (function () {
               lhsFinalCoefficient = currentCoefficient;
             }
           } else {
-            console.log(lhsFinalCoefficient);
+            //console.log(lhsFinalCoefficient);
             lhsFinalCoefficient = eval(currentCoefficient);
           }
           LHScoefficientSymbol = coefficient;
@@ -963,7 +995,7 @@ var EquationSolver = (function () {
               rhsFinalCoefficient = currentCoefficient;
             }
           } else {
-            console.log(rhsFinalCoefficient);
+            //console.log(rhsFinalCoefficient);
             rhsFinalCoefficient = eval(currentCoefficient);
           }
           RHScoefficientSymbol = coefficient;
@@ -979,7 +1011,7 @@ var EquationSolver = (function () {
 
       // Solving Process
       //ABC console.log("*************************");
-      console.log(rhsFinalConstant);
+      // console.log(rhsFinalConstant);
       lhsFinalConstant = eval(lhsFinalConstant);
       rhsFinalConstant = eval(rhsFinalConstant);
 
@@ -1024,28 +1056,28 @@ var EquationSolver = (function () {
       var rhsCoefficient = rhsFinalCoefficient.toString();
       var rhsConstant = rhsFinalConstant.toString();
 
-      if (lhsCoefficient === "0") {
+      if (lhsCoefficient == "0" || lhsCoefficient === undefined) {
         lhsCoefficient = "";
       }
 
-      if (rhsCoefficient === "0") {
+      if (rhsCoefficient == "0" || rhsCoefficient === undefined) {
         rhsCoefficient = "";
       }
 
-      if (lhsConstant === "0") {
+      if (lhsConstant == "0" || lhsConstant === undefined) {
         lhsConstant = "";
       }
 
-      if (rhsConstant === "0") {
+      if (rhsConstant == "0" || rhsConstant === undefined) {
         rhsConstant = "";
       }
 
       // FIX SYMBOLS
-      if (lhsCoefficient != "") {
+      if (lhsCoefficient != "" && lhsConstant != "") {
         lhsConstant = checkSymbol(lhsConstant);
       }
 
-      if (rhsCoefficient != "") {
+      if (rhsCoefficient != "" && rhsConstant != "") {
         rhsConstant = checkSymbol(rhsConstant);
       }
 
@@ -1099,8 +1131,12 @@ var EquationSolver = (function () {
         );
       }
 
-      rhsCoefficient = reverseOperation(rhsCoefficient);
-      lhsConstant = reverseOperation(lhsConstant);
+      if (rhsCoefficient != "") {
+        rhsCoefficient = reverseOperation(rhsCoefficient);
+      }
+      if (lhsConstant != "") {
+        lhsConstant = reverseOperation(lhsConstant);
+      }
 
       if (lhsCoefficient === "") {
         rhsCoefficient = rhsCoefficient.replace("+", "");
@@ -1113,17 +1149,31 @@ var EquationSolver = (function () {
       rhsConstant = removePlusSymbol(rhsConstant);
 
       //Push second step, add/minus to opposite
-      stepsArray.push(
-        [
-          lhsCoefficient,
-          LHScoefficientSymbol,
-          rhsCoefficient,
-          RHScoefficientSymbol,
-          "=",
-          rhsConstant,
-          lhsConstant,
-        ].join("")
-      );
+      checkSimilarity = [
+        lhsCoefficient,
+        LHScoefficientSymbol,
+        lhsConstant,
+        "=",
+        rhsCoefficient,
+        RHScoefficientSymbol,
+        rhsConstant,
+      ].join("");
+
+      if (checkSimilarity != equation) {
+        if (checkSimilarity != stepsArray[0]) {
+          stepsArray.push(
+            [
+              lhsCoefficient,
+              LHScoefficientSymbol,
+              rhsCoefficient,
+              RHScoefficientSymbol,
+              "=",
+              rhsConstant,
+              lhsConstant,
+            ].join("")
+          );
+        }
+      }
 
       //console.log("lhsFinalCoefficient " + lhsFinalCoefficient)
       //console.log("lhsFinalConstant " + lhsFinalConstant)
@@ -1139,17 +1189,56 @@ var EquationSolver = (function () {
       finalConstant = eval(finalConstant);
 
       //Push third step, simplify
-      stepsArray.push(
-        [finalCoefficient, coefficientSymbol, "=", finalConstant].join("")
-      );
+
+      checkSimilarity = [
+        finalCoefficient,
+        coefficientSymbol,
+        "=",
+        finalConstant,
+      ].join("");
+
+      if (checkSimilarity != equation) {
+        if (
+          checkSimilarity != stepsArray[0] &&
+          checkSimilarity != stepsArray[1]
+        ) {
+          stepsArray.push(
+            [finalCoefficient, coefficientSymbol, "=", finalConstant].join("")
+          );
+        }
+      }
 
       var x = constantDifference / coefficientDifference;
 
       x = Math.round(x * 100 + Number.EPSILON) / 100;
-      console.log(`The solution for ${equation} is: x = ${x}`);
+      //console.log(`The solution for ${equation} is: x = ${x}`);
+
+      //Check if the equation is similar to solution
+      let finalAnswer = coefficientSymbol + "=" + x;
+      if (equation == finalAnswer) {
+        equation = "solved";
+        return equation;
+      }
+
+      //REVERSED
+      finalAnswer = x + "=" + coefficientSymbol;
+      if (equation == finalAnswer) {
+        equation = "solved";
+        return equation;
+      }
 
       //Push fourth step, final answer
-      stepsArray.push(["x=", x].join(""));
+      stepsArray.push([coefficientSymbol, "=", x].join(""));
+
+      let search1 = "1" + coefficientLetter;
+      let search2 = "-1" + coefficientLetter;
+      let find1 = new RegExp(search1, "gi");
+      let find2 = new RegExp(search2, "gi");
+
+      for (let i = 0; i < stepsArray.length; i++) {
+        stepsArray[i] = stepsArray[i].replace(find1, coefficientLetter);
+        stepsArray[i] = stepsArray[i].replace(find2, "-" + coefficientLetter);
+      }
 
       x = x.toString();
       equation = x;
@@ -1157,7 +1246,7 @@ var EquationSolver = (function () {
       return equation;
     } catch {
       equation = "invalid";
-      console.log("NAG INVALID lods");
+      // console.log("NAG INVALID lods");
       return equation;
     }
   };
@@ -1171,7 +1260,7 @@ var EquationSolver = (function () {
   };
 
   var getCoefficientLetter = function () {
-    return coefficientLetter;
+    return currentCoefficientLetter;
   };
 
   return {

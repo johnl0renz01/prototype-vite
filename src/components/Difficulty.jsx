@@ -13,6 +13,9 @@ import EquationGeneratorEasy from "./equationsEasy";
 import EquationGeneratorAverage from "./equationsAverage";
 import EquationGeneratorDifficult from "./equationsDifficult";
 
+import DifficultyModal from "./DifficultyModal";
+import EndSession from "./EndSession";
+
 export default function DifficultyPage() {
   document.body.style.height = "100vh";
   const navigate = useNavigate();
@@ -33,6 +36,26 @@ export default function DifficultyPage() {
       window.localStorage.setItem("NAVBAR_PAGE", JSON.stringify(pageList));
       window.localStorage.setItem("NAVBAR_PAGE_LINK", JSON.stringify(pageLink));
     }
+
+    //NEXTA SDSADASDASDAS
+    window.removeEventListener("popstate", (event) => {
+      if (
+        confirm("Are you sure you want to save this thing into the database?")
+      ) {
+        // Save it!
+        console.log("Thing was saved to the database.");
+      } else {
+        // Do nothing!
+        console.log("Thing was not saved to the database.");
+      }
+    });
+
+    window.removeEventListener("beforeunload", function (e) {
+      // Cancel the event
+      e.preventDefault(); // If you prevent default behavior in Mozilla Firefox prompt will always be shown
+      // Chrome requires returnValue to be set
+      e.returnValue = "";
+    });
   }, []);
 
   useEffect(() => {
@@ -71,9 +94,11 @@ export default function DifficultyPage() {
     if (data !== null) setQuestions(JSON.parse(data));
   }, []);
 
+  /*
   useEffect(() => {
     window.localStorage.setItem("QUESTION_LIST", JSON.stringify(questionList));
   }, [questionList]);
+*/
 
   /*
     const getData = () => {
@@ -110,6 +135,7 @@ export default function DifficultyPage() {
     };
    */
   const [option, setOption] = useState("");
+  const [diffType, setDiffType] = useState("");
   const [picked, isPicked] = useState(false);
 
   //var difficultyType = "";
@@ -129,27 +155,30 @@ export default function DifficultyPage() {
   */
 
   const easyType = () => {
-    equationList = EquationGeneratorEasy.getEquationList();
+    equationList = EquationGeneratorEasy.getEquationList(20);
     setQuestions(equationList);
     setOption("easy");
+    setDiffType("Easy");
     isPicked(true);
     resetCheck();
     ReactDOM.findDOMNode(option_1).style.visibility = "visible";
   };
 
   const averageType = () => {
-    equationList = EquationGeneratorAverage.getEquationList();
+    equationList = EquationGeneratorAverage.getEquationList(20);
     setQuestions(equationList);
     setOption("average");
+    setDiffType("Average");
     isPicked(true);
     resetCheck();
     ReactDOM.findDOMNode(option_2).style.visibility = "visible";
   };
 
   const difficultType = () => {
-    equationList = EquationGeneratorDifficult.getEquationList();
+    equationList = EquationGeneratorDifficult.getEquationList(20);
     setQuestions(equationList);
     setOption("difficult");
+    setDiffType("Difficult");
     isPicked(true);
     resetCheck();
     ReactDOM.findDOMNode(option_3).style.visibility = "visible";
@@ -161,7 +190,45 @@ export default function DifficultyPage() {
     ReactDOM.findDOMNode(option_3).style.visibility = "hidden";
   }
 
+  //FOR MODAL
+  const [showModal, setShowModal] = useState(false);
+  const handleOnCloseModal = () => setShowModal(false);
+
+  const [choiceModal, setChoiceModal] = useState(false);
+
+  const handleOnContinueModal = () => {
+    setChoiceModal(true);
+    setShowModal(false);
+
+    window.localStorage.setItem("SESSION_SCORE", 0);
+
+    window.localStorage.setItem("QUESTION_LIST", JSON.stringify(questionList));
+    window.localStorage.setItem("QUESTION_INDEX", "0");
+    var userLogs = window.localStorage.getItem("SESSION_USER_LOGS");
+    userLogs = userLogs + "@" + option;
+    userLogs = userLogs.replace(/"/g, "");
+    EndSession.recordData();
+    axios
+      .post(
+        `http://localhost:80/Prototype-Vite/my-project/api/selectDifficulty/${userLogs}`
+      )
+      .then(function (response) {
+        window.localStorage.setItem(
+          "SESSION_ID",
+          JSON.stringify(response.data)
+        );
+
+        window.localStorage.setItem(
+          "DIFFICULTY_TYPE",
+          JSON.stringify(diffType)
+        );
+        WhiteboardPage();
+      });
+  };
+
   const pickDifficulty = () => {
+    setChoiceModal(false);
+
     /* REMOVED
     var equationList = [];
     console.log(difficultyType);
@@ -175,10 +242,42 @@ export default function DifficultyPage() {
 
     setQuestions(equationList);
     */
+    var sessionID = "";
+    try {
+      sessionID = window.localStorage.getItem("SESSION_ID");
+    } catch {
+      window.localStorage.setItem("SESSION_ID", "");
+    }
 
-    window.localStorage.setItem("QUESTION_LIST", JSON.stringify(questionList));
-    window.localStorage.setItem("QUESTION_INDEX", "0");
-    WhiteboardPage();
+    if (sessionID == '""') {
+      window.localStorage.setItem("SESSION_SCORE", 0);
+      window.localStorage.setItem(
+        "QUESTION_LIST",
+        JSON.stringify(questionList)
+      );
+      window.localStorage.setItem("QUESTION_INDEX", "0");
+      var userLogs = window.localStorage.getItem("SESSION_USER_LOGS");
+      userLogs = userLogs + "@" + option;
+      userLogs = userLogs.replace(/"/g, "");
+      axios
+        .post(
+          `http://localhost:80/Prototype-Vite/my-project/api/selectDifficulty/${userLogs}`
+        )
+        .then(function (response) {
+          window.localStorage.setItem(
+            "SESSION_ID",
+            JSON.stringify(response.data)
+          );
+
+          window.localStorage.setItem(
+            "DIFFICULTY_TYPE",
+            JSON.stringify(diffType)
+          );
+          WhiteboardPage();
+        });
+    } else {
+      setShowModal(true);
+    }
   };
 
   // CHATGPT GENERATED EQUATIONS
@@ -291,9 +390,9 @@ export default function DifficultyPage() {
     <>
       <section>
         {/* <input type="text" value={result} className="w-full"></input>*/}
-        <div className="mx-auto my-16 w-9/12 select-none">
+        <div className="mx-auto w-9/12 h-[92.5vh] flex items-center justify-center select-none ">
           <div className="px-12">
-            <div className="px-6 pb-6 pt-10 rounded-6xl  border-l-12 border-b-12 border-gray-600/60 bg-gradient-to-t from-gray-200 via-white to-white border-r-12 border-r-gray-300/80 shadow-2xl shadow-yellow-400">
+            <div className="px-6 pb-6 pt-10 rounded-6xl  border-l-12 border-b-12 border-gray-600/60 bg-gradient-to-t from-gray-200 via-white to-white border-r-12 border-r-gray-300/80 shadow-2xl shadow-yellow-400 overflow-hidden">
               <div className="px-14   rounded-4xl  mx-auto ">
                 <div className="grid grid-rows-3 mx-auto sm:text-center  ">
                   <p className=" text-4xl font-semibold leading-none text-center ">
@@ -632,7 +731,7 @@ export default function DifficultyPage() {
                 </div>
                 <div className="w-full mx-auto text-center pt-[70px] pb-12">
                   <button
-                    onClick={picked ? pickDifficulty : ""}
+                    onClick={picked ? pickDifficulty : undefined}
                     className={`inline-flex items-center justify-center text-xl rounded-full h-12 lg:w-52 font-medium tracking-wide  shadow-md   
                       ${
                         !picked
@@ -654,6 +753,11 @@ export default function DifficultyPage() {
           </div>
         </div>
       </section>
+      <DifficultyModal
+        onClose={handleOnCloseModal}
+        visible={showModal}
+        onContinue={handleOnContinueModal}
+      />
     </>
   );
 }

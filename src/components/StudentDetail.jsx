@@ -18,7 +18,7 @@ export default function StudentDetail() {
 
     window.addEventListener("focus", setPage);
     function setPage() {
-      let page = ["Home", "Section List", "Class List", "Student Detail"];
+      let page = ["Home", "Section List", "Class List", "Student Details"];
       let link = [
         "/AdminHomepage",
         "/SectionList",
@@ -106,7 +106,7 @@ export default function StudentDetail() {
         difficult++;
       }
       // Each session have 10 questions or might change depends.
-      totalSkip += 10;
+      totalSkip += 20;
       totalScore += history.Score;
     });
     accuracy = (totalScore / totalSkip) * 100;
@@ -123,21 +123,50 @@ export default function StudentDetail() {
     //console.log(difficult);
   }
 
+  // GO BACK FUNCTION
+  const ClassListPage = () => {
+    let page = ["Home", "Section List", "Class List"];
+    let link = ["/AdminHomepage", "/SectionList", "/ClassList"];
+    setPageList(page);
+    setPageLink(link);
+
+    window.localStorage.setItem("NAVBAR_PAGE", JSON.stringify(pageList));
+    window.localStorage.setItem("NAVBAR_PAGE_LINK", JSON.stringify(pageLink));
+    setTimeout(proceed, 1);
+
+    function proceed() {
+      navigate("/ClassList");
+    }
+  };
   return (
     <>
-      <div className="my-10  lg:scale-100 md:scale-95 w-9/12 mx-auto lg:fixed top-1/1 left-0 right-0 place-items-center  p-6 rounded-10xl border-l-12 border-b-12 border-yellow-700 bg-mainBGBrown border-r-12 border-r-brTwo shadow-2xl shadow-yellow-400">
+      <div className="my-10 relative lg:scale-100 md:scale-95 w-9/12 mx-auto lg:fixed top-1/1 left-0 right-0 place-items-center  p-6 rounded-10xl border-l-12 border-b-12 border-yellow-700 bg-mainBGBrown border-r-12 border-r-brTwo shadow-2xl shadow-yellow-400">
+        <button
+          onClick={ClassListPage}
+          className="absolute left-0 top-[46.5%] bottom-1/2 -ml-[4.05rem]"
+        >
+          <p className="select-none fa fa-chevron-circle-left text-gray-100 text-3xl hover:text-white rounded-l-full  bg-mainBGBrown py-4 pl-2 pr-2 border-l-6 border-b-6 border-l-yellow-700 border-b-yellow-700 	 hover:bg-[#dd9932] hover:border-l-[#bd7e1f] hover:border-b-[#bd7e1f]">
+            {" "}
+          </p>
+        </button>
         <div className="overflow-hidden min-h-[805px] rounded-8xl bg-gradient-to-t from-gray-200 via-white to-white shadow-xl border-r-12 border-t-12 border-yellow-700 border-l-12 border-l-brTwo shadow-yellow-700 w-full h-full p-12 ">
           <div className="grid sm:grid-cols-1 lg:grid-cols-2">
             <div className="">
               {accountDetail.map((account) => (
                 <>
                   <p className="lg:text-4xl sm:text-2xl text-black font-bold leading-4 mb-5">
-                    {account.GivenName +
-                      " " +
-                      account.MiddleName[0] +
-                      "." +
-                      " " +
-                      account.LastName}
+                    {account.MiddleName != "" ? (
+                      <>
+                        {account.GivenName +
+                          " " +
+                          account.MiddleName[0] +
+                          "." +
+                          " " +
+                          account.LastName}
+                      </>
+                    ) : (
+                      <>{account.GivenName + " " + account.LastName}</>
+                    )}
                   </p>
                   <p className="lg:text-xl sm:text-md text-gray-800 leading-4">
                     {account.Email}
@@ -152,7 +181,7 @@ export default function StudentDetail() {
                 </span>
               </p>
               <p className="lg:text-xl sm:text-md text-black font-medium leading-4 mb-3">
-                Unanswered Equations:{" "}
+                Abandoned Equations:{" "}
                 <span id="incorrect" className="font-normal">
                   {totalUnanswered}
                 </span>
@@ -228,7 +257,7 @@ export default function StudentDetail() {
                   </div>
                   <div className="lg:col-span-6 text-right">
                     <span className="lg:text-xl text-white font-normal">
-                      Score: {history.Score + "/10"}
+                      Score: {history.Score + "/20"}
                     </span>
                   </div>
                   <div className="lg:col-span-2 text-right">

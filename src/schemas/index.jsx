@@ -33,3 +33,17 @@ export const registrationSchema = yup.object().shape({
     .oneOf([yup.ref("password"), null], "* Password must match"),
   sex: yup.string().required("* Gender is Required"),
 });
+
+export const editAccountSchema = yup.object().shape({
+  email: yup
+    .string()
+    .email("(Please enter a valid email)")
+    .required("(Email Required)"),
+  password: yup.string().required("(Password Required)"),
+});
+
+export const addSectionSchema = yup.object().shape({
+  sectionName: yup.string().required("* Section Name is Required"),
+  adviserName: yup.string().required("* Adviser Name is Required"),
+  sex: yup.string().required("* Gender is Required"),
+});

@@ -18,10 +18,12 @@
     "formik": "^2.2.9",
     "heroicons": "^2.0.16",
     "jquery": "^3.6.4",
+    "livereload-js": "^4.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.8.0",
     "react-router-dom": "^6.8.2",
+    "vite-plugin-full-reload": "^1.0.5",
     "vite-plugin-require": "^1.1.10",
     "yup": "^1.0.2"
   },

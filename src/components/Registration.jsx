@@ -7,6 +7,8 @@ import { useNavigate } from "react-router-dom";
 import * as ReactDOM from "react-dom";
 import $ from "jquery";
 
+import { HiPencilSquare } from "react-icons/hi2";
+
 import RegistrationModal from "./RegistrationModal";
 
 function Registration() {
@@ -38,6 +40,21 @@ function Registration() {
   }, [pageLink]);
 
   //END END END END END END END END END END END END
+
+  const [sectionData, setSectionData] = useState([]);
+
+  function getSections() {
+    axios
+      .get("http://localhost:80/Prototype-Vite/my-project/api/sectionList/")
+      .then(function (response) {
+        console.log(response.data);
+        setSectionData(response.data);
+      });
+  }
+
+  useEffect(() => {
+    getSections();
+  }, []);
 
   const onSubmit = async (values, actions) => {
     console.log("SUBMITTED");
@@ -193,7 +210,7 @@ function Registration() {
       lastName: "",
       birthDay: "",
       age: "",
-      section: "Rizal",
+      section: "Aguinaldo",
       groupType: "Facial Group",
       gradeLevel: "Grade 7",
       email: "",
@@ -204,14 +221,14 @@ function Registration() {
     onSubmit,
   });
 
-  //For Pen
+  //FOR MODAL
   const [showModal, setShowModal] = useState(false);
   const handleOnCloseModal = () => setShowModal(false);
 
   return (
     <>
-      <div className="mx-auto my-24 w-2/3">
-        <div className=" bg-white rounded-5xl shadow-2xl shadow-yellow-400">
+      <div className="mx-auto  h-[92.5vh] flex items-center justify-center  ">
+        <div className=" relative w-2/3 bg-white rounded-5xl shadow-2xl shadow-yellow-400 ">
           <div className="grid grid-cols-12 row-span-1 bg-mainBGBrown py-8 -mt-2  rounded-t-5xl shadow-md shadow-yellow-800/30 border-yellow-800 border-l-12 border-r-brTwo border-r-12">
             <div className="bg-black/30 rounded-full pt-2 mx-6 shadow-lg shadow-yellow-700 w-1/2">
               {"\u00A0"}
@@ -299,7 +316,7 @@ function Registration() {
           </div>
           <div className=" border-yellow-900/40 border-l-12 border-b-12 rounded-bl-5xl rounded-br-5xl border-r-yellow-900/20 border-r-12">
             <div className="w-full border-b-2 border-gray-300 py-4  text-2xl text-black grid place-items-center font-poppins font-semibold overflow-hidden">
-              <h1>&#40; Register an account &#41;</h1>
+              <h1>&#40; Create an account &#41;</h1>
             </div>
             <hr></hr>
 
@@ -513,7 +530,9 @@ function Registration() {
                         id="gradeLevel"
                         className="p-2 border-2 w-32  focus:border-none rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 shadow-sm shadow-[#808080]"
                       >
-                        <option className="font-semibold">Grade 7</option>
+                        <option className="font-semibold" selected>
+                          Grade 7
+                        </option>
                       </select>
                     </div>
                   </div>
@@ -533,14 +552,11 @@ function Registration() {
                         name="section"
                         className="p-2 border-2 w-32 focus:border-none rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 shadow-sm shadow-[#808080] "
                       >
-                        <option className="font-semibold">Rizal</option>
-                        <option className="font-semibold">Bonifacio</option>
-                        <option className="font-semibold">Mabini</option>
-                        <option className="font-semibold">Aguinaldo</option>
-                        <option className="font-semibold">Jacinto</option>
-                        <option className="font-semibold">Luna</option>
-                        <option className="font-semibold">Del Pilar</option>
-                        <option className="font-semibold">Silang</option>
+                        {sectionData.map((section) => (
+                          <option className="font-semibold">
+                            {section.SectionName}
+                          </option>
+                        ))}
                       </select>
                     </div>
                   </div>
@@ -560,7 +576,9 @@ function Registration() {
                         name="groupType"
                         className="p-2 border-2 w-52 rounded-md focus:border-none border-gray-500 focus:outline-teal-500 focus:ring-teal-500 shadow-sm shadow-[#808080]"
                       >
-                        <option className="font-semibold">Facial Group</option>
+                        <option className="font-semibold" selected>
+                          Facial Group
+                        </option>
                         <option className="font-semibold">
                           Non Facial Group
                         </option>
@@ -610,7 +628,7 @@ function Registration() {
                     <div className="inline-flex w-full">
                       <label
                         htmlFor="password"
-                        className="inline-block pt-2 pr-2 text-right w-[136px]"
+                        className="inline-block pt-3.5 pr-2 text-right w-[136px]"
                       >
                         Password:{" "}
                       </label>
@@ -672,9 +690,10 @@ function Registration() {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="py-3 px-12 text-white font-bold  shadow-md rounded-full bg-lime-600 hover:bg-lime-700 hover:-translate-y-0.5 ease-in-out transition duration-300 transform "
+                    className="relative py-3 pl-10 pr-12 text-white font-bold  shadow-md rounded-full bg-lime-600 hover:bg-lime-700 hover:-translate-y-0.5 ease-in-out transition duration-300 transform "
                   >
-                    <span className="text-xl  font-bold">Register </span>
+                    <span className="text-xl mr-2.5 font-bold">Register</span>
+                    <HiPencilSquare className="text-2xl absolute right-7 top-1/4 mt-[0.050rem]" />
                   </button>
                 </div>
               </main>

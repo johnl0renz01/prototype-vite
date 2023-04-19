@@ -1,13 +1,13 @@
 var EquationGeneratorEasy = (function () {
   var easyEquationList = [];
-  function generateEquations() {
+  function generateEquations(quantity) {
     easyEquationList = [];
 
     const lhsSchemas = ["2x", "2x @ 3", "2x @ 3 @ 3", "3 @ 2x", "3 @ 2x @ 3"];
     const rhsSchemas = ["2x", "3 ", "3 @ 3 ", "3 @ 3 @ 3"];
 
-    // GENERATE 10 EQUATIONS
-    for (let i = 0; i < 10; i++) {
+    // GENERATE # EQUATIONS through quantity
+    for (let i = 0; i < quantity; i++) {
       var combinedSchema = "";
       var percentage = Math.random() * 100;
       var item1 = lhsSchemas[Math.floor(Math.random() * lhsSchemas.length)];
@@ -185,8 +185,8 @@ var EquationGeneratorEasy = (function () {
 
     console.log(easyEquationList);
   }
-  var getEquationList = function () {
-    generateEquations();
+  var getEquationList = function (quantity) {
+    generateEquations(quantity);
     return easyEquationList;
   };
 

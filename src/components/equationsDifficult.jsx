@@ -1,6 +1,6 @@
 var EquationGeneratorDifficult = (function () {
   var difficultEquationList = [];
-  function generateEquations() {
+  function generateEquations(quantity) {
     difficultEquationList = [];
     const lhsSchemas = [
       // ORIGINAL
@@ -149,8 +149,8 @@ var EquationGeneratorDifficult = (function () {
       "3(3 @ 3(3(3 @ 3(3 @ 3 @ 3))))",
       */
 
-    // GENERATE 10 EQUATIONS
-    for (let i = 0; i < 10; i++) {
+    // GENERATE # EQUATIONS through quantity
+    for (let i = 0; i < quantity; i++) {
       var combinedSchema = "";
       var percentage = Math.random() * 100;
       var item1 = lhsSchemas[Math.floor(Math.random() * lhsSchemas.length)];
@@ -340,8 +340,8 @@ var EquationGeneratorDifficult = (function () {
     console.log(difficultEquationList);
   }
 
-  var getEquationList = function () {
-    generateEquations();
+  var getEquationList = function (quantity) {
+    generateEquations(quantity);
     return difficultEquationList;
   };
 

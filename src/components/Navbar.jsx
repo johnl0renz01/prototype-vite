@@ -8,14 +8,32 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import * as ReactDOM from "react-dom";
 
+import NavbarModal from "./NavbarModal";
+import Initiation from "./Initiation";
+import EndSession from "./EndSession";
+
+import { HiOutlineArrowLeftOnRectangle } from "react-icons/hi2";
+import { HiChevronDoubleRight } from "react-icons/hi2";
+import { HiArrowUturnRight } from "react-icons/hi2";
+
+import { BsChevronBarRight } from "react-icons/bs";
+
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-const arrowRotate = () => {};
-
 function Navbar() {
   const navigate = useNavigate();
+
+  //SET HOMEPAGE AS FIRST LINK
+  useEffect(() => {
+    if (
+      window.localStorage.getItem("NAVBAR_PAGE") === null ||
+      window.localStorage.getItem("NAVBAR_PAGE") == []
+    ) {
+      Initiation.initiatePage();
+    }
+  }, []);
 
   //FOR LINKS/NAVBAR/BREADCRUMBS
   const [pageList, setPageList] = useState([]);
@@ -48,7 +66,8 @@ function Navbar() {
     setPageList(JSON.parse(page));
     const link = window.localStorage.getItem("NAVBAR_PAGE_LINK");
     setPageLink(JSON.parse(link));
-    const user = window.localStorage.getItem("SESSION_USER");
+    var user = window.localStorage.getItem("SESSION_USER");
+
     setCurrentUser(JSON.parse(user));
   }
 
@@ -94,8 +113,27 @@ function Navbar() {
   };
 
   const signOut = () => {
+    if (window.localStorage.getItem("SESSION_ID") != '""') {
+      setShowModal(true);
+    } else {
+      window.localStorage.setItem("SESSION_USER", JSON.stringify(""));
+      window.localStorage.setItem("SESSION_EMAIL", JSON.stringify(""));
+      navigate("/Login");
+    }
+  };
+
+  const [showModal, setShowModal] = useState(false);
+  const handleOnCloseModal = () => setShowModal(false);
+
+  const [choiceModal, setChoiceModal] = useState(false);
+
+  const handleOnContinueModal = () => {
+    EndSession.recordData();
+    setChoiceModal(true);
+    setShowModal(false);
     window.localStorage.setItem("SESSION_USER", JSON.stringify(""));
     window.localStorage.setItem("SESSION_EMAIL", JSON.stringify(""));
+    window.localStorage.setItem("SESSION_ID", JSON.stringify(""));
     navigate("/Login");
   };
 
@@ -134,7 +172,9 @@ function Navbar() {
           {pageList.map((page, index) =>
             length === index + 1 ? (
               // last one
-              <p className="font-sans lg:text-xl">{page}</p>
+              <p id="current_page" className="font-sans lg:text-xl">
+                {page}
+              </p>
             ) : (
               <></>
             )
@@ -148,15 +188,36 @@ function Navbar() {
                 <div>
                   <Menu.Button
                     onClick={function () {
-                      currentUser == "" ? navigate("/Login") : "";
+                      currentUser == "" || currentUser === null
+                        ? navigate("/Login")
+                        : "";
                     }}
                     className="inline-flex w-full justify-center rounded-md  bg-white px-3 py-1.5 lg:text-xl font-normal text-gray-700  hover:bg-gray-100 focus:outline-none  focus:ring-offset-gray-200"
                   >
-                    {currentUser != "" ? currentUser : "Login"}
+                    {currentUser != "" && currentUser !== null ? (
+                      window.localStorage.getItem("SESSION_ID") != '""' ? (
+                        pageList.includes("Whiteboard") == false ? (
+                          <>
+                            <span class="bell fa fa-bell w-7 h-7 text-xl mr-1.5 mt-0.5"></span>
+                            <>{currentUser}</>
+                          </>
+                        ) : (
+                          <>{currentUser}</>
+                        )
+                      ) : (
+                        <>{currentUser}</>
+                      )
+                    ) : (
+                      <p className="flex">
+                        {" "}
+                        <HiOutlineArrowLeftOnRectangle className="text-2xl -ml-3 mt-[0.32rem]" />
+                        <span className="ml-1 mt-[0.1rem]">Login</span>
+                      </p>
+                    )}
 
                     <ChevronDownIcon
                       className={` ${
-                        currentUser == ""
+                        currentUser == "" || currentUser === null
                           ? "invisible aria-disabled:"
                           : "visible h-5 w-5 ml-2 mt-1.5"
                       }`}
@@ -176,22 +237,60 @@ function Navbar() {
                 >
                   <Menu.Items
                     className={`absolute right-0 z-10 mt-2 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none ${
-                      currentUser == "" ? "invisible" : "visible"
+                      currentUser == "" || currentUser === null
+                        ? "invisible"
+                        : "visible"
                     }`}
                   >
-                    <div className="py-1">
+                    <div className="py-1 ">
+                      {window.localStorage.getItem("SESSION_ID") != '""' ? (
+                        pageList.includes("Whiteboard") == false ? (
+                          <Menu.Item>
+                            {({ active }) => (
+                              <button
+                                onClick={function () {
+                                  navigate("/Whiteboard");
+                                }}
+                                className={classNames(
+                                  active
+                                    ? "bg-gray-100 text-gray-900"
+                                    : "text-gray-700 border-b-2 border-b-gray-200/80 ",
+                                  "block px-4 py-2 text-sm"
+                                )}
+                              >
+                                <p className="flex px-1">
+                                  {" "}
+                                  <BsChevronBarRight className="text-2xl -ml-3" />
+                                  <span className="ml-1 mt-[0.1rem]">
+                                    Continue Session
+                                  </span>
+                                </p>
+                              </button>
+                            )}
+                          </Menu.Item>
+                        ) : (
+                          <></>
+                        )
+                      ) : (
+                        ""
+                      )}
+
                       <Menu.Item>
                         {({ active }) => (
                           <button
                             onClick={signOut}
                             className={classNames(
                               active
-                                ? "bg-gray-100 text-gray-900"
+                                ? "bg-gray-100 text-gray-900 "
                                 : "text-gray-700",
                               "block w-full px-4 py-2 text-left text-sm"
                             )}
                           >
-                            Sign out
+                            <p className="flex px-1">
+                              {" "}
+                              <HiOutlineArrowLeftOnRectangle className="text-2xl -ml-3 rotate-180" />
+                              <span className="ml-1 mt-[0.1rem]">Sign out</span>
+                            </p>
                           </button>
                         )}
                       </Menu.Item>
@@ -239,6 +338,11 @@ function Navbar() {
         onMouseEnter={() => updateData()}
         className="absolute h-screen -z-50 bg-gray-200"
       ></div>
+      <NavbarModal
+        onClose={handleOnCloseModal}
+        visible={showModal}
+        onContinue={handleOnContinueModal}
+      />
     </>
   );
 }

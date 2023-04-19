@@ -9,25 +9,16 @@ include 'DbConnect.php';
 $objDb = new DbConnect;
 $conn = $objDb->connect();
 
-$section = $_SERVER['REQUEST_URI'];
-
-for ($i = strlen($section) - 1; $i > 0; $i--) {
-    if ($section[$i] == "/") {
-        $section = substr($section, ($i + 1));
-        break;
-    }
-}
-
 switch($_SESSION['method']) {
     case "GET":
-        $sql = "SELECT count(*) FROM accounts WHERE Section LIKE '$section'";
+        $sql = "SELECT * FROM section_list ORDER BY SectionName";
         //$path = explode('/', $_SERVER['REQUEST_URI']);
         
         $stmt = $conn->prepare($sql);
         $stmt->execute();
-        $number_of_rows = $stmt->fetchColumn();
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        echo json_encode($number_of_rows);
+        echo json_encode($result);
         break;
     case "POST":
         break;

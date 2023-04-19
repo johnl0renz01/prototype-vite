@@ -5,6 +5,11 @@ import axios from "axios";
 import * as ReactDOM from "react-dom";
 import $ from "jquery";
 
+import { BsPersonPlusFill } from "react-icons/bs";
+import { BsFillPersonVcardFill } from "react-icons/bs";
+import { BsGearFill } from "react-icons/bs";
+//import { IconName } from "react-icons/fa";
+
 export default function AdminHomepage() {
   document.body.style.height = "100vh";
   const navigate = useNavigate();
@@ -67,6 +72,21 @@ export default function AdminHomepage() {
     }
   };
 
+  const CustomizationPage = () => {
+    let page = ["Home", "Customization"];
+    let link = ["/AdminHomepage", "/Customization"];
+    setPageList(page);
+    setPageLink(link);
+
+    window.localStorage.setItem("NAVBAR_PAGE", JSON.stringify(pageList));
+    window.localStorage.setItem("NAVBAR_PAGE_LINK", JSON.stringify(pageLink));
+    setTimeout(proceed, 1);
+
+    function proceed() {
+      navigate("/Customization");
+    }
+  };
+
   //GREETING "GOOD EVENING,MORNING,AFTERNOON TEACHER"
   const [currentTime, setTime] = useState();
   useEffect(() => {
@@ -78,7 +98,7 @@ export default function AdminHomepage() {
   return (
     <>
       <section className="grid place-items-center">
-        <div className="py-20 w-2/3">
+        <div className="w-2/3 h-[92.5vh] flex items-center justify-center">
           <main className="relative bg-white border-l-12 border-b-12 border-gray-600/60 border-r-12 border-r-gray-300/80  rounded-6xl shadow-2xl shadow-yellow-400 ">
             <div className=" border-b-16 px-8 pt-16 border-mainBGBrown overflow-hidden">
               <div class="relative w-full select-none">
@@ -135,33 +155,36 @@ export default function AdminHomepage() {
                 </div>
               </div>
 
-              <div className="relative flex justify-evenly border-t-2 px-8 border-gray-500 py-9 pb-16">
+              <div className="grid grid-cols-3 text-center border-t-2  border-gray-500 py-9 pb-16">
                 <div>
                   <a onClick={RegistrationPage}>
-                    <button className=" text-center mx-2  text-white font-bold lg:w-full  lg:p-5  rounded-full shadow-md bg-yellow-600 hover:bg-yellow-700 hover:-translate-y-1 ease-in-out transition duration-200 transform ">
-                      <span className="lg:text-3xl md:text-xl font-poppins font-semibold">
-                        Register Student
+                    <button className="relative text-center mx-2  text-white font-bold px-5  rounded-full shadow-md bg-yellow-600 hover:bg-yellow-700 hover:-translate-y-1 ease-in-out transition duration-200 transform ">
+                      <span className="lg:text-3xl md:text-xl font-poppins font-semibold lg:px-4">
+                        <p className="pr-12">Register Student</p>
                       </span>
+                      <BsPersonPlusFill className="absolute right-5 lg:text-[2.2rem]  top-[32.5%] bottom-1/2" />
                     </button>
                   </a>
                 </div>
 
                 <div>
                   <a onClick={SectionListPage}>
-                    <button className=" text-center mx-2 text-white font-bold lg:w-full lg:p-5  rounded-full shadow-md bg-yellow-600 hover:bg-yellow-700 hover:-translate-y-1 ease-in-out transition duration-200 transform">
-                      <span className="lg:text-3xl md:text-xl font-poppins font-semibold">
-                        Section List
+                    <button className="relative text-center mx-2  text-white font-bold px-5  rounded-full shadow-md bg-yellow-600 hover:bg-yellow-700 hover:-translate-y-1 ease-in-out transition duration-200 transform ">
+                      <span className="lg:text-3xl md:text-xl font-poppins font-semibold lg:px-4">
+                        <p className="pr-12">Report Card</p>
                       </span>
+                      <BsFillPersonVcardFill className="absolute right-6 lg:text-[2.2rem]  top-[32.5%] bottom-1/2" />
                     </button>
                   </a>
                 </div>
 
                 <div>
-                  <a>
-                    <button className=" text-center mx-2  text-white font-bold lg:w-full lg:p-5 rounded-full shadow-md bg-yellow-600 hover:bg-yellow-700 hover:-translate-y-1 ease-in-out transition duration-200 transform">
-                      <span className="lg:text-3xl  md:text-xl font-poppins font-semibold">
-                        Custom Question{" "}
+                  <a onClick={CustomizationPage}>
+                    <button className="relative text-center mx-2  text-white font-bold px-5  rounded-full shadow-md bg-yellow-600 hover:bg-yellow-700 hover:-translate-y-1 ease-in-out transition duration-200 transform ">
+                      <span className="lg:text-3xl md:text-xl font-poppins font-semibold lg:px-4">
+                        <p className="pr-12">Customization</p>
                       </span>
+                      <BsGearFill className="absolute right-5 lg:text-[2.2rem]  top-[32.5%] bottom-1/2" />
                     </button>
                   </a>
                 </div>

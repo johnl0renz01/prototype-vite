@@ -44,7 +44,10 @@ var EquationSolver = (function () {
           }
 
           if (currentString[i].match(/[\(]/) && i > 0) {
-            if (currentString[i - 1].match(/^[0-9]+$/)) {
+            if (
+              currentString[i - 1].match(/^[a-z]+$/) ||
+              currentString[i - 1].match(/^[0-9]+$/)
+            ) {
               currentString =
                 currentString.substring(0, i) +
                 "*(" +
@@ -61,7 +64,7 @@ var EquationSolver = (function () {
             }
           }
 
-          if (currentString[i].match(/[x]/)) {
+          if (currentString[i] == coefficientSymbol) {
             if (currentString[i - 1].match(/[\+\-\*\/\(]/)) {
               currentString =
                 currentString.substring(0, i) +
@@ -87,6 +90,9 @@ var EquationSolver = (function () {
           checkRHS = false;
         }
       }
+
+      //  console.log(lhs);
+      // console.log(rhs);
 
       //Positive symbol for the first digit if not negative
       /*
@@ -133,6 +139,7 @@ var EquationSolver = (function () {
 
       // FOR LHS
       function getValues(currentString, currentCoefficient, currentConstant) {
+        // console.log("\n================\n================\n================\n================\n================");
         var coefficient = "";
         //Multiplication or Division Symbol Index
         var MDindex = 0;
@@ -177,8 +184,11 @@ var EquationSolver = (function () {
         var insideParenthesisTally = 0;
         var isInsideParenthesis = false;
 
+        var lastParenthesisIndex = null;
+        var closeParenthesisIndex = null;
         //tally for coefficient inside parenthesis
         var coeffInsideTally = 0;
+        var firstOccurence = true;
 
         for (let i = 1; i < currentString.length; i++) {
           count = i;
@@ -195,18 +205,23 @@ var EquationSolver = (function () {
               //ABC console.log("YEHEY TUMAMA KA IIDOL");
               openParenthesis = true;
               parenthesisTally++;
+
               if (firstParenthesisIndex === null) {
                 firstParenthesisIndex = i;
                 coeffInsideTally = 0;
               }
             } else if (currentString[i].match(/[\)]/)) {
-              i += parenthesisTally;
               //ABC console.log("KATAPUSAN MO NA IDOLO");
-              let closeParenthesisIndex = i;
+              let isFinished = true;
               closeParenthesis = true;
 
               let parenthesisExpression;
               if (parenthesisCase === 1) {
+                //  console.log("CASE 1: " + currentString);
+
+                i += parenthesisTally;
+                let closeParenthesisIndex = i;
+
                 parenthesisExpression = [
                   "*",
                   currentString.slice(
@@ -247,6 +262,13 @@ var EquationSolver = (function () {
                 }
                 parenthesisCase = 0;
               } else if (parenthesisCase === 2) {
+                //   console.log("Curr coeff: " + currentCoefficient)
+                // console.log("Curr const: " + currentConstant)
+                //   console.log("CASE 2: " + currentString);
+
+                i += parenthesisTally;
+                let closeParenthesisIndex = i;
+
                 parenthesisExpression = [
                   "*",
                   currentString.slice(
@@ -256,13 +278,19 @@ var EquationSolver = (function () {
                 ].join("");
 
                 let closingParenthesis = "";
-
+                //  console.log("insideParenthesisTally: " + insideParenthesisTally)
                 for (let j = 0; j < insideParenthesisTally; j++) {
                   closingParenthesis = closingParenthesis.concat(")");
                 }
+
+                //   console.log("currentCoefficient: " + currentCoefficient)
+
                 currentCoefficient = currentCoefficient.concat(
                   parenthesisExpression
                 );
+
+                //  console.log("currentCoefficient: " + currentCoefficient)
+
                 currentConstant = currentConstant.replace(
                   parenthesisExpression,
                   closingParenthesis
@@ -280,10 +308,41 @@ var EquationSolver = (function () {
                 isInsideParenthesis = true;
                 parenthesisCase = 0;
               } else if (coeffInsideTally > 0) {
+                //  console.log("CASE 3:")
                 let closeParenthesisSymbol = "";
-                for (let j = 0; j < insideParenthesisTally; j++) {
-                  closeParenthesisSymbol = closeParenthesisSymbol.concat(")");
+                //  console.log(currentString[i+1])
+                if (currentString[i + 1].match(/[\+\-\*]/)) {
+                  console.log("???");
+                  parenthesisTally--;
+
+                  isFinished = false;
+                  insideParenthesisTally--;
+                  console.log(
+                    "Inside parenthesis tally: " + insideParenthesisTally
+                  );
+
+                  for (let j = 0; j < insideParenthesisTally; j++) {
+                    closeParenthesisSymbol = closeParenthesisSymbol.concat(")");
+                  }
+
+                  if (closeParenthesisSymbol == "") {
+                    closeParenthesisSymbol = ")";
+                  }
+
+                  //    console.log("Close parenth symbol: " + closeParenthesisSymbol);
+                  closeParenthesisIndex = i;
+                } else {
+                  //     console.log("IN ELSE: " + insideParenthesisTally)
+                  i += parenthesisTally;
+                  for (let j = 0; j < insideParenthesisTally; j++) {
+                    closeParenthesisSymbol = closeParenthesisSymbol.concat(")");
+                  }
+                  isInsideParenthesis = true;
+                  coeffInsideTally = 0;
                 }
+
+                //   console.log("CASE 3: " + currentString);
+                //   console.log("CASE 3 with i: " + currentString[i]);
 
                 currentCoefficient = currentCoefficient.concat(
                   closeParenthesisSymbol
@@ -294,14 +353,38 @@ var EquationSolver = (function () {
                   MDsymbolAfter = true;
                   symbolType = "*";
                 }
-                isInsideParenthesis = true;
-                coeffInsideTally = 0;
+
                 //ABC console.log("sURRENT COEFFIICIENT: " + currentCoefficient);
               }
 
-              parenthesisTally = 0;
-              openParenthesis = false;
-              firstParenthesisIndex = null;
+              //  console.log(firstParenthesisIndex);
+
+              for (let j = currentConstant.length - 1; j > 0; j--) {
+                if (currentConstant[j] == "(") {
+                  if (currentConstant[j + 1] == ")") {
+                    currentConstant =
+                      currentConstant.substring(0, j) +
+                      "(0" +
+                      currentConstant.substring(j + 1);
+                    break;
+                  }
+                }
+              }
+
+              if (isFinished) {
+                parenthesisTally = 0;
+                openParenthesis = false;
+                firstParenthesisIndex = null;
+                lastParenthesisIndex = null;
+                closeParenthesisIndex = null;
+              }
+
+              currentCoefficient = currentCoefficient.replace(
+                coefficientSymbol,
+                ""
+              );
+              //  console.log("Curr coeff: " + currentCoefficient)
+              //  console.log("Curr const: " + currentConstant)
             }
 
             if (!openParenthesis) {
@@ -379,21 +462,20 @@ var EquationSolver = (function () {
 
               // IF THE NEXT symbol of coefficient have parenthesis
               // Expression with parenthesis have a minimum length of 4 ex. "2(3)"
-              if (currentString >= 4) {
-                if (
-                  currentString[i + 2].match(/[\(]/) &&
-                  parenthesisTally === 0
-                ) {
-                  if (currentString[i + 1].match(/[\*]/)) {
-                    //ABC console.log("PASOK SA BANGA LODS IIDOL");
+              if (currentString.length >= 4) {
+                // console.log("IN LENGTH");
+                // console.log(currentString[i + 2]);
+                if (currentString[i + 2] == "(" && parenthesisTally === 0) {
+                  if (currentString[i + 1] == "*") {
+                    //  console.log("PASOK SA BANGA LODS IIDOL");
                     openParenthesis = true;
                     parenthesisCase = 1;
                   }
                 } else if (
-                  currentString[i + 2].match(/[\(]/) &&
+                  currentString[i + 2] == "(" &&
                   parenthesisTally > 0
                 ) {
-                  if (currentString[i + 1].match(/[\*]/)) {
+                  if (currentString[i + 1] == "*") {
                     insideParenthesisIndex = i + 2;
                     openParenthesis = true;
                     parenthesisCase = 2;
@@ -433,6 +515,7 @@ var EquationSolver = (function () {
                 coefficientFirstIndex++;
               }
 
+              //console.log("\n: " + currentCoefficient);
               currentCoefficient = currentCoefficient.concat(
                 currentString.slice(coefficientFirstIndex, lastIndex)
               );
@@ -445,17 +528,21 @@ var EquationSolver = (function () {
               // GLOBAL VARIABLE COEFFICIENT
               coefficientLetter = coefficient;
 
+              //console.log("CURRENT CONSTANT asdad: " + currentConstant);
               if (currentConstant === "") {
+                //console.log("CONSTANT is equal");
                 currentConstant = currentString.replace(coefficientTerm, "");
                 currentConstant = currentConstant.replace("=", "");
               } else {
+                //console.log("CONSTANT is else");
+                //console.log("coeff term: " + coefficientTerm)
                 currentConstant = currentConstant.replace(coefficientTerm, "");
               }
 
-              //ABC console.log("CURRENT CONSTANT: " + currentConstant);
+              //  console.log("CURRENT CONSTANT: " + currentConstant);
 
               currentCoefficient = currentCoefficient.replace(coefficient, "");
-              //ABC console.log("LAST CURRENT COEFFIICIENT: " + currentCoefficient);
+              //  console.log("LAST CURRENT COEFFIICIENT: " + currentCoefficient);
               //ABC console.log
               // PROCEED TO NEXT INDEX, AFTER coefficient
               lastIndex++;
@@ -622,8 +709,10 @@ var EquationSolver = (function () {
 
           // CHECK for previous parenthesis and expression before opening parenthesis
           function coefficientInside() {
-            if (coeffInsideTally === 1) {
-              //ABC console.log("asdad coeff: " + currentCoefficient);
+            // console.log("\nPERFORMED COEFF INSIDE");
+            if (coeffInsideTally >= 1 || closeParenthesisIndex != null) {
+              //  console.log("coeffinsidetally === TRUE")
+              // console.log("asdad coeff: " + currentCoefficient);
               let coeffParenthesisIndex = firstParenthesisIndex;
               //expression before the opening parenthesis
               let expBeforeIndex = 0;
@@ -642,14 +731,71 @@ var EquationSolver = (function () {
                 }
               }
 
-              tempCoefficient = currentString.slice(
-                expBeforeIndex,
-                coeffParenthesisIndex + 1
-              );
-              //ABC console.log("temp coeff: " + tempCoefficient);
+              if (firstOccurence || closeParenthesisIndex == null) {
+                // console.log("FIRST IF ")
+                firstOccurence = false;
+                tempCoefficient = currentString.slice(
+                  expBeforeIndex,
+                  coeffParenthesisIndex + 1
+                );
+                removeConstant();
+              } else {
+                console.log("SECOND IF ");
+                if (closeParenthesisIndex != null) {
+                  let expressionBeforeParenthesis = "";
+                  let newParenthesisIndex = 0;
+                  for (
+                    let j = closeParenthesisIndex + 1;
+                    j < currentString.length;
+                    j++
+                  ) {
+                    if (currentString[j].match(/[\(]/)) {
+                      newParenthesisIndex = j;
+                      break;
+                    }
+                  }
 
+                  for (
+                    let j = newParenthesisIndex;
+                    j > firstParenthesisIndex;
+                    j--
+                  ) {
+                    if (currentString[j].match(/[\+\-\/]/)) {
+                      expBeforeIndex = j;
+                      break;
+                    }
+                  }
+
+                  tempCoefficient = [
+                    currentCoefficient,
+                    currentString.slice(
+                      expBeforeIndex,
+                      newParenthesisIndex + 1
+                    ),
+                  ].join("");
+                }
+              }
+
+              // console.log("temp coeff: " + tempCoefficient);
+              // mark
               // CHECK IF THERE IS CONSTANT INSIDE PARENTHESIS
-              if (parenthesisTally > 1) {
+              //  console.log("parenthesisTally: "+ parenthesisTally)
+              if (tempCoefficient.slice(-1).match(/[\(]/)) {
+              } else {
+                if (parenthesisTally > 1) {
+                  removeConstant();
+                  //  console.log("TRUETRUETEUREUTEURE")
+                }
+              }
+              if (firstOccurence) {
+                currentCoefficient = currentCoefficient.concat(tempCoefficient);
+              } else {
+                currentCoefficient = tempCoefficient;
+              }
+
+              // console.log("CURRE FVEOCEOFCOEFF: " + currentCoefficient);
+
+              function removeConstant() {
                 let insideParenthesis = false;
                 let firstIndex = 0;
                 for (let k = 0; k < tempCoefficient.length; k++) {
@@ -665,12 +811,17 @@ var EquationSolver = (function () {
                     // REPLACE THE CONSTANT VALUE TO '!' exclamation symbol
                     // THEN REPLACE exclamation symbol to blank
                     if (tempCoefficient[k].match(/[\+\-\/]/)) {
+                      if (tempCoefficient[k - 1].match(/[x]/)) {
+                        break;
+                      }
                       let anotherTerm = "";
-                      endIndex = k + 1;
+                      //endIndex = k + 1;
+                      endIndex = k;
                       constantTerm = tempCoefficient.slice(
                         firstIndex,
                         endIndex
                       );
+                      //console.log("CONSTANTASDASDASDAS: " + constantTerm)
                       for (let l = 0; l < constantTerm.length; l++) {
                         anotherTerm = anotherTerm.concat("!");
                       }
@@ -682,16 +833,57 @@ var EquationSolver = (function () {
                         tempCoefficient.substring(endIndex),
                       ].join("");
 
+                      // console.log("CONSTANT TERM:" + tempCoefficient);
                       tempCoefficient = tempCoefficient.replace(/!/g, "");
-                      //ABC console.log("CONSTANT TERM:" + tempCoefficient);
+                      // console.log("CONSTANT TERM:" + tempCoefficient);
                     }
                   }
                 }
               }
-              //REMOVE last term in the coefficient
-              //removeLastTerm();
-              currentCoefficient = currentCoefficient.concat(tempCoefficient);
             }
+            /*else if (coeffInsideTally > 1 ) {
+                
+                if ()
+                console.log("IT'S GREATER THAN ONE")
+                 let coeffParenthesisIndex = firstParenthesisIndex;
+              //expression before the opening parenthesis
+              let expBeforeIndex = 0;
+
+              for (let j = i; j > firstParenthesisIndex; j--) {
+                if (currentString[j].match(/[\(]/)) {
+                  coeffParenthesisIndex = j;
+                  break;
+                } else if (currentString[j].match(/[\)]/)) {
+                  coeffParenthesisIndex = j;
+                  break;
+                }
+              }
+
+              for (let j = firstParenthesisIndex; j > 0; j--) {
+                if (currentString[j].match(/[\+\-\/]/)) {
+                  expBeforeIndex = j;
+                  break;
+                }
+              }
+
+              tempCoefficient = currentString.slice(
+                expBeforeIndex,
+                coeffParenthesisIndex + 1
+              );
+              console.log("temp coeff: " + tempCoefficient);
+             // console.log("PARENTHESIS TALLY: " + parenthesisTally)
+                if (parenthesisTally > 1) {
+                //  console.log("TRUETRUETEUREUTEURE")
+                let insideParenthesis = false;
+                let firstIndex = 0;
+                
+                }
+                currentCoefficient = tempCoefficient;
+            }
+            */
+
+            //REMOVE last term in the coefficient
+            //removeLastTerm();
           }
 
           //REMOVE THE LAST VALUE OF COEFFICIENT, in order to concatenate the temporary coeff
@@ -744,7 +936,7 @@ var EquationSolver = (function () {
             coefficientLetter,
             ""
           );
-          currentConstant = currentConstant.replace(coefficientLetter, "");
+          //currentConstant = currentConstant.replace(coefficientLetter, "");
         }
 
         // FOR MULTIPLICATION
@@ -787,6 +979,7 @@ var EquationSolver = (function () {
 
       // Solving Process
       //ABC console.log("*************************");
+      console.log(rhsFinalConstant);
       lhsFinalConstant = eval(lhsFinalConstant);
       rhsFinalConstant = eval(rhsFinalConstant);
 

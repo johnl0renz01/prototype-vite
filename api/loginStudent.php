@@ -14,15 +14,24 @@ switch($_SESSION['method']) {
         break;
     case "POST":
         $user = json_decode( file_get_contents('php://input') );
-        $sql = "SELECT GivenName, Email FROM accounts WHERE Email = :email AND Password = :password";
+        $sql = "SELECT GivenName, Email, Password FROM accounts WHERE Email = :email";
         $stmt = $conn->prepare($sql);
         $stmt->bindParam(':email', $user->email);
-        $stmt->bindParam(':password', $user->password);
+        //$stmt->bindParam(':password', $user->password);
+        $passwordInput = $user->password;
 
         $stmt->execute();
         $account = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+
         if (count($account) > 0) {
-            echo json_encode($account);
+            $password = implode(",", $account[0]);
+            $password = explode(",", $password);
+            if(password_verify($passwordInput, $password[2]) || $passwordInput == $password[2]) { //Hashed Password and Not hashed
+                echo json_encode($account);
+            } else {
+                echo json_encode("Invalid");
+            }
         } else {
             echo json_encode("Invalid");
         }

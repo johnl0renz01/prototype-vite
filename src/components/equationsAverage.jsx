@@ -1,6 +1,6 @@
 var EquationGeneratorAverage = (function () {
   var averageEquationList = [];
-  function generateEquations() {
+  function generateEquations(quantity) {
     averageEquationList = [];
     const lhsSchemas = [
       "2x * 3",
@@ -51,8 +51,8 @@ var EquationGeneratorAverage = (function () {
 
     const rhsSchemas = lhsSchemas;
 
-    // GENERATE 10 EQUATIONS
-    for (let i = 0; i < 10; i++) {
+    // GENERATE # EQUATIONS through quantity
+    for (let i = 0; i < quantity; i++) {
       var combinedSchema = "";
       var percentage = Math.random() * 100;
       var item1 = lhsSchemas[Math.floor(Math.random() * lhsSchemas.length)];
@@ -242,8 +242,8 @@ var EquationGeneratorAverage = (function () {
     console.log(averageEquationList);
   }
 
-  var getEquationList = function () {
-    generateEquations();
+  var getEquationList = function (quantity) {
+    generateEquations(quantity);
     return averageEquationList;
   };
 

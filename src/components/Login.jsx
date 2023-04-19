@@ -8,6 +8,9 @@ import $ from "jquery";
 import { useFormik } from "formik";
 import { loginSchema } from "../schemas";
 
+import { VscEyeClosed } from "react-icons/vsc";
+import { VscEye } from "react-icons/vsc";
+
 export default function Login() {
   document.body.style.height = "100vh";
 
@@ -42,6 +45,8 @@ export default function Login() {
   useEffect(() => {
     window.localStorage.setItem("SESSION_EMAIL", JSON.stringify(""));
     window.localStorage.setItem("SESSION_USER", JSON.stringify(""));
+    window.localStorage.setItem("SESSION_ID", JSON.stringify(""));
+    window.localStorage.setItem("LOGIN_TYPE", JSON.stringify("Student"));
   }, []);
 
   //END END END END END END END END END END END END
@@ -128,6 +133,20 @@ export default function Login() {
               "SESSION_EMAIL",
               JSON.stringify(userData[1])
             );
+
+            var emailString = userData[1];
+            for (let i = 0; i < emailString.length; i++) {
+              if (emailString[i].match(/[\@]/)) {
+                emailString = emailString.substring(0, i);
+                emailString = emailString.replace(".", "_");
+                break;
+              }
+            }
+            window.localStorage.setItem(
+              "SESSION_USER_LOGS",
+              JSON.stringify(emailString)
+            );
+
             isStudent = true;
           } else if (currentData != '""' && currentData != "[]") {
             currentData = currentData.replace(/"/g, "");
@@ -191,165 +210,192 @@ export default function Login() {
     values.password = "";
   };
 
+  const [passwordState, setPasswordState] = useState(false);
+  const passwordElement = document.getElementById("password");
+
+  const showPassword = () => {
+    if (passwordState) {
+      setPasswordState(false);
+      ReactDOM.findDOMNode(passwordElement).type = "password";
+    } else {
+      setPasswordState(true);
+      ReactDOM.findDOMNode(passwordElement).type = "text";
+    }
+  };
+
   return (
     <>
-      <div className="mx-auto my-24 grid place-items-center w-5/12 lg:pr-16  ">
-        <div className="grid grid-cols-12 gap-x-10 justify-center">
-          <div className="col-span-2">
-            <button
-              onClick={function () {
-                changeAccountType();
-              }}
-              type="button"
-              className="ml-9 inline-block lg:px-4 md:px-3 sm:px-2 border-b-4 border-gray-500/90 lg:rounded-tl-2xl lg:rounded-tr-2xl sm:rounded-tl-xl sm:rounded-tr-xl text-white bg-gray-400 text-sm hover:bg-gray-500 hover:border-gray-600"
-            >
-              {accType == "Student" ? "Admin" : "Student"}
-            </button>
-          </div>
-          <div className="col-span-10">
-            <button
-              type="button"
-              disabled
-              className=" ml-9 inline-block lg:px-4 md:px-3 sm:px-2 border-b-4 border-gray-600  lg:rounded-tl-2xl lg:rounded-tr-2xl sm:rounded-tl-xl sm:rounded-tr-xl text-white bg-gray-500 text-sm"
-            >
-              {accType}
-            </button>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-12 bg-mainBGBrown rounded-5xl border-l-12 border-b-12 border-yellow-700 border-r-12 border-r-brTwo w-full shadow-2xl shadow-yellow-400 ">
-          <div className="col-span-2"></div>
-          <div className="bg-white py-20 rounded-r-3xl border-l-12 border-l-yellow-700 border-b-12 border-b-yellow-900/50 border-r-12 border-r-yellow-900/30 col-span-10">
-            <div className="lg:text-4xl sm:text-2xl font-bold text-center">
-              <div className="mb-5 select-none">{accType}</div>
-              <div className="mb-5 select-none">Account Login</div>
+      <div className="h-[90vh] flex items-center justify-center ">
+        <div className="mx-auto my-24 grid place-items-center w-5/12 lg:pr-16 ">
+          <div className="grid grid-cols-12 gap-x-10 justify-center">
+            <div className="col-span-2">
+              <button
+                onClick={function () {
+                  changeAccountType();
+                }}
+                type="button"
+                className="ml-9 inline-block lg:px-4 md:px-3 sm:px-2 border-b-4 border-gray-500/90 lg:rounded-tl-2xl lg:rounded-tr-2xl sm:rounded-tl-xl sm:rounded-tr-xl text-white bg-gray-400 text-sm hover:bg-gray-500 hover:border-gray-600"
+              >
+                {accType == "Student" ? "Admin" : "Student"}
+              </button>
             </div>
-
-            <div className="p-1  rounded-xl lg:text-2xl  grid place-items-center text-gray-400">
-              <h1 className="select-none">(Log-in to your account)</h1>
-              <p className="text-red-500 text-center text-lg pt-12 pl-6">
-                {accType == "Student"
-                  ? accountValidation == '"Invalid"'
-                    ? "Invalid email or password. Please try again."
-                    : "\u00A0"
-                  : accountValidation == '"Invalid"'
-                  ? "Invalid username or password. Please try again."
-                  : "\u00A0"}
-              </p>
+            <div className="col-span-10">
+              <button
+                type="button"
+                disabled
+                className=" ml-9 inline-block lg:px-4 md:px-3 sm:px-2 border-b-4 border-gray-600  lg:rounded-tl-2xl lg:rounded-tr-2xl sm:rounded-tl-xl sm:rounded-tr-xl text-white bg-gray-500 text-sm"
+              >
+                {accType}
+              </button>
             </div>
+          </div>
 
-            <div className="mx-5">
-              <form onSubmit={handleSubmit} className="mt-2">
-                {/* Email Input */}
+          <div className="grid grid-cols-12 bg-mainBGBrown rounded-5xl border-l-12 border-b-12 border-yellow-700 border-r-12 border-r-brTwo w-full shadow-2xl shadow-yellow-400 ">
+            <div className="col-span-2"></div>
+            <div className="bg-white py-20 rounded-r-3xl border-l-12 border-l-yellow-700/90 border-b-12 border-b-yellow-900/50 border-r-12 border-r-yellow-900/30 col-span-10">
+              <div className="lg:text-4xl sm:text-2xl font-bold text-center">
+                <div className="mb-5 select-none">{accType}</div>
+                <div className="mb-5 select-none">Account Login</div>
+              </div>
 
-                <div className="grid grid-rows-2 text-left h-20">
-                  <div className="flex">
-                    <label
-                      className={`mr-2 text-lg mt-1.5 font-semibold ${
-                        accType == "Student" ? "ml-9 pl-0.5" : ""
-                      }`}
-                      htmlFor={accType == "Student" ? "email" : "username"}
-                    >
-                      {accType == "Student" ? "Email:" : "Username:"}
-                    </label>
-                    <input
-                      onFocus={function () {
-                        setAccountValidation("");
-                      }}
-                      className={`bg-[#e0e0e0] rounded-full w-full text-lg text-gray-700 px-4  py-1.5 mr-3  ${
-                        accType == "Student"
-                          ? errors.email && touched.email
+              <div className="p-1  rounded-xl lg:text-2xl  grid place-items-center text-gray-400">
+                <h1 className="select-none">(Log-in to your account)</h1>
+                <p className="text-red-500 text-center text-lg pt-12 pl-6">
+                  {accType == "Student"
+                    ? accountValidation == '"Invalid"'
+                      ? "Invalid email or password. Please try again."
+                      : "\u00A0"
+                    : accountValidation == '"Invalid"'
+                    ? "Invalid username or password. Please try again."
+                    : "\u00A0"}
+                </p>
+              </div>
+
+              <div className="mx-5">
+                <form onSubmit={handleSubmit} className="mt-2">
+                  {/* Email Input */}
+
+                  <div className="grid grid-rows-2 text-left h-20">
+                    <div className="flex">
+                      <label
+                        className={`mr-2 text-lg mt-1.5 font-semibold ${
+                          accType == "Student" ? "ml-9 pl-0.5" : ""
+                        }`}
+                        htmlFor={accType == "Student" ? "email" : "username"}
+                      >
+                        {accType == "Student" ? "Email:" : "Username:"}
+                      </label>
+                      <input
+                        onFocus={function () {
+                          setAccountValidation("");
+                        }}
+                        className={`bg-[#e0e0e0] rounded-full w-full text-lg text-gray-700 px-4  py-1.5 mr-3  ${
+                          accType == "Student"
+                            ? errors.email && touched.email
+                              ? " border-red-500 focus:border-red-500 border-2 border-solid"
+                              : ""
+                            : errors.username && touched.username
                             ? " border-red-500 focus:border-red-500 border-2 border-solid"
                             : ""
-                          : errors.username && touched.username
-                          ? " border-red-500 focus:border-red-500 border-2 border-solid"
-                          : ""
-                      }`}
-                      type={accType == "Student" ? "email" : "text"}
-                      name={accType == "Student" ? "email" : "username"}
-                      placeholder={
-                        accType == "Student"
-                          ? "lastname.firstname@sanfrancisco.edu.ph"
-                          : "Enter your username"
-                      }
-                      autoComplete="off"
-                      /* Formik email validation Section  */
+                        }`}
+                        type={accType == "Student" ? "email" : "text"}
+                        name={accType == "Student" ? "email" : "username"}
+                        placeholder={
+                          accType == "Student"
+                            ? "lastname.firstname@sanfrancisco.edu.ph"
+                            : "Enter your username"
+                        }
+                        autoComplete="off"
+                        /* Formik email validation Section  */
 
-                      value={
-                        accType == "Student" ? values.email : values.username
-                      }
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                    />
+                        value={
+                          accType == "Student" ? values.email : values.username
+                        }
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                      />
+                    </div>
+
+                    <div className="">
+                      {accType == "Student"
+                        ? errors.email &&
+                          touched.email && (
+                            <p className="text-red-500 ml-28 flex-w">
+                              {errors.email}
+                            </p>
+                          )
+                        : errors.username &&
+                          touched.username && (
+                            <p className="text-red-500 ml-28 flex-w">
+                              {errors.username}
+                            </p>
+                          )}
+                    </div>
                   </div>
 
-                  <div className="">
-                    {accType == "Student"
-                      ? errors.email &&
-                        touched.email && (
-                          <p className="text-red-500 ml-28 flex-w">
-                            {errors.email}
-                          </p>
-                        )
-                      : errors.username &&
-                        touched.username && (
-                          <p className="text-red-500 ml-28 flex-w">
-                            {errors.username}
-                          </p>
-                        )}
-                  </div>
-                </div>
+                  {/* Password Input */}
+                  <div className="grid grid-rows-2 text-left h-20">
+                    <div className="flex relative">
+                      <label
+                        htmlFor="password"
+                        className="mr-3 text-lg mt-1.5 font-semibold"
+                      >
+                        {" "}
+                        Password:{" "}
+                      </label>
+                      <input
+                        id="password"
+                        onFocus={function () {
+                          setAccountValidation("");
+                        }}
+                        className={` bg-[#e0e0e0] rounded-full w-full text-lg text-gray-700 px-4 pr-10 py-1.5 mr-3 ${
+                          errors.password && touched.password
+                            ? " border-red-500 focus:border-red-500 border-2 border-solid"
+                            : ""
+                        } `}
+                        type="password"
+                        name="password"
+                        placeholder="Input password"
+                        autoComplete="off"
+                        /* Formik password validation Section */
 
-                {/* Password Input */}
-                <div className="grid grid-rows-2 text-left h-20">
-                  <div className="flex">
-                    <label
-                      htmlFor="password"
-                      className="mr-3 text-lg mt-1.5 font-semibold"
+                        value={values.password}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                      />
+                      {passwordState ? (
+                        <VscEye
+                          onClick={showPassword}
+                          className="text-gray-500 cursor-pointer absolute right-6 top-[0.6rem]  text-xl hover:text-black"
+                        />
+                      ) : (
+                        <VscEyeClosed
+                          onClick={showPassword}
+                          className="text-gray-500 cursor-pointer absolute right-6 top-[0.6rem] text-xl hover:text-black"
+                        />
+                      )}
+                    </div>
+                    <div>
+                      {errors.password && touched.password && (
+                        <p className="text-red-500 ml-28 flex-w">
+                          {errors.password}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Login Button */}
+                  <div className=" mt-12 mb-8 text-center w-full ">
+                    <button
+                      disabled={isSubmitting}
+                      type="submit"
+                      className="bg-lime-600 rounded-5xl w-1/2 py-2 lg:text-lg sm:text-md font-semibold hover:bg-lime-700 text-white ease-in-out transition duration-200 transform"
                     >
-                      {" "}
-                      Password:{" "}
-                    </label>
-                    <input
-                      onFocus={function () {
-                        setAccountValidation("");
-                      }}
-                      className={` bg-[#e0e0e0] rounded-full w-full text-lg text-gray-700 px-4  py-1.5 mr-3 ${
-                        errors.password && touched.password
-                          ? " border-red-500 focus:border-red-500 border-2 border-solid"
-                          : ""
-                      } `}
-                      type="password"
-                      name="password"
-                      placeholder="Input password"
-                      autoComplete="off"
-                      /* Formik password validation Section */
-
-                      value={values.password}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                    />
+                      <span className="text-xl font-semibold">LOG-IN </span>
+                    </button>
                   </div>
-                  <div>
-                    {errors.password && touched.password && (
-                      <p className="text-red-500 ml-28 flex-w">
-                        {errors.password}
-                      </p>
-                    )}
-                  </div>
-                </div>
-
-                {/* Login Button */}
-                <div className=" mt-12 mb-8 text-center w-full ">
-                  <button
-                    disabled={isSubmitting}
-                    type="submit"
-                    className="bg-lime-600 rounded-5xl w-1/2 py-2 lg:text-lg sm:text-md font-semibold hover:bg-lime-700 text-white ease-in-out transition duration-200 transform"
-                  >
-                    <span className="text-xl font-semibold">LOG-IN </span>
-                  </button>
-                </div>
-              </form>
+                </form>
+              </div>
             </div>
           </div>
         </div>

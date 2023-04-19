@@ -24,7 +24,10 @@ const PenModal = ({ visible, onClose }) => {
               <MdClose />
             </button>
           </div>
-          <div className="w-[1300px] h-[742px]"></div>
+          <div className="w-[1300px] h-[742px]">
+            <div className="bg-gray-800 w-[1300px] h-[742px]"></div>
+            <div></div>
+          </div>
         </div>
       </div>
     </>
