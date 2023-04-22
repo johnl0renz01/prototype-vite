@@ -20,7 +20,7 @@ for ($i = strlen($section_index) - 1; $i > 0; $i--) {
 
 switch($_SESSION['method']) {
     case "GET":
-        $sql = "SELECT SectionName FROM section_list ORDER BY SectionName LIMIT $section_index, 1 ";
+        $sql = "SELECT SectionName FROM section_list ORDER BY GradeLevel ASC, SectionName ASC LIMIT $section_index, 1 ";
         //$path = explode('/', $_SERVER['REQUEST_URI']);
         
         $stmt = $conn->prepare($sql);

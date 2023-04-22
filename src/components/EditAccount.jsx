@@ -292,6 +292,7 @@ function EditAccount() {
       lastName: "",
       birthDay: "",
       age: "",
+      sex: "",
       section: "Rizal",
       groupType: "Facial Group",
       gradeLevel: "Grade 7",

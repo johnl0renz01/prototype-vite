@@ -36,6 +36,9 @@ switch($requestLink) {
      case "/Prototype-Vite/my-project/api/selectDifficulty":
         include('selectDifficulty.php');
     break;
+    case "/Prototype-Vite/my-project/api/getEquation":
+        include('getEquation.php');
+    break;
 
     //FOR WHITEBOARD
     case "/Prototype-Vite/my-project/api/whiteboardLogs":
@@ -94,15 +97,29 @@ switch($requestLink) {
     case "/Prototype-Vite/my-project/api/editAccountPassword":
         include('editAccountPassword.php');
     break;
+    case "/Prototype-Vite/my-project/api/removeEquation":
+        include('removeEquation.php');
+    break;
+    case "/Prototype-Vite/my-project/api/verifyEquation":
+        include('verifyEquation.php');
+    break;
     case "/Prototype-Vite/my-project/api/addEquation":
         include('addEquation.php');
     break;
     case "/Prototype-Vite/my-project/api/getEquationList":
         include('getEquationList.php');
     break;
+
+    case "/Prototype-Vite/my-project/api/getAccountSection":
+        include('getAccountSection.php');
+        break;
+    case "/Prototype-Vite/my-project/api/sectionDetails":
+        include('sectionDetails.php');
+        break;
     case "/Prototype-Vite/my-project/api/addSection":
         include('addSection.php');
     break;
+    
    
 
     case "/Prototype-Vite/my-project/api/upload":

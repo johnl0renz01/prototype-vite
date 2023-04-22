@@ -9,7 +9,7 @@ include 'DbConnect.php';
 $objDb = new DbConnect;
 $conn = $objDb->connect();
 
-$section = $_SERVER['REQUEST_URI'];
+$section= $_SERVER['REQUEST_URI'];
 
 for ($i = strlen($section) - 1; $i > 0; $i--) {
     if ($section[$i] == "/") {
@@ -21,7 +21,7 @@ for ($i = strlen($section) - 1; $i > 0; $i--) {
 
 switch($_SESSION['method']) {
     case "GET":
-        $sql = "SELECT * FROM section_list WHERE SectionName = '$section' ORDER BY GradeLevel ASC, SectionName ASC";
+        $sql = "SELECT * FROM section_list WHERE SectionName = '$section'";
         //$path = explode('/', $_SERVER['REQUEST_URI']);
         
         $stmt = $conn->prepare($sql);

@@ -31,7 +31,6 @@ switch($_SESSION['method']) {
         echo json_encode($accounts);
         break;
     case "POST":
-        $zxc = "test";
         $search = json_decode( file_get_contents('php://input') );
         $inputSearch = $search->searchQuery;
         $inputSearch = trim($inputSearch);
@@ -41,12 +40,20 @@ switch($_SESSION['method']) {
                                         OR Section LIKE '$section' AND GivenName LIKE '%$inputSearch%'
                                         OR Section LIKE '$section' AND GivenName LIKE '%$inputSearch'
                                         OR Section LIKE '$section' AND GivenName LIKE '$inputSearch%'
+                                        
                                         OR Section LIKE '$section' AND LastName LIKE '$inputSearch'
                                         OR Section LIKE '$section' AND LastName LIKE '%$inputSearch%'
                                         OR Section LIKE '$section' AND LastName LIKE '%$inputSearch'
                                         OR Section LIKE '$section' AND LastName LIKE '$inputSearch%'
+
                                         OR Section LIKE '$section' AND Age LIKE '$inputSearch'
+                                        OR Section LIKE '$section' AND Age LIKE '%$inputSearch%'
+                                        OR Section LIKE '$section' AND Age LIKE '%$inputSearch'
+                                        OR Section LIKE '$section' AND Age LIKE '$inputSearch%'
+
                                         OR Section LIKE '$section' AND Gender LIKE '$inputSearch'
+                                        OR Section LIKE '$section' AND Gender LIKE '$inputSearch%'
+
                                         OR Section LIKE '$section' AND GroupType LIKE '$inputSearch'
                                         OR Section LIKE '$section' AND GroupType LIKE '%$inputSearch%'
                                         OR Section LIKE '$section' AND GroupType LIKE '%$inputSearch'

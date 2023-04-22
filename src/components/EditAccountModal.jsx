@@ -1,5 +1,6 @@
 import React from "react";
 import { MdClose } from "react-icons/md";
+import { VscInfo } from "react-icons/vsc";
 
 const EditAccountModal = ({ visible, onClose }) => {
   const handleOnClose = (e) => {
@@ -17,13 +18,16 @@ const EditAccountModal = ({ visible, onClose }) => {
         className="fixed top-0 inset-0 z-50 bg-black bg-opacity-50 backdrop-blur-[1.5px] flex justify-center items-center "
       >
         <div className="bg-white  rounded text-lg  ">
-          <div className="text-right bg-gray-400 border-b-2 border-gray-300">
-            <button
-              onClick={onClose}
-              className="bg-red-500 p-2 inline-block hover:bg-red-600 hover:text-white"
-            >
-              <MdClose />
-            </button>
+          <div className="grid grid-cols-2 bg-gray-400 border-b-2 border-gray-300">
+            <VscInfo className="text-[1.85rem] ml-1 mt-0.5 text-black/60" />
+            <div className="text-right">
+              <button
+                onClick={onClose}
+                className="bg-red-500 p-2 inline-block hover:bg-red-600 hover:text-white"
+              >
+                <MdClose />
+              </button>
+            </div>
           </div>
           <div className="">
             <div className="p-4 ">

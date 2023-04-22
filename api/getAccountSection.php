@@ -9,23 +9,13 @@ include 'DbConnect.php';
 $objDb = new DbConnect;
 $conn = $objDb->connect();
 
-$section = $_SERVER['REQUEST_URI'];
-
-for ($i = strlen($section) - 1; $i > 0; $i--) {
-    if ($section[$i] == "/") {
-        $section = substr($section, ($i + 1));
-        $section = str_replace("_"," ", $section);
-        break;
-    }
-}
-
 switch($_SESSION['method']) {
     case "GET":
-        $sql = "SELECT * FROM section_list WHERE SectionName = '$section' ORDER BY GradeLevel ASC, SectionName ASC";
-        //$path = explode('/', $_SERVER['REQUEST_URI']);
+        $sql = "SELECT DISTINCT Section FROM accounts";
         
         $stmt = $conn->prepare($sql);
         $stmt->execute();
+       // $result = $stmt->fetchColumn();
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         echo json_encode($result);
@@ -34,6 +24,7 @@ switch($_SESSION['method']) {
         break;
     case "PUT":
         break;
+        
     case "DELETE":
         break;
 }

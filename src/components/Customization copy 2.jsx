@@ -77,7 +77,7 @@ export default function Customization() {
         setCreateQuestionState("visible");
       } else if (visibility == 3) {
         resetStates();
-        setManageSectionState("visible");
+        setSectionListState("visible");
       } else if (visibility == 4) {
         resetStates();
         setAddSectionState("visible");
@@ -870,11 +870,11 @@ export default function Customization() {
   var inputText = "";
 
   useEffect(() => {
-    getManageSection();
+    getSectionList();
     getAccounts();
   }, []);
 
-  function getManageSection() {
+  function getSectionList() {
     axios
       .get(`http://localhost:80/Prototype-Vite/my-project/api/sectionList/`)
       .then(function (response) {
@@ -991,7 +991,7 @@ export default function Customization() {
   }
   // ADDED// ADDED// ADDED//
 
-  function manageSection() {
+  function sectionList() {
     const handleChange = (event) => {
       const name = event.target.name;
       const value = event.target.value;
@@ -1319,10 +1319,7 @@ export default function Customization() {
     return (
       <>
         <div className="p-12">
-          <div className="relative grid grid-cols-2">
-            <p className="absolute left-[13rem] text-center text-2xl font-semibold ">
-              Edit Section
-            </p>
+          <div className="grid grid-cols-2">
             <div className=" text-xl py-16 relative">
               <form
                 action=""
@@ -1548,7 +1545,7 @@ export default function Customization() {
         sectionName: "",
         adviserName: "",
         adviserSurname: "",
-        title: "Mr",
+        title: "",
       },
       validationSchema: addSectionSchema,
       onSubmit,
@@ -1881,7 +1878,7 @@ export default function Customization() {
   function resetStates() {
     setCustomEquationsState("hidden");
     setCreateQuestionState("hidden");
-    setManageSectionState("hidden");
+    setSectionListState("hidden");
     setEditSectionState("hidden");
     setAddSectionState("hidden");
     setEditAccountState("hidden");
@@ -1890,7 +1887,7 @@ export default function Customization() {
   const [currentTab, setCurrentTab] = useState("");
   const [showCustomEquations, setCustomEquationsState] = useState("hidden");
   const [showCreateQuestion, setCreateQuestionState] = useState("hidden");
-  const [showManageSection, setManageSectionState] = useState("hidden");
+  const [showSectionList, setSectionListState] = useState("hidden");
   const [showEditSection, setEditSectionState] = useState("hidden");
   const [showAddSection, setAddSectionState] = useState("hidden");
   const [showEditAccount, setEditAccountState] = useState("hidden");
@@ -1959,11 +1956,11 @@ export default function Customization() {
                   <div
                     onClick={function () {
                       resetStates();
-                      setManageSectionState("visible");
-                      setCurrentTab("manageSection");
+                      setSectionListState("visible");
+                      setCurrentTab("sectionList");
                       window.localStorage.setItem(
                         "CURRENT_TAB",
-                        JSON.stringify("manageSection")
+                        JSON.stringify("sectionList")
                       );
                       window.localStorage.setItem(
                         "CURRENT_TAB_INDEX",
@@ -1971,14 +1968,14 @@ export default function Customization() {
                       );
                     }}
                     className={`cursor-pointer py-2 my-1.5 rounded-t-3xl border-b-8 ease-in-out transform transition duration-150 ${
-                      currentTab == "manageSection"
+                      currentTab == "sectionList"
                         ? "  text-gray-800 bg-[#bcbcbc] border-b-gray-600/90"
                         : "text-gray-700 border-gray-400  hover:border-gray-500/90 bg-[#f1f1f1] hover:text-gray-800 hover:bg-[#b3b3b3]"
                     }`}
                   >
                     <span className="pr-2 text-xl flex ">
                       <BsReverseLayoutTextSidebarReverse className="ml-[1.15rem] mr-2 mt-1 lg:text-2xl" />
-                      Manage Section
+                      Section List
                     </span>
                   </div>
                   <div
@@ -2126,7 +2123,7 @@ export default function Customization() {
                     </div>
                   </div>
                   <div className={showCreateQuestion}>{createQuestion()}</div>
-                  <div className={showManageSection}>{manageSection()}</div>
+                  <div className={showSectionList}>{sectionList()}</div>
                   <div className={showEditSection}>{editSection()}</div>
                   <div className={showAddSection}>{addSection()}</div>
                   <div className={showEditAccount}>{EditStudentInfo()}</div>

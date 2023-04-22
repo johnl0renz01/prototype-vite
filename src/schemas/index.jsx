@@ -42,8 +42,16 @@ export const editAccountSchema = yup.object().shape({
   password: yup.string().required("(Password Required)"),
 });
 
+export const editSectionSchema = yup.object().shape({
+  editSectionName: yup.string().required("* Section Name is Required"),
+  editAdviserName: yup.string().required("* Adviser Name is Required"),
+  editAdviserSurname: yup.string().required("* Adviser Surname is Required"),
+  editTitle: yup.string().required("* Title is Required"),
+});
+
 export const addSectionSchema = yup.object().shape({
   sectionName: yup.string().required("* Section Name is Required"),
   adviserName: yup.string().required("* Adviser Name is Required"),
-  sex: yup.string().required("* Gender is Required"),
+  adviserSurname: yup.string().required("* Adviser Surname is Required"),
+  title: yup.string().required("* Title is Required"),
 });

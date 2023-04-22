@@ -1136,7 +1136,8 @@ export default function Whiteboard() {
         document.body.removeEventListener("click", changeCursor);
       } else {
         if (isSolved) {
-          setTimeout(displaySolved, 1);
+          //setTimeout(displaySolved, 1);  ORIGINAL
+          displaySolved(); //MODIFIED
         } else {
           timer();
         }
@@ -1506,7 +1507,7 @@ export default function Whiteboard() {
                   {...(isHelp
                     ? {
                         dataTooltip:
-                          "The area for the given question and the equation you need to solve.",
+                          "Button to gather information by hovering around the system.",
                       }
                     : {})}
                   {...(isHelp ? { dataTooltipPosition: "right" } : {})}
@@ -1542,7 +1543,7 @@ export default function Whiteboard() {
                   {...(isHelp
                     ? {
                         dataTooltip:
-                          "The area for the given question and the equation you need to solve.",
+                          "Button to call for the assistance of PIA, like what step should be done.",
                       }
                     : {})}
                   {...(isHelp ? { dataTooltipPosition: "right" } : {})}
@@ -1588,7 +1589,7 @@ export default function Whiteboard() {
                   {...(isHelp
                     ? {
                         dataTooltip:
-                          "The area for the given question and the equation you need to solve.",
+                          "Button to switch to tutorial video mode, where linear equation is the lesson.",
                       }
                     : {})}
                   {...(isHelp ? { dataTooltipPosition: "right" } : {})}
@@ -1629,7 +1630,7 @@ export default function Whiteboard() {
                   {...(isHelp
                     ? {
                         dataTooltip:
-                          "The area for the given question and the equation you need to solve.",
+                          "Button to enable drawing mode in the whiteboard.",
                       }
                     : {})}
                   {...(isHelp ? { dataTooltipPosition: "right" } : {})}
@@ -1684,7 +1685,7 @@ export default function Whiteboard() {
                   <div>
                     <iframe
                       className="absolute w-full aspect-auto h-full"
-                      src="https://www.youtube.com/embed/8gnpIIy-g3c"
+                      src="https://www.youtube.com/embed/crJI4iZ_DbI"
                       title="Solving linear equations — Harder example | Math | SAT | Khan Academy"
                       frameborder="0"
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -1930,7 +1931,11 @@ export default function Whiteboard() {
             </div>
 
             {/*<!--White area in whiteboard under synthetic face-->*/}
-            <div className="relative col-span-5 row-span-4 bg-white border-r-12  border-r-yellow-700 ">
+            <div
+              className={`relative col-span-5 row-span-4 bg-white border-r-12  border-r-yellow-700 ${
+                isPen ? "invisible" : ""
+              }`}
+            >
               <button
                 onClick={skipQuestion}
                 id="skip_button"

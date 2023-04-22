@@ -69,7 +69,7 @@ class FileUploadForm extends React.Component {
             </div>{" "}
             <button
               type="submit"
-              className=" bg-gradient-to-t from-gray-200 via-gray-100 to-white border-2 px-1 py-0.5 text-base mt-2 mb-8 hover:border-gray-400"
+              className="hidden bg-gradient-to-t from-gray-200 via-gray-100 to-white border-2 px-1 py-0.5 text-base mt-2 mb-8 hover:border-gray-400"
             >
               Upload
             </button>

@@ -70,6 +70,9 @@ export default function SectionList() {
 
   const [processData, setProcessData] = useState(false);
 
+  const [imageUrl, setImageUrl] = useState([]);
+  const [imageType, setImageType] = useState([]);
+
   function getSections() {
     var totalSections = 0;
     var ids = [];
@@ -80,6 +83,38 @@ export default function SectionList() {
       .then(function (response) {
         console.log(response.data);
         setSectionData(response.data);
+
+        let result = Object.values(response.data);
+
+        let items = [];
+        let keys = [];
+        for (let i = 0; i < result.length; i++) {
+          for (let k in result[i]) keys.push(result[i][k]);
+        }
+
+        for (let i = 6; i <= keys.length; i += 7) {
+          // GET IMAGE STRING 6th index (including id)
+          items.push(keys[i]);
+        }
+
+        var imgName = [];
+        var imgType = [];
+
+        for (let i = 0; i < items.length; i++) {
+          let string = items[i];
+          for (let j = 0; j < string.length; j++) {
+            if (string[j] == ".") {
+              imgName.push(string.substring(0, j));
+              imgType.push(string.substring(j + 1));
+              break;
+            }
+          }
+        }
+        console.log(imgName);
+        console.log(imgType);
+
+        setImageUrl(imgName);
+        setImageType(imgType);
       });
 
     axios
@@ -178,6 +213,24 @@ export default function SectionList() {
     total();
   });
 
+  function sectionCover(index, sectionOrder) {
+    var currentIndex = parseInt(index);
+    return {
+      ...(imageUrl.length > 0 ? (
+        <>
+          <img
+            className={`w-full rounded-xl h-48 object-cover ${
+              sectionOrder > 0 ? "opacity-100" : "opacity-50"
+            }`}
+            src={require(`../assets/section_cover/${imageUrl[currentIndex]}.${imageType[currentIndex]}`)}
+          />
+        </>
+      ) : (
+        <></>
+      )),
+    };
+  }
+
   /*
   async function fetchData(index) {
     ==============METHOD 1METHOD 1METHOD 1METHOD 1==============
@@ -236,7 +289,7 @@ export default function SectionList() {
     getSections();
   }, []);
 
-  function sectionCard(sectionName, teacherName, sectionOrder, image) {
+  function sectionCard(sectionName, teacherName, sectionOrder, index) {
     return (
       <div
         className={`max-w-xs  ${
@@ -249,13 +302,7 @@ export default function SectionList() {
           7 - {sectionName}
         </h3>
         <div className="relative rounded-xl shadow-md shadow-black/40">
-          <img
-            className={`w-full rounded-xl h-48 object-cover ${
-              sectionOrder > 0 ? "opacity-100" : "opacity-50"
-            }`}
-            src={require("../assets/section_cover/" + image + ".png")}
-            alt="Colors"
-          />
+          {sectionCover(index, sectionOrder)}
         </div>
         <div
           className={`my-3 select-none  ${
@@ -331,7 +378,7 @@ export default function SectionList() {
                     `${data.SectionName}`,
                     `${data.AdviserTitle}. ${data.AdviserSurname}`,
                     `${studentsTotal[index]}`,
-                    `${data.SectionImage}`
+                    index
                   )}
                 </>
               ))}

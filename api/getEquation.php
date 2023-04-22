@@ -9,21 +9,20 @@ include 'DbConnect.php';
 $objDb = new DbConnect;
 $conn = $objDb->connect();
 
-$section = $_SERVER['REQUEST_URI'];
 
-for ($i = strlen($section) - 1; $i > 0; $i--) {
-    if ($section[$i] == "/") {
-        $section = substr($section, ($i + 1));
-        $section = str_replace("_"," ", $section);
+$equation_type = $_SERVER['REQUEST_URI'];
+
+for ($i = strlen($equation_type) - 1; $i > 0; $i--) {
+    if ($equation_type[$i] == "/") {
+        $equation_type = substr($equation_type, ($i + 1));
         break;
     }
 }
 
+
 switch($_SESSION['method']) {
     case "GET":
-        $sql = "SELECT * FROM section_list WHERE SectionName = '$section' ORDER BY GradeLevel ASC, SectionName ASC";
-        //$path = explode('/', $_SERVER['REQUEST_URI']);
-        
+        $sql = "SELECT EquationString FROM equation_list WHERE EquationType = '$equation_type'";
         $stmt = $conn->prepare($sql);
         $stmt->execute();
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -34,6 +33,7 @@ switch($_SESSION['method']) {
         break;
     case "PUT":
         break;
+        
     case "DELETE":
         break;
 }
