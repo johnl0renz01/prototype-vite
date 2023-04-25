@@ -369,7 +369,7 @@ export default function Customization() {
             ></input>
             <button
               onClick={equationString != "" ? validateEquation : undefined}
-              className={`ml-6 py-1.5 lg:w-36 px-4 shadow-md rounded-full transition duration-300 ${
+              className={`ml-6 py-1.5 lg:w-36 px-4 shadow-md rounded-full transition duration-300 drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)] ${
                 equationString != ""
                   ? " text-white  bg-yellow-600 hover:bg-yellow-700"
                   : " cursor-default text-gray-300  bg-gray-400 "
@@ -561,7 +561,7 @@ export default function Customization() {
           <div className="flex justify-end absolute bottom-4 right-4">
             <button
               onClick={showSteps ? resetEquation : undefined}
-              className={`ml-6 py-1.5 pb-2 px-4 shadow-md rounded-full  transition duration-300 ${
+              className={`ml-6 py-1.5 pb-2 px-4 shadow-md rounded-full  transition duration-300 drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)] ${
                 showSteps
                   ? "text-white bg-red-600 hover:bg-red-700"
                   : "cursor-default text-gray-300 bg-gray-400"
@@ -574,7 +574,7 @@ export default function Customization() {
             </button>
             <button
               onClick={showSteps ? addEquation : undefined}
-              className={` ml-6 py-1.5 pb-2 px-3 shadow-md rounded-full  transition duration-300 ${
+              className={` ml-6 py-1.5 pb-2 px-3 shadow-md rounded-full  transition duration-300 drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)] ${
                 showSteps
                   ? "text-white bg-lime-600 hover:bg-lime-700"
                   : "cursor-default text-gray-300 bg-gray-400"
@@ -793,7 +793,7 @@ export default function Customization() {
           <button
             disabled={isSubmitting}
             type="submit"
-            className="mt-10 flex items-center justify-center bg-lime-600 rounded-5xl w-1/2 mx-auto py-2 lg:text-lg sm:text-md font-semibold hover:bg-lime-700 text-white ease-in-out transition duration-200 transform"
+            className="mt-10 flex items-center justify-center bg-lime-600 rounded-5xl w-1/2 mx-auto py-2 lg:text-lg sm:text-md font-semibold hover:bg-lime-700 text-white ease-in-out transition duration-200 transform drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)]"
           >
             <span className="text-xl font-semibold">LOG-IN </span>
           </button>
@@ -1073,7 +1073,7 @@ export default function Customization() {
                       name={currentSection.SectionName}
                       type="submit"
                       value="Edit"
-                      className="cursor-pointer py-[0.2rem]  pl-4 pr-[2.15rem]   shadow-md rounded-full font-normal  transition duration-300 text-white bg-blue-500/90 hover:bg-blue-600 lg:text-base"
+                      className="cursor-pointer py-[0.2rem]  pl-4 pr-[2.15rem]   shadow-md rounded-full font-normal  transition duration-300 text-white bg-blue-500/90 hover:bg-blue-600 lg:text-base drop-shadow-[0_2px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_2px_0px_rgba(0,0,0,0.6)]"
                     ></input>
                     <span className=" absolute top-[0.25rem] right-3 font-normal text-base flex justify-center">
                       <HiPencilSquare className="ml-1 mt-[0.2rem] lg:text-lg text-white" />
@@ -1085,7 +1085,7 @@ export default function Customization() {
                       <>
                         <button
                           disabled
-                          className="relative py-[0.2rem]  px-4 shadow-md rounded-full font-semibold  text-gray-300 bg-gray-400 "
+                          className="relative py-[0.2rem]  px-4 shadow-md rounded-full font-semibold  text-gray-300 bg-gray-400 drop-shadow-[0_2px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_2px_0px_rgba(0,0,0,0.6)]"
                           title="You can only delete an empty section."
                         >
                           <span className="font-normal pl-2 text-base flex justify-center">
@@ -1098,7 +1098,7 @@ export default function Customization() {
                       <>
                         <button
                           type="submit"
-                          className="relative py-[0.2rem]  px-4 shadow-md rounded-full font-semibold  transition duration-500 text-white bg-red-500 hover:bg-red-700"
+                          className="relative py-[0.2rem]  px-4 shadow-md rounded-full font-semibold  transition duration-500 text-white bg-red-500 hover:bg-red-700 drop-shadow-[0_2px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_2px_0px_rgba(0,0,0,0.6)]"
                         >
                           <span className="font-normal pl-2 text-base flex justify-center">
                             Delete
@@ -1280,7 +1280,7 @@ export default function Customization() {
           <a>
             <button
               disabled
-              className={`mt-3 text-xl w-full  py-2 rounded-xl  shadow-lg text-gray-300 bg-gray-500/90`}
+              className={`mt-3 text-xl w-full  py-2 rounded-xl  shadow-lg text-gray-300 bg-gray-500/90 drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)]`}
             >
               Visit class
             </button>
@@ -1482,7 +1482,7 @@ export default function Customization() {
                   ))}
                 <div className="flex justify-end  text-center absolute right-0 -bottom-7">
                   <button
-                    className={`relative pb-2 px-4 py-2 shadow-md rounded-full font-semibold  transition duration-300 text-white bg-red-600 hover:bg-red-700 `}
+                    className={`relative pb-2 px-4 py-2 shadow-md rounded-full font-semibold  transition duration-300 text-white bg-red-600 hover:bg-red-700 drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)]`}
                   >
                     <span className="font-normal pl-1 text-xl flex justify-center">
                       Cancel
@@ -1492,7 +1492,7 @@ export default function Customization() {
 
                   <button
                     type="submit"
-                    className="relative ml-6 py-1.5 pb-2 px-4 mr-1.5 shadow-md rounded-full font-semibold  transition duration-300 text-white bg-lime-600 hover:bg-lime-700"
+                    className="relative ml-6 py-1.5 pb-2 px-4 mr-1.5 shadow-md rounded-full font-semibold  transition duration-300 text-white bg-lime-600 hover:bg-lime-700 drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)]"
                   >
                     <span className="font-normal pl-2 text-xl flex justify-center">
                       Apply Changes
@@ -1633,7 +1633,7 @@ export default function Customization() {
           <a>
             <button
               disabled
-              className={`mt-3 text-xl w-full  py-2 rounded-xl  shadow-lg text-gray-300 bg-gray-500/90`}
+              className={`mt-3 text-xl w-full  py-2 rounded-xl  shadow-lg text-gray-300 bg-gray-500/90 drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)] `}
             >
               Visit class
             </button>
@@ -1832,7 +1832,7 @@ export default function Customization() {
                   ))}
                 <div className="flex justify-end  text-center absolute right-0 -bottom-7">
                   <button
-                    className={`relative pb-2 px-4 py-2 shadow-md rounded-full font-semibold  transition duration-300 text-white bg-red-600 hover:bg-red-700 `}
+                    className={`relative pb-2 px-4 py-2 shadow-md rounded-full font-semibold  transition duration-300 text-white bg-red-600 hover:bg-red-700 drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)]`}
                   >
                     <span className="font-normal pl-1 text-xl flex justify-center">
                       Reset
@@ -1842,7 +1842,7 @@ export default function Customization() {
 
                   <button
                     type="submit"
-                    className="relative ml-6 py-1.5 pb-2 px-4 mr-4 shadow-md rounded-full font-semibold  transition duration-300 text-white bg-lime-600 hover:bg-lime-700"
+                    className="relative ml-6 py-1.5 pb-2 px-4 mr-4 shadow-md rounded-full font-semibold  transition duration-300 text-white bg-lime-600 hover:bg-lime-700 drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)]"
                   >
                     <span className="font-normal pl-2 text-xl flex justify-center">
                       Add Section

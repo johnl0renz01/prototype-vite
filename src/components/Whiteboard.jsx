@@ -1039,12 +1039,12 @@ export default function Whiteboard() {
     let imageLink = imageArray[Math.floor(Math.random() * imageArray.length)];
     setImageLink(imageLink);
 
-    let hintIndex = parseInt(
-      JSON.parse(window.localStorage.getItem("FINISHED_STEPS"))
-    );
+    let hintIndex = JSON.parse(window.localStorage.getItem("FINISHED_STEPS"));
     console.log("hintindex: " + hintIndex);
     if (hintIndex === null) {
       hintIndex = 0;
+    } else {
+      hintIndex = parseInt(hintIndex);
     }
     setResponse(hint[hintIndex]);
     setSubtext("");
@@ -1519,7 +1519,7 @@ export default function Whiteboard() {
                     viewBox="0 0 24 24"
                     stroke-width="1.5"
                     stroke="currentColor"
-                    className={`cursor-pointer h-11 w-11  hover:fill-gray-200/90 hover:bg-gray-200/90 hover:text-white rounded-full p-1 ${
+                    className={`cursor-pointer h-11 w-11  hover:fill-gray-200/90 hover:bg-gray-200/90 hover:text-white rounded-full p-1 drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)] ${
                       isHelp
                         ? "hover:border-3 hover:border-white fill-gray-200 bg-gray-200/90 text-white"
                         : "text-black/50 bg-gray-300/90 fill-gray-300/90"
@@ -1551,7 +1551,7 @@ export default function Whiteboard() {
                   <svg
                     id="help_button"
                     onClick={!isSolved ? hintMode : undefined}
-                    className={` h-11 w-11 rounded-full   p-1 ${
+                    className={` h-11 w-11 rounded-full   p-1 drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)] ${
                       isSolved
                         ? isHelp
                           ? "hover:border-3 hover:border-white text-black/50 fill-gray-400/90 bg-gray-400/90 cursor-default aria-disabled: hover:text-white"
@@ -1583,7 +1583,7 @@ export default function Whiteboard() {
 
                 {/*<!--Video-->*/}
                 <div
-                  className={`text-gray-500 hover:text-white focus:outline-none focus:text-white ${
+                  className={`text-gray-500 hover:text-white focus:outline-none focus:text-white drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)] ${
                     isHelp ? "ml-2 my-1" : "px-3 py-2"
                   }`}
                   {...(isHelp
@@ -1624,7 +1624,7 @@ export default function Whiteboard() {
 
                 {/*<!--Pen-->*/}
                 <div
-                  className={`text-gray-500 hover:text-white focus:outline-none focus:text-white ${
+                  className={`text-gray-500 hover:text-white focus:outline-none focus:text-white drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)] ${
                     isHelp ? "ml-2 my-1" : "px-3 py-2"
                   }`}
                   {...(isHelp
@@ -1989,7 +1989,7 @@ export default function Whiteboard() {
                       className={` select-none text-white text-xl font-light absolute  right-2.5 bottom-2  rounded-full px-4 py-3  ${
                         isTutorial
                           ? "cursor-default bg-gray-400"
-                          : "bg-lime-700  cursor-pointer dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800  hover:bg-lime-800 focus:ring-2 focus:outline-none"
+                          : "bg-lime-700  cursor-pointer dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800  hover:bg-lime-800 focus:ring-2 focus:outline-none drop-shadow-[0_2px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_2px_0px_rgba(0,0,0,0.6)]"
                       }`}
                       {...(isTutorial
                         ? {
@@ -2127,7 +2127,7 @@ export default function Whiteboard() {
                   {...(isHelp ? { dataTooltipPosition: "left" } : {})}
                 >
                   <svg
-                    className={`h-20 w-20 bg-white rounded-full p-3 hover:bg-gray-300 ${
+                    className={`h-20 w-20 bg-white rounded-full p-3 hover:bg-gray-300 drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)] ${
                       isHelp ? "hover:border-6 hover:border-red-500" : ""
                     }`}
                     id="Layer_1"

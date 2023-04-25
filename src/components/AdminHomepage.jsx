@@ -158,7 +158,7 @@ export default function AdminHomepage() {
               <div className="grid grid-cols-3 text-center border-t-2  border-gray-500 py-9 pb-16">
                 <div>
                   <a onClick={RegistrationPage}>
-                    <button className="relative text-center mx-2  text-white font-bold px-5  rounded-full shadow-md bg-yellow-600 hover:bg-yellow-700 hover:-translate-y-1 ease-in-out transition duration-200 transform ">
+                    <button className="relative text-center mx-2  text-white font-bold px-5  rounded-full shadow-md bg-yellow-600 hover:bg-yellow-700 hover:-translate-y-1 ease-in-out transition duration-200 transform drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)]">
                       <span className="lg:text-3xl md:text-xl font-poppins font-semibold lg:px-4">
                         <p className="pr-12">Register Student</p>
                       </span>
@@ -169,7 +169,7 @@ export default function AdminHomepage() {
 
                 <div>
                   <a onClick={SectionListPage}>
-                    <button className="relative text-center mx-2  text-white font-bold px-5  rounded-full shadow-md bg-yellow-600 hover:bg-yellow-700 hover:-translate-y-1 ease-in-out transition duration-200 transform ">
+                    <button className="relative text-center mx-2  text-white font-bold px-5  rounded-full shadow-md bg-yellow-600 hover:bg-yellow-700 hover:-translate-y-1 ease-in-out transition duration-200 transform drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)]">
                       <span className="lg:text-3xl md:text-xl font-poppins font-semibold lg:px-4">
                         <p className="pr-12">Report Card</p>
                       </span>
@@ -180,7 +180,7 @@ export default function AdminHomepage() {
 
                 <div>
                   <a onClick={CustomizationPage}>
-                    <button className="relative text-center mx-2  text-white font-bold px-5  rounded-full shadow-md bg-yellow-600 hover:bg-yellow-700 hover:-translate-y-1 ease-in-out transition duration-200 transform ">
+                    <button className="relative text-center mx-2  text-white font-bold px-5  rounded-full shadow-md bg-yellow-600 hover:bg-yellow-700 hover:-translate-y-1 ease-in-out transition duration-200 transform drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)]">
                       <span className="lg:text-3xl md:text-xl font-poppins font-semibold lg:px-4">
                         <p className="pr-12">Customization</p>
                       </span>

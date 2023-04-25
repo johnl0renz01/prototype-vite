@@ -795,8 +795,8 @@ function EditAccount() {
                     onClick={changePassword}
                     className={`cursor-pointer py-3 px-6 text-white  shadow-md rounded-full  hover:-translate-y-0.5 ease-in-out transition duration-300 transform ${
                       isChange
-                        ? "bg-gray-500 hover:bg-gray-600"
-                        : "bg-gray-400 hover:bg-gray-500"
+                        ? "bg-gray-500 hover:bg-gray-600 drop-shadow-[0_3px_0px_rgba(0,0,0,0.55)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.7)]"
+                        : "bg-gray-400 hover:bg-gray-500 drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)]"
                     }`}
                   >
                     <span className="text-xl  font-bold">
@@ -809,7 +809,7 @@ function EditAccount() {
                   <div className="flex grow justify-end  ">
                     <a
                       onClick={reloadPage}
-                      className="cursor-pointer py-3 px-6 text-white  shadow-md rounded-full bg-red-600 hover:bg-red-700 hover:-translate-y-0.5 ease-in-out transition duration-300 transform "
+                      className="cursor-pointer py-3 px-6 text-white  shadow-md rounded-full bg-red-600 hover:bg-red-700 hover:-translate-y-0.5 ease-in-out transition duration-300 transform drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)]"
                     >
                       <span className="pl-2 text-xl flex justify-center">
                         Reset
@@ -819,7 +819,7 @@ function EditAccount() {
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="ml-6 py-3 px-6 text-white  shadow-md rounded-full bg-lime-600 hover:bg-lime-700 hover:-translate-y-0.5 ease-in-out transition duration-300 transform "
+                      className="ml-6 py-3 px-6 text-white  shadow-md rounded-full bg-lime-600 hover:bg-lime-700 hover:-translate-y-0.5 ease-in-out transition duration-300 transform drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)]"
                     >
                       <span className="pl-2 text-xl flex justify-center">
                         Apply Changes

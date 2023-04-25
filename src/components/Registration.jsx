@@ -691,7 +691,7 @@ function Registration() {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="relative py-3 px-5 text-white font-bold  shadow-md rounded-full bg-lime-600 hover:bg-lime-700 hover:-translate-y-0.5 ease-in-out transition duration-300 transform "
+                    className="relative py-3 px-5 text-white font-bold  shadow-md rounded-full bg-lime-600 hover:bg-lime-700 hover:-translate-y-0.5 ease-in-out transition duration-300 transform drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)]"
                   >
                     <span className="pl-2 text-xl flex justify-center">
                       Register

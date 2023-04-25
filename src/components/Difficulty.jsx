@@ -736,7 +736,7 @@ export default function DifficultyPage() {
                       ${
                         !picked
                           ? "aria-disabled: text-gray-100 bg-gray-500/50 cursor-help"
-                          : "text-white bg-lime-600 hover:bg-lime-700 focus:shadow-outline focus:outline-none hover:-translate-y-0.5 ease-in-out transition duration-200 transform"
+                          : "text-white bg-lime-600 hover:bg-lime-700 focus:shadow-outline focus:outline-none hover:-translate-y-0.5 ease-in-out transition duration-200 transform drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)]"
                       }`}
                     {...(!picked
                       ? {

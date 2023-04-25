@@ -99,11 +99,11 @@ export default function Homepage() {
                   <div className="flex mx-auto  ">
                     <button
                       onClick={currentUser ? DifficultyPage : undefined}
-                      className={`mt-10 inline-flex items-center justify-center text-xl rounded-full h-12 lg:px-28 md:lg:px-28 px-16 mr-6 font-medium tracking-wide  shadow-md   
+                      className={`mt-10 inline-flex items-center justify-center text-xl rounded-full h-12 lg:px-28 md:lg:px-28 px-16 mr-6 font-medium tracking-wide  shadow-md    
                       ${
                         !currentUser
-                          ? "aria-disabled: text-gray-100 bg-gray-500/50 cursor-help"
-                          : "text-white bg-yellow-600 hover:bg-yellow-700 focus:shadow-outline focus:outline-none hover:-translate-y-0.5 ease-in-out transition duration-200 transform"
+                          ? "aria-disabled: text-gray-100 bg-gray-500/50 cursor-help "
+                          : "text-white bg-yellow-600 hover:bg-yellow-700 focus:shadow-outline focus:outline-none hover:-translate-y-0.5 ease-in-out transition duration-200 transform drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)]"
                       }`}
                       {...(!currentUser
                         ? {

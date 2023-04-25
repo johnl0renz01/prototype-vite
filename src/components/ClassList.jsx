@@ -319,7 +319,7 @@ export default function ClassList() {
                                   setTimeout(StudentDetailPage, 1);
                                 }}
                               >
-                                <button className="relative text-md w-36 text-white bg-lime-600 hover:bg-lime-700 py-2 rounded-xl shadow-lg">
+                                <button className="relative text-md w-36 text-white bg-lime-600 hover:bg-lime-700 py-2 rounded-xl shadow-md drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)]">
                                   <p className="pr-2">See details</p>
                                   <VscEye className="absolute right-3 top-1/3" />
                                 </button>

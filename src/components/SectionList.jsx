@@ -327,7 +327,7 @@ export default function SectionList() {
               setSection();
               setTimeout(ClassListPage(), 1);
             }}
-            className={`mt-3 text-xl w-full  py-2 rounded-xl  shadow-lg ${
+            className={`mt-3 text-xl w-full  py-2 rounded-xl  shadow-lg drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)] ${
               sectionOrder > 0
                 ? "text-white bg-lime-600 hover:bg-lime-700 hover:-translate-y-1 ease-in-out transition duration-300 transform "
                 : "text-gray-700/60 bg-gray-500 "

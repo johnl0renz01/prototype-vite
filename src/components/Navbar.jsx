@@ -113,7 +113,10 @@ function Navbar() {
   };
 
   const signOut = () => {
-    if (window.localStorage.getItem("SESSION_ID") != '""') {
+    if (
+      window.localStorage.getItem("SESSION_ID") != '""' &&
+      window.localStorage.getItem("SESSION_ID") != null
+    ) {
       setShowModal(true);
     } else {
       window.localStorage.setItem("SESSION_USER", JSON.stringify(""));
@@ -195,7 +198,8 @@ function Navbar() {
                     className="inline-flex w-full justify-center rounded-md  bg-white px-3 py-1.5 lg:text-xl font-normal text-gray-700  hover:bg-gray-100 focus:outline-none  focus:ring-offset-gray-200"
                   >
                     {currentUser != "" && currentUser !== null ? (
-                      window.localStorage.getItem("SESSION_ID") != '""' ? (
+                      window.localStorage.getItem("SESSION_ID") != '""' &&
+                      window.localStorage.getItem("SESSION_ID") != null ? (
                         pageList.includes("Whiteboard") == false ? (
                           <>
                             <span class="bell fa fa-bell w-7 h-7 text-xl mr-1.5 mt-0.5"></span>
@@ -243,7 +247,8 @@ function Navbar() {
                     }`}
                   >
                     <div className="py-1 ">
-                      {window.localStorage.getItem("SESSION_ID") != '""' ? (
+                      {window.localStorage.getItem("SESSION_ID") != '""' &&
+                      window.localStorage.getItem("SESSION_ID") != null ? (
                         pageList.includes("Whiteboard") == false ? (
                           <Menu.Item>
                             {({ active }) => (
