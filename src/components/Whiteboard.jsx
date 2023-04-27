@@ -90,7 +90,9 @@ export default function Whiteboard() {
     let data = parseInt(
       JSON.parse(window.localStorage.getItem("QUESTION_INDEX"))
     );
+    console.log("DATATASDADA: " + data);
     EquationSolver.setEquation(questionList[data]);
+    EquationSolver.getEquationAnswer();
     let coefficient = EquationSolver.getCoefficientLetter();
     setCoeffLetter(coefficient);
   }
@@ -768,12 +770,15 @@ export default function Whiteboard() {
   }
 
   function displayAngrySolved() {
-    increaseTally("EXPRESSION_ANGRY");
-
-    setImageLink("PIA-Mad");
+    //ADD IF SHORTENED OR FULL
+    if (JSON.parse(window.localStorage.getItem("SYSTEM_VERSION")) == "FULL") {
+      increaseTally("EXPRESSION_ANGRY");
+      setImageLink("PIA-Mad");
+      changeResponseColor(angryColor);
+    }
+    //
     setResponse("Please refrain from cursing or using any vulgar words");
     setSubtext("");
-    changeResponseColor(angryColor);
 
     ReactDOM.findDOMNode(confirmationArea).style.visibility = "hidden";
     ReactDOM.findDOMNode(choiceArea).style.visibility = "hidden";
@@ -792,10 +797,14 @@ export default function Whiteboard() {
 
     let currentTime = JSON.parse(window.localStorage.getItem("TIMER"));
     if (currentTime <= 60 || currentTime == null) {
-      setImageLink("PIA-Surprised");
+      //ADD IF SHORTENED OR FULL
+      if (JSON.parse(window.localStorage.getItem("SYSTEM_VERSION")) == "FULL") {
+        setImageLink("PIA-Surprised");
+        changeResponseColor(correctColor);
+      }
+      //
       setResponse("Impressive Work!\n You solved the given equation quickly.");
       setSubtext("");
-      changeResponseColor(correctColor);
       window.localStorage.setItem("TIMER", 0);
       function resetTimeout() {
         for (let i = 0; i < highestTimeoutId; i++) {
@@ -805,10 +814,14 @@ export default function Whiteboard() {
 
       setTimeout(resetTimeout(), 1);
     } else {
-      setImageLink("PIA-Smiling");
+      //ADD IF SHORTENED OR FULL
+      if (JSON.parse(window.localStorage.getItem("SYSTEM_VERSION")) == "FULL") {
+        setImageLink("PIA-Smiling");
+        changeResponseColor(correctColor);
+      }
+      //
       setResponse("Congratulations!\n You solved the given equation.");
       setSubtext("");
-      changeResponseColor(correctColor);
     }
 
     //10th question easy
@@ -844,11 +857,14 @@ export default function Whiteboard() {
         "Since you solved more than 6 equations. I suggest that you try the difficult level equations."
       );
     }
-
-    setImageLink("PIA-Smiling2");
+    //ADD IF SHORTENED OR FULL
+    if (JSON.parse(window.localStorage.getItem("SYSTEM_VERSION")) == "FULL") {
+      setImageLink("PIA-Smiling2");
+      changeResponseColor(correctColor);
+    }
+    //
 
     setSubtext("");
-    changeResponseColor(correctColor);
     setQuestionResponse("Level up difficulty type?");
 
     ReactDOM.findDOMNode(choiceArea2).style.visibility = "visible";
@@ -856,18 +872,27 @@ export default function Whiteboard() {
   }
 
   function displayRepeated() {
-    setImageLink("PIA-Confused2");
+    //ADD IF SHORTENED OR FULL
+    if (JSON.parse(window.localStorage.getItem("SYSTEM_VERSION")) == "FULL") {
+      setImageLink("PIA-Confused2");
+      changeResponseColor(invalidColor);
+    }
+    //
 
     setResponse("You already completed that step.");
     setSubtext("");
-    changeResponseColor(invalidColor);
+
     setTimeout(timer, 5000);
   }
 
   function displayCorrect() {
     ReactDOM.findDOMNode(skipArea).style.visibility = "hidden";
+    //ADD IF SHORTENED OR FULL
     //INCREASE EXPRESSION TALLY
-    increaseTally("EXPRESSION_HAPPY");
+    if (JSON.parse(window.localStorage.getItem("SYSTEM_VERSION")) == "FULL") {
+      increaseTally("EXPRESSION_HAPPY");
+    }
+    //
 
     let data = parseInt(
       JSON.parse(window.localStorage.getItem("STREAK_CORRECT"))
@@ -877,30 +902,52 @@ export default function Whiteboard() {
     }
 
     if (data >= 6) {
-      setImageLink("PIA-Happy4");
+      //ADD IF SHORTENED OR FULL
+      if (JSON.parse(window.localStorage.getItem("SYSTEM_VERSION")) == "FULL") {
+        setImageLink("PIA-Happy4");
+      }
+      //
       setResponse(FeedbackList.GenerateMessage("correct1"));
       setSubtext(FeedbackList.GenerateMessage("subCorrect1"));
     } else if (data >= 4) {
-      setImageLink("PIA-Happy3");
+      //ADD IF SHORTENED OR FULL
+      if (JSON.parse(window.localStorage.getItem("SYSTEM_VERSION")) == "FULL") {
+        setImageLink("PIA-Happy3");
+      }
+      //
       setResponse(FeedbackList.GenerateMessage("correct1"));
       setSubtext(FeedbackList.GenerateMessage("subCorrect1"));
     } else if (data >= 2) {
-      setImageLink("PIA-Happy2");
+      //ADD IF SHORTENED OR FULL
+      if (JSON.parse(window.localStorage.getItem("SYSTEM_VERSION")) == "FULL") {
+        setImageLink("PIA-Happy2");
+      }
+      //
       setResponse(FeedbackList.GenerateMessage("correct2"));
       setSubtext(FeedbackList.GenerateMessage("subCorrec2"));
     } else {
-      setImageLink("PIA-Happy");
+      //ADD IF SHORTENED OR FULL
+      if (JSON.parse(window.localStorage.getItem("SYSTEM_VERSION")) == "FULL") {
+        setImageLink("PIA-Happy");
+      }
+      //
       setResponse(FeedbackList.GenerateMessage("correct3"));
       setSubtext(FeedbackList.GenerateMessage("subCorrect2"));
     }
 
+    //ADD IF SHORTENED OR FULL
     changeResponseColor(correctColor);
+    //
     setTimeout(timer, 5000);
   }
 
   function displayWrong() {
+    //ADD IF SHORTENED OR FULL
     //INCREASE EXPRESSION TALLY
-    increaseTally("EXPRESSION_SAD");
+    if (JSON.parse(window.localStorage.getItem("SYSTEM_VERSION")) == "FULL") {
+      increaseTally("EXPRESSION_SAD");
+    }
+    //
 
     let dataCorrect = parseInt(
       JSON.parse(window.localStorage.getItem("STREAK_CORRECT"))
@@ -917,25 +964,44 @@ export default function Whiteboard() {
     }
 
     if (dataCorrect == 1) {
-      setImageLink("PIA-LightSad");
+      //ADD IF SHORTENED OR FULL
+      if (JSON.parse(window.localStorage.getItem("SYSTEM_VERSION")) == "FULL") {
+        setImageLink("PIA-LightSad");
+      }
+      //
       setResponse("Your answer is wrong.");
     } else if (dataCorrect >= 2) {
-      increaseTally("EXPRESSION_SURPRISED");
-      setImageLink("PIA-Surprised");
+      //ADD IF SHORTENED OR FULL
+      if (JSON.parse(window.localStorage.getItem("SYSTEM_VERSION")) == "FULL") {
+        increaseTally("EXPRESSION_SURPRISED");
+        setImageLink("PIA-Surprised");
+      }
+      //
       setResponse("Oh my! It seems like your solution is not correct.");
       setSubtext("");
     } else if (dataWrong != 0 && dataWrong % 2 == 0) {
       let links = ["PIA-Crying", "PIA-Crying2", "PIA-Crying3"];
       let currentLink = links[Math.floor(Math.random() * links.length)];
-      setImageLink(currentLink);
+      //ADD IF SHORTENED OR FULL
+      if (JSON.parse(window.localStorage.getItem("SYSTEM_VERSION")) == "FULL") {
+        setImageLink(currentLink);
+        changeResponseColor(wrongColor);
+      }
+      //
       setResponse(FeedbackList.GenerateMessage("wrong1"));
       setSubtext("Please try again.");
-      changeResponseColor(wrongColor);
 
-      setTimeout(displayMotivation, 5000);
+      //ADD IF shortened or full
+      if (JSON.parse(window.localStorage.getItem("SYSTEM_VERSION")) == "FULL") {
+        setTimeout(displayMotivation, 5000);
+      }
       return;
     } else {
-      setImageLink("PIA-Sad");
+      //ADD IF SHORTENED OR FULL
+      if (JSON.parse(window.localStorage.getItem("SYSTEM_VERSION")) == "FULL") {
+        setImageLink("PIA-Sad");
+      }
+      //
       setResponse(FeedbackList.GenerateMessage("wrong1"));
     }
 
@@ -944,7 +1010,12 @@ export default function Whiteboard() {
     }
 
     setSubtext("Please try again.");
-    changeResponseColor(wrongColor);
+
+    //ADD IF SHORTENED OR FULL
+    if (JSON.parse(window.localStorage.getItem("SYSTEM_VERSION")) == "FULL") {
+      changeResponseColor(wrongColor);
+    }
+    //
     setTimeout(timer, 5000);
   }
 
@@ -970,14 +1041,18 @@ export default function Whiteboard() {
     //INCREASE EXPRESSION TALLY
     let streakCount = window.localStorage.getItem("STREAK_IRRELEVANT");
     if (streakCount >= 2) {
-      increaseTally("EXPRESSION_ANGRY");
-      setImageLink("PIA-Mad");
+      //ADD IF SHORTENED OR FULL
+      if (JSON.parse(window.localStorage.getItem("SYSTEM_VERSION")) == "FULL") {
+        increaseTally("EXPRESSION_ANGRY");
+        setImageLink("PIA-Mad");
+        changeResponseColor(wrongColor);
+      }
+      //
       setResponse(
         "Enter only the matching variables for the given problem. Please take this seriously."
       );
       // "Enter appropriate answer only for the given problem. Please take this seriously and answer the given problem."
       setSubtext("");
-      changeResponseColor(wrongColor);
       setTimeout(timer, 6500);
     } else {
       setImageLink("PIA-Talking3");
@@ -992,15 +1067,19 @@ export default function Whiteboard() {
   }
 
   function displayAngry() {
+    //ADD IF SHORTENED OR FULL
     //INCREASE EXPRESSION TALLY
-    increaseTally("EXPRESSION_ANGRY");
-
-    setImageLink("PIA-Angry");
+    if (JSON.parse(window.localStorage.getItem("SYSTEM_VERSION")) == "FULL") {
+      increaseTally("EXPRESSION_ANGRY");
+      setImageLink("PIA-Angry");
+      changeResponseColor(angryColor);
+    }
+    //
     setResponse(
       "Your answer is out of topic. Please refrain from cursing or using any vulgar words."
     );
     setSubtext("");
-    changeResponseColor(angryColor);
+
     setTimeout(timer, 5000);
   }
 
