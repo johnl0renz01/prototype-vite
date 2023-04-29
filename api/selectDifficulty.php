@@ -40,15 +40,18 @@ switch($_SESSION['method']) {
         $stmt->bindParam(':timestamp', $timestamp);
         $start_time = date('d-m-Y H:i:s');
         $stmt->bindParam(':start_time', $start_time);
-        $stmt->execute();
         
+        if($stmt->execute()) {
+            $sql2 = "SELECT SessionID FROM $user_key ORDER BY SessionID DESC LIMIT 1";
+            $stmt2 = $conn->prepare($sql2);
+            $stmt2->execute();
+            $response = $stmt2->fetchColumn();
+            
+            echo json_encode($response);
+        } else {
+            $response = ['status' => 0, 'message' => 'Failed to create record.'];
+        }
         
-        $sql2 = "SELECT SessionID FROM $user_key ORDER BY SessionID DESC LIMIT 1";
-        $stmt2 = $conn->prepare($sql2);
-        $stmt2->execute();
-        $response = $stmt2->fetchColumn();
-        
-        echo json_encode($response);
         break;
     case "PUT":
         break;

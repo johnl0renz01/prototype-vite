@@ -676,8 +676,8 @@ export default function Whiteboard() {
               displayMad();
             }
           } else {
-            displayWrong();
             increaseWrongStreak();
+            displayWrong();
           }
           // setResponse("Sometimes we're tested not to show our weaknesses, but to discover our strength. You can do it! Try and solve again.")
         }
@@ -771,7 +771,10 @@ export default function Whiteboard() {
 
   function displayAngrySolved() {
     //ADD IF SHORTENED OR FULL
-    if (JSON.parse(window.localStorage.getItem("SYSTEM_VERSION")) == "FULL") {
+    if (
+      JSON.parse(window.localStorage.getItem("SYSTEM_VERSION")) ==
+      "Facial Group"
+    ) {
       increaseTally("EXPRESSION_ANGRY");
       setImageLink("PIA-Mad");
       changeResponseColor(angryColor);
@@ -798,7 +801,10 @@ export default function Whiteboard() {
     let currentTime = JSON.parse(window.localStorage.getItem("TIMER"));
     if (currentTime <= 60 || currentTime == null) {
       //ADD IF SHORTENED OR FULL
-      if (JSON.parse(window.localStorage.getItem("SYSTEM_VERSION")) == "FULL") {
+      if (
+        JSON.parse(window.localStorage.getItem("SYSTEM_VERSION")) ==
+        "Facial Group"
+      ) {
         setImageLink("PIA-Surprised");
         changeResponseColor(correctColor);
       }
@@ -815,7 +821,10 @@ export default function Whiteboard() {
       setTimeout(resetTimeout(), 1);
     } else {
       //ADD IF SHORTENED OR FULL
-      if (JSON.parse(window.localStorage.getItem("SYSTEM_VERSION")) == "FULL") {
+      if (
+        JSON.parse(window.localStorage.getItem("SYSTEM_VERSION")) ==
+        "Facial Group"
+      ) {
         setImageLink("PIA-Smiling");
         changeResponseColor(correctColor);
       }
@@ -827,12 +836,12 @@ export default function Whiteboard() {
     //10th question easy
     let diffType = window.localStorage.getItem("DIFFICULTY_TYPE");
     if (
-      JSON.parse(window.localStorage.getItem("QUESTION_ANSWERED")) > 10 &&
+      JSON.parse(window.localStorage.getItem("QUESTION_ANSWERED")) >= 10 &&
       (diffType == '"Easy"' || diffType == "Easy")
     ) {
       setTimeout(displayLevelUp, 3500);
     } else if (
-      JSON.parse(window.localStorage.getItem("QUESTION_ANSWERED")) > 6 &&
+      JSON.parse(window.localStorage.getItem("QUESTION_ANSWERED")) >= 6 &&
       (diffType == '"Average"' || diffType == "Average")
     ) {
       setTimeout(displayLevelUp, 3500);
@@ -858,7 +867,10 @@ export default function Whiteboard() {
       );
     }
     //ADD IF SHORTENED OR FULL
-    if (JSON.parse(window.localStorage.getItem("SYSTEM_VERSION")) == "FULL") {
+    if (
+      JSON.parse(window.localStorage.getItem("SYSTEM_VERSION")) ==
+      "Facial Group"
+    ) {
       setImageLink("PIA-Smiling2");
       changeResponseColor(correctColor);
     }
@@ -873,7 +885,10 @@ export default function Whiteboard() {
 
   function displayRepeated() {
     //ADD IF SHORTENED OR FULL
-    if (JSON.parse(window.localStorage.getItem("SYSTEM_VERSION")) == "FULL") {
+    if (
+      JSON.parse(window.localStorage.getItem("SYSTEM_VERSION")) ==
+      "Facial Group"
+    ) {
       setImageLink("PIA-Confused2");
       changeResponseColor(invalidColor);
     }
@@ -889,7 +904,10 @@ export default function Whiteboard() {
     ReactDOM.findDOMNode(skipArea).style.visibility = "hidden";
     //ADD IF SHORTENED OR FULL
     //INCREASE EXPRESSION TALLY
-    if (JSON.parse(window.localStorage.getItem("SYSTEM_VERSION")) == "FULL") {
+    if (
+      JSON.parse(window.localStorage.getItem("SYSTEM_VERSION")) ==
+      "Facial Group"
+    ) {
       increaseTally("EXPRESSION_HAPPY");
     }
     //
@@ -903,7 +921,10 @@ export default function Whiteboard() {
 
     if (data >= 6) {
       //ADD IF SHORTENED OR FULL
-      if (JSON.parse(window.localStorage.getItem("SYSTEM_VERSION")) == "FULL") {
+      if (
+        JSON.parse(window.localStorage.getItem("SYSTEM_VERSION")) ==
+        "Facial Group"
+      ) {
         setImageLink("PIA-Happy4");
       }
       //
@@ -911,7 +932,10 @@ export default function Whiteboard() {
       setSubtext(FeedbackList.GenerateMessage("subCorrect1"));
     } else if (data >= 4) {
       //ADD IF SHORTENED OR FULL
-      if (JSON.parse(window.localStorage.getItem("SYSTEM_VERSION")) == "FULL") {
+      if (
+        JSON.parse(window.localStorage.getItem("SYSTEM_VERSION")) ==
+        "Facial Group"
+      ) {
         setImageLink("PIA-Happy3");
       }
       //
@@ -919,7 +943,10 @@ export default function Whiteboard() {
       setSubtext(FeedbackList.GenerateMessage("subCorrect1"));
     } else if (data >= 2) {
       //ADD IF SHORTENED OR FULL
-      if (JSON.parse(window.localStorage.getItem("SYSTEM_VERSION")) == "FULL") {
+      if (
+        JSON.parse(window.localStorage.getItem("SYSTEM_VERSION")) ==
+        "Facial Group"
+      ) {
         setImageLink("PIA-Happy2");
       }
       //
@@ -927,7 +954,10 @@ export default function Whiteboard() {
       setSubtext(FeedbackList.GenerateMessage("subCorrec2"));
     } else {
       //ADD IF SHORTENED OR FULL
-      if (JSON.parse(window.localStorage.getItem("SYSTEM_VERSION")) == "FULL") {
+      if (
+        JSON.parse(window.localStorage.getItem("SYSTEM_VERSION")) ==
+        "Facial Group"
+      ) {
         setImageLink("PIA-Happy");
       }
       //
@@ -936,7 +966,12 @@ export default function Whiteboard() {
     }
 
     //ADD IF SHORTENED OR FULL
-    changeResponseColor(correctColor);
+    if (
+      JSON.parse(window.localStorage.getItem("SYSTEM_VERSION")) ==
+      "Facial Group"
+    ) {
+      changeResponseColor(correctColor);
+    }
     //
     setTimeout(timer, 5000);
   }
@@ -944,7 +979,10 @@ export default function Whiteboard() {
   function displayWrong() {
     //ADD IF SHORTENED OR FULL
     //INCREASE EXPRESSION TALLY
-    if (JSON.parse(window.localStorage.getItem("SYSTEM_VERSION")) == "FULL") {
+    if (
+      JSON.parse(window.localStorage.getItem("SYSTEM_VERSION")) ==
+      "Facial Group"
+    ) {
       increaseTally("EXPRESSION_SAD");
     }
     //
@@ -963,16 +1001,22 @@ export default function Whiteboard() {
       dataWrong = 0;
     }
 
+    /*
     if (dataCorrect == 1) {
       //ADD IF SHORTENED OR FULL
-      if (JSON.parse(window.localStorage.getItem("SYSTEM_VERSION")) == "FULL") {
+      if (JSON.parse(window.localStorage.getItem("SYSTEM_VERSION")) == "Facial Group") {
         setImageLink("PIA-LightSad");
       }
       //
       setResponse("Your answer is wrong.");
-    } else if (dataCorrect >= 2) {
+    } 
+    */
+    if (dataCorrect >= 2) {
       //ADD IF SHORTENED OR FULL
-      if (JSON.parse(window.localStorage.getItem("SYSTEM_VERSION")) == "FULL") {
+      if (
+        JSON.parse(window.localStorage.getItem("SYSTEM_VERSION")) ==
+        "Facial Group"
+      ) {
         increaseTally("EXPRESSION_SURPRISED");
         setImageLink("PIA-Surprised");
       }
@@ -983,7 +1027,10 @@ export default function Whiteboard() {
       let links = ["PIA-Crying", "PIA-Crying2", "PIA-Crying3"];
       let currentLink = links[Math.floor(Math.random() * links.length)];
       //ADD IF SHORTENED OR FULL
-      if (JSON.parse(window.localStorage.getItem("SYSTEM_VERSION")) == "FULL") {
+      if (
+        JSON.parse(window.localStorage.getItem("SYSTEM_VERSION")) ==
+        "Facial Group"
+      ) {
         setImageLink(currentLink);
         changeResponseColor(wrongColor);
       }
@@ -992,13 +1039,19 @@ export default function Whiteboard() {
       setSubtext("Please try again.");
 
       //ADD IF shortened or full
-      if (JSON.parse(window.localStorage.getItem("SYSTEM_VERSION")) == "FULL") {
+      if (
+        JSON.parse(window.localStorage.getItem("SYSTEM_VERSION")) ==
+        "Facial Group"
+      ) {
         setTimeout(displayMotivation, 5000);
       }
       return;
     } else {
       //ADD IF SHORTENED OR FULL
-      if (JSON.parse(window.localStorage.getItem("SYSTEM_VERSION")) == "FULL") {
+      if (
+        JSON.parse(window.localStorage.getItem("SYSTEM_VERSION")) ==
+        "Facial Group"
+      ) {
         setImageLink("PIA-Sad");
       }
       //
@@ -1012,7 +1065,10 @@ export default function Whiteboard() {
     setSubtext("Please try again.");
 
     //ADD IF SHORTENED OR FULL
-    if (JSON.parse(window.localStorage.getItem("SYSTEM_VERSION")) == "FULL") {
+    if (
+      JSON.parse(window.localStorage.getItem("SYSTEM_VERSION")) ==
+      "Facial Group"
+    ) {
       changeResponseColor(wrongColor);
     }
     //
@@ -1042,7 +1098,10 @@ export default function Whiteboard() {
     let streakCount = window.localStorage.getItem("STREAK_IRRELEVANT");
     if (streakCount >= 2) {
       //ADD IF SHORTENED OR FULL
-      if (JSON.parse(window.localStorage.getItem("SYSTEM_VERSION")) == "FULL") {
+      if (
+        JSON.parse(window.localStorage.getItem("SYSTEM_VERSION")) ==
+        "Facial Group"
+      ) {
         increaseTally("EXPRESSION_ANGRY");
         setImageLink("PIA-Mad");
         changeResponseColor(wrongColor);
@@ -1055,7 +1114,12 @@ export default function Whiteboard() {
       setSubtext("");
       setTimeout(timer, 6500);
     } else {
-      setImageLink("PIA-Talking3");
+      if (
+        JSON.parse(window.localStorage.getItem("SYSTEM_VERSION")) ==
+        "Facial Group"
+      ) {
+        setImageLink("PIA-Talking1");
+      }
       setResponse(
         "Your answer is irrelevant. Please input matching variables only."
       );
@@ -1069,7 +1133,10 @@ export default function Whiteboard() {
   function displayAngry() {
     //ADD IF SHORTENED OR FULL
     //INCREASE EXPRESSION TALLY
-    if (JSON.parse(window.localStorage.getItem("SYSTEM_VERSION")) == "FULL") {
+    if (
+      JSON.parse(window.localStorage.getItem("SYSTEM_VERSION")) ==
+      "Facial Group"
+    ) {
       increaseTally("EXPRESSION_ANGRY");
       setImageLink("PIA-Angry");
       changeResponseColor(angryColor);
@@ -1116,7 +1183,14 @@ export default function Whiteboard() {
   function hintModeResponse() {
     let imageArray = ["PIA-Talking1", "PIA-Talking2", "PIA-Talking3"];
     let imageLink = imageArray[Math.floor(Math.random() * imageArray.length)];
-    setImageLink(imageLink);
+
+    if (
+      JSON.parse(window.localStorage.getItem("SYSTEM_VERSION")) ==
+      "Facial Group"
+    ) {
+      setImageLink(imageLink);
+      changeResponseColor(hintColor);
+    }
 
     let hintIndex = JSON.parse(window.localStorage.getItem("FINISHED_STEPS"));
     console.log("hintindex: " + hintIndex);
@@ -1127,7 +1201,6 @@ export default function Whiteboard() {
     }
     setResponse(hint[hintIndex]);
     setSubtext("");
-    changeResponseColor(hintColor);
   }
 
   function tutorialModeResponse() {
@@ -1534,6 +1607,9 @@ export default function Whiteboard() {
   //window.localStorage.setItem("DIFFICULTY_TYPE", JSON.stringify("Easy"));
   //END SESSION
   useEffect(() => {
+    if (JSON.parse(window.localStorage.getItem("SESSION_END") == "true")) {
+      setShowModal(true);
+    }
     //END AT 20th
     if (JSON.parse(window.localStorage.getItem("QUESTION_INDEX") >= 19)) {
       setShowModal(true);
@@ -1576,7 +1652,10 @@ export default function Whiteboard() {
             }`}
           >
             {/*<!--Button container-->*/}
-            <div id="toolbar" className="  row-span-16 rounded-l-6xl">
+            <div
+              id="toolbar"
+              className="  row-span-16 rounded-l-6xl overflow-hidden"
+            >
               <nav className="flex flex-col items  ">
                 {/*<!--Question-->*/}
                 <div

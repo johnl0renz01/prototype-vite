@@ -9,11 +9,11 @@ include 'DbConnect.php';
 $objDb = new DbConnect;
 $conn = $objDb->connect();
 
-$email = $_SERVER['REQUEST_URI'];
+$original_email = $_SERVER['REQUEST_URI'];
 
-for ($i = strlen($email) - 1; $i > 0; $i--) {
-    if ($email[$i] == "/") {
-        $email = substr($email, ($i + 1));
+for ($i = strlen($original_email) - 1; $i > 0; $i--) {
+    if ($original_email[$i] == "/") {
+        $original_email = substr($original_email, ($i + 1));
         break;
     }
 }
@@ -21,7 +21,7 @@ for ($i = strlen($email) - 1; $i > 0; $i--) {
 switch($_SESSION['method']) {
     case "GET":
         $user = json_decode( file_get_contents('php://input') );
-        $sql = "SELECT * FROM accounts WHERE Email = '$email'";
+        $sql = "SELECT * FROM accounts WHERE Email = '$original_email'";
         $stmt = $conn->prepare($sql);
         $stmt->execute();
         $account = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -48,7 +48,7 @@ switch($_SESSION['method']) {
                 Birthdate = '$birthDay', Age = '$age', Gender = '$sex', 
                 GradeLevel = '$gradeLevel', Section = '$section', GroupType = '$groupType', 
                 Email = '$email' 
-                WHERE Email = '$email'";
+                WHERE Email = '$original_email'";
 
         $stmt = $conn->prepare($sql);
         

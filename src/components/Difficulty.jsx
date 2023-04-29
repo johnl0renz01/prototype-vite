@@ -249,7 +249,7 @@ export default function DifficultyPage() {
       window.localStorage.setItem("SESSION_ID", "");
     }
 
-    if (sessionID == '""') {
+    if (sessionID == '""' || sessionID == null || sessionID == undefined) {
       window.localStorage.setItem("SESSION_SCORE", 0);
       window.localStorage.setItem(
         "QUESTION_LIST",

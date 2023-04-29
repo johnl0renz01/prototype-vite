@@ -240,7 +240,7 @@ function Navbar() {
                   leaveTo="transform opacity-0 scale-95"
                 >
                   <Menu.Items
-                    className={`absolute right-0 z-10 mt-2 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none ${
+                    className={` absolute right-0 z-10 mt-2 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none ${
                       currentUser == "" || currentUser === null
                         ? "invisible"
                         : "visible"
@@ -263,7 +263,7 @@ function Navbar() {
                                   "block px-4 py-2 text-sm"
                                 )}
                               >
-                                <p className="flex px-1">
+                                <p className="flex px-1 min-w-[8.2rem]">
                                   {" "}
                                   <BsChevronBarRight className="text-2xl -ml-3" />
                                   <span className="ml-1 mt-[0.1rem]">
@@ -294,7 +294,9 @@ function Navbar() {
                             <p className="flex px-1">
                               {" "}
                               <HiOutlineArrowLeftOnRectangle className="text-2xl -ml-3 rotate-180" />
-                              <span className="ml-1 mt-[0.1rem]">Sign out</span>
+                              <span className="ml-1 mt-[0.1rem]  min-w-[3.5rem]">
+                                Sign out
+                              </span>
                             </p>
                           </button>
                         )}

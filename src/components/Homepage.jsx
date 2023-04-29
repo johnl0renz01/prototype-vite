@@ -28,8 +28,6 @@ export default function Homepage() {
       setPageLink(link);
       window.localStorage.setItem("NAVBAR_PAGE", JSON.stringify(pageList));
       window.localStorage.setItem("NAVBAR_PAGE_LINK", JSON.stringify(pageLink));
-
-      window.localStorage.setItem("SYSTEM_VERSION", JSON.stringify("FULL"));
     }
   }, []);
 

@@ -394,7 +394,7 @@ export default function Customization() {
           >
             <div>
               <div className="">
-                <p className=" my-2 border-2  border-gray-300 shadow-md p-1 px-2 rounded-xl">
+                <p className=" my-2 border-2  border-gray-300 shadow-md p-1 px-2 inline-block rounded-xl">
                   {equationResult}
                 </p>
               </div>
@@ -402,14 +402,15 @@ export default function Customization() {
 
             <div className="flex">
               {isValid ? (
-                <>
+                equationString.length >= 30 ? (
+                  <VscPassFilled className="ml-3 mt-1.5  lg:text-2xl text-lime-600" />
+                ) : (
                   <VscPassFilled className="ml-3 mt-[1.10rem] lg:text-2xl text-lime-600" />
-                </>
+                )
+              ) : equationString.length >= 30 ? (
+                <BsXCircleFill className="ml-3 mt-1.5 lg:text-2xl text-red-500" />
               ) : (
-                <>
-                  {" "}
-                  <BsXCircleFill className="ml-3 mt-[1.10rem] lg:text-2xl text-red-500" />
-                </>
+                <BsXCircleFill className="ml-3 mt-[1.10rem] lg:text-2xl text-red-500" />
               )}
               <p
                 className={`text-lg  font-semibold border-gray-300 inline-block p-1 px-2 rounded-xl ${

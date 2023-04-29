@@ -84,7 +84,7 @@ export default function Login() {
         values
       )
       .then(function (response) {
-        //console.log(response.data);
+        console.log(response.data);
         var currentData = JSON.stringify(response.data);
         setAccountValidation(currentData);
         //console.log("CURRDATA:" + currentData);
@@ -92,6 +92,8 @@ export default function Login() {
         currentData = currentData.replace("}", "");
         currentData = currentData.replace('"GivenName":', "");
         currentData = currentData.replace('"Email":', "");
+        currentData = currentData.replace('"Password":', "");
+        currentData = currentData.replace('"GroupType":', "");
 
         var userData = [];
         convertStringToArray();
@@ -132,6 +134,11 @@ export default function Login() {
             window.localStorage.setItem(
               "SESSION_EMAIL",
               JSON.stringify(userData[1])
+            );
+
+            window.localStorage.setItem(
+              "SYSTEM_VERSION",
+              JSON.stringify(userData[3])
             );
 
             var emailString = userData[1];

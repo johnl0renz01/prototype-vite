@@ -75,10 +75,13 @@ switch($_SESSION['method']) {
             SessionID INT UNSIGNED AUTO_INCREMENT PRIMARY KEY   , 
             SessionType VARCHAR(255) NOT NULL , 
             Score INT NOT NULL , 
-            Answered INT NOT NULL , 
-            Unanswered INT NOT NULL , 
-            TimeSpent DOUBLE NOT NULL , 
-            TimeStamp TIMESTAMP on update CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+            TimeSpent VARCHAR(255) NOT NULL , 
+            TimeStamp VARCHAR(255) NOT NULL ,
+            TimeStart VARCHAR(255) NOT NULL ,
+            ExpressionAngry VARCHAR(255) NOT NULL ,
+            ExpressionHappy VARCHAR(255) NOT NULL ,
+            ExpressionSad VARCHAR(255) NOT NULL ,
+            ExpressionSurprised VARCHAR(255) NOT NULL
             )";
 
         $conn->exec($create);

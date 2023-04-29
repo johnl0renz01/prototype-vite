@@ -23,6 +23,8 @@ const FinishSessionModal = ({ visible, onClose, onContinue }) => {
 
   const [levelOption, setLevelUp] = useState(false);
 
+  const [equations, setEquations] = useState([]);
+
   useEffect(() => {
     let data1 = JSON.parse(window.localStorage.getItem("DIFFICULTY_TYPE"));
     if (data1 !== null) {
@@ -42,70 +44,92 @@ const FinishSessionModal = ({ visible, onClose, onContinue }) => {
 
     let session = JSON.parse(window.localStorage.getItem("SESSION_END"));
     if (session == true) {
-      EndSession.recordData();
       getTimeSpent();
-
-      function getTimeSpent() {
-        let sessionID = window.localStorage.getItem("SESSION_ID");
-        var userLogs = window.localStorage.getItem("SESSION_USER_LOGS");
-        userLogs = userLogs + "@" + sessionID;
-        userLogs = userLogs.replace(/"/g, "");
-        axios
-          .get(
-            `http://localhost:80/Prototype-Vite/my-project/api/getTimeSpent/${userLogs}`
-          )
-          .then(function (response) {
-            setTimeSpent(response.data);
-          });
-      }
     }
 
     let isLevelUp = JSON.parse(window.localStorage.getItem("SESSION_LEVEL_UP"));
-    if (isLevelUp !== null) {
+    if (isLevelUp !== null && isLevelUp !== undefined) {
       setLevelUp(true);
     }
 
-    let feedbackMessage = "";
-    if (data3 == 0) {
-      if (isLevelUp !== null) {
-        feedbackMessage = FeedbackList.GenerateMessage("advanceLevel");
-      } else {
-        feedbackMessage = FeedbackList.GenerateMessage("abandonNone");
-      }
-    } else if (data3 >= 15) {
-      feedbackMessage = FeedbackList.GenerateMessage("abandonHighest");
-    } else if (data3 >= 10) {
-      feedbackMessage = FeedbackList.GenerateMessage("abandonHigh");
-    } else if (data3 >= 4) {
-      feedbackMessage = FeedbackList.GenerateMessage("abandonNormal");
-    } else if (data3 >= 2) {
-      feedbackMessage = FeedbackList.GenerateMessage("abandonLow");
-    } else if (data3 == 1) {
-      feedbackMessage = FeedbackList.GenerateMessage("abandonLowest");
-    }
+    let feedbackMessage = JSON.parse(
+      window.localStorage.getItem("SESSION_FEEDBACK")
+    );
 
-    setFeedback(feedbackMessage);
+    if (feedbackMessage !== null && feedbackMessage !== undefined) {
+      setFeedback(feedbackMessage);
+    } else {
+      if (data3 == 0) {
+        if (isLevelUp !== null) {
+          feedbackMessage = FeedbackList.GenerateMessage("advanceLevel");
+        } else {
+          feedbackMessage = FeedbackList.GenerateMessage("abandonNone");
+        }
+      } else if (data3 >= 15) {
+        feedbackMessage = FeedbackList.GenerateMessage("abandonHighest");
+      } else if (data3 >= 10) {
+        feedbackMessage = FeedbackList.GenerateMessage("abandonHigh");
+      } else if (data3 >= 4) {
+        feedbackMessage = FeedbackList.GenerateMessage("abandonNormal");
+      } else if (data3 >= 2) {
+        feedbackMessage = FeedbackList.GenerateMessage("abandonLow");
+      } else if (data3 == 1) {
+        feedbackMessage = FeedbackList.GenerateMessage("abandonLowest");
+      }
+
+      window.localStorage.setItem(
+        "SESSION_FEEDBACK",
+        JSON.stringify(feedbackMessage)
+      );
+      setFeedback(feedbackMessage);
+    }
   });
 
-  const levelUp = () => {
+  var equationList = [];
+  function generateQuestion() {
     let isLevelUp = JSON.parse(window.localStorage.getItem("SESSION_LEVEL_UP"));
-    window.localStorage.removeItem("SESSION_LEVEL_UP");
-    var equationList = [];
-    var option = "";
-    var difficultyType = "";
     if (isLevelUp == "average") {
       equationList = EquationGeneratorAverage.getEquationList(20);
+    }
+    if (isLevelUp == "difficult") {
+      equationList = EquationGeneratorDifficult.getEquationList(20);
+    }
+    setEquations(equationList);
+  }
+
+  function getTimeSpent() {
+    let sessionID = window.localStorage.getItem("SESSION_ID");
+    var userLogs = window.localStorage.getItem("SESSION_USER_LOGS");
+    userLogs = userLogs + "@" + sessionID;
+    userLogs = userLogs.replace(/"/g, "");
+    axios
+      .get(
+        `http://localhost:80/Prototype-Vite/my-project/api/getTimeSpent/${userLogs}`
+      )
+      .then(function (response) {
+        setTimeSpent(response.data);
+      });
+  }
+
+  const levelUp = () => {
+    EndSession.recordData();
+
+    var option = "";
+    var difficultyType = "";
+    let isLevelUp = JSON.parse(window.localStorage.getItem("SESSION_LEVEL_UP"));
+    if (isLevelUp == "average") {
       option = "average";
       difficultyType = "Average";
     }
     if (isLevelUp == "difficult") {
-      equationList = EquationGeneratorDifficult.getEquationList(20);
       option = "difficult";
       difficultyType = "Difficult";
     }
 
+    window.localStorage.removeItem("SESSION_LEVEL_UP");
+
     window.localStorage.setItem("SESSION_SCORE", 0);
-    window.localStorage.setItem("QUESTION_LIST", JSON.stringify(equationList));
+    window.localStorage.setItem("QUESTION_LIST", JSON.stringify(equations));
     window.localStorage.setItem("QUESTION_INDEX", "0");
     var userLogs = window.localStorage.getItem("SESSION_USER_LOGS");
     userLogs = userLogs + "@" + option;
@@ -129,7 +153,9 @@ const FinishSessionModal = ({ visible, onClose, onContinue }) => {
   };
 
   const homePage = () => {
+    EndSession.recordData();
     navigate("/Homepage");
+    window.localStorage.removeItem("SESSION_ID");
   };
 
   if (!visible) return null;
@@ -222,7 +248,10 @@ const FinishSessionModal = ({ visible, onClose, onContinue }) => {
                 </div>
               </div>
             </div>
-            <div className="mx-auto text-center border-t-2 border-gray-300 py-3">
+            <div
+              onMouseOver={levelOption ? generateQuestion : undefined}
+              className="mx-auto text-center border-t-2 border-gray-300 py-3"
+            >
               <button
                 onClick={levelOption ? levelUp : homePage}
                 className="mx-2 text-white bg-gray-600/60 h-10 px-4 inline-block rounded-3xl hover:bg-gray-600 hover:text-gray-100"

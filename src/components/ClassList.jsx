@@ -238,6 +238,7 @@ export default function ClassList() {
                     id="searchQuery"
                     onChange={handleChange}
                     placeholder="&nbsp;Search People..."
+                    autoComplete="off"
                   />
                 </div>
               </div>

@@ -66,6 +66,9 @@ function EditAccount() {
     getInformation();
   }, []);
 
+  const [originalEmail, setOriginalEmail] = useState("");
+  const [editType, setEditType] = useState("editAccount");
+
   function getInformation() {
     console.log(currentEmail);
     axios
@@ -111,7 +114,7 @@ function EditAccount() {
         console.log(keys[0]);
         setResult(keys);
         let fname = keys[1].toLowerCase();
-        let lname = keys[2].toLowerCase();
+        let lname = keys[3].toLowerCase();
         fname = fname.replace(/ /g, "");
         lname = lname.replace(/ /g, "");
         setFirstName(fname);
@@ -130,25 +133,25 @@ function EditAccount() {
         values.section = keys[8];
         values.groupType = keys[9];
         setEmail(keys[10]);
+        setOriginalEmail(keys[10]);
         values.email = keys[10];
         values.password = "default";
         values.confirmPassword = "default";
       });
   }
 
-  const [editType, setEditType] = useState("editAccount");
-
   const onSubmit = async (values, actions) => {
     console.log("SUBMITTED");
     axios
       .post(
-        `http://localhost:80/Prototype-Vite/my-project/api/${editType}/save`,
+        `http://localhost:80/Prototype-Vite/my-project/api/${editType}/${originalEmail}`,
         values
       )
       .then(function (response) {
         console.log(response.data);
         //window.location.reload(false);
       });
+    window.localStorage.setItem("SESSION_EMAIL", JSON.stringify(values.email));
     await new Promise((resolve) => setTimeout(resolve, 1));
     setShowModal(true);
     //actions.resetForm();
@@ -231,6 +234,7 @@ function EditAccount() {
       }
     }
 
+    console.log(tempEmail);
     values.email = tempEmail;
     handleChange.email;
 
