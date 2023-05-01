@@ -730,7 +730,14 @@ export default function Whiteboard() {
       streakCount++;
     }
     window.localStorage.setItem("STREAK_WRONG", streakCount);
-    window.localStorage.setItem("STREAK_CORRECT", 0);
+
+    let dataCorrect = parseInt(
+      JSON.parse(window.localStorage.getItem("STREAK_CORRECT"))
+    );
+    if (dataCorrect <= 1) {
+      window.localStorage.setItem("STREAK_CORRECT", 0);
+    }
+
     window.localStorage.setItem("STREAK_IRRELEVANT", 0);
   }
 
@@ -805,7 +812,8 @@ export default function Whiteboard() {
         JSON.parse(window.localStorage.getItem("SYSTEM_VERSION")) ==
         "Facial Group"
       ) {
-        setImageLink("PIA-Surprised");
+        setImageLink("PIA-Smiling");
+        //setImageLink("PIA-Surprised");
         changeResponseColor(correctColor);
       }
       //
@@ -836,12 +844,12 @@ export default function Whiteboard() {
     //10th question easy
     let diffType = window.localStorage.getItem("DIFFICULTY_TYPE");
     if (
-      JSON.parse(window.localStorage.getItem("QUESTION_ANSWERED")) >= 10 &&
+      JSON.parse(window.localStorage.getItem("QUESTION_ANSWERED")) >= 1 &&
       (diffType == '"Easy"' || diffType == "Easy")
     ) {
       setTimeout(displayLevelUp, 3500);
     } else if (
-      JSON.parse(window.localStorage.getItem("QUESTION_ANSWERED")) >= 6 &&
+      JSON.parse(window.localStorage.getItem("QUESTION_ANSWERED")) >= 5 &&
       (diffType == '"Average"' || diffType == "Average")
     ) {
       setTimeout(displayLevelUp, 3500);
@@ -1023,6 +1031,8 @@ export default function Whiteboard() {
       //
       setResponse("Oh my! It seems like your solution is not correct.");
       setSubtext("");
+      window.localStorage.setItem("STREAK_CORRECT", 0);
+      window.localStorage.setItem("STREAK_WRONG", 0);
     } else if (dataWrong != 0 && dataWrong % 2 == 0) {
       let links = ["PIA-Crying", "PIA-Crying2", "PIA-Crying3"];
       let currentLink = links[Math.floor(Math.random() * links.length)];
@@ -1608,16 +1618,25 @@ export default function Whiteboard() {
   //END SESSION
   useEffect(() => {
     if (JSON.parse(window.localStorage.getItem("SESSION_END") == "true")) {
+      for (let i = 0; i < highestTimeoutId; i++) {
+        clearTimeout(i);
+      }
       setShowModal(true);
     }
     //END AT 20th
     if (JSON.parse(window.localStorage.getItem("QUESTION_INDEX") >= 19)) {
+      for (let i = 0; i < highestTimeoutId; i++) {
+        clearTimeout(i);
+      }
       setShowModal(true);
       window.localStorage.setItem("SESSION_END", true);
     }
   });
 
   const setLevel = () => {
+    for (let i = 0; i < highestTimeoutId; i++) {
+      clearTimeout(i);
+    }
     window.localStorage.setItem("SESSION_SCORE", 20);
     let diffType = window.localStorage.getItem("DIFFICULTY_TYPE");
     if (diffType == '"Easy"' || diffType == "Easy") {

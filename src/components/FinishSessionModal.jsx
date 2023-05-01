@@ -7,6 +7,7 @@ import EquationGeneratorAverage from "./equationsAverage";
 import EquationGeneratorDifficult from "./equationsDifficult";
 import EndSession from "./EndSession";
 import FeedbackList from "./FeedbackList";
+import ClearStorage from "./ClearStorage";
 
 const FinishSessionModal = ({ visible, onClose, onContinue }) => {
   const navigate = useNavigate();
@@ -44,7 +45,15 @@ const FinishSessionModal = ({ visible, onClose, onContinue }) => {
 
     let session = JSON.parse(window.localStorage.getItem("SESSION_END"));
     if (session == true) {
-      getTimeSpent();
+      if (
+        JSON.parse(window.localStorage.getItem("SESSION_RECORDED") !== "true")
+      ) {
+        EndSession.recordData();
+        getTimeSpent();
+      } else {
+        getTimeSpent();
+      }
+      window.localStorage.setItem("SESSION_RECORDED", true);
     }
 
     let isLevelUp = JSON.parse(window.localStorage.getItem("SESSION_LEVEL_UP"));
@@ -60,7 +69,7 @@ const FinishSessionModal = ({ visible, onClose, onContinue }) => {
       setFeedback(feedbackMessage);
     } else {
       if (data3 == 0) {
-        if (isLevelUp !== null) {
+        if (isLevelUp !== null && isLevelUp !== undefined) {
           feedbackMessage = FeedbackList.GenerateMessage("advanceLevel");
         } else {
           feedbackMessage = FeedbackList.GenerateMessage("abandonNone");
@@ -107,12 +116,14 @@ const FinishSessionModal = ({ visible, onClose, onContinue }) => {
         `http://localhost:80/Prototype-Vite/my-project/api/getTimeSpent/${userLogs}`
       )
       .then(function (response) {
+        console.log(response.data);
         setTimeSpent(response.data);
       });
   }
 
   const levelUp = () => {
-    EndSession.recordData();
+    ClearStorage.clearData();
+    setFeedback("");
 
     var option = "";
     var difficultyType = "";
@@ -153,9 +164,12 @@ const FinishSessionModal = ({ visible, onClose, onContinue }) => {
   };
 
   const homePage = () => {
-    EndSession.recordData();
+    ClearStorage.clearData();
+    setFeedback("");
+
     navigate("/Homepage");
     window.localStorage.removeItem("SESSION_ID");
+    window.localStorage.removeItem("TIME_SPENT");
   };
 
   if (!visible) return null;
@@ -218,7 +232,7 @@ const FinishSessionModal = ({ visible, onClose, onContinue }) => {
                   <div className="absolute z-10 left-0 right-0 top-1/3 ">
                     <p>
                       <span className="text-4xl text-gray-700">
-                        {abandoned}
+                        {abandoned == "" ? <>0</> : <>{abandoned}</>}
                       </span>
                     </p>
                     <p>Unanswered</p>

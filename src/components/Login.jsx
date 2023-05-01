@@ -31,6 +31,7 @@ export default function Login() {
       window.localStorage.setItem("NAVBAR_PAGE", JSON.stringify(pageList));
       window.localStorage.setItem("NAVBAR_PAGE_LINK", JSON.stringify(pageLink));
     }
+    window.localStorage.removeItem("SESSION_ID");
   }, []);
 
   useEffect(() => {

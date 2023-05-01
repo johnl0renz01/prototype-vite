@@ -15,6 +15,7 @@ import EquationGeneratorDifficult from "./equationsDifficult";
 
 import DifficultyModal from "./DifficultyModal";
 import EndSession from "./EndSession";
+import ClearStorage from "./ClearStorage";
 
 export default function DifficultyPage() {
   document.body.style.height = "100vh";
@@ -208,6 +209,7 @@ export default function DifficultyPage() {
     userLogs = userLogs + "@" + option;
     userLogs = userLogs.replace(/"/g, "");
     EndSession.recordData();
+    ClearStorage.clearData();
     axios
       .post(
         `http://localhost:80/Prototype-Vite/my-project/api/selectDifficulty/${userLogs}`
@@ -273,6 +275,7 @@ export default function DifficultyPage() {
             "DIFFICULTY_TYPE",
             JSON.stringify(diffType)
           );
+          window.localStorage.removeItem("SESSION_FEEDBACK");
           WhiteboardPage();
         });
     } else {

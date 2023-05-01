@@ -11,6 +11,7 @@ import * as ReactDOM from "react-dom";
 import NavbarModal from "./NavbarModal";
 import Initiation from "./Initiation";
 import EndSession from "./EndSession";
+import ClearStorage from "./ClearStorage";
 
 import { HiOutlineArrowLeftOnRectangle } from "react-icons/hi2";
 import { HiChevronDoubleRight } from "react-icons/hi2";
@@ -132,6 +133,7 @@ function Navbar() {
 
   const handleOnContinueModal = () => {
     EndSession.recordData();
+    ClearStorage.clearData();
     setChoiceModal(true);
     setShowModal(false);
     window.localStorage.setItem("SESSION_USER", JSON.stringify(""));
