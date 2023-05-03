@@ -435,13 +435,15 @@ export default function Whiteboard() {
 
     //If string is not empty
     if (textInput.trim() !== "") {
+      console.log("LOGLOGLOG");
       axios
         .post(
           `http://localhost:80/Prototype-Vite/my-project/api/whiteboardLog/${userLogs}`,
           inputs
         )
         .then(function (response) {
-          //console.log(response.data);
+          console.log(userLogs);
+          console.log(response.data);
         });
     }
     //Clear inputbox

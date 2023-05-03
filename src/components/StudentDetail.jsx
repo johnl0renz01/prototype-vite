@@ -234,12 +234,12 @@ export default function StudentDetail() {
           </p>
           <div
             id="history"
-            className="overflow-auto bg-gray-300/80 rounded-md mx-3 my-2 min-h-[22rem] max-h-[22rem] style-2"
+            className="overflow-auto bg-gray-300/80 rounded-md mx-3 my-2 min-h-[22rem] max-h-[22rem] style-2 "
           >
             {accountHistory.map((history) => (
               <>
                 <div
-                  className={`grid lg:grid-cols-11 rounded-l-md shadow relative  p-3 ${
+                  className={`grid lg:grid-cols-11 rounded-l-md shadow relative  p-3  ${
                     history.SessionType === "Easy"
                       ? "bg-green-500"
                       : history.SessionType === "Average"

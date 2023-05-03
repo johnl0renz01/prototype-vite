@@ -2049,17 +2049,17 @@ export default function Customization() {
                             <>
                               {equation.EquationType == "Easy" ? (
                                 <div className="border-b-2 flex justify-center relative hover:bg-gray-200">
-                                  <p className="">
+                                  <p className="mx-4">
                                     {equation.EquationString}
-                                    <input
-                                      type="submit"
-                                      id={equation.EquationString}
-                                      onClick={removeEquation}
-                                      className="cursor-pointer absolute right-0 text-black/60  hover:text-red-500 rounded-full w-6 h-6"
-                                      title="Remove Equation"
-                                      value="x"
-                                    ></input>
                                   </p>
+                                  <input
+                                    type="submit"
+                                    id={equation.EquationString}
+                                    onClick={removeEquation}
+                                    className="cursor-pointer absolute right-0 text-black/60  hover:text-red-500 rounded-full w-6 h-6"
+                                    title="Remove Equation"
+                                    value="x"
+                                  ></input>
                                 </div>
                               ) : (
                                 ""
@@ -2077,17 +2077,17 @@ export default function Customization() {
                             <>
                               {equation.EquationType == "Average" ? (
                                 <div className="border-b-2 flex justify-center relative hover:bg-gray-200">
-                                  <p className="">
+                                  <p className="mx-4">
                                     {equation.EquationString}
-                                    <input
-                                      type="submit"
-                                      id={equation.EquationString}
-                                      onClick={removeEquation}
-                                      className="cursor-pointer absolute right-0 text-black/60  hover:text-red-500 rounded-full w-6 h-6"
-                                      title="Remove Equation"
-                                      value="x"
-                                    ></input>
                                   </p>
+                                  <input
+                                    type="submit"
+                                    id={equation.EquationString}
+                                    onClick={removeEquation}
+                                    className="cursor-pointer absolute right-0 text-black/60  hover:text-red-500 rounded-full w-6 h-6"
+                                    title="Remove Equation"
+                                    value="x"
+                                  ></input>
                                 </div>
                               ) : (
                                 ""
@@ -2105,17 +2105,17 @@ export default function Customization() {
                             <>
                               {equation.EquationType == "Difficult" ? (
                                 <div className="border-b-2 flex justify-center relative hover:bg-gray-200">
-                                  <p className="">
+                                  <p className="mx-4">
                                     {equation.EquationString}
-                                    <input
-                                      type="submit"
-                                      id={equation.EquationString}
-                                      onClick={removeEquation}
-                                      className="cursor-pointer absolute right-0 text-black/60  hover:text-red-500 rounded-full w-6 h-6"
-                                      title="Remove Equation"
-                                      value="x"
-                                    ></input>
                                   </p>
+                                  <input
+                                    type="submit"
+                                    id={equation.EquationString}
+                                    onClick={removeEquation}
+                                    className="cursor-pointer absolute right-0 text-black/60  hover:text-red-500 rounded-full w-6 h-6"
+                                    title="Remove Equation"
+                                    value="x"
+                                  ></input>
                                 </div>
                               ) : (
                                 ""

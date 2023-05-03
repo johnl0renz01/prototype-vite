@@ -144,10 +144,6 @@ function Navbar() {
 
   return (
     <>
-      <style>
-        @import
-        url('https://fonts.googleapis.com/css2?family=League+Spartan&family=Poppins:wght@200&display=swap');
-      </style>
       <div
         onMouseEnter={() => updateData()}
         className="sticky top-0 z-50 pt-1 visible h-12 w-full grid grid-cols-3 bg-white py-0.5 shadow-md shadow-lime-500/80"

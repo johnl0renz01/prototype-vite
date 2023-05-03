@@ -20,7 +20,7 @@ for ($i = strlen($account_database) - 1; $i > 0; $i--) {
 
 switch($_SESSION['method']) {
     case "GET":
-        $sql = "SELECT * FROM $account_database";
+        $sql = "SELECT * FROM $account_database ORDER BY SessionID DESC";
         $stmt = $conn->prepare($sql);
         $stmt->execute();
         $account = $stmt->fetchAll(PDO::FETCH_ASSOC);

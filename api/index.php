@@ -41,8 +41,8 @@ switch($requestLink) {
     break;
 
     //FOR WHITEBOARD
-    case "/Prototype-Vite/my-project/api/whiteboardLogs":
-        include('whiteboardLogs.php');
+    case "/Prototype-Vite/my-project/api/whiteboardLog":
+        include('whiteboardLog.php');
         break;
     case "/Prototype-Vite/my-project/api/whiteboardClick":
         include('whiteboardClick.php');
