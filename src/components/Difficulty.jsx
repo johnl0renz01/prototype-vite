@@ -389,11 +389,34 @@ export default function DifficultyPage() {
   }
   */
 
+  const [easyEquations, setEasyEquations] = useState([
+    "2x - 2 = 1",
+    "3x = -4",
+    "9x + 13 = -4x",
+    "23x - 72 = 36",
+    "4 - x = 6x",
+  ]);
+
+  const [averageEquations, setAverageEquations] = useState([
+    "16x + 3 = 3x - 2",
+    "23x + 2 = 13x - 26",
+    "5x - 2 = 2x + 9",
+    "32x - 11 = 16 + 47x",
+    "75x - 42 + 25x = 6x",
+  ]);
+  const [difficultEquations, setDifficultEquations] = useState([
+    "2(3x - 5) = 3(4x + 2)",
+    "4(2x - 1) = 2(3x - 8)",
+    "7(x - 1) = -5(x + 5)",
+    "10x + 5(2x-3) = 42x",
+    "8(3x + 6) = 3(2 - 32x)",
+  ]);
+
   return (
     <>
       <section>
         {/* <input type="text" value={result} className="w-full"></input>*/}
-        <div className="mx-auto w-9/12 h-[92.5vh] flex items-center justify-center select-none ">
+        <div className="mx-auto w-10/12 lg:h-[92.5vh] flex items-center justify-center select-none ">
           <div className="px-12">
             <div className="px-6 pb-6 pt-10 rounded-6xl  border-l-12 border-b-12 border-gray-600/60 bg-gradient-to-t from-gray-200 via-white to-white border-r-12 border-r-gray-300/80 shadow-2xl shadow-yellow-400 overflow-hidden">
               <div className="px-14   rounded-4xl  mx-auto ">
@@ -422,7 +445,7 @@ export default function DifficultyPage() {
                             : " shadow-yellow-900/90 text-gray-700"
                         }`}
                       >
-                        <div className="border-l-4 border-b-4 border-gray-600/60 border-r-4 border-r-gray-300/80 shadow-md shadow-yellow-800 ">
+                        <div className=" border-l-4 border-b-4 border-gray-600/60 border-r-4 border-r-gray-300/80 shadow-md shadow-yellow-800 ">
                           <div className="bg-white border-b-2 border-black/70  pt-6 pb-2">
                             <p className=" text-xl left-0 right-0 font-bold leading-none sm:text-3xl text-center text-white">
                               EASY
@@ -435,56 +458,44 @@ export default function DifficultyPage() {
                             </p>
                           </div>
                           <div className="text-black/80">
-                            <div className="bg-white grid grid-cols-4 text-left border-b-2 border-black/70">
-                              <div className="rounded-full border-3  border-black/80 h-9 w-9 m-auto text-center text-lg font-semibold">
-                                1
-                              </div>
-                              <div className="col-span-3">
-                                <p className="w-full  rounded lg:text-1.5xl  sm:text-md  py-3">
-                                  2x - 2 = 1
-                                </p>
-                              </div>
-                            </div>
-                            <div className="bg-white grid grid-cols-4 text-left border-b-2 border-black/70">
-                              <div className="rounded-full border-3 border-black/80  h-9 w-9 m-auto text-center text-lg font-semibold">
-                                2
-                              </div>
-                              <div className="col-span-3">
-                                <p className="w-full  rounded lg:text-1.5xl  sm:text-md  py-3">
-                                  3x = -4
-                                </p>
-                              </div>
-                            </div>
-                            <div className="bg-white grid grid-cols-4 text-left border-b-2 border-black/70">
-                              <div className="rounded-full border-3 border-black/80  h-9 w-9 m-auto text-center text-lg font-semibold">
-                                3
-                              </div>
-                              <div className="col-span-3">
-                                <p className="w-full  rounded lg:text-1.5xl  sm:text-md  py-3">
-                                  9x + 13 = -4x
-                                </p>
-                              </div>
-                            </div>
-                            <div className="bg-white grid grid-cols-4 text-left border-b-2 border-black/70">
-                              <div className="rounded-full border-3 border-black/80  h-9 w-9 m-auto text-center text-lg font-semibold">
-                                4
-                              </div>
-                              <div className="col-span-3">
-                                <p className="w-full  rounded lg:text-1.5xl  sm:text-md  py-3">
-                                  23x - 72 = 36
-                                </p>
-                              </div>
-                            </div>
-                            <div className="bg-white grid grid-cols-4 text-left border-b-2 border-black/70">
-                              <div className="rounded-full border-3 border-black/80  h-9 w-9 m-auto text-center text-lg font-semibold">
-                                5
-                              </div>
-                              <div className="col-span-3">
-                                <p className="w-full  rounded lg:text-1.5xl  sm:text-md  py-3">
-                                  4 - x = 6x
-                                </p>
-                              </div>
-                            </div>
+                            {easyEquations.map((string, index) => ({
+                              ...(string.length <= 22 ? (
+                                <div className="bg-white grid grid-cols-4 text-left border-b-2 border-black/70">
+                                  <div className="rounded-full border-3  border-black/80 h-9 w-9 m-auto text-center text-lg font-semibold">
+                                    {index + 1}
+                                  </div>
+                                  <div className="col-span-3">
+                                    <p className="w-full  rounded lg:text-1.5xl  sm:text-md  py-3">
+                                      {string}
+                                      {"\u00A0"}
+                                      {"\u00A0"}
+                                      {"\u00A0"}
+                                      {"\u00A0"}
+                                      {"\u00A0"}
+                                      {"\u00A0"}
+                                      {"\u00A0"}
+                                      {"\u00A0"}
+                                      {"\u00A0"}
+                                      {"\u00A0"}
+                                      {"\u00A0"}
+                                      {"\u00A0"}
+                                      {"\u00A0"}
+                                    </p>
+                                  </div>
+                                </div>
+                              ) : (
+                                <div className="bg-white grid grid-cols-4 text-left border-b-2 border-black/70">
+                                  <div className="rounded-full border-3  border-black/80 h-9 w-9 m-auto text-center text-lg font-semibold">
+                                    {index + 1}
+                                  </div>
+                                  <div className="col-span-3">
+                                    <p className="w-full  rounded lg:text-1.5xl  sm:text-md  py-3">
+                                      {string}
+                                    </p>
+                                  </div>
+                                </div>
+                              )),
+                            }))}
                           </div>
                           <div className="bg-white py-4"></div>
                         </div>
@@ -546,56 +557,33 @@ export default function DifficultyPage() {
                             </p>
                           </div>
                           <div className="text-black/80">
-                            <div className="bg-white grid grid-cols-4 text-left border-b-2 border-black/70">
-                              <div className="rounded-full border-3  border-black/80 h-9 w-9 m-auto text-center text-lg font-semibold">
-                                1
-                              </div>
-                              <div className="col-span-3">
-                                <p className="w-full  rounded lg:text-1.5xl  sm:text-md  py-3">
-                                  16x + 3 = 3x - 2
-                                </p>
-                              </div>
-                            </div>
-                            <div className="bg-white grid grid-cols-4 text-left border-b-2 border-black/70">
-                              <div className="rounded-full border-3 border-black/80  h-9 w-9 m-auto text-center text-lg font-semibold">
-                                2
-                              </div>
-                              <div className="col-span-3">
-                                <p className="w-full  rounded lg:text-1.5xl  sm:text-md  py-3">
-                                  23x + 2 = 13x - 26
-                                </p>
-                              </div>
-                            </div>
-                            <div className="bg-white grid grid-cols-4 text-left border-b-2 border-black/70">
-                              <div className="rounded-full border-3 border-black/80  h-9 w-9 m-auto text-center text-lg font-semibold">
-                                3
-                              </div>
-                              <div className="col-span-3">
-                                <p className="w-full  rounded lg:text-1.5xl  sm:text-md  py-3">
-                                  5x - 2 = 2x + 9
-                                </p>
-                              </div>
-                            </div>
-                            <div className="bg-white grid grid-cols-4 text-left border-b-2 border-black/70">
-                              <div className="rounded-full border-3 border-black/80  h-9 w-9 m-auto text-center text-lg font-semibold">
-                                4
-                              </div>
-                              <div className="col-span-3">
-                                <p className="w-full  rounded lg:text-1.5xl  sm:text-md  py-3">
-                                  32x - 11 = 16 + 47x
-                                </p>
-                              </div>
-                            </div>
-                            <div className="bg-white grid grid-cols-4 text-left border-b-2 border-black/70">
-                              <div className="rounded-full border-3 border-black/80  h-9 w-9 m-auto text-center text-lg font-semibold">
-                                5
-                              </div>
-                              <div className="col-span-3">
-                                <p className="w-full  rounded lg:text-1.5xl  sm:text-md  py-3">
-                                  75x - 42 + 25x = 6x
-                                </p>
-                              </div>
-                            </div>
+                            {averageEquations.map((string, index) => ({
+                              ...(string.length <= 22 ? (
+                                <div className="bg-white grid grid-cols-4 text-left border-b-2 border-black/70">
+                                  <div className="rounded-full border-3  border-black/80 h-9 w-9 m-auto text-center text-lg font-semibold">
+                                    {index + 1}
+                                  </div>
+                                  <div className="col-span-3">
+                                    <p className="w-full  rounded lg:text-1.5xl  sm:text-md  py-3">
+                                      {string}
+                                      {"\u00A0"}
+                                      {"\u00A0"}
+                                    </p>
+                                  </div>
+                                </div>
+                              ) : (
+                                <div className="bg-white grid grid-cols-4 text-left border-b-2 border-black/70">
+                                  <div className="rounded-full border-3  border-black/80 h-9 w-9 m-auto text-center text-lg font-semibold">
+                                    {index + 1}
+                                  </div>
+                                  <div className="col-span-3">
+                                    <p className="w-full  rounded lg:text-1.5xl  sm:text-md  py-3">
+                                      {string}
+                                    </p>
+                                  </div>
+                                </div>
+                              )),
+                            }))}
                           </div>
                           <div className="bg-white py-4"></div>
                         </div>

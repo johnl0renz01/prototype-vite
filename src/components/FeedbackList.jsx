@@ -216,6 +216,7 @@ var FeedbackList = (function () {
         "You've solved the equation accurately.",
         "You've solved the equation as expected.",
         "You've successfully found the solution to the equation.",
+        "You solved the given equation.",
       ];
       message = messageArray[Math.floor(Math.random() * messageArray.length)];
     }

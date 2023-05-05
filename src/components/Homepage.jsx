@@ -68,7 +68,7 @@ export default function Homepage() {
   return (
     <>
       <section className="grid place-items-center">
-        <div className=" w-2/3 h-[92.5vh] flex items-center justify-center">
+        <div className=" w-10/12 lg:h-[92.5vh] flex items-center justify-center">
           <div className="bg-white border-l-12 border-b-12 border-gray-600/60 border-r-12 border-r-gray-300/80 px-8 py-2 rounded-6xl shadow-2xl shadow-yellow-400 ">
             <div className="px-4 py-16 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-20 ">
               <div className="lg:flex w-full overflow-hidden bg-white rounded-6xl sm:mx-auto">

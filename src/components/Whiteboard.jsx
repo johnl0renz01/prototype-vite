@@ -78,8 +78,10 @@ export default function Whiteboard() {
   const [questionList, setQuestions] = useState([]);
   const questionAnswers = [];
   const questionSteps = [];
+  const equationAnswers = [];
 
   const [coefficientLetter, setCoeffLetter] = useState("");
+  const [answerFraction, setFraction] = useState("");
 
   useEffect(() => {
     const data = window.localStorage.getItem("QUESTION_LIST");
@@ -90,12 +92,25 @@ export default function Whiteboard() {
     let data = parseInt(
       JSON.parse(window.localStorage.getItem("QUESTION_INDEX"))
     );
-    console.log("DATATASDADA: " + data);
     EquationSolver.setEquation(questionList[data]);
     EquationSolver.getEquationAnswer();
     let coefficient = EquationSolver.getCoefficientLetter();
     setCoeffLetter(coefficient);
   }
+
+  //////////////////
+  function getFraction() {
+    let data = parseInt(
+      JSON.parse(window.localStorage.getItem("QUESTION_INDEX"))
+    );
+
+    EquationSolver.setEquation(questionList[data]);
+    EquationSolver.getEquationAnswer();
+    let fraction = EquationSolver.getEquationFraction();
+    fraction = coefficientLetter + "=" + fraction;
+    setFraction(fraction);
+  }
+
   //STRING IS OKAY, FIX THE equation solver shit
   function computeEquation() {
     let isInvalid = false;
@@ -106,9 +121,11 @@ export default function Whiteboard() {
       let steps = EquationSolver.getEquationSteps();
 
       //console.log("answe:" + answer);
-      console.log("steps is this: " + steps);
+      console.log(i + 1 + ". [" + questionList[i] + "] : [" + steps + "]");
+
       questionAnswers.push(answer);
       questionSteps.push(steps);
+      equationAnswers.push(steps[steps.length - 1]);
 
       // console.log("COEFEFEFECECE: " + coefficient);
 
@@ -138,6 +155,10 @@ export default function Whiteboard() {
           navigate("/Difficulty");
         }
       }
+    }
+
+    for (let i = 0; i < questionAnswers.length; i++) {
+      console.log(equationAnswers[i]);
     }
   }
 
@@ -222,12 +243,13 @@ export default function Whiteboard() {
   const loadAnswers = (e) => {
     //GET CURRENT COEFFICIENT
     getCoefficient();
+    getFraction();
 
     let logs = JSON.parse(window.localStorage.getItem("USER_LOGS"));
     if (logs != null) {
       let logsArray = logs.split("‰");
       arrSetLog(logsArray);
-      console.log(logsArray);
+      //console.log(logsArray);
     }
 
     function scrollLogs() {
@@ -306,7 +328,7 @@ export default function Whiteboard() {
         }
         fixedEquationSteps.push(fixedString);
       }
-      console.log("this is fixedEquationSteps: " + fixedEquationSteps);
+      //console.log("this is fixedEquationSteps: " + fixedEquationSteps);
       setDisplay(fixedEquationSteps);
 
       var hintMessage = [];
@@ -557,6 +579,7 @@ export default function Whiteboard() {
   //=============================CLICK BUTTON=============================
   const handleClick = (event) => {
     getCoefficient();
+    getFraction();
 
     //Focus inputbox
     let inputID = document.getElementById("input_box");
@@ -656,6 +679,8 @@ export default function Whiteboard() {
               displayCorrect();
             }
           }
+        } else if (answerFraction == trimmedText) {
+          displayFraction();
         }
 
         // WRONG ANSWER or IRRELEVANT
@@ -776,6 +801,24 @@ export default function Whiteboard() {
       "18px solid " + color;
   }
 
+  function displayFraction() {
+    //ADD IF SHORTENED OR FULL
+    if (
+      JSON.parse(window.localStorage.getItem("SYSTEM_VERSION")) ==
+      "Facial Group"
+    ) {
+      setImageLink("PIA-Talking1");
+      changeResponseColor(defaultColor);
+    }
+    //
+    setResponse(
+      "You need to simplify your answer and round up to two decimal places."
+    );
+    setSubtext("");
+
+    setTimeout(timer, 5000);
+  }
+
   function displayAngrySolved() {
     //ADD IF SHORTENED OR FULL
     if (
@@ -837,14 +880,15 @@ export default function Whiteboard() {
         changeResponseColor(correctColor);
       }
       //
-      setResponse("Congratulations!\n You solved the given equation.");
+      let message = FeedbackList.GenerateMessage("correct3");
+      setResponse("Congratulations! " + message);
       setSubtext("");
     }
 
     //10th question easy
     let diffType = window.localStorage.getItem("DIFFICULTY_TYPE");
     if (
-      JSON.parse(window.localStorage.getItem("QUESTION_ANSWERED")) >= 1 &&
+      JSON.parse(window.localStorage.getItem("QUESTION_ANSWERED")) >= 9 &&
       (diffType == '"Easy"' || diffType == "Easy")
     ) {
       setTimeout(displayLevelUp, 3500);
@@ -959,7 +1003,7 @@ export default function Whiteboard() {
       }
       //
       setResponse(FeedbackList.GenerateMessage("correct2"));
-      setSubtext(FeedbackList.GenerateMessage("subCorrec2"));
+      setSubtext(FeedbackList.GenerateMessage("subCorrect2"));
     } else {
       //ADD IF SHORTENED OR FULL
       if (
@@ -969,7 +1013,7 @@ export default function Whiteboard() {
         setImageLink("PIA-Happy");
       }
       //
-      setResponse(FeedbackList.GenerateMessage("correct3"));
+      setResponse(FeedbackList.GenerateMessage("correct2"));
       setSubtext(FeedbackList.GenerateMessage("subCorrect2"));
     }
 
@@ -1086,6 +1130,7 @@ export default function Whiteboard() {
   }
 
   function displayMotivation() {
+    increaseTally("EXPRESSION_MOTIVATION");
     setImageLink("PIA-Talking1");
     let messageType = ["motivation1", "motivation2", "motivation3"];
     let message = messageType[Math.floor(Math.random() * messageType.length)];
@@ -1671,10 +1716,7 @@ export default function Whiteboard() {
             }`}
           >
             {/*<!--Button container-->*/}
-            <div
-              id="toolbar"
-              className="  row-span-16 rounded-l-6xl overflow-hidden"
-            >
+            <div id="toolbar" className="  row-span-16 rounded-l-6xl ">
               <nav className="flex flex-col items  ">
                 {/*<!--Question-->*/}
                 <div
@@ -1694,7 +1736,7 @@ export default function Whiteboard() {
                     onClick={helpCursor}
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
-                    stroke-width="1.5"
+                    strokeWidth="1.5"
                     stroke="currentColor"
                     className={`cursor-pointer h-11 w-11  hover:fill-gray-200/90 hover:bg-gray-200/90 hover:text-white rounded-full p-1 drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)] ${
                       isHelp
@@ -1705,8 +1747,8 @@ export default function Whiteboard() {
                     {!isHelp && <title>Help</title>}
 
                     <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                       d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z"
                     />
                   </svg>
@@ -1750,9 +1792,9 @@ export default function Whiteboard() {
                       </title>
                     )}
                     <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
                       d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
                     />
                   </svg>
@@ -1760,7 +1802,7 @@ export default function Whiteboard() {
 
                 {/*<!--Video-->*/}
                 <div
-                  className={`text-gray-500 hover:text-white focus:outline-none focus:text-white drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)] ${
+                  className={`text-gray-500 hover:text-white focus:outline-none  ${
                     isHelp ? "ml-2 my-1" : "px-3 py-2"
                   }`}
                   {...(isHelp
@@ -1775,9 +1817,9 @@ export default function Whiteboard() {
                     onClick={tutorialMode}
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
-                    stroke-width="1.5"
+                    strokeWidth="1.5"
                     stroke="currentColor"
-                    className={`cursor-pointer  w-11 h-11 p-1   hover:fill-red-500/90 hover:bg-red-500/90 hover:text-white rounded-full ${
+                    className={`cursor-pointer  w-11 h-11 p-1   hover:fill-red-500/90 hover:bg-red-500/90 hover:text-white rounded-full focus:text-white drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)] ${
                       isTutorial
                         ? "fill-red-500 bg-red-500/90 text-white "
                         : isHelp
@@ -1787,13 +1829,13 @@ export default function Whiteboard() {
                   >
                     {!isHelp && <title>Tutorial Video</title>}
                     <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                       d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                     />
                     <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                       d="M15.91 11.672a.375.375 0 010 .656l-5.603 3.113a.375.375 0 01-.557-.328V8.887c0-.286.307-.466.557-.327l5.603 3.112z"
                     />
                   </svg>
@@ -1801,7 +1843,7 @@ export default function Whiteboard() {
 
                 {/*<!--Pen-->*/}
                 <div
-                  className={`text-gray-500 hover:text-white focus:outline-none focus:text-white drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)] ${
+                  className={`text-gray-500 hover:text-white focus:outline-none  ${
                     isHelp ? "ml-2 my-1" : "px-3 py-2"
                   }`}
                   {...(isHelp
@@ -1815,7 +1857,7 @@ export default function Whiteboard() {
                   <svg
                     id="pen_button"
                     onClick={penMode}
-                    className={`cursor-pointer  h-11 w-11  rounded-full hover:fill-lime-600/90 hover:bg-lime-600/90 hover:text-white p-1 ${
+                    className={`cursor-pointer  h-11 w-11  rounded-full hover:fill-lime-600/90 hover:bg-lime-600/90 hover:text-white p-1 focus:text-white drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)] ${
                       isPen
                         ? "fill-lime-600 bg-lime-600/90 text-white "
                         : isHelp
@@ -1823,10 +1865,10 @@ export default function Whiteboard() {
                         : "text-black/50 bg-lime-700/90 fill-lime-700/90"
                     }`}
                     viewBox="0 0 24 24"
-                    stroke-width="1.5"
+                    strokeWidth="1.5"
                     stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                   >
                     {!isHelp && <title>Draw</title>}
                     <path stroke="none" d="M0 0h24v24H0z" />{" "}
@@ -1864,9 +1906,9 @@ export default function Whiteboard() {
                       className="absolute w-full aspect-auto h-full"
                       src="https://www.youtube.com/embed/crJI4iZ_DbI"
                       title="Solving linear equations — Harder example | Math | SAT | Khan Academy"
-                      frameborder="0"
+                      frameBorder="0"
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                      allowfullscreen
+                      allowFullScreen
                     ></iframe>
                   </div>
                 </section>
@@ -1965,14 +2007,14 @@ export default function Whiteboard() {
                 className="border-l-brTwo border-l-18 relative grid grid-rows-6 h-full w-2/2  bg-slate-200 rounded-tr-4xl "
               >
                 <div className="row-span-5 flex justify-center text-center items-center  drop-shadow-[0_2px_1px_rgba(255,255,255,0.35)]">
-                  <p className=" text-3xl leading-9 font-poppins font-semibold px-4">
+                  <div className=" text-3xl leading-9 font-poppins font-semibold px-4">
                     {textResponse}
 
                     <p className="text-4.5xl mt-3 font-extrabold ">
                       {" "}
                       {subtextResponse}
                     </p>
-                  </p>
+                  </div>
                   <span
                     id="solved"
                     className="invisible absolute bottom-0 text-2xl leading-9 font-poppins font-semibold"
@@ -2040,7 +2082,7 @@ export default function Whiteboard() {
             >
               <div className="flex">
                 {
-                  <p className="ml-32 font-poppins text-3.5xl font-medium">
+                  <div className="ml-32 font-poppins text-3.5xl font-medium">
                     <div id="answer_area" className="invisible p-2 text-center">
                       {answerDisplay.map((ans, index) =>
                         length === index + 1 ? (
@@ -2058,7 +2100,7 @@ export default function Whiteboard() {
                         )
                       )}
                     </div>
-                  </p>
+                  </div>
                 }
               </div>
             </div>
@@ -2098,11 +2140,11 @@ export default function Whiteboard() {
                 className="px-5 overflow-auto max-h-[26rem]  style-1 pb-11"
               >
                 {
-                  <p className=" text-white break-word font-poppins text-3xl">
+                  <div className=" text-white break-word font-poppins text-3xl">
                     {arrTextLog.map((entry) => (
                       <p>{entry}</p>
                     ))}
-                  </p>
+                  </div>
                 }
               </div>
             </div>
@@ -2142,7 +2184,7 @@ export default function Whiteboard() {
                     isPen ? "hidden" : " "
                   }`}
                 >
-                  <form autocomplete="off" onSubmit={handleSubmit}>
+                  <form autoComplete="off" onSubmit={handleSubmit}>
                     <input
                       id="input_box"
                       value={textInput}
@@ -2163,7 +2205,7 @@ export default function Whiteboard() {
                     <button
                       onClick={textInput !== "" ? handleClick : undefined}
                       value={textInput}
-                      className={` select-none text-white text-xl font-light absolute  right-2.5 bottom-2  rounded-full px-4 py-3  ${
+                      className={` select-none text-white text-xl font-light absolute  right-2.5 bottom-3  rounded-full px-4 py-2.5  ${
                         isTutorial
                           ? "cursor-default bg-gray-400"
                           : "bg-lime-700  cursor-pointer dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800  hover:bg-lime-800 focus:ring-2 focus:outline-none drop-shadow-[0_2px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_2px_0px_rgba(0,0,0,0.6)]"
@@ -2185,7 +2227,7 @@ export default function Whiteboard() {
                   }`}
                 >
                   <div className="">
-                    <section className="bg-white lg:w-full flex rounded-5xl pt-1.5 overflow-hidden">
+                    <section className="bg-white lg:w-full flex rounded-5xl pt-1.5 overflow-hidden select-none">
                       <div className="row">
                         <label className="title hidden">Shapes</label>
                         <ul className="options hidden">

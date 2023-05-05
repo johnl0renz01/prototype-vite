@@ -11,6 +11,9 @@ var EndSession = (function () {
     let expressionSurprised = window.localStorage.getItem(
       "EXPRESSION_SURPRISED"
     );
+    let expressionMotivation = window.localStorage.getItem(
+      "EXPRESSION_MOTIVATION"
+    );
 
     var sessionData = window.localStorage.getItem("SESSION_USER_LOGS");
     sessionData =
@@ -26,7 +29,9 @@ var EndSession = (function () {
       "@" +
       expressionSad +
       "@" +
-      expressionSurprised;
+      expressionSurprised +
+      "@" +
+      expressionMotivation;
     sessionData = sessionData.replace(/"/g, "");
 
     axios

@@ -200,7 +200,7 @@ function Navbar() {
                       window.localStorage.getItem("SESSION_ID") != null ? (
                         pageList.includes("Whiteboard") == false ? (
                           <>
-                            <span class="bell fa fa-bell w-7 h-7 text-xl mr-1.5 mt-0.5"></span>
+                            <span className="bell fa fa-bell w-7 h-7 text-xl mr-1.5 mt-0.5"></span>
                             <>{currentUser}</>
                           </>
                         ) : (

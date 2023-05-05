@@ -24,6 +24,16 @@ $session_angry = "";
 $session_happy = "";
 $session_sad = "";
 $session_surprised = "";
+$session_motivation = "";
+
+//FOR MOTIVATION
+for ($i = strlen($user_key) - 1; $i > 0; $i--) {
+    if ($user_key[$i] == "@") {
+        $session_motivation = substr($user_key, ($i + 1));
+        $user_key = substr($user_key, 0, $i);
+        break;
+    }
+}
 
 //FOR SURPRISED
 for ($i = strlen($user_key) - 1; $i > 0; $i--) {
@@ -111,7 +121,7 @@ switch($_SESSION['method']) {
 
         $sql2 = "UPDATE $user_key SET Score = '$session_score', TimeSpent = '$time_spent',
                 ExpressionAngry = '$session_angry', ExpressionHappy = '$session_happy',
-                ExpressionSad = '$session_sad', ExpressionSurprised = '$session_surprised'
+                ExpressionSad = '$session_sad', ExpressionSurprised = '$session_surprised', ExpressionMotivation = '$session_motivation'
                 WHERE SessionID = '$session_id'";
 
         $stmt2 = $conn->prepare($sql2);

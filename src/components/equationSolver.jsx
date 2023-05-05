@@ -4,6 +4,8 @@ var EquationSolver = (function () {
   var equationSteps = [];
   var currentCoefficientLetter = "";
 
+  var equationFraction = "";
+
   var getEquationAnswer = function () {
     try {
       //Power or raise to is not yet implemented, therefore consider as invalid
@@ -1210,6 +1212,9 @@ var EquationSolver = (function () {
 
       var x = constantDifference / coefficientDifference;
 
+      equationFraction =
+        constantDifference * -1 + "/" + coefficientDifference * -1;
+
       x = Math.round(x * 100 + Number.EPSILON) / 100;
       //console.log(`The solution for ${equation} is: x = ${x}`);
 
@@ -1255,6 +1260,10 @@ var EquationSolver = (function () {
     equation = string;
   };
 
+  var getEquationFraction = function () {
+    return equationFraction;
+  };
+
   var getEquationSteps = function () {
     return equationSteps;
   };
@@ -1266,6 +1275,7 @@ var EquationSolver = (function () {
   return {
     getEquationAnswer: getEquationAnswer,
     setEquation: setEquation,
+    getEquationFraction: getEquationFraction,
     getEquationSteps: getEquationSteps,
     getCoefficientLetter: getCoefficientLetter,
   };

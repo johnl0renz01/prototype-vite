@@ -5,6 +5,7 @@ var ClearStorage = (function () {
     window.localStorage.removeItem("EXPRESSION_SAD");
     window.localStorage.removeItem("EXPRESSION_HAPPY");
     window.localStorage.removeItem("EXPRESSION_SURPRISED");
+    window.localStorage.removeItem("EXPRESSION_MOTIVATION");
     window.localStorage.removeItem("STREAK_WRONG");
     window.localStorage.removeItem("USER_LOGS");
     window.localStorage.removeItem("SESSION_SCORE");
