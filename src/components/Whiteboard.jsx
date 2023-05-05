@@ -722,6 +722,9 @@ export default function Whiteboard() {
     //END OF FUNCTION
   };
 
+  // SET TIMEOUT
+  const timerDelay = 5000;
+
   function increaseStepIndex() {
     let stepIndex = window.localStorage.getItem("FINISHED_STEPS");
     if (stepIndex == null) {
@@ -816,7 +819,7 @@ export default function Whiteboard() {
     );
     setSubtext("");
 
-    setTimeout(timer, 5000);
+    setTimeout(timer, timerDelay);
   }
 
   function displayAngrySolved() {
@@ -837,7 +840,7 @@ export default function Whiteboard() {
     ReactDOM.findDOMNode(choiceArea).style.visibility = "hidden";
     ReactDOM.findDOMNode(choiceArea2).style.visibility = "hidden";
 
-    setTimeout(displaySolved, 5000);
+    setTimeout(displaySolved, timerDelay);
   }
 
   function displaySolved() {
@@ -949,7 +952,7 @@ export default function Whiteboard() {
     setResponse("You already completed that step.");
     setSubtext("");
 
-    setTimeout(timer, 5000);
+    setTimeout(timer, timerDelay);
   }
 
   function displayCorrect() {
@@ -1025,7 +1028,7 @@ export default function Whiteboard() {
       changeResponseColor(correctColor);
     }
     //
-    setTimeout(timer, 5000);
+    setTimeout(timer, timerDelay);
   }
 
   function displayWrong() {
@@ -1097,7 +1100,7 @@ export default function Whiteboard() {
         JSON.parse(window.localStorage.getItem("SYSTEM_VERSION")) ==
         "Facial Group"
       ) {
-        setTimeout(displayMotivation, 5000);
+        setTimeout(displayMotivation, timerDelay);
       }
       return;
     } else {
@@ -1126,7 +1129,7 @@ export default function Whiteboard() {
       changeResponseColor(wrongColor);
     }
     //
-    setTimeout(timer, 5000);
+    setTimeout(timer, timerDelay);
   }
 
   function displayMotivation() {
@@ -1138,7 +1141,7 @@ export default function Whiteboard() {
     setSubtext("");
     changeResponseColor(motivationColor1);
 
-    setTimeout(displayInspiration, 5000);
+    setTimeout(displayInspiration, timerDelay);
   }
 
   function displayInspiration() {
@@ -1181,7 +1184,7 @@ export default function Whiteboard() {
       //"Your answer is irrelevant. Please only input appropriate answer for the given problem."
       setSubtext("");
       changeResponseColor(defaultColor);
-      setTimeout(timer, 5000);
+      setTimeout(timer, timerDelay);
     }
   }
 
@@ -1202,7 +1205,7 @@ export default function Whiteboard() {
     );
     setSubtext("");
 
-    setTimeout(timer, 5000);
+    setTimeout(timer, timerDelay);
   }
 
   //Revert back text messages and color
