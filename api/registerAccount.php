@@ -81,7 +81,8 @@ switch($_SESSION['method']) {
             ExpressionAngry VARCHAR(255) NOT NULL ,
             ExpressionHappy VARCHAR(255) NOT NULL ,
             ExpressionSad VARCHAR(255) NOT NULL ,
-            ExpressionSurprised VARCHAR(255) NOT NULL
+            ExpressionSurprised VARCHAR(255) NOT NULL ,
+            ExpressionMotivation VARCHAR(255) NOT NULL
             )";
 
         $conn->exec($create);

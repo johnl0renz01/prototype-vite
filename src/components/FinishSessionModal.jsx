@@ -26,7 +26,17 @@ const FinishSessionModal = ({ visible, onClose, onContinue }) => {
 
   const [equations, setEquations] = useState([]);
 
+  const [groupType, setGroupType] = useState("");
+
   useEffect(() => {
+    let group = JSON.parse(window.localStorage.getItem("SYSTEM_VERSION"));
+    if (group == "Facial Group") {
+      setGroupType("Facial Group");
+    } else {
+      setGroupType("Non Facial Group");
+    }
+    console.log(groupType);
+
     let data1 = JSON.parse(window.localStorage.getItem("DIFFICULTY_TYPE"));
     if (data1 !== null) {
       setDifficulty(data1);
@@ -198,17 +208,36 @@ const FinishSessionModal = ({ visible, onClose, onContinue }) => {
                   id="image_bg"
                   className="relative flex items-center text-center justify-center rounded-2xl h-52 my-auto bg-gray-200  object-cover w-[15rem]  overflow-hidden"
                 >
-                  <img
-                    className="absolute bottom-0  pt-2 -mb-4"
-                    src={require("../assets/facial_expressions/PIA-Smiling2.png")}
-                  ></img>
+                  {groupType == "Facial Group" ? (
+                    <img
+                      className="absolute bottom-0  pt-2 -mb-4"
+                      src={require("../assets/facial_expressions/PIA-Smiling2.png")}
+                    ></img>
+                  ) : (
+                    <img
+                      className="absolute bottom-0  pt-2 -mb-4"
+                      src={require("../assets/facial_expressions/PIA-Neutral.png")}
+                    ></img>
+                  )}
                 </div>
                 <div className="text-gray-200 text-xl font-normal text-justify flex items-center w-full p-2 px-10 -mt-2 break-words">
                   <p>{feedback}</p>
                 </div>
               </div>
 
-              <p className="mt-3 mb-2 py-2 rounded-lg bg-green-500">
+              <p
+                className={`mt-3 mb-2 py-2 rounded-lg ${
+                  difficulty == "Easy" ? (
+                    "bg-green-500"
+                  ) : difficulty == "Average" ? (
+                    "bg-yellow-500"
+                  ) : difficulty == "Difficult" ? (
+                    "bg-red-500"
+                  ) : (
+                    <></>
+                  )
+                }`}
+              >
                 <span className="text-gray-800 text-2xl font-semibold ">
                   Difficulty: {difficulty}
                 </span>

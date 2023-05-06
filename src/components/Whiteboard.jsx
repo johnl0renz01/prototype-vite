@@ -1101,6 +1101,8 @@ export default function Whiteboard() {
         "Facial Group"
       ) {
         setTimeout(displayMotivation, timerDelay);
+      } else {
+        setTimeout(timer, timerDelay);
       }
       return;
     } else {

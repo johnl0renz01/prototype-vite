@@ -1,9 +1,5 @@
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import React, { Component } from "react";
-import Background from "./components/background";
-import Header from "./components/header";
-import MyForm from "./components/testing";
-import Algorithm from "./components/algo";
 
 import Navbar from "./components/Navbar";
 import Homepage from "./components/Homepage";
