@@ -1,15 +1,15 @@
-import React, { Component } from "react";
-import { useNavigate } from "react-router-dom";
-import { useEffect, useState, useCallback } from "react";
-import axios from "axios";
-import * as ReactDOM from "react-dom";
-import $ from "jquery";
+import React, { Component } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useEffect, useState, useCallback } from 'react';
+import axios from 'axios';
+import * as ReactDOM from 'react-dom';
+import $ from 'jquery';
 
-import { useFormik } from "formik";
-import { loginSchema } from "../schemas";
+import { useFormik } from 'formik';
+import { loginSchema } from '../schemas';
 
 export default function Login() {
-  document.body.style.height = "100vh";
+  document.body.style.height = '100vh';
 
   const navigate = useNavigate();
 
@@ -18,42 +18,42 @@ export default function Login() {
   const [pageLink, setPageLink] = useState([]);
 
   useEffect(() => {
-    let page = ["Home", "Login"];
-    let link = ["/AdminHomepage", "/Login"];
+    let page = ['Home', 'Login'];
+    let link = ['/AdminHomepage', '/Login'];
     setPageList(page);
     setPageLink(link);
   }, []);
 
   useEffect(() => {
-    window.localStorage.setItem("NAVBAR_PAGE", JSON.stringify(pageList));
+    window.localStorage.setItem('NAVBAR_PAGE', JSON.stringify(pageList));
   }, [pageList]);
 
   useEffect(() => {
-    window.localStorage.setItem("NAVBAR_PAGE_LINK", JSON.stringify(pageLink));
+    window.localStorage.setItem('NAVBAR_PAGE_LINK', JSON.stringify(pageLink));
   }, [pageLink]);
 
   //END END END END END END END END END END END END
 
   const AdminHomepage = () => {
-    let page = ["Home"];
-    let link = ["/AdminHomepage"];
+    let page = ['Home'];
+    let link = ['/AdminHomepage'];
     setPageList(page);
     setPageLink(link);
 
-    window.localStorage.setItem("NAVBAR_PAGE", JSON.stringify(pageList));
-    window.localStorage.setItem("NAVBAR_PAGE_LINK", JSON.stringify(pageLink));
+    window.localStorage.setItem('NAVBAR_PAGE', JSON.stringify(pageList));
+    window.localStorage.setItem('NAVBAR_PAGE_LINK', JSON.stringify(pageLink));
     setTimeout(proceed, 1);
 
     function proceed() {
-      navigate("/AdminHomepage");
+      navigate('/AdminHomepage');
     }
   };
 
   const onSubmit = async (values, actions) => {
-    console.log("Submitted");
+    console.log('Submitted');
     console.log(values);
     console.log(actions);
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    await new Promise(resolve => setTimeout(resolve, 1000));
     actions.resetForm();
   };
 
@@ -67,8 +67,8 @@ export default function Login() {
     touched,
   } = useFormik({
     initialValues: {
-      email: "",
-      password: "",
+      email: '',
+      password: '',
     },
 
     //Page Validation Form

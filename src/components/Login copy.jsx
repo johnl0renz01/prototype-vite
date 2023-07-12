@@ -1,15 +1,15 @@
-import React, { Component } from "react";
-import { useNavigate } from "react-router-dom";
-import { useEffect, useState, useCallback } from "react";
-import axios from "axios";
-import * as ReactDOM from "react-dom";
-import $ from "jquery";
+import React, { Component } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useEffect, useState, useCallback } from 'react';
+import axios from 'axios';
+import * as ReactDOM from 'react-dom';
+import $ from 'jquery';
 
-import { useFormik } from "formik";
-import { loginSchema } from "../schemas";
+import { useFormik } from 'formik';
+import { loginSchema } from '../schemas';
 
 export default function Login() {
-  document.body.style.height = "100vh";
+  document.body.style.height = '100vh';
 
   const navigate = useNavigate();
 
@@ -18,57 +18,57 @@ export default function Login() {
   const [pageLink, setPageLink] = useState([]);
 
   useEffect(() => {
-    let page = ["Home", "Login"];
-    let link = ["/Homepage", "/Login"];
+    let page = ['Home', 'Login'];
+    let link = ['/Homepage', '/Login'];
     setPageList(page);
     setPageLink(link);
   }, []);
 
   useEffect(() => {
-    window.localStorage.setItem("NAVBAR_PAGE", JSON.stringify(pageList));
+    window.localStorage.setItem('NAVBAR_PAGE', JSON.stringify(pageList));
   }, [pageList]);
 
   useEffect(() => {
-    window.localStorage.setItem("NAVBAR_PAGE_LINK", JSON.stringify(pageLink));
+    window.localStorage.setItem('NAVBAR_PAGE_LINK', JSON.stringify(pageLink));
   }, [pageLink]);
 
   //END END END END END END END END END END END END
 
   const AdminHomepage = () => {
-    let page = ["Home"];
-    let link = ["/AdminHomepage"];
+    let page = ['Home'];
+    let link = ['/AdminHomepage'];
     setPageList(page);
     setPageLink(link);
 
-    window.localStorage.setItem("NAVBAR_PAGE", JSON.stringify(pageList));
-    window.localStorage.setItem("NAVBAR_PAGE_LINK", JSON.stringify(pageLink));
+    window.localStorage.setItem('NAVBAR_PAGE', JSON.stringify(pageList));
+    window.localStorage.setItem('NAVBAR_PAGE_LINK', JSON.stringify(pageLink));
     setTimeout(proceed, 1);
 
     function proceed() {
-      navigate("/AdminHomepage");
+      navigate('/AdminHomepage');
     }
   };
 
   // FOR LOGIN
 
-  const [accType, setAccType] = useState("Student");
-  var accountType = "loginStudent";
+  const [accType, setAccType] = useState('Student');
+  var accountType = 'loginStudent';
 
   useEffect(() => {
-    const data = window.localStorage.getItem("LOGIN_TYPE");
+    const data = window.localStorage.getItem('LOGIN_TYPE');
     if (data !== null) setAccType(JSON.parse(data));
-    accountType = "login" + JSON.parse(data);
+    accountType = 'login' + JSON.parse(data);
   });
 
   useEffect(() => {
-    if (accountType == "loginStudent") {
-      values.username = "randomstring";
+    if (accountType == 'loginStudent') {
+      values.username = 'randomstring';
     } else {
-      values.email = "randomstring@string.com";
+      values.email = 'randomstring@string.com';
     }
   }, []);
 
-  const [currentUser, setCurrentUser] = useState("");
+  const [currentUser, setCurrentUser] = useState('');
 
   const onSubmit = async (values, actions) => {
     console.log(accountType);
@@ -82,10 +82,10 @@ export default function Login() {
         console.log(response.data);
         var currentData = JSON.stringify(response.data);
         console.log(currentData);
-        currentData = currentData.replace("{", "");
-        currentData = currentData.replace("}", "");
-        currentData = currentData.replace('"GivenName":', "");
-        currentData = currentData.replace('"Email":', "");
+        currentData = currentData.replace('{', '');
+        currentData = currentData.replace('}', '');
+        currentData = currentData.replace('"GivenName":', '');
+        currentData = currentData.replace('"Email":', '');
 
         var userData = [];
         convertStringToArray();
@@ -94,7 +94,7 @@ export default function Login() {
           let endIndex = 0;
           for (let i = 0; i < currentData.length; i++) {
             let isEnd = false;
-            if (currentData[i] == ",") {
+            if (currentData[i] == ',') {
               firstIndex = 0;
               endIndex = 0;
               continue;
@@ -116,32 +116,32 @@ export default function Login() {
           }
         }
 
-        if (currentData.includes(",")) {
+        if (currentData.includes(',')) {
           window.localStorage.setItem(
-            "SESSION_USER",
+            'SESSION_USER',
             JSON.stringify(userData[0])
           );
           window.localStorage.setItem(
-            "SESSION_EMAIL",
+            'SESSION_EMAIL',
             JSON.stringify(userData[1])
           );
           isStudent = true;
         } else {
-          currentData = currentData.replace(/"/g, "");
+          currentData = currentData.replace(/"/g, '');
           window.localStorage.setItem(
-            "SESSION_USER",
+            'SESSION_USER',
             JSON.stringify(currentData)
           );
-          window.localStorage.setItem("SESSION_EMAIL", JSON.stringify(""));
+          window.localStorage.setItem('SESSION_EMAIL', JSON.stringify(''));
         }
       });
 
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    await new Promise(resolve => setTimeout(resolve, 1000));
     actions.resetForm();
     if (isStudent) {
-      navigate("/Homepage");
+      navigate('/Homepage');
     } else {
-      navigate("/AdminHomepage");
+      navigate('/AdminHomepage');
     }
   };
 
@@ -155,9 +155,9 @@ export default function Login() {
     touched,
   } = useFormik({
     initialValues: {
-      email: "",
-      password: "",
-      username: "",
+      email: '',
+      password: '',
+      username: '',
     },
     //Page Validation Form
     validationSchema: loginSchema,
@@ -166,31 +166,31 @@ export default function Login() {
   console.log(errors);
 
   const changeAccountType = () => {
-    const data = window.localStorage.getItem("LOGIN_TYPE");
-    accountType = "login" + JSON.parse(data);
+    const data = window.localStorage.getItem('LOGIN_TYPE');
+    accountType = 'login' + JSON.parse(data);
 
-    if (accountType == "loginAdmin") {
-      values.username = "randomstring";
-      values.email = "";
-      errors.email = "";
+    if (accountType == 'loginAdmin') {
+      values.username = 'randomstring';
+      values.email = '';
+      errors.email = '';
       touched.email = false;
 
-      accountType = "loginStudent";
-      window.localStorage.setItem("LOGIN_TYPE", JSON.stringify("Student"));
-      setAccType("Student");
+      accountType = 'loginStudent';
+      window.localStorage.setItem('LOGIN_TYPE', JSON.stringify('Student'));
+      setAccType('Student');
     } else {
-      values.email = "randomstring@string.com";
-      values.username = "";
-      errors.username = "";
+      values.email = 'randomstring@string.com';
+      values.username = '';
+      errors.username = '';
       touched.username = false;
 
-      accountType = "loginAdmin";
-      window.localStorage.setItem("LOGIN_TYPE", JSON.stringify("Admin"));
-      setAccType("Admin");
+      accountType = 'loginAdmin';
+      window.localStorage.setItem('LOGIN_TYPE', JSON.stringify('Admin'));
+      setAccType('Admin');
     }
     touched.password = false;
-    errors.password = "";
-    values.password = "";
+    errors.password = '';
+    values.password = '';
   };
 
   return (
@@ -203,7 +203,7 @@ export default function Login() {
               type="button"
               className="ml-9 inline-block lg:px-4 md:px-3 sm:px-2 border-b-4 border-gray-500/90 lg:rounded-tl-2xl lg:rounded-tr-2xl sm:rounded-tl-xl sm:rounded-tr-xl text-white bg-gray-400 text-sm hover:bg-gray-500 hover:border-gray-600"
             >
-              {accType == "Student" ? "Admin" : "Student"}
+              {accType == 'Student' ? 'Admin' : 'Student'}
             </button>
           </div>
           <div className="col-span-10">
@@ -236,34 +236,34 @@ export default function Login() {
                   <div className="flex">
                     <label
                       className={`mr-2 text-lg mt-1.5 font-semibold ${
-                        accType == "Student" ? "ml-9 pl-0.5" : ""
+                        accType == 'Student' ? 'ml-9 pl-0.5' : ''
                       }`}
-                      htmlFor={accType == "Student" ? "email" : "username"}
+                      htmlFor={accType == 'Student' ? 'email' : 'username'}
                     >
-                      {accType == "Student" ? "Email:" : "Username:"}
+                      {accType == 'Student' ? 'Email:' : 'Username:'}
                     </label>
                     <input
                       className={`bg-[#e0e0e0] rounded-full w-full text-lg text-gray-700 px-4  py-1.5 mr-3  ${
-                        accType == "Student"
+                        accType == 'Student'
                           ? errors.email && touched.email
-                            ? " border-red-500 focus:border-red-500 border-2 border-solid"
-                            : ""
+                            ? ' border-red-500 focus:border-red-500 border-2 border-solid'
+                            : ''
                           : errors.username && touched.username
-                          ? " border-red-500 focus:border-red-500 border-2 border-solid"
-                          : ""
+                          ? ' border-red-500 focus:border-red-500 border-2 border-solid'
+                          : ''
                       }`}
-                      type={accType == "Student" ? "email" : "text"}
-                      name={accType == "Student" ? "email" : "username"}
+                      type={accType == 'Student' ? 'email' : 'text'}
+                      name={accType == 'Student' ? 'email' : 'username'}
                       placeholder={
-                        accType == "Student"
-                          ? "lastname.firstname@sanfrancisco.edu.ph"
-                          : "Enter your username"
+                        accType == 'Student'
+                          ? 'lastname.firstname@sanfrancisco.edu.ph'
+                          : 'Enter your username'
                       }
                       autoComplete="off"
                       /* Formik email validation Section  */
 
                       value={
-                        accType == "Student" ? values.email : values.username
+                        accType == 'Student' ? values.email : values.username
                       }
                       onChange={handleChange}
                       onBlur={handleBlur}
@@ -271,7 +271,7 @@ export default function Login() {
                   </div>
 
                   <div className="">
-                    {accType == "Student"
+                    {accType == 'Student'
                       ? errors.email &&
                         touched.email && (
                           <p className="text-red-500 ml-28 flex-w">
@@ -294,14 +294,14 @@ export default function Login() {
                       htmlFor="password"
                       className="mr-3 text-lg mt-1.5 font-semibold"
                     >
-                      {" "}
-                      Password:{" "}
+                      {' '}
+                      Password:{' '}
                     </label>
                     <input
                       className={` bg-[#e0e0e0] rounded-full w-full text-lg text-gray-700 px-4  py-1.5 mr-3 ${
                         errors.password && touched.password
-                          ? " border-red-500 focus:border-red-500 border-2 border-solid"
-                          : ""
+                          ? ' border-red-500 focus:border-red-500 border-2 border-solid'
+                          : ''
                       } `}
                       type="password"
                       name="password"

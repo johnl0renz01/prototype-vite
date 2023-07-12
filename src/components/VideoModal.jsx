@@ -1,9 +1,9 @@
-import React from "react";
-import { MdClose } from "react-icons/md";
+import React from 'react';
+import { MdClose } from 'react-icons/md';
 
 const VideoModal = ({ visible, onClose }) => {
-  const handleOnClose = (e) => {
-    if (e.target.id === "mainContainer") onClose();
+  const handleOnClose = e => {
+    if (e.target.id === 'mainContainer') onClose();
   };
 
   if (!visible) return null;

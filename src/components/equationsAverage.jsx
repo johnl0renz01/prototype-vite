@@ -1,51 +1,51 @@
-import axios from "axios";
+import axios from 'axios';
 
 var EquationGeneratorAverage = (function () {
   const lhsSchemas = [
-    "2x * 3",
-    "2x * 3 * 3",
-    "3 * 2x",
-    "3 * 2x * 3",
-    "3 * 2x",
-    "3 * 3 * 2x",
+    '2x * 3',
+    '2x * 3 * 3',
+    '3 * 2x',
+    '3 * 2x * 3',
+    '3 * 2x',
+    '3 * 3 * 2x',
 
-    "2x * 3 @ 2x",
-    "2x @ 3 * 2x",
-    "3 * 2x @ 2x",
-    "2x @ 2x * 3",
-    "2x @ 2x * 3 @ 3",
-    "2x @ 2x @ 3 * 3",
-    "2x @ 2x * 3 * 3",
+    '2x * 3 @ 2x',
+    '2x @ 3 * 2x',
+    '3 * 2x @ 2x',
+    '2x @ 2x * 3',
+    '2x @ 2x * 3 @ 3',
+    '2x @ 2x @ 3 * 3',
+    '2x @ 2x * 3 * 3',
 
-    "2x * 3 @ 2x @ 3",
-    "2x @ 3 * 2x @ 3",
-    "2x @ 3 @ 2x * 3",
-    "2x * 3 @ 2x * 3",
-    "2x @ 3 * 2x * 3",
+    '2x * 3 @ 2x @ 3',
+    '2x @ 3 * 2x @ 3',
+    '2x @ 3 @ 2x * 3',
+    '2x * 3 @ 2x * 3',
+    '2x @ 3 * 2x * 3',
 
-    "2x * 3 @ 3 @ 2x",
-    "2x @ 3 @ 3 * 2x",
-    "2x @ 3 * 3 @ 2x",
-    "2x * 3 * 3 @ 2x",
-    "2x @ 3 * 3 * 2x",
-    "2x * 3 @ 3 * 2x",
+    '2x * 3 @ 3 @ 2x',
+    '2x @ 3 @ 3 * 2x',
+    '2x @ 3 * 3 @ 2x',
+    '2x * 3 * 3 @ 2x',
+    '2x @ 3 * 3 * 2x',
+    '2x * 3 @ 3 * 2x',
 
-    "3 * 2x @ 3 @ 2x",
-    "3 @ 2x * 3 @ 2x",
-    "3 @ 2x @ 3 * 2x",
-    "3 * 2x * 3 @ 2x",
-    "3 * 2x @ 3 * 2x",
+    '3 * 2x @ 3 @ 2x',
+    '3 @ 2x * 3 @ 2x',
+    '3 @ 2x @ 3 * 2x',
+    '3 * 2x * 3 @ 2x',
+    '3 * 2x @ 3 * 2x',
 
-    "3 * 2x @ 2x @ 3",
-    "3 @ 2x @ 2x * 3",
-    "3 * 2x @ 2x * 3",
+    '3 * 2x @ 2x @ 3',
+    '3 @ 2x @ 2x * 3',
+    '3 * 2x @ 2x * 3',
 
-    "3 * 3 @ 2x @ 2",
-    "3 @ 3 @ 2x * 2",
-    "3 @ 3 * 2x @ 2",
-    "3 * 3 * 2x @ 2",
-    "3 @ 3 * 2x * 2",
-    "3 * 3 * 2x * 2",
+    '3 * 3 @ 2x @ 2',
+    '3 @ 3 @ 2x * 2',
+    '3 @ 3 * 2x @ 2',
+    '3 * 3 * 2x @ 2',
+    '3 @ 3 * 2x * 2',
+    '3 * 3 * 2x * 2',
   ];
 
   const rhsSchemas = lhsSchemas;
@@ -68,7 +68,7 @@ var EquationGeneratorAverage = (function () {
           var newArray = [];
           for (let i = 0; i < responseData.length; i++) {
             var tempArray = [];
-            var result = Object.keys(responseData[i]).map((key) => [
+            var result = Object.keys(responseData[i]).map(key => [
               key,
               responseData[i][key],
             ]);
@@ -79,7 +79,7 @@ var EquationGeneratorAverage = (function () {
             console.log(tempArray);
 
             let data = JSON.stringify(tempArray[0]);
-            data = data.replace(/"/g, "");
+            data = data.replace(/"/g, '');
 
             newArray.push(data);
           }
@@ -93,29 +93,29 @@ var EquationGeneratorAverage = (function () {
     function equationProcess() {
       // GENERATE # EQUATIONS through quantity
       for (let i = 0; i < quantity; i++) {
-        var combinedSchema = "";
+        var combinedSchema = '';
         var percentage = Math.random() * 100;
         var item1 = lhsSchemas[Math.floor(Math.random() * lhsSchemas.length)];
         var item2 = rhsSchemas[Math.floor(Math.random() * rhsSchemas.length)];
         if (percentage <= 30) {
-          item1 = "-" + item1;
+          item1 = '-' + item1;
         }
         percentage = Math.random() * 100;
         if (percentage <= 30) {
-          item2 = "-" + item2;
+          item2 = '-' + item2;
         }
 
         percentage = Math.random() * 100;
         if (percentage <= 50) {
-          combinedSchema = " " + item1 + " = " + item2 + " ";
+          combinedSchema = ' ' + item1 + ' = ' + item2 + ' ';
         } else {
-          combinedSchema = " " + item2 + " = " + item1 + " ";
+          combinedSchema = ' ' + item2 + ' = ' + item1 + ' ';
         }
         //console.log(combinedSchema)
         averageEquationList.push(combinedSchema);
       }
-      const availableOperations = ["+", "+", "-"]; //Double operation to increase chance
-      const anotherOperations = ["+", "-", "*", "*", "*", "*", "*"]; //With multiplication
+      const availableOperations = ['+', '+', '-']; //Double operation to increase chance
+      const anotherOperations = ['+', '-', '*', '*', '*', '*', '*']; //With multiplication
 
       addOperations();
       changeValues();
@@ -135,11 +135,11 @@ var EquationGeneratorAverage = (function () {
                 Math.floor(Math.random() * anotherOperations.length)
               ];
             averageEquationList[i] = averageEquationList[i].replace(
-              "@",
+              '@',
               operation
             );
             averageEquationList[i] = averageEquationList[i].replace(
-              "*",
+              '*',
               anotherOperation
             );
           }
@@ -153,13 +153,13 @@ var EquationGeneratorAverage = (function () {
 
       function changeValues() {
         for (let i = 0; i < averageEquationList.length; i++) {
-          if (averageEquationList[i].includes("1x")) {
-            averageEquationList[i] = averageEquationList[i].replace(/1x/g, "x");
+          if (averageEquationList[i].includes('1x')) {
+            averageEquationList[i] = averageEquationList[i].replace(/1x/g, 'x');
           }
-          if (averageEquationList[i].includes("-1x")) {
+          if (averageEquationList[i].includes('-1x')) {
             averageEquationList[i] = averageEquationList[i].replace(
               /-1x/g,
-              "-x"
+              '-x'
             );
           }
 
@@ -190,121 +190,121 @@ var EquationGeneratorAverage = (function () {
           for (let j = 1; j < limit; j++) {
             for (let k = 1; k < 10; k++) {
               replaceDigit(k);
-              replaceDigit("-" + k);
+              replaceDigit('-' + k);
               replaceDigitCoefficient(k);
-              replaceDigitCoefficient("-" + k);
+              replaceDigitCoefficient('-' + k);
             }
           }
 
           function replaceDigit(digit) {
-            let negativeSymbol = "";
+            let negativeSymbol = '';
 
             if (parseInt(digit) < 0) {
-              negativeSymbol = "-";
+              negativeSymbol = '-';
             }
             if (averageEquationList[i].includes(digit)) {
-              let search1 = " " + digit + " ";
-              let search4 = "\\(" + digit + " ";
-              let search5 = " " + digit + "\\)";
-              let search6 = "\\(" + digit + "\\)";
+              let search1 = ' ' + digit + ' ';
+              let search4 = '\\(' + digit + ' ';
+              let search5 = ' ' + digit + '\\)';
+              let search6 = '\\(' + digit + '\\)';
 
-              let find1 = new RegExp(search1, "");
-              let find4 = new RegExp(search4, "");
-              let find5 = new RegExp(search5, "");
-              let find6 = new RegExp(search6, "");
+              let find1 = new RegExp(search1, '');
+              let find4 = new RegExp(search4, '');
+              let find5 = new RegExp(search5, '');
+              let find6 = new RegExp(search6, '');
 
               randomPercentage();
               averageEquationList[i] = averageEquationList[i].replace(
                 find1,
-                " " + negativeSymbol + rndInt.toString() + " "
+                ' ' + negativeSymbol + rndInt.toString() + ' '
               );
               randomPercentage();
               averageEquationList[i] = averageEquationList[i].replace(
                 find4,
-                "(" + negativeSymbol + rndInt.toString() + " "
+                '(' + negativeSymbol + rndInt.toString() + ' '
               );
               randomPercentage();
               averageEquationList[i] = averageEquationList[i].replace(
                 find5,
-                " " + negativeSymbol + rndInt.toString() + ")"
+                ' ' + negativeSymbol + rndInt.toString() + ')'
               );
               randomPercentage();
               averageEquationList[i] = averageEquationList[i].replace(
                 find6,
-                "(" + negativeSymbol + rndInt.toString() + ")"
+                '(' + negativeSymbol + rndInt.toString() + ')'
               );
             }
           }
 
           function replaceDigitCoefficient(digit) {
-            let negativeSymbol = "";
+            let negativeSymbol = '';
 
             if (parseInt(digit) < 0) {
-              negativeSymbol = "-";
+              negativeSymbol = '-';
             }
             if (averageEquationList[i].includes(digit)) {
-              let search1 = " " + digit + "x ";
-              let search4 = "\\(" + digit + "x ";
-              let search5 = " " + digit + "x\\)";
-              let search6 = "\\(" + digit + "x\\)";
+              let search1 = ' ' + digit + 'x ';
+              let search4 = '\\(' + digit + 'x ';
+              let search5 = ' ' + digit + 'x\\)';
+              let search6 = '\\(' + digit + 'x\\)';
 
-              let find1 = new RegExp(search1, "");
-              let find4 = new RegExp(search4, "");
-              let find5 = new RegExp(search5, "");
-              let find6 = new RegExp(search6, "");
+              let find1 = new RegExp(search1, '');
+              let find4 = new RegExp(search4, '');
+              let find5 = new RegExp(search5, '');
+              let find6 = new RegExp(search6, '');
 
               randomPercentage();
               averageEquationList[i] = averageEquationList[i].replace(
                 find1,
-                " " + negativeSymbol + rndInt.toString() + "x "
+                ' ' + negativeSymbol + rndInt.toString() + 'x '
               );
               randomPercentage();
               averageEquationList[i] = averageEquationList[i].replace(
                 find4,
-                "(" + negativeSymbol + rndInt.toString() + "x"
+                '(' + negativeSymbol + rndInt.toString() + 'x'
               );
               randomPercentage();
               averageEquationList[i] = averageEquationList[i].replace(
                 find5,
-                " " + negativeSymbol + rndInt.toString() + "x)"
+                ' ' + negativeSymbol + rndInt.toString() + 'x)'
               );
               randomPercentage();
               averageEquationList[i] = averageEquationList[i].replace(
                 find6,
-                "(" + negativeSymbol + rndInt.toString() + "x)"
+                '(' + negativeSymbol + rndInt.toString() + 'x)'
               );
             }
           }
 
-          if (averageEquationList[i].includes("1x")) {
-            averageEquationList[i] = averageEquationList[i].replace(/1x/g, "x");
+          if (averageEquationList[i].includes('1x')) {
+            averageEquationList[i] = averageEquationList[i].replace(/1x/g, 'x');
           }
         }
       }
 
       const availableVariables = [
-        "a",
-        "b",
-        "c",
-        "d",
-        "e",
-        "f",
-        "g",
-        "h",
-        "k",
-        "m",
-        "n",
-        "p",
-        "q",
-        "r",
-        "s",
-        "t",
-        "u",
-        "v",
-        "w",
-        "x",
-        "y",
-        "z",
+        'a',
+        'b',
+        'c',
+        'd',
+        'e',
+        'f',
+        'g',
+        'h',
+        'k',
+        'm',
+        'n',
+        'p',
+        'q',
+        'r',
+        's',
+        't',
+        'u',
+        'v',
+        'w',
+        'x',
+        'y',
+        'z',
       ];
       changeVariables();
       function changeVariables() {
@@ -343,7 +343,7 @@ var EquationGeneratorAverage = (function () {
               // only splice array when item is found
               customEquations.splice(itemIndex, 1); // 2nd parameter means remove one item only
             }
-            console.log("equations");
+            console.log('equations');
             console.log(customEquations);
           }
         }

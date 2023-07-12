@@ -1,78 +1,78 @@
-import React from "react";
-import { useEffect, useState, useCallback } from "react";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import React from 'react';
+import { useEffect, useState, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
-import EquationGeneratorAverage from "./equationsAverage";
-import EquationGeneratorDifficult from "./equationsDifficult";
-import EndSession from "./EndSession";
-import FeedbackList from "./FeedbackList";
-import ClearStorage from "./ClearStorage";
+import EquationGeneratorAverage from './equationsAverage';
+import EquationGeneratorDifficult from './equationsDifficult';
+import EndSession from './EndSession';
+import FeedbackList from './FeedbackList';
+import ClearStorage from './ClearStorage';
 
 const FinishSessionModal = ({ visible, onClose, onContinue }) => {
   const navigate = useNavigate();
-  const handleOnClose = (e) => {
-    if (e.target.id === "mainContainer") onClose();
+  const handleOnClose = e => {
+    if (e.target.id === 'mainContainer') onClose();
   };
 
-  const [difficulty, setDifficulty] = useState("");
-  const [answered, setAnswered] = useState("");
-  const [abandoned, setAbandoned] = useState("");
-  const [timeSpent, setTimeSpent] = useState("");
+  const [difficulty, setDifficulty] = useState('');
+  const [answered, setAnswered] = useState('');
+  const [abandoned, setAbandoned] = useState('');
+  const [timeSpent, setTimeSpent] = useState('');
 
-  const [feedback, setFeedback] = useState("");
+  const [feedback, setFeedback] = useState('');
 
   const [levelOption, setLevelUp] = useState(false);
 
   const [equations, setEquations] = useState([]);
 
-  const [groupType, setGroupType] = useState("");
+  const [groupType, setGroupType] = useState('');
 
   useEffect(() => {
-    let group = JSON.parse(window.localStorage.getItem("SYSTEM_VERSION"));
-    if (group == "Facial Group") {
-      setGroupType("Facial Group");
+    let group = JSON.parse(window.localStorage.getItem('SYSTEM_VERSION'));
+    if (group == 'Facial Group') {
+      setGroupType('Facial Group');
     } else {
-      setGroupType("Non Facial Group");
+      setGroupType('Non Facial Group');
     }
     console.log(groupType);
 
-    let data1 = JSON.parse(window.localStorage.getItem("DIFFICULTY_TYPE"));
+    let data1 = JSON.parse(window.localStorage.getItem('DIFFICULTY_TYPE'));
     if (data1 !== null) {
       setDifficulty(data1);
     }
-    let data2 = JSON.parse(window.localStorage.getItem("QUESTION_ANSWERED"));
+    let data2 = JSON.parse(window.localStorage.getItem('QUESTION_ANSWERED'));
     if (data2 !== null) {
       setAnswered(data2);
     }
 
-    let data3 = JSON.parse(window.localStorage.getItem("QUESTION_ABANDONED"));
+    let data3 = JSON.parse(window.localStorage.getItem('QUESTION_ABANDONED'));
     if (data3 !== null) {
       setAbandoned(data3);
     } else {
       data3 = 0;
     }
 
-    let session = JSON.parse(window.localStorage.getItem("SESSION_END"));
+    let session = JSON.parse(window.localStorage.getItem('SESSION_END'));
     if (session == true) {
       if (
-        JSON.parse(window.localStorage.getItem("SESSION_RECORDED") !== "true")
+        JSON.parse(window.localStorage.getItem('SESSION_RECORDED') !== 'true')
       ) {
         EndSession.recordData();
         getTimeSpent();
       } else {
         getTimeSpent();
       }
-      window.localStorage.setItem("SESSION_RECORDED", true);
+      window.localStorage.setItem('SESSION_RECORDED', true);
     }
 
-    let isLevelUp = JSON.parse(window.localStorage.getItem("SESSION_LEVEL_UP"));
+    let isLevelUp = JSON.parse(window.localStorage.getItem('SESSION_LEVEL_UP'));
     if (isLevelUp !== null && isLevelUp !== undefined) {
       setLevelUp(true);
     }
 
     let feedbackMessage = JSON.parse(
-      window.localStorage.getItem("SESSION_FEEDBACK")
+      window.localStorage.getItem('SESSION_FEEDBACK')
     );
 
     if (feedbackMessage !== null && feedbackMessage !== undefined) {
@@ -80,24 +80,24 @@ const FinishSessionModal = ({ visible, onClose, onContinue }) => {
     } else {
       if (data3 == 0) {
         if (isLevelUp !== null && isLevelUp !== undefined) {
-          feedbackMessage = FeedbackList.GenerateMessage("advanceLevel");
+          feedbackMessage = FeedbackList.GenerateMessage('advanceLevel');
         } else {
-          feedbackMessage = FeedbackList.GenerateMessage("abandonNone");
+          feedbackMessage = FeedbackList.GenerateMessage('abandonNone');
         }
       } else if (data3 >= 15) {
-        feedbackMessage = FeedbackList.GenerateMessage("abandonHighest");
+        feedbackMessage = FeedbackList.GenerateMessage('abandonHighest');
       } else if (data3 >= 10) {
-        feedbackMessage = FeedbackList.GenerateMessage("abandonHigh");
+        feedbackMessage = FeedbackList.GenerateMessage('abandonHigh');
       } else if (data3 >= 4) {
-        feedbackMessage = FeedbackList.GenerateMessage("abandonNormal");
+        feedbackMessage = FeedbackList.GenerateMessage('abandonNormal');
       } else if (data3 >= 2) {
-        feedbackMessage = FeedbackList.GenerateMessage("abandonLow");
+        feedbackMessage = FeedbackList.GenerateMessage('abandonLow');
       } else if (data3 == 1) {
-        feedbackMessage = FeedbackList.GenerateMessage("abandonLowest");
+        feedbackMessage = FeedbackList.GenerateMessage('abandonLowest');
       }
 
       window.localStorage.setItem(
-        "SESSION_FEEDBACK",
+        'SESSION_FEEDBACK',
         JSON.stringify(feedbackMessage)
       );
       setFeedback(feedbackMessage);
@@ -106,21 +106,21 @@ const FinishSessionModal = ({ visible, onClose, onContinue }) => {
 
   var equationList = [];
   function generateQuestion() {
-    let isLevelUp = JSON.parse(window.localStorage.getItem("SESSION_LEVEL_UP"));
-    if (isLevelUp == "average") {
+    let isLevelUp = JSON.parse(window.localStorage.getItem('SESSION_LEVEL_UP'));
+    if (isLevelUp == 'average') {
       equationList = EquationGeneratorAverage.getEquationList(20);
     }
-    if (isLevelUp == "difficult") {
+    if (isLevelUp == 'difficult') {
       equationList = EquationGeneratorDifficult.getEquationList(20);
     }
     setEquations(equationList);
   }
 
   function getTimeSpent() {
-    let sessionID = window.localStorage.getItem("SESSION_ID");
-    var userLogs = window.localStorage.getItem("SESSION_USER_LOGS");
-    userLogs = userLogs + "@" + sessionID;
-    userLogs = userLogs.replace(/"/g, "");
+    let sessionID = window.localStorage.getItem('SESSION_ID');
+    var userLogs = window.localStorage.getItem('SESSION_USER_LOGS');
+    userLogs = userLogs + '@' + sessionID;
+    userLogs = userLogs.replace(/"/g, '');
     axios
       .get(
         `http://localhost:80/Prototype-Vite/my-project/api/getTimeSpent/${userLogs}`
@@ -133,53 +133,53 @@ const FinishSessionModal = ({ visible, onClose, onContinue }) => {
 
   const levelUp = () => {
     ClearStorage.clearData();
-    setFeedback("");
+    setFeedback('');
 
-    var option = "";
-    var difficultyType = "";
-    let isLevelUp = JSON.parse(window.localStorage.getItem("SESSION_LEVEL_UP"));
-    if (isLevelUp == "average") {
-      option = "average";
-      difficultyType = "Average";
+    var option = '';
+    var difficultyType = '';
+    let isLevelUp = JSON.parse(window.localStorage.getItem('SESSION_LEVEL_UP'));
+    if (isLevelUp == 'average') {
+      option = 'average';
+      difficultyType = 'Average';
     }
-    if (isLevelUp == "difficult") {
-      option = "difficult";
-      difficultyType = "Difficult";
+    if (isLevelUp == 'difficult') {
+      option = 'difficult';
+      difficultyType = 'Difficult';
     }
 
-    window.localStorage.removeItem("SESSION_LEVEL_UP");
+    window.localStorage.removeItem('SESSION_LEVEL_UP');
 
-    window.localStorage.setItem("SESSION_SCORE", 0);
-    window.localStorage.setItem("QUESTION_LIST", JSON.stringify(equations));
-    window.localStorage.setItem("QUESTION_INDEX", "0");
-    var userLogs = window.localStorage.getItem("SESSION_USER_LOGS");
-    userLogs = userLogs + "@" + option;
-    userLogs = userLogs.replace(/"/g, "");
+    window.localStorage.setItem('SESSION_SCORE', 0);
+    window.localStorage.setItem('QUESTION_LIST', JSON.stringify(equations));
+    window.localStorage.setItem('QUESTION_INDEX', '0');
+    var userLogs = window.localStorage.getItem('SESSION_USER_LOGS');
+    userLogs = userLogs + '@' + option;
+    userLogs = userLogs.replace(/"/g, '');
     axios
       .post(
         `http://localhost:80/Prototype-Vite/my-project/api/selectDifficulty/${userLogs}`
       )
       .then(function (response) {
         window.localStorage.setItem(
-          "SESSION_ID",
+          'SESSION_ID',
           JSON.stringify(response.data)
         );
         window.localStorage.setItem(
-          "DIFFICULTY_TYPE",
+          'DIFFICULTY_TYPE',
           JSON.stringify(difficultyType)
         );
-        window.localStorage.removeItem("TIME_SPENT");
+        window.localStorage.removeItem('TIME_SPENT');
         window.location.reload(false);
       });
   };
 
   const homePage = () => {
     ClearStorage.clearData();
-    setFeedback("");
+    setFeedback('');
 
-    navigate("/Homepage");
-    window.localStorage.removeItem("SESSION_ID");
-    window.localStorage.removeItem("TIME_SPENT");
+    navigate('/Homepage');
+    window.localStorage.removeItem('SESSION_ID');
+    window.localStorage.removeItem('TIME_SPENT');
   };
 
   if (!visible) return null;
@@ -208,15 +208,15 @@ const FinishSessionModal = ({ visible, onClose, onContinue }) => {
                   id="image_bg"
                   className="relative flex items-center text-center justify-center rounded-2xl h-52 my-auto bg-gray-200  object-cover w-[15rem]  overflow-hidden"
                 >
-                  {groupType == "Facial Group" ? (
+                  {groupType == 'Facial Group' ? (
                     <img
                       className="absolute bottom-0  pt-2 -mb-4"
-                      src={require("../assets/facial_expressions/PIA-Smiling2.png")}
+                      src={require('../assets/facial_expressions/PIA-Smiling2.png')}
                     ></img>
                   ) : (
                     <img
                       className="absolute bottom-0  pt-2 -mb-4"
-                      src={require("../assets/facial_expressions/PIA-Neutral.png")}
+                      src={require('../assets/facial_expressions/PIA-Neutral.png')}
                     ></img>
                   )}
                 </div>
@@ -227,12 +227,12 @@ const FinishSessionModal = ({ visible, onClose, onContinue }) => {
 
               <p
                 className={`mt-3 mb-2 py-2 rounded-lg ${
-                  difficulty == "Easy" ? (
-                    "bg-green-500"
-                  ) : difficulty == "Average" ? (
-                    "bg-yellow-500"
-                  ) : difficulty == "Difficult" ? (
-                    "bg-red-500"
+                  difficulty == 'Easy' ? (
+                    'bg-green-500'
+                  ) : difficulty == 'Average' ? (
+                    'bg-yellow-500'
+                  ) : difficulty == 'Difficult' ? (
+                    'bg-red-500'
                   ) : (
                     <></>
                   )
@@ -253,7 +253,7 @@ const FinishSessionModal = ({ visible, onClose, onContinue }) => {
 
                   <img
                     className="relative  opacity-30 w-28 mt-3 -ml-6 -rotate-[25deg]"
-                    src={require("../assets/icons/check.png")}
+                    src={require('../assets/icons/check.png')}
                     alt=""
                   ></img>
                 </div>
@@ -261,7 +261,7 @@ const FinishSessionModal = ({ visible, onClose, onContinue }) => {
                   <div className="absolute z-10 left-0 right-0 top-1/3 ">
                     <p>
                       <span className="text-4xl text-gray-700">
-                        {abandoned == "" ? <>0</> : <>{abandoned}</>}
+                        {abandoned == '' ? <>0</> : <>{abandoned}</>}
                       </span>
                     </p>
                     <p>Unanswered</p>
@@ -269,7 +269,7 @@ const FinishSessionModal = ({ visible, onClose, onContinue }) => {
 
                   <img
                     className="relative  opacity-30 w-28 mt-3 -ml-6 -rotate-[25deg]"
-                    src={require("../assets/icons/question.png")}
+                    src={require('../assets/icons/question.png')}
                     alt=""
                   ></img>
                 </div>
@@ -285,7 +285,7 @@ const FinishSessionModal = ({ visible, onClose, onContinue }) => {
 
                   <img
                     className="relative  opacity-30 w-28 mt-3 -ml-6 -rotate-45"
-                    src={require("../assets/icons/timer.png")}
+                    src={require('../assets/icons/timer.png')}
                     alt=""
                   ></img>
                 </div>

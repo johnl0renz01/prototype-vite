@@ -1,21 +1,21 @@
-import React, { Component } from "react";
-import { useNavigate } from "react-router-dom";
-import { useEffect, useState, useCallback } from "react";
-import axios from "axios";
-import * as ReactDOM from "react-dom";
-import $ from "jquery";
+import React, { Component } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useEffect, useState, useCallback } from 'react';
+import axios from 'axios';
+import * as ReactDOM from 'react-dom';
+import $ from 'jquery';
 
-import EquationSolver from "./equationSolver";
-import FileUploadForm from "./FileUploadForm";
+import EquationSolver from './equationSolver';
+import FileUploadForm from './FileUploadForm';
 
-import { useFormik } from "formik";
-import { editAccountSchema } from "../schemas";
-import { addSectionSchema } from "../schemas";
+import { useFormik } from 'formik';
+import { editAccountSchema } from '../schemas';
+import { addSectionSchema } from '../schemas';
 
-import { MdClose } from "react-icons/md";
+import { MdClose } from 'react-icons/md';
 
 export default function Customization() {
-  document.body.style.height = "100vh";
+  document.body.style.height = '100vh';
   const navigate = useNavigate();
 
   //FOR LINKS/NAVBAR/BREADCRUMBS
@@ -25,43 +25,43 @@ export default function Customization() {
   useEffect(() => {
     setPage();
 
-    window.addEventListener("focus", setPage);
+    window.addEventListener('focus', setPage);
     function setPage() {
-      let page = ["Home", "Customization"];
-      let link = ["/AdminHomepage", "/Customization"];
+      let page = ['Home', 'Customization'];
+      let link = ['/AdminHomepage', '/Customization'];
       setPageList(page);
       setPageLink(link);
-      window.localStorage.setItem("NAVBAR_PAGE", JSON.stringify(pageList));
-      window.localStorage.setItem("NAVBAR_PAGE_LINK", JSON.stringify(pageLink));
+      window.localStorage.setItem('NAVBAR_PAGE', JSON.stringify(pageList));
+      window.localStorage.setItem('NAVBAR_PAGE_LINK', JSON.stringify(pageLink));
     }
 
-    let tab = JSON.parse(window.localStorage.getItem("CURRENT_TAB"));
+    let tab = JSON.parse(window.localStorage.getItem('CURRENT_TAB'));
     let visibility = JSON.parse(
-      window.localStorage.getItem("CURRENT_TAB_INDEX")
+      window.localStorage.getItem('CURRENT_TAB_INDEX')
     );
     if (tab === null) {
-      setCustomEquationsState("visible");
-      setCurrentTab("customEquations");
+      setCustomEquationsState('visible');
+      setCurrentTab('customEquations');
     } else {
       setCurrentTab(tab);
       if (visibility == 1) {
         resetStates();
-        setCustomEquationsState("visible");
+        setCustomEquationsState('visible');
       } else if (visibility == 2) {
         resetStates();
-        setCreateQuestionState("visible");
+        setCreateQuestionState('visible');
       } else if (visibility == 3) {
         resetStates();
-        setEditAccountState("visible");
+        setEditAccountState('visible');
       } else if (visibility == 4) {
         resetStates();
-        setAddSectionState("visible");
+        setAddSectionState('visible');
       } else if (visibility == 5) {
         resetStates();
       }
     }
 
-    let data = JSON.parse(window.localStorage.getItem("FILE_UPLOADED"));
+    let data = JSON.parse(window.localStorage.getItem('FILE_UPLOADED'));
     if (data !== null) {
       setTimeout(getUploadedImage(), 100);
     }
@@ -69,11 +69,11 @@ export default function Customization() {
   }, []);
 
   useEffect(() => {
-    window.localStorage.setItem("NAVBAR_PAGE", JSON.stringify(pageList));
+    window.localStorage.setItem('NAVBAR_PAGE', JSON.stringify(pageList));
   }, [pageList]);
 
   useEffect(() => {
-    window.localStorage.setItem("NAVBAR_PAGE_LINK", JSON.stringify(pageLink));
+    window.localStorage.setItem('NAVBAR_PAGE_LINK', JSON.stringify(pageLink));
   }, [pageLink]);
 
   //END END END END END END END END END END END END
@@ -92,29 +92,29 @@ export default function Customization() {
   //CREATE QUESTIONS / EQUATIONS
 
   function createQuestion() {
-    const [equationString, setEquationString] = useState("");
-    const [equationResult, setEquationResult] = useState("");
+    const [equationString, setEquationString] = useState('');
+    const [equationResult, setEquationResult] = useState('');
     const [equationSteps, setEquationSteps] = useState([]);
-    const [difficulty, setDifficulty] = useState("");
-    const [choice, setChoice] = useState("");
+    const [difficulty, setDifficulty] = useState('');
+    const [choice, setChoice] = useState('');
 
     const [isValid, setValidState] = useState(false);
     const [isSolved, setSolvedState] = useState(false);
     const [showSteps, setStepsState] = useState(false);
 
-    const [equationLink, setEquationLink] = useState("");
+    const [equationLink, setEquationLink] = useState('');
 
-    var fixedEquationString = "";
+    var fixedEquationString = '';
     var fixedEquationSteps = [];
     var steps = [];
 
-    const inputChange = (event) => {
-      document.getElementById("validation_result").style.visibility = "hidden";
+    const inputChange = event => {
+      document.getElementById('validation_result').style.visibility = 'hidden';
       setValidState(false);
       setSolvedState(false);
       setStepsState(false);
-      setDifficulty("");
-      setChoice("");
+      setDifficulty('');
+      setChoice('');
       setEquationString(event.target.value);
       //const name = event.target.name;
       //const value = event.target.value;
@@ -122,20 +122,20 @@ export default function Customization() {
     };
 
     const validateEquation = () => {
-      if (equationString.trim() != "") {
+      if (equationString.trim() != '') {
         setEquationResult(equationString);
 
-        document.getElementById("validation_result").style.visibility =
-          "visible";
+        document.getElementById('validation_result').style.visibility =
+          'visible';
         console.log(equationString);
         EquationSolver.setEquation(equationString);
 
         let answer = EquationSolver.getEquationAnswer();
         console.log(answer);
-        if (answer == "solved") {
+        if (answer == 'solved') {
           setSolvedState(true);
           setValidState(false);
-        } else if (answer != "invalid") {
+        } else if (answer != 'invalid') {
           setValidState(true);
           steps = EquationSolver.getEquationSteps();
 
@@ -143,7 +143,7 @@ export default function Customization() {
           for (let i = 0; i < steps.length; i++) {
             var currentEquation = steps[i];
             let firstIndex = 0;
-            let fixedString = "";
+            let fixedString = '';
             let equalSignIndex = 0;
 
             formatEquation(currentEquation);
@@ -151,7 +151,7 @@ export default function Customization() {
               for (let j = 1; j <= currentEquation.length; j++) {
                 if (currentEquation.length === j) {
                   fixedString = fixedString.concat(
-                    [currentEquation.slice(firstIndex, j)].join("")
+                    [currentEquation.slice(firstIndex, j)].join('')
                   );
                   break;
                 }
@@ -165,10 +165,10 @@ export default function Customization() {
                   fixedString = fixedString.concat(
                     [
                       currentEquation.slice(firstIndex, j),
-                      " ",
+                      ' ',
                       currentEquation[j],
-                      " ",
-                    ].join("")
+                      ' ',
+                    ].join('')
                   );
                   firstIndex = j + 1;
                 }
@@ -183,16 +183,16 @@ export default function Customization() {
 
             if (i == 0) {
               fixedEquationString = equationString.trim();
-              fixedEquationString = fixedEquationString.replace(/ /g, "");
-              fixedString = "";
+              fixedEquationString = fixedEquationString.replace(/ /g, '');
+              fixedString = '';
               firstIndex = 0;
               equalSignIndex = 0;
 
               formatEquation(fixedEquationString);
               fixedEquationString = fixedString;
-              fixedEquationString = fixedEquationString.replace(/ /g, "_");
+              fixedEquationString = fixedEquationString.replace(/ /g, '_');
 
-              console.log("ASDSADAS: " + fixedEquationString);
+              console.log('ASDSADAS: ' + fixedEquationString);
               setEquationLink(fixedEquationString);
             }
           }
@@ -202,35 +202,35 @@ export default function Customization() {
     };
 
     const resetEquation = () => {
-      document.getElementById("validation_result").style.visibility = "hidden";
+      document.getElementById('validation_result').style.visibility = 'hidden';
       setValidState(false);
       setSolvedState(false);
       setStepsState(false);
-      setDifficulty("");
-      setChoice("");
-      setEquationString("");
+      setDifficulty('');
+      setChoice('');
+      setEquationString('');
     };
 
     const optionEasy = () => {
-      setDifficulty("Easy");
-      setChoice("Easy");
+      setDifficulty('Easy');
+      setChoice('Easy');
       setStepsState(true);
     };
 
     const optionAverage = () => {
-      setDifficulty("Average");
-      setChoice("Average");
+      setDifficulty('Average');
+      setChoice('Average');
       setStepsState(true);
     };
 
     const optionDifficult = () => {
-      setDifficulty("Difficult");
-      setChoice("Difficult");
+      setDifficulty('Difficult');
+      setChoice('Difficult');
       setStepsState(true);
     };
 
     const addEquation = () => {
-      var equationDetails = difficulty + "@" + equationLink;
+      var equationDetails = difficulty + '@' + equationLink;
       console.log(equationDetails);
       axios
         .post(
@@ -253,7 +253,7 @@ export default function Customization() {
       <>
         <div
           className={`absolute w-full min-h-[46rem] max-h-[46rem] flex flex-col justify-center items-center bg-gradient-to-t from-gray-200 via-white to-white z-50 ${
-            equationAdded ? "" : "invisible"
+            equationAdded ? '' : 'invisible'
           }`}
         >
           <div className="lg:text-4xl sm:text-2xl font-bold text-center">
@@ -278,11 +278,11 @@ export default function Customization() {
               className="w-full grow  p-1 px-2 border-2 rounded-md border-gray-400 focus:outline-teal-500 relative focus:ring-teal-500 shadow-sm  shadow-[#808080]"
             ></input>
             <button
-              onClick={equationString != "" ? validateEquation : undefined}
+              onClick={equationString != '' ? validateEquation : undefined}
               className={`ml-6 py-1.5 lg:w-36  shadow-md rounded-full transition duration-300 ${
-                equationString != ""
-                  ? " text-white  bg-yellow-600 hover:bg-yellow-700"
-                  : " cursor-default text-gray-300  bg-gray-400 "
+                equationString != ''
+                  ? ' text-white  bg-yellow-600 hover:bg-yellow-700'
+                  : ' cursor-default text-gray-300  bg-gray-400 '
               }`}
             >
               <span className="text-xl">Validate </span>
@@ -296,7 +296,7 @@ export default function Customization() {
           <div
             id="validation_result"
             className={`invisible transition duration-500 select-none ${
-              equationString.length >= 30 ? "" : "flex"
+              equationString.length >= 30 ? '' : 'flex'
             }`}
           >
             <div>
@@ -309,25 +309,25 @@ export default function Customization() {
                 className={`text-lg  font-semibold border-gray-300 inline-block p-1 px-2 rounded-xl ${
                   equationString.length >= 30
                     ? isValid
-                      ? "text-lime-600"
-                      : "text-red-600"
+                      ? 'text-lime-600'
+                      : 'text-red-600'
                     : isValid
-                    ? "text-lime-600 mt-3"
-                    : "text-red-600 mt-3"
+                    ? 'text-lime-600 mt-3'
+                    : 'text-red-600 mt-3'
                 }`}
               >
                 {...isSolved
-                  ? "* Invalid: (This equation is already solved)"
+                  ? '* Invalid: (This equation is already solved)'
                   : isValid
-                  ? "* Valid: (This equation could be solved by the algorithm)"
-                  : "* Invalid: (This equation is unable to solve by the algorithm)"}
+                  ? '* Valid: (This equation could be solved by the algorithm)'
+                  : '* Invalid: (This equation is unable to solve by the algorithm)'}
               </p>
             </div>
           </div>
 
           <div
             className={`mt-4 text-xl font-semibold  transition select-none ${
-              isValid ? "opacity-100  duration-[1500ms]" : "opacity-0"
+              isValid ? 'opacity-100  duration-[1500ms]' : 'opacity-0'
             }`}
           >
             What is the difficulty level of this equation?
@@ -336,12 +336,12 @@ export default function Customization() {
                 onClick={isValid ? optionEasy : undefined}
                 className={`py-1.5 px-10  shadow-md rounded-xl  transition duration-300 ${
                   isValid
-                    ? choice == "Easy"
-                      ? "bg-gray-700  text-gray-200"
-                      : "bg-gray-400 hover:bg-gray-600 text-white"
-                    : choice == "Easy"
-                    ? "bg-gray-700  text-gray-200 cursor-default"
-                    : "bg-gray-400 hover:bg-gray-600 text-white cursor-default"
+                    ? choice == 'Easy'
+                      ? 'bg-gray-700  text-gray-200'
+                      : 'bg-gray-400 hover:bg-gray-600 text-white'
+                    : choice == 'Easy'
+                    ? 'bg-gray-700  text-gray-200 cursor-default'
+                    : 'bg-gray-400 hover:bg-gray-600 text-white cursor-default'
                 }`}
               >
                 <span className="text-xl">Easy</span>
@@ -350,12 +350,12 @@ export default function Customization() {
                 onClick={isValid ? optionAverage : undefined}
                 className={`ml-6 py-1.5 px-10  shadow-md rounded-xl  transition duration-300 ${
                   isValid
-                    ? choice == "Average"
-                      ? "bg-gray-700  text-gray-200"
-                      : "bg-gray-400 hover:bg-gray-600 text-white"
-                    : choice == "Average"
-                    ? "bg-gray-700  text-gray-200 cursor-default"
-                    : "bg-gray-400 hover:bg-gray-600 text-white cursor-default"
+                    ? choice == 'Average'
+                      ? 'bg-gray-700  text-gray-200'
+                      : 'bg-gray-400 hover:bg-gray-600 text-white'
+                    : choice == 'Average'
+                    ? 'bg-gray-700  text-gray-200 cursor-default'
+                    : 'bg-gray-400 hover:bg-gray-600 text-white cursor-default'
                 }`}
               >
                 <span className="text-xl">Average</span>
@@ -364,12 +364,12 @@ export default function Customization() {
                 onClick={isValid ? optionDifficult : undefined}
                 className={`ml-6 py-1.5 px-10  shadow-md rounded-xl  transition duration-300 ${
                   isValid
-                    ? choice == "Difficult"
-                      ? "bg-gray-700  text-gray-200"
-                      : "bg-gray-400 hover:bg-gray-600 text-white"
-                    : choice == "Difficult"
-                    ? "bg-gray-700  text-gray-200 cursor-default"
-                    : "bg-gray-400 hover:bg-gray-600 text-white cursor-default"
+                    ? choice == 'Difficult'
+                      ? 'bg-gray-700  text-gray-200'
+                      : 'bg-gray-400 hover:bg-gray-600 text-white'
+                    : choice == 'Difficult'
+                    ? 'bg-gray-700  text-gray-200 cursor-default'
+                    : 'bg-gray-400 hover:bg-gray-600 text-white cursor-default'
                 }`}
               >
                 <span className="text-xl">Difficult</span>
@@ -378,7 +378,7 @@ export default function Customization() {
           </div>
           <div
             className={`flex mt-6 shadow-md transition  select-none ${
-              showSteps ? "opacity-100  duration-[1500ms]" : "opacity-0"
+              showSteps ? 'opacity-100  duration-[1500ms]' : 'opacity-0'
             }`}
           >
             <div className="">
@@ -399,49 +399,49 @@ export default function Customization() {
                 <>
                   <div className="bg-gray-200 px-2 py-1">
                     The equation is solved. Dividing constant by the
-                    coefficient.{" "}
+                    coefficient.{' '}
                   </div>
                 </>
               ) : equationSteps.length === 2 ? (
                 <>
                   <div className="bg-gray-200 px-2 py-1">
-                    Simplify both expression.{" "}
+                    Simplify both expression.{' '}
                   </div>
                   <div className="bg-gray-300 px-2 py-1">
                     The equation is solved. Dividing constant by the
-                    coefficient.{" "}
+                    coefficient.{' '}
                   </div>
                 </>
               ) : equationSteps.length === 3 ? (
                 <>
                   <div className="bg-gray-200 px-2 py-1">
                     Arrange expressions. Variables in the left side and constant
-                    in the right side.{" "}
+                    in the right side.{' '}
                   </div>
                   <div className="bg-gray-300 px-2 py-1">
-                    Simplify both remaining expression.{" "}
+                    Simplify both remaining expression.{' '}
                   </div>
                   <div className="bg-gray-200 px-2 py-1">
                     The equation is solved. Dividing constant by the
-                    coefficient.{" "}
+                    coefficient.{' '}
                   </div>
                 </>
               ) : equationSteps.length === 4 ? (
                 <>
                   <div className="bg-gray-200 px-2 py-1">
                     Arithmetic operations performed in both variables and
-                    constant.{" "}
+                    constant.{' '}
                   </div>
                   <div className="bg-gray-300 px-2 py-1">
                     Arrange expressions. Variables in the left side and constant
-                    in the right side.{" "}
+                    in the right side.{' '}
                   </div>
                   <div className="bg-gray-200 px-2 py-1">
-                    Simplify both remaining expression.{" "}
+                    Simplify both remaining expression.{' '}
                   </div>
                   <div className="bg-gray-300 px-2 py-1">
                     The equation is solved. Dividing constant by the
-                    coefficient.{" "}
+                    coefficient.{' '}
                   </div>
                 </>
               ) : (
@@ -455,8 +455,8 @@ export default function Customization() {
               onClick={showSteps ? resetEquation : undefined}
               className={`ml-6 py-1.5 pb-2 lg:w-[7rem]   shadow-md rounded-full  transition duration-300 ${
                 showSteps
-                  ? "text-white bg-red-600 hover:bg-red-700"
-                  : "cursor-default text-gray-300 bg-gray-400"
+                  ? 'text-white bg-red-600 hover:bg-red-700'
+                  : 'cursor-default text-gray-300 bg-gray-400'
               }`}
             >
               <span className="text-xl">Reset </span>
@@ -465,8 +465,8 @@ export default function Customization() {
               onClick={showSteps ? addEquation : undefined}
               className={`ml-6 py-1.5 pb-2 lg:w-[11rem] shadow-md rounded-full  transition duration-300 ${
                 showSteps
-                  ? "text-white bg-lime-600 hover:bg-lime-700"
-                  : "cursor-default text-gray-300 bg-gray-400"
+                  ? 'text-white bg-lime-600 hover:bg-lime-700'
+                  : 'cursor-default text-gray-300 bg-gray-400'
               }`}
             >
               <span className="text-xl">Add Equation </span>
@@ -478,10 +478,10 @@ export default function Customization() {
   }
 
   function EditStudentInfo() {
-    const [accountValidation, setAccountValidation] = useState("");
+    const [accountValidation, setAccountValidation] = useState('');
 
     const onSubmit = async (values, actions) => {
-      console.log("test");
+      console.log('test');
       axios
         .post(
           `http://localhost:80/Prototype-Vite/my-project/api/loginStudent/save`,
@@ -493,10 +493,10 @@ export default function Customization() {
           setAccountValidation(currentData);
           console.log(currentData);
 
-          currentData = currentData.replace("{", "");
-          currentData = currentData.replace("}", "");
-          currentData = currentData.replace('"GivenName":', "");
-          currentData = currentData.replace('"Email":', "");
+          currentData = currentData.replace('{', '');
+          currentData = currentData.replace('}', '');
+          currentData = currentData.replace('"GivenName":', '');
+          currentData = currentData.replace('"Email":', '');
 
           var userData = [];
           convertStringToArray();
@@ -505,7 +505,7 @@ export default function Customization() {
             let endIndex = 0;
             for (let i = 0; i < currentData.length; i++) {
               let isEnd = false;
-              if (currentData[i] == ",") {
+              if (currentData[i] == ',') {
                 firstIndex = 0;
                 endIndex = 0;
                 continue;
@@ -528,14 +528,14 @@ export default function Customization() {
           }
           if (currentData != '"Invalid"') {
             window.localStorage.setItem(
-              "SESSION_EMAIL",
+              'SESSION_EMAIL',
               JSON.stringify(userData[1])
             );
-            navigate("/EditAccount");
+            navigate('/EditAccount');
           }
         });
 
-      await new Promise((resolve) => setTimeout(resolve, 1));
+      await new Promise(resolve => setTimeout(resolve, 1));
       actions.resetForm();
     };
 
@@ -549,8 +549,8 @@ export default function Customization() {
       touched,
     } = useFormik({
       initialValues: {
-        email: "",
-        password: "",
+        email: '',
+        password: '',
       },
       //Page Validation Form
       validationSchema: editAccountSchema,
@@ -569,8 +569,8 @@ export default function Customization() {
           </h1>
           <p className="text-red-500 text-center text-lg pt-4 pl-6">
             {accountValidation == '"Invalid"'
-              ? "Invalid email or password. Please try again."
-              : "\u00A0"}
+              ? 'Invalid email or password. Please try again.'
+              : '\u00A0'}
           </p>
         </div>
         <form onSubmit={handleSubmit} className="">
@@ -591,12 +591,12 @@ export default function Customization() {
             <div className="flex">
               <input
                 onFocus={function () {
-                  setAccountValidation("");
+                  setAccountValidation('');
                 }}
                 className={`bg-[#e0e0e0] rounded-full w-[32rem] text-lg text-gray-700 px-4  py-1.5 mr-3  ${
                   errors.email && touched.email
-                    ? " border-red-500 focus:border-red-500 border-2 border-solid"
-                    : ""
+                    ? ' border-red-500 focus:border-red-500 border-2 border-solid'
+                    : ''
                 }`}
                 type="email"
                 name="email"
@@ -629,12 +629,12 @@ export default function Customization() {
             <div className="flex ">
               <input
                 onFocus={function () {
-                  setAccountValidation("");
+                  setAccountValidation('');
                 }}
                 className={` bg-[#e0e0e0] rounded-full w-[32rem] text-lg text-gray-700 px-4  py-1.5 mr-3  ${
                   errors.password && touched.password
-                    ? " border-red-500 focus:border-red-500 border-2 border-solid"
-                    : ""
+                    ? ' border-red-500 focus:border-red-500 border-2 border-solid'
+                    : ''
                 } `}
                 type="password"
                 name="password"
@@ -660,9 +660,9 @@ export default function Customization() {
     );
   }
 
-  const [imageUrl, setImageUrl] = useState("PIA-Neutral");
-  const [imageType, setImageType] = useState("png");
-  const [gradeLevel, setGradeLevel] = useState("");
+  const [imageUrl, setImageUrl] = useState('PIA-Neutral');
+  const [imageType, setImageType] = useState('png');
+  const [gradeLevel, setGradeLevel] = useState('');
 
   useEffect(() => {
     //getUploadedImage();
@@ -673,17 +673,17 @@ export default function Customization() {
       .get(`http://localhost:80/Prototype-Vite/my-project/api/upload/`)
       .then(function (response) {
         let imageLink = response.data;
-        imageLink = imageLink.replace(/ /g, "-");
-        let type = "";
+        imageLink = imageLink.replace(/ /g, '-');
+        let type = '';
         for (let i = imageLink.length; i > 0; i--) {
-          if (imageLink[i] == ".") {
+          if (imageLink[i] == '.') {
             type = imageLink.substring(i + 1);
             imageLink = imageLink.substring(0, i);
 
             break;
           }
         }
-        console.log("type: " + type);
+        console.log('type: ' + type);
         setImageUrl(imageLink);
         setImageType(type);
       });
@@ -693,10 +693,10 @@ export default function Customization() {
     //window.localStorage.setItem("");
     const onSubmit = async (e, values, actions) => {
       e.preventDefault();
-      console.log("SUBMITTED");
+      console.log('SUBMITTED');
       axios
         .post(
-          "http://localhost:80/Prototype-Vite/my-project/api/addSection/save",
+          'http://localhost:80/Prototype-Vite/my-project/api/addSection/save',
           values
         )
         .then(function (response) {
@@ -715,10 +715,10 @@ export default function Customization() {
       touched,
     } = useFormik({
       initialValues: {
-        gradeLevel: "7",
-        sectionName: "",
-        adviserName: "",
-        sex: "",
+        gradeLevel: '7',
+        sectionName: '',
+        adviserName: '',
+        sex: '',
       },
       validationSchema: addSectionSchema,
       onSubmit,
@@ -739,38 +739,38 @@ export default function Customization() {
             {gradeLevel} - {sectionName}
           </h3>
           <div className="relative rounded-xl shadow-md shadow-black/40">
-            {imageType == "png" ? (
+            {imageType == 'png' ? (
               <>
                 <img
                   className={`w-full rounded-xl h-48 object- opacity-100
               `}
-                  src={require("../assets/uploads/" + imageUrl + ".png")}
-                  onError={(e) => {
-                    e.target.src = require("../assets/images/error.jpg");
+                  src={require('../assets/uploads/' + imageUrl + '.png')}
+                  onError={e => {
+                    e.target.src = require('../assets/images/error.jpg');
                   }}
                   alt=""
                 />
               </>
-            ) : imageType == "jpg" ? (
+            ) : imageType == 'jpg' ? (
               <>
                 <img
                   className={`w-full rounded-xl h-48 object- opacity-100
                 `}
-                  src={require("../assets/uploads/" + imageUrl + ".jpg")}
-                  onError={(e) => {
-                    e.target.src = require("../assets/images/error.jpg");
+                  src={require('../assets/uploads/' + imageUrl + '.jpg')}
+                  onError={e => {
+                    e.target.src = require('../assets/images/error.jpg');
                   }}
                   alt=""
                 />
               </>
-            ) : imageType == "jpeg" ? (
+            ) : imageType == 'jpeg' ? (
               <>
                 <img
                   className={`w-full rounded-xl h-48 object- opacity-100
                   `}
-                  src={require("../assets/uploads/" + imageUrl + ".jpeg")}
-                  onError={(e) => {
-                    e.target.src = require("../assets/images/error.jpg");
+                  src={require('../assets/uploads/' + imageUrl + '.jpeg')}
+                  onError={e => {
+                    e.target.src = require('../assets/images/error.jpg');
                   }}
                   alt=""
                 />
@@ -779,9 +779,9 @@ export default function Customization() {
               <img
                 className={`w-full rounded-xl h-48 object- opacity-100
                   `}
-                src={require("../assets/uploads/" + imageUrl + ".png")}
-                onError={(e) => {
-                  e.target.src = require("../assets/images/error.jpg");
+                src={require('../assets/uploads/' + imageUrl + '.png')}
+                onError={e => {
+                  e.target.src = require('../assets/images/error.jpg');
                 }}
                 alt=""
               />
@@ -791,7 +791,7 @@ export default function Customization() {
             <div className="flex space-x-3 items-center">
               <span className=" text-2xl "> Teacher: </span>
               <p className="pt-1 text-xl">
-                {sex == "Male" ? "Sir " : "Maam "}
+                {sex == 'Male' ? 'Sir ' : 'Maam '}
                 {teacherName}
               </p>
             </div>
@@ -827,12 +827,12 @@ export default function Customization() {
         </div>
     */
 
-    const gradeLevelChange = (event) => {
+    const gradeLevelChange = event => {
       var value = event.target.value;
-      console.log("value: " + value);
-      value = value.replace(/[A-za-z]/g, "");
-      value = value.replace(/ /g, "");
-      console.log("value: " + value);
+      console.log('value: ' + value);
+      value = value.replace(/[A-za-z]/g, '');
+      value = value.replace(/ /g, '');
+      console.log('value: ' + value);
       values.gradeLevel = value;
       setGradeLevel(value);
     };
@@ -846,7 +846,7 @@ export default function Customization() {
                 action=""
                 className="overflow-hidden"
                 autocomplete="off"
-                onSubmit={(e) => onSubmit(e)}
+                onSubmit={e => onSubmit(e)}
               >
                 <div className="flex mb-[10rem]">
                   <p className="w-[10rem] text-right">Set Cover Image:</p>
@@ -861,7 +861,7 @@ export default function Customization() {
                     htmlFor="gradeLevel"
                     className="inline-block pt-2 w-[10rem] text-right"
                   >
-                    Grade Level:{" "}
+                    Grade Level:{' '}
                   </label>
 
                   <select
@@ -882,7 +882,7 @@ export default function Customization() {
                     htmlFor="sectionName"
                     className="inline-block pt-2 w-[10rem] text-right"
                   >
-                    Section Name:{" "}
+                    Section Name:{' '}
                   </label>
                   <input
                     name="sectionName"
@@ -890,8 +890,8 @@ export default function Customization() {
                     placeholder="Enter Section Name"
                     className={`grow p-1  px-2 mt-1 ml-3 border-2 text-lg rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 focus:border-none shadow-sm shadow-[#808080] ${
                       errors.sectionName && touched.sectionName
-                        ? " shadow-red-500 border-red-500 focus:border-red-500 border-3 border-solid"
-                        : ""
+                        ? ' shadow-red-500 border-red-500 focus:border-red-500 border-3 border-solid'
+                        : ''
                     }`}
                     value={values.sectionName}
                     onChange={handleChange}
@@ -909,7 +909,7 @@ export default function Customization() {
                     htmlFor="adviserName"
                     className="inline-block pt-2 w-[10rem] text-right"
                   >
-                    Adviser Surname:{" "}
+                    Adviser Surname:{' '}
                   </label>
                   <input
                     name="adviserName"
@@ -917,8 +917,8 @@ export default function Customization() {
                     placeholder="Enter Adviser Surname"
                     className={`grow p-1  px-2 mt-1 ml-3 border-2 text-lg rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 focus:border-none shadow-sm shadow-[#808080] ${
                       errors.adviserName && touched.adviserName
-                        ? " shadow-red-500 border-red-500 focus:border-red-500 border-3 border-solid"
-                        : ""
+                        ? ' shadow-red-500 border-red-500 focus:border-red-500 border-3 border-solid'
+                        : ''
                     }`}
                     value={values.adviserName}
                     onChange={handleChange}
@@ -936,7 +936,7 @@ export default function Customization() {
                     htmlFor="sex"
                     className="inline-block pt-2 w-[10rem] text-right"
                   >
-                    Adviser's Gender:{" "}
+                    Adviser's Gender:{' '}
                   </label>
                   <div className="ml-3 mt-2.5">
                     <input
@@ -944,18 +944,18 @@ export default function Customization() {
                       type="radio"
                       className=""
                       value="Male"
-                      checked={values.sex === "Male"}
+                      checked={values.sex === 'Male'}
                       onChange={handleChange}
-                    />{" "}
+                    />{' '}
                     Male
                     <input
                       name="sex"
                       type="radio"
                       className="ml-4"
                       value="Female"
-                      checked={values.sex === "Female"}
+                      checked={values.sex === 'Female'}
                       onChange={handleChange}
-                    />{" "}
+                    />{' '}
                     Female
                   </div>
                 </div>
@@ -982,17 +982,17 @@ export default function Customization() {
   }
 
   function resetStates() {
-    setCustomEquationsState("hidden");
-    setCreateQuestionState("hidden");
-    setEditAccountState("hidden");
-    setAddSectionState("hidden");
+    setCustomEquationsState('hidden');
+    setCreateQuestionState('hidden');
+    setEditAccountState('hidden');
+    setAddSectionState('hidden');
   }
 
-  const [currentTab, setCurrentTab] = useState("");
-  const [showCustomEquations, setCustomEquationsState] = useState("hidden");
-  const [showCreateQuestion, setCreateQuestionState] = useState("hidden");
-  const [showEditAccount, setEditAccountState] = useState("hidden");
-  const [showAddSection, setAddSectionState] = useState("hidden");
+  const [currentTab, setCurrentTab] = useState('');
+  const [showCustomEquations, setCustomEquationsState] = useState('hidden');
+  const [showCreateQuestion, setCreateQuestionState] = useState('hidden');
+  const [showEditAccount, setEditAccountState] = useState('hidden');
+  const [showAddSection, setAddSectionState] = useState('hidden');
 
   return (
     <>
@@ -1005,22 +1005,22 @@ export default function Customization() {
                   <div
                     onClick={function () {
                       resetStates();
-                      setCustomEquationsState("visible");
-                      setCurrentTab("customEquations");
+                      setCustomEquationsState('visible');
+                      setCurrentTab('customEquations');
                       getEquations();
                       window.localStorage.setItem(
-                        "CURRENT_TAB",
-                        JSON.stringify("customEquations")
+                        'CURRENT_TAB',
+                        JSON.stringify('customEquations')
                       );
                       window.localStorage.setItem(
-                        "CURRENT_TAB_INDEX",
+                        'CURRENT_TAB_INDEX',
                         JSON.stringify(1)
                       );
                     }}
                     className={`cursor-pointer py-2 my-1.5 rounded-t-3xl border-b-8 ease-in-out transform transition duration-150 ${
-                      currentTab == "customEquations"
-                        ? "  text-gray-800 bg-[#bcbcbc] border-b-gray-600/90"
-                        : "text-gray-700 border-gray-400  hover:border-gray-500/90 bg-[#f1f1f1] hover:text-gray-800 hover:bg-[#b3b3b3]"
+                      currentTab == 'customEquations'
+                        ? '  text-gray-800 bg-[#bcbcbc] border-b-gray-600/90'
+                        : 'text-gray-700 border-gray-400  hover:border-gray-500/90 bg-[#f1f1f1] hover:text-gray-800 hover:bg-[#b3b3b3]'
                     }`}
                   >
                     Custom Equations
@@ -1029,21 +1029,21 @@ export default function Customization() {
                   <div
                     onClick={function () {
                       resetStates();
-                      setCreateQuestionState("visible");
-                      setCurrentTab("createEquations");
+                      setCreateQuestionState('visible');
+                      setCurrentTab('createEquations');
                       window.localStorage.setItem(
-                        "CURRENT_TAB",
-                        JSON.stringify("createEquations")
+                        'CURRENT_TAB',
+                        JSON.stringify('createEquations')
                       );
                       window.localStorage.setItem(
-                        "CURRENT_TAB_INDEX",
+                        'CURRENT_TAB_INDEX',
                         JSON.stringify(2)
                       );
                     }}
                     className={`cursor-pointer py-2 my-1.5 rounded-t-3xl border-b-8 ease-in-out transform transition duration-150 ${
-                      currentTab == "createEquations"
-                        ? "  text-gray-800 bg-[#bcbcbc] border-b-gray-600/90"
-                        : "text-gray-700 border-gray-400  hover:border-gray-500/90 bg-[#f1f1f1] hover:text-gray-800 hover:bg-[#b3b3b3]"
+                      currentTab == 'createEquations'
+                        ? '  text-gray-800 bg-[#bcbcbc] border-b-gray-600/90'
+                        : 'text-gray-700 border-gray-400  hover:border-gray-500/90 bg-[#f1f1f1] hover:text-gray-800 hover:bg-[#b3b3b3]'
                     }`}
                   >
                     Create Equation
@@ -1052,21 +1052,21 @@ export default function Customization() {
                   <div
                     onClick={function () {
                       resetStates();
-                      setEditAccountState("visible");
-                      setCurrentTab("editStudent");
+                      setEditAccountState('visible');
+                      setCurrentTab('editStudent');
                       window.localStorage.setItem(
-                        "CURRENT_TAB",
-                        JSON.stringify("editStudent")
+                        'CURRENT_TAB',
+                        JSON.stringify('editStudent')
                       );
                       window.localStorage.setItem(
-                        "CURRENT_TAB_INDEX",
+                        'CURRENT_TAB_INDEX',
                         JSON.stringify(3)
                       );
                     }}
                     className={`cursor-pointer py-2 my-1.5 rounded-t-3xl border-b-8 ease-in-out transform transition duration-150 ${
-                      currentTab == "editStudent"
-                        ? "  text-gray-800 bg-[#bcbcbc] border-b-gray-600/90"
-                        : "text-gray-700 border-gray-400  hover:border-gray-500/90 bg-[#f1f1f1] hover:text-gray-800 hover:bg-[#b3b3b3]"
+                      currentTab == 'editStudent'
+                        ? '  text-gray-800 bg-[#bcbcbc] border-b-gray-600/90'
+                        : 'text-gray-700 border-gray-400  hover:border-gray-500/90 bg-[#f1f1f1] hover:text-gray-800 hover:bg-[#b3b3b3]'
                     }`}
                   >
                     Edit Student Info
@@ -1075,21 +1075,21 @@ export default function Customization() {
                   <div
                     onClick={function () {
                       resetStates();
-                      setAddSectionState("visible");
-                      setCurrentTab("addSection");
+                      setAddSectionState('visible');
+                      setCurrentTab('addSection');
                       window.localStorage.setItem(
-                        "CURRENT_TAB",
-                        JSON.stringify("addSection")
+                        'CURRENT_TAB',
+                        JSON.stringify('addSection')
                       );
                       window.localStorage.setItem(
-                        "CURRENT_TAB_INDEX",
+                        'CURRENT_TAB_INDEX',
                         JSON.stringify(4)
                       );
                     }}
                     className={`cursor-pointer py-2 my-1.5 rounded-t-3xl border-b-8 ease-in-out transform transition duration-150 ${
-                      currentTab == "addSection"
-                        ? "  text-gray-800 bg-[#bcbcbc] border-b-gray-600/90"
-                        : "text-gray-700 border-gray-400  hover:border-gray-500/90 bg-[#f1f1f1] hover:text-gray-800 hover:bg-[#b3b3b3]"
+                      currentTab == 'addSection'
+                        ? '  text-gray-800 bg-[#bcbcbc] border-b-gray-600/90'
+                        : 'text-gray-700 border-gray-400  hover:border-gray-500/90 bg-[#f1f1f1] hover:text-gray-800 hover:bg-[#b3b3b3]'
                     }`}
                   >
                     Add Section
@@ -1111,9 +1111,9 @@ export default function Customization() {
                           Easy
                         </div>
                         <div className="bg-gradient-to-t from-gray-300 via-gray-100 to-white h-full style-3 overflow-y-scroll">
-                          {equationList.map((equation) => (
+                          {equationList.map(equation => (
                             <>
-                              {equation.EquationType == "Easy" ? (
+                              {equation.EquationType == 'Easy' ? (
                                 <div className="border-b-2 flex justify-center relative hover:bg-gray-200">
                                   <p className="">{equation.EquationString}</p>
                                   <button
@@ -1124,7 +1124,7 @@ export default function Customization() {
                                   </button>
                                 </div>
                               ) : (
-                                ""
+                                ''
                               )}
                             </>
                           ))}
@@ -1135,14 +1135,14 @@ export default function Customization() {
                           Average
                         </div>
                         <div className="bg-gradient-to-t from-gray-200 via-gray-100 to-white h-full style-3 overflow-y-scroll">
-                          {equationList.map((equation) => (
+                          {equationList.map(equation => (
                             <>
-                              {equation.EquationType == "Average" ? (
+                              {equation.EquationType == 'Average' ? (
                                 <div className="border-b-2">
                                   {equation.EquationString}
                                 </div>
                               ) : (
-                                ""
+                                ''
                               )}
                             </>
                           ))}
@@ -1153,14 +1153,14 @@ export default function Customization() {
                           Difficult
                         </div>
                         <div className="bg-gradient-to-t from-gray-200 via-gray-100 to-white h-full style-3 overflow-y-scroll">
-                          {equationList.map((equation) => (
+                          {equationList.map(equation => (
                             <>
-                              {equation.EquationType == "Difficult" ? (
+                              {equation.EquationType == 'Difficult' ? (
                                 <div className="border-b-2">
                                   {equation.EquationString}
                                 </div>
                               ) : (
-                                ""
+                                ''
                               )}
                             </>
                           ))}

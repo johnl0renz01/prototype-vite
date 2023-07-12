@@ -1,12 +1,12 @@
 //src/FileUploadForm.js
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 class FileUploadForm extends React.Component {
   UPLOAD_ENDPOINT =
-    "http://localhost:80/Prototype-Vite/my-project/api/upload/save";
+    'http://localhost:80/Prototype-Vite/my-project/api/upload/save';
 
   componentDidMount() {
-    console.log("MOUNTED");
+    console.log('MOUNTED');
     //document.title = `You clicked ${this.state.count} times`;
   }
   componentDidUpdate() {
@@ -28,25 +28,25 @@ class FileUploadForm extends React.Component {
     e.preventDefault();
     let res = await this.uploadFile(this.state.file);
     console.log(res.data);
-    window.localStorage.setItem("FILE_UPLOADED", JSON.parse(true));
+    window.localStorage.setItem('FILE_UPLOADED', JSON.parse(true));
     //if (res.data == "done") {
-    console.log("IM DONE");
-    alert("new record successul");
+    console.log('IM DONE');
+    alert('new record successul');
     window.location.reload(false);
     //setTimeout(window.location.reload(true), 1);
     //}
   }
   onChange(e) {
     this.setState({ file: e.target.files[0] });
-    window.localStorage.setItem("FILE_UPLOADED", JSON.parse(false));
+    window.localStorage.setItem('FILE_UPLOADED', JSON.parse(false));
   }
 
   async uploadFile(file) {
     const formData = new FormData();
-    formData.append("avatar", file);
+    formData.append('avatar', file);
     return await axios.post(this.UPLOAD_ENDPOINT, formData, {
       headers: {
-        "content-type": "multipart/form-data",
+        'content-type': 'multipart/form-data',
       },
     });
   }
@@ -66,7 +66,7 @@ class FileUploadForm extends React.Component {
                 className="form-control"
                 onChange={this.onChange}
               />
-            </div>{" "}
+            </div>{' '}
             <button
               type="submit"
               className="hidden bg-gradient-to-t from-gray-200 via-gray-100 to-white border-2 px-1 py-0.5 text-base mt-2 mb-8 hover:border-gray-400"

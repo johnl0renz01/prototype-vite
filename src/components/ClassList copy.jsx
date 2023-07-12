@@ -1,12 +1,12 @@
-import React, { Component } from "react";
-import { useNavigate } from "react-router-dom";
-import { useEffect, useState, useCallback } from "react";
-import axios from "axios";
-import * as ReactDOM from "react-dom";
-import $ from "jquery";
+import React, { Component } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useEffect, useState, useCallback } from 'react';
+import axios from 'axios';
+import * as ReactDOM from 'react-dom';
+import $ from 'jquery';
 
 export default function ClassList() {
-  document.body.style.height = "100%";
+  document.body.style.height = '100%';
   const navigate = useNavigate();
 
   //FOR LINKS/NAVBAR/BREADCRUMBS
@@ -14,44 +14,44 @@ export default function ClassList() {
   const [pageLink, setPageLink] = useState([]);
 
   useEffect(() => {
-    let page = ["Home", "Section List", "Class List"];
-    let link = ["/AdminHomepage", "/SectionList", "/ClassList"];
+    let page = ['Home', 'Section List', 'Class List'];
+    let link = ['/AdminHomepage', '/SectionList', '/ClassList'];
     setPageList(page);
     setPageLink(link);
   }, []);
 
   useEffect(() => {
-    window.localStorage.setItem("NAVBAR_PAGE", JSON.stringify(pageList));
+    window.localStorage.setItem('NAVBAR_PAGE', JSON.stringify(pageList));
   }, [pageList]);
 
   useEffect(() => {
-    window.localStorage.setItem("NAVBAR_PAGE_LINK", JSON.stringify(pageLink));
+    window.localStorage.setItem('NAVBAR_PAGE_LINK', JSON.stringify(pageLink));
   }, [pageLink]);
 
   const StudentDetailPage = () => {
-    let page = ["Home", "Section List", "Class List", "Student Detail"];
+    let page = ['Home', 'Section List', 'Class List', 'Student Detail'];
     let link = [
-      "/AdminHomepage",
-      "/SectionList",
-      "/ClassList",
-      "/StudentDetail",
+      '/AdminHomepage',
+      '/SectionList',
+      '/ClassList',
+      '/StudentDetail',
     ];
     setPageList(page);
     setPageLink(link);
 
-    window.localStorage.setItem("NAVBAR_PAGE", JSON.stringify(pageList));
-    window.localStorage.setItem("NAVBAR_PAGE_LINK", JSON.stringify(pageLink));
+    window.localStorage.setItem('NAVBAR_PAGE', JSON.stringify(pageList));
+    window.localStorage.setItem('NAVBAR_PAGE_LINK', JSON.stringify(pageLink));
     setTimeout(proceed, 1);
 
     function proceed() {
-      navigate("/StudentDetail");
+      navigate('/StudentDetail');
     }
   };
 
-  var currentSection = "";
+  var currentSection = '';
 
   useEffect(() => {
-    const data = window.localStorage.getItem("CURRENT_SECTION");
+    const data = window.localStorage.getItem('CURRENT_SECTION');
     currentSection = JSON.parse(data);
   }, []);
 
@@ -89,7 +89,7 @@ export default function ClassList() {
           </div>
 
           <div className="float-left bg-mainBGBrown w-10 select-none">
-            {"\u00A0"}
+            {'\u00A0'}
           </div>
 
           <div className="float-left py-2 rounded-3xl  bg-white border-r-12 border-t-12 border-yellow-700 border-l-12 border-l-brTwo shadow-yellow-700">
@@ -104,7 +104,7 @@ export default function ClassList() {
           </div>
 
           <div className="float-left bg-mainBGBrown  w-10 select-none">
-            {"\u00A0"}
+            {'\u00A0'}
           </div>
 
           <div className="overflow-hidden py-1 px-5 rounded-3xl   bg-white border-r-12 border-t-12 border-yellow-700 border-l-12 border-l-brTwo shadow-yellow-700">
@@ -135,7 +135,7 @@ export default function ClassList() {
           <div className="bg-mainBGBrown  w-1/3"></div>
         </div>
 
-        <div className="bg-mainBGBrown  w-full my-4">{"\u00A0"}</div>
+        <div className="bg-mainBGBrown  w-full my-4">{'\u00A0'}</div>
 
         <div className="overflow-hidden h-full rounded-3xl  bg-gradient-to-t from-gray-200 via-gray-100 to-white shadow-lg border-r-12 border-t-12 border-yellow-700 border-l-12 border-l-brTwo shadow-yellow-700 ">
           <div className="mx-auto w-fullrounded-md">
@@ -169,7 +169,7 @@ export default function ClassList() {
                               />
                             </div>
                             <p className="pl-2">
-                              {account.GivenName + " " + account.LastName}
+                              {account.GivenName + ' ' + account.LastName}
                             </p>
                           </td>
                           <td></td>

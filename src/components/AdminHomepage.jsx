@@ -1,17 +1,17 @@
-import React, { Component } from "react";
-import { useNavigate } from "react-router-dom";
-import { useEffect, useState, useCallback } from "react";
-import axios from "axios";
-import * as ReactDOM from "react-dom";
-import $ from "jquery";
+import React, { Component } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useEffect, useState, useCallback } from 'react';
+import axios from 'axios';
+import * as ReactDOM from 'react-dom';
+import $ from 'jquery';
 
-import { BsPersonPlusFill } from "react-icons/bs";
-import { BsFillPersonVcardFill } from "react-icons/bs";
-import { BsGearFill } from "react-icons/bs";
+import { BsPersonPlusFill } from 'react-icons/bs';
+import { BsFillPersonVcardFill } from 'react-icons/bs';
+import { BsGearFill } from 'react-icons/bs';
 //import { IconName } from "react-icons/fa";
 
 export default function AdminHomepage() {
-  document.body.style.height = "100vh";
+  document.body.style.height = '100vh';
   const navigate = useNavigate();
 
   //FOR LINKS/NAVBAR/BREADCRUMBS
@@ -21,69 +21,69 @@ export default function AdminHomepage() {
   useEffect(() => {
     setPage();
 
-    window.addEventListener("focus", setPage);
+    window.addEventListener('focus', setPage);
     function setPage() {
-      let page = ["Home"];
-      let link = ["/AdminHomepage"];
+      let page = ['Home'];
+      let link = ['/AdminHomepage'];
       setPageList(page);
       setPageLink(link);
-      window.localStorage.setItem("NAVBAR_PAGE", JSON.stringify(pageList));
-      window.localStorage.setItem("NAVBAR_PAGE_LINK", JSON.stringify(pageLink));
+      window.localStorage.setItem('NAVBAR_PAGE', JSON.stringify(pageList));
+      window.localStorage.setItem('NAVBAR_PAGE_LINK', JSON.stringify(pageLink));
     }
   }, []);
 
   useEffect(() => {
-    window.localStorage.setItem("NAVBAR_PAGE", JSON.stringify(pageList));
+    window.localStorage.setItem('NAVBAR_PAGE', JSON.stringify(pageList));
   }, [pageList]);
 
   useEffect(() => {
-    window.localStorage.setItem("NAVBAR_PAGE_LINK", JSON.stringify(pageLink));
+    window.localStorage.setItem('NAVBAR_PAGE_LINK', JSON.stringify(pageLink));
   }, [pageLink]);
 
   //END END END END END END END END END END END END
 
   const RegistrationPage = () => {
-    let page = ["Home", "Registration"];
-    let link = ["/AdminHomepage", "/Registration"];
+    let page = ['Home', 'Registration'];
+    let link = ['/AdminHomepage', '/Registration'];
     setPageList(page);
     setPageLink(link);
 
-    window.localStorage.setItem("NAVBAR_PAGE", JSON.stringify(pageList));
-    window.localStorage.setItem("NAVBAR_PAGE_LINK", JSON.stringify(pageLink));
+    window.localStorage.setItem('NAVBAR_PAGE', JSON.stringify(pageList));
+    window.localStorage.setItem('NAVBAR_PAGE_LINK', JSON.stringify(pageLink));
     setTimeout(proceed, 1);
 
     function proceed() {
-      navigate("/Registration");
+      navigate('/Registration');
     }
   };
 
   const SectionListPage = () => {
-    let page = ["Home", "Section List"];
-    let link = ["/AdminHomepage", "/SectionList"];
+    let page = ['Home', 'Section List'];
+    let link = ['/AdminHomepage', '/SectionList'];
     setPageList(page);
     setPageLink(link);
 
-    window.localStorage.setItem("NAVBAR_PAGE", JSON.stringify(pageList));
-    window.localStorage.setItem("NAVBAR_PAGE_LINK", JSON.stringify(pageLink));
+    window.localStorage.setItem('NAVBAR_PAGE', JSON.stringify(pageList));
+    window.localStorage.setItem('NAVBAR_PAGE_LINK', JSON.stringify(pageLink));
     setTimeout(proceed, 1);
 
     function proceed() {
-      navigate("/SectionList");
+      navigate('/SectionList');
     }
   };
 
   const CustomizationPage = () => {
-    let page = ["Home", "Customization"];
-    let link = ["/AdminHomepage", "/Customization"];
+    let page = ['Home', 'Customization'];
+    let link = ['/AdminHomepage', '/Customization'];
     setPageList(page);
     setPageLink(link);
 
-    window.localStorage.setItem("NAVBAR_PAGE", JSON.stringify(pageList));
-    window.localStorage.setItem("NAVBAR_PAGE_LINK", JSON.stringify(pageLink));
+    window.localStorage.setItem('NAVBAR_PAGE', JSON.stringify(pageList));
+    window.localStorage.setItem('NAVBAR_PAGE_LINK', JSON.stringify(pageLink));
     setTimeout(proceed, 1);
 
     function proceed() {
-      navigate("/Customization");
+      navigate('/Customization');
     }
   };
 
@@ -105,7 +105,7 @@ export default function AdminHomepage() {
                 <figure>
                   <img
                     className="relative left-0 right-0 mx-auto w-2/3 overflow-hidden"
-                    src={require("../assets/images/blackboard.png")}
+                    src={require('../assets/images/blackboard.png')}
                   ></img>
                   <figcaption>
                     <div className="absolute left-0 right-0 top-0 bottom-0 mx-auto w-1/2 h-3/4 pt-6 text-center overflow-hidden">
@@ -135,7 +135,7 @@ export default function AdminHomepage() {
                         </div>
                         <div className="lg:text-2xl md:text-xl sm:text-xs text-center">
                           <p className="font-semibold">
-                            Click the desired button{" "}
+                            Click the desired button{' '}
                           </p>
                           <p>to get started.</p>
                         </div>
@@ -146,11 +146,11 @@ export default function AdminHomepage() {
                 <div className="pt-10">
                   <img
                     className="absolute bottom-0 left-0 w-1/3"
-                    src={require("../assets/images/teacher_man.png")}
+                    src={require('../assets/images/teacher_man.png')}
                   ></img>
                   <img
                     className="absolute bottom-0 right-0 w-1/4 "
-                    src={require("../assets/images/teacher_woman.png")}
+                    src={require('../assets/images/teacher_woman.png')}
                   ></img>
                 </div>
               </div>

@@ -1,15 +1,15 @@
-import React, { Component } from "react";
-import { useEffect, useState, useCallback } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import * as ReactDOM from "react-dom";
-import $ from "jquery";
+import React, { Component } from 'react';
+import { useEffect, useState, useCallback } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import * as ReactDOM from 'react-dom';
+import $ from 'jquery';
 
-import EquationSolver from "./equationSolver";
-import MY_API_KEY from "./API_KEY";
+import EquationSolver from './equationSolver';
+import MY_API_KEY from './API_KEY';
 
 export default function Homepage() {
-  document.body.style.height = "100vh";
+  document.body.style.height = '100vh';
 
   const navigate = useNavigate();
 
@@ -20,28 +20,28 @@ export default function Homepage() {
 
   useEffect(() => {
     setPage();
-    window.addEventListener("focus", setPage);
+    window.addEventListener('focus', setPage);
     function setPage() {
-      let page = ["Home"];
-      let link = ["/Homepage"];
+      let page = ['Home'];
+      let link = ['/Homepage'];
       setPageList(page);
       setPageLink(link);
-      window.localStorage.setItem("NAVBAR_PAGE", JSON.stringify(pageList));
-      window.localStorage.setItem("NAVBAR_PAGE_LINK", JSON.stringify(pageLink));
+      window.localStorage.setItem('NAVBAR_PAGE', JSON.stringify(pageList));
+      window.localStorage.setItem('NAVBAR_PAGE_LINK', JSON.stringify(pageLink));
     }
   }, []);
 
   useEffect(() => {
-    window.localStorage.setItem("NAVBAR_PAGE", JSON.stringify(pageList));
+    window.localStorage.setItem('NAVBAR_PAGE', JSON.stringify(pageList));
   }, [pageList]);
 
   useEffect(() => {
-    window.localStorage.setItem("NAVBAR_PAGE_LINK", JSON.stringify(pageLink));
+    window.localStorage.setItem('NAVBAR_PAGE_LINK', JSON.stringify(pageLink));
   }, [pageLink]);
 
   useEffect(() => {
-    const data = window.localStorage.getItem("SESSION_USER");
-    if (data != "" && data != '""' && data != undefined) {
+    const data = window.localStorage.getItem('SESSION_USER');
+    if (data != '' && data != '""' && data != undefined) {
       setCurrentUser(true);
     } else {
       setCurrentUser(false);
@@ -51,47 +51,47 @@ export default function Homepage() {
   //END END END END END END END END END END END END
 
   const DifficultyPage = () => {
-    let page = ["Home", "Difficulty"];
-    let link = ["/Homepage", "/Difficulty"];
+    let page = ['Home', 'Difficulty'];
+    let link = ['/Homepage', '/Difficulty'];
     setPageList(page);
     setPageLink(link);
 
-    window.localStorage.setItem("NAVBAR_PAGE", JSON.stringify(pageList));
-    window.localStorage.setItem("NAVBAR_PAGE_LINK", JSON.stringify(pageLink));
+    window.localStorage.setItem('NAVBAR_PAGE', JSON.stringify(pageList));
+    window.localStorage.setItem('NAVBAR_PAGE_LINK', JSON.stringify(pageLink));
     setTimeout(proceed, 1);
 
     function proceed() {
-      navigate("/Difficulty");
+      navigate('/Difficulty');
     }
   };
 
   return (
     <>
-      <section className="grid place-items-center">
-        <div className=" w-10/12 lg:h-[92.5vh] flex items-center justify-center">
-          <div className="bg-white border-l-12 border-b-12 border-gray-600/60 border-r-12 border-r-gray-300/80 px-8 py-2 rounded-6xl shadow-2xl shadow-yellow-400 ">
-            <div className="px-4 py-16 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-20 ">
+      <section className="lg:scale-95 md:scale-85 sm:scale-85 xs:scale-90 grid place-items-center ">
+        <div className=" w-10/12 min-h-[calc(100vh-6rem)] flex items-center justify-center">
+          <div className="bg-white border-l-12 border-b-12 border-gray-600/60 border-r-12 border-r-gray-300/80 px-2 py-2 rounded-6xl shadow-2xl shadow-yellow-400 ">
+            <div className=" mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-4 lg:px-8 lg:py-20 ">
               <div className="lg:flex w-full overflow-hidden bg-white rounded-6xl sm:mx-auto">
-                <div className="sm:col-span-3 select-none">
+                <div className="grow select-none">
                   <img
-                    src={require("../assets/images/home_pic.png")}
+                    src={require('../assets/images/home_pic.png')}
                     alt=""
-                    className="object-fill sm:w-screen lg:h-full"
+                    className="object-contain w-full lg:h-full"
                   />
                 </div>
-                <div className="grid p-8 bg-white lg:px-16 lg:pl-10 lg:w-3/4">
+                <div className="grid p-8 bg-white  lg:pl-10 lg:w-3/4">
                   <div>
-                    <p className="mb-3 inline-block text-xs font-semibold tracking-wider uppercase rounded-full">
+                    <p className="mb-3 inline-block text-xs lg:font-semibold sm:font-semibold tracking-wider uppercase rounded-full">
                       Let's learn Linear Equations!
                     </p>
-                    <h5 className="mb-5 text-3xl font-bold leading-none sm:text-4xl ">
+                    <h5 className="mb-5 lg:text-4xl sm:text-2xl xs:text-sm pr-10 font-bold leading-none ">
                       PERSONAL INSTRUCTING AGENT
                     </h5>
-                    <p className="text-gray-800 text-justify">
+                    <p className="text-gray-800 text-justify lg:text-base sm:text-sm xs:text-xs">
                       <span className="font-bold ">
-                        {" "}
-                        Personal Instructing Agents (PIA){" "}
-                      </span>{" "}
+                        {' '}
+                        Personal Instructing Agents (PIA){' '}
+                      </span>{' '}
                       are human-like computer characters that aim to guide and
                       support students in learning their academic lessons.
                     </p>
@@ -99,15 +99,15 @@ export default function Homepage() {
                   <div className="flex mx-auto  ">
                     <button
                       onClick={currentUser ? DifficultyPage : undefined}
-                      className={`mt-10 inline-flex items-center justify-center text-xl rounded-full h-12 lg:px-28 md:lg:px-28 px-16 mr-6 font-medium tracking-wide  shadow-md    
+                      className={`sm:mt-4 xs:mt-4 inline-flex items-center justify-center lg:text-xl sm:text-base xs:text-sm rounded-full lg:h-12 sm:h-10 xs:h-8 lg:px-28 sm:px-10 xs:px-8 font-medium tracking-wide shadow-md    
                       ${
                         !currentUser
-                          ? "aria-disabled: text-gray-100 bg-gray-500/50 cursor-help "
-                          : "text-white bg-yellow-600 hover:bg-yellow-700 focus:shadow-outline focus:outline-none hover:-translate-y-0.5 ease-in-out transition duration-200 transform drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)]"
+                          ? 'aria-disabled: text-gray-100 bg-gray-500/50 cursor-help '
+                          : 'text-white bg-yellow-600 hover:bg-yellow-700 focus:shadow-outline focus:outline-none hover:-translate-y-0.5 ease-in-out transition duration-200 transform drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)]'
                       }`}
                       {...(!currentUser
                         ? {
-                            title: "Log-in to your account to start.",
+                            title: 'Log-in to your account to start.',
                           }
                         : {})}
                     >

@@ -1,12 +1,12 @@
-import React, { Component } from "react";
-import { useNavigate } from "react-router-dom";
-import { useEffect, useState, useCallback } from "react";
-import axios from "axios";
-import * as ReactDOM from "react-dom";
-import $ from "jquery";
+import React, { Component } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useEffect, useState, useCallback } from 'react';
+import axios from 'axios';
+import * as ReactDOM from 'react-dom';
+import $ from 'jquery';
 
 export default function SectionList() {
-  document.body.style.height = "100%";
+  document.body.style.height = '100%';
 
   const navigate = useNavigate();
 
@@ -16,48 +16,48 @@ export default function SectionList() {
 
   useEffect(() => {
     setPage();
-    window.addEventListener("focus", setPage);
+    window.addEventListener('focus', setPage);
     function setPage() {
-      let page = ["Home", "Section List"];
-      let link = ["/AdminHomepage", "/SectionList"];
+      let page = ['Home', 'Section List'];
+      let link = ['/AdminHomepage', '/SectionList'];
       setPageList(page);
       setPageLink(link);
-      window.localStorage.setItem("NAVBAR_PAGE", JSON.stringify(pageList));
-      window.localStorage.setItem("NAVBAR_PAGE_LINK", JSON.stringify(pageLink));
+      window.localStorage.setItem('NAVBAR_PAGE', JSON.stringify(pageList));
+      window.localStorage.setItem('NAVBAR_PAGE_LINK', JSON.stringify(pageLink));
     }
   }, []);
 
   useEffect(() => {
-    window.localStorage.setItem("NAVBAR_PAGE", JSON.stringify(pageList));
+    window.localStorage.setItem('NAVBAR_PAGE', JSON.stringify(pageList));
   }, [pageList]);
 
   useEffect(() => {
-    window.localStorage.setItem("NAVBAR_PAGE_LINK", JSON.stringify(pageLink));
+    window.localStorage.setItem('NAVBAR_PAGE_LINK', JSON.stringify(pageLink));
   }, [pageLink]);
 
   //END END END END END END END END END END END END
 
   const ClassListPage = () => {
-    let page = ["Home", "Section List", "Class List"];
-    let link = ["/AdminHomepage", "/SectionList", "/ClassList"];
+    let page = ['Home', 'Section List', 'Class List'];
+    let link = ['/AdminHomepage', '/SectionList', '/ClassList'];
     setPageList(page);
     setPageLink(link);
 
-    window.localStorage.setItem("NAVBAR_PAGE", JSON.stringify(pageList));
-    window.localStorage.setItem("NAVBAR_PAGE_LINK", JSON.stringify(pageLink));
+    window.localStorage.setItem('NAVBAR_PAGE', JSON.stringify(pageList));
+    window.localStorage.setItem('NAVBAR_PAGE_LINK', JSON.stringify(pageLink));
     setTimeout(proceed, 1);
 
     function proceed() {
-      navigate("/ClassList");
+      navigate('/ClassList');
     }
   };
 
-  var currentSection = "";
+  var currentSection = '';
 
   const setSection = () => {
     console.log(currentSection);
     window.localStorage.setItem(
-      "CURRENT_SECTION",
+      'CURRENT_SECTION',
       JSON.stringify(currentSection)
     );
   };
@@ -79,7 +79,7 @@ export default function SectionList() {
     var sectionNames = [];
 
     axios
-      .get("http://localhost:80/Prototype-Vite/my-project/api/sectionList/")
+      .get('http://localhost:80/Prototype-Vite/my-project/api/sectionList/')
       .then(function (response) {
         console.log(response.data);
         setSectionData(response.data);
@@ -103,7 +103,7 @@ export default function SectionList() {
         for (let i = 0; i < items.length; i++) {
           let string = items[i];
           for (let j = 0; j < string.length; j++) {
-            if (string[j] == ".") {
+            if (string[j] == '.') {
               imgName.push(string.substring(0, j));
               imgType.push(string.substring(j + 1));
               break;
@@ -118,19 +118,19 @@ export default function SectionList() {
       });
 
     axios
-      .get("http://localhost:80/Prototype-Vite/my-project/api/sectionTotal/")
+      .get('http://localhost:80/Prototype-Vite/my-project/api/sectionTotal/')
       .then(function (response) {
         console.log(response.data);
         totalSections = response.data;
         setSectionTotal(totalSections);
-        console.log("totalSections: " + totalSections);
+        console.log('totalSections: ' + totalSections);
 
         for (let i = 0; i < totalSections; i++) {
           ids.push(i);
         }
 
         // FOR SECTION NAMES
-        const promises = ids.map((id) =>
+        const promises = ids.map(id =>
           axios.get(
             `http://localhost:80/Prototype-Vite/my-project/api/sectionName/${id}`
           )
@@ -143,7 +143,7 @@ export default function SectionList() {
           var newArray = [];
           for (let i = 0; i < totalSections; i++) {
             var tempArray = [];
-            var result = Object.keys(sectionNames[i]).map((key) => [
+            var result = Object.keys(sectionNames[i]).map(key => [
               key,
               sectionNames[i][key],
             ]);
@@ -154,8 +154,8 @@ export default function SectionList() {
             console.log(tempArray);
 
             let data = JSON.stringify(tempArray[0]);
-            data = data.replace(/"/g, "");
-            data = data.replace(/ /g, "_");
+            data = data.replace(/"/g, '');
+            data = data.replace(/ /g, '_');
 
             newArray.push(data);
           }
@@ -169,13 +169,13 @@ export default function SectionList() {
   }
 
   function total() {
-    console.log("SECTION NAMES:");
+    console.log('SECTION NAMES:');
     console.log(sectionNames);
     var tally = [];
     // FOR TOTAL
     if (processData) {
-      console.log("Imh here");
-      const promises2 = sectionNames.map((id) =>
+      console.log('Imh here');
+      const promises2 = sectionNames.map(id =>
         axios.get(
           `http://localhost:80/Prototype-Vite/my-project/api/sectionTotalStudents/${id}`
         )
@@ -188,7 +188,7 @@ export default function SectionList() {
         let newArray = [];
         for (let i = 0; i < sectionTotal; i++) {
           let tempArray = [];
-          let result = Object.keys(tally[i]).map((key) => [key, tally[i][key]]);
+          let result = Object.keys(tally[i]).map(key => [key, tally[i][key]]);
 
           for (let j = 0; j < result.length; j++) {
             tempArray.push(result[j][1]);
@@ -196,7 +196,7 @@ export default function SectionList() {
           console.log(tempArray);
 
           let data = JSON.stringify(tempArray[0]);
-          data = data.replace(/"/g, "");
+          data = data.replace(/"/g, '');
 
           newArray.push(data);
         }
@@ -220,7 +220,7 @@ export default function SectionList() {
         <>
           <img
             className={`w-full rounded-xl h-48 object-cover ${
-              sectionOrder > 0 ? "opacity-100" : "opacity-50"
+              sectionOrder > 0 ? 'opacity-100' : 'opacity-50'
             }`}
             src={require(`../assets/section_cover/${imageUrl[currentIndex]}.${imageType[currentIndex]}`)}
           />
@@ -294,8 +294,8 @@ export default function SectionList() {
       <div
         className={`max-w-xs  ${
           sectionOrder > 0
-            ? "bg-white border-l-8 border-b-8 border-gray-500/60 border-r-gray-200 border-t-gray-200 border-r-8 border-t-8  px-5 py-6 rounded-xl shadow-md text-indigo-600 hover:text-orange-700 hover:border-r-yellow-400/70 hover:border-t-yellow-400/70 hover:border-b-yellow-500 hover:border-l-yellow-500 hover:shadow-orange-300 transform hover:scale-105 transition duration-500"
-            : "bg-gray-400 border-l-8 border-b-8 border-gray-600/40 border-r-gray-300 border-t-gray-300 border-r-8 border-t-8  px-5 py-6 rounded-xl shadow-md text-gray-600/50"
+            ? 'bg-white border-l-8 border-b-8 border-gray-500/60 border-r-gray-200 border-t-gray-200 border-r-8 border-t-8  px-5 py-6 rounded-xl shadow-md text-indigo-600 hover:text-orange-700 hover:border-r-yellow-400/70 hover:border-t-yellow-400/70 hover:border-b-yellow-500 hover:border-l-yellow-500 hover:shadow-orange-300 transform hover:scale-105 transition duration-500'
+            : 'bg-gray-400 border-l-8 border-b-8 border-gray-600/40 border-r-gray-300 border-t-gray-300 border-r-8 border-t-8  px-5 py-6 rounded-xl shadow-md text-gray-600/50'
         }`}
       >
         <h3 className="mb-3 text-xl font-bold  drop-shadow">
@@ -306,7 +306,7 @@ export default function SectionList() {
         </div>
         <div
           className={`my-3 select-none  ${
-            sectionOrder > 0 ? "text-gray-800" : "text-gray-600/80"
+            sectionOrder > 0 ? 'text-gray-800' : 'text-gray-600/80'
           }`}
         >
           <div className="flex space-x-3 items-center">
@@ -316,7 +316,7 @@ export default function SectionList() {
           <div className="flex space-x-3 items-center">
             <span className="text-2xl"> Students: </span>
             <p className="pt-1 text-xl">
-              {sectionOrder > 0 ? sectionOrder + " Students" : "No Students"}
+              {sectionOrder > 0 ? sectionOrder + ' Students' : 'No Students'}
             </p>
           </div>
         </div>
@@ -329,8 +329,8 @@ export default function SectionList() {
             }}
             className={`mt-3 text-xl w-full  py-2 rounded-xl  shadow-lg drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)] ${
               sectionOrder > 0
-                ? "text-white bg-lime-600 hover:bg-lime-700 hover:-translate-y-1 ease-in-out transition duration-300 transform "
-                : "text-gray-700/60 bg-gray-500 "
+                ? 'text-white bg-lime-600 hover:bg-lime-700 hover:-translate-y-1 ease-in-out transition duration-300 transform '
+                : 'text-gray-700/60 bg-gray-500 '
             }`}
             disabled={sectionOrder <= 0}
           >
@@ -344,17 +344,17 @@ export default function SectionList() {
   //GO BACK FUNCTION
 
   const AdminHomepage = () => {
-    let page = ["Home"];
-    let link = ["/AdminHomepage"];
+    let page = ['Home'];
+    let link = ['/AdminHomepage'];
     setPageList(page);
     setPageLink(link);
 
-    window.localStorage.setItem("NAVBAR_PAGE", JSON.stringify(pageList));
-    window.localStorage.setItem("NAVBAR_PAGE_LINK", JSON.stringify(pageLink));
+    window.localStorage.setItem('NAVBAR_PAGE', JSON.stringify(pageList));
+    window.localStorage.setItem('NAVBAR_PAGE_LINK', JSON.stringify(pageLink));
     setTimeout(proceed, 1);
 
     function proceed() {
-      navigate("/AdminHomepage");
+      navigate('/AdminHomepage');
     }
   };
 
@@ -366,7 +366,7 @@ export default function SectionList() {
           className="absolute left-0 top-[47.25%] bottom-1/2 -ml-[4.05rem]"
         >
           <p className="select-none fa fa-chevron-circle-left text-gray-100 text-3xl hover:text-white rounded-l-full  bg-mainBGBrown py-4 pl-2 pr-2 border-l-6 border-b-6 border-l-yellow-700 border-b-yellow-700 	 hover:bg-[#dd9932] hover:border-l-[#bd7e1f] hover:border-b-[#bd7e1f]">
-            {" "}
+            {' '}
           </p>
         </button>
         <div className="overflow-hidden  py-5 h-full rounded-6xl  bg-gradient-to-t from-gray-200 via-gray-100 to-white shadow-lg border-r-12 border-t-12 border-yellow-700 border-l-12 border-l-brTwo shadow-yellow-700 ">

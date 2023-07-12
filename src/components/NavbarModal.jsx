@@ -1,10 +1,10 @@
-import React from "react";
-import { MdClose } from "react-icons/md";
-import { VscQuestion } from "react-icons/vsc";
+import React from 'react';
+import { MdClose } from 'react-icons/md';
+import { VscQuestion } from 'react-icons/vsc';
 
 const NavbarModal = ({ visible, onClose, onContinue }) => {
-  const handleOnClose = (e) => {
-    if (e.target.id === "mainContainer") onClose();
+  const handleOnClose = e => {
+    if (e.target.id === 'mainContainer') onClose();
   };
 
   if (!visible) return null;

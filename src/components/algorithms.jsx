@@ -1,4 +1,4 @@
-const equation = "23 + 2x = 13 - 26x";
+const equation = '23 + 2x = 13 - 26x';
 
 // Use match() to extract the left-hand and right-hand sides of the equation
 const sides = equation.match(/(.*) = (.*)/);
@@ -43,12 +43,12 @@ while (count < 3) {
 // Extract the coefficients and constants from the matches
 function assignValues() {
   let valuesArray = [];
-  lhsCoefficient = lhsMatch[1] === "" ? 1 : parseInt(lhsMatch[1]);
+  lhsCoefficient = lhsMatch[1] === '' ? 1 : parseInt(lhsMatch[1]);
   lhsConstant =
-    lhsMatch[2] === undefined ? 0 : parseInt(lhsMatch[2].replace(/\s/g, ""));
-  rhsCoefficient = rhsMatch[1] === "" ? 1 : parseInt(rhsMatch[1]);
+    lhsMatch[2] === undefined ? 0 : parseInt(lhsMatch[2].replace(/\s/g, ''));
+  rhsCoefficient = rhsMatch[1] === '' ? 1 : parseInt(rhsMatch[1]);
   rhsConstant =
-    rhsMatch[2] === undefined ? 0 : parseInt(rhsMatch[2].replace(/\s/g, ""));
+    rhsMatch[2] === undefined ? 0 : parseInt(rhsMatch[2].replace(/\s/g, ''));
   valuesArray.push(lhsCoefficient, lhsConstant, rhsCoefficient, rhsConstant);
   if (!valuesArray.includes(0)) {
     fixed = true;
@@ -56,8 +56,8 @@ function assignValues() {
 }
 
 // Log the results to the console
-console.log("Left-hand side: ", lhsCoefficient, "x +", lhsConstant);
-console.log("Right-hand side:", rhsCoefficient, "x +", rhsConstant);
+console.log('Left-hand side: ', lhsCoefficient, 'x +', lhsConstant);
+console.log('Right-hand side:', rhsCoefficient, 'x +', rhsConstant);
 
 // Solving Process
 const coefficientDifference = rhsCoefficient - lhsCoefficient;
@@ -69,12 +69,12 @@ console.log(`The solution for ${equation} is: x = ${x}`);
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// RANDOM
 
-var equation = "2 * (3x - 5) = 3 * (4x + 2)";
-equation = equation.replace(/\s/g, "");
+var equation = '2 * (3x - 5) = 3 * (4x + 2)';
+equation = equation.replace(/\s/g, '');
 // Separate the left-hand and right-hand side of the equation
-const [lhs, rhs] = equation.split("=").map((side) => side.trim());
+const [lhs, rhs] = equation.split('=').map(side => side.trim());
 
-var lhsValues = "";
+var lhsValues = '';
 var lastIndex = 0;
 
 console.log(lhs);
@@ -97,7 +97,7 @@ for (let i = 1; i < lhs.length; i++) {
     lastIndex = i + 1;
 
     if (lhs[i].match(/x/)) {
-      lhsValues = lhsValues.concat("x");
+      lhsValues = lhsValues.concat('x');
     }
     //console.log(lhs);
     //console.log(lhsValues);
@@ -112,8 +112,8 @@ for (let i = 1; i < lhs.length; i++) {
 
 let x = 10;
 let y = 20;
-let text = "x * y * (x / y * (x + y / x))";
-let text2 = "2x = 3";
+let text = 'x * y * (x / y * (x + y / x))';
+let text2 = '2x = 3';
 let result = eval(text);
 let result2 = eval(text2);
 console.log(result);
@@ -121,7 +121,7 @@ console.log(result2);
 
 ///////////////////////
 
-const equation = "23 + 2x = 13x - 26";
+const equation = '23 + 2x = 13x - 26';
 
 // Use match() to extract the left-hand and right-hand sides of the equation
 const sides = equation.match(/(.*) = (.*)/);
@@ -140,21 +140,21 @@ console.log(lhs);
 console.log(lhsMatch[1]);
 
 // Extract the coefficients and constants from the matches
-const lhsCoefficient = lhsMatch[1] === "" ? 1 : parseInt(lhsMatch[1]);
+const lhsCoefficient = lhsMatch[1] === '' ? 1 : parseInt(lhsMatch[1]);
 const lhsConstant =
-  lhsMatch[2] === undefined ? 0 : parseInt(lhsMatch[2].replace(/\s/g, ""));
-const rhsCoefficient = rhsMatch[1] === "" ? 1 : parseInt(rhsMatch[1]);
+  lhsMatch[2] === undefined ? 0 : parseInt(lhsMatch[2].replace(/\s/g, ''));
+const rhsCoefficient = rhsMatch[1] === '' ? 1 : parseInt(rhsMatch[1]);
 const rhsConstant =
-  rhsMatch[2] === undefined ? 0 : parseInt(rhsMatch[2].replace(/\s/g, ""));
+  rhsMatch[2] === undefined ? 0 : parseInt(rhsMatch[2].replace(/\s/g, ''));
 
 // Log the results to the console
-console.log("Left-hand side: ", lhsCoefficient, "x +", lhsConstant);
-console.log("Right-hand side:", rhsCoefficient, "x +", rhsConstant);
+console.log('Left-hand side: ', lhsCoefficient, 'x +', lhsConstant);
+console.log('Right-hand side:', rhsCoefficient, 'x +', rhsConstant);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-const equation = "23 + 2x = 13x - 26";
+const equation = '23 + 2x = 13x - 26';
 
 // Use match() to extract the left-hand and right-hand sides of the equation
 const sides = equation.match(/(.*) = (.*)/);
@@ -203,12 +203,12 @@ console.log(parseInt(lhsMatch[1]));
 // Extract the coefficients and constants from the matches
 function assignValues() {
   let valuesArray = [];
-  lhsCoefficient = lhsMatch[1] === "" ? 1 : parseInt(lhsMatch[1]);
+  lhsCoefficient = lhsMatch[1] === '' ? 1 : parseInt(lhsMatch[1]);
   lhsConstant =
-    lhsMatch[2] === undefined ? 0 : parseInt(lhsMatch[2].replace(/\s/g, ""));
-  rhsCoefficient = rhsMatch[1] === "" ? 1 : parseInt(rhsMatch[1]);
+    lhsMatch[2] === undefined ? 0 : parseInt(lhsMatch[2].replace(/\s/g, ''));
+  rhsCoefficient = rhsMatch[1] === '' ? 1 : parseInt(rhsMatch[1]);
   rhsConstant =
-    rhsMatch[2] === undefined ? 0 : parseInt(rhsMatch[2].replace(/\s/g, ""));
+    rhsMatch[2] === undefined ? 0 : parseInt(rhsMatch[2].replace(/\s/g, ''));
   valuesArray.push(lhsCoefficient, lhsConstant, rhsCoefficient, rhsConstant);
   if (!valuesArray.includes(0)) {
     fixed = true;
@@ -216,8 +216,8 @@ function assignValues() {
 }
 
 // Log the results to the console
-console.log("Left-hand side: ", lhsCoefficient, "x +", lhsConstant);
-console.log("Right-hand side:", rhsCoefficient, "x +", rhsConstant);
+console.log('Left-hand side: ', lhsCoefficient, 'x +', lhsConstant);
+console.log('Right-hand side:', rhsCoefficient, 'x +', rhsConstant);
 
 // Solving Process
 const coefficientDifference = rhsCoefficient - lhsCoefficient;
@@ -230,33 +230,33 @@ console.log(`The solution for ${equation} is: x = ${x}`);
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // Define the equation
-const equation = "16x + 3 = 3x - 2";
+const equation = '16x + 3 = 3x - 2';
 
 // Remove all spaces in the equation
-const equationNoSpaces = equation.replace(/\s/g, "");
+const equationNoSpaces = equation.replace(/\s/g, '');
 
-console.log("equation no spaces: " + equationNoSpaces);
+console.log('equation no spaces: ' + equationNoSpaces);
 
 // Extract the coefficients and constants from the equation
 const coefficientLeft = parseInt(equationNoSpaces.match(/^-?\d+/)[0]);
-console.log("coefficient left: " + coefficientLeft);
+console.log('coefficient left: ' + coefficientLeft);
 
 const variableLeft = equationNoSpaces.match(/[a-zA-Z]/)[0];
-console.log("variable left: " + variableLeft);
+console.log('variable left: ' + variableLeft);
 
 const constantLeft = parseInt(equationNoSpaces.match(/[-+]\d+$/)[0]);
-console.log("constantLeft: " + constantLeft);
+console.log('constantLeft: ' + constantLeft);
 
 const coefficientRight = parseInt(
   equationNoSpaces.match(/[-+]\s?\d+(?!.[-+]\s?\d+)/)[0]
 );
-console.log("coefficientRight: " + coefficientRight);
+console.log('coefficientRight: ' + coefficientRight);
 
 const variableRight = equationNoSpaces.match(/[a-zA-Z]/)[0];
-console.log("variableRight: " + variableRight);
+console.log('variableRight: ' + variableRight);
 
 const constantRight = parseInt(equationNoSpaces.match(/[-+]\s?\d+$/)[0]);
-console.log("constantRight: " + constantRight);
+console.log('constantRight: ' + constantRight);
 
 // Move all variable terms to one side of the equation
 const coefficientDifference = coefficientRight - coefficientLeft;
@@ -265,33 +265,33 @@ const constantDifference = constantLeft - constantRight;
 // Solve for the variable x
 const x = constantDifference / coefficientDifference;
 
-console.log("constantDifference: " + constantDifference);
-console.log("coefficientDifference: " + coefficientDifference);
+console.log('constantDifference: ' + constantDifference);
+console.log('coefficientDifference: ' + coefficientDifference);
 
 console.log(`The solution for ${equation} is: x = ${x}`);
 
 //////////////////////////////////////////LAAAAAAAAAATTTTTTTTTTTTEEEEEEEEESSSSSSSSSSTTTTTTTTTTTTTTTTTT///////////////////////////
 
-var equation = "23 + 552 - 56 - 2x + 79 = 13x - 26";
-equation = equation.replace(/\s/g, "");
+var equation = '23 + 552 - 56 - 2x + 79 = 13x - 26';
+equation = equation.replace(/\s/g, '');
 // Separate the left-hand and right-hand side of the equation
-var [lhs, rhs] = equation.split("=").map((side) => side.trim());
+var [lhs, rhs] = equation.split('=').map(side => side.trim());
 
-lhs = lhs.concat("=");
-rhs = rhs.concat("=");
+lhs = lhs.concat('=');
+rhs = rhs.concat('=');
 
-var lhsConstant = "";
+var lhsConstant = '';
 var lastIndex = 0;
 
-console.log("lhs: " + lhs);
-console.log("rhs: " + rhs);
+console.log('lhs: ' + lhs);
+console.log('rhs: ' + rhs);
 
 var isCoefficient = false;
 var lhsCoefficient = 0;
 var index = 0;
 
-var lhsFinalCoefficient = "";
-var lhsFinalConstant = "";
+var lhsFinalCoefficient = '';
+var lhsFinalConstant = '';
 
 // FOR LHS
 for (let i = 1; i < lhs.length; i++) {
@@ -308,10 +308,10 @@ for (let i = 1; i < lhs.length; i++) {
 
     if (lhs[i].match(/=/)) {
       replaceOperators();
-      lhsFinalConstant = lhsFinalConstant.replace("=", "");
-      lhsFinalCoefficient = lhsFinalCoefficient.replace("=", "");
-      console.log("CONSTANT FINAL: " + lhsFinalConstant);
-      console.log("COEFFICIENT FINAL: " + lhsFinalCoefficient);
+      lhsFinalConstant = lhsFinalConstant.replace('=', '');
+      lhsFinalCoefficient = lhsFinalCoefficient.replace('=', '');
+      console.log('CONSTANT FINAL: ' + lhsFinalConstant);
+      console.log('COEFFICIENT FINAL: ' + lhsFinalCoefficient);
       break;
     }
 
@@ -334,39 +334,39 @@ for (let i = 1; i < lhs.length; i++) {
         lhs.slice(sliceIndex, lastIndex)
       );
       let coefficient = lhsFinalCoefficient.slice(-1);
-      lhsFinalCoefficient = lhsFinalCoefficient.replace(coefficient, "");
+      lhsFinalCoefficient = lhsFinalCoefficient.replace(coefficient, '');
 
-      lhsFinalConstant = lhs.replace(lhsFinalCoefficient, "");
+      lhsFinalConstant = lhs.replace(lhsFinalCoefficient, '');
     }
   }
 }
 
 function replaceOperators() {
-  let coefficient = "";
+  let coefficient = '';
 
   if (lhsFinalCoefficient.slice(-1).match(/[a-z]/)) {
     coefficient = lhsFinalCoefficient.slice(-1);
   } else if (lhsFinalCoefficient.slice(-1).match(/[+]/)) {
-    lhsFinalCoefficient = lhsFinalCoefficient.replace("+", "");
+    lhsFinalCoefficient = lhsFinalCoefficient.replace('+', '');
   } else if (lhsFinalCoefficient.slice(-1).match(/[-]/)) {
-    lhsFinalCoefficient = lhsFinalCoefficient.replace("-", "");
+    lhsFinalCoefficient = lhsFinalCoefficient.replace('-', '');
   } else if (lhsFinalCoefficient.slice(-1).match(/[*]/)) {
-    lhsFinalCoefficient = lhsFinalCoefficient.replace("*", "");
+    lhsFinalCoefficient = lhsFinalCoefficient.replace('*', '');
   } else if (lhsFinalCoefficient.slice(-1).match(/[/]/)) {
-    lhsFinalCoefficient = lhsFinalCoefficient.replace("/", "");
+    lhsFinalCoefficient = lhsFinalCoefficient.replace('/', '');
   }
 
-  lhsFinalCoefficient = lhsFinalCoefficient.replace(coefficient, "");
+  lhsFinalCoefficient = lhsFinalCoefficient.replace(coefficient, '');
 }
 
 /////////////////////////UPDATEEEEEEEEDDDDDDDD PWEDEEEEEEEEE///////////////////////////
-var equation = "3 * 16x *2 + 3 * 10 = -2 * 3x * 7 - 2 * 52";
-equation = equation.replace(/\s/g, "");
+var equation = '3 * 16x *2 + 3 * 10 = -2 * 3x * 7 - 2 * 52';
+equation = equation.replace(/\s/g, '');
 // Separate the left-hand and right-hand side of the equation
-var [lhs, rhs] = equation.split("=").map((side) => side.trim());
+var [lhs, rhs] = equation.split('=').map(side => side.trim());
 
-lhs = lhs.concat("=");
-rhs = rhs.concat("=");
+lhs = lhs.concat('=');
+rhs = rhs.concat('=');
 
 var checkLHS = false;
 var checkRHS = false;
@@ -374,8 +374,8 @@ var checkRHS = false;
 //Positive symbol for the first digit if not negative
 function checkSymbol(currentString) {
   let tempString = currentString;
-  if (currentString[0] != "-") {
-    currentString = "+";
+  if (currentString[0] != '-') {
+    currentString = '+';
     currentString = currentString.concat(tempString);
     if (checkLHS) {
       lhs = currentString;
@@ -393,14 +393,14 @@ checkSymbol(lhs);
 checkRHS = true;
 checkSymbol(rhs);
 
-console.log("lhs: " + lhs);
-console.log("rhs: " + rhs);
-console.log("************");
+console.log('lhs: ' + lhs);
+console.log('rhs: ' + rhs);
+console.log('************');
 
-var lhsFinalCoefficient = "";
-var lhsFinalConstant = "";
-var rhsFinalCoefficient = "";
-var rhsFinalConstant = "";
+var lhsFinalCoefficient = '';
+var lhsFinalConstant = '';
+var rhsFinalCoefficient = '';
+var rhsFinalConstant = '';
 
 var computeLHS = false;
 var computeRHS = false;
@@ -408,8 +408,8 @@ var computeRHS = false;
 computeLHS = true;
 getValues(lhs, lhsFinalCoefficient, lhsFinalConstant);
 
-console.log("lhs coefficient: " + lhsFinalCoefficient);
-console.log("lhs constant: " + lhsFinalConstant);
+console.log('lhs coefficient: ' + lhsFinalCoefficient);
+console.log('lhs constant: ' + lhsFinalConstant);
 
 // FOR LHS
 function getValues(currentString, currentCoefficient, currentConstant) {
@@ -418,7 +418,7 @@ function getValues(currentString, currentCoefficient, currentConstant) {
   var coefficientIndex = currentString.length;
   var MDsymbol = false;
   var MDsymbolAfter = false;
-  var symbolType = "";
+  var symbolType = '';
 
   var isCoefficient = false;
   var sliceIndex = 0;
@@ -432,7 +432,7 @@ function getValues(currentString, currentCoefficient, currentConstant) {
   var negativeCoefficient = false;
 
   // Temporary FOR MULTIPLICATION '*'
-  var tempCoefficient = "";
+  var tempCoefficient = '';
 
   for (let i = 1; i < currentString.length; i++) {
     if (!isCoefficient) {
@@ -454,14 +454,14 @@ function getValues(currentString, currentCoefficient, currentConstant) {
 
       if (currentString[i].match(/=/)) {
         if (equalOccurence) {
-          currentConstant = currentString.replace("=", "");
+          currentConstant = currentString.replace('=', '');
           equalOccurence = false;
         }
         console.log(currentConstant);
         console.log(currentCoefficient);
         replaceOperators();
-        currentConstant = currentConstant.replace("=", "");
-        currentCoefficient = currentCoefficient.replace("=", "");
+        currentConstant = currentConstant.replace('=', '');
+        currentCoefficient = currentCoefficient.replace('=', '');
         break;
       }
 
@@ -470,8 +470,8 @@ function getValues(currentString, currentCoefficient, currentConstant) {
       lastIndex = i + 1;
 
       if (currentString[i].match(/[a-z]/)) {
-        if (currentString[sliceIndex] === "-" && !negativeCoefficient) {
-          console.log("IS NEGATIVE!! ");
+        if (currentString[sliceIndex] === '-' && !negativeCoefficient) {
+          console.log('IS NEGATIVE!! ');
           negativeCoefficient = true;
         }
 
@@ -496,15 +496,15 @@ function getValues(currentString, currentCoefficient, currentConstant) {
         currentCoefficient = currentCoefficient.concat(
           currentString.slice(sliceIndex, lastIndex)
         );
-        console.log("CURRENT COEFFIICIENT: " + currentCoefficient);
+        console.log('CURRENT COEFFIICIENT: ' + currentCoefficient);
 
         let coefficient = currentCoefficient.slice(-1);
 
-        currentCoefficient = currentCoefficient.replace(/.$/, "");
-        console.log("CURRENT COEFFIICIENT: " + currentCoefficient);
+        currentCoefficient = currentCoefficient.replace(/.$/, '');
+        console.log('CURRENT COEFFIICIENT: ' + currentCoefficient);
 
-        currentConstant = currentString.replace(currentCoefficient, "");
-        console.log("CURRENT CONSTANT: " + currentConstant);
+        currentConstant = currentString.replace(currentCoefficient, '');
+        console.log('CURRENT CONSTANT: ' + currentConstant);
       }
     }
 
@@ -516,69 +516,69 @@ function getValues(currentString, currentCoefficient, currentConstant) {
   if (MDsymbolAfter) {
     for (let j = coefficientIndex + 1; j < currentString.length; j++) {
       if (currentString[j].match(/[\+\-\/\=]/)) {
-        console.log("J index:  " + j);
-        console.log("coeff Index " + coefficientIndex);
+        console.log('J index:  ' + j);
+        console.log('coeff Index ' + coefficientIndex);
 
-        console.log("BEFORE curr coeff: " + currentCoefficient);
+        console.log('BEFORE curr coeff: ' + currentCoefficient);
         tempCoefficient = currentString.slice(coefficientIndex + 1, j);
-        console.log("temp coeff " + tempCoefficient);
-        currentConstant = currentConstant.replace(tempCoefficient, "");
+        console.log('temp coeff ' + tempCoefficient);
+        currentConstant = currentConstant.replace(tempCoefficient, '');
 
         break;
       }
     }
 
-    if ((symbolType = "*")) {
+    if ((symbolType = '*')) {
       currentCoefficient = currentCoefficient.concat(tempCoefficient);
-      console.log("AFTER curr coeff: " + currentCoefficient);
+      console.log('AFTER curr coeff: ' + currentCoefficient);
     }
   }
 
-  console.log("2323: " + MDsymbol);
+  console.log('2323: ' + MDsymbol);
 
   function replaceOperators() {
     //console.log("CURREEEEEEEEEEEEEEEEENTT: " + currentCoefficient);
-    let coefficientLetter = "";
+    let coefficientLetter = '';
     if (currentCoefficient.slice(-1).match(/[a-z]/)) {
       coefficientLetter = currentCoefficient.slice(-1);
     } else if (currentCoefficient.slice(-1).match(/[+]/)) {
-      currentCoefficient = currentCoefficient.replace("+", "");
+      currentCoefficient = currentCoefficient.replace('+', '');
     } else if (currentCoefficient.slice(-1).match(/[-]/)) {
-      currentCoefficient = currentCoefficient.replace("-", "");
+      currentCoefficient = currentCoefficient.replace('-', '');
     } else if (currentCoefficient.slice(-1).match(/[*]/)) {
-      currentCoefficient = currentCoefficient.replace("*", "");
+      currentCoefficient = currentCoefficient.replace('*', '');
     } else if (currentCoefficient.slice(-1).match(/[/]/)) {
       MDsymbol = true;
-      symbolType = "/";
-      currentCoefficient = currentCoefficient.replace("/", "");
+      symbolType = '/';
+      currentCoefficient = currentCoefficient.replace('/', '');
     }
 
     if (currentCoefficient.slice(0).match(/[*]/)) {
       MDsymbol = true;
-      symbolType = "*";
-      currentCoefficient = currentCoefficient.replace("*", "");
+      symbolType = '*';
+      currentCoefficient = currentCoefficient.replace('*', '');
     } else if (currentCoefficient.slice(0).match(/[/]/)) {
       MDsymbol = true;
-      symbolType = "/";
-      currentCoefficient = currentCoefficient.replace("/", "");
+      symbolType = '/';
+      currentCoefficient = currentCoefficient.replace('/', '');
     }
 
-    currentCoefficient = currentCoefficient.replace(coefficientLetter, "");
+    currentCoefficient = currentCoefficient.replace(coefficientLetter, '');
   }
 
   // FOR MULTIPLICATION
-  tempCoefficient = "";
+  tempCoefficient = '';
 
   if (MDsymbol) {
     for (let j = MDindex; j >= 0; j--) {
       if (currentString[j].match(/[\+\-\/]/)) {
         tempCoefficient = currentString.slice(j, MDindex);
-        currentConstant = currentConstant.replace(tempCoefficient, "");
+        currentConstant = currentConstant.replace(tempCoefficient, '');
         break;
       }
     }
-    if ((symbolType = "*")) {
-      tempCoefficient = tempCoefficient.concat("*");
+    if ((symbolType = '*')) {
+      tempCoefficient = tempCoefficient.concat('*');
       tempCoefficient = tempCoefficient.concat(currentCoefficient);
       currentCoefficient = tempCoefficient;
     }
@@ -614,11 +614,11 @@ function getValues(currentString, currentCoefficient, currentConstant) {
 
 computeRHS = true;
 getValues(rhs, rhsFinalCoefficient, rhsFinalConstant);
-console.log("rhs coefficient: " + rhsFinalCoefficient);
-console.log("rhs constant: " + rhsFinalConstant);
+console.log('rhs coefficient: ' + rhsFinalCoefficient);
+console.log('rhs constant: ' + rhsFinalConstant);
 
 // Solving Process
-console.log("*************************");
+console.log('*************************');
 lhsFinalConstant = eval(lhsFinalConstant);
 rhsFinalConstant = eval(rhsFinalConstant);
 
@@ -638,10 +638,10 @@ if (rhsFinalConstant === undefined) {
   rhsFinalConstant = 0;
 }
 
-console.log("lhs final constant: " + lhsFinalConstant);
-console.log("rhs final constant: " + rhsFinalConstant);
+console.log('lhs final constant: ' + lhsFinalConstant);
+console.log('rhs final constant: ' + rhsFinalConstant);
 
-console.log("*************************");
+console.log('*************************');
 
 const coefficientDifference = rhsFinalCoefficient - lhsFinalCoefficient;
 const constantDifference = lhsFinalConstant - rhsFinalConstant;
@@ -653,13 +653,13 @@ console.log(`The solution for ${equation} is: x = ${x}`);
 /////////////////////////////////////////////////////////////////////////////////////////////////////////EXPERIEMENT 1111111111///////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-var equation = "3 + 16x * 6 * 7 + 3x * 2= -52";
-equation = equation.replace(/\s/g, "");
+var equation = '3 + 16x * 6 * 7 + 3x * 2= -52';
+equation = equation.replace(/\s/g, '');
 // Separate the left-hand and right-hand side of the equation
-var [lhs, rhs] = equation.split("=").map((side) => side.trim());
+var [lhs, rhs] = equation.split('=').map(side => side.trim());
 
-lhs = lhs.concat("=");
-rhs = rhs.concat("=");
+lhs = lhs.concat('=');
+rhs = rhs.concat('=');
 
 var checkLHS = false;
 var checkRHS = false;
@@ -667,8 +667,8 @@ var checkRHS = false;
 //Positive symbol for the first digit if not negative
 function checkSymbol(currentString) {
   let tempString = currentString;
-  if (currentString[0] != "-") {
-    currentString = "+";
+  if (currentString[0] != '-') {
+    currentString = '+';
     currentString = currentString.concat(tempString);
     if (checkLHS) {
       lhs = currentString;
@@ -686,14 +686,14 @@ checkSymbol(lhs);
 checkRHS = true;
 checkSymbol(rhs);
 
-console.log("lhs: " + lhs);
-console.log("rhs: " + rhs);
-console.log("************");
+console.log('lhs: ' + lhs);
+console.log('rhs: ' + rhs);
+console.log('************');
 
-var lhsFinalCoefficient = "";
-var lhsFinalConstant = "";
-var rhsFinalCoefficient = "";
-var rhsFinalConstant = "";
+var lhsFinalCoefficient = '';
+var lhsFinalConstant = '';
+var rhsFinalCoefficient = '';
+var rhsFinalConstant = '';
 
 var computeLHS = false;
 var computeRHS = false;
@@ -701,8 +701,8 @@ var computeRHS = false;
 computeLHS = true;
 getValues(lhs, lhsFinalCoefficient, lhsFinalConstant);
 
-console.log("lhs coefficient: " + lhsFinalCoefficient);
-console.log("lhs constant: " + lhsFinalConstant);
+console.log('lhs coefficient: ' + lhsFinalCoefficient);
+console.log('lhs constant: ' + lhsFinalConstant);
 
 // FOR LHS
 function getValues(currentString, currentCoefficient, currentConstant) {
@@ -712,7 +712,7 @@ function getValues(currentString, currentCoefficient, currentConstant) {
   var resetCoefficientIndex = false;
   var MDsymbol = false;
   var MDsymbolAfter = false;
-  var symbolType = "";
+  var symbolType = '';
 
   var isCoefficient = false;
   var sliceIndex = 0;
@@ -726,10 +726,10 @@ function getValues(currentString, currentCoefficient, currentConstant) {
   var negativeCoefficient = false;
 
   // Temporary FOR MULTIPLICATION '*'
-  var tempCoefficient = "";
-  var coefficientTerm = "";
+  var tempCoefficient = '';
+  var coefficientTerm = '';
 
-  var coefficientString = "";
+  var coefficientString = '';
   var coefficientQuantity = 0;
 
   // value of i, passed to count variable
@@ -768,13 +768,13 @@ function getValues(currentString, currentCoefficient, currentConstant) {
 
       if (currentString[i].match(/=/)) {
         if (equalOccurence) {
-          currentConstant = currentString.replace("=", "");
+          currentConstant = currentString.replace('=', '');
         }
         console.log(currentConstant);
         console.log(currentCoefficient);
         //replaceOperators();
-        currentConstant = currentConstant.replace("=", "");
-        currentCoefficient = currentCoefficient.replace("=", "");
+        currentConstant = currentConstant.replace('=', '');
+        currentCoefficient = currentCoefficient.replace('=', '');
       }
 
       if (!equalOccurence) {
@@ -784,8 +784,8 @@ function getValues(currentString, currentCoefficient, currentConstant) {
       }
 
       if (currentString[i].match(/[a-z]/)) {
-        if (currentString[sliceIndex] === "-" && !negativeCoefficient) {
-          console.log("IS NEGATIVE!! ");
+        if (currentString[sliceIndex] === '-' && !negativeCoefficient) {
+          console.log('IS NEGATIVE!! ');
           negativeCoefficient = true;
         }
 
@@ -822,17 +822,17 @@ function getValues(currentString, currentCoefficient, currentConstant) {
 
         //!@#$% console.log("CURRENT COEFFIICIENT: " + currentCoefficient);
 
-        if (currentConstant === "") {
-          currentConstant = currentString.replace(coefficientTerm, "");
-          currentConstant = currentConstant.replace("=", "");
+        if (currentConstant === '') {
+          currentConstant = currentString.replace(coefficientTerm, '');
+          currentConstant = currentConstant.replace('=', '');
         } else {
-          currentConstant = currentConstant.replace(coefficientTerm, "");
+          currentConstant = currentConstant.replace(coefficientTerm, '');
           replaceOperators();
         }
 
         //!@#$% console.log("CURRENT CONSTANT: " + currentConstant);
 
-        currentCoefficient = currentCoefficient.replace(coefficient, "");
+        currentCoefficient = currentCoefficient.replace(coefficient, '');
         //!@#$% console.log("LAST CURRENT COEFFIICIENT: " + currentCoefficient);
         console.log;
         // PROCEED TO NEXT INDEX, AFTER coefficient
@@ -867,20 +867,20 @@ function getValues(currentString, currentCoefficient, currentConstant) {
           //!@#$% console.log("BEFORE curr coeff: " + currentCoefficient );
           tempCoefficient = currentString.slice(coefficientIndex + 1, j);
           //!@#$% console.log("temp coeff " + tempCoefficient);
-          currentConstant = currentConstant.replace(tempCoefficient, "");
+          currentConstant = currentConstant.replace(tempCoefficient, '');
           break;
         }
       }
 
-      if ((symbolType = "*")) {
+      if ((symbolType = '*')) {
         currentCoefficient = currentCoefficient.concat(tempCoefficient);
-        console.log("AFTER curr coeff: " + currentCoefficient);
+        console.log('AFTER curr coeff: ' + currentCoefficient);
       }
 
       //coefficientIndex = currentString.length;
     }
 
-    tempCoefficient = "";
+    tempCoefficient = '';
 
     if (MDsymbol && MDindex != 0) {
       /*
@@ -895,19 +895,19 @@ function getValues(currentString, currentCoefficient, currentConstant) {
       for (let j = MDindex; j >= 0; j--) {
         if (currentString[j].match(/[\+\-\/]/)) {
           tempCoefficient = currentString.slice(j, MDindex);
-          currentConstant = currentConstant.replace(tempCoefficient, "");
+          currentConstant = currentConstant.replace(tempCoefficient, '');
 
           //!@#$% console.log("tempCoefficientASDAD: " + tempCoefficient );
           //!@#$% console.log("currentConstantQWEQWEQ: " + currentConstant );
           break;
         }
       }
-      if ((symbolType = "*")) {
+      if ((symbolType = '*')) {
         var isDone = false;
         //!@#$% console.log("currentCoefficient: " + currentCoefficient );
         //!@#$% console.log("tempCoefficient: " + tempCoefficient );
         let coefficient = coefficientTerm.slice(-1);
-        let coeffTerm = coefficientTerm.replace(coefficient, "");
+        let coeffTerm = coefficientTerm.replace(coefficient, '');
 
         if (MDsymbolAfter) {
           //!@#$% console.log("MDAFTER SYMBOL:  " + MDsymbolAfter);
@@ -947,40 +947,40 @@ function getValues(currentString, currentCoefficient, currentConstant) {
     MDsymbolAfter = false;
   }
 
-  console.log("MD SYMBOL IS : " + MDsymbol);
+  console.log('MD SYMBOL IS : ' + MDsymbol);
 
   function replaceOperators() {
     //console.log("CURREEEEEEEEEEEEEEEEENTT: " + currentCoefficient);
-    let coefficientLetter = "";
+    let coefficientLetter = '';
     if (currentCoefficient.slice(-1).match(/[a-z]/)) {
       coefficientLetter = currentCoefficient.slice(-1);
     } else if (currentCoefficient.slice(-1).match(/[+]/)) {
-      currentCoefficient = currentCoefficient.replace("+", "");
+      currentCoefficient = currentCoefficient.replace('+', '');
     } else if (currentCoefficient.slice(-1).match(/[-]/)) {
-      currentCoefficient = currentCoefficient.replace("-", "");
+      currentCoefficient = currentCoefficient.replace('-', '');
     } else if (currentCoefficient.slice(-1).match(/[*]/)) {
-      currentCoefficient = currentCoefficient.replace("*", "");
+      currentCoefficient = currentCoefficient.replace('*', '');
     } else if (currentCoefficient.slice(-1).match(/[/]/)) {
       MDsymbol = true;
-      symbolType = "/";
-      currentCoefficient = currentCoefficient.replace("/", "");
+      symbolType = '/';
+      currentCoefficient = currentCoefficient.replace('/', '');
     }
 
     //currentString[count - 1] != coefficientLetter &&
     //!@#$% console.log("COEFFICIENT  LETTER: " + currentString[count - 1]);
-    if (coefficientTerm[0] === "*") {
+    if (coefficientTerm[0] === '*') {
       //!@#$% console.log("ANG PASKO AY SUMAPIT");
       //!@#$% console.log("FGASGASGA  count: " + (count - 1));
       MDsymbol = true;
-      symbolType = "*";
-    } else if (coefficientTerm[0] === "/") {
+      symbolType = '*';
+    } else if (coefficientTerm[0] === '/') {
       MDsymbol = true;
-      symbolType = "/";
-      currentCoefficient = currentCoefficient.replace("/", "");
+      symbolType = '/';
+      currentCoefficient = currentCoefficient.replace('/', '');
     }
 
-    currentCoefficient = currentCoefficient.replace(coefficientLetter, "");
-    currentConstant = currentConstant.replace(coefficientLetter, "");
+    currentCoefficient = currentCoefficient.replace(coefficientLetter, '');
+    currentConstant = currentConstant.replace(coefficientLetter, '');
   }
 
   // FOR MULTIPLICATION
@@ -1015,11 +1015,11 @@ function getValues(currentString, currentCoefficient, currentConstant) {
 
 computeRHS = true;
 getValues(rhs, rhsFinalCoefficient, rhsFinalConstant);
-console.log("rhs coefficient: " + rhsFinalCoefficient);
-console.log("rhs constant: " + rhsFinalConstant);
+console.log('rhs coefficient: ' + rhsFinalCoefficient);
+console.log('rhs constant: ' + rhsFinalConstant);
 
 // Solving Process
-console.log("*************************");
+console.log('*************************');
 lhsFinalConstant = eval(lhsFinalConstant);
 rhsFinalConstant = eval(rhsFinalConstant);
 
@@ -1039,10 +1039,10 @@ if (rhsFinalConstant === undefined) {
   rhsFinalConstant = 0;
 }
 
-console.log("lhs final constant: " + lhsFinalConstant);
-console.log("rhs final constant: " + rhsFinalConstant);
+console.log('lhs final constant: ' + lhsFinalConstant);
+console.log('rhs final constant: ' + rhsFinalConstant);
 
-console.log("*************************");
+console.log('*************************');
 
 const coefficientDifference = rhsFinalCoefficient - lhsFinalCoefficient;
 const constantDifference = lhsFinalConstant - rhsFinalConstant;
@@ -1055,13 +1055,13 @@ console.log(`The solution for ${equation} is: x = ${x}`);
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-var equation = "2 + 3 * 8 * 16x * 3 * 6 + 4 * 7 * 2 * 3x * 12= -52";
-equation = equation.replace(/\s/g, "");
+var equation = '2 + 3 * 8 * 16x * 3 * 6 + 4 * 7 * 2 * 3x * 12= -52';
+equation = equation.replace(/\s/g, '');
 // Separate the left-hand and right-hand side of the equation
-var [lhs, rhs] = equation.split("=").map((side) => side.trim());
+var [lhs, rhs] = equation.split('=').map(side => side.trim());
 
-lhs = lhs.concat("=");
-rhs = rhs.concat("=");
+lhs = lhs.concat('=');
+rhs = rhs.concat('=');
 
 var checkLHS = false;
 var checkRHS = false;
@@ -1069,8 +1069,8 @@ var checkRHS = false;
 //Positive symbol for the first digit if not negative
 function checkSymbol(currentString) {
   let tempString = currentString;
-  if (currentString[0] != "-") {
-    currentString = "+";
+  if (currentString[0] != '-') {
+    currentString = '+';
     currentString = currentString.concat(tempString);
     if (checkLHS) {
       lhs = currentString;
@@ -1088,14 +1088,14 @@ checkSymbol(lhs);
 checkRHS = true;
 checkSymbol(rhs);
 
-console.log("lhs: " + lhs);
-console.log("rhs: " + rhs);
-console.log("************");
+console.log('lhs: ' + lhs);
+console.log('rhs: ' + rhs);
+console.log('************');
 
-var lhsFinalCoefficient = "";
-var lhsFinalConstant = "";
-var rhsFinalCoefficient = "";
-var rhsFinalConstant = "";
+var lhsFinalCoefficient = '';
+var lhsFinalConstant = '';
+var rhsFinalCoefficient = '';
+var rhsFinalConstant = '';
 
 var computeLHS = false;
 var computeRHS = false;
@@ -1103,8 +1103,8 @@ var computeRHS = false;
 computeLHS = true;
 getValues(lhs, lhsFinalCoefficient, lhsFinalConstant);
 
-console.log("lhs coefficient: " + lhsFinalCoefficient);
-console.log("lhs constant: " + lhsFinalConstant);
+console.log('lhs coefficient: ' + lhsFinalCoefficient);
+console.log('lhs constant: ' + lhsFinalConstant);
 
 // FOR LHS
 function getValues(currentString, currentCoefficient, currentConstant) {
@@ -1114,7 +1114,7 @@ function getValues(currentString, currentCoefficient, currentConstant) {
   var resetCoefficientIndex = false;
   var MDsymbol = false;
   var MDsymbolAfter = false;
-  var symbolType = "";
+  var symbolType = '';
 
   var isCoefficient = false;
   var sliceIndex = 0;
@@ -1128,10 +1128,10 @@ function getValues(currentString, currentCoefficient, currentConstant) {
   var negativeCoefficient = false;
 
   // Temporary FOR MULTIPLICATION '*'
-  var tempCoefficient = "";
-  var coefficientTerm = "";
+  var tempCoefficient = '';
+  var coefficientTerm = '';
 
-  var coefficientString = "";
+  var coefficientString = '';
   var coefficientQuantity = 0;
   var evaluateCoefficient = false;
 
@@ -1152,7 +1152,7 @@ function getValues(currentString, currentCoefficient, currentConstant) {
 
       if (currentString[i].match(/[\+\-\*\/]/)) {
         console.log(
-          "63479063434906437063406903467904390:   " + currentString[i]
+          '63479063434906437063406903467904390:   ' + currentString[i]
         );
         if (
           resetCoefficientIndex &&
@@ -1165,29 +1165,29 @@ function getValues(currentString, currentCoefficient, currentConstant) {
           resetCoefficientIndex = false;
         }
 
-        console.log(": ");
-        console.log("I ^@^@^@: " + i);
-        console.log("Current COEFF ^@^@^@: " + coefficientIndex);
-        console.log(": ");
+        console.log(': ');
+        console.log('I ^@^@^@: ' + i);
+        console.log('Current COEFF ^@^@^@: ' + coefficientIndex);
+        console.log(': ');
         if (currentString[i].match(/[*]/) && i < coefficientIndex) {
           MDindex = i;
-          console.log("THE MD INDEX IS @#@#@#@#@: " + MDindex);
+          console.log('THE MD INDEX IS @#@#@#@#@: ' + MDindex);
         }
         equalOccurence = false;
-        console.log("Checking COEFFICIENT: " + currentCoefficient);
+        console.log('Checking COEFFICIENT: ' + currentCoefficient);
         replaceOperators();
-        console.log("Checking COEFFICIENT 2222: " + currentCoefficient);
+        console.log('Checking COEFFICIENT 2222: ' + currentCoefficient);
       }
 
       if (currentString[i].match(/=/)) {
         if (equalOccurence) {
-          currentConstant = currentString.replace("=", "");
+          currentConstant = currentString.replace('=', '');
         }
         console.log(currentConstant);
         console.log(currentCoefficient);
         //replaceOperators();
-        currentConstant = currentConstant.replace("=", "");
-        currentCoefficient = currentCoefficient.replace("=", "");
+        currentConstant = currentConstant.replace('=', '');
+        currentCoefficient = currentCoefficient.replace('=', '');
       }
 
       if (!equalOccurence) {
@@ -1197,9 +1197,9 @@ function getValues(currentString, currentCoefficient, currentConstant) {
       }
 
       if (currentString[i].match(/[a-z]/)) {
-        console.log("ETO PASOK SA BANGA!!!!!!!!!!!!!!!!!!");
-        if (currentString[sliceIndex] === "-" && !negativeCoefficient) {
-          console.log("IS NEGATIVE!! ");
+        console.log('ETO PASOK SA BANGA!!!!!!!!!!!!!!!!!!');
+        if (currentString[sliceIndex] === '-' && !negativeCoefficient) {
+          console.log('IS NEGATIVE!! ');
           negativeCoefficient = true;
         }
 
@@ -1224,30 +1224,30 @@ function getValues(currentString, currentCoefficient, currentConstant) {
 
         // CURRENT COEFFICIENT EVALUATED
         coefficientTerm = currentString.slice(coefficientFirstIndex, lastIndex);
-        console.log("ZXC: " + coefficientTerm);
+        console.log('ZXC: ' + coefficientTerm);
         coefficientString = coefficientString.concat(coefficientTerm);
-        console.log("QWE: " + coefficientString);
+        console.log('QWE: ' + coefficientString);
 
-        console.log("FIRST CURRENT COEFFIICIENT: " + currentCoefficient);
+        console.log('FIRST CURRENT COEFFIICIENT: ' + currentCoefficient);
         currentCoefficient = currentCoefficient.concat(
           currentString.slice(coefficientFirstIndex, lastIndex)
         );
 
         let coefficient = currentCoefficient.slice(-1);
 
-        console.log("CURRENT COEFFIICIENT: " + currentCoefficient);
+        console.log('CURRENT COEFFIICIENT: ' + currentCoefficient);
 
-        if (currentConstant === "") {
-          currentConstant = currentString.replace(coefficientTerm, "");
-          currentConstant = currentConstant.replace("=", "");
+        if (currentConstant === '') {
+          currentConstant = currentString.replace(coefficientTerm, '');
+          currentConstant = currentConstant.replace('=', '');
         } else {
-          currentConstant = currentConstant.replace(coefficientTerm, "");
+          currentConstant = currentConstant.replace(coefficientTerm, '');
         }
 
-        console.log("CURRENT CONSTANT: " + currentConstant);
+        console.log('CURRENT CONSTANT: ' + currentConstant);
 
-        currentCoefficient = currentCoefficient.replace(coefficient, "");
-        console.log("LAST CURRENT COEFFIICIENT: " + currentCoefficient);
+        currentCoefficient = currentCoefficient.replace(coefficient, '');
+        console.log('LAST CURRENT COEFFIICIENT: ' + currentCoefficient);
         console.log;
         // PROCEED TO NEXT INDEX, AFTER coefficient
         lastIndex++;
@@ -1264,11 +1264,11 @@ function getValues(currentString, currentCoefficient, currentConstant) {
       */
     if (coefficientIndex + 1 === i) {
       resetCoefficientIndex = true;
-      console.log("ARSJFHSAJKFSJ RAF ARFA RAF ARFARAF=======");
+      console.log('ARSJFHSAJKFSJ RAF ARFA RAF ARFARAF=======');
       if (currentString[i].match(/[*]/)) {
         MDsymbolAfter = true;
       } else if (currentString[i].match(/[\+\-\/]/)) {
-        console.log("RESET RESET RESET RESET RESET RESET=======");
+        console.log('RESET RESET RESET RESET RESET RESET=======');
 
         if (coefficientQuantity === 1) {
           firstCoefficientFinish = true;
@@ -1280,20 +1280,20 @@ function getValues(currentString, currentCoefficient, currentConstant) {
       console.log("IM IN MDSYMBOL AFTER'''''''!!!!");
       for (let j = coefficientIndex + 1; j < currentString.length; j++) {
         if (currentString[j].match(/[\+\-\/\=]/)) {
-          console.log("J index:  " + j);
-          console.log("coeff Index " + coefficientIndex);
+          console.log('J index:  ' + j);
+          console.log('coeff Index ' + coefficientIndex);
 
-          console.log("BEFORE curr coeff: " + currentCoefficient);
+          console.log('BEFORE curr coeff: ' + currentCoefficient);
           tempCoefficient = currentString.slice(coefficientIndex + 1, j);
-          console.log("temp coeff " + tempCoefficient);
-          currentConstant = currentConstant.replace(tempCoefficient, "");
+          console.log('temp coeff ' + tempCoefficient);
+          currentConstant = currentConstant.replace(tempCoefficient, '');
           break;
         }
       }
 
-      if ((symbolType = "*")) {
+      if ((symbolType = '*')) {
         currentCoefficient = currentCoefficient.concat(tempCoefficient);
-        console.log("AFTER curr coeff: " + currentCoefficient);
+        console.log('AFTER curr coeff: ' + currentCoefficient);
       }
 
       if (coefficientQuantity === 1) {
@@ -1302,8 +1302,8 @@ function getValues(currentString, currentCoefficient, currentConstant) {
 
       //coefficientIndex = currentString.length;
     }
-    console.log("Current COEFF ^@^@^@: " + coefficientIndex);
-    tempCoefficient = "";
+    console.log('Current COEFF ^@^@^@: ' + coefficientIndex);
+    tempCoefficient = '';
 
     /*
         console.log("evaluateCoefficient :+_+_+_+_+: " + evaluateCoefficient);
@@ -1312,25 +1312,25 @@ function getValues(currentString, currentCoefficient, currentConstant) {
         */
     if (evaluateCoefficient) {
       if (MDsymbol && MDindex != 0) {
-        console.log(" ");
-        console.log("IM IN MDSYMBOL!!!!");
-        console.log(" ");
-        console.log("MDindex :" + MDindex);
-        console.log("currentCoefficient: " + currentCoefficient);
+        console.log(' ');
+        console.log('IM IN MDSYMBOL!!!!');
+        console.log(' ');
+        console.log('MDindex :' + MDindex);
+        console.log('currentCoefficient: ' + currentCoefficient);
 
         // FOR MULTIPLICATION
 
         for (let j = MDindex; j >= 0; j--) {
           if (currentString[j].match(/[\+\-\/]/)) {
             tempCoefficient = currentString.slice(j, MDindex);
-            console.log("LOOB NG FOR temp coeff: " + tempCoefficient);
-            currentConstant = currentConstant.replace(tempCoefficient, "");
+            console.log('LOOB NG FOR temp coeff: ' + tempCoefficient);
+            currentConstant = currentConstant.replace(tempCoefficient, '');
             break;
           }
         }
-        if ((symbolType = "*")) {
+        if ((symbolType = '*')) {
           let coefficient = coefficientTerm.slice(-1);
-          var coeffValue = coefficientTerm.replace(coefficient, "");
+          var coeffValue = coefficientTerm.replace(coefficient, '');
 
           let coefficientIndex = currentCoefficient.lastIndexOf(coeffValue);
           //!@#$% console.log("coefficientIndex : " + coefficientIndex );
@@ -1340,10 +1340,10 @@ function getValues(currentString, currentCoefficient, currentConstant) {
           //!@#$% console.log("coefficientIndex : " + coefficientIndex );
           currentCoefficient = currentCoefficient.slice(0, coefficientIndex);
 
-          console.log("temp coeff: " + tempCoefficient);
+          console.log('temp coeff: ' + tempCoefficient);
 
           tempCoefficient = tempCoefficient.concat(coeffValue);
-          console.log("temp coeff: " + tempCoefficient);
+          console.log('temp coeff: ' + tempCoefficient);
 
           if (firstCoefficientFinish) {
             currentCoefficient = currentCoefficient.concat(tempCoefficient);
@@ -1351,7 +1351,7 @@ function getValues(currentString, currentCoefficient, currentConstant) {
             currentCoefficient = tempCoefficient;
           }
 
-          console.log("AFTER curr coeff: " + currentCoefficient);
+          console.log('AFTER curr coeff: ' + currentCoefficient);
         }
       }
       MDsymbol = false;
@@ -1360,40 +1360,40 @@ function getValues(currentString, currentCoefficient, currentConstant) {
     MDsymbolAfter = false;
   }
 
-  console.log("MD SYMBOL IS : " + MDsymbol);
+  console.log('MD SYMBOL IS : ' + MDsymbol);
 
   function replaceOperators() {
     //console.log("CURREEEEEEEEEEEEEEEEENTT: " + currentCoefficient);
-    let coefficientLetter = "";
+    let coefficientLetter = '';
     if (currentCoefficient.slice(-1).match(/[a-z]/)) {
       coefficientLetter = currentCoefficient.slice(-1);
     } else if (currentCoefficient.slice(-1).match(/[+]/)) {
-      currentCoefficient = currentCoefficient.replace("+", "");
+      currentCoefficient = currentCoefficient.replace('+', '');
     } else if (currentCoefficient.slice(-1).match(/[-]/)) {
-      currentCoefficient = currentCoefficient.replace("-", "");
+      currentCoefficient = currentCoefficient.replace('-', '');
     } else if (currentCoefficient.slice(-1).match(/[*]/)) {
-      currentCoefficient = currentCoefficient.replace("*", "");
+      currentCoefficient = currentCoefficient.replace('*', '');
     } else if (currentCoefficient.slice(-1).match(/[/]/)) {
       MDsymbol = true;
-      symbolType = "/";
-      currentCoefficient = currentCoefficient.replace("/", "");
+      symbolType = '/';
+      currentCoefficient = currentCoefficient.replace('/', '');
     }
 
     //currentString[count - 1] != coefficientLetter &&
-    console.log("COEFFICIENT  LETTER: " + currentString[count - 1]);
-    if (coefficientTerm[0] === "*") {
-      console.log("ANG PASKO AY SUMAPIT");
-      console.log("FGASGASGA  count: " + (count - 1));
+    console.log('COEFFICIENT  LETTER: ' + currentString[count - 1]);
+    if (coefficientTerm[0] === '*') {
+      console.log('ANG PASKO AY SUMAPIT');
+      console.log('FGASGASGA  count: ' + (count - 1));
       MDsymbol = true;
-      symbolType = "*";
-    } else if (coefficientTerm[0] === "/") {
+      symbolType = '*';
+    } else if (coefficientTerm[0] === '/') {
       MDsymbol = true;
-      symbolType = "/";
-      currentCoefficient = currentCoefficient.replace("/", "");
+      symbolType = '/';
+      currentCoefficient = currentCoefficient.replace('/', '');
     }
 
-    currentCoefficient = currentCoefficient.replace(coefficientLetter, "");
-    currentConstant = currentConstant.replace(coefficientLetter, "");
+    currentCoefficient = currentCoefficient.replace(coefficientLetter, '');
+    currentConstant = currentConstant.replace(coefficientLetter, '');
   }
 
   // FOR MULTIPLICATION
@@ -1428,11 +1428,11 @@ function getValues(currentString, currentCoefficient, currentConstant) {
 
 computeRHS = true;
 getValues(rhs, rhsFinalCoefficient, rhsFinalConstant);
-console.log("rhs coefficient: " + rhsFinalCoefficient);
-console.log("rhs constant: " + rhsFinalConstant);
+console.log('rhs coefficient: ' + rhsFinalCoefficient);
+console.log('rhs constant: ' + rhsFinalConstant);
 
 // Solving Process
-console.log("*************************");
+console.log('*************************');
 lhsFinalConstant = eval(lhsFinalConstant);
 rhsFinalConstant = eval(rhsFinalConstant);
 
@@ -1452,10 +1452,10 @@ if (rhsFinalConstant === undefined) {
   rhsFinalConstant = 0;
 }
 
-console.log("lhs final constant: " + lhsFinalConstant);
-console.log("rhs final constant: " + rhsFinalConstant);
+console.log('lhs final constant: ' + lhsFinalConstant);
+console.log('rhs final constant: ' + rhsFinalConstant);
 
-console.log("*************************");
+console.log('*************************');
 
 const coefficientDifference = rhsFinalCoefficient - lhsFinalCoefficient;
 const constantDifference = lhsFinalConstant - rhsFinalConstant;
@@ -1466,13 +1466,13 @@ console.log(`The solution for ${equation} is: x = ${x}`);
 
 //////////////////////////////////////////////////////////WITHOUT CONSOLE///////////////////
 
-var equation = "2 + 23x * 8 - 16x * 3 + 7x - 2 * 3x * 12 +7= -52";
-equation = equation.replace(/\s/g, "");
+var equation = '2 + 23x * 8 - 16x * 3 + 7x - 2 * 3x * 12 +7= -52';
+equation = equation.replace(/\s/g, '');
 // Separate the left-hand and right-hand side of the equation
-var [lhs, rhs] = equation.split("=").map((side) => side.trim());
+var [lhs, rhs] = equation.split('=').map(side => side.trim());
 
-lhs = lhs.concat("=");
-rhs = rhs.concat("=");
+lhs = lhs.concat('=');
+rhs = rhs.concat('=');
 
 var checkLHS = false;
 var checkRHS = false;
@@ -1480,8 +1480,8 @@ var checkRHS = false;
 //Positive symbol for the first digit if not negative
 function checkSymbol(currentString) {
   let tempString = currentString;
-  if (currentString[0] != "-") {
-    currentString = "+";
+  if (currentString[0] != '-') {
+    currentString = '+';
     currentString = currentString.concat(tempString);
     if (checkLHS) {
       lhs = currentString;
@@ -1499,14 +1499,14 @@ checkSymbol(lhs);
 checkRHS = true;
 checkSymbol(rhs);
 
-console.log("lhs: " + lhs);
-console.log("rhs: " + rhs);
-console.log("************");
+console.log('lhs: ' + lhs);
+console.log('rhs: ' + rhs);
+console.log('************');
 
-var lhsFinalCoefficient = "";
-var lhsFinalConstant = "";
-var rhsFinalCoefficient = "";
-var rhsFinalConstant = "";
+var lhsFinalCoefficient = '';
+var lhsFinalConstant = '';
+var rhsFinalCoefficient = '';
+var rhsFinalConstant = '';
 
 var computeLHS = false;
 var computeRHS = false;
@@ -1514,8 +1514,8 @@ var computeRHS = false;
 computeLHS = true;
 getValues(lhs, lhsFinalCoefficient, lhsFinalConstant);
 
-console.log("lhs coefficient: " + lhsFinalCoefficient);
-console.log("lhs constant: " + lhsFinalConstant);
+console.log('lhs coefficient: ' + lhsFinalCoefficient);
+console.log('lhs constant: ' + lhsFinalConstant);
 
 // FOR LHS
 function getValues(currentString, currentCoefficient, currentConstant) {
@@ -1525,7 +1525,7 @@ function getValues(currentString, currentCoefficient, currentConstant) {
   var resetCoefficientIndex = false;
   var MDsymbol = false;
   var MDsymbolAfter = false;
-  var symbolType = "";
+  var symbolType = '';
 
   var isCoefficient = false;
   var sliceIndex = 0;
@@ -1539,10 +1539,10 @@ function getValues(currentString, currentCoefficient, currentConstant) {
   var negativeCoefficient = false;
 
   // Temporary FOR MULTIPLICATION '*'
-  var tempCoefficient = "";
-  var coefficientTerm = "";
+  var tempCoefficient = '';
+  var coefficientTerm = '';
 
-  var coefficientString = "";
+  var coefficientString = '';
   var coefficientQuantity = 0;
   var evaluateCoefficient = false;
 
@@ -1592,13 +1592,13 @@ function getValues(currentString, currentCoefficient, currentConstant) {
 
       if (currentString[i].match(/=/)) {
         if (equalOccurence) {
-          currentConstant = currentString.replace("=", "");
+          currentConstant = currentString.replace('=', '');
         }
         console.log(currentConstant);
         console.log(currentCoefficient);
         //replaceOperators();
-        currentConstant = currentConstant.replace("=", "");
-        currentCoefficient = currentCoefficient.replace("=", "");
+        currentConstant = currentConstant.replace('=', '');
+        currentCoefficient = currentCoefficient.replace('=', '');
       }
 
       if (!equalOccurence) {
@@ -1608,9 +1608,9 @@ function getValues(currentString, currentCoefficient, currentConstant) {
       }
 
       if (currentString[i].match(/[a-z]/)) {
-        console.log("ETO PASOK SA BANGA!!!!!!!!!!!!!!!!!!");
-        if (currentString[sliceIndex] === "-" && !negativeCoefficient) {
-          console.log("IS NEGATIVE!! ");
+        console.log('ETO PASOK SA BANGA!!!!!!!!!!!!!!!!!!');
+        if (currentString[sliceIndex] === '-' && !negativeCoefficient) {
+          console.log('IS NEGATIVE!! ');
           negativeCoefficient = true;
         }
 
@@ -1635,30 +1635,30 @@ function getValues(currentString, currentCoefficient, currentConstant) {
 
         // CURRENT COEFFICIENT EVALUATED
         coefficientTerm = currentString.slice(coefficientFirstIndex, lastIndex);
-        console.log("ZXC: " + coefficientTerm);
+        console.log('ZXC: ' + coefficientTerm);
         coefficientString = coefficientString.concat(coefficientTerm);
-        console.log("QWE: " + coefficientString);
+        console.log('QWE: ' + coefficientString);
 
-        console.log("FIRST CURRENT COEFFIICIENT: " + currentCoefficient);
+        console.log('FIRST CURRENT COEFFIICIENT: ' + currentCoefficient);
         currentCoefficient = currentCoefficient.concat(
           currentString.slice(coefficientFirstIndex, lastIndex)
         );
 
         let coefficient = currentCoefficient.slice(-1);
 
-        console.log("CURRENT COEFFIICIENT: " + currentCoefficient);
+        console.log('CURRENT COEFFIICIENT: ' + currentCoefficient);
 
-        if (currentConstant === "") {
-          currentConstant = currentString.replace(coefficientTerm, "");
-          currentConstant = currentConstant.replace("=", "");
+        if (currentConstant === '') {
+          currentConstant = currentString.replace(coefficientTerm, '');
+          currentConstant = currentConstant.replace('=', '');
         } else {
-          currentConstant = currentConstant.replace(coefficientTerm, "");
+          currentConstant = currentConstant.replace(coefficientTerm, '');
         }
 
-        console.log("CURRENT CONSTANT: " + currentConstant);
+        console.log('CURRENT CONSTANT: ' + currentConstant);
 
-        currentCoefficient = currentCoefficient.replace(coefficient, "");
-        console.log("LAST CURRENT COEFFIICIENT: " + currentCoefficient);
+        currentCoefficient = currentCoefficient.replace(coefficient, '');
+        console.log('LAST CURRENT COEFFIICIENT: ' + currentCoefficient);
         console.log;
         // PROCEED TO NEXT INDEX, AFTER coefficient
         lastIndex++;
@@ -1697,12 +1697,12 @@ function getValues(currentString, currentCoefficient, currentConstant) {
           //ABC    console.log("BEFORE curr coeff: " + currentCoefficient );
           tempCoefficient = currentString.slice(coefficientIndex + 1, j);
           //ABC    console.log("temp coeff " + tempCoefficient);
-          currentConstant = currentConstant.replace(tempCoefficient, "");
+          currentConstant = currentConstant.replace(tempCoefficient, '');
           break;
         }
       }
 
-      if ((symbolType = "*")) {
+      if ((symbolType = '*')) {
         currentCoefficient = currentCoefficient.concat(tempCoefficient);
         //ABC    console.log("AFTER curr coeff: " + currentCoefficient );
       }
@@ -1714,7 +1714,7 @@ function getValues(currentString, currentCoefficient, currentConstant) {
       //coefficientIndex = currentString.length;
     }
     //ABC   console.log("Current COEFF ^@^@^@: " + (coefficientIndex));
-    tempCoefficient = "";
+    tempCoefficient = '';
 
     /*
         console.log("evaluateCoefficient :+_+_+_+_+: " + evaluateCoefficient);
@@ -1736,13 +1736,13 @@ function getValues(currentString, currentCoefficient, currentConstant) {
           if (currentString[j].match(/[\+\-\/]/)) {
             tempCoefficient = currentString.slice(j, MDindex);
             //ABC   console.log("LOOB NG FOR temp coeff: " + tempCoefficient );
-            currentConstant = currentConstant.replace(tempCoefficient, "");
+            currentConstant = currentConstant.replace(tempCoefficient, '');
             break;
           }
         }
-        if ((symbolType = "*")) {
+        if ((symbolType = '*')) {
           let coefficient = coefficientTerm.slice(-1);
-          var coeffValue = coefficientTerm.replace(coefficient, "");
+          var coeffValue = coefficientTerm.replace(coefficient, '');
 
           let coefficientIndex = currentCoefficient.lastIndexOf(coeffValue);
           //!@#$% console.log("coefficientIndex : " + coefficientIndex );
@@ -1776,36 +1776,36 @@ function getValues(currentString, currentCoefficient, currentConstant) {
 
   function replaceOperators() {
     //console.log("CURREEEEEEEEEEEEEEEEENTT: " + currentCoefficient);
-    let coefficientLetter = "";
+    let coefficientLetter = '';
     if (currentCoefficient.slice(-1).match(/[a-z]/)) {
       coefficientLetter = currentCoefficient.slice(-1);
     } else if (currentCoefficient.slice(-1).match(/[+]/)) {
-      currentCoefficient = currentCoefficient.replace("+", "");
+      currentCoefficient = currentCoefficient.replace('+', '');
     } else if (currentCoefficient.slice(-1).match(/[-]/)) {
-      currentCoefficient = currentCoefficient.replace("-", "");
+      currentCoefficient = currentCoefficient.replace('-', '');
     } else if (currentCoefficient.slice(-1).match(/[*]/)) {
-      currentCoefficient = currentCoefficient.replace("*", "");
+      currentCoefficient = currentCoefficient.replace('*', '');
     } else if (currentCoefficient.slice(-1).match(/[/]/)) {
       MDsymbol = true;
-      symbolType = "/";
-      currentCoefficient = currentCoefficient.replace("/", "");
+      symbolType = '/';
+      currentCoefficient = currentCoefficient.replace('/', '');
     }
 
     //currentString[count - 1] != coefficientLetter &&
     //ABC console.log("COEFFICIENT  LETTER: " + currentString[count - 1]);
-    if (coefficientTerm[0] === "*") {
+    if (coefficientTerm[0] === '*') {
       //ABC console.log("ANG PASKO AY SUMAPIT");
       //ABC console.log("FGASGASGA  count: " + (count - 1));
       MDsymbol = true;
-      symbolType = "*";
-    } else if (coefficientTerm[0] === "/") {
+      symbolType = '*';
+    } else if (coefficientTerm[0] === '/') {
       MDsymbol = true;
-      symbolType = "/";
-      currentCoefficient = currentCoefficient.replace("/", "");
+      symbolType = '/';
+      currentCoefficient = currentCoefficient.replace('/', '');
     }
 
-    currentCoefficient = currentCoefficient.replace(coefficientLetter, "");
-    currentConstant = currentConstant.replace(coefficientLetter, "");
+    currentCoefficient = currentCoefficient.replace(coefficientLetter, '');
+    currentConstant = currentConstant.replace(coefficientLetter, '');
   }
 
   // FOR MULTIPLICATION
@@ -1840,11 +1840,11 @@ function getValues(currentString, currentCoefficient, currentConstant) {
 
 computeRHS = true;
 getValues(rhs, rhsFinalCoefficient, rhsFinalConstant);
-console.log("rhs coefficient: " + rhsFinalCoefficient);
-console.log("rhs constant: " + rhsFinalConstant);
+console.log('rhs coefficient: ' + rhsFinalCoefficient);
+console.log('rhs constant: ' + rhsFinalConstant);
 
 // Solving Process
-console.log("*************************");
+console.log('*************************');
 lhsFinalConstant = eval(lhsFinalConstant);
 rhsFinalConstant = eval(rhsFinalConstant);
 
@@ -1864,10 +1864,10 @@ if (rhsFinalConstant === undefined) {
   rhsFinalConstant = 0;
 }
 
-console.log("lhs final constant: " + lhsFinalConstant);
-console.log("rhs final constant: " + rhsFinalConstant);
+console.log('lhs final constant: ' + lhsFinalConstant);
+console.log('rhs final constant: ' + rhsFinalConstant);
 
-console.log("*************************");
+console.log('*************************');
 
 const coefficientDifference = rhsFinalCoefficient - lhsFinalCoefficient;
 const constantDifference = lhsFinalConstant - rhsFinalConstant;
@@ -1882,24 +1882,24 @@ console.log(`The solution for ${equation} is: x = ${x}`);
 PARENTHESISESESESESESESI;
 ////////////////////////////////////
 ////////////////////////////////////
-var equation = "9(2-1)8x=7(2x+5)";
-equation = equation.replace(/\s/g, "");
+var equation = '9(2-1)8x=7(2x+5)';
+equation = equation.replace(/\s/g, '');
 // Separate the left-hand and right-hand side of the equation
-var [lhs, rhs] = equation.split("=").map((side) => side.trim());
+var [lhs, rhs] = equation.split('=').map(side => side.trim());
 
 var checkLHS = false;
 var checkRHS = false;
 
 if (lhs[0].match(/[\-]/)) {
-  lhs = ["0", lhs, "="].join("");
+  lhs = ['0', lhs, '='].join('');
 } else {
-  lhs = ["0+", lhs, "="].join("");
+  lhs = ['0+', lhs, '='].join('');
 }
 
 if (rhs[0].match(/[\-]/)) {
-  rhs = ["0", rhs, "="].join("");
+  rhs = ['0', rhs, '='].join('');
 } else {
-  rhs = ["0+", rhs, "="].join("");
+  rhs = ['0+', rhs, '='].join('');
 }
 
 checkLHS = true;
@@ -1908,7 +1908,7 @@ checkRHS = true;
 checkParenthesis(rhs);
 
 function checkParenthesis(currentString) {
-  let coefficientSymbol = "";
+  let coefficientSymbol = '';
   for (let i = 1; i < currentString.length; i++) {
     if (currentString[i].match(/[a-z]/)) {
       coefficientSymbol = currentString[i];
@@ -1917,14 +1917,14 @@ function checkParenthesis(currentString) {
     if (currentString[i].match(/[\(]/) && i > 0) {
       if (currentString[i - 1].match(/^[0-9]+$/)) {
         currentString =
-          currentString.substring(0, i) + "*(" + currentString.substring(i + 1);
+          currentString.substring(0, i) + '*(' + currentString.substring(i + 1);
       }
     }
 
     if (currentString[i].match(/[\)]/) && i > 0) {
       if (currentString[i + 1].match(/^[0-9]+$/)) {
         currentString =
-          currentString.substring(0, i) + ")*" + currentString.substring(i + 1);
+          currentString.substring(0, i) + ')*' + currentString.substring(i + 1);
       }
     }
 
@@ -1932,7 +1932,7 @@ function checkParenthesis(currentString) {
       if (currentString[i - 1].match(/[\+\-\*\/\(]/)) {
         currentString =
           currentString.substring(0, i) +
-          "1" +
+          '1' +
           coefficientSymbol +
           currentString.substring(i + 1);
       }
@@ -1976,18 +1976,18 @@ function checkParenthesis(currentString) {
         checkSymbol(rhs);
         */
 
-console.log("lhs: " + lhs);
+console.log('lhs: ' + lhs);
 //ABC console.log("rhs: " + rhs);
 //ABC console.log("************");
 
-var lhsFinalCoefficient = "";
-var lhsFinalConstant = "";
-var rhsFinalCoefficient = "";
-var rhsFinalConstant = "";
+var lhsFinalCoefficient = '';
+var lhsFinalConstant = '';
+var rhsFinalCoefficient = '';
+var rhsFinalConstant = '';
 
-var LHScoefficientSymbol = "";
-var RHScoefficientSymbol = "";
-var coefficientSymbol = "";
+var LHScoefficientSymbol = '';
+var RHScoefficientSymbol = '';
+var coefficientSymbol = '';
 
 var computeLHS = false;
 var computeRHS = false;
@@ -2000,14 +2000,14 @@ getValues(lhs, lhsFinalCoefficient, lhsFinalConstant);
 
 // FOR LHS
 function getValues(currentString, currentCoefficient, currentConstant) {
-  var coefficient = "";
+  var coefficient = '';
   //Multiplication or Division Symbol Index
   var MDindex = 0;
   var coefficientIndex = currentString.length;
   var resetCoefficientIndex = false;
   var MDsymbol = false;
   var MDsymbolAfter = false;
-  var symbolType = "";
+  var symbolType = '';
 
   var isCoefficient = false;
   var sliceIndex = 0;
@@ -2021,10 +2021,10 @@ function getValues(currentString, currentCoefficient, currentConstant) {
   var negativeCoefficient = false;
 
   // Temporary FOR MULTIPLICATION '*'
-  var tempCoefficient = "";
-  var coefficientTerm = "";
+  var tempCoefficient = '';
+  var coefficientTerm = '';
 
-  var coefficientString = "";
+  var coefficientString = '';
   var coefficientQuantity = 0;
   var evaluateCoefficient = false;
 
@@ -2075,9 +2075,9 @@ function getValues(currentString, currentCoefficient, currentConstant) {
         let parenthesisExpression;
         if (parenthesisCase === 1) {
           parenthesisExpression = [
-            "*",
+            '*',
             currentString.slice(firstParenthesisIndex, closeParenthesisIndex),
-          ].join("");
+          ].join('');
 
           /*
                             for (let j = 0; j < parenthesisTally; j++) {
@@ -2090,7 +2090,7 @@ function getValues(currentString, currentCoefficient, currentConstant) {
                             console.log("PARR EXPREFASCS : " + parenthesisExpression);
                             */
           currentCoefficient = currentCoefficient.concat(parenthesisExpression);
-          currentConstant = currentConstant.replace(parenthesisExpression, "");
+          currentConstant = currentConstant.replace(parenthesisExpression, '');
           /*
                             console.log("END OF ASD: " + currentCoefficient);
                             console.log("END OF ASD: " + currentConstant);
@@ -2102,19 +2102,19 @@ function getValues(currentString, currentCoefficient, currentConstant) {
           if (currentString[i].match(/[*]/)) {
             MDindex = i;
             MDsymbolAfter = true;
-            symbolType = "*";
+            symbolType = '*';
           }
           parenthesisCase = 0;
         } else if (parenthesisCase === 2) {
           parenthesisExpression = [
-            "*",
+            '*',
             currentString.slice(insideParenthesisIndex, closeParenthesisIndex),
-          ].join("");
+          ].join('');
 
-          let closingParenthesis = "";
+          let closingParenthesis = '';
 
           for (let j = 0; j < insideParenthesisTally; j++) {
-            closingParenthesis = closingParenthesis.concat(")");
+            closingParenthesis = closingParenthesis.concat(')');
           }
           currentCoefficient = currentCoefficient.concat(parenthesisExpression);
           currentConstant = currentConstant.replace(
@@ -2128,15 +2128,15 @@ function getValues(currentString, currentCoefficient, currentConstant) {
           if (currentString[i].match(/[*]/)) {
             MDindex = i;
             MDsymbolAfter = true;
-            symbolType = "*";
+            symbolType = '*';
           }
 
           isInsideParenthesis = true;
           parenthesisCase = 0;
         } else if (coeffInsideTally > 0) {
-          let closeParenthesisSymbol = "";
+          let closeParenthesisSymbol = '';
           for (let j = 0; j < insideParenthesisTally; j++) {
-            closeParenthesisSymbol = closeParenthesisSymbol.concat(")");
+            closeParenthesisSymbol = closeParenthesisSymbol.concat(')');
           }
 
           currentCoefficient = currentCoefficient.concat(
@@ -2146,7 +2146,7 @@ function getValues(currentString, currentCoefficient, currentConstant) {
           if (currentString[i].match(/[*]/)) {
             MDindex = i;
             MDsymbolAfter = true;
-            symbolType = "*";
+            symbolType = '*';
           }
           isInsideParenthesis = true;
           coeffInsideTally = 0;
@@ -2191,15 +2191,15 @@ function getValues(currentString, currentCoefficient, currentConstant) {
 
       if (currentString[i].match(/=/)) {
         if (equalOccurence) {
-          currentConstant = currentString.replace("=", "");
-        } else if (currentConstant === "") {
+          currentConstant = currentString.replace('=', '');
+        } else if (currentConstant === '') {
           currentConstant = currentString;
         }
         //ABC console.log(currentConstant);
         //ABC console.log(currentCoefficient);
         //replaceOperators();
-        currentConstant = currentConstant.replace("=", "");
-        currentCoefficient = currentCoefficient.replace("=", "");
+        currentConstant = currentConstant.replace('=', '');
+        currentCoefficient = currentCoefficient.replace('=', '');
       }
 
       if (!equalOccurence) {
@@ -2211,7 +2211,7 @@ function getValues(currentString, currentCoefficient, currentConstant) {
       if (currentString[i].match(/[a-z]/)) {
         //ABC console.log("sURRENT COEFFIICIENT: " + currentCoefficient);
         //ABC console.log("ETO PASOK SA BANGA!!!!!!!!!!!!!!!!!!:  " + currentString[i]);
-        if (currentString[sliceIndex] === "-" && !negativeCoefficient) {
+        if (currentString[sliceIndex] === '-' && !negativeCoefficient) {
           //ABC console.log("IS NEGATIVE!! ");
           negativeCoefficient = true;
         }
@@ -2267,7 +2267,7 @@ function getValues(currentString, currentCoefficient, currentConstant) {
 
         // CURRENT COEFFICIENT EVALUATED
         coefficientTerm = currentString.slice(coefficientFirstIndex, lastIndex);
-        coefficientTerm = coefficientTerm.replace("(", "");
+        coefficientTerm = coefficientTerm.replace('(', '');
         //ABC console.log("ZXC: " + coefficientTerm);
         coefficientString = coefficientString.concat(coefficientTerm);
         //ABC console.log("QWE: " + coefficientString);
@@ -2289,17 +2289,17 @@ function getValues(currentString, currentCoefficient, currentConstant) {
         coefficient = currentCoefficient.slice(-1);
         coefficientSymbol = coefficient;
 
-        if (currentConstant === "") {
-          currentConstant = currentString.replace(coefficientTerm, "");
-          currentConstant = currentConstant.replace("=", "");
+        if (currentConstant === '') {
+          currentConstant = currentString.replace(coefficientTerm, '');
+          currentConstant = currentConstant.replace('=', '');
         } else {
-          currentConstant = currentConstant.replace(coefficientTerm, "");
+          currentConstant = currentConstant.replace(coefficientTerm, '');
         }
 
         //ABC console.log("CURRENT CONSTANT: " + currentConstant);
 
-        currentCoefficient = currentCoefficient.replace(coefficient, "");
-        console.log("LAST CURRENT COEFFIICIENT: " + currentCoefficient);
+        currentCoefficient = currentCoefficient.replace(coefficient, '');
+        console.log('LAST CURRENT COEFFIICIENT: ' + currentCoefficient);
         //ABC console.log
         // PROCEED TO NEXT INDEX, AFTER coefficient
         lastIndex++;
@@ -2319,7 +2319,7 @@ function getValues(currentString, currentCoefficient, currentConstant) {
       //ABC console.log("ARSJFHSAJKFSJ RAF ARFA RAF ARFARAF=======");
       if (currentString[i].match(/[*]/)) {
         //ABC console.log("MD SYMBOL IS NOW TRUE ");
-        symbolType = "*";
+        symbolType = '*';
         MDsymbolAfter = true;
       } else if (currentString[i].match(/[\+\-\/]/)) {
         //ABC    console.log("RESET RESET RESET RESET RESET RESET=======");
@@ -2339,7 +2339,7 @@ function getValues(currentString, currentCoefficient, currentConstant) {
               tempCoefficient = currentString.slice(i, j);
 
               if (!isInsideParenthesis) {
-                currentConstant = currentConstant.replace(tempCoefficient, "");
+                currentConstant = currentConstant.replace(tempCoefficient, '');
               }
               isInsideParenthesis = false;
               break;
@@ -2356,14 +2356,14 @@ function getValues(currentString, currentCoefficient, currentConstant) {
               //ABC    console.log("BEFORE curr coeff: " + currentCoefficient );
               tempCoefficient = currentString.slice(coefficientIndex + 1, j);
               //ABC    console.log("temp coeff " + tempCoefficient);
-              currentConstant = currentConstant.replace(tempCoefficient, "");
+              currentConstant = currentConstant.replace(tempCoefficient, '');
               //ABC console.log("TEMP COEFF: " + tempCoefficient);
               break;
             }
           }
         }
 
-        if (symbolType === "*") {
+        if (symbolType === '*') {
           currentCoefficient = currentCoefficient.concat(tempCoefficient);
           //ABC    console.log("AFTER curr coeff: " + currentCoefficient );
         }
@@ -2376,7 +2376,7 @@ function getValues(currentString, currentCoefficient, currentConstant) {
       }
     }
     //ABC   console.log("Current COEFF ^@^@^@: " + (coefficientIndex));
-    tempCoefficient = "";
+    tempCoefficient = '';
 
     /*
                     console.log("evaluateCoefficient :+_+_+_+_+: " + evaluateCoefficient);
@@ -2384,9 +2384,9 @@ function getValues(currentString, currentCoefficient, currentConstant) {
                     console.log("MDindex :+_+_+_+_+: " + MDindex);
                     */
     if (evaluateCoefficient) {
-      console.log("EVALUATETETETEASDASD");
+      console.log('EVALUATETETETEASDASD');
       if (MDsymbol && MDindex != 0) {
-        console.log("BEFORE MD SYMBOL LETSZFXZFOZPGO: ");
+        console.log('BEFORE MD SYMBOL LETSZFXZFOZPGO: ');
         /*
                         console.log(" ");
                         console.log("IM IN MDSYMBOL!!!!");
@@ -2410,22 +2410,22 @@ function getValues(currentString, currentCoefficient, currentConstant) {
             if (parenthesisCount === 0) {
               firstParenthesisIndex = j;
               isParenthesis = false;
-              console.log("TUMIGIL KAA");
+              console.log('TUMIGIL KAA');
             }
           }
 
           if (!isParenthesis) {
-            console.log("IM HERE!" + currentString);
+            console.log('IM HERE!' + currentString);
             if (currentString[j].match(/[\+\-\/]/)) {
               tempCoefficient = currentString.slice(j, MDindex);
               //ABC console.log("LOOB NG FOR temp coeff: " + tempCoefficient );
-              currentConstant = currentConstant.replace(tempCoefficient, "");
+              currentConstant = currentConstant.replace(tempCoefficient, '');
               //ABC console.log("CURRENT COSNTNASTN: " + currentConstant );
               break;
             }
           }
         }
-        if (symbolType === "*") {
+        if (symbolType === '*') {
           //!@#$% console.log("coefficientIndex : " + coefficientIndex );
           if (coefficientIndex === 1) {
             coefficientIndex = 0;
@@ -2439,7 +2439,7 @@ function getValues(currentString, currentCoefficient, currentConstant) {
             currentCoefficient = tempCoefficient;
           }
 
-          console.log("AFTER curr coeff: " + currentCoefficient);
+          console.log('AFTER curr coeff: ' + currentCoefficient);
         }
       }
       MDsymbol = false;
@@ -2447,7 +2447,7 @@ function getValues(currentString, currentCoefficient, currentConstant) {
     }
     MDsymbolAfter = false;
 
-    tempCoefficient = "";
+    tempCoefficient = '';
 
     // CHECK for previous parenthesis and expression before opening parenthesis
     function coefficientInside() {
@@ -2488,17 +2488,17 @@ function getValues(currentString, currentCoefficient, currentConstant) {
               continue;
             }
             if (insideParenthesis && firstIndex != k) {
-              let constantTerm = "";
+              let constantTerm = '';
               let endIndex = 0;
 
               // REPLACE THE CONSTANT VALUE TO '!' exclamation symbol
               // THEN REPLACE exclamation symbol to blank
               if (tempCoefficient[k].match(/[\+\-\/]/)) {
-                let anotherTerm = "";
+                let anotherTerm = '';
                 endIndex = k + 1;
                 constantTerm = tempCoefficient.slice(firstIndex, endIndex);
                 for (let l = 0; l < constantTerm.length; l++) {
-                  anotherTerm = anotherTerm.concat("!");
+                  anotherTerm = anotherTerm.concat('!');
                 }
                 constantTerm = anotherTerm;
 
@@ -2506,9 +2506,9 @@ function getValues(currentString, currentCoefficient, currentConstant) {
                   tempCoefficient.substring(0, firstIndex),
                   constantTerm,
                   tempCoefficient.substring(endIndex),
-                ].join("");
+                ].join('');
 
-                tempCoefficient = tempCoefficient.replace(/!/g, "");
+                tempCoefficient = tempCoefficient.replace(/!/g, '');
                 //ABC console.log("CONSTANT TERM:" + tempCoefficient);
               }
             }
@@ -2523,7 +2523,7 @@ function getValues(currentString, currentCoefficient, currentConstant) {
     //REMOVE THE LAST VALUE OF COEFFICIENT, in order to concatenate the temporary coeff
     function removeLastTerm() {
       let coefficient = coefficientTerm.slice(-1);
-      var coeffValue = coefficientTerm.replace(coefficient, "");
+      var coeffValue = coefficientTerm.replace(coefficient, '');
       let coefficientIndex = currentCoefficient.lastIndexOf(coeffValue);
       //ABC console.log("TESgsdgsdg : " + currentCoefficient)
       currentCoefficient = currentCoefficient.slice(0, coefficientIndex);
@@ -2538,36 +2538,36 @@ function getValues(currentString, currentCoefficient, currentConstant) {
   function replaceOperators() {
     //console.log("CURREEEEEEEEEEEEEEEEENTT: " + currentCoefficient);
     // console.log("CURREEEEEEEEEEEEEEEEENTT: " + coefficientTerm);
-    let coefficientLetter = "";
+    let coefficientLetter = '';
     if (currentCoefficient.slice(-1).match(/[a-z]/)) {
       coefficientLetter = currentCoefficient.slice(-1);
     } else if (currentCoefficient.slice(-1).match(/[+]/)) {
-      currentCoefficient = currentCoefficient.replace("+", "");
+      currentCoefficient = currentCoefficient.replace('+', '');
     } else if (currentCoefficient.slice(-1).match(/[-]/)) {
-      currentCoefficient = currentCoefficient.replace("-", "");
+      currentCoefficient = currentCoefficient.replace('-', '');
     } else if (currentCoefficient.slice(-1).match(/[*]/)) {
-      currentCoefficient = currentCoefficient.replace("*", "");
+      currentCoefficient = currentCoefficient.replace('*', '');
     } else if (currentCoefficient.slice(-1).match(/[/]/)) {
       MDsymbol = true;
-      symbolType = "/";
-      currentCoefficient = currentCoefficient.replace("/", "");
+      symbolType = '/';
+      currentCoefficient = currentCoefficient.replace('/', '');
     }
 
     //currentString[count - 1] != coefficientLetter &&
     //ABC console.log("COEFFICIENT  LETTER: " + currentString[count - 1]);
-    if (coefficientTerm[0] === "*") {
+    if (coefficientTerm[0] === '*') {
       // console.log("ANG PASKO AY SUMAPIT");
       //ABC console.log("FGASGASGA  count: " + (count - 1));
       MDsymbol = true;
-      symbolType = "*";
-    } else if (coefficientTerm[0] === "/") {
+      symbolType = '*';
+    } else if (coefficientTerm[0] === '/') {
       MDsymbol = true;
-      symbolType = "/";
-      currentCoefficient = currentCoefficient.replace("/", "");
+      symbolType = '/';
+      currentCoefficient = currentCoefficient.replace('/', '');
     }
 
-    currentCoefficient = currentCoefficient.replace(coefficientLetter, "");
-    currentConstant = currentConstant.replace(coefficientLetter, "");
+    currentCoefficient = currentCoefficient.replace(coefficientLetter, '');
+    currentConstant = currentConstant.replace(coefficientLetter, '');
   }
 
   // FOR MULTIPLICATION
@@ -2640,9 +2640,9 @@ if (rhsFinalConstant === undefined) {
 // FOR STEPS TO GENERATE
 function checkSymbol(currentString) {
   let tempString = currentString;
-  if (currentString != "" && currentString != undefined) {
+  if (currentString != '' && currentString != undefined) {
     if (currentString[0].match(/^[0-9]+$/)) {
-      currentString = "+";
+      currentString = '+';
       currentString = currentString.concat(tempString);
     }
     return currentString;
@@ -2654,43 +2654,43 @@ var lhsConstant = lhsFinalConstant.toString();
 var rhsCoefficient = rhsFinalCoefficient.toString();
 var rhsConstant = rhsFinalConstant.toString();
 
-if (lhsCoefficient === "0") {
-  lhsCoefficient = "";
+if (lhsCoefficient === '0') {
+  lhsCoefficient = '';
 }
 
-if (rhsCoefficient === "0") {
-  rhsCoefficient = "";
+if (rhsCoefficient === '0') {
+  rhsCoefficient = '';
 }
 
-if (lhsConstant === "0") {
-  lhsConstant = "";
+if (lhsConstant === '0') {
+  lhsConstant = '';
 }
 
-if (rhsConstant === "0") {
-  rhsConstant = "";
+if (rhsConstant === '0') {
+  rhsConstant = '';
 }
 
 // FIX SYMBOLS
-if (lhsCoefficient != "") {
+if (lhsCoefficient != '') {
   lhsConstant = checkSymbol(lhsConstant);
 }
 
-if (rhsCoefficient != "") {
+if (rhsCoefficient != '') {
   rhsConstant = checkSymbol(rhsConstant);
 }
 
 var stepsArray = [];
 
 function reverseOperation(currentString) {
-  if (currentString != "" && currentString != undefined) {
-    var tempString = currentString.replace("+", "");
-    var tempValue = "";
+  if (currentString != '' && currentString != undefined) {
+    var tempString = currentString.replace('+', '');
+    var tempValue = '';
     if (parseInt(currentString) > 0) {
-      tempValue = "-";
+      tempValue = '-';
       tempValue = tempValue.concat(tempString);
     } else {
-      tempString = currentString.replace("-", "");
-      tempValue = "+";
+      tempString = currentString.replace('-', '');
+      tempValue = '+';
       tempValue = tempValue.concat(tempString);
     }
     return tempValue;
@@ -2698,8 +2698,8 @@ function reverseOperation(currentString) {
 }
 
 function removePlusSymbol(currentString) {
-  if (currentString != "" && currentString != undefined) {
-    var tempString = currentString.replace("+", "");
+  if (currentString != '' && currentString != undefined) {
+    var tempString = currentString.replace('+', '');
     return tempString;
   }
 }
@@ -2708,11 +2708,11 @@ let checkSimilarity = [
   lhsCoefficient,
   LHScoefficientSymbol,
   lhsConstant,
-  "=",
+  '=',
   rhsCoefficient,
   RHScoefficientSymbol,
   rhsConstant,
-].join("");
+].join('');
 
 if (checkSimilarity != equation) {
   //Push first step, simplify stuffs
@@ -2721,22 +2721,22 @@ if (checkSimilarity != equation) {
       lhsCoefficient,
       LHScoefficientSymbol,
       lhsConstant,
-      "=",
+      '=',
       rhsCoefficient,
       RHScoefficientSymbol,
       rhsConstant,
-    ].join("")
+    ].join('')
   );
 }
 
 rhsCoefficient = reverseOperation(rhsCoefficient);
 lhsConstant = reverseOperation(lhsConstant);
 
-if (lhsCoefficient === "") {
-  rhsCoefficient = rhsCoefficient.replace("+", "");
+if (lhsCoefficient === '') {
+  rhsCoefficient = rhsCoefficient.replace('+', '');
 }
-if (rhsConstant === "") {
-  lhsConstant = lhsConstant.replace("+", "");
+if (rhsConstant === '') {
+  lhsConstant = lhsConstant.replace('+', '');
 }
 
 lhsCoefficient = removePlusSymbol(lhsCoefficient);
@@ -2749,10 +2749,10 @@ stepsArray.push(
     LHScoefficientSymbol,
     rhsCoefficient,
     RHScoefficientSymbol,
-    "=",
+    '=',
     rhsConstant,
     lhsConstant,
-  ].join("")
+  ].join('')
 );
 
 //console.log("lhsFinalCoefficient " + lhsFinalCoefficient)
@@ -2763,14 +2763,14 @@ stepsArray.push(
 const coefficientDifference = rhsFinalCoefficient - lhsFinalCoefficient;
 const constantDifference = lhsFinalConstant - rhsFinalConstant;
 
-var finalCoefficient = [lhsCoefficient, rhsCoefficient].join("");
-var finalConstant = [rhsConstant, lhsConstant].join("");
+var finalCoefficient = [lhsCoefficient, rhsCoefficient].join('');
+var finalConstant = [rhsConstant, lhsConstant].join('');
 finalCoefficient = eval(finalCoefficient);
 finalConstant = eval(finalConstant);
 
 //Push third step, simplify
 stepsArray.push(
-  [finalCoefficient, coefficientSymbol, "=", finalConstant].join("")
+  [finalCoefficient, coefficientSymbol, '=', finalConstant].join('')
 );
 
 var x = constantDifference / coefficientDifference;
@@ -2779,29 +2779,29 @@ x = Math.round(x * 100 + Number.EPSILON) / 100;
 console.log(`The solution for ${equation} is: x = ${x}`);
 
 //Push fourth step, final answer
-stepsArray.push(["x=", x].join(""));
+stepsArray.push(['x=', x].join(''));
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////// LATEST ///
-var equation = "3(57x+ 3(95x) - 54x) = 3(18 + 3(24x) - 19)	 ";
-equation = equation.replace(/\s/g, "");
+var equation = '3(57x+ 3(95x) - 54x) = 3(18 + 3(24x) - 19)	 ';
+equation = equation.replace(/\s/g, '');
 
 // Separate the left-hand and right-hand side of the equation
-var [lhs, rhs] = equation.split("=").map((side) => side.trim());
+var [lhs, rhs] = equation.split('=').map(side => side.trim());
 
 var checkLHS = false;
 var checkRHS = false;
 
 if (lhs[0].match(/[\-]/)) {
-  lhs = ["0", lhs, "="].join("");
+  lhs = ['0', lhs, '='].join('');
 } else {
-  lhs = ["0+", lhs, "="].join("");
+  lhs = ['0+', lhs, '='].join('');
 }
 
 if (rhs[0].match(/[\-]/)) {
-  rhs = ["0", rhs, "="].join("");
+  rhs = ['0', rhs, '='].join('');
 } else {
-  rhs = ["0+", rhs, "="].join("");
+  rhs = ['0+', rhs, '='].join('');
 }
 
 checkLHS = true;
@@ -2810,7 +2810,7 @@ checkRHS = true;
 checkParenthesis(rhs);
 
 function checkParenthesis(currentString) {
-  let coefficientSymbol = "";
+  let coefficientSymbol = '';
   for (let i = 1; i < currentString.length; i++) {
     if (currentString[i].match(/[a-z]/)) {
       coefficientSymbol = currentString[i];
@@ -2822,14 +2822,14 @@ function checkParenthesis(currentString) {
         currentString[i - 1].match(/^[0-9]+$/)
       ) {
         currentString =
-          currentString.substring(0, i) + "*(" + currentString.substring(i + 1);
+          currentString.substring(0, i) + '*(' + currentString.substring(i + 1);
       }
     }
 
     if (currentString[i].match(/[\)]/) && i > 0) {
       if (currentString[i + 1].match(/^[0-9]+$/)) {
         currentString =
-          currentString.substring(0, i) + ")*" + currentString.substring(i + 1);
+          currentString.substring(0, i) + ')*' + currentString.substring(i + 1);
       }
     }
 
@@ -2837,7 +2837,7 @@ function checkParenthesis(currentString) {
       if (currentString[i - 1].match(/[\+\-\*\/\(]/)) {
         currentString =
           currentString.substring(0, i) +
-          "1" +
+          '1' +
           coefficientSymbol +
           currentString.substring(i + 1);
       }
@@ -2888,14 +2888,14 @@ console.log(rhs);
 //ABC console.log("rhs: " + rhs);
 //ABC console.log("************");
 
-var lhsFinalCoefficient = "";
-var lhsFinalConstant = "";
-var rhsFinalCoefficient = "";
-var rhsFinalConstant = "";
+var lhsFinalCoefficient = '';
+var lhsFinalConstant = '';
+var rhsFinalCoefficient = '';
+var rhsFinalConstant = '';
 
-var LHScoefficientSymbol = "";
-var RHScoefficientSymbol = "";
-var coefficientSymbol = "";
+var LHScoefficientSymbol = '';
+var RHScoefficientSymbol = '';
+var coefficientSymbol = '';
 
 var computeLHS = false;
 var computeRHS = false;
@@ -2909,16 +2909,16 @@ getValues(lhs, lhsFinalCoefficient, lhsFinalConstant);
 // FOR LHS
 function getValues(currentString, currentCoefficient, currentConstant) {
   console.log(
-    "\n================\n================\n================\n================\n================"
+    '\n================\n================\n================\n================\n================'
   );
-  var coefficient = "";
+  var coefficient = '';
   //Multiplication or Division Symbol Index
   var MDindex = 0;
   var coefficientIndex = currentString.length;
   var resetCoefficientIndex = false;
   var MDsymbol = false;
   var MDsymbolAfter = false;
-  var symbolType = "";
+  var symbolType = '';
 
   var isCoefficient = false;
   var sliceIndex = 0;
@@ -2932,10 +2932,10 @@ function getValues(currentString, currentCoefficient, currentConstant) {
   var negativeCoefficient = false;
 
   // Temporary FOR MULTIPLICATION '*'
-  var tempCoefficient = "";
-  var coefficientTerm = "";
+  var tempCoefficient = '';
+  var coefficientTerm = '';
 
-  var coefficientString = "";
+  var coefficientString = '';
   var coefficientQuantity = 0;
   var evaluateCoefficient = false;
 
@@ -2988,15 +2988,15 @@ function getValues(currentString, currentCoefficient, currentConstant) {
 
         let parenthesisExpression;
         if (parenthesisCase === 1) {
-          console.log("CASE 1: " + currentString);
+          console.log('CASE 1: ' + currentString);
 
           i += parenthesisTally;
           let closeParenthesisIndex = i;
 
           parenthesisExpression = [
-            "*",
+            '*',
             currentString.slice(firstParenthesisIndex, closeParenthesisIndex),
-          ].join("");
+          ].join('');
 
           /*
                             for (let j = 0; j < parenthesisTally; j++) {
@@ -3009,7 +3009,7 @@ function getValues(currentString, currentCoefficient, currentConstant) {
                             console.log("PARR EXPREFASCS : " + parenthesisExpression);
                             */
           currentCoefficient = currentCoefficient.concat(parenthesisExpression);
-          currentConstant = currentConstant.replace(parenthesisExpression, "");
+          currentConstant = currentConstant.replace(parenthesisExpression, '');
           /*
                             console.log("END OF ASD: " + currentCoefficient);
                             console.log("END OF ASD: " + currentConstant);
@@ -3021,33 +3021,33 @@ function getValues(currentString, currentCoefficient, currentConstant) {
           if (currentString[i].match(/[*]/)) {
             MDindex = i;
             MDsymbolAfter = true;
-            symbolType = "*";
+            symbolType = '*';
           }
           parenthesisCase = 0;
         } else if (parenthesisCase === 2) {
-          console.log("Curr coeff: " + currentCoefficient);
-          console.log("Curr const: " + currentConstant);
-          console.log("CASE 2: " + currentString);
+          console.log('Curr coeff: ' + currentCoefficient);
+          console.log('Curr const: ' + currentConstant);
+          console.log('CASE 2: ' + currentString);
 
           i += parenthesisTally;
           let closeParenthesisIndex = i;
 
           parenthesisExpression = [
-            "*",
+            '*',
             currentString.slice(insideParenthesisIndex, closeParenthesisIndex),
-          ].join("");
+          ].join('');
 
-          let closingParenthesis = "";
-          console.log("insideParenthesisTally: " + insideParenthesisTally);
+          let closingParenthesis = '';
+          console.log('insideParenthesisTally: ' + insideParenthesisTally);
           for (let j = 0; j < insideParenthesisTally; j++) {
-            closingParenthesis = closingParenthesis.concat(")");
+            closingParenthesis = closingParenthesis.concat(')');
           }
 
-          console.log("currentCoefficient: " + currentCoefficient);
+          console.log('currentCoefficient: ' + currentCoefficient);
 
           currentCoefficient = currentCoefficient.concat(parenthesisExpression);
 
-          console.log("currentCoefficient: " + currentCoefficient);
+          console.log('currentCoefficient: ' + currentCoefficient);
 
           currentConstant = currentConstant.replace(
             parenthesisExpression,
@@ -3060,45 +3060,45 @@ function getValues(currentString, currentCoefficient, currentConstant) {
           if (currentString[i].match(/[*]/)) {
             MDindex = i;
             MDsymbolAfter = true;
-            symbolType = "*";
+            symbolType = '*';
           }
 
           isInsideParenthesis = true;
           parenthesisCase = 0;
         } else if (coeffInsideTally > 0) {
-          console.log("CASE 3:");
-          let closeParenthesisSymbol = "";
+          console.log('CASE 3:');
+          let closeParenthesisSymbol = '';
           console.log(currentString[i + 1]);
           if (currentString[i + 1].match(/[\+\-\*]/)) {
-            console.log("???");
+            console.log('???');
             parenthesisTally--;
 
             isFinished = false;
             insideParenthesisTally--;
-            console.log("Inside parenthesis tally: " + insideParenthesisTally);
+            console.log('Inside parenthesis tally: ' + insideParenthesisTally);
 
             for (let j = 0; j < insideParenthesisTally; j++) {
-              closeParenthesisSymbol = closeParenthesisSymbol.concat(")");
+              closeParenthesisSymbol = closeParenthesisSymbol.concat(')');
             }
 
-            if (closeParenthesisSymbol == "") {
-              closeParenthesisSymbol = ")";
+            if (closeParenthesisSymbol == '') {
+              closeParenthesisSymbol = ')';
             }
 
-            console.log("Close parenth symbol: " + closeParenthesisSymbol);
+            console.log('Close parenth symbol: ' + closeParenthesisSymbol);
             closeParenthesisIndex = i;
           } else {
-            console.log("IN ELSE: " + insideParenthesisTally);
+            console.log('IN ELSE: ' + insideParenthesisTally);
             i += parenthesisTally;
             for (let j = 0; j < insideParenthesisTally; j++) {
-              closeParenthesisSymbol = closeParenthesisSymbol.concat(")");
+              closeParenthesisSymbol = closeParenthesisSymbol.concat(')');
             }
             isInsideParenthesis = true;
             coeffInsideTally = 0;
           }
 
-          console.log("CASE 3: " + currentString);
-          console.log("CASE 3 with i: " + currentString[i]);
+          console.log('CASE 3: ' + currentString);
+          console.log('CASE 3 with i: ' + currentString[i]);
 
           currentCoefficient = currentCoefficient.concat(
             closeParenthesisSymbol
@@ -3107,7 +3107,7 @@ function getValues(currentString, currentCoefficient, currentConstant) {
           if (currentString[i].match(/[*]/)) {
             MDindex = i;
             MDsymbolAfter = true;
-            symbolType = "*";
+            symbolType = '*';
           }
 
           //ABC console.log("sURRENT COEFFIICIENT: " + currentCoefficient);
@@ -3116,11 +3116,11 @@ function getValues(currentString, currentCoefficient, currentConstant) {
         console.log(firstParenthesisIndex);
 
         for (let j = currentConstant.length - 1; j > 0; j--) {
-          if (currentConstant[j] == "(") {
-            if (currentConstant[j + 1] == ")") {
+          if (currentConstant[j] == '(') {
+            if (currentConstant[j + 1] == ')') {
               currentConstant =
                 currentConstant.substring(0, j) +
-                "(0" +
+                '(0' +
                 currentConstant.substring(j + 1);
               break;
             }
@@ -3135,9 +3135,9 @@ function getValues(currentString, currentCoefficient, currentConstant) {
           closeParenthesisIndex = null;
         }
 
-        currentCoefficient = currentCoefficient.replace(coefficientSymbol, "");
-        console.log("Curr coeff: " + currentCoefficient);
-        console.log("Curr const: " + currentConstant);
+        currentCoefficient = currentCoefficient.replace(coefficientSymbol, '');
+        console.log('Curr coeff: ' + currentCoefficient);
+        console.log('Curr const: ' + currentConstant);
       }
 
       if (!openParenthesis) {
@@ -3173,15 +3173,15 @@ function getValues(currentString, currentCoefficient, currentConstant) {
 
       if (currentString[i].match(/=/)) {
         if (equalOccurence) {
-          currentConstant = currentString.replace("=", "");
-        } else if (currentConstant === "") {
+          currentConstant = currentString.replace('=', '');
+        } else if (currentConstant === '') {
           currentConstant = currentString;
         }
         //ABC console.log(currentConstant);
         //ABC console.log(currentCoefficient);
         //replaceOperators();
-        currentConstant = currentConstant.replace("=", "");
-        currentCoefficient = currentCoefficient.replace("=", "");
+        currentConstant = currentConstant.replace('=', '');
+        currentCoefficient = currentCoefficient.replace('=', '');
       }
 
       if (!equalOccurence) {
@@ -3193,7 +3193,7 @@ function getValues(currentString, currentCoefficient, currentConstant) {
       if (currentString[i].match(/[a-z]/)) {
         //ABC console.log("sURRENT COEFFIICIENT: " + currentCoefficient);
         //ABC console.log("ETO PASOK SA BANGA!!!!!!!!!!!!!!!!!!:  " + currentString[i]);
-        if (currentString[sliceIndex] === "-" && !negativeCoefficient) {
+        if (currentString[sliceIndex] === '-' && !negativeCoefficient) {
           //ABC console.log("IS NEGATIVE!! ");
           negativeCoefficient = true;
         }
@@ -3218,14 +3218,14 @@ function getValues(currentString, currentCoefficient, currentConstant) {
         if (currentString.length >= 4) {
           // console.log("IN LENGTH");
           // console.log(currentString[i + 2]);
-          if (currentString[i + 2] == "(" && parenthesisTally === 0) {
-            if (currentString[i + 1] == "*") {
+          if (currentString[i + 2] == '(' && parenthesisTally === 0) {
+            if (currentString[i + 1] == '*') {
               //  console.log("PASOK SA BANGA LODS IIDOL");
               openParenthesis = true;
               parenthesisCase = 1;
             }
-          } else if (currentString[i + 2] == "(" && parenthesisTally > 0) {
-            if (currentString[i + 1] == "*") {
+          } else if (currentString[i + 2] == '(' && parenthesisTally > 0) {
+            if (currentString[i + 1] == '*') {
               insideParenthesisIndex = i + 2;
               openParenthesis = true;
               parenthesisCase = 2;
@@ -3248,7 +3248,7 @@ function getValues(currentString, currentCoefficient, currentConstant) {
 
         // CURRENT COEFFICIENT EVALUATED
         coefficientTerm = currentString.slice(coefficientFirstIndex, lastIndex);
-        coefficientTerm = coefficientTerm.replace("(", "");
+        coefficientTerm = coefficientTerm.replace('(', '');
         //ABC console.log("ZXC: " + coefficientTerm);
         coefficientString = coefficientString.concat(coefficientTerm);
         //ABC console.log("QWE: " + coefficientString);
@@ -3276,20 +3276,20 @@ function getValues(currentString, currentCoefficient, currentConstant) {
         coefficientLetter = coefficient;
 
         //console.log("CURRENT CONSTANT asdad: " + currentConstant);
-        if (currentConstant === "") {
+        if (currentConstant === '') {
           //console.log("CONSTANT is equal");
-          currentConstant = currentString.replace(coefficientTerm, "");
-          currentConstant = currentConstant.replace("=", "");
+          currentConstant = currentString.replace(coefficientTerm, '');
+          currentConstant = currentConstant.replace('=', '');
         } else {
           //console.log("CONSTANT is else");
           //console.log("coeff term: " + coefficientTerm)
-          currentConstant = currentConstant.replace(coefficientTerm, "");
+          currentConstant = currentConstant.replace(coefficientTerm, '');
         }
 
-        console.log("CURRENT CONSTANT: " + currentConstant);
+        console.log('CURRENT CONSTANT: ' + currentConstant);
 
-        currentCoefficient = currentCoefficient.replace(coefficient, "");
-        console.log("LAST CURRENT COEFFIICIENT: " + currentCoefficient);
+        currentCoefficient = currentCoefficient.replace(coefficient, '');
+        console.log('LAST CURRENT COEFFIICIENT: ' + currentCoefficient);
         //ABC console.log
         // PROCEED TO NEXT INDEX, AFTER coefficient
         lastIndex++;
@@ -3309,7 +3309,7 @@ function getValues(currentString, currentCoefficient, currentConstant) {
       //ABC console.log("ARSJFHSAJKFSJ RAF ARFA RAF ARFARAF=======");
       if (currentString[i].match(/[*]/)) {
         //ABC console.log("MD SYMBOL IS NOW TRUE ");
-        symbolType = "*";
+        symbolType = '*';
         MDsymbolAfter = true;
       } else if (currentString[i].match(/[\+\-\/]/)) {
         //ABC    console.log("RESET RESET RESET RESET RESET RESET=======");
@@ -3329,7 +3329,7 @@ function getValues(currentString, currentCoefficient, currentConstant) {
               tempCoefficient = currentString.slice(i, j);
 
               if (!isInsideParenthesis) {
-                currentConstant = currentConstant.replace(tempCoefficient, "");
+                currentConstant = currentConstant.replace(tempCoefficient, '');
               }
               isInsideParenthesis = false;
               break;
@@ -3346,14 +3346,14 @@ function getValues(currentString, currentCoefficient, currentConstant) {
               //ABC    console.log("BEFORE curr coeff: " + currentCoefficient );
               tempCoefficient = currentString.slice(coefficientIndex + 1, j);
               //ABC    console.log("temp coeff " + tempCoefficient);
-              currentConstant = currentConstant.replace(tempCoefficient, "");
+              currentConstant = currentConstant.replace(tempCoefficient, '');
               //ABC console.log("TEMP COEFF: " + tempCoefficient);
               break;
             }
           }
         }
 
-        if (symbolType === "*") {
+        if (symbolType === '*') {
           currentCoefficient = currentCoefficient.concat(tempCoefficient);
           //ABC    console.log("AFTER curr coeff: " + currentCoefficient );
         }
@@ -3366,7 +3366,7 @@ function getValues(currentString, currentCoefficient, currentConstant) {
       }
     }
     //ABC   console.log("Current COEFF ^@^@^@: " + (coefficientIndex));
-    tempCoefficient = "";
+    tempCoefficient = '';
 
     /*
                     console.log("evaluateCoefficient :+_+_+_+_+: " + evaluateCoefficient);
@@ -3407,13 +3407,13 @@ function getValues(currentString, currentCoefficient, currentConstant) {
             if (currentString[j].match(/[\+\-\/]/)) {
               tempCoefficient = currentString.slice(j, MDindex);
               //ABC console.log("LOOB NG FOR temp coeff: " + tempCoefficient );
-              currentConstant = currentConstant.replace(tempCoefficient, "");
+              currentConstant = currentConstant.replace(tempCoefficient, '');
               //ABC console.log("CURRENT COSNTNASTN: " + currentConstant );
               break;
             }
           }
         }
-        if (symbolType === "*") {
+        if (symbolType === '*') {
           //!@#$% console.log("coefficientIndex : " + coefficientIndex );
           if (coefficientIndex === 1) {
             coefficientIndex = 0;
@@ -3435,11 +3435,11 @@ function getValues(currentString, currentCoefficient, currentConstant) {
     }
     MDsymbolAfter = false;
 
-    tempCoefficient = "";
+    tempCoefficient = '';
 
     // CHECK for previous parenthesis and expression before opening parenthesis
     function coefficientInside() {
-      console.log("\nPERFORMED COEFF INSIDE");
+      console.log('\nPERFORMED COEFF INSIDE');
       if (coeffInsideTally >= 1 || closeParenthesisIndex != null) {
         //  console.log("coeffinsidetally === TRUE")
         // console.log("asdad coeff: " + currentCoefficient);
@@ -3462,7 +3462,7 @@ function getValues(currentString, currentCoefficient, currentConstant) {
         }
 
         if (firstOccurence || closeParenthesisIndex == null) {
-          console.log("FIRST IF ");
+          console.log('FIRST IF ');
           firstOccurence = false;
           tempCoefficient = currentString.slice(
             expBeforeIndex,
@@ -3470,9 +3470,9 @@ function getValues(currentString, currentCoefficient, currentConstant) {
           );
           removeConstant();
         } else {
-          console.log("SECOND IF ");
+          console.log('SECOND IF ');
           if (closeParenthesisIndex != null) {
-            let expressionBeforeParenthesis = "";
+            let expressionBeforeParenthesis = '';
             let newParenthesisIndex = 0;
             for (
               let j = closeParenthesisIndex + 1;
@@ -3495,14 +3495,14 @@ function getValues(currentString, currentCoefficient, currentConstant) {
             tempCoefficient = [
               currentCoefficient,
               currentString.slice(expBeforeIndex, newParenthesisIndex + 1),
-            ].join("");
+            ].join('');
           }
         }
 
-        console.log("temp coeff: " + tempCoefficient);
+        console.log('temp coeff: ' + tempCoefficient);
         // mark
         // CHECK IF THERE IS CONSTANT INSIDE PARENTHESIS
-        console.log("parenthesisTally: " + parenthesisTally);
+        console.log('parenthesisTally: ' + parenthesisTally);
         if (tempCoefficient.slice(-1).match(/[\(]/)) {
         } else {
           if (parenthesisTally > 1) {
@@ -3516,7 +3516,7 @@ function getValues(currentString, currentCoefficient, currentConstant) {
           currentCoefficient = tempCoefficient;
         }
 
-        console.log("CURRE FVEOCEOFCOEFF: " + currentCoefficient);
+        console.log('CURRE FVEOCEOFCOEFF: ' + currentCoefficient);
 
         function removeConstant() {
           let insideParenthesis = false;
@@ -3528,7 +3528,7 @@ function getValues(currentString, currentCoefficient, currentConstant) {
               continue;
             }
             if (insideParenthesis && firstIndex != k) {
-              let constantTerm = "";
+              let constantTerm = '';
               let endIndex = 0;
 
               // REPLACE THE CONSTANT VALUE TO '!' exclamation symbol
@@ -3537,13 +3537,13 @@ function getValues(currentString, currentCoefficient, currentConstant) {
                 if (tempCoefficient[k - 1].match(/[x]/)) {
                   break;
                 }
-                let anotherTerm = "";
+                let anotherTerm = '';
                 //endIndex = k + 1;
                 endIndex = k;
                 constantTerm = tempCoefficient.slice(firstIndex, endIndex);
                 //console.log("CONSTANTASDASDASDAS: " + constantTerm)
                 for (let l = 0; l < constantTerm.length; l++) {
-                  anotherTerm = anotherTerm.concat("!");
+                  anotherTerm = anotherTerm.concat('!');
                 }
                 constantTerm = anotherTerm;
 
@@ -3551,11 +3551,11 @@ function getValues(currentString, currentCoefficient, currentConstant) {
                   tempCoefficient.substring(0, firstIndex),
                   constantTerm,
                   tempCoefficient.substring(endIndex),
-                ].join("");
+                ].join('');
 
-                console.log("CONSTANT TERM:" + tempCoefficient);
-                tempCoefficient = tempCoefficient.replace(/!/g, "");
-                console.log("CONSTANT TERM:" + tempCoefficient);
+                console.log('CONSTANT TERM:' + tempCoefficient);
+                tempCoefficient = tempCoefficient.replace(/!/g, '');
+                console.log('CONSTANT TERM:' + tempCoefficient);
               }
             }
           }
@@ -3609,7 +3609,7 @@ function getValues(currentString, currentCoefficient, currentConstant) {
     //REMOVE THE LAST VALUE OF COEFFICIENT, in order to concatenate the temporary coeff
     function removeLastTerm() {
       let coefficient = coefficientTerm.slice(-1);
-      var coeffValue = coefficientTerm.replace(coefficient, "");
+      var coeffValue = coefficientTerm.replace(coefficient, '');
       let coefficientIndex = currentCoefficient.lastIndexOf(coeffValue);
       //ABC console.log("TESgsdgsdg : " + currentCoefficient)
       currentCoefficient = currentCoefficient.slice(0, coefficientIndex);
@@ -3624,35 +3624,35 @@ function getValues(currentString, currentCoefficient, currentConstant) {
   function replaceOperators() {
     //console.log("CURREEEEEEEEEEEEEEEEENTT: " + currentCoefficient);
     // console.log("CURREEEEEEEEEEEEEEEEENTT: " + coefficientTerm);
-    let coefficientLetter = "";
+    let coefficientLetter = '';
     if (currentCoefficient.slice(-1).match(/[a-z]/)) {
       coefficientLetter = currentCoefficient.slice(-1);
     } else if (currentCoefficient.slice(-1).match(/[+]/)) {
-      currentCoefficient = currentCoefficient.replace("+", "");
+      currentCoefficient = currentCoefficient.replace('+', '');
     } else if (currentCoefficient.slice(-1).match(/[-]/)) {
-      currentCoefficient = currentCoefficient.replace("-", "");
+      currentCoefficient = currentCoefficient.replace('-', '');
     } else if (currentCoefficient.slice(-1).match(/[*]/)) {
-      currentCoefficient = currentCoefficient.replace("*", "");
+      currentCoefficient = currentCoefficient.replace('*', '');
     } else if (currentCoefficient.slice(-1).match(/[/]/)) {
       MDsymbol = true;
-      symbolType = "/";
-      currentCoefficient = currentCoefficient.replace("/", "");
+      symbolType = '/';
+      currentCoefficient = currentCoefficient.replace('/', '');
     }
 
     //currentString[count - 1] != coefficientLetter &&
     //ABC console.log("COEFFICIENT  LETTER: " + currentString[count - 1]);
-    if (coefficientTerm[0] === "*") {
+    if (coefficientTerm[0] === '*') {
       // console.log("ANG PASKO AY SUMAPIT");
       //ABC console.log("FGASGASGA  count: " + (count - 1));
       MDsymbol = true;
-      symbolType = "*";
-    } else if (coefficientTerm[0] === "/") {
+      symbolType = '*';
+    } else if (coefficientTerm[0] === '/') {
       MDsymbol = true;
-      symbolType = "/";
-      currentCoefficient = currentCoefficient.replace("/", "");
+      symbolType = '/';
+      currentCoefficient = currentCoefficient.replace('/', '');
     }
 
-    currentCoefficient = currentCoefficient.replace(coefficientLetter, "");
+    currentCoefficient = currentCoefficient.replace(coefficientLetter, '');
     //currentConstant = currentConstant.replace(coefficientLetter, "");
   }
 
@@ -3727,9 +3727,9 @@ if (rhsFinalConstant === undefined) {
 // FOR STEPS TO GENERATE
 function checkSymbol(currentString) {
   let tempString = currentString;
-  if (currentString != "" && currentString != undefined) {
+  if (currentString != '' && currentString != undefined) {
     if (currentString[0].match(/^[0-9]+$/)) {
-      currentString = "+";
+      currentString = '+';
       currentString = currentString.concat(tempString);
     }
     return currentString;
@@ -3741,43 +3741,43 @@ var lhsConstant = lhsFinalConstant.toString();
 var rhsCoefficient = rhsFinalCoefficient.toString();
 var rhsConstant = rhsFinalConstant.toString();
 
-if (lhsCoefficient === "0") {
-  lhsCoefficient = "";
+if (lhsCoefficient === '0') {
+  lhsCoefficient = '';
 }
 
-if (rhsCoefficient === "0") {
-  rhsCoefficient = "";
+if (rhsCoefficient === '0') {
+  rhsCoefficient = '';
 }
 
-if (lhsConstant === "0") {
-  lhsConstant = "";
+if (lhsConstant === '0') {
+  lhsConstant = '';
 }
 
-if (rhsConstant === "0") {
-  rhsConstant = "";
+if (rhsConstant === '0') {
+  rhsConstant = '';
 }
 
 // FIX SYMBOLS
-if (lhsCoefficient != "") {
+if (lhsCoefficient != '') {
   lhsConstant = checkSymbol(lhsConstant);
 }
 
-if (rhsCoefficient != "") {
+if (rhsCoefficient != '') {
   rhsConstant = checkSymbol(rhsConstant);
 }
 
 var stepsArray = [];
 
 function reverseOperation(currentString) {
-  if (currentString != "" && currentString != undefined) {
-    var tempString = currentString.replace("+", "");
-    var tempValue = "";
+  if (currentString != '' && currentString != undefined) {
+    var tempString = currentString.replace('+', '');
+    var tempValue = '';
     if (parseInt(currentString) > 0) {
-      tempValue = "-";
+      tempValue = '-';
       tempValue = tempValue.concat(tempString);
     } else {
-      tempString = currentString.replace("-", "");
-      tempValue = "+";
+      tempString = currentString.replace('-', '');
+      tempValue = '+';
       tempValue = tempValue.concat(tempString);
     }
     return tempValue;
@@ -3785,8 +3785,8 @@ function reverseOperation(currentString) {
 }
 
 function removePlusSymbol(currentString) {
-  if (currentString != "" && currentString != undefined) {
-    var tempString = currentString.replace("+", "");
+  if (currentString != '' && currentString != undefined) {
+    var tempString = currentString.replace('+', '');
     return tempString;
   }
 }
@@ -3795,11 +3795,11 @@ let checkSimilarity = [
   lhsCoefficient,
   LHScoefficientSymbol,
   lhsConstant,
-  "=",
+  '=',
   rhsCoefficient,
   RHScoefficientSymbol,
   rhsConstant,
-].join("");
+].join('');
 
 if (checkSimilarity != equation) {
   //Push first step, simplify stuffs
@@ -3808,22 +3808,22 @@ if (checkSimilarity != equation) {
       lhsCoefficient,
       LHScoefficientSymbol,
       lhsConstant,
-      "=",
+      '=',
       rhsCoefficient,
       RHScoefficientSymbol,
       rhsConstant,
-    ].join("")
+    ].join('')
   );
 }
 
 rhsCoefficient = reverseOperation(rhsCoefficient);
 lhsConstant = reverseOperation(lhsConstant);
 
-if (lhsCoefficient === "") {
-  rhsCoefficient = rhsCoefficient.replace("+", "");
+if (lhsCoefficient === '') {
+  rhsCoefficient = rhsCoefficient.replace('+', '');
 }
-if (rhsConstant === "") {
-  lhsConstant = lhsConstant.replace("+", "");
+if (rhsConstant === '') {
+  lhsConstant = lhsConstant.replace('+', '');
 }
 
 lhsCoefficient = removePlusSymbol(lhsCoefficient);
@@ -3836,10 +3836,10 @@ stepsArray.push(
     LHScoefficientSymbol,
     rhsCoefficient,
     RHScoefficientSymbol,
-    "=",
+    '=',
     rhsConstant,
     lhsConstant,
-  ].join("")
+  ].join('')
 );
 
 //console.log("lhsFinalCoefficient " + lhsFinalCoefficient)
@@ -3850,14 +3850,14 @@ stepsArray.push(
 const coefficientDifference = rhsFinalCoefficient - lhsFinalCoefficient;
 const constantDifference = lhsFinalConstant - rhsFinalConstant;
 
-var finalCoefficient = [lhsCoefficient, rhsCoefficient].join("");
-var finalConstant = [rhsConstant, lhsConstant].join("");
+var finalCoefficient = [lhsCoefficient, rhsCoefficient].join('');
+var finalConstant = [rhsConstant, lhsConstant].join('');
 finalCoefficient = eval(finalCoefficient);
 finalConstant = eval(finalConstant);
 
 //Push third step, simplify
 stepsArray.push(
-  [finalCoefficient, coefficientSymbol, "=", finalConstant].join("")
+  [finalCoefficient, coefficientSymbol, '=', finalConstant].join('')
 );
 
 var x = constantDifference / coefficientDifference;
@@ -3866,7 +3866,7 @@ var x = constantDifference / coefficientDifference;
 console.log(`The solution for ${equation} is: x = ${x}`);
 
 //Push fourth step, final answer
-stepsArray.push(["x=", x].join(""));
+stepsArray.push(['x=', x].join(''));
 
 // IMPORTANT!!!!!!!!!!!!!!
 //SEARCH FOR "LATEST" KEYWORD

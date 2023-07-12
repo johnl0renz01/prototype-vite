@@ -125,5 +125,15 @@ switch($requestLink) {
     case "/Prototype-Vite/my-project/api/upload":
         include('upload.php');
     break;
+
+    //FOR LOGIN
+    case "/Prototype-Vite/my-project/api/validateLogin":
+        include('validateLogin.php');
+    break;
+
+    //FOR MANAGE ACCOUNTS
+    case "/Prototype-Vite/my-project/api/accountList":
+        include('accountList.php');
+    break;
 }
 

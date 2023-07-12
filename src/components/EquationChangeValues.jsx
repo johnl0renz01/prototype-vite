@@ -4,8 +4,8 @@ function randomIntFromInterval(min, max) {
 }
 
 for (let i = 0; i < easyEquationList.length; i++) {
-  if (easyEquationList[i].includes("1x")) {
-    easyEquationList[i] = easyEquationList[i].replace(/1x/g, "x");
+  if (easyEquationList[i].includes('1x')) {
+    easyEquationList[i] = easyEquationList[i].replace(/1x/g, 'x');
   }
 
   let rndInt = 0;
@@ -37,19 +37,19 @@ for (let i = 0; i < easyEquationList.length; i++) {
 
   function replaceDigit(digit) {
     if (easyEquationList[i].includes(digit)) {
-      let search1 = " " + digit + " ";
-      let search2 = digit + " ";
-      let search3 = " " + digit;
-      let search4 = "\\(" + digit + " ";
-      let search5 = " " + digit + "\\)";
-      let search6 = "\\(" + digit + "\\)";
+      let search1 = ' ' + digit + ' ';
+      let search2 = digit + ' ';
+      let search3 = ' ' + digit;
+      let search4 = '\\(' + digit + ' ';
+      let search5 = ' ' + digit + '\\)';
+      let search6 = '\\(' + digit + '\\)';
 
-      let find1 = new RegExp(search1, "g");
-      let find2 = new RegExp(search2, "g");
-      let find3 = new RegExp(search3, "g");
-      let find4 = new RegExp(search4, "g");
-      let find5 = new RegExp(search5, "g");
-      let find6 = new RegExp(search6, "g");
+      let find1 = new RegExp(search1, 'g');
+      let find2 = new RegExp(search2, 'g');
+      let find3 = new RegExp(search3, 'g');
+      let find4 = new RegExp(search4, 'g');
+      let find5 = new RegExp(search5, 'g');
+      let find6 = new RegExp(search6, 'g');
 
       randomPercentage();
       easyEquationList[i] = easyEquationList[i].replace(
@@ -86,49 +86,49 @@ for (let i = 0; i < easyEquationList.length; i++) {
 
   function replaceDigitCoefficient(digit) {
     if (easyEquationList[i].includes(digit)) {
-      let search1 = " " + digit + "x ";
-      let search2 = digit + "x ";
-      let search3 = " " + digit + "x";
-      let search4 = "\\(" + digit + "x ";
-      let search5 = " " + digit + "x\\)";
-      let search6 = "\\(" + digit + "x\\)";
+      let search1 = ' ' + digit + 'x ';
+      let search2 = digit + 'x ';
+      let search3 = ' ' + digit + 'x';
+      let search4 = '\\(' + digit + 'x ';
+      let search5 = ' ' + digit + 'x\\)';
+      let search6 = '\\(' + digit + 'x\\)';
 
-      let find1 = new RegExp(search1, "g");
-      let find2 = new RegExp(search2, "g");
-      let find3 = new RegExp(search3, "g");
-      let find4 = new RegExp(search4, "g");
-      let find5 = new RegExp(search5, "g");
-      let find6 = new RegExp(search6, "g");
+      let find1 = new RegExp(search1, 'g');
+      let find2 = new RegExp(search2, 'g');
+      let find3 = new RegExp(search3, 'g');
+      let find4 = new RegExp(search4, 'g');
+      let find5 = new RegExp(search5, 'g');
+      let find6 = new RegExp(search6, 'g');
 
       randomPercentage();
       easyEquationList[i] = easyEquationList[i].replace(
         find1,
-        rndInt.toString() + "x"
+        rndInt.toString() + 'x'
       );
       randomPercentage();
       easyEquationList[i] = easyEquationList[i].replace(
         find2,
-        rndInt.toString() + "x"
+        rndInt.toString() + 'x'
       );
       randomPercentage();
       easyEquationList[i] = easyEquationList[i].replace(
         find3,
-        rndInt.toString() + "x"
+        rndInt.toString() + 'x'
       );
       randomPercentage();
       easyEquationList[i] = easyEquationList[i].replace(
         find4,
-        rndInt.toString() + "x"
+        rndInt.toString() + 'x'
       );
       randomPercentage();
       easyEquationList[i] = easyEquationList[i].replace(
         find5,
-        rndInt.toString() + "x"
+        rndInt.toString() + 'x'
       );
       randomPercentage();
       easyEquationList[i] = easyEquationList[i].replace(
         find6,
-        rndInt.toString() + "x"
+        rndInt.toString() + 'x'
       );
     }
   }

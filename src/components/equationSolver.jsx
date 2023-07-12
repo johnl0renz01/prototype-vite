@@ -1,43 +1,43 @@
 var EquationSolver = (function () {
-  var questionString = "";
-  var equation = "";
+  var questionString = '';
+  var equation = '';
   var equationSteps = [];
-  var currentCoefficientLetter = "";
+  var currentCoefficientLetter = '';
 
-  var equationFraction = "";
+  var equationFraction = '';
 
   var getEquationAnswer = function () {
     try {
       //Power or raise to is not yet implemented, therefore consider as invalid
-      if (equation.indexOf("^") > -1) {
-        equation = "invalid";
+      if (equation.indexOf('^') > -1) {
+        equation = 'invalid';
         return equation;
       }
-      equation = equation.replace(/\s/g, "");
-      if (equation.split("=").length - 1 > 1) {
-        equation = "invalid";
+      equation = equation.replace(/\s/g, '');
+      if (equation.split('=').length - 1 > 1) {
+        equation = 'invalid';
         return equation;
       }
 
       // Separate the left-hand and right-hand side of the equation
-      var [lhs, rhs] = equation.split("=").map((side) => side.trim());
+      var [lhs, rhs] = equation.split('=').map(side => side.trim());
 
       var checkLHS = false;
       var checkRHS = false;
 
       if (lhs[0].match(/[\-]/)) {
-        lhs = ["0", lhs, "="].join("");
+        lhs = ['0', lhs, '='].join('');
       } else {
-        lhs = ["0+", lhs, "="].join("");
+        lhs = ['0+', lhs, '='].join('');
       }
 
       if (rhs[0].match(/[\-]/)) {
-        rhs = ["0", rhs, "="].join("");
+        rhs = ['0', rhs, '='].join('');
       } else {
-        rhs = ["0+", rhs, "="].join("");
+        rhs = ['0+', rhs, '='].join('');
       }
 
-      var coefficientLetter = "";
+      var coefficientLetter = '';
       var errorOccured = false;
 
       checkLHS = true;
@@ -62,15 +62,15 @@ var EquationSolver = (function () {
       }
 
       if (errorOccured) {
-        equation = "invalid";
+        equation = 'invalid';
         return equation;
       }
 
       function checkParenthesis(currentString) {
-        let coefficientSymbol = "";
+        let coefficientSymbol = '';
         for (let i = 1; i < currentString.length; i++) {
           if (currentString[i].match(/[a-z]/)) {
-            if (coefficientLetter == "") {
+            if (coefficientLetter == '') {
               coefficientSymbol = currentString[i];
               coefficientLetter = coefficientSymbol;
             } else if (coefficientLetter != currentString[i]) {
@@ -86,7 +86,7 @@ var EquationSolver = (function () {
             ) {
               currentString =
                 currentString.substring(0, i) +
-                "*(" +
+                '*(' +
                 currentString.substring(i + 1);
             }
           }
@@ -95,7 +95,7 @@ var EquationSolver = (function () {
             if (currentString[i + 1].match(/^[0-9]+$/)) {
               currentString =
                 currentString.substring(0, i) +
-                ")*" +
+                ')*' +
                 currentString.substring(i + 1);
             }
           }
@@ -104,7 +104,7 @@ var EquationSolver = (function () {
             if (currentString[i - 1].match(/[\+\-\*\/\(]/)) {
               currentString =
                 currentString.substring(0, i) +
-                "1" +
+                '1' +
                 coefficientSymbol +
                 currentString.substring(i + 1);
             }
@@ -155,14 +155,14 @@ var EquationSolver = (function () {
       //ABC console.log("rhs: " + rhs);
       //ABC console.log("************");
 
-      var lhsFinalCoefficient = "";
-      var lhsFinalConstant = "";
-      var rhsFinalCoefficient = "";
-      var rhsFinalConstant = "";
+      var lhsFinalCoefficient = '';
+      var lhsFinalConstant = '';
+      var rhsFinalCoefficient = '';
+      var rhsFinalConstant = '';
 
-      var LHScoefficientSymbol = "";
-      var RHScoefficientSymbol = "";
-      var coefficientSymbol = "";
+      var LHScoefficientSymbol = '';
+      var RHScoefficientSymbol = '';
+      var coefficientSymbol = '';
 
       var computeLHS = false;
       var computeRHS = false;
@@ -176,14 +176,14 @@ var EquationSolver = (function () {
       // FOR LHS
       function getValues(currentString, currentCoefficient, currentConstant) {
         // console.log("\n================\n================\n================\n================\n================");
-        var coefficient = "";
+        var coefficient = '';
         //Multiplication or Division Symbol Index
         var MDindex = 0;
         var coefficientIndex = currentString.length;
         var resetCoefficientIndex = false;
         var MDsymbol = false;
         var MDsymbolAfter = false;
-        var symbolType = "";
+        var symbolType = '';
 
         var isCoefficient = false;
         var sliceIndex = 0;
@@ -197,10 +197,10 @@ var EquationSolver = (function () {
         var negativeCoefficient = false;
 
         // Temporary FOR MULTIPLICATION '*'
-        var tempCoefficient = "";
-        var coefficientTerm = "";
+        var tempCoefficient = '';
+        var coefficientTerm = '';
 
-        var coefficientString = "";
+        var coefficientString = '';
         var coefficientQuantity = 0;
         var evaluateCoefficient = false;
 
@@ -259,12 +259,12 @@ var EquationSolver = (function () {
                 let closeParenthesisIndex = i;
 
                 parenthesisExpression = [
-                  "*",
+                  '*',
                   currentString.slice(
                     firstParenthesisIndex,
                     closeParenthesisIndex
                   ),
-                ].join("");
+                ].join('');
 
                 /*
                             for (let j = 0; j < parenthesisTally; j++) {
@@ -281,7 +281,7 @@ var EquationSolver = (function () {
                 );
                 currentConstant = currentConstant.replace(
                   parenthesisExpression,
-                  ""
+                  ''
                 );
                 /*
                             console.log("END OF ASD: " + currentCoefficient);
@@ -294,7 +294,7 @@ var EquationSolver = (function () {
                 if (currentString[i].match(/[*]/)) {
                   MDindex = i;
                   MDsymbolAfter = true;
-                  symbolType = "*";
+                  symbolType = '*';
                 }
                 parenthesisCase = 0;
               } else if (parenthesisCase === 2) {
@@ -306,17 +306,17 @@ var EquationSolver = (function () {
                 let closeParenthesisIndex = i;
 
                 parenthesisExpression = [
-                  "*",
+                  '*',
                   currentString.slice(
                     insideParenthesisIndex,
                     closeParenthesisIndex
                   ),
-                ].join("");
+                ].join('');
 
-                let closingParenthesis = "";
+                let closingParenthesis = '';
                 //  console.log("insideParenthesisTally: " + insideParenthesisTally)
                 for (let j = 0; j < insideParenthesisTally; j++) {
-                  closingParenthesis = closingParenthesis.concat(")");
+                  closingParenthesis = closingParenthesis.concat(')');
                 }
 
                 //   console.log("currentCoefficient: " + currentCoefficient)
@@ -338,14 +338,14 @@ var EquationSolver = (function () {
                 if (currentString[i].match(/[*]/)) {
                   MDindex = i;
                   MDsymbolAfter = true;
-                  symbolType = "*";
+                  symbolType = '*';
                 }
 
                 isInsideParenthesis = true;
                 parenthesisCase = 0;
               } else if (coeffInsideTally > 0) {
                 //  console.log("CASE 3:")
-                let closeParenthesisSymbol = "";
+                let closeParenthesisSymbol = '';
                 //  console.log(currentString[i+1])
                 if (currentString[i + 1].match(/[\+\-\*]/)) {
                   //console.log("???");
@@ -356,11 +356,11 @@ var EquationSolver = (function () {
                   //console.log("Inside parenthesis tally: " + insideParenthesisTally);
 
                   for (let j = 0; j < insideParenthesisTally; j++) {
-                    closeParenthesisSymbol = closeParenthesisSymbol.concat(")");
+                    closeParenthesisSymbol = closeParenthesisSymbol.concat(')');
                   }
 
-                  if (closeParenthesisSymbol == "") {
-                    closeParenthesisSymbol = ")";
+                  if (closeParenthesisSymbol == '') {
+                    closeParenthesisSymbol = ')';
                   }
 
                   //    console.log("Close parenth symbol: " + closeParenthesisSymbol);
@@ -369,7 +369,7 @@ var EquationSolver = (function () {
                   //     console.log("IN ELSE: " + insideParenthesisTally)
                   i += parenthesisTally;
                   for (let j = 0; j < insideParenthesisTally; j++) {
-                    closeParenthesisSymbol = closeParenthesisSymbol.concat(")");
+                    closeParenthesisSymbol = closeParenthesisSymbol.concat(')');
                   }
                   isInsideParenthesis = true;
                   coeffInsideTally = 0;
@@ -385,7 +385,7 @@ var EquationSolver = (function () {
                 if (currentString[i].match(/[*]/)) {
                   MDindex = i;
                   MDsymbolAfter = true;
-                  symbolType = "*";
+                  symbolType = '*';
                 }
 
                 //ABC console.log("sURRENT COEFFIICIENT: " + currentCoefficient);
@@ -394,11 +394,11 @@ var EquationSolver = (function () {
               //  console.log(firstParenthesisIndex);
 
               for (let j = currentConstant.length - 1; j > 0; j--) {
-                if (currentConstant[j] == "(") {
-                  if (currentConstant[j + 1] == ")") {
+                if (currentConstant[j] == '(') {
+                  if (currentConstant[j + 1] == ')') {
                     currentConstant =
                       currentConstant.substring(0, j) +
-                      "(0" +
+                      '(0' +
                       currentConstant.substring(j + 1);
                     break;
                   }
@@ -415,7 +415,7 @@ var EquationSolver = (function () {
 
               currentCoefficient = currentCoefficient.replace(
                 coefficientSymbol,
-                ""
+                ''
               );
               //  console.log("Curr coeff: " + currentCoefficient)
               //  console.log("Curr const: " + currentConstant)
@@ -454,15 +454,15 @@ var EquationSolver = (function () {
 
             if (currentString[i].match(/=/)) {
               if (equalOccurence) {
-                currentConstant = currentString.replace("=", "");
-              } else if (currentConstant === "") {
+                currentConstant = currentString.replace('=', '');
+              } else if (currentConstant === '') {
                 currentConstant = currentString;
               }
               //ABC console.log(currentConstant);
               //ABC console.log(currentCoefficient);
               //replaceOperators();
-              currentConstant = currentConstant.replace("=", "");
-              currentCoefficient = currentCoefficient.replace("=", "");
+              currentConstant = currentConstant.replace('=', '');
+              currentCoefficient = currentCoefficient.replace('=', '');
             }
 
             if (!equalOccurence) {
@@ -474,7 +474,7 @@ var EquationSolver = (function () {
             if (currentString[i].match(/[a-z]/)) {
               //ABC console.log("sURRENT COEFFIICIENT: " + currentCoefficient);
               //ABC console.log("ETO PASOK SA BANGA!!!!!!!!!!!!!!!!!!:  " + currentString[i]);
-              if (currentString[sliceIndex] === "-" && !negativeCoefficient) {
+              if (currentString[sliceIndex] === '-' && !negativeCoefficient) {
                 //ABC console.log("IS NEGATIVE!! ");
                 negativeCoefficient = true;
               }
@@ -499,17 +499,17 @@ var EquationSolver = (function () {
               if (currentString.length >= 4) {
                 // console.log("IN LENGTH");
                 // console.log(currentString[i + 2]);
-                if (currentString[i + 2] == "(" && parenthesisTally === 0) {
-                  if (currentString[i + 1] == "*") {
+                if (currentString[i + 2] == '(' && parenthesisTally === 0) {
+                  if (currentString[i + 1] == '*') {
                     //  console.log("PASOK SA BANGA LODS IIDOL");
                     openParenthesis = true;
                     parenthesisCase = 1;
                   }
                 } else if (
-                  currentString[i + 2] == "(" &&
+                  currentString[i + 2] == '(' &&
                   parenthesisTally > 0
                 ) {
-                  if (currentString[i + 1] == "*") {
+                  if (currentString[i + 1] == '*') {
                     insideParenthesisIndex = i + 2;
                     openParenthesis = true;
                     parenthesisCase = 2;
@@ -535,7 +535,7 @@ var EquationSolver = (function () {
                 coefficientFirstIndex,
                 lastIndex
               );
-              coefficientTerm = coefficientTerm.replace("(", "");
+              coefficientTerm = coefficientTerm.replace('(', '');
               //ABC console.log("ZXC: " + coefficientTerm);
               coefficientString = coefficientString.concat(coefficientTerm);
               //ABC console.log("QWE: " + coefficientString);
@@ -563,19 +563,19 @@ var EquationSolver = (function () {
               coefficientLetter = coefficient;
 
               //console.log("CURRENT CONSTANT asdad: " + currentConstant);
-              if (currentConstant === "") {
+              if (currentConstant === '') {
                 //console.log("CONSTANT is equal");
-                currentConstant = currentString.replace(coefficientTerm, "");
-                currentConstant = currentConstant.replace("=", "");
+                currentConstant = currentString.replace(coefficientTerm, '');
+                currentConstant = currentConstant.replace('=', '');
               } else {
                 //console.log("CONSTANT is else");
                 //console.log("coeff term: " + coefficientTerm)
-                currentConstant = currentConstant.replace(coefficientTerm, "");
+                currentConstant = currentConstant.replace(coefficientTerm, '');
               }
 
               //  console.log("CURRENT CONSTANT: " + currentConstant);
 
-              currentCoefficient = currentCoefficient.replace(coefficient, "");
+              currentCoefficient = currentCoefficient.replace(coefficient, '');
               //  console.log("LAST CURRENT COEFFIICIENT: " + currentCoefficient);
               //ABC console.log
               // PROCEED TO NEXT INDEX, AFTER coefficient
@@ -596,7 +596,7 @@ var EquationSolver = (function () {
             //ABC console.log("ARSJFHSAJKFSJ RAF ARFA RAF ARFARAF=======");
             if (currentString[i].match(/[*]/)) {
               //ABC console.log("MD SYMBOL IS NOW TRUE ");
-              symbolType = "*";
+              symbolType = '*';
               MDsymbolAfter = true;
             } else if (currentString[i].match(/[\+\-\/]/)) {
               //ABC    console.log("RESET RESET RESET RESET RESET RESET=======");
@@ -618,7 +618,7 @@ var EquationSolver = (function () {
                     if (!isInsideParenthesis) {
                       currentConstant = currentConstant.replace(
                         tempCoefficient,
-                        ""
+                        ''
                       );
                     }
                     isInsideParenthesis = false;
@@ -645,7 +645,7 @@ var EquationSolver = (function () {
                     //ABC    console.log("temp coeff " + tempCoefficient);
                     currentConstant = currentConstant.replace(
                       tempCoefficient,
-                      ""
+                      ''
                     );
                     //ABC console.log("TEMP COEFF: " + tempCoefficient);
                     break;
@@ -653,7 +653,7 @@ var EquationSolver = (function () {
                 }
               }
 
-              if (symbolType === "*") {
+              if (symbolType === '*') {
                 currentCoefficient = currentCoefficient.concat(tempCoefficient);
                 //ABC    console.log("AFTER curr coeff: " + currentCoefficient );
               }
@@ -666,7 +666,7 @@ var EquationSolver = (function () {
             }
           }
           //ABC   console.log("Current COEFF ^@^@^@: " + (coefficientIndex));
-          tempCoefficient = "";
+          tempCoefficient = '';
 
           /*
                     console.log("evaluateCoefficient :+_+_+_+_+: " + evaluateCoefficient);
@@ -709,14 +709,14 @@ var EquationSolver = (function () {
                     //ABC console.log("LOOB NG FOR temp coeff: " + tempCoefficient );
                     currentConstant = currentConstant.replace(
                       tempCoefficient,
-                      ""
+                      ''
                     );
                     //ABC console.log("CURRENT COSNTNASTN: " + currentConstant );
                     break;
                   }
                 }
               }
-              if (symbolType === "*") {
+              if (symbolType === '*') {
                 //!@#$% console.log("coefficientIndex : " + coefficientIndex );
                 if (coefficientIndex === 1) {
                   coefficientIndex = 0;
@@ -739,7 +739,7 @@ var EquationSolver = (function () {
           }
           MDsymbolAfter = false;
 
-          tempCoefficient = "";
+          tempCoefficient = '';
 
           // CHECK for previous parenthesis and expression before opening parenthesis
           function coefficientInside() {
@@ -776,7 +776,7 @@ var EquationSolver = (function () {
               } else {
                 // console.log("SECOND IF ");
                 if (closeParenthesisIndex != null) {
-                  let expressionBeforeParenthesis = "";
+                  let expressionBeforeParenthesis = '';
                   let newParenthesisIndex = 0;
                   for (
                     let j = closeParenthesisIndex + 1;
@@ -806,7 +806,7 @@ var EquationSolver = (function () {
                       expBeforeIndex,
                       newParenthesisIndex + 1
                     ),
-                  ].join("");
+                  ].join('');
                 }
               }
 
@@ -839,7 +839,7 @@ var EquationSolver = (function () {
                     continue;
                   }
                   if (insideParenthesis && firstIndex != k) {
-                    let constantTerm = "";
+                    let constantTerm = '';
                     let endIndex = 0;
 
                     // REPLACE THE CONSTANT VALUE TO '!' exclamation symbol
@@ -848,7 +848,7 @@ var EquationSolver = (function () {
                       if (tempCoefficient[k - 1].match(/[x]/)) {
                         break;
                       }
-                      let anotherTerm = "";
+                      let anotherTerm = '';
                       //endIndex = k + 1;
                       endIndex = k;
                       constantTerm = tempCoefficient.slice(
@@ -857,7 +857,7 @@ var EquationSolver = (function () {
                       );
                       //console.log("CONSTANTASDASDASDAS: " + constantTerm)
                       for (let l = 0; l < constantTerm.length; l++) {
-                        anotherTerm = anotherTerm.concat("!");
+                        anotherTerm = anotherTerm.concat('!');
                       }
                       constantTerm = anotherTerm;
 
@@ -865,10 +865,10 @@ var EquationSolver = (function () {
                         tempCoefficient.substring(0, firstIndex),
                         constantTerm,
                         tempCoefficient.substring(endIndex),
-                      ].join("");
+                      ].join('');
 
                       // console.log("CONSTANT TERM:" + tempCoefficient);
-                      tempCoefficient = tempCoefficient.replace(/!/g, "");
+                      tempCoefficient = tempCoefficient.replace(/!/g, '');
                       // console.log("CONSTANT TERM:" + tempCoefficient);
                     }
                   }
@@ -923,7 +923,7 @@ var EquationSolver = (function () {
           //REMOVE THE LAST VALUE OF COEFFICIENT, in order to concatenate the temporary coeff
           function removeLastTerm() {
             let coefficient = coefficientTerm.slice(-1);
-            var coeffValue = coefficientTerm.replace(coefficient, "");
+            var coeffValue = coefficientTerm.replace(coefficient, '');
             let coefficientIndex = currentCoefficient.lastIndexOf(coeffValue);
             //ABC console.log("TESgsdgsdg : " + currentCoefficient)
             currentCoefficient = currentCoefficient.slice(0, coefficientIndex);
@@ -938,37 +938,37 @@ var EquationSolver = (function () {
         function replaceOperators() {
           //console.log("CURREEEEEEEEEEEEEEEEENTT: " + currentCoefficient);
           // console.log("CURREEEEEEEEEEEEEEEEENTT: " + coefficientTerm);
-          let coefficientLetter = "";
+          let coefficientLetter = '';
           if (currentCoefficient.slice(-1).match(/[a-z]/)) {
             coefficientLetter = currentCoefficient.slice(-1);
           } else if (currentCoefficient.slice(-1).match(/[+]/)) {
-            currentCoefficient = currentCoefficient.replace("+", "");
+            currentCoefficient = currentCoefficient.replace('+', '');
           } else if (currentCoefficient.slice(-1).match(/[-]/)) {
-            currentCoefficient = currentCoefficient.replace("-", "");
+            currentCoefficient = currentCoefficient.replace('-', '');
           } else if (currentCoefficient.slice(-1).match(/[*]/)) {
-            currentCoefficient = currentCoefficient.replace("*", "");
+            currentCoefficient = currentCoefficient.replace('*', '');
           } else if (currentCoefficient.slice(-1).match(/[/]/)) {
             MDsymbol = true;
-            symbolType = "/";
-            currentCoefficient = currentCoefficient.replace("/", "");
+            symbolType = '/';
+            currentCoefficient = currentCoefficient.replace('/', '');
           }
 
           //currentString[count - 1] != coefficientLetter &&
           //ABC console.log("COEFFICIENT  LETTER: " + currentString[count - 1]);
-          if (coefficientTerm[0] === "*") {
+          if (coefficientTerm[0] === '*') {
             // console.log("ANG PASKO AY SUMAPIT");
             //ABC console.log("FGASGASGA  count: " + (count - 1));
             MDsymbol = true;
-            symbolType = "*";
-          } else if (coefficientTerm[0] === "/") {
+            symbolType = '*';
+          } else if (coefficientTerm[0] === '/') {
             MDsymbol = true;
-            symbolType = "/";
-            currentCoefficient = currentCoefficient.replace("/", "");
+            symbolType = '/';
+            currentCoefficient = currentCoefficient.replace('/', '');
           }
 
           currentCoefficient = currentCoefficient.replace(
             coefficientLetter,
-            ""
+            ''
           );
           //currentConstant = currentConstant.replace(coefficientLetter, "");
         }
@@ -1044,9 +1044,9 @@ var EquationSolver = (function () {
       // FOR STEPS TO GENERATE
       function checkSymbol(currentString) {
         let tempString = currentString;
-        if (currentString != "" && currentString != undefined) {
+        if (currentString != '' && currentString != undefined) {
           if (currentString[0].match(/^[0-9]+$/)) {
-            currentString = "+";
+            currentString = '+';
             currentString = currentString.concat(tempString);
           }
           return currentString;
@@ -1058,43 +1058,43 @@ var EquationSolver = (function () {
       var rhsCoefficient = rhsFinalCoefficient.toString();
       var rhsConstant = rhsFinalConstant.toString();
 
-      if (lhsCoefficient == "0" || lhsCoefficient === undefined) {
-        lhsCoefficient = "";
+      if (lhsCoefficient == '0' || lhsCoefficient === undefined) {
+        lhsCoefficient = '';
       }
 
-      if (rhsCoefficient == "0" || rhsCoefficient === undefined) {
-        rhsCoefficient = "";
+      if (rhsCoefficient == '0' || rhsCoefficient === undefined) {
+        rhsCoefficient = '';
       }
 
-      if (lhsConstant == "0" || lhsConstant === undefined) {
-        lhsConstant = "";
+      if (lhsConstant == '0' || lhsConstant === undefined) {
+        lhsConstant = '';
       }
 
-      if (rhsConstant == "0" || rhsConstant === undefined) {
-        rhsConstant = "";
+      if (rhsConstant == '0' || rhsConstant === undefined) {
+        rhsConstant = '';
       }
 
       // FIX SYMBOLS
-      if (lhsCoefficient != "" && lhsConstant != "") {
+      if (lhsCoefficient != '' && lhsConstant != '') {
         lhsConstant = checkSymbol(lhsConstant);
       }
 
-      if (rhsCoefficient != "" && rhsConstant != "") {
+      if (rhsCoefficient != '' && rhsConstant != '') {
         rhsConstant = checkSymbol(rhsConstant);
       }
 
       var stepsArray = [];
 
       function reverseOperation(currentString) {
-        if (currentString != "" && currentString != undefined) {
-          var tempString = currentString.replace("+", "");
-          var tempValue = "";
+        if (currentString != '' && currentString != undefined) {
+          var tempString = currentString.replace('+', '');
+          var tempValue = '';
           if (parseInt(currentString) > 0) {
-            tempValue = "-";
+            tempValue = '-';
             tempValue = tempValue.concat(tempString);
           } else {
-            tempString = currentString.replace("-", "");
-            tempValue = "+";
+            tempString = currentString.replace('-', '');
+            tempValue = '+';
             tempValue = tempValue.concat(tempString);
           }
           return tempValue;
@@ -1102,8 +1102,8 @@ var EquationSolver = (function () {
       }
 
       function removePlusSymbol(currentString) {
-        if (currentString != "" && currentString != undefined) {
-          var tempString = currentString.replace("+", "");
+        if (currentString != '' && currentString != undefined) {
+          var tempString = currentString.replace('+', '');
           return tempString;
         }
       }
@@ -1112,11 +1112,11 @@ var EquationSolver = (function () {
         lhsCoefficient,
         LHScoefficientSymbol,
         lhsConstant,
-        "=",
+        '=',
         rhsCoefficient,
         RHScoefficientSymbol,
         rhsConstant,
-      ].join("");
+      ].join('');
 
       if (checkSimilarity != equation) {
         //Push first step, simplify stuffs
@@ -1125,26 +1125,26 @@ var EquationSolver = (function () {
             lhsCoefficient,
             LHScoefficientSymbol,
             lhsConstant,
-            "=",
+            '=',
             rhsCoefficient,
             RHScoefficientSymbol,
             rhsConstant,
-          ].join("")
+          ].join('')
         );
       }
 
-      if (rhsCoefficient != "") {
+      if (rhsCoefficient != '') {
         rhsCoefficient = reverseOperation(rhsCoefficient);
       }
-      if (lhsConstant != "") {
+      if (lhsConstant != '') {
         lhsConstant = reverseOperation(lhsConstant);
       }
 
-      if (lhsCoefficient === "") {
-        rhsCoefficient = rhsCoefficient.replace("+", "");
+      if (lhsCoefficient === '') {
+        rhsCoefficient = rhsCoefficient.replace('+', '');
       }
-      if (rhsConstant === "") {
-        lhsConstant = lhsConstant.replace("+", "");
+      if (rhsConstant === '') {
+        lhsConstant = lhsConstant.replace('+', '');
       }
 
       lhsCoefficient = removePlusSymbol(lhsCoefficient);
@@ -1155,11 +1155,11 @@ var EquationSolver = (function () {
         lhsCoefficient,
         LHScoefficientSymbol,
         lhsConstant,
-        "=",
+        '=',
         rhsCoefficient,
         RHScoefficientSymbol,
         rhsConstant,
-      ].join("");
+      ].join('');
 
       if (checkSimilarity != equation) {
         if (checkSimilarity != stepsArray[0]) {
@@ -1169,10 +1169,10 @@ var EquationSolver = (function () {
               LHScoefficientSymbol,
               rhsCoefficient,
               RHScoefficientSymbol,
-              "=",
+              '=',
               rhsConstant,
               lhsConstant,
-            ].join("")
+            ].join('')
           );
         }
       }
@@ -1185,8 +1185,8 @@ var EquationSolver = (function () {
       const coefficientDifference = rhsFinalCoefficient - lhsFinalCoefficient;
       const constantDifference = lhsFinalConstant - rhsFinalConstant;
 
-      var finalCoefficient = [lhsCoefficient, rhsCoefficient].join("");
-      var finalConstant = [rhsConstant, lhsConstant].join("");
+      var finalCoefficient = [lhsCoefficient, rhsCoefficient].join('');
+      var finalConstant = [rhsConstant, lhsConstant].join('');
       finalCoefficient = eval(finalCoefficient);
       finalConstant = eval(finalConstant);
 
@@ -1195,9 +1195,9 @@ var EquationSolver = (function () {
       checkSimilarity = [
         finalCoefficient,
         coefficientSymbol,
-        "=",
+        '=',
         finalConstant,
-      ].join("");
+      ].join('');
 
       if (checkSimilarity != equation) {
         if (
@@ -1205,7 +1205,7 @@ var EquationSolver = (function () {
           checkSimilarity != stepsArray[1]
         ) {
           stepsArray.push(
-            [finalCoefficient, coefficientSymbol, "=", finalConstant].join("")
+            [finalCoefficient, coefficientSymbol, '=', finalConstant].join('')
           );
         }
       }
@@ -1213,36 +1213,36 @@ var EquationSolver = (function () {
       var x = constantDifference / coefficientDifference;
 
       equationFraction =
-        constantDifference * -1 + "/" + coefficientDifference * -1;
+        constantDifference * -1 + '/' + coefficientDifference * -1;
 
       x = Math.round(x * 100 + Number.EPSILON) / 100;
       //console.log(`The solution for ${equation} is: x = ${x}`);
 
       //Check if the equation is similar to solution
-      let finalAnswer = coefficientSymbol + "=" + x;
+      let finalAnswer = coefficientSymbol + '=' + x;
       if (equation == finalAnswer) {
-        equation = "solved";
+        equation = 'solved';
         return equation;
       }
 
       //REVERSED
-      finalAnswer = x + "=" + coefficientSymbol;
+      finalAnswer = x + '=' + coefficientSymbol;
       if (equation == finalAnswer) {
-        equation = "solved";
+        equation = 'solved';
         return equation;
       }
 
       //Push fourth step, final answer
-      stepsArray.push([coefficientSymbol, "=", x].join(""));
+      stepsArray.push([coefficientSymbol, '=', x].join(''));
 
-      let search1 = "1" + coefficientLetter;
-      let search2 = "-1" + coefficientLetter;
-      let find1 = new RegExp(search1, "gi");
-      let find2 = new RegExp(search2, "gi");
+      let search1 = '1' + coefficientLetter;
+      let search2 = '-1' + coefficientLetter;
+      let find1 = new RegExp(search1, 'gi');
+      let find2 = new RegExp(search2, 'gi');
 
       for (let i = 0; i < stepsArray.length; i++) {
         stepsArray[i] = stepsArray[i].replace(find1, coefficientLetter);
-        stepsArray[i] = stepsArray[i].replace(find2, "-" + coefficientLetter);
+        stepsArray[i] = stepsArray[i].replace(find2, '-' + coefficientLetter);
       }
 
       x = x.toString();
@@ -1250,7 +1250,7 @@ var EquationSolver = (function () {
       equationSteps = stepsArray;
       return equation;
     } catch {
-      equation = "invalid";
+      equation = 'invalid';
       // console.log("NAG INVALID lods");
       return equation;
     }

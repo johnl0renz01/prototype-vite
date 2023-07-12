@@ -1,16 +1,16 @@
-import React, { Component } from "react";
-import { useEffect, useState, useCallback } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import * as ReactDOM from "react-dom";
-import $ from "jquery";
+import React, { Component } from 'react';
+import { useEffect, useState, useCallback } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import * as ReactDOM from 'react-dom';
+import $ from 'jquery';
 
-import QuestionList from "./questionList";
-import EquationSolver from "./equationSolver";
-import MY_API_KEY from "./API_KEY";
+import QuestionList from './questionList';
+import EquationSolver from './equationSolver';
+import MY_API_KEY from './API_KEY';
 
 export default function DifficultyPage() {
-  document.body.style.height = "100vh";
+  document.body.style.height = '100vh';
   const navigate = useNavigate();
 
   //FOR LINKS/NAVBAR/BREADCRUMBS
@@ -18,50 +18,50 @@ export default function DifficultyPage() {
   const [pageLink, setPageLink] = useState([]);
 
   useEffect(() => {
-    let page = ["Home", "Difficulty"];
-    let link = ["/Homepage", "/Difficulty"];
+    let page = ['Home', 'Difficulty'];
+    let link = ['/Homepage', '/Difficulty'];
     setPageList(page);
     setPageLink(link);
   }, []);
 
   useEffect(() => {
-    window.localStorage.setItem("NAVBAR_PAGE", JSON.stringify(pageList));
+    window.localStorage.setItem('NAVBAR_PAGE', JSON.stringify(pageList));
   }, [pageList]);
 
   useEffect(() => {
-    window.localStorage.setItem("NAVBAR_PAGE_LINK", JSON.stringify(pageLink));
+    window.localStorage.setItem('NAVBAR_PAGE_LINK', JSON.stringify(pageLink));
   }, [pageLink]);
 
   //END END END END END END END END END END END END
 
   function WhiteboardPage() {
-    let page = ["Home", "Difficulty", "Whiteboard"];
-    let link = ["/Homepage", "/Difficulty", "/Whiteboard"];
+    let page = ['Home', 'Difficulty', 'Whiteboard'];
+    let link = ['/Homepage', '/Difficulty', '/Whiteboard'];
     setPageList(page);
     setPageLink(link);
 
-    window.localStorage.setItem("NAVBAR_PAGE", JSON.stringify(pageList));
-    window.localStorage.setItem("NAVBAR_PAGE_LINK", JSON.stringify(pageLink));
+    window.localStorage.setItem('NAVBAR_PAGE', JSON.stringify(pageList));
+    window.localStorage.setItem('NAVBAR_PAGE_LINK', JSON.stringify(pageLink));
     setTimeout(proceed, 1000);
 
     function proceed() {
-      navigate("/Whiteboard");
+      navigate('/Whiteboard');
     }
   }
 
   //FOR QUESTIONS
-  const [rawList, setRawList] = useState("");
+  const [rawList, setRawList] = useState('');
   const [questionArray, setQuestionArray] = useState([]);
   const [questionList, setQuestions] = useState([]);
   const [result, setResult] = useState([]);
 
   useEffect(() => {
-    const data = window.localStorage.getItem("QUESTION_LIST");
+    const data = window.localStorage.getItem('QUESTION_LIST');
     if (data !== null) setQuestions(JSON.parse(data));
   }, []);
 
   useEffect(() => {
-    window.localStorage.setItem("QUESTION_LIST", JSON.stringify(questionList));
+    window.localStorage.setItem('QUESTION_LIST', JSON.stringify(questionList));
   }, [questionList]);
 
   /*
@@ -98,46 +98,46 @@ export default function DifficultyPage() {
        
     };
    */
-  var difficultyType = "";
+  var difficultyType = '';
 
   const easyType = () => {
-    difficultyType = "easy";
+    difficultyType = 'easy';
     pickDifficulty();
   };
 
   const averageType = () => {
-    difficultyType = "average";
+    difficultyType = 'average';
     pickDifficulty();
   };
 
   const difficultType = () => {
-    difficultyType = "difficult";
+    difficultyType = 'difficult';
     pickDifficulty();
   };
 
   // CHATGPT GENERATED EQUATIONS
   function pickDifficulty() {
     console.log(difficultyType);
-    var prompt = "";
-    if (difficultyType == "easy") {
+    var prompt = '';
+    if (difficultyType == 'easy') {
       prompt =
         '{"text":" Generate 5 linear equation to solve for, only 1 variable, it must be very difficult level and distinct to each other. The equation should be similiar as this example: 9x + 13 = -4x, or much even complicated, randomize each equation, include multiplication symbol between expressions, values can range from 1 to 1000. Put each equation inside bracket []"}';
-    } else if (difficultyType == "average") {
+    } else if (difficultyType == 'average') {
       prompt =
         '{"text":" Generate 5 linear equation to solve for, only 1 variable, it must be very difficult level and distinct to each other. The equation should be similiar as this example: 23x + 2 = 13x - 26, or much even complicated, randomize each equation, include multiplication symbol between expressions, values can range from 1 to 1000. Put each equation inside bracket []"}';
-    } else if (difficultyType == "difficult") {
+    } else if (difficultyType == 'difficult') {
       prompt =
         '{"text":" Generate 5 linear equation to solve for, only 1 variable, it must be very difficult level and distinct to each other. The equation should be similiar as this example: 2(3x-5) = 3(4x+2), or much even complicated, randomize each equation, include multiplication symbol between expressions, values can range from 1 to 1000. Put each equation inside bracket []"}';
     }
 
-    var equationString = "";
+    var equationString = '';
     const options = {
-      method: "POST",
-      url: "https://chatgpt-ai-chat-bot.p.rapidapi.com/ask",
+      method: 'POST',
+      url: 'https://chatgpt-ai-chat-bot.p.rapidapi.com/ask',
       headers: {
-        "content-type": "application/json",
-        "X-RapidAPI-Key": MY_API_KEY.getGPT_KEY(),
-        "X-RapidAPI-Host": "chatgpt-ai-chat-bot.p.rapidapi.com",
+        'content-type': 'application/json',
+        'X-RapidAPI-Key': MY_API_KEY.getGPT_KEY(),
+        'X-RapidAPI-Host': 'chatgpt-ai-chat-bot.p.rapidapi.com',
       },
       data: prompt,
     };
@@ -151,9 +151,9 @@ export default function DifficultyPage() {
 
         console.log(response);
         console.log(response.data);
-        console.log(response.data.split(""));
+        console.log(response.data.split(''));
 
-        let dataSplit = response.data.split("");
+        let dataSplit = response.data.split('');
         setRawList(response.data);
         let firstBracket = 0;
         let secondBracket = 0;
@@ -170,10 +170,10 @@ export default function DifficultyPage() {
           if (closingBracket) {
             let equation = [
               dataSplit.slice(firstBracket + 1, secondBracket),
-            ].join("");
-            equation = equation.replaceAll(",", "");
+            ].join('');
+            equation = equation.replaceAll(',', '');
             equationString = equation;
-            console.log("this isequation: " + equationString);
+            console.log('this isequation: ' + equationString);
             equationList.push(equationString);
             closingBracket = false;
           }
@@ -217,7 +217,7 @@ export default function DifficultyPage() {
         console.log(equationList[0]);
         //QuestionList.setQuestionString(equationString);
 
-        console.log("THE length: " + equationList.length);
+        console.log('THE length: ' + equationList.length);
         if (equationList.length > 5) {
           pickDifficulty();
         } else {
@@ -226,11 +226,11 @@ export default function DifficultyPage() {
 
         function computeEquation() {
           var equationValid = false;
-          var checkEquation = "";
+          var checkEquation = '';
           for (let i = 0; i < equationList.length; i++) {
             EquationSolver.setEquation(equationList[i]);
             checkEquation = EquationSolver.getEquationAnswer();
-            if (checkEquation == "invalid") {
+            if (checkEquation == 'invalid') {
               equationValid = false;
               break;
             } else {

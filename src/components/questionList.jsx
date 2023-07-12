@@ -1,20 +1,18 @@
-var QuestionList = (function() {
-    var questionString = "";
-  
-    var getQuestionString = function() {
-        return questionString;    
-    };
+var QuestionList = (function () {
+  var questionString = '';
 
-    var setQuestionString = function(string) {
-        questionString = string; 
-      };
-  
+  var getQuestionString = function () {
+    return questionString;
+  };
 
-    return {
-      getQuestionString: getQuestionString,
-      setQuestionString: setQuestionString
-    }
-  
-  })();
-  
-  export default QuestionList;
+  var setQuestionString = function (string) {
+    questionString = string;
+  };
+
+  return {
+    getQuestionString: getQuestionString,
+    setQuestionString: setQuestionString,
+  };
+})();
+
+export default QuestionList;

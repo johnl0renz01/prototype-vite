@@ -1,30 +1,53 @@
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
-import React, { Component } from "react";
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import React, { Component } from 'react';
 
-import Navbar from "./components/Navbar";
-import Homepage from "./components/Homepage";
-import Difficulty from "./components/Difficulty";
-import Whiteboard from "./components/Whiteboard";
+import Navbar from './components/Navbar';
+import Homepage from './components/Homepage';
+import Difficulty from './components/Difficulty';
+import Whiteboard from './components/Whiteboard';
 
-import AdminHomepage from "./components/AdminHomepage";
-import SectionList from "./components/SectionList";
-import ClassList from "./components/ClassList";
-import StudentDetail from "./components/StudentDetail";
-import Customization from "./components/Customization";
-import EditAccount from "./components/EditAccount";
+import AdminHomepage from './components/AdminHomepage';
+import SectionList from './components/SectionList';
+import ClassList from './components/ClassList';
+import StudentDetail from './components/StudentDetail';
+import Customization from './components/Customization';
+import EditAccount from './components/EditAccount';
 
-import Login from "./components/Login";
-import Registration from "./components/Registration";
+import Login from './components/Login';
+import Registration from './components/Registration';
 
-import Initiation from "./components/Initiation";
+import Initiation from './components/Initiation';
 
-import "./index.css";
+import './index.css';
+
+import LoginPage from './components/LoginPage';
+
+import TeacherPage from './components/TeacherPage';
+import TeacherNavbar from './components/TeacherNavbar';
+
+import EquationList from './components/EquationList';
+import CreateEquation from './components/CreateEquation';
+
+import AdminNavbar from './components/AdminNavbar';
+import ManageSection from './components/ManageSection';
+import EditSection from './components/EditSection';
+import CreateSection from './components/CreateSection';
+
+import ManageAccount from './components/ManageAccount';
+import ResetPassword from './components/ResetPassword';
+import UserRequest from './components/UserRequest';
+import HelpPageAdmin from './components/HelpPageAdmin';
+import HelpPageTeacher from './components/HelpPageTeacher';
+
+import HomePageTeacher from './components/HomePageTeacher';
+import HomePageAdmin from './components/HomePageAdmin';
 
 class App extends Component {
   componentDidMount() {
-    document.body.style.height = "100vh";
+    document.body.style.height = '100vh';
+
     document.body.style.backgroundImage =
-      "linear-gradient(to top, #bef264, #d9f99d , #ccf779)";
+      'linear-gradient(to top, #bef264, #d9f99d , #ccf779)';
 
     /*
     window.localStorage.setItem("NAVBAR_PAGE", JSON.stringify(""));
@@ -45,13 +68,15 @@ class App extends Component {
   }
 
   render() {
-    console.log("App - Rendered");
+    console.log('App - Rendered');
     return (
       <BrowserRouter>
         <Navbar></Navbar>
+        <TeacherNavbar></TeacherNavbar>
+        <AdminNavbar></AdminNavbar>
 
         <Routes>
-          <Route path="/" element={<Homepage />} />
+          <Route path="/" element={<LoginPage />} />
           <Route path="Homepage" element={<Homepage />} />
           <Route path="Difficulty" element={<Difficulty />} />
 
@@ -66,6 +91,24 @@ class App extends Component {
 
           <Route path="Login" element={<Login />} />
           <Route path="Registration" element={<Registration />} />
+
+          <Route path="LoginPage" element={<LoginPage />} />
+          <Route path="TeacherPage" element={<TeacherPage />} />
+
+          <Route path="EquationList" element={<EquationList />} />
+          <Route path="CreateEquation" element={<CreateEquation />} />
+          <Route path="ManageSection" element={<ManageSection />} />
+          <Route path="EditSection" element={<EditSection />} />
+          <Route path="CreateSection" element={<CreateSection />} />
+
+          <Route path="ManageAccount" element={<ManageAccount />} />
+          <Route path="ResetPassword" element={<ResetPassword />} />
+          <Route path="UserRequest" element={<UserRequest />} />
+          <Route path="HelpPageAdmin" element={<HelpPageAdmin />} />
+          <Route path="HelpPageTeacher" element={<HelpPageTeacher />} />
+
+          <Route path="HomePageAdmin" element={<HomePageAdmin />} />
+          <Route path="HomePageTeacher" element={<HomePageTeacher />} />
         </Routes>
       </BrowserRouter>
     );

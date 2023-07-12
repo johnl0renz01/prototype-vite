@@ -1,16 +1,16 @@
-import React, { Component } from "react";
-import { useFormik } from "formik";
-import { registrationSchema } from "../schemas";
-import { useEffect, useState, useCallback } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import * as ReactDOM from "react-dom";
-import $ from "jquery";
+import React, { Component } from 'react';
+import { useFormik } from 'formik';
+import { registrationSchema } from '../schemas';
+import { useEffect, useState, useCallback } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import * as ReactDOM from 'react-dom';
+import $ from 'jquery';
 
-import RegistrationModal from "./RegistrationModal";
+import RegistrationModal from './RegistrationModal';
 
 function Registration() {
-  document.body.style.height = "100vh";
+  document.body.style.height = '100vh';
   const navigate = useNavigate();
 
   const [pageList, setPageList] = useState([]);
@@ -18,39 +18,39 @@ function Registration() {
 
   useEffect(() => {
     setPage();
-    window.addEventListener("focus", setPage);
+    window.addEventListener('focus', setPage);
     function setPage() {
-      let page = ["Home", "Registration"];
-      let link = ["/AdminHomepage", "/Registration"];
+      let page = ['Home', 'Registration'];
+      let link = ['/AdminHomepage', '/Registration'];
       setPageList(page);
       setPageLink(link);
-      window.localStorage.setItem("NAVBAR_PAGE", JSON.stringify(pageList));
-      window.localStorage.setItem("NAVBAR_PAGE_LINK", JSON.stringify(pageLink));
+      window.localStorage.setItem('NAVBAR_PAGE', JSON.stringify(pageList));
+      window.localStorage.setItem('NAVBAR_PAGE_LINK', JSON.stringify(pageLink));
     }
   }, []);
 
   useEffect(() => {
-    window.localStorage.setItem("NAVBAR_PAGE", JSON.stringify(pageList));
+    window.localStorage.setItem('NAVBAR_PAGE', JSON.stringify(pageList));
   }, [pageList]);
 
   useEffect(() => {
-    window.localStorage.setItem("NAVBAR_PAGE_LINK", JSON.stringify(pageLink));
+    window.localStorage.setItem('NAVBAR_PAGE_LINK', JSON.stringify(pageLink));
   }, [pageLink]);
 
   //END END END END END END END END END END END END
 
   const onSubmit = async (values, actions) => {
-    console.log("SUBMITTED");
+    console.log('SUBMITTED');
     axios
       .post(
-        "http://localhost:80/Prototype-Vite/my-project/api/registerAccount/save",
+        'http://localhost:80/Prototype-Vite/my-project/api/registerAccount/save',
         values
       )
       .then(function (response) {
         console.log(response.data);
         //window.location.reload(false);
       });
-    await new Promise((resolve) => setTimeout(resolve, 1));
+    await new Promise(resolve => setTimeout(resolve, 1));
     setShowModal(true);
     actions.resetForm();
 
@@ -67,10 +67,10 @@ function Registration() {
     */
   };
 
-  const [currentAge, setAge] = useState("");
+  const [currentAge, setAge] = useState('');
 
   function getAge(dateString) {
-    var string = dateString.replace(/[\-]/gi, "/");
+    var string = dateString.replace(/[\-]/gi, '/');
     var today = new Date();
     var birthDate = new Date(string);
     var age = today.getFullYear() - birthDate.getFullYear();
@@ -83,16 +83,16 @@ function Registration() {
     function setValue() {
       values.age = age;
       handleChange.age;
-      document.getElementById("age").focus();
-      setTimeout(document.getElementById("age").blur(), 1);
+      document.getElementById('age').focus();
+      setTimeout(document.getElementById('age').blur(), 1);
     }
 
     console.log(values.age);
   }
 
-  const [birthday, setBirthday] = useState("");
+  const [birthday, setBirthday] = useState('');
 
-  const dateChange = (event) => {
+  const dateChange = event => {
     const value = event.target.value;
     values.birthDay = value;
     setBirthday(value);
@@ -100,17 +100,17 @@ function Registration() {
     handleChange.age;
   };
 
-  const [email, setEmail] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
 
-  var fName = "";
-  var lName = "";
-  var tempEmail = "";
+  var fName = '';
+  var lName = '';
+  var tempEmail = '';
 
-  const firstNameChange = (event) => {
+  const firstNameChange = event => {
     const value = event.target.value;
-    var emailValue = value.replace(/\s/g, "");
+    var emailValue = value.replace(/\s/g, '');
     emailValue = emailValue.toLowerCase();
 
     values.firstName = value;
@@ -119,16 +119,16 @@ function Registration() {
     setFirstName(emailValue);
     fName = emailValue;
 
-    if (lastName != "") {
-      setEmail(lastName + "." + emailValue + "@sanfrancisco.edu.ph");
-      tempEmail = lastName + "." + emailValue + "@sanfrancisco.edu.ph";
+    if (lastName != '') {
+      setEmail(lastName + '.' + emailValue + '@sanfrancisco.edu.ph');
+      tempEmail = lastName + '.' + emailValue + '@sanfrancisco.edu.ph';
     } else {
-      if (firstName === "") {
-        setEmail("");
-        tempEmail = "";
+      if (firstName === '') {
+        setEmail('');
+        tempEmail = '';
       } else {
-        setEmail(emailValue + "@sanfrancisco.edu.ph");
-        tempEmail = emailValue + "@sanfrancisco.edu.ph";
+        setEmail(emailValue + '@sanfrancisco.edu.ph');
+        tempEmail = emailValue + '@sanfrancisco.edu.ph';
       }
     }
 
@@ -136,16 +136,16 @@ function Registration() {
     handleChange.email;
 
     //UPDATE INSTANTLY
-    document.getElementById("firstName").focus();
-    document.getElementById("firstName").blur();
-    document.getElementById("email").focus();
-    document.getElementById("email").blur();
-    document.getElementById("firstName").focus();
+    document.getElementById('firstName').focus();
+    document.getElementById('firstName').blur();
+    document.getElementById('email').focus();
+    document.getElementById('email').blur();
+    document.getElementById('firstName').focus();
   };
 
-  const lastNameChange = (event) => {
+  const lastNameChange = event => {
     const value = event.target.value;
-    var emailValue = value.replace(/\s/g, "");
+    var emailValue = value.replace(/\s/g, '');
     emailValue = emailValue.toLowerCase();
 
     values.lastName = value;
@@ -154,16 +154,16 @@ function Registration() {
     setLastName(emailValue);
     lName = emailValue;
 
-    if (firstName != "") {
-      setEmail(emailValue + "." + firstName + "@sanfrancisco.edu.ph");
-      tempEmail = emailValue + "." + firstName + "@sanfrancisco.edu.ph";
+    if (firstName != '') {
+      setEmail(emailValue + '.' + firstName + '@sanfrancisco.edu.ph');
+      tempEmail = emailValue + '.' + firstName + '@sanfrancisco.edu.ph';
     } else {
-      if (lastName === "") {
-        setEmail("");
-        tempEmail = "";
+      if (lastName === '') {
+        setEmail('');
+        tempEmail = '';
       } else {
-        setEmail(emailValue + "@sanfrancisco.edu.ph");
-        tempEmail = emailValue + "@sanfrancisco.edu.ph";
+        setEmail(emailValue + '@sanfrancisco.edu.ph');
+        tempEmail = emailValue + '@sanfrancisco.edu.ph';
       }
     }
 
@@ -171,11 +171,11 @@ function Registration() {
     handleChange.email;
 
     //UPDATE INSTANTLY
-    document.getElementById("lastName").focus();
-    document.getElementById("lastName").blur();
-    document.getElementById("email").focus();
-    document.getElementById("email").blur();
-    document.getElementById("lastName").focus();
+    document.getElementById('lastName').focus();
+    document.getElementById('lastName').blur();
+    document.getElementById('email').focus();
+    document.getElementById('email').blur();
+    document.getElementById('lastName').focus();
   };
 
   const {
@@ -188,17 +188,17 @@ function Registration() {
     touched,
   } = useFormik({
     initialValues: {
-      firstName: "",
-      middleName: "",
-      lastName: "",
-      birthDay: "",
-      age: "",
-      section: "Rizal",
-      groupType: "Facial Group",
-      gradeLevel: "Grade 7",
-      email: "",
-      password: "",
-      confirmPassword: "",
+      firstName: '',
+      middleName: '',
+      lastName: '',
+      birthDay: '',
+      age: '',
+      section: 'Rizal',
+      groupType: 'Facial Group',
+      gradeLevel: 'Grade 7',
+      email: '',
+      password: '',
+      confirmPassword: '',
     },
     validationSchema: registrationSchema,
     onSubmit,
@@ -214,86 +214,86 @@ function Registration() {
         <div className=" bg-white rounded-5xl shadow-2xl shadow-yellow-400">
           <div className="grid grid-cols-12 row-span-1 bg-mainBGBrown py-8 -mt-2  rounded-t-5xl shadow-md shadow-yellow-800/30 border-yellow-800 border-l-12 border-r-brTwo border-r-12">
             <div className="bg-black/30 rounded-full pt-2 mx-6 shadow-lg shadow-yellow-700 w-1/2">
-              {"\u00A0"}
+              {'\u00A0'}
               <div className="bg-lime-200 rounded-full mx-1  pt-4 -mt-4 ">
-                {"\u00A0"}
+                {'\u00A0'}
               </div>
             </div>
 
             <div className="bg-black/30 rounded-full pt-2 mx-6 shadow-lg shadow-yellow-700 w-1/2">
-              {"\u00A0"}
+              {'\u00A0'}
               <div className="bg-lime-200 rounded-full mx-1  pt-4 -mt-4 ">
-                {"\u00A0"}
+                {'\u00A0'}
               </div>
             </div>
 
             <div className="bg-black/30 rounded-full pt-2 mx-6 shadow-lg shadow-yellow-700 w-1/2">
-              {"\u00A0"}
+              {'\u00A0'}
               <div className="bg-lime-200 rounded-full mx-1  pt-4 -mt-4 ">
-                {"\u00A0"}
+                {'\u00A0'}
               </div>
             </div>
 
             <div className="bg-black/30 rounded-full pt-2 mx-6 shadow-lg shadow-yellow-700 w-1/2">
-              {"\u00A0"}
+              {'\u00A0'}
               <div className="bg-lime-200 rounded-full mx-1  pt-4 -mt-4 ">
-                {"\u00A0"}
+                {'\u00A0'}
               </div>
             </div>
 
             <div className="bg-black/30 rounded-full pt-2 mx-6 shadow-lg shadow-yellow-700 w-1/2">
-              {"\u00A0"}
+              {'\u00A0'}
               <div className="bg-lime-200 rounded-full mx-1  pt-4 -mt-4 ">
-                {"\u00A0"}
+                {'\u00A0'}
               </div>
             </div>
 
             <div className="bg-black/30 rounded-full pt-2 mx-6 shadow-lg shadow-yellow-700 w-1/2">
-              {"\u00A0"}
+              {'\u00A0'}
               <div className="bg-lime-200 rounded-full mx-1  pt-4 -mt-4 ">
-                {"\u00A0"}
+                {'\u00A0'}
               </div>
             </div>
 
             <div className="bg-black/30 rounded-full pt-2 mx-6 shadow-lg shadow-yellow-700 w-1/2">
-              {"\u00A0"}
+              {'\u00A0'}
               <div className="bg-lime-200 rounded-full mx-1  pt-4 -mt-4 ">
-                {"\u00A0"}
+                {'\u00A0'}
               </div>
             </div>
 
             <div className="bg-black/30 rounded-full pt-2 mx-6 shadow-lg shadow-yellow-700 w-1/2">
-              {"\u00A0"}
+              {'\u00A0'}
               <div className="bg-lime-200 rounded-full mx-1  pt-4 -mt-4 ">
-                {"\u00A0"}
+                {'\u00A0'}
               </div>
             </div>
 
             <div className="bg-black/30 rounded-full pt-2 mx-6 shadow-lg shadow-yellow-700 w-1/2">
-              {"\u00A0"}
+              {'\u00A0'}
               <div className="bg-lime-200 rounded-full mx-1  pt-4 -mt-4 ">
-                {"\u00A0"}
+                {'\u00A0'}
               </div>
             </div>
 
             <div className="bg-black/30 rounded-full pt-2 mx-6 shadow-lg shadow-yellow-700 w-1/2">
-              {"\u00A0"}
+              {'\u00A0'}
               <div className="bg-lime-200 rounded-full mx-1  pt-4 -mt-4 ">
-                {"\u00A0"}
+                {'\u00A0'}
               </div>
             </div>
 
             <div className="bg-black/30 rounded-full pt-2 mx-6 shadow-lg shadow-yellow-700 w-1/2">
-              {"\u00A0"}
+              {'\u00A0'}
               <div className="bg-lime-200 rounded-full mx-1  pt-4 -mt-4 ">
-                {"\u00A0"}
+                {'\u00A0'}
               </div>
             </div>
 
             <div className="bg-black/30 rounded-full pt-2 mx-6 shadow-lg shadow-yellow-700 w-1/2">
-              {"\u00A0"}
+              {'\u00A0'}
               <div className="bg-lime-200 rounded-full mx-1  pt-4 -mt-4 ">
-                {"\u00A0"}
+                {'\u00A0'}
               </div>
             </div>
           </div>
@@ -318,7 +318,7 @@ function Registration() {
                         htmlFor="firstName"
                         className="inline-block mt-2 pr-2 text-right w-[136px]"
                       >
-                        Given Name:{" "}
+                        Given Name:{' '}
                       </label>
                       <input
                         id="firstName"
@@ -328,8 +328,8 @@ function Registration() {
                         autoComplete="new-password"
                         className={` grow p-2 border-2 rounded-md border-gray-500 focus:outline-teal-500 relative focus:ring-teal-500 shadow-sm  shadow-[#808080] ${
                           errors.firstName && touched.firstName
-                            ? "shadow-red-500  border-red-500 focus:border-red-500 border-3 border-solid"
-                            : ""
+                            ? 'shadow-red-500  border-red-500 focus:border-red-500 border-3 border-solid'
+                            : ''
                         }`}
                         value={values.firstName}
                         onChange={firstNameChange}
@@ -350,7 +350,7 @@ function Registration() {
                         htmlFor="middleName"
                         className="inline-block pt-2 pr-2 text-right w-[120px]"
                       >
-                        Middle Name:{" "}
+                        Middle Name:{' '}
                       </label>
                       <input
                         name="middleName"
@@ -372,8 +372,8 @@ function Registration() {
                         htmlFor="lastName"
                         className="inline-block pt-2 pr-2 text-right w-[7rem]"
                       >
-                        {" "}
-                        Last Name:{" "}
+                        {' '}
+                        Last Name:{' '}
                       </label>
                       <input
                         id="lastName"
@@ -383,8 +383,8 @@ function Registration() {
                         autoComplete="new-password"
                         className={`grow p-2 border-2 relative rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 w-52 shadow-sm shadow-[#808080] ${
                           errors.lastName && touched.lastName
-                            ? " shadow-red-500 border-red-500 focus:border-red-500 border-3 border-solid"
-                            : ""
+                            ? ' shadow-red-500 border-red-500 focus:border-red-500 border-3 border-solid'
+                            : ''
                         } `}
                         value={values.lastName}
                         onChange={lastNameChange}
@@ -407,7 +407,7 @@ function Registration() {
                         htmlFor="birthDay"
                         className="inline-block pt-2 pr-2 text-right w-[136px]"
                       >
-                        Birth date:{" "}
+                        Birth date:{' '}
                       </label>
                       <input
                         id="birthDay"
@@ -431,7 +431,7 @@ function Registration() {
                         htmlFor="age"
                         className="inline-block pt-2 pr-2 text-right w-[120px]"
                       >
-                        Age:{" "}
+                        Age:{' '}
                       </label>
                       <input
                         readOnly
@@ -442,8 +442,8 @@ function Registration() {
                         autoComplete="new-password"
                         className={`p-2 border-2 w-[9rem] rounded-md focus:border-none border-gray-500 focus:outline-teal-500 focus:ring-teal-500 relative shadow-sm shadow-[#808080] ${
                           errors.age && touched.age
-                            ? " shadow-red-500 border-red-500 focus:border-red-500 border-3 border-solid"
-                            : ""
+                            ? ' shadow-red-500 border-red-500 focus:border-red-500 border-3 border-solid'
+                            : ''
                         }`}
                         value={currentAge}
                         onChange={handleChange}
@@ -464,7 +464,7 @@ function Registration() {
                         htmlFor="sex"
                         className="inline-block pt-2 pr-2 text-right w-[7rem]"
                       >
-                        Gender:{" "}
+                        Gender:{' '}
                       </label>
                       <div className="mt-2.5">
                         <input
@@ -472,18 +472,18 @@ function Registration() {
                           type="radio"
                           className=""
                           value="Male"
-                          checked={values.sex === "Male"}
+                          checked={values.sex === 'Male'}
                           onChange={handleChange}
-                        />{" "}
+                        />{' '}
                         Male
                         <input
                           name="sex"
                           type="radio"
                           className="ml-4"
                           value="Female"
-                          checked={values.sex === "Female"}
+                          checked={values.sex === 'Female'}
                           onChange={handleChange}
-                        />{" "}
+                        />{' '}
                         Female
                       </div>
                     </div>
@@ -504,7 +504,7 @@ function Registration() {
                         htmlFor="gradeLevel"
                         className="inline-block pt-2 pr-2 text-right w-[136px]"
                       >
-                        Grade Level:{" "}
+                        Grade Level:{' '}
                       </label>
                       <select
                         value={values.gradeLevel}
@@ -552,7 +552,7 @@ function Registration() {
                         htmlFor="groupType"
                         className="inline-block pt-2 pr-2 text-right w-[7rem]"
                       >
-                        Group Type:{" "}
+                        Group Type:{' '}
                       </label>
                       <select
                         value={values.groupType}
@@ -577,7 +577,7 @@ function Registration() {
                         htmlFor="email"
                         className="inline-block pt-2 pr-2 text-right w-[136px]"
                       >
-                        Email:{" "}
+                        Email:{' '}
                       </label>
                       <input
                         readOnly
@@ -588,8 +588,8 @@ function Registration() {
                         placeholder="lastname.firstname@school.edu.ph"
                         className={`grow p-2 border-2 rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 shadow-sm shadow-[#808080] ${
                           errors.email && touched.email
-                            ? " shadow-red-500 border-red-500 focus:border-red-500 border-3 border-solid"
-                            : ""
+                            ? ' shadow-red-500 border-red-500 focus:border-red-500 border-3 border-solid'
+                            : ''
                         }`}
                         value={email}
                         onChange={handleChange}
@@ -612,7 +612,7 @@ function Registration() {
                         htmlFor="password"
                         className="inline-block pt-2 pr-2 text-right w-[136px]"
                       >
-                        Password:{" "}
+                        Password:{' '}
                       </label>
                       <input
                         name="password"
@@ -621,8 +621,8 @@ function Registration() {
                         placeholder="Enter Password"
                         className={`grow p-2 py-[14.5px] border-2  rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 focus:border-none relative shadow-sm shadow-[#808080] ${
                           errors.password && touched.password
-                            ? " shadow-red-500 border-red-500 focus:border-red-500 border-3 border-solid"
-                            : ""
+                            ? ' shadow-red-500 border-red-500 focus:border-red-500 border-3 border-solid'
+                            : ''
                         }`}
                         value={values.password}
                         onChange={handleChange}
@@ -643,7 +643,7 @@ function Registration() {
                         htmlFor="confirmPassword"
                         className="inline-block pt-2 pr-2 text-right w-[7rem]"
                       >
-                        Confirm Password:{" "}
+                        Confirm Password:{' '}
                       </label>
                       <input
                         name="confirmPassword"
@@ -652,8 +652,8 @@ function Registration() {
                         placeholder="Confirm Password"
                         className={`grow p-2 border-2  rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 focus:border-none shadow-sm shadow-[#808080] ${
                           errors.confirmPassword && touched.confirmPassword
-                            ? " shadow-red-500 border-red-500 focus:border-red-500 border-3 border-solid"
-                            : ""
+                            ? ' shadow-red-500 border-red-500 focus:border-red-500 border-3 border-solid'
+                            : ''
                         }`}
                         value={values.confirmPassword}
                         onChange={handleChange}

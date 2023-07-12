@@ -1,10 +1,10 @@
-import React from "react";
-import { MdClose } from "react-icons/md";
-import { VscInfo } from "react-icons/vsc";
+import React from 'react';
+import { MdClose } from 'react-icons/md';
+import { VscInfo } from 'react-icons/vsc';
 
 const RegistrationModal = ({ visible, onClose }) => {
-  const handleOnClose = (e) => {
-    if (e.target.id === "mainContainer") onClose();
+  const handleOnClose = e => {
+    if (e.target.id === 'mainContainer') onClose();
     window.location.reload(false);
   };
 

@@ -1,22 +1,22 @@
-import React, { Component } from "react";
-import { useEffect, useState, useCallback } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import * as ReactDOM from "react-dom";
-import $ from "jquery";
+import React, { Component } from 'react';
+import { useEffect, useState, useCallback } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import * as ReactDOM from 'react-dom';
+import $ from 'jquery';
 
-import HintModal from "./HintModal";
-import VideoModal from "./VideoModal";
-import PenModal from "./PenModal";
+import HintModal from './HintModal';
+import VideoModal from './VideoModal';
+import PenModal from './PenModal';
 
-import EquationSolver from "./equationSolver";
-import MY_API_KEY from "./API_KEY";
+import EquationSolver from './equationSolver';
+import MY_API_KEY from './API_KEY';
 
-import "../board.css";
+import '../board.css';
 //import Board from "./Board.jsx";
 
 export default function Whiteboard() {
-  document.body.style.height = "100vh";
+  document.body.style.height = '100vh';
   const navigate = useNavigate();
 
   //FOR LINKS/NAVBAR/BREADCRUMBS
@@ -26,36 +26,36 @@ export default function Whiteboard() {
   useEffect(() => {
     setPage();
 
-    window.addEventListener("focus", setPage);
+    window.addEventListener('focus', setPage);
     function setPage() {
-      let page = ["Home", "Difficulty", "Whiteboard"];
-      let link = ["/Homepage", "/Difficulty", "/Whiteboard"];
+      let page = ['Home', 'Difficulty', 'Whiteboard'];
+      let link = ['/Homepage', '/Difficulty', '/Whiteboard'];
       setPageList(page);
       setPageLink(link);
-      window.localStorage.setItem("NAVBAR_PAGE", JSON.stringify(pageList));
-      window.localStorage.setItem("NAVBAR_PAGE_LINK", JSON.stringify(pageLink));
+      window.localStorage.setItem('NAVBAR_PAGE', JSON.stringify(pageList));
+      window.localStorage.setItem('NAVBAR_PAGE_LINK', JSON.stringify(pageLink));
     }
 
-    const data1 = window.localStorage.getItem("QUESTION_LIST");
+    const data1 = window.localStorage.getItem('QUESTION_LIST');
     if (data1 == null)
-      window.localStorage.setItem("EXPRESSION_HAPPY", JSON.stringify(""));
-    const data2 = window.localStorage.getItem("QUESTION_LIST");
+      window.localStorage.setItem('EXPRESSION_HAPPY', JSON.stringify(''));
+    const data2 = window.localStorage.getItem('QUESTION_LIST');
     if (data2 == null)
-      window.localStorage.setItem("EXPRESSION_SAD", JSON.stringify(""));
-    const data3 = window.localStorage.getItem("QUESTION_LIST");
+      window.localStorage.setItem('EXPRESSION_SAD', JSON.stringify(''));
+    const data3 = window.localStorage.getItem('QUESTION_LIST');
     if (data3 == null)
-      window.localStorage.setItem("EXPRESSION_ANGRY", JSON.stringify(""));
-    const data4 = window.localStorage.getItem("QUESTION_LIST");
+      window.localStorage.setItem('EXPRESSION_ANGRY', JSON.stringify(''));
+    const data4 = window.localStorage.getItem('QUESTION_LIST');
     if (data4 == null)
-      window.localStorage.setItem("EXPRESSION_SURPRISED", JSON.stringify(""));
+      window.localStorage.setItem('EXPRESSION_SURPRISED', JSON.stringify(''));
   }, []);
 
   useEffect(() => {
-    window.localStorage.setItem("NAVBAR_PAGE", JSON.stringify(pageList));
+    window.localStorage.setItem('NAVBAR_PAGE', JSON.stringify(pageList));
   }, [pageList]);
 
   useEffect(() => {
-    window.localStorage.setItem("NAVBAR_PAGE_LINK", JSON.stringify(pageLink));
+    window.localStorage.setItem('NAVBAR_PAGE_LINK', JSON.stringify(pageLink));
   }, [pageLink]);
 
   //END END END END END END END END END END END END
@@ -67,7 +67,7 @@ export default function Whiteboard() {
   const coefficientLetter = [];
 
   useEffect(() => {
-    const data = window.localStorage.getItem("QUESTION_LIST");
+    const data = window.localStorage.getItem('QUESTION_LIST');
     if (data !== null) setQuestions(JSON.parse(data));
   }, []);
 
@@ -88,7 +88,7 @@ export default function Whiteboard() {
       // console.log("COEFEFEFECECE: " + coefficient);
       coefficientLetter.push(coefficient);
 
-      if (answer == "invalid") {
+      if (answer == 'invalid') {
         isInvalid = true;
         break;
       }
@@ -98,20 +98,20 @@ export default function Whiteboard() {
       // GO BACK TO DIFFICULTY
       setTimeout(DifficultyPage, 1);
       function DifficultyPage() {
-        let page = ["Home", "Difficulty"];
-        let link = ["/Homepage", "/Difficulty"];
+        let page = ['Home', 'Difficulty'];
+        let link = ['/Homepage', '/Difficulty'];
         setPageList(page);
         setPageLink(link);
 
-        window.localStorage.setItem("NAVBAR_PAGE", JSON.stringify(pageList));
+        window.localStorage.setItem('NAVBAR_PAGE', JSON.stringify(pageList));
         window.localStorage.setItem(
-          "NAVBAR_PAGE_LINK",
+          'NAVBAR_PAGE_LINK',
           JSON.stringify(pageLink)
         );
         setTimeout(proceed, 1);
 
         function proceed() {
-          navigate("/Difficulty");
+          navigate('/Difficulty');
         }
       }
     }
@@ -120,13 +120,13 @@ export default function Whiteboard() {
   const [currentQuestionIndex, setQuestionIndex] = useState(0);
 
   useEffect(() => {
-    const data = window.localStorage.getItem("QUESTION_INDEX");
+    const data = window.localStorage.getItem('QUESTION_INDEX');
     if (data !== null) setQuestionIndex(JSON.parse(data));
   }, []);
 
   useEffect(() => {
     window.localStorage.setItem(
-      "QUESTION_INDEX",
+      'QUESTION_INDEX',
       JSON.stringify(currentQuestionIndex)
     );
   }, [currentQuestionIndex]);
@@ -149,7 +149,7 @@ export default function Whiteboard() {
   */
 
   computeEquation();
-  console.log("answeasda:" + questionAnswers);
+  console.log('answeasda:' + questionAnswers);
   // console.log("Coeff letter: " + coefficientLetter);
   //console.log("ASDROOOO:" + questionList);
   //console.log("AasdasdO:" + questionAnswers);
@@ -182,14 +182,14 @@ export default function Whiteboard() {
 
   //console.log("evaluation:" + (eval(3+2)));
 
-  const [textInput, setAnswer] = useState("");
-  const [textLog, setLog] = useState("");
-  const [updatedLog, updateLog] = useState("");
+  const [textInput, setAnswer] = useState('');
+  const [textLog, setLog] = useState('');
+  const [updatedLog, updateLog] = useState('');
 
   const [arrTextLog, arrSetLog] = useState([]);
   const [arrUpdatedLog, arrUpdateLog] = useState([]);
 
-  const [imageLink, setImageLink] = useState("PIA-Neutral");
+  const [imageLink, setImageLink] = useState('PIA-Neutral');
 
   const [updatedBoard, updateBoard] = useState(textInput);
 
@@ -197,16 +197,16 @@ export default function Whiteboard() {
   // MUST FETCH API
 
   console.log(
-    "ETO ANG PINAKAMAOUPET: " + questionAnswers[currentQuestionIndex]
+    'ETO ANG PINAKAMAOUPET: ' + questionAnswers[currentQuestionIndex]
   );
-  var ans = "x=";
+  var ans = 'x=';
   ans = ans.concat(questionAnswers[currentQuestionIndex]);
   const [answer, correctAnswer] = useState([]);
   const [answerDisplay, setDisplay] = useState([]);
   const [countTally, checkCount] = useState(0);
   const [length, setLength] = useState();
 
-  const loadAnswers = (e) => {
+  const loadAnswers = e => {
     if (countTally === 0) {
       //ans = "x=";
       //ans = ans.concat(questionAnswers[currentQuestionIndex]);
@@ -237,12 +237,12 @@ export default function Whiteboard() {
       for (let i = 0; i < equationSteps.length; i++) {
         var currentEquation = equationSteps[i];
         let firstIndex = 0;
-        let fixedString = "";
+        let fixedString = '';
         let equalSignIndex = 0;
         for (let j = 1; j <= currentEquation.length; j++) {
           if (currentEquation.length === j) {
             fixedString = fixedString.concat(
-              [currentEquation.slice(firstIndex, j)].join("")
+              [currentEquation.slice(firstIndex, j)].join('')
             );
             break;
           }
@@ -256,10 +256,10 @@ export default function Whiteboard() {
             fixedString = fixedString.concat(
               [
                 currentEquation.slice(firstIndex, j),
-                " ",
+                ' ',
                 currentEquation[j],
-                " ",
-              ].join("")
+                ' ',
+              ].join('')
             );
             firstIndex = j + 1;
           }
@@ -270,7 +270,7 @@ export default function Whiteboard() {
         }
         fixedEquationSteps.push(fixedString);
       }
-      console.log("this is fixedEquationSteps: " + fixedEquationSteps);
+      console.log('this is fixedEquationSteps: ' + fixedEquationSteps);
       setDisplay(fixedEquationSteps);
     }
   };
@@ -282,15 +282,15 @@ export default function Whiteboard() {
 
   //PIA
   const [textResponse, setResponse] = useState(
-    "Please input your solution or answer for this problem."
+    'Please input your solution or answer for this problem.'
   );
-  const [subtextResponse, setSubtext] = useState("");
+  const [subtextResponse, setSubtext] = useState('');
 
-  const invalidColor = "#b5b7ba";
-  const defaultColor = "#e2e8f0";
-  const correctColor = "#6edf12";
-  const wrongColor = "#ff5842";
-  const angryColor = "#f51d00";
+  const invalidColor = '#b5b7ba';
+  const defaultColor = '#e2e8f0';
+  const correctColor = '#6edf12';
+  const wrongColor = '#ff5842';
+  const angryColor = '#f51d00';
 
   //WRONBGWROGNWROW
 
@@ -303,11 +303,11 @@ export default function Whiteboard() {
   }, []);
   */
 
-  window.addEventListener("beforeunload", function (e) {
+  window.addEventListener('beforeunload', function (e) {
     // Cancel the event
     e.preventDefault(); // If you prevent default behavior in Mozilla Firefox prompt will always be shown
     // Chrome requires returnValue to be set
-    e.returnValue = "";
+    e.returnValue = '';
   });
 
   //=========================
@@ -333,41 +333,41 @@ export default function Whiteboard() {
   */
 
   //PUT LOGS IN DATABASE
-  var userLogs = "";
-  var userNameLogs = "";
-  var userName = "";
+  var userLogs = '';
+  var userNameLogs = '';
+  var userName = '';
   useEffect(() => {
-    userName = window.localStorage.getItem("SESSION_USER");
-    userName = userName.replace(/"/g, "");
+    userName = window.localStorage.getItem('SESSION_USER');
+    userName = userName.replace(/"/g, '');
     userNameLogs = userName;
-    userName = userName.replace(/ /g, "_");
+    userName = userName.replace(/ /g, '_');
 
-    userLogs = window.localStorage.getItem("SESSION_USER_LOGS");
-    userLogs = userLogs + "@" + window.localStorage.getItem("SESSION_ID");
-    userLogs = userLogs + "@" + userName;
-    userLogs = userLogs.replace(/"/g, "");
+    userLogs = window.localStorage.getItem('SESSION_USER_LOGS');
+    userLogs = userLogs + '@' + window.localStorage.getItem('SESSION_ID');
+    userLogs = userLogs + '@' + userName;
+    userLogs = userLogs.replace(/"/g, '');
     //console.log(userLogs);
   });
   const [inputs, setInputs] = useState([]);
 
-  const handleChange = (event) => {
+  const handleChange = event => {
     setLog(event.target.value);
     setAnswer(event.target.value);
 
     const name = event.target.name;
     const value = event.target.value;
-    setInputs((values) => ({ ...values, [name]: value }));
+    setInputs(values => ({ ...values, [name]: value }));
   };
 
   //SUBMIT
-  const handleSubmit = (event) => {
+  const handleSubmit = event => {
     event.preventDefault();
     console.log(answer[answer.length - 1]);
 
     //console.log(userLogs);
 
     //If string is not empty
-    if (textInput.trim() !== "") {
+    if (textInput.trim() !== '') {
       axios
         .post(
           `http://localhost:80/Prototype-Vite/my-project/api/whiteboardLogs/${userLogs}`,
@@ -378,32 +378,32 @@ export default function Whiteboard() {
         });
     }
     //Clear inputbox
-    setAnswer("");
+    setAnswer('');
   };
   //PHP CONNECT END
   //=========================
 
   // Message Area DIV
-  const answerArea = document.getElementById("answer_area");
-  const messageArea = document.getElementById("message_area");
-  const messageAreaTail = document.getElementById("message_area_tail");
-  const imageBackground = document.getElementById("image_bg");
+  const answerArea = document.getElementById('answer_area');
+  const messageArea = document.getElementById('message_area');
+  const messageAreaTail = document.getElementById('message_area_tail');
+  const imageBackground = document.getElementById('image_bg');
   //Confirmation Area DIV
-  const confirmationArea = document.getElementById("solved");
+  const confirmationArea = document.getElementById('solved');
 
   //Choice Area DIV
-  const choiceArea = document.getElementById("choice");
+  const choiceArea = document.getElementById('choice');
 
   //Check if problem is solved
   const [isSolved, setFinish] = useState(false);
 
   //Clear all  timeouts
-  var highestTimeoutId = setTimeout(";");
+  var highestTimeoutId = setTimeout(';');
 
-  const nextQuestion = (e) => {
-    ReactDOM.findDOMNode(confirmationArea).style.visibility = "hidden";
-    ReactDOM.findDOMNode(choiceArea).style.visibility = "hidden";
-    ReactDOM.findDOMNode(answerArea).style.visibility = "hidden";
+  const nextQuestion = e => {
+    ReactDOM.findDOMNode(confirmationArea).style.visibility = 'hidden';
+    ReactDOM.findDOMNode(choiceArea).style.visibility = 'hidden';
+    ReactDOM.findDOMNode(answerArea).style.visibility = 'hidden';
     setDisplay([]);
 
     setFinish(false);
@@ -424,13 +424,13 @@ export default function Whiteboard() {
   };
 
   //=============================CLICK BUTTON=============================
-  const handleClick = (event) => {
+  const handleClick = event => {
     //Focus inputbox
-    let inputID = document.getElementById("input_box");
+    let inputID = document.getElementById('input_box');
     ReactDOM.findDOMNode(inputID).focus();
 
     //If string is not empty
-    if (textInput.trim() !== "") {
+    if (textInput.trim() !== '') {
       //Clear all  timeouts
       for (let i = 0; i < highestTimeoutId; i++) {
         clearTimeout(i);
@@ -438,13 +438,13 @@ export default function Whiteboard() {
 
       // **********************API BAD WORDS FILTER**********************
 
-      var Filter = require("bad-words"),
+      var Filter = require('bad-words'),
         filter = new Filter();
 
-      var newBadWords = ["stupid", "idiot", "dumb", "tang", "tangina"];
+      var newBadWords = ['stupid', 'idiot', 'dumb', 'tang', 'tangina'];
       filter.addWords(...newBadWords);
 
-      var filipinoBadwords = require("filipino-badwords-list");
+      var filipinoBadwords = require('filipino-badwords-list');
       filter.addWords(...filipinoBadwords.array);
 
       //var valueChanged = false;
@@ -501,11 +501,11 @@ export default function Whiteboard() {
       }
      */
 
-      arrSetLog((oldArray) => [...oldArray, userNameLogs + ": " + newValue]);
+      arrSetLog(oldArray => [...oldArray, userNameLogs + ': ' + newValue]);
 
       //Check if the answer is correct *if yes display in whiteboard
 
-      var trimmedText = textInput.replace(/\s/g, "");
+      var trimmedText = textInput.replace(/\s/g, '');
       //console.log("trim: ", trimmedText);
 
       if (!isSolved) {
@@ -513,20 +513,20 @@ export default function Whiteboard() {
           let isRepeat = false;
           let currentIndex = answer.indexOf(trimmedText);
 
-          ReactDOM.findDOMNode(answerArea).style.visibility = "visible";
+          ReactDOM.findDOMNode(answerArea).style.visibility = 'visible';
 
           //Display from n to current
           for (let i = 0; i <= currentIndex; i++) {
-            let element = document.getElementById("answer" + i);
+            let element = document.getElementById('answer' + i);
 
-            if (ReactDOM.findDOMNode(element).style.visibility === "visible") {
+            if (ReactDOM.findDOMNode(element).style.visibility === 'visible') {
               isRepeat = true;
             } else {
               isRepeat = false;
             }
 
             //console.log(element);
-            ReactDOM.findDOMNode(element).style.visibility = "visible";
+            ReactDOM.findDOMNode(element).style.visibility = 'visible';
           }
 
           if (answer[answer.length - 1] === trimmedText) {
@@ -547,8 +547,8 @@ export default function Whiteboard() {
           //console.log("TESTING ASDSADSADAS");
           let search = coefficientLetter[currentQuestionIndex];
           //console.log("COEFFICIENT LETTER: " + search);
-          let find = new RegExp(search, "gi");
-          let removedCoeff = trimmedText.replace(find, "");
+          let find = new RegExp(search, 'gi');
+          let removedCoeff = trimmedText.replace(find, '');
           //console.log("removedCoeff: " + removedCoeff);
           let result = removedCoeff.match(/[a-zA-Z]/gi);
           //console.log("RESULT: " + result);
@@ -574,8 +574,8 @@ export default function Whiteboard() {
 
       //arrUpdateLog("User: " + arrSetLog);
 
-      var objDiv = document.getElementById("logs");
-      objDiv.scroll({ top: objDiv.scrollHeight, behavior: "smooth" });
+      var objDiv = document.getElementById('logs');
+      objDiv.scroll({ top: objDiv.scrollHeight, behavior: 'smooth' });
     }
 
     //END OF FUNCTION
@@ -585,165 +585,165 @@ export default function Whiteboard() {
 
   function displayAngrySolved() {
     // UPDATE DATA
-    var data = window.localStorage.getItem("EXPRESSION_ANGRY");
+    var data = window.localStorage.getItem('EXPRESSION_ANGRY');
     if (data == null || data == undefined || data == '""') {
-      data = "0";
+      data = '0';
     }
 
     data = parseInt(data);
     data++;
-    window.localStorage.setItem("EXPRESSION_ANGRY", JSON.stringify(data));
+    window.localStorage.setItem('EXPRESSION_ANGRY', JSON.stringify(data));
     //END OF LINE
 
-    setImageLink("PIA-Mad");
+    setImageLink('PIA-Mad');
 
-    setResponse("Please refrain from cursing or using any vulgar words");
-    setSubtext("");
+    setResponse('Please refrain from cursing or using any vulgar words');
+    setSubtext('');
     ReactDOM.findDOMNode(imageBackground).style.backgroundColor = angryColor;
     ReactDOM.findDOMNode(messageArea).style.backgroundColor = angryColor;
     ReactDOM.findDOMNode(messageAreaTail).style.borderRight =
-      "18px solid " + angryColor;
-    ReactDOM.findDOMNode(confirmationArea).style.visibility = "hidden";
-    ReactDOM.findDOMNode(choiceArea).style.visibility = "hidden";
+      '18px solid ' + angryColor;
+    ReactDOM.findDOMNode(confirmationArea).style.visibility = 'hidden';
+    ReactDOM.findDOMNode(choiceArea).style.visibility = 'hidden';
 
     setTimeout(displaySolved, 5000);
   }
 
   function displaySolved() {
     // UPDATE DATA
-    var data = window.localStorage.getItem("EXPRESSION_HAPPY");
+    var data = window.localStorage.getItem('EXPRESSION_HAPPY');
     if (data == null || data == undefined || data == '""') {
-      data = "0";
+      data = '0';
     }
 
     data = parseInt(data);
     data++;
-    window.localStorage.setItem("EXPRESSION_HAPPY", JSON.stringify(data));
+    window.localStorage.setItem('EXPRESSION_HAPPY', JSON.stringify(data));
     //END OF LINE
 
-    setImageLink("PIA-Smiling");
+    setImageLink('PIA-Smiling');
 
-    setResponse("Congratulations!\n You solved the given equation.");
-    setSubtext("");
+    setResponse('Congratulations!\n You solved the given equation.');
+    setSubtext('');
     ReactDOM.findDOMNode(imageBackground).style.backgroundColor = correctColor;
     ReactDOM.findDOMNode(messageArea).style.backgroundColor = correctColor;
     ReactDOM.findDOMNode(messageAreaTail).style.borderRight =
-      "18px solid " + correctColor;
+      '18px solid ' + correctColor;
 
-    ReactDOM.findDOMNode(confirmationArea).style.visibility = "visible";
-    ReactDOM.findDOMNode(choiceArea).style.visibility = "visible";
+    ReactDOM.findDOMNode(confirmationArea).style.visibility = 'visible';
+    ReactDOM.findDOMNode(choiceArea).style.visibility = 'visible';
 
-    let currentScore = window.localStorage.getItem("SESSION_SCORE");
+    let currentScore = window.localStorage.getItem('SESSION_SCORE');
     currentScore++;
-    window.localStorage.setItem("SESSION_SCORE", currentScore);
+    window.localStorage.setItem('SESSION_SCORE', currentScore);
     setFinish(true);
   }
 
   function displayRepeated() {
-    setImageLink("PIA-Confused2");
+    setImageLink('PIA-Confused2');
 
-    setResponse("You already completed that step.");
-    setSubtext("");
+    setResponse('You already completed that step.');
+    setSubtext('');
     ReactDOM.findDOMNode(imageBackground).style.backgroundColor = invalidColor;
     ReactDOM.findDOMNode(messageArea).style.backgroundColor = invalidColor;
     ReactDOM.findDOMNode(messageAreaTail).style.borderRight =
-      "18px solid " + invalidColor;
+      '18px solid ' + invalidColor;
     setTimeout(timer, 5000);
   }
 
   function displayCorrect() {
     // UPDATE DATA
-    var data = window.localStorage.getItem("EXPRESSION_HAPPY");
+    var data = window.localStorage.getItem('EXPRESSION_HAPPY');
     if (data == null || data == undefined || data == '""') {
-      data = "0";
+      data = '0';
     }
 
     data = parseInt(data);
     data++;
-    window.localStorage.setItem("EXPRESSION_HAPPY", JSON.stringify(data));
+    window.localStorage.setItem('EXPRESSION_HAPPY', JSON.stringify(data));
     //END OF LINE
 
-    setImageLink("PIA-Happy2");
+    setImageLink('PIA-Happy2');
 
-    setResponse("You got the solution right!");
-    setSubtext("Good Job!");
+    setResponse('You got the solution right!');
+    setSubtext('Good Job!');
     ReactDOM.findDOMNode(imageBackground).style.backgroundColor = correctColor;
     ReactDOM.findDOMNode(messageArea).style.backgroundColor = correctColor;
     ReactDOM.findDOMNode(messageAreaTail).style.borderRight =
-      "18px solid " + correctColor;
+      '18px solid ' + correctColor;
     setTimeout(timer, 5000);
   }
 
   function displayWrong() {
     // UPDATE DATA
-    var data = window.localStorage.getItem("EXPRESSION_SAD");
+    var data = window.localStorage.getItem('EXPRESSION_SAD');
     if (data == null || data == undefined || data == '""') {
-      data = "0";
+      data = '0';
     }
 
     data = parseInt(data);
     data++;
-    window.localStorage.setItem("EXPRESSION_SAD", JSON.stringify(data));
+    window.localStorage.setItem('EXPRESSION_SAD', JSON.stringify(data));
     //END OF LINE
 
-    setImageLink("PIA-Sad");
+    setImageLink('PIA-Sad');
 
-    setResponse("Your answer is wrong.");
-    setSubtext("Please try again.");
+    setResponse('Your answer is wrong.');
+    setSubtext('Please try again.');
     ReactDOM.findDOMNode(imageBackground).style.backgroundColor = wrongColor;
     ReactDOM.findDOMNode(messageArea).style.backgroundColor = wrongColor;
     ReactDOM.findDOMNode(messageAreaTail).style.borderRight =
-      "18px solid " + wrongColor;
+      '18px solid ' + wrongColor;
     setTimeout(timer, 5000);
   }
 
   function displayConfused() {
     // UPDATE DATA
-    var data = window.localStorage.getItem("EXPRESSION_ANGRY");
+    var data = window.localStorage.getItem('EXPRESSION_ANGRY');
     if (data == null || data == undefined || data == '""') {
-      data = "0";
+      data = '0';
     }
 
     data = parseInt(data);
     data++;
-    window.localStorage.setItem("EXPRESSION_ANGRY", JSON.stringify(data));
+    window.localStorage.setItem('EXPRESSION_ANGRY', JSON.stringify(data));
     //END OF LINE
 
-    setImageLink("PIA-Mad");
+    setImageLink('PIA-Mad');
 
     setResponse(
-      "Your answer is irrelevant. Please only input appropriate answer for the given problem."
+      'Your answer is irrelevant. Please only input appropriate answer for the given problem.'
     );
-    setSubtext("");
+    setSubtext('');
     ReactDOM.findDOMNode(imageBackground).style.backgroundColor = wrongColor;
     ReactDOM.findDOMNode(messageArea).style.backgroundColor = wrongColor;
     ReactDOM.findDOMNode(messageAreaTail).style.borderRight =
-      "18px solid " + wrongColor;
+      '18px solid ' + wrongColor;
     setTimeout(timer, 5000);
   }
 
   function displayAngry() {
     // UPDATE DATA
-    var data = window.localStorage.getItem("EXPRESSION_ANGRY");
+    var data = window.localStorage.getItem('EXPRESSION_ANGRY');
     if (data == null || data == undefined || data == '""') {
-      data = "0";
+      data = '0';
     }
 
     data = parseInt(data);
     data++;
-    window.localStorage.setItem("EXPRESSION_ANGRY", JSON.stringify(data));
+    window.localStorage.setItem('EXPRESSION_ANGRY', JSON.stringify(data));
     //END OF LINE
 
-    setImageLink("PIA-Angry");
+    setImageLink('PIA-Angry');
 
     setResponse(
-      "Your answer is out of topic. Please refrain from cursing or using any vulgar words"
+      'Your answer is out of topic. Please refrain from cursing or using any vulgar words'
     );
-    setSubtext("");
+    setSubtext('');
     ReactDOM.findDOMNode(imageBackground).style.backgroundColor = angryColor;
     ReactDOM.findDOMNode(messageArea).style.backgroundColor = angryColor;
     ReactDOM.findDOMNode(messageAreaTail).style.borderRight =
-      "18px solid " + angryColor;
+      '18px solid ' + angryColor;
 
     setTimeout(timer, 5000);
   }
@@ -751,66 +751,66 @@ export default function Whiteboard() {
   //Revert back text messages and color
   //const a = () => {
   function timer() {
-    setImageLink("PIA-Neutral");
+    setImageLink('PIA-Neutral');
 
-    setResponse("Please input your solution or answer for this problem.");
-    setSubtext("");
+    setResponse('Please input your solution or answer for this problem.');
+    setSubtext('');
     ReactDOM.findDOMNode(imageBackground).style.backgroundColor = defaultColor;
     ReactDOM.findDOMNode(messageArea).style.backgroundColor = defaultColor;
     ReactDOM.findDOMNode(messageAreaTail).style.borderRight =
-      "18px solid " + defaultColor;
+      '18px solid ' + defaultColor;
     //ReactDOM.findDOMNode(messageArea).style.boxShadow = '0px -2px 10px 2px ' + defaultColor;
   }
 
   function newQuestion() {
-    setImageLink("PIA-Neutral");
+    setImageLink('PIA-Neutral');
 
     setResponse("This is the next question I've got for you.");
-    setSubtext("");
+    setSubtext('');
     ReactDOM.findDOMNode(imageBackground).style.backgroundColor = defaultColor;
     ReactDOM.findDOMNode(messageArea).style.backgroundColor = defaultColor;
     ReactDOM.findDOMNode(messageAreaTail).style.borderRight =
-      "18px solid " + defaultColor;
+      '18px solid ' + defaultColor;
     //ReactDOM.findDOMNode(messageArea).style.boxShadow = '0px -2px 10px 2px ' + defaultColor;
   }
 
   function helpModeResponse() {
-    setImageLink("PIA-Neutral");
+    setImageLink('PIA-Neutral');
 
     setResponse(
-      "You are currently in help mode. Click anywhere to change to default."
+      'You are currently in help mode. Click anywhere to change to default.'
     );
-    setSubtext("");
+    setSubtext('');
     ReactDOM.findDOMNode(imageBackground).style.backgroundColor = defaultColor;
     ReactDOM.findDOMNode(messageArea).style.backgroundColor = defaultColor;
     ReactDOM.findDOMNode(messageAreaTail).style.borderRight =
-      "18px solid " + defaultColor;
+      '18px solid ' + defaultColor;
   }
 
   function penModeResponse() {
-    setImageLink("PIA-Neutral");
+    setImageLink('PIA-Neutral');
 
     setResponse(
-      "You are currently in pen mode. Click the pen button to change to default."
+      'You are currently in pen mode. Click the pen button to change to default.'
     );
-    setSubtext("");
+    setSubtext('');
     ReactDOM.findDOMNode(imageBackground).style.backgroundColor = defaultColor;
     ReactDOM.findDOMNode(messageArea).style.backgroundColor = defaultColor;
     ReactDOM.findDOMNode(messageAreaTail).style.borderRight =
-      "18px solid " + defaultColor;
+      '18px solid ' + defaultColor;
   }
 
   function tutorialModeResponse() {
-    setImageLink("PIA-Neutral");
+    setImageLink('PIA-Neutral');
 
     setResponse(
-      "Tutorial video mode. Click the tutorial video button to change to default."
+      'Tutorial video mode. Click the tutorial video button to change to default.'
     );
-    setSubtext("");
+    setSubtext('');
     ReactDOM.findDOMNode(imageBackground).style.backgroundColor = defaultColor;
     ReactDOM.findDOMNode(messageArea).style.backgroundColor = defaultColor;
     ReactDOM.findDOMNode(messageAreaTail).style.borderRight =
-      "18px solid " + defaultColor;
+      '18px solid ' + defaultColor;
   }
   //};
 
@@ -821,12 +821,12 @@ export default function Whiteboard() {
   const clearLogs = () => {
     arrSetLog([]);
     const options = {
-      method: "POST",
-      url: "https://chatgpt-ai-chat-bot.p.rapidapi.com/ask",
+      method: 'POST',
+      url: 'https://chatgpt-ai-chat-bot.p.rapidapi.com/ask',
       headers: {
-        "content-type": "application/json",
-        "X-RapidAPI-Key": MY_API_KEY.getGPT_KEY(),
-        "X-RapidAPI-Host": "chatgpt-ai-chat-bot.p.rapidapi.com",
+        'content-type': 'application/json',
+        'X-RapidAPI-Key': MY_API_KEY.getGPT_KEY(),
+        'X-RapidAPI-Host': 'chatgpt-ai-chat-bot.p.rapidapi.com',
       },
       data: '{"text":" Generate 5 linear equation to solve for, only 1 variable, it must be very difficult level and distinct to each other. The equation should be similiar as this example: 2(3x-5) = 3(4x+2)."}',
     };
@@ -846,7 +846,7 @@ export default function Whiteboard() {
   const [isHelp, setHelpState] = useState(false);
 
   const helpCursor = () => {
-    document.body.style.cursor = "help";
+    document.body.style.cursor = 'help';
     setTimeout(defaultCursor, 1);
     setHelpState(true);
     setPenState(false);
@@ -855,18 +855,18 @@ export default function Whiteboard() {
   };
 
   function defaultCursor() {
-    document.body.addEventListener("click", changeCursor);
+    document.body.addEventListener('click', changeCursor);
     function changeCursor() {
-      document.body.style.cursor = "default";
-      if (document.getElementById("help").matches(":hover")) {
+      document.body.style.cursor = 'default';
+      if (document.getElementById('help').matches(':hover')) {
         for (let i = 0; i < highestTimeoutId; i++) {
           clearTimeout(i);
         }
-        document.body.style.cursor = "help";
-        document.body.removeEventListener("click", changeCursor);
+        document.body.style.cursor = 'help';
+        document.body.removeEventListener('click', changeCursor);
       } else {
         timer();
-        document.body.removeEventListener("click", changeCursor);
+        document.body.removeEventListener('click', changeCursor);
         setHelpState(false);
       }
     }
@@ -878,24 +878,24 @@ export default function Whiteboard() {
   var penAreaWidthValue = 0;
 
   function getHeightGivenArea() {
-    var divElement = document.getElementById("givenArea");
+    var divElement = document.getElementById('givenArea');
     whiteboardHeightValue = ReactDOM.findDOMNode(divElement).offsetHeight;
     // console.log(whiteboardHeightValue);
     if (whiteboardHeightValue <= 135) {
-      document.getElementById("container").style.gridTemplateRows =
-        "repeat(13, 1fr)";
+      document.getElementById('container').style.gridTemplateRows =
+        'repeat(13, 1fr)';
     } else {
-      document.getElementById("container").style.gridTemplateRows =
-        "repeat(11, 1fr)";
+      document.getElementById('container').style.gridTemplateRows =
+        'repeat(11, 1fr)';
     }
 
     //123px and //147px
   }
 
   function setArea() {
-    var divElement1 = document.getElementById("givenArea");
-    var divElement2 = document.getElementById("solutionArea");
-    var divElement3 = document.getElementById("streakArea");
+    var divElement1 = document.getElementById('givenArea');
+    var divElement2 = document.getElementById('solutionArea');
+    var divElement3 = document.getElementById('streakArea');
 
     var heightValue1 = ReactDOM.findDOMNode(divElement1).offsetHeight;
     var heightValue2 = ReactDOM.findDOMNode(divElement2).offsetHeight;
@@ -909,13 +909,13 @@ export default function Whiteboard() {
     // console.log(penAreaHeightValue);
     // console.log(penAreaWidthValue);
 
-    document.getElementById("penArea").style.height = penAreaHeightValue + "px";
-    document.getElementById("penArea").style.width = penAreaWidthValue + "px";
+    document.getElementById('penArea').style.height = penAreaHeightValue + 'px';
+    document.getElementById('penArea').style.width = penAreaWidthValue + 'px';
 
-    document.getElementById("tutorialArea").style.height =
-      penAreaHeightValue + "px";
-    document.getElementById("tutorialArea").style.width =
-      penAreaWidthValue + "px";
+    document.getElementById('tutorialArea').style.height =
+      penAreaHeightValue + 'px';
+    document.getElementById('tutorialArea').style.width =
+      penAreaWidthValue + 'px';
 
     //123px and //147px
   }
@@ -941,36 +941,36 @@ export default function Whiteboard() {
   //PEN BUTTON
 
   useEffect(() => {
-    const canvas = document.querySelector("canvas"),
-      toolBtns = document.querySelectorAll(".tool"),
-      fillColor = document.querySelector("#fill-color"),
-      sizeSlider = document.querySelector("#size-slider"),
-      colorBtns = document.querySelectorAll(".colors .option"),
-      colorPicker = document.querySelector("#color-picker"),
-      clearCanvas = document.querySelector(".clear-canvas"),
-      saveImg = document.querySelector(".save-img"),
-      ctx = canvas.getContext("2d");
+    const canvas = document.querySelector('canvas'),
+      toolBtns = document.querySelectorAll('.tool'),
+      fillColor = document.querySelector('#fill-color'),
+      sizeSlider = document.querySelector('#size-slider'),
+      colorBtns = document.querySelectorAll('.colors .option'),
+      colorPicker = document.querySelector('#color-picker'),
+      clearCanvas = document.querySelector('.clear-canvas'),
+      saveImg = document.querySelector('.save-img'),
+      ctx = canvas.getContext('2d');
     // global variables with default value
     let prevMouseX,
       prevMouseY,
       snapshot,
       isDrawing = false,
-      selectedTool = "brush",
+      selectedTool = 'brush',
       brushWidth = 5,
-      selectedColor = "#000";
+      selectedColor = '#000';
     const setCanvasBackground = () => {
       // setting whole canvas background to white, so the downloaded img background will be white
-      ctx.fillStyle = "#fff";
+      ctx.fillStyle = '#fff';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
       ctx.fillStyle = selectedColor; // setting fillstyle back to the selectedColor, it'll be the brush color
     };
-    window.addEventListener("load", () => {
+    window.addEventListener('load', () => {
       // setting canvas width/height.. offsetwidth/height returns viewable width/height of an element
       canvas.width = canvas.offsetWidth;
       canvas.height = canvas.offsetHeight;
       setCanvasBackground();
     });
-    const drawRect = (e) => {
+    const drawRect = e => {
       // if fillColor isn't checked draw a rect with border else draw rect with background
       if (!fillColor.checked) {
         // creating circle according to the mouse pointer
@@ -988,7 +988,7 @@ export default function Whiteboard() {
         prevMouseY - e.offsetY
       );
     };
-    const drawCircle = (e) => {
+    const drawCircle = e => {
       ctx.beginPath(); // creating new path to draw circle
       // getting radius for circle according to the mouse pointer
       let radius = Math.sqrt(
@@ -998,7 +998,7 @@ export default function Whiteboard() {
       ctx.arc(prevMouseX, prevMouseY, radius, 0, 2 * Math.PI); // creating circle according to the mouse pointer
       fillColor.checked ? ctx.fill() : ctx.stroke(); // if fillColor is checked fill circle else draw border circle
     };
-    const drawTriangle = (e) => {
+    const drawTriangle = e => {
       ctx.beginPath(); // creating new path to draw circle
       ctx.moveTo(prevMouseX, prevMouseY); // moving triangle to the mouse pointer
       ctx.lineTo(e.offsetX, e.offsetY); // creating first line according to the mouse pointer
@@ -1006,7 +1006,7 @@ export default function Whiteboard() {
       ctx.closePath(); // closing path of a triangle so the third line draw automatically
       fillColor.checked ? ctx.fill() : ctx.stroke(); // if fillColor is checked fill triangle else draw border
     };
-    const startDraw = (e) => {
+    const startDraw = e => {
       isDrawing = true;
       prevMouseX = e.offsetX; // passing current mouseX position as prevMouseX value
       prevMouseY = e.offsetY; // passing current mouseY position as prevMouseY value
@@ -1017,68 +1017,68 @@ export default function Whiteboard() {
       // copying canvas data & passing as snapshot value.. this avoids dragging the image
       snapshot = ctx.getImageData(0, 0, canvas.width, canvas.height);
     };
-    const drawing = (e) => {
+    const drawing = e => {
       if (!isDrawing) return; // if isDrawing is false return from here
       ctx.putImageData(snapshot, 0, 0); // adding copied canvas data on to this canvas
-      if (selectedTool === "brush" || selectedTool === "eraser") {
+      if (selectedTool === 'brush' || selectedTool === 'eraser') {
         // if selected tool is eraser then set strokeStyle to white
         // to paint white color on to the existing canvas content else set the stroke color to selected color
-        ctx.strokeStyle = selectedTool === "eraser" ? "#fff" : selectedColor;
+        ctx.strokeStyle = selectedTool === 'eraser' ? '#fff' : selectedColor;
         ctx.lineTo(e.offsetX, e.offsetY); // creating line according to the mouse pointer
         ctx.stroke(); // drawing/filling line with color
-      } else if (selectedTool === "rectangle") {
+      } else if (selectedTool === 'rectangle') {
         drawRect(e);
-      } else if (selectedTool === "circle") {
+      } else if (selectedTool === 'circle') {
         drawCircle(e);
       } else {
         drawTriangle(e);
       }
     };
-    toolBtns.forEach((btn) => {
-      btn.addEventListener("click", () => {
+    toolBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
         // adding click event to all tool option
         // removing active class from the previous option and adding on current clicked option
-        document.querySelector(".options .active").classList.remove("active");
-        btn.classList.add("active");
+        document.querySelector('.options .active').classList.remove('active');
+        btn.classList.add('active');
         selectedTool = btn.id;
       });
     });
     sizeSlider.addEventListener(
-      "change",
+      'change',
       () => (brushWidth = sizeSlider.value)
     ); // passing slider value as brushSize
-    colorBtns.forEach((btn) => {
-      btn.addEventListener("click", () => {
+    colorBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
         // adding click event to all color button
         // removing selected class from the previous option and adding on current clicked option
         document
-          .querySelector(".options .selected")
-          .classList.remove("selected");
-        btn.classList.add("selected");
+          .querySelector('.options .selected')
+          .classList.remove('selected');
+        btn.classList.add('selected');
         // passing selected btn background color as selectedColor value
         selectedColor = window
           .getComputedStyle(btn)
-          .getPropertyValue("background-color");
+          .getPropertyValue('background-color');
       });
     });
-    colorPicker.addEventListener("change", () => {
+    colorPicker.addEventListener('change', () => {
       // passing picked color value from color picker to last color btn background
       colorPicker.parentElement.style.background = colorPicker.value;
       colorPicker.parentElement.click();
     });
-    clearCanvas.addEventListener("click", () => {
+    clearCanvas.addEventListener('click', () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height); // clearing whole canvas
       setCanvasBackground();
     });
-    saveImg.addEventListener("click", () => {
-      const link = document.createElement("a"); // creating <a> element
+    saveImg.addEventListener('click', () => {
+      const link = document.createElement('a'); // creating <a> element
       link.download = `${Date.now()}.jpg`; // passing current date as link download value
       link.href = canvas.toDataURL(); // passing canvasData as link href value
       link.click(); // clicking link to download image
     });
-    canvas.addEventListener("mousedown", startDraw);
-    canvas.addEventListener("mousemove", drawing);
-    canvas.addEventListener("mouseup", () => (isDrawing = false));
+    canvas.addEventListener('mousedown', startDraw);
+    canvas.addEventListener('mousemove', drawing);
+    canvas.addEventListener('mouseup', () => (isDrawing = false));
   }, []);
 
   const [isPen, setPenState] = useState(false);
@@ -1088,7 +1088,7 @@ export default function Whiteboard() {
     if (isPen) {
       timer();
       setPenState(false);
-      document.body.style.cursor = "default";
+      document.body.style.cursor = 'default';
     } else {
       for (let i = 0; i < highestTimeoutId; i++) {
         clearTimeout(i);
@@ -1134,7 +1134,7 @@ export default function Whiteboard() {
           <div
             id="container"
             className={`relative grid grid-cols-21  bg-mainBrown  overflow-hidden pt-3 pl-3 pr-3 ${
-              whiteboardHeightValue <= 123 ? "" : "grid-rows-11"
+              whiteboardHeightValue <= 123 ? '' : 'grid-rows-11'
             }`}
           >
             {/*<!--Button container-->*/}
@@ -1143,15 +1143,15 @@ export default function Whiteboard() {
                 {/*<!--Question-->*/}
                 <div
                   className={`text-gray-500 hover:text-white focus:outline-none focus:text-white rounded-full ${
-                    isHelp ? "ml-2 my-1" : "px-3 py-2"
+                    isHelp ? 'ml-2 my-1' : 'px-3 py-2'
                   }`}
                   {...(isHelp
                     ? {
                         dataTooltip:
-                          "The area for the given question and the equation you need to solve.",
+                          'The area for the given question and the equation you need to solve.',
                       }
                     : {})}
-                  {...(isHelp ? { dataTooltipPosition: "right" } : {})}
+                  {...(isHelp ? { dataTooltipPosition: 'right' } : {})}
                 >
                   <svg
                     id="help"
@@ -1162,8 +1162,8 @@ export default function Whiteboard() {
                     stroke="currentColor"
                     className={`cursor-pointer h-11 w-11  hover:fill-gray-300/90 hover:bg-gray-300/90 hover:text-white rounded-full p-1 ${
                       isHelp
-                        ? "hover:border-3 hover:border-white fill-gray-300 bg-gray-300/90 text-white"
-                        : "text-black/50 bg-gray-400/90 fill-gray-400/90"
+                        ? 'hover:border-3 hover:border-white fill-gray-300 bg-gray-300/90 text-white'
+                        : 'text-black/50 bg-gray-400/90 fill-gray-400/90'
                     }`}
                   >
                     {!isHelp && <title>Help</title>}
@@ -1179,20 +1179,20 @@ export default function Whiteboard() {
                 {/*<!--Hint-->*/}
                 <div
                   className={`text-gray-500 hover:text-white focus:outline-none focus:text-white ${
-                    isHelp ? "ml-2 my-1" : "px-3 py-2"
+                    isHelp ? 'ml-2 my-1' : 'px-3 py-2'
                   }`}
                   {...(isHelp
                     ? {
                         dataTooltip:
-                          "The area for the given question and the equation you need to solve.",
+                          'The area for the given question and the equation you need to solve.',
                       }
                     : {})}
-                  {...(isHelp ? { dataTooltipPosition: "right" } : {})}
+                  {...(isHelp ? { dataTooltipPosition: 'right' } : {})}
                 >
                   <svg
                     onClick={() => setShowMyModal(true)}
                     className={`cursor-pointer fill-yellow-400/90 h-11 w-11 text-black/50 bg-yellow-400/90 rounded-full hover:fill-yellow-300/90 hover:bg-yellow-300/90 hover:text-white/70 p-1 ${
-                      isHelp ? "hover:border-3 hover:border-white " : ""
+                      isHelp ? 'hover:border-3 hover:border-white ' : ''
                     }`}
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -1210,15 +1210,15 @@ export default function Whiteboard() {
                 {/*<!--Video-->*/}
                 <div
                   className={`text-gray-500 hover:text-white focus:outline-none focus:text-white ${
-                    isHelp ? "ml-2 my-1" : "px-3 py-2"
+                    isHelp ? 'ml-2 my-1' : 'px-3 py-2'
                   }`}
                   {...(isHelp
                     ? {
                         dataTooltip:
-                          "The area for the given question and the equation you need to solve.",
+                          'The area for the given question and the equation you need to solve.',
                       }
                     : {})}
-                  {...(isHelp ? { dataTooltipPosition: "right" } : {})}
+                  {...(isHelp ? { dataTooltipPosition: 'right' } : {})}
                 >
                   <svg
                     onClick={tutorialMode}
@@ -1227,10 +1227,10 @@ export default function Whiteboard() {
                     stroke-width="1.5"
                     stroke="currentColor"
                     className={`cursor-pointer  w-11 h-11 p-1   hover:fill-red-500/90 hover:bg-red-500/90 hover:text-white rounded-full ${
-                      (isHelp ? "hover:border-3 hover:border-white " : "",
+                      (isHelp ? 'hover:border-3 hover:border-white ' : '',
                       isTutorial
-                        ? "fill-red-600 bg-red-600/90 text-white "
-                        : "text-black/50 fill-red-700/90 bg-red-700/90")
+                        ? 'fill-red-600 bg-red-600/90 text-white '
+                        : 'text-black/50 fill-red-700/90 bg-red-700/90')
                     }`}
                   >
                     {!isHelp && <title>Tutorial Video</title>}
@@ -1250,23 +1250,23 @@ export default function Whiteboard() {
                 {/*<!--Pen-->*/}
                 <div
                   className={`text-gray-500 hover:text-white focus:outline-none focus:text-white ${
-                    isHelp ? "ml-2 my-1" : "px-3 py-2"
+                    isHelp ? 'ml-2 my-1' : 'px-3 py-2'
                   }`}
                   {...(isHelp
                     ? {
                         dataTooltip:
-                          "The area for the given question and the equation you need to solve.",
+                          'The area for the given question and the equation you need to solve.',
                       }
                     : {})}
-                  {...(isHelp ? { dataTooltipPosition: "right" } : {})}
+                  {...(isHelp ? { dataTooltipPosition: 'right' } : {})}
                 >
                   <svg
                     onClick={penMode}
                     className={`cursor-pointer  h-11 w-11  rounded-full hover:fill-lime-600/90 hover:bg-lime-600/90 hover:text-white p-1 ${
-                      (isHelp ? "hover:border-3 hover:border-white " : "",
+                      (isHelp ? 'hover:border-3 hover:border-white ' : '',
                       isPen
-                        ? "fill-lime-600 bg-lime-600/90 text-white "
-                        : "text-black/50 bg-lime-700/90 fill-lime-700/90")
+                        ? 'fill-lime-600 bg-lime-600/90 text-white '
+                        : 'text-black/50 bg-lime-700/90 fill-lime-700/90')
                     }`}
                     viewBox="0 0 24 24"
                     stroke-width="1.5"
@@ -1275,8 +1275,8 @@ export default function Whiteboard() {
                     stroke-linejoin="round"
                   >
                     {!isHelp && <title>Draw</title>}
-                    <path stroke="none" d="M0 0h24v24H0z" />{" "}
-                    <path d="M4 20h4l10.5 -10.5a1.5 1.5 0 0 0 -4 -4l-10.5 10.5v4" />{" "}
+                    <path stroke="none" d="M0 0h24v24H0z" />{' '}
+                    <path d="M4 20h4l10.5 -10.5a1.5 1.5 0 0 0 -4 -4l-10.5 10.5v4" />{' '}
                     <line x1="13.5" y1="6.5" x2="17.5" y2="10.5" />
                   </svg>
                 </div>
@@ -1287,21 +1287,21 @@ export default function Whiteboard() {
             <div
               id="givenArea"
               className={`col-span-9 bg-white row-span-2  border-l-12  border-l-brTwo border-t-12 border-t-yellow-700 ${
-                isHelp ? "hover:border-4 hover:border-red-500 " : ""
+                isHelp ? 'hover:border-4 hover:border-red-500 ' : ''
               }`}
               {...(isHelp
                 ? {
                     dataTooltip:
-                      "The area for the given question and the equation you need to solve.",
+                      'The area for the given question and the equation you need to solve.',
                   }
                 : {})}
-              {...(isHelp ? { dataTooltipPosition: "bottom" } : {})}
+              {...(isHelp ? { dataTooltipPosition: 'bottom' } : {})}
             >
               {/* PEN AREA, not modal */}
               <div
                 id="tutorialArea"
                 className={`bg-gray-800 absolute  z-50 overflow-hidden" ${
-                  isTutorial ? "" : "invisible"
+                  isTutorial ? '' : 'invisible'
                 } `}
               >
                 <section>
@@ -1319,11 +1319,11 @@ export default function Whiteboard() {
               </div>
               <div
                 id="penArea"
-                className={`absolute z-10" ${isPen ? "" : "invisible"} `}
+                className={`absolute z-10" ${isPen ? '' : 'invisible'} `}
               >
                 <section
                   className={`drawing-board h-full ${
-                    isBrush ? "hover:cursor-brush" : "hover:cursor-eraser"
+                    isBrush ? 'hover:cursor-brush' : 'hover:cursor-eraser'
                   } `}
                 >
                   <canvas className=""></canvas>
@@ -1331,7 +1331,7 @@ export default function Whiteboard() {
               </div>
               <div
                 className={`flex relative flex-col ml-7 mt-7 ${
-                  isPen ? "select-none" : ""
+                  isPen ? 'select-none' : ''
                 } `}
               >
                 <div className="text-3.5xl font-medium inline-flex ">
@@ -1353,22 +1353,22 @@ export default function Whiteboard() {
                 {...(isHelp
                   ? {
                       dataTooltip:
-                        "This is the area for facial expression res ponse of PIA.",
+                        'This is the area for facial expression res ponse of PIA.',
                     }
                   : {})}
-                {...(isHelp ? { dataTooltipPosition: "bottom" } : {})}
+                {...(isHelp ? { dataTooltipPosition: 'bottom' } : {})}
               >
                 <div
                   id="image_bg"
                   className={`z-10 relative flex items-center text-center justify-center rounded-full bg-slate-200   object-cover w-65% mt-3 px-6 pt-2 ml-[70px] overflow-hidden ${
-                    isHelp ? "hover:border-[5px] hover:border-red-500" : ""
+                    isHelp ? 'hover:border-[5px] hover:border-red-500' : ''
                   }`}
                 >
                   <img
                     className=""
-                    src={require("../assets/facial_expressions/" +
+                    src={require('../assets/facial_expressions/' +
                       imageLink +
-                      ".png")}
+                      '.png')}
                     alt=""
                   ></img>
                 </div>
@@ -1389,21 +1389,21 @@ export default function Whiteboard() {
             <div
               className={`select-none relative col-span-6 row-span-5 overflow-hidden bg-mainBGBrown    border-t-12 border-t-yellow-700 border-r-12 border-r-yellow-700  rounded-tr-6xl ${
                 isHelp
-                  ? "ml-2 hover:border-6 hover:border-red-500 hover:overflow-visible"
-                  : "ml-3"
+                  ? 'ml-2 hover:border-6 hover:border-red-500 hover:overflow-visible'
+                  : 'ml-3'
               }`}
               {...(isHelp
                 ? {
                     dataTooltip:
-                      "The feedback area of PIA. Some feedback need your response and there will be options underneath it.",
+                      'The feedback area of PIA. Some feedback need your response and there will be options underneath it.',
                   }
                 : {})}
-              {...(isHelp ? { dataTooltipPosition: "bottom" } : {})}
+              {...(isHelp ? { dataTooltipPosition: 'bottom' } : {})}
             >
               <div
                 id="message_area_tail"
                 className={`absolute w-0 h-0 border-t-25 border-t-transparent border-b-25 border-b-transparent border-r-18 border-r-slate-200 left-0 top-1/3 z-10  bg-brTwo ${
-                  isHelp ? "left-1" : isTutorial ? "invisible" : ""
+                  isHelp ? 'left-1' : isTutorial ? 'invisible' : ''
                 }`}
               />
               <div
@@ -1415,7 +1415,7 @@ export default function Whiteboard() {
                     {textResponse}
 
                     <p className="text-4.5xl mt-3 font-extrabold ">
-                      {" "}
+                      {' '}
                       {subtextResponse}
                     </p>
                   </p>
@@ -1466,15 +1466,15 @@ export default function Whiteboard() {
             <div
               id="solutionArea"
               className={`col-span-9 row-span-12 bg-white  border-l-12  border-l-brTwo ${
-                isHelp ? "hover:border-4 hover:border-red-500" : ""
+                isHelp ? 'hover:border-4 hover:border-red-500' : ''
               }`}
               {...(isHelp
                 ? {
                     dataTooltip:
-                      "The area for correct step or answers you must input.",
+                      'The area for correct step or answers you must input.',
                   }
                 : {})}
-              {...(isHelp ? { dataTooltipPosition: "right" } : {})}
+              {...(isHelp ? { dataTooltipPosition: 'right' } : {})}
             >
               <div className="flex">
                 {
@@ -1484,13 +1484,13 @@ export default function Whiteboard() {
                         length === index + 1 ? (
                           // last one
                           <div
-                            id={"answer" + index}
+                            id={'answer' + index}
                             className="invisible px-2 border-black border-2"
                           >
                             {ans}
                           </div>
                         ) : (
-                          <div id={"answer" + index} className="invisible">
+                          <div id={'answer' + index} className="invisible">
                             {ans}
                           </div>
                         )
@@ -1521,15 +1521,15 @@ export default function Whiteboard() {
             {/*<!--userLogs STORING area --> UPDATE: ADDED +1 ROWSPAN*/}
             <div
               className={`col-span-5 row-span-8 ml-3 border-l-18 -mr-20 border-brTwo ${
-                isHelp ? " hover:bg-red-500" : ""
+                isHelp ? ' hover:bg-red-500' : ''
               }`}
               {...(isHelp
                 ? {
                     dataTooltip:
-                      "This is the area to show your input logs, You could copy and paste text from here to input box.",
+                      'This is the area to show your input logs, You could copy and paste text from here to input box.',
                   }
                 : {})}
-              {...(isHelp ? { dataTooltipPosition: "bottom" } : {})}
+              {...(isHelp ? { dataTooltipPosition: 'bottom' } : {})}
             >
               <div
                 id="logs"
@@ -1537,7 +1537,7 @@ export default function Whiteboard() {
               >
                 {
                   <p className=" text-white break-all font-poppins text-3xl">
-                    {arrTextLog.map((entry) => (
+                    {arrTextLog.map(entry => (
                       <p>{entry}</p>
                     ))}
                   </p>
@@ -1553,20 +1553,20 @@ export default function Whiteboard() {
             {/*<!--text Area-->*/}
             <div
               className={`col-span-14 row-span-2  bg-mainBGBrown border-r-yellow-700 border-r-12 ${
-                isHelp ? " hover:bg-red-500" : ""
+                isHelp ? ' hover:bg-red-500' : ''
               }`}
               {...(isHelp
                 ? {
                     dataTooltip:
-                      "The area to put your answers, and submit it. Please write relevant answers only.",
+                      'The area to put your answers, and submit it. Please write relevant answers only.',
                   }
                 : {})}
-              {...(isHelp ? { dataTooltipPosition: "top" } : {})}
+              {...(isHelp ? { dataTooltipPosition: 'top' } : {})}
             >
               <div className="flex flex-col  border-borderBr rounded-5xl border-12 mt-3.5 m-3.5 mx-4 ">
                 <div
                   className={`relative  bg-borderBr font-poppins ${
-                    isPen ? "hidden" : " "
+                    isPen ? 'hidden' : ' '
                   }`}
                 >
                   <form onSubmit={handleSubmit}>
@@ -1578,7 +1578,7 @@ export default function Whiteboard() {
                       type="text"
                       name="chat"
                       className={` block rounded-5xl w-full p-5  text-2xl  ${
-                        isTutorial ? "bg-gray-300 placeholder-gray-500" : ""
+                        isTutorial ? 'bg-gray-300 placeholder-gray-500' : ''
                       }`}
                       placeholder="Input your answer here."
                       {...(isTutorial
@@ -1588,12 +1588,12 @@ export default function Whiteboard() {
                         : {})}
                     ></input>
                     <button
-                      onClick={textInput !== "" ? handleClick : undefined}
+                      onClick={textInput !== '' ? handleClick : undefined}
                       value={textInput}
                       className={`text-white text-xl font-light absolute  right-2.5 bottom-2  rounded-full px-4 py-3  ${
                         isTutorial
-                          ? "cursor-default bg-gray-400"
-                          : "bg-lime-700  cursor-pointer dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800  hover:bg-lime-800 focus:ring-2 focus:outline-none"
+                          ? 'cursor-default bg-gray-400'
+                          : 'bg-lime-700  cursor-pointer dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800  hover:bg-lime-800 focus:ring-2 focus:outline-none'
                       }`}
                       {...(isTutorial
                         ? {
@@ -1608,7 +1608,7 @@ export default function Whiteboard() {
                 <div
                   id="penTools"
                   className={`relative bg-borderBr font-poppins  ${
-                    isPen ? "" : "hidden"
+                    isPen ? '' : 'hidden'
                   }`}
                 >
                   <div className="">
@@ -1618,21 +1618,21 @@ export default function Whiteboard() {
                         <ul className="options hidden">
                           <li className="option tool" id="rectangle">
                             <img
-                              src={require("../assets/icons/rectangle.svg")}
+                              src={require('../assets/icons/rectangle.svg')}
                               alt=""
                             ></img>
                             <span>Rectangle</span>
                           </li>
                           <li className="option tool" id="circle">
                             <img
-                              src={require("../assets/icons/circle.svg")}
+                              src={require('../assets/icons/circle.svg')}
                               alt=""
                             ></img>
                             <span>Circle</span>
                           </li>
                           <li className="option tool" id="triangle">
                             <img
-                              src={require("../assets/icons/triangle.svg")}
+                              src={require('../assets/icons/triangle.svg')}
                               alt=""
                             ></img>
                             <span>Triangle</span>
@@ -1652,7 +1652,7 @@ export default function Whiteboard() {
                           >
                             <img
                               className="w-8 h-8"
-                              src={require("../assets/icons/brush.svg")}
+                              src={require('../assets/icons/brush.svg')}
                               alt=""
                             ></img>
                             <span className="text-lg font-semibold">Brush</span>
@@ -1664,7 +1664,7 @@ export default function Whiteboard() {
                           >
                             <img
                               className="w-8 h-8"
-                              src={require("../assets/icons/eraser.svg")}
+                              src={require('../assets/icons/eraser.svg')}
                               alt=""
                             ></img>
                             <span className="text-lg  font-semibold">
@@ -1725,14 +1725,14 @@ export default function Whiteboard() {
                   {...(isHelp
                     ? {
                         dataTooltip:
-                          "The trash bin button. It removes all text from the current user logs.",
+                          'The trash bin button. It removes all text from the current user logs.',
                       }
                     : {})}
-                  {...(isHelp ? { dataTooltipPosition: "left" } : {})}
+                  {...(isHelp ? { dataTooltipPosition: 'left' } : {})}
                 >
                   <svg
                     className={`h-20 w-20 bg-white rounded-full p-3 hover:bg-gray-300 ${
-                      isHelp ? "hover:border-6 hover:border-red-500" : ""
+                      isHelp ? 'hover:border-6 hover:border-red-500' : ''
                     }`}
                     id="Layer_1"
                     data-name="Layer 1"
