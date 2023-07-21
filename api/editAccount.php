@@ -32,9 +32,6 @@ switch($_SESSION['method']) {
         $firstName = $user->firstName;
         $middleName = $user->middleName;
         $lastName = $user->lastName;
-
-        $birthDay = $user->birthDay;
-        $age = $user->age;
         $sex = $user->sex;
 
         $gradeLevel = $user->gradeLevel;
@@ -45,8 +42,7 @@ switch($_SESSION['method']) {
 
         
         $sql = "UPDATE accounts SET GivenName = '$firstName', MiddleName = '$middleName', LastName = '$lastName', 
-                Birthdate = '$birthDay', Age = '$age', Gender = '$sex', 
-                GradeLevel = '$gradeLevel', Section = '$section', GroupType = '$groupType', 
+                Gender = '$sex', GradeLevel = '$gradeLevel', Section = '$section', GroupType = '$groupType', 
                 Email = '$email' 
                 WHERE Email = '$original_email'";
 

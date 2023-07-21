@@ -45,6 +45,12 @@ export default function TeacherNavbar() {
     var divElement1 = document.getElementById('teacherNavbar');
     var widthValue1 = ReactDOM.findDOMNode(divElement1).offsetWidth;
 
+    if (widthValue1 == 139) {
+      widthValue1 += 4;
+    } else if (widthValue1 == 92) {
+      widthValue1 += 3;
+    }
+
     window.localStorage.setItem('NAVBAR_TEACHER_WIDTH', widthValue1);
     console.log(widthValue1);
 

@@ -11,6 +11,7 @@ import EquationSolver from './equationSolver';
 
 import { BsTrash3 } from 'react-icons/bs';
 import { HiPencilSquare } from 'react-icons/hi2';
+import EditAccountModal from './EditAccountModal';
 
 export default function ManageAccounts() {
   const navigate = useNavigate();
@@ -33,16 +34,17 @@ export default function ManageAccounts() {
   }
 
   const editMode = e => {
-    let sectionName = e.target.name;
+    let accountName = e.target.name;
     window.localStorage.setItem(
-      'CURRENT_SECTION_EDIT',
-      JSON.stringify(sectionName)
+      'CURRENT_ACCOUNT_EDIT',
+      JSON.stringify(accountName)
     );
-    window.localStorage.setItem('EDIT_SECTION_STATE', true);
+    window.localStorage.setItem('EDIT_ACCOUNT_STATE', true);
     setShowModal(true);
   };
 
   const handleChange = event => {
+    console.log('HEYEHEY');
     const name = event.target.name;
     const value = event.target.value;
     inputText = { [name]: value };
@@ -53,6 +55,7 @@ export default function ManageAccounts() {
         inputText
       )
       .then(function (response) {
+        console.log(response.data);
         setAccounts(response.data);
       });
   };
@@ -67,6 +70,10 @@ export default function ManageAccounts() {
     setChoiceModal(true);
     setShowModal(false);
   };
+
+  useEffect(() => {
+    window.addEventListener('focus', setWidth);
+  }, []);
 
   const [navbarWidth, setNavbarWidth] = useState(0);
   const [logoHeight, setLogoHeight] = useState(0);
@@ -224,7 +231,7 @@ export default function ManageAccounts() {
                               <div className="relative">
                                 <input
                                   onClick={editMode}
-                                  name={currentAccount.SectionName}
+                                  name={currentAccount.Email}
                                   type="submit"
                                   value="Edit"
                                   className="cursor-pointer py-[0.2rem]  pl-4 pr-[2.15rem]   shadow-md rounded-full font-normal  transition duration-300 text-white bg-blue-500/90 hover:bg-blue-600 lg:text-base drop-shadow-[0_2px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_2px_0px_rgba(0,0,0,0.6)]"
@@ -278,7 +285,7 @@ export default function ManageAccounts() {
           </div>
         </section>
       </div>
-      <EditSectionModal
+      <EditAccountModal
         onClose={handleOnCloseModal}
         visible={showModal}
         onContinue={handleOnContinueModal}

@@ -65,6 +65,11 @@ export default function AdminNavbar() {
   function calculateWidthAdmin() {
     var divElement1 = document.getElementById('adminNavbar');
     var widthValue1 = ReactDOM.findDOMNode(divElement1).offsetWidth;
+    if (widthValue1 == 168) {
+      widthValue1 += 8;
+    } else if (widthValue1 == 102) {
+      widthValue1 += 2;
+    }
 
     window.localStorage.setItem('NAVBAR_ADMIN_WIDTH', widthValue1);
     console.log(widthValue1);

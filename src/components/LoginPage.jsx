@@ -13,6 +13,34 @@ import { VscEye } from 'react-icons/vsc';
 
 export default function Login() {
   document.body.style.height = '100vh';
+  document.body.style.backgroundImage =
+    'linear-gradient(to top, #bef264, #d9f99d , #ccf779)';
+
+  useEffect(() => {
+    document.body.style.backgroundImage =
+      'linear-gradient(to top, #bef264, #d9f99d , #ccf779)';
+
+    window.addEventListener('load', changeBG);
+
+    function changeBG() {
+      document.body.style.backgroundImage =
+        'linear-gradient(to top, #bef264, #d9f99d , #ccf779)';
+    }
+  }, []);
+
+  useEffect(() => {
+    document.body.style.backgroundImage =
+      'linear-gradient(to top, #bef264, #d9f99d , #ccf779)';
+
+    window.addEventListener('focus', changeBG);
+    window.addEventListener('load', changeBG);
+    window.addEventListener('click', changeBG);
+  });
+
+  function changeBG() {
+    document.body.style.backgroundImage =
+      'linear-gradient(to top, #bef264, #d9f99d , #ccf779)';
+  }
 
   const navigate = useNavigate();
 
@@ -23,6 +51,7 @@ export default function Login() {
   useEffect(() => {
     window.localStorage.removeItem('SESSION_ID');
     window.localStorage.removeItem('ACCOUNT_TYPE');
+    window.localStorage.removeItem('CURRENT_TAB_INDEX');
   }, []);
 
   useEffect(() => {
@@ -179,18 +208,26 @@ export default function Login() {
                 navigate('/Homepage');
               } else if (data == 'Teacher') {
                 navigate('/HomePageTeacher');
+                reloadPage();
               }
             });
         } else if (isAdmin) {
           var data = 'Admin';
           window.localStorage.setItem('ACCOUNT_TYPE', JSON.stringify(data));
           navigate('/HomePageAdmin');
+          reloadPage();
         }
       });
 
     await new Promise(resolve => setTimeout(resolve, 1));
     actions.resetForm();
   };
+
+  function reloadPage() {
+    setTimeout(function () {
+      window.location.reload(false);
+    }, 180);
+  }
 
   const {
     values,

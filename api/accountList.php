@@ -27,33 +27,56 @@ switch($_SESSION['method']) {
         $inputSearch = trim($inputSearch);
 
         if (!empty($inputSearch)) {
-            $sql = "SELECT * FROM accounts WHERE Section LIKE '$section' AND GivenName LIKE '$inputSearch'
-                                        OR Section LIKE '$section' AND GivenName LIKE '%$inputSearch%'
-                                        OR Section LIKE '$section' AND GivenName LIKE '%$inputSearch'
-                                        OR Section LIKE '$section' AND GivenName LIKE '$inputSearch%'
+            $sql = "SELECT * FROM accounts WHERE GivenName LIKE '$inputSearch'
+                                        OR GivenName LIKE '%$inputSearch%'
+                                        OR GivenName LIKE '%$inputSearch'
+                                        OR GivenName LIKE '$inputSearch%'
                                         
-                                        OR Section LIKE '$section' AND LastName LIKE '$inputSearch'
-                                        OR Section LIKE '$section' AND LastName LIKE '%$inputSearch%'
-                                        OR Section LIKE '$section' AND LastName LIKE '%$inputSearch'
-                                        OR Section LIKE '$section' AND LastName LIKE '$inputSearch%'
+                                        OR LastName LIKE '$inputSearch'
+                                        OR LastName LIKE '%$inputSearch%'
+                                        OR LastName LIKE '%$inputSearch'
+                                        OR LastName LIKE '$inputSearch%'
 
-                                        OR Section LIKE '$section' AND Age LIKE '$inputSearch'
-                                        OR Section LIKE '$section' AND Age LIKE '%$inputSearch%'
-                                        OR Section LIKE '$section' AND Age LIKE '%$inputSearch'
-                                        OR Section LIKE '$section' AND Age LIKE '$inputSearch%'
+                                        OR MiddleName LIKE '$inputSearch'
+                                        OR MiddleName LIKE '%$inputSearch%'
+                                        OR MiddleName LIKE '%$inputSearch'
+                                        OR MiddleName LIKE '$inputSearch%'
 
-                                        OR Section LIKE '$section' AND Gender LIKE '$inputSearch'
-                                        OR Section LIKE '$section' AND Gender LIKE '$inputSearch%'
+                                        OR Role LIKE '$inputSearch'
+                                        OR Role LIKE '%$inputSearch%'
+                                        OR Role LIKE '%$inputSearch'
+                                        OR Role LIKE '$inputSearch%'
 
-                                        OR Section LIKE '$section' AND GroupType LIKE '$inputSearch'
-                                        OR Section LIKE '$section' AND GroupType LIKE '%$inputSearch%'
-                                        OR Section LIKE '$section' AND GroupType LIKE '%$inputSearch'
-                                        OR Section LIKE '$section' AND GroupType LIKE '$inputSearch%'
-                                        OR Section LIKE '$section' AND CONCAT(GivenName, ' ', Lastname) LIKE '$inputSearch'
+                                        OR Email LIKE '$inputSearch'
+                                        OR Email LIKE '%$inputSearch%'
+                                        OR Email LIKE '%$inputSearch'
+                                        OR Email LIKE '$inputSearch%'
+
+                                        OR CONCAT(GivenName, ' ', LastName) LIKE '$inputSearch'
+                                        OR CONCAT(GivenName, ' ', LastName) LIKE '%$inputSearch%'
+                                        OR CONCAT(GivenName, ' ', LastName) LIKE '%$inputSearch'
+                                        OR CONCAT(GivenName, ' ', LastName) LIKE '$inputSearch%'
+
+
+                                        OR CONCAT(GivenName, ' ', MiddleName) LIKE '$inputSearch'
+                                        OR CONCAT(GivenName, ' ', MiddleName) LIKE '%$inputSearch%'
+                                        OR CONCAT(GivenName, ' ', MiddleName) LIKE '%$inputSearch'
+                                        OR CONCAT(GivenName, ' ', MiddleName) LIKE '$inputSearch%'
+
+                                        OR CONCAT(MiddleName, ' ', LastName) LIKE '$inputSearch'
+                                        OR CONCAT(MiddleName, ' ', LastName) LIKE '%$inputSearch%'
+                                        OR CONCAT(MiddleName, ' ', LastName) LIKE '%$inputSearch'
+                                        OR CONCAT(MiddleName, ' ', LastName) LIKE '$inputSearch%'
+
+                                        OR CONCAT(GivenName, ' ', MiddleName, ' ', LastName) LIKE '$inputSearch'
+                                        OR CONCAT(GivenName, ' ', MiddleName, ' ', LastName) LIKE '%$inputSearch%'
+                                        OR CONCAT(GivenName, ' ', MiddleName, ' ', LastName) LIKE '%$inputSearch'
+                                        OR CONCAT(GivenName, ' ', MiddleName, ' ', LastName) LIKE '$inputSearch%'
+                                        
                                         ORDER BY LastName";
 
         } else {
-            $sql = "SELECT * FROM accounts WHERE Section LIKE '$section' ORDER BY LastName";
+            $sql = "SELECT * FROM accounts ORDER BY LastName";
         }
         
         $stmt = $conn->prepare($sql);

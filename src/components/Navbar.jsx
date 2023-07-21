@@ -162,14 +162,18 @@ function Navbar() {
             //check if first
             index === 0 ? (
               page.match('/Homepage') ? (
-                <a onClick={Homepage} className="cursor-pointer">
+                <a key={index} onClick={Homepage} className="cursor-pointer">
                   <i className="fas fa-graduation-cap pr-2 lg:text-2xl md:text-2xl sm:text-sm  xs:text-xs"></i>
                   <span className="lg:text-xl md:text-xl sm:text-sm  xs:text-xs">
                     Personal Instructing Agent
                   </span>
                 </a>
               ) : (
-                <a onClick={AdminHomepage} className="cursor-pointer">
+                <a
+                  key={index}
+                  onClick={AdminHomepage}
+                  className="cursor-pointer"
+                >
                   <i className="fas fa-graduation-cap pr-2 lg:text-2xl md:text-xl sm:text-sm  xs:text-xs"></i>
                   <span className="lg:text-xl md:text-xl sm:text-sm  xs:text-xs">
                     Personal Instructing Agent
@@ -187,6 +191,7 @@ function Navbar() {
             length === index + 1 ? (
               // last one
               <p
+                key={index}
                 id="current_page"
                 className="font-sans lg:text-xl md:text-xl sm:text-sm  xs:text-xs"
               >
@@ -329,7 +334,7 @@ function Navbar() {
               {pageList.map((page, index) =>
                 length === index + 1 ? (
                   // last one
-                  <li className="inline-block">
+                  <li key={index} className="inline-block">
                     <a className="no-underline text-[#799012] font-medium select-none">
                       {page}
                     </a>

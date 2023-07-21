@@ -30,15 +30,18 @@ switch($_SESSION['method']) {
         break;
     case "POST":
         $user = json_decode( file_get_contents('php://input') );
-        $sql = "INSERT INTO accounts(AccountID, GivenName, MiddleName, LastName, Birthdate, Age, Gender, GradeLevel, Section, GroupType, Email, Password) 
-                VALUES(null, :firstName, :middleName, :lastName, :birthDay, :age, :sex, :gradeLevel, :section, :groupType, :email, :password)";
+        $role = $user->role;
+
+        $sql = "INSERT INTO accounts(AccountID, GivenName, MiddleName, LastName, Gender, GradeLevel, Section, GroupType, Email, Password, Role) 
+                VALUES(null, :firstName, :middleName, :lastName, :sex, :gradeLevel, :section, :groupType, :email, :password, :role)";
         $stmt = $conn->prepare($sql);
         $stmt->bindParam(':firstName', $user->firstName);
         $stmt->bindParam(':middleName', $user->middleName);
         $stmt->bindParam(':lastName', $user->lastName);
 
-        $stmt->bindParam(':birthDay', $user->birthDay);
-        $stmt->bindParam(':age', $user->age);
+        
+        //$stmt->bindParam(':birthDay', $user->birthDay);
+        //$stmt->bindParam(':age', $user->age);
         $stmt->bindParam(':sex', $user->sex);
 
         $stmt->bindParam(':gradeLevel', $user->gradeLevel);
@@ -48,8 +51,11 @@ switch($_SESSION['method']) {
         $stmt->bindParam(':email', $user->email);
         
         //WITH HASH SECURITY
+        
         $hashedPassword = password_hash($user->password, PASSWORD_DEFAULT);
         $stmt->bindParam(':password', $hashedPassword);
+
+        $stmt->bindParam(':role', $user->role);
 
         //WITHOUT HASH SECURITY
         //$stmt->bindParam(':password', $user->password);
@@ -60,33 +66,37 @@ switch($_SESSION['method']) {
             $response = ['status' => 0, 'message' => 'Failed to create record.'];
         }
 
-        $userTable = $user->email;
-        echo "\n".$userTable;
-        $atSign = strpos($userTable, "@");
-        echo "\n".$atSign;
-        $userTable = substr($userTable, 0, $atSign);
-        echo "\n".$userTable;
-        $userTable = str_replace(".", "_", $userTable);
-        echo "\n".$userTable;
+        
 
-        $connect = new mysqli('localhost','root','','prototype_sfe');
+        if($role == "Student") {
+            $userTable = $user->email;
+            echo "\n".$userTable;
+            $atSign = strpos($userTable, "@");
+            echo "\n".$atSign;
+            $userTable = substr($userTable, 0, $atSign);
+            echo "\n".$userTable;
+            $userTable = str_replace(".", "_", $userTable);
+            echo "\n".$userTable;
 
-        $create = "CREATE TABLE ".$userTable." (
-            SessionID INT UNSIGNED AUTO_INCREMENT PRIMARY KEY   , 
-            SessionType VARCHAR(255) NOT NULL , 
-            Score INT NOT NULL , 
-            TimeSpent VARCHAR(255) NOT NULL , 
-            TimeStamp VARCHAR(255) NOT NULL ,
-            TimeStart VARCHAR(255) NOT NULL ,
-            ExpressionAngry VARCHAR(255) NOT NULL ,
-            ExpressionHappy VARCHAR(255) NOT NULL ,
-            ExpressionSad VARCHAR(255) NOT NULL ,
-            ExpressionSurprised VARCHAR(255) NOT NULL ,
-            ExpressionMotivation VARCHAR(255) NOT NULL
-            )";
+            $connect = new mysqli('localhost','root','','prototype_sfe');
 
-        $conn->exec($create);
-        echo "\nTable created successfully";
+            $create = "CREATE TABLE ".$userTable." (
+                SessionID INT UNSIGNED AUTO_INCREMENT PRIMARY KEY   , 
+                SessionType VARCHAR(255) NOT NULL , 
+                Score INT NOT NULL , 
+                TimeSpent VARCHAR(255) NOT NULL , 
+                TimeStamp VARCHAR(255) NOT NULL ,
+                TimeStart VARCHAR(255) NOT NULL ,
+                ExpressionAngry VARCHAR(255) NOT NULL ,
+                ExpressionHappy VARCHAR(255) NOT NULL ,
+                ExpressionSad VARCHAR(255) NOT NULL ,
+                ExpressionSurprised VARCHAR(255) NOT NULL ,
+                ExpressionMotivation VARCHAR(255) NOT NULL
+                )";
+
+            $conn->exec($create);
+            echo "\nTable created successfully";
+        }
         
         /*
         $create = "CREATE TABLE `".$userTable."` (

@@ -58,6 +58,8 @@ switch($requestLink) {
     //FOR REGISTRATION
     case "/Prototype-Vite/my-project/api/registerAccount":
     include('registerAccount.php');
+    case "/Prototype-Vite/my-project/api/verifyEmail":
+        include('verifyEmail.php');
     break;
 
     //FOR SECTION
@@ -75,6 +77,14 @@ switch($requestLink) {
         break;
     case "/Prototype-Vite/my-project/api/sectionAdviser":
         include('sectionAdviser.php');
+        break;
+
+    case "/Prototype-Vite/my-project/api/adviserList":
+        include('adviserList.php');
+        break;
+
+    case "/Prototype-Vite/my-project/api/editSection":
+        include('editSection.php');
         break;
 
     //FOR CLASS LIST
@@ -134,6 +144,10 @@ switch($requestLink) {
     //FOR MANAGE ACCOUNTS
     case "/Prototype-Vite/my-project/api/accountList":
         include('accountList.php');
+    break;
+
+    case "/Prototype-Vite/my-project/api/accountDetails":
+        include('accountDetails.php');
     break;
 }
 

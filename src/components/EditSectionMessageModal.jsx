@@ -2,10 +2,10 @@ import React from 'react';
 import { MdClose } from 'react-icons/md';
 import { VscInfo } from 'react-icons/vsc';
 
-const RegistrationModal = ({ visible, onClose }) => {
+const EditSectionMessageModal = ({ visible, onClose }) => {
   const handleOnClose = e => {
     if (e.target.id === 'mainContainer') onClose();
-    //window.location.reload(false);
+    window.location.reload(false);
   };
 
   if (!visible) return null;
@@ -31,7 +31,7 @@ const RegistrationModal = ({ visible, onClose }) => {
           </div>
           <div className="">
             <div className="p-4 ">
-              The account have been registered successfully.
+              The section have been modified successfully.
             </div>
             <div className="mx-auto text-center border-t-2 border-gray-300 py-3 ">
               <button
@@ -48,4 +48,4 @@ const RegistrationModal = ({ visible, onClose }) => {
   );
 };
 
-export default RegistrationModal;
+export default EditSectionMessageModal;

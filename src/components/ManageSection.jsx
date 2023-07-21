@@ -6,8 +6,10 @@ import * as ReactDOM from 'react-dom';
 import $ from 'jquery';
 
 import EditSectionModal from './EditSectionModal';
+import EditSectionMessageModal from './EditSectionMessageModal';
 
 import EquationSolver from './equationSolver';
+import { BsClipboardPlus } from 'react-icons/bs';
 
 import { BsTrash3 } from 'react-icons/bs';
 import { HiPencilSquare } from 'react-icons/hi2';
@@ -128,9 +130,12 @@ export default function ManageSection() {
   const handleOnCloseModal = () => setShowModal(false);
 
   const [choiceModal, setChoiceModal] = useState(false);
+  const [showMessageModal, setMessageModal] = useState(false);
+  const handleOnCloseMessageModal = () => setMessageModal(false);
 
   const handleOnContinueModal = () => {
-    setChoiceModal(true);
+    //setChoiceModal(true);
+    setMessageModal(true);
     setShowModal(false);
   };
 
@@ -199,8 +204,8 @@ export default function ManageSection() {
 
           <div className="mt-1.5">
             <div className="overflow-hidden py-1 pr-2">
-              <div className="w-full m-1 overflow-hidden shadow-sm shadow-gray-600 rounded-2xl lg:text-lg sm:text-sm xs:text-xs ">
-                <div className="flex bg-gray-200 py-1 items-center text-left rounded-2xl">
+              <div className="inline-flex w-full m-1   rounded-2xl lg:text-lg sm:text-sm xs:text-xs ">
+                <div className="grow mr-5 flex bg-gray-200 shadow-sm shadow-gray-600 py-1 items-center text-left rounded-2xl">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="ml-4 md:h-10 md:w-10 xs:h-5 xs:w-10 lg:scale-100 md-scale:80 sm-scale:60 text-gray-400"
@@ -223,6 +228,15 @@ export default function ManageSection() {
                     autoComplete="off"
                   />
                 </div>
+                <button
+                  type="submit"
+                  className="relative hdScreen:w-[17rem] semihdScreen:w-[14rem] laptopScreen:w-[13rem] averageScreen:w-[13rem] lg:py-3 lg:px-5 sm:py-1.5 sm:px-2.5 xs:px-1 xs:py-1 text-white font-semibold  shadow-md rounded-full bg-lime-600 hover:bg-lime-700 hover:-translate-y-0.5 ease-in-out transition duration-300 transform drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)]"
+                >
+                  <span className="pl-2 lg:text-xl sm:text-base xs:text-sm flex justify-center">
+                    Add Section
+                    <BsClipboardPlus className="lg:ml-2 sm:ml-1 xs:ml-0.5 lg:mt-0.5 sm:mt-1 xs:mt-1 lg:text-2xl" />
+                  </span>
+                </button>
               </div>
             </div>
           </div>
@@ -282,7 +296,7 @@ export default function ManageSection() {
                               <p>{currentSection.SectionName}</p>
                             </td>
                             <td className="md:text-base xs:text-xs">
-                              <p>{`${currentSection.AdviserName} ${currentSection.AdviserSurname}`}</p>
+                              <p>{`${currentSection.AdviserName} ${currentSection.AdviserMiddleName} ${currentSection.AdviserSurname}`}</p>
                             </td>
                             <td className="text-right md:text-base xs:text-xs">
                               <div className="relative">
@@ -346,6 +360,10 @@ export default function ManageSection() {
         onClose={handleOnCloseModal}
         visible={showModal}
         onContinue={handleOnContinueModal}
+      />
+      <EditSectionMessageModal
+        onClose={handleOnCloseMessageModal}
+        visible={showMessageModal}
       />
     </>
   );

@@ -58,18 +58,40 @@ function Registration() {
 
   const onSubmit = async (values, actions) => {
     console.log('SUBMITTED');
-    axios
-      .post(
-        'http://localhost:80/Prototype-Vite/my-project/api/registerAccount/save',
-        values
-      )
-      .then(function (response) {
-        console.log(response.data);
-        //window.location.reload(false);
-      });
-    await new Promise(resolve => setTimeout(resolve, 1));
-    setShowModal(true);
-    actions.resetForm();
+    if (!values.isDuplicate) {
+      axios
+        .post(
+          'http://localhost:80/Prototype-Vite/my-project/api/registerAccount/save',
+          values
+        )
+        .then(function (response) {
+          console.log(response.data);
+          setShowModal(true);
+          resetValues();
+
+          function resetValues() {
+            values.firstName = '';
+            values.middleName = '';
+            values.lastName = '';
+            values.email = '';
+            setEmail('');
+            setFirstName('');
+            setLastName('');
+
+            if (values.role == 'Student') {
+              values.sex = 'Male';
+              values.section = '';
+              values.groupType = 'Facial Group';
+              values.gradeLevel = 'Grade 7';
+            }
+          }
+          //window.location.reload(false);
+        });
+
+      await new Promise(resolve => setTimeout(resolve, 1));
+    }
+
+    //actions.resetForm();
 
     //ADDITIONAL RESET
     /*
@@ -125,6 +147,9 @@ function Registration() {
   var lName = '';
   var tempEmail = '';
 
+  const [duplicateState, setDuplicateState] = useState(false);
+  const [validState, setValidState] = useState(false);
+
   const firstNameChange = event => {
     const value = event.target.value;
     var emailValue = value.replace(/\s/g, '');
@@ -158,6 +183,21 @@ function Registration() {
     document.getElementById('email').focus();
     document.getElementById('email').blur();
     document.getElementById('firstName').focus();
+
+    axios
+      .post(
+        `http://localhost:80/Prototype-Vite/my-project/api/verifyEmail/${tempEmail}`
+      )
+      .then(function (response) {
+        console.log(response.data);
+        if (response.data === 'duplicate') {
+          setDuplicateState(true);
+          values.isDuplicate = true;
+        } else {
+          setDuplicateState(false);
+          values.isDuplicate = false;
+        }
+      });
   };
 
   const lastNameChange = event => {
@@ -193,6 +233,21 @@ function Registration() {
     document.getElementById('email').focus();
     document.getElementById('email').blur();
     document.getElementById('lastName').focus();
+
+    axios
+      .post(
+        `http://localhost:80/Prototype-Vite/my-project/api/verifyEmail/${tempEmail}`
+      )
+      .then(function (response) {
+        console.log(response.data);
+        if (response.data === 'duplicate') {
+          setDuplicateState(true);
+          values.isDuplicate = true;
+        } else {
+          setDuplicateState(false);
+          values.isDuplicate = false;
+        }
+      });
   };
 
   const {
@@ -210,15 +265,18 @@ function Registration() {
       lastName: '',
       //birthDay: '',
       //age: '',
+
       sex: 'Male',
-      section: 'Aguinaldo',
+      section: '',
       groupType: 'Facial Group',
       gradeLevel: 'Grade 7',
       email: '',
-      //password: '',
+      password: 'default',
       //confirmPassword: '',
       role: '',
+      isDuplicate: false,
     },
+
     validationSchema: registrationSchema,
     onSubmit,
   });
@@ -234,6 +292,7 @@ function Registration() {
     document.body.style.backgroundImage =
       'linear-gradient(to top, #e2e2e2, #f1f1f1 , #ffffff)';
 
+    window.addEventListener('load', setWidth);
     window.addEventListener('resize', setWidth);
     window.addEventListener('focus', setWidth);
     window.addEventListener('click', setWidthDelay);
@@ -267,17 +326,22 @@ function Registration() {
     values.firstName = '';
     values.middleName = '';
     values.lastName = '';
+
     values.sex = 'Male';
-    values.section = 'Aguinaldo';
+    values.section = '';
     values.groupType = 'Facial Group';
     values.gradeLevel = 'Grade 7';
     values.email = '';
     values.role = '';
     setEmail(' ');
+    setFirstName('');
+    setLastName('');
+    setDuplicateState(false);
   }
 
   const roleStudent = () => {
     resetValues();
+
     setAccountRole('Student');
     values.role = 'Student';
   };
@@ -652,7 +716,7 @@ function Registration() {
                         id="gradeLevel"
                         className="py-2 lg:px-2 border-2 w-32  focus:border-none rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 shadow-sm shadow-[#808080]"
                       >
-                        <option className="" selected>
+                        <option className="" defaultValue={values.gradeLevel}>
                           Grade 7
                         </option>
                       </select>
@@ -674,8 +738,10 @@ function Registration() {
                         name="section"
                         className="py-2 lg:px-2 border-2 w-32 focus:border-none rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 shadow-sm shadow-[#808080] "
                       >
-                        {sectionData.map(section => (
-                          <option className="">{section.SectionName}</option>
+                        {sectionData.map((section, index) => (
+                          <option key={index} className="">
+                            {section.SectionName}
+                          </option>
                         ))}
                       </select>
                     </div>
@@ -703,6 +769,10 @@ function Registration() {
                           errors.email && touched.email
                             ? ' shadow-red-500 border-red-500 focus:border-red-500 border-3 border-solid'
                             : ''
+                        } ${
+                          duplicateState
+                            ? 'shadow-red-500 border-red-500 focus:border-red-500 border-3 border-solid'
+                            : ''
                         }`}
                         value={email}
                         onChange={handleChange}
@@ -713,6 +783,13 @@ function Registration() {
                       <p className="text-red-500  absolute lg:ml-[136px]  xs:ml-[43px]">
                         {errors.email}
                       </p>
+                    )}
+                    {duplicateState ? (
+                      <p className="text-red-500  absolute lg:ml-[136px]  xs:ml-[43px]">
+                        * This email is already taken.
+                      </p>
+                    ) : (
+                      ''
                     )}
                   </div>
                 </div>
@@ -786,6 +863,7 @@ function Registration() {
                     type="submit"
                     disabled={isSubmitting}
                     className="relative lg:py-3 lg:px-5 sm:py-1.5 sm:px-2.5 xs:px-1 xs:py-1 text-white font-semibold  shadow-md rounded-full bg-lime-600 hover:bg-lime-700 hover:-translate-y-0.5 ease-in-out transition duration-300 transform drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)]"
+                    onClick={onSubmit}
                   >
                     <span className="pl-2 lg:text-xl sm:text-base xs:text-sm flex justify-center">
                       Register

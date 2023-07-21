@@ -20,12 +20,20 @@ import { VscQuestion } from 'react-icons/vsc';
 const EditSectionModal = ({ visible, onClose, onContinue }) => {
   const navigate = useNavigate();
 
-  const [sectionDetails, setSectionDetails] = useState([]);
+  const [adviserData, setAdviserData] = useState([]);
 
-  const [editSectionName, setEditSectionName] = useState('');
-  const [editAdviserName, setEditAdviserName] = useState('');
-  const [editAdviserSurname, setEditAdviserSurname] = useState('');
-  const [editTitle, setEditTitle] = useState('');
+  function getAdvisers() {
+    axios
+      .get('http://localhost:80/Prototype-Vite/my-project/api/adviserList/')
+      .then(function (response) {
+        console.log(response.data);
+        setAdviserData(response.data);
+      });
+  }
+
+  useEffect(() => {
+    getAdvisers();
+  }, []);
 
   useEffect(() => {
     var sectionName = JSON.parse(
@@ -51,7 +59,6 @@ const EditSectionModal = ({ visible, onClose, onContinue }) => {
         `http://localhost:80/Prototype-Vite/my-project/api/sectionDetails/${sectionLink}`
       )
       .then(function (response) {
-        setSectionDetails(response.data);
         var result = Object.values(response.data);
 
         var keys = [];
@@ -61,10 +68,16 @@ const EditSectionModal = ({ visible, onClose, onContinue }) => {
           'EDIT_SECTION_NAME',
           JSON.stringify(keys[2])
         );
-        setEditSectionName(keys[2]);
-        setEditAdviserName(keys[3]);
-        setEditAdviserSurname(keys[4]);
-        setEditTitle(keys[5]);
+        loadValues();
+        function loadValues() {
+          setSectionName(keys[2]);
+          values.gradeLevel = keys[1];
+          values.sectionName = keys[2];
+          values.adviserName = keys[3];
+
+          document.getElementById('sectionName').focus();
+          setTimeout(document.getElementById('sectionName').blur(), 1);
+        }
       });
   }
 
@@ -72,13 +85,17 @@ const EditSectionModal = ({ visible, onClose, onContinue }) => {
 
   const onSubmit = (values, actions) => {
     console.log('SUBMITTED');
+    var section = JSON.parse(
+      window.localStorage.getItem('CURRENT_SECTION_EDIT')
+    );
     axios
       .post(
-        'http://localhost:80/Prototype-Vite/my-project/api/addSection/save',
+        `http://localhost:80/Prototype-Vite/my-project/api/editSection/${section}`,
         values
       )
       .then(function (response) {
         console.log(response.data);
+        onContinue();
       });
     //await new Promise((resolve) => setTimeout(resolve, 1));
   };
@@ -96,35 +113,17 @@ const EditSectionModal = ({ visible, onClose, onContinue }) => {
       gradeLevel: '7',
       sectionName: '',
       adviserName: '',
-      adviserSurname: '',
-      title: '',
     },
     validationSchema: addSectionSchema,
     onSubmit,
   });
 
+  const [sectionName, setSectionName] = useState('');
   const sectionNameChange = event => {
     const value = event.target.value;
     values.sectionName = value;
-    setEditSectionName(value);
-  };
-
-  const adviserNameChange = event => {
-    const value = event.target.value;
-    values.adviserName = value;
-    setEditAdviserName(value);
-  };
-
-  const adviserSurnameChange = event => {
-    const value = event.target.value;
-    values.adviserSurname = value;
-    setEditAdviserSurname(value);
-  };
-
-  const titleChange = event => {
-    const value = event.target.value;
-    values.title = value;
-    setEditTitle(value);
+    setSectionName(value);
+    console.log(values.sectionName);
   };
 
   useEffect(() => {
@@ -136,13 +135,6 @@ const EditSectionModal = ({ visible, onClose, onContinue }) => {
       loadValues();
     }
   });
-
-  function loadValues() {
-    values.sectionName = editSectionName;
-    values.adviserName = editAdviserName;
-    values.adviserSurname = editAdviserSurname;
-    values.title = editTitle;
-  }
 
   const gradeLevelChange = event => {
     var value = event.target.value;
@@ -198,7 +190,7 @@ const EditSectionModal = ({ visible, onClose, onContinue }) => {
             : 'w-[calc(100%-176px)] ml-[176px]'
         }`}
       >
-        <div className="bg-white w-1/3 rounded lg:text-lg xs:text-xs shadow-md ">
+        <div className="bg-white hdScreen:w-1/3 semihdScreen:w-[40%] laptopScreen:w-[45%] averageScreen:w-[45%] rounded lg:text-lg xs:text-xs shadow-md ">
           <div className="grid grid-cols-2 bg-gray-300 border-b-2 border-gray-300">
             <span className="lg:text-xl xs:text-lg ml-2 mt-0.5 text-black/60 font-semibold">
               {' '}
@@ -217,8 +209,8 @@ const EditSectionModal = ({ visible, onClose, onContinue }) => {
             <form
               action=""
               className="overflow-hidden "
-              autocomplete="off"
-              onSubmit={onSubmit}
+              autoComplete="off"
+              onSubmit={handleSubmit}
             >
               <div className=" lg:text-lg xs:text-xs relative py-6 pb-8 pr-16 pl-8 ">
                 <div className="inline-flex w-full">
@@ -247,21 +239,23 @@ const EditSectionModal = ({ visible, onClose, onContinue }) => {
                     Section Name:{' '}
                   </label>
                   <input
+                    value={sectionName}
+                    onChange={sectionNameChange}
+                    onBlur={handleBlur}
                     name="sectionName"
+                    id="sectionName"
                     type="text"
+                    autoComplete="off"
                     placeholder="Enter Section Name"
                     className={`grow p-1  px-2 mt-1 ml-3 border-2 lg:text-lg xs:text-xs rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 focus:border-none shadow-sm shadow-[#808080] ${
                       errors.sectionName && touched.sectionName
                         ? ' shadow-red-500 border-red-500 focus:border-red-500 border-3 border-solid'
                         : ''
                     }`}
-                    value={editSectionName}
-                    onChange={sectionNameChange}
-                    onBlur={handleBlur}
                   />
                 </div>
                 {errors.sectionName && touched.sectionName && (
-                  <p className=" lg:text-base xs:text-xs text-red-500  absolute ml-[11rem] ">
+                  <p className=" lg:text-base xs:text-xs text-red-500  absolute ml-[8rem] ">
                     {errors.sectionName}
                   </p>
                 )}
@@ -269,45 +263,47 @@ const EditSectionModal = ({ visible, onClose, onContinue }) => {
                 <div className="inline-flex w-full mt-8">
                   <label
                     htmlFor="adviserName"
-                    className="inline-block pt-2  text-right"
+                    className="inline-block pt-2 lg:pl-[3.25rem] xs:pl-1 text-right"
                   >
-                    Adviser Name:{' '}
+                    Adviser:{' '}
                   </label>
-                  <input
+                  <select
+                    value={values.adviserName}
+                    onChange={handleChange}
                     name="adviserName"
-                    type="text"
-                    placeholder="Enter Given Name"
-                    className={`grow p-1  px-2 mt-1 ml-3 border-2 lg:text-lg xs:text-xs rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 focus:border-none shadow-sm shadow-[#808080] ${
-                      errors.adviserName && touched.adviserName
-                        ? ' shadow-red-500 border-red-500 focus:border-red-500 border-3 border-solid'
-                        : ''
-                    }`}
-                    value={editAdviserName}
-                    onChange={adviserNameChange}
-                    onBlur={handleBlur}
-                  />
+                    id="adviserName"
+                    className="p-1  px-2 mt-1 ml-3 lg:text-lg xs:text-xs border-2 w-full  focus:border-none rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 shadow-sm shadow-[#808080]"
+                  >
+                    {adviserData.map((adviser, index) => (
+                      <option
+                        key={index}
+                        className=""
+                        /*{...(adviser.SectionName == values.adviserName
+                          ? { selected }
+                          : {})}
+                          */
+                      >
+                        {`${adviser.GivenName} ${adviser.MiddleName} ${adviser.LastName}`}
+                      </option>
+                    ))}
+                  </select>
                 </div>
-                {errors.adviserName && touched.adviserName && (
-                  <p className=" lg:text-base xs:text-xs text-red-500  absolute ml-[11rem] ">
-                    {errors.adviserName}
-                  </p>
-                )}
               </div>
               <div className="mx-auto text-center border-t-2 border-gray-300 py-3">
                 <button
                   onClick={onClose}
                   className={`relative px-12 py-1.5  rounded-full font-semibold  transition duration-300 text-white bg-red-600 hover:bg-red-700 `}
                 >
-                  <span className="font-normal lg:text-base xs:text-xs flex justify-center">
+                  <span className="font-normal lg:text-lg xs:text-xs flex justify-center">
                     Close
                   </span>
                 </button>
                 <button
-                  onClick={onContinue}
+                  onClick={onSubmit}
                   type="submit"
                   className="relative ml-6 py-1.5 px-4 mr-1.5  rounded-full font-semibold  transition duration-300 text-white bg-lime-600 hover:bg-lime-700"
                 >
-                  <span className="font-normal  lg:text-base xs:text-xs flex justify-center">
+                  <span className="font-normal  lg:text-lg xs:text-xs flex justify-center">
                     Apply Changes
                   </span>
                 </button>
