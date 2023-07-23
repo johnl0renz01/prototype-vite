@@ -54,6 +54,7 @@ function Registration() {
 
   useEffect(() => {
     getSections();
+    setEmail('@sanfrancisco.edu.ph');
   }, []);
 
   const onSubmit = async (values, actions) => {
@@ -74,7 +75,7 @@ function Registration() {
             values.middleName = '';
             values.lastName = '';
             values.email = '';
-            setEmail('');
+            setEmail('@sanfrancisco.edu.ph');
             setFirstName('');
             setLastName('');
 
@@ -166,7 +167,7 @@ function Registration() {
       tempEmail = lastName + '.' + emailValue + '@sanfrancisco.edu.ph';
     } else {
       if (firstName === '') {
-        setEmail('');
+        setEmail('@sanfrancisco.edu.ph');
         tempEmail = '';
       } else {
         setEmail(emailValue + '@sanfrancisco.edu.ph');
@@ -216,7 +217,7 @@ function Registration() {
       tempEmail = emailValue + '.' + firstName + '@sanfrancisco.edu.ph';
     } else {
       if (lastName === '') {
-        setEmail('');
+        setEmail('@sanfrancisco.edu.ph');
         tempEmail = '';
       } else {
         setEmail(emailValue + '@sanfrancisco.edu.ph');
@@ -256,6 +257,7 @@ function Registration() {
     isSubmitting,
     handleChange,
     handleSubmit,
+    handleReset,
     errors,
     touched,
   } = useFormik({
@@ -333,13 +335,14 @@ function Registration() {
     values.gradeLevel = 'Grade 7';
     values.email = '';
     values.role = '';
-    setEmail(' ');
+    setEmail('@sanfrancisco.edu.ph');
     setFirstName('');
     setLastName('');
     setDuplicateState(false);
   }
 
   const roleStudent = () => {
+    handleReset();
     resetValues();
 
     setAccountRole('Student');
@@ -347,6 +350,7 @@ function Registration() {
   };
 
   const roleTeacher = () => {
+    handleReset();
     resetValues();
     values.sex = '';
     values.section = '';
@@ -357,10 +361,12 @@ function Registration() {
   };
 
   const typeSingle = () => {
+    handleReset();
     setRegisterType('Single');
   };
 
   const typeBulk = () => {
+    handleReset();
     setRegisterType('Bulk');
   };
 
@@ -394,7 +400,7 @@ function Registration() {
             Registration
           </div>
 
-          <div className="inline-flex lg:p-6 xs:p-3">
+          <div className="inline-flex lg:px-6 hdScreen:py-6 semihdScreen:py-4 laptopScreen:pb-3 averageScreen:pb-3 xs:p-3">
             <p className="mt-[0.55rem] pr-2 lg:text-xl xs:text-base">Role:</p>
             <div className="flex mt-[0.7rem] lg:text-lg xs:text-xs px-2">
               <button
@@ -472,7 +478,7 @@ function Registration() {
               className="overflow-hidden"
               autoComplete="off"
             >
-              <main className="py-12 pr-12 min-w-fit lg:text-lg xs:text-xs   overflow-hidden">
+              <main className="hdScreen:pt-12 semihdScreen:pt-10 laptopScreen:pt-8 averageScreen:pt-6 pb-12 pr-12 min-w-fit hdScreen:text-lg semihdScreen:text-lg laptopScreen:text-base averageScreen:text-base xs:text-xs   overflow-hidden">
                 <div className="grid grid-cols-3 gap-x-3 ">
                   {/*FirstName Input*/}
                   <div>
@@ -663,7 +669,7 @@ function Registration() {
                   </div>
 
                   {/*Group Type Input*/}
-                  <div>
+                  <div className="col-span-2">
                     <div className="inline-flex w-full">
                       <label
                         htmlFor="groupType"

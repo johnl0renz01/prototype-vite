@@ -10,12 +10,14 @@ export const loginSchema = yup.object().shape({
 });
 
 export const registrationSchema = yup.object().shape({
-  firstName: yup.string().required('* First Name Required'),
-  lastName: yup.string().required('* Last Name Required'),
+  firstName: yup.string().required('* Required Field'),
+  lastName: yup.string().required('* Required Field'),
+  /*
   email: yup
     .string()
     .email('* Please enter a valid Email')
     .required('* Email Required'),
+    */
   //age: yup.string().required('* Age Required'),
   //age: yup.number().positive().integer().required("* Age Required"),
 
@@ -38,12 +40,14 @@ export const registrationSchema = yup.object().shape({
 });
 
 export const editAccountModalSchema = yup.object().shape({
-  firstName: yup.string().required('* First Name Required'),
-  lastName: yup.string().required('* Last Name Required'),
+  firstName: yup.string().required('* Required Field'),
+  lastName: yup.string().required('* Required Field'),
+  /*
   email: yup
     .string()
     .email('* Please enter a valid Email')
     .required('* Email Required'),
+    */
 });
 
 export const editAccountSchema = yup.object().shape({
@@ -62,5 +66,10 @@ export const editSectionSchema = yup.object().shape({
 });
 
 export const addSectionSchema = yup.object().shape({
-  sectionName: yup.string().required('* Section Name is Required'),
+  sectionName: yup.string().required('* Required Field'),
+});
+
+export const contactAdminSchema = yup.object().shape({
+  subject: yup.string().required('* Please fill out this field.'),
+  message: yup.string().required('* Please fill out this field.'),
 });

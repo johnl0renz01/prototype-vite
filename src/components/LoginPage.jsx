@@ -208,14 +208,14 @@ export default function Login() {
                 navigate('/Homepage');
               } else if (data == 'Teacher') {
                 navigate('/HomePageTeacher');
-                reloadPage();
+                //reloadPage();
               }
             });
         } else if (isAdmin) {
           var data = 'Admin';
           window.localStorage.setItem('ACCOUNT_TYPE', JSON.stringify(data));
           navigate('/HomePageAdmin');
-          reloadPage();
+          //reloadPage();
         }
       });
 

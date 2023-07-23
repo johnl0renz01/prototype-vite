@@ -106,6 +106,7 @@ const EditSectionModal = ({ visible, onClose, onContinue }) => {
     isSubmitting,
     handleChange,
     handleSubmit,
+    handleReset,
     errors,
     touched,
   } = useFormik({
@@ -113,17 +114,48 @@ const EditSectionModal = ({ visible, onClose, onContinue }) => {
       gradeLevel: '7',
       sectionName: '',
       adviserName: '',
+      isDuplicate: false,
     },
     validationSchema: addSectionSchema,
     onSubmit,
   });
 
   const [sectionName, setSectionName] = useState('');
+  const [duplicateState, setDuplicateState] = useState(false);
+
   const sectionNameChange = event => {
     const value = event.target.value;
     values.sectionName = value;
     setSectionName(value);
+    handleChange.sectionName;
+
     console.log(values.sectionName);
+
+    //UPDATE INSTANTLY
+    document.getElementById('sectionName').focus();
+    document.getElementById('sectionName').blur();
+    document.getElementById('sectionName').focus();
+
+    var currentSection = JSON.parse(
+      window.localStorage.getItem('EDIT_SECTION_NAME')
+    );
+
+    if (values.sectionName.toLowerCase() != currentSection.toLowerCase()) {
+      axios
+        .post(
+          `http://localhost:80/Prototype-Vite/my-project/api/verifySection/${values.sectionName}`
+        )
+        .then(function (response) {
+          console.log(response.data);
+          if (response.data === 'duplicate') {
+            setDuplicateState(true);
+            values.isDuplicate = true;
+          } else {
+            setDuplicateState(false);
+            values.isDuplicate = false;
+          }
+        });
+    }
   };
 
   useEffect(() => {
@@ -143,6 +175,7 @@ const EditSectionModal = ({ visible, onClose, onContinue }) => {
     value = value.replace(/ /g, '');
     console.log('value: ' + value);
     values.gradeLevel = value;
+    handleChange.gradeLevel;
     setGradeLevel(value);
   };
 
@@ -167,7 +200,7 @@ const EditSectionModal = ({ visible, onClose, onContinue }) => {
   }
 
   const handleOnClose = e => {
-    if (e.target.id === 'mainContainer') onClose();
+    if (e.target.id === 'mainContainer') handleReset(), onClose();
   };
 
   if (!visible) return null;
@@ -177,20 +210,10 @@ const EditSectionModal = ({ visible, onClose, onContinue }) => {
       <div
         id="mainContainer"
         onClick={handleOnClose}
-        className={`fixed top-0 z-50 inset-0 bg-black bg-opacity-[0%] backdrop-blur-[4px] flex justify-center items-center "
-        ${
-          navbarWidth == 176
-            ? 'w-[calc(100%-176px)] ml-[176px]'
-            : navbarWidth == 168
-            ? 'w-[calc(100%-168px)] ml-[168px]'
-            : navbarWidth == 108
-            ? 'w-[calc(100%-108px)] ml-[108px]'
-            : navbarWidth == 95
-            ? 'w-[calc(100%-95px)] ml-[95px]'
-            : 'w-[calc(100%-176px)] ml-[176px]'
-        }`}
+        className={`fixed top-0 z-50 inset-0 bg-black bg-opacity-50 backdrop-blur-[1.5px] flex justify-center items-center "
+       `}
       >
-        <div className="bg-white hdScreen:w-1/3 semihdScreen:w-[40%] laptopScreen:w-[45%] averageScreen:w-[45%] rounded lg:text-lg xs:text-xs shadow-md ">
+        <div className="bg-white hdScreen:w-1/3 semihdScreen:w-[40%] laptopScreen:w-[45%] averageScreen:w-[45%] hdScreen:scale-100 semihdScreen:scale-95 laptopScreen:scale-90 averageScreen:scale-90 rounded lg:text-lg xs:text-xs shadow-md ">
           <div className="grid grid-cols-2 bg-gray-300 border-b-2 border-gray-300">
             <span className="lg:text-xl xs:text-lg ml-2 mt-0.5 text-black/60 font-semibold">
               {' '}
@@ -227,7 +250,9 @@ const EditSectionModal = ({ visible, onClose, onContinue }) => {
                     id="gradeLevel"
                     className="p-1  px-2 mt-1 ml-3 lg:text-lg xs:text-xs border-2 w-32  focus:border-none rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 shadow-sm shadow-[#808080]"
                   >
-                    <option className="">Grade 7</option>
+                    <option className="hdScreen:text-lg semihdScreen:text-base laptopScreen:text-base averageScreen:text-base">
+                      Grade 7
+                    </option>
                   </select>
                 </div>
 
@@ -251,6 +276,11 @@ const EditSectionModal = ({ visible, onClose, onContinue }) => {
                       errors.sectionName && touched.sectionName
                         ? ' shadow-red-500 border-red-500 focus:border-red-500 border-3 border-solid'
                         : ''
+                    }
+                    ${
+                      duplicateState
+                        ? 'shadow-red-500 border-red-500 focus:border-red-500 border-3 border-solid'
+                        : ''
                     }`}
                   />
                 </div>
@@ -258,6 +288,14 @@ const EditSectionModal = ({ visible, onClose, onContinue }) => {
                   <p className=" lg:text-base xs:text-xs text-red-500  absolute ml-[8rem] ">
                     {errors.sectionName}
                   </p>
+                )}
+
+                {duplicateState ? (
+                  <p className="lg:text-base xs:text-xs text-red-500 absolute ml-[8rem]">
+                    * This section name already exist.
+                  </p>
+                ) : (
+                  ''
                 )}
 
                 <div className="inline-flex w-full mt-8">
@@ -277,7 +315,7 @@ const EditSectionModal = ({ visible, onClose, onContinue }) => {
                     {adviserData.map((adviser, index) => (
                       <option
                         key={index}
-                        className=""
+                        className="hdScreen:text-lg semihdScreen:text-base laptopScreen:text-base averageScreen:text-base"
                         /*{...(adviser.SectionName == values.adviserName
                           ? { selected }
                           : {})}
@@ -295,7 +333,7 @@ const EditSectionModal = ({ visible, onClose, onContinue }) => {
                   className={`relative px-12 py-1.5  rounded-full font-semibold  transition duration-300 text-white bg-red-600 hover:bg-red-700 `}
                 >
                   <span className="font-normal lg:text-lg xs:text-xs flex justify-center">
-                    Close
+                    Cancel
                   </span>
                 </button>
                 <button

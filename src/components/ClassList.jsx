@@ -5,6 +5,7 @@ import axios from 'axios';
 import * as ReactDOM from 'react-dom';
 import $ from 'jquery';
 
+import { BsCaretUpFill, BsStickies } from 'react-icons/bs';
 import { VscEye } from 'react-icons/vsc';
 
 export default function ClassList() {
@@ -200,7 +201,7 @@ export default function ClassList() {
       >
         <section id="container" className="relative mx-auto p-8 w-full">
           <div
-            className={`md:-mt-0 xs:-mt-1 border-b-2 text-gray-600 lg:text-4xl font-bold
+            className={`flex md:-mt-0 xs:-mt-1 border-b-2 text-gray-600 lg:text-4xl font-bold
             ${
               logoHeight == 94.5
                 ? 'max-h-[94.5px]'
@@ -209,9 +210,11 @@ export default function ClassList() {
                 : ''
             }`}
           >
-            {sectionList.map(section => (
-              <>{`${section.GradeLevel} - ${section.SectionName}`}</>
-            ))}
+            <span className="">
+              {sectionList.map(section => (
+                <>{`${section.GradeLevel} - ${section.SectionName}`}</>
+              ))}
+            </span>
           </div>
           <div className="mt-1.5">
             {/*
@@ -246,8 +249,8 @@ export default function ClassList() {
             */}
 
             <div className="overflow-hidden py-1 pr-2">
-              <div className="w-full m-1 overflow-hidden shadow-sm shadow-gray-600 rounded-2xl lg:text-lg xs:text-xs">
-                <div className="flex bg-gray-200 py-1 items-center text-left rounded-2xl">
+              <div className="inline-flex w-full m-1   rounded-2xl lg:text-lg xs:text-xs">
+                <div className="grow mr-5 flex bg-gray-200 shadow-sm shadow-gray-600 py-1 items-center text-left rounded-2xl">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="ml-4 md:h-10 md:w-10 xs:h-5 xs:w-10 lg:scale-100 md-scale:80 sm-scale:60 text-gray-400"
@@ -270,6 +273,15 @@ export default function ClassList() {
                     autoComplete="off"
                   />
                 </div>
+                <button
+                  type="button"
+                  className="relative hdScreen:w-[14.5rem] semihdScreen:w-[14.5rem] laptopScreen:w-[14.5rem] averageScreen:w-[14.5rem] lg:py-3 lg:px-5 sm:py-1.5 sm:px-2.5 xs:px-1 xs:py-1 text-white font-semibold  shadow-md rounded-full bg-orange-500 hover:bg-orange-600/90 hover:-translate-y-0.5 ease-in-out transition duration-300 transform drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)]"
+                >
+                  <span className="pl-2 lg:text-xl sm:text-base xs:text-sm flex justify-center">
+                    Change Section
+                    <BsStickies className="lg:ml-2 sm:ml-1 xs:ml-0.5 lg:mt-1 sm:mt-1.5 xs:mt-1.5 lg:text-xl rotate-[180deg] -scale-x-100 " />
+                  </span>
+                </button>
               </div>
             </div>
           </div>
@@ -278,12 +290,11 @@ export default function ClassList() {
             <table className="w-full leading-normal ">
               <thead className="sticky top-0 z-40 shadow-md border-b-2 border-gray-200 bg-gray-200 text-left uppercase tracking-wider md:text-base xs:text-xs font-bold text-gray-600">
                 <tr>
-                  <th className="pl-20 lg:pr-64 py-3 ">Student Name</th>
-                  <th></th>
-                  <th className="lg:pr-24 py-3">Age</th>
+                  <th className="pl-20 py-3 ">Student Name</th>
+
                   <th className="lg:pr-20 py-3 ">Gender</th>
-                  <th className="lg:py-3">Group Type</th>
-                  <th className="lg:pl-[196px] py-3 select-none "></th>
+                  <th className="lg:py-3 ">Group Type</th>
+                  <th className="lg:pl-[200px] md:pl-[110px] xs:pl-[80px] md py-3 select-none "></th>
                 </tr>
               </thead>
             </table>
@@ -294,9 +305,8 @@ export default function ClassList() {
                     <table className="min-w-full leading-normal -mt-[28px]">
                       <thead className="invisible md:text-base xs:text-xs">
                         <tr>
-                          <th className="pl-20 lg:pr-64">Student Name</th>
-                          <th></th>
-                          <th className="lg:pr-24">Age</th>
+                          <th className="pl-20">Student Name</th>
+
                           <th className="lg:pr-20 ">Gender</th>
                           <th className="">Group Type</th>
                           <th className="lg:pl-16 select-none "></th>
@@ -308,7 +318,7 @@ export default function ClassList() {
                             key={key}
                             className="border-b border-gray-200 bg-white hover:bg-gray-100 text-gray-900 hover:text-indigo-600"
                           >
-                            <td className="flex items-center md:text-base xs:text-xs px-5 py-[10px]  whitespace-no-wrap">
+                            <td className="flex items-center md:text-base xs:text-xs pl-5 py-[10px]  whitespace-no-wrap">
                               <div className="flex-shrink-0 w-10 h-10 mr-3">
                                 {account.Gender == 'Male' ? (
                                   <img
@@ -324,15 +334,12 @@ export default function ClassList() {
                                   />
                                 )}
                               </div>
-                              <p className="lg:pl-2  md:text-base xs:text-xs">
+                              <p className="lg:pl-2 lg:-mr-20  md:text-base xs:text-xs">
                                 {account.GivenName + ' ' + account.LastName}
                               </p>
                             </td>
-                            <td></td>
-                            <td className="lg:pr-24 md:text-base xs:text-xs">
-                              <p>{account.Age}</p>
-                            </td>
-                            <td className="lg:pr-20  md:text-base xs:text-xs">
+
+                            <td className=" lg:pr-20  md:text-base xs:text-xs">
                               <p>{account.Gender}</p>
                             </td>
                             <td className="md:text-base xs:text-xs">

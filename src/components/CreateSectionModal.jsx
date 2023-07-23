@@ -17,7 +17,7 @@ import { BsSlashCircle } from 'react-icons/bs';
 import { MdClose } from 'react-icons/md';
 import { VscQuestion } from 'react-icons/vsc';
 
-const EditSectionModal = ({ visible, onClose, onContinue }) => {
+const CreateSectionModal = ({ visible, onClose, onContinue }) => {
   const navigate = useNavigate();
 
   const [adviserData, setAdviserData] = useState([]);
@@ -35,65 +35,51 @@ const EditSectionModal = ({ visible, onClose, onContinue }) => {
     getAdvisers();
   }, []);
 
-  useEffect(() => {
-    var sectionName = JSON.parse(
-      window.localStorage.getItem('CURRENT_SECTION_EDIT')
-    );
-
-    var editState = JSON.parse(
-      window.localStorage.getItem('EDIT_SECTION_STATE')
-    );
-
-    if (editState == true) {
-      window.localStorage.setItem('EDIT_SECTION_STATE', false);
-      getSectionDetails(sectionName);
-    }
-  });
-
-  function getSectionDetails(sectionName) {
-    let sectionLink = sectionName.replace(/ /g, '_');
-    sectionLink = sectionLink.replace(/"/g, ' ');
-
-    axios
-      .get(
-        `http://localhost:80/Prototype-Vite/my-project/api/sectionDetails/${sectionLink}`
-      )
-      .then(function (response) {
-        var result = Object.values(response.data);
-
-        var keys = [];
-        for (var k in result[0]) keys.push(result[0][k]);
-
-        window.localStorage.setItem(
-          'EDIT_SECTION_NAME',
-          JSON.stringify(keys[2])
-        );
-        loadValues();
-        function loadValues() {
-          setSectionName(keys[2]);
-          values.gradeLevel = keys[1];
-          values.sectionName = keys[2];
-          values.adviserName = keys[3];
-
-          document.getElementById('sectionName').focus();
-          setTimeout(document.getElementById('sectionName').blur(), 1);
-        }
-      });
-  }
-
   //window.localStorage.setItem("");
 
   const onSubmit = (values, actions) => {
     console.log('SUBMITTED');
+    if (!values.isDuplicate) {
+      axios
+        .post(
+          `http://localhost:80/Prototype-Vite/my-project/api/addSection/save`,
+          values
+        )
+        .then(function (response) {
+          console.log(response.data);
+          onContinue();
+        });
+      //await new Promise((resolve) => setTimeout(resolve, 1));
+    }
+  };
+  const [duplicateState, setDuplicateState] = useState(false);
+
+  const sectionNameChange = event => {
+    const value = event.target.value;
+    values.sectionName = value;
+    handleChange.sectionName;
+
+    console.log(values.sectionName);
+
+    //UPDATE INSTANTLY
+    document.getElementById('sectionName').focus();
+    document.getElementById('sectionName').blur();
+    document.getElementById('sectionName').focus();
+
     axios
       .post(
-        'http://localhost:80/Prototype-Vite/my-project/api/addSection/save',
-        values
+        `http://localhost:80/Prototype-Vite/my-project/api/verifySection/${values.sectionName}`
       )
       .then(function (response) {
         console.log(response.data);
+        if (response.data === 'duplicate') {
+          setDuplicateState(true);
+          values.isDuplicate = true;
+        } else {
+          setDuplicateState(false);
+          values.isDuplicate = false;
+        }
       });
-    //await new Promise((resolve) => setTimeout(resolve, 1));
   };
 
   const {
@@ -102,6 +88,7 @@ const EditSectionModal = ({ visible, onClose, onContinue }) => {
     isSubmitting,
     handleChange,
     handleSubmit,
+    handleReset,
     errors,
     touched,
   } = useFormik({
@@ -109,27 +96,10 @@ const EditSectionModal = ({ visible, onClose, onContinue }) => {
       gradeLevel: '7',
       sectionName: '',
       adviserName: '',
+      isDuplicate: false,
     },
     validationSchema: addSectionSchema,
     onSubmit,
-  });
-
-  const [sectionName, setSectionName] = useState('');
-  const sectionNameChange = event => {
-    const value = event.target.value;
-    values.sectionName = value;
-    setSectionName(value);
-    console.log(values.sectionName);
-  };
-
-  useEffect(() => {
-    var editState = JSON.parse(
-      window.localStorage.getItem('EDIT_SECTION_STATE')
-    );
-    if (editState == true) {
-      window.localStorage.setItem('EDIT_SECTION_STATE', false);
-      loadValues();
-    }
   });
 
   const gradeLevelChange = event => {
@@ -139,6 +109,7 @@ const EditSectionModal = ({ visible, onClose, onContinue }) => {
     value = value.replace(/ /g, '');
     console.log('value: ' + value);
     values.gradeLevel = value;
+    handleChange.gradeLevel;
     setGradeLevel(value);
   };
 
@@ -163,7 +134,7 @@ const EditSectionModal = ({ visible, onClose, onContinue }) => {
   }
 
   const handleOnClose = e => {
-    if (e.target.id === 'mainContainer') onClose();
+    if (e.target.id === 'mainContainer') handleReset(), onClose();
   };
 
   if (!visible) return null;
@@ -173,24 +144,14 @@ const EditSectionModal = ({ visible, onClose, onContinue }) => {
       <div
         id="mainContainer"
         onClick={handleOnClose}
-        className={`fixed top-0 z-50 inset-0 bg-black bg-opacity-[0%] backdrop-blur-[4px] flex justify-center items-center "
-        ${
-          navbarWidth == 176
-            ? 'w-[calc(100%-176px)] ml-[176px]'
-            : navbarWidth == 168
-            ? 'w-[calc(100%-168px)] ml-[168px]'
-            : navbarWidth == 108
-            ? 'w-[calc(100%-108px)] ml-[108px]'
-            : navbarWidth == 95
-            ? 'w-[calc(100%-95px)] ml-[95px]'
-            : 'w-[calc(100%-176px)] ml-[176px]'
-        }`}
+        className={`fixed top-0 z-50 inset-0 bg-black bg-opacity-50 backdrop-blur-[1.5px] flex justify-center items-center "
+       `}
       >
-        <div className="bg-white hdScreen:w-1/3 semihdScreen:w-[40%] laptopScreen:w-[45%] averageScreen:w-[45%] rounded lg:text-lg xs:text-xs shadow-md ">
+        <div className="bg-white hdScreen:w-1/3 semihdScreen:w-[40%] laptopScreen:w-[45%] averageScreen:w-[45%] hdScreen:scale-100 semihdScreen:scale-95 laptopScreen:scale-90 averageScreen:scale-90 rounded lg:text-lg xs:text-xs shadow-md ">
           <div className="grid grid-cols-2 bg-gray-300 border-b-2 border-gray-300">
             <span className="lg:text-xl xs:text-lg ml-2 mt-0.5 text-black/60 font-semibold">
               {' '}
-              Edit Section{' '}
+              Create Section{' '}
             </span>
             <div className="text-right">
               <button
@@ -206,7 +167,7 @@ const EditSectionModal = ({ visible, onClose, onContinue }) => {
               action=""
               className="overflow-hidden "
               autoComplete="off"
-              onSubmit={onSubmit}
+              onSubmit={handleSubmit}
             >
               <div className=" lg:text-lg xs:text-xs relative py-6 pb-8 pr-16 pl-8 ">
                 <div className="inline-flex w-full">
@@ -218,12 +179,15 @@ const EditSectionModal = ({ visible, onClose, onContinue }) => {
                   </label>
 
                   <select
+                    value={values.gradeLevel}
                     onChange={gradeLevelChange}
                     name="gradeLevel"
                     id="gradeLevel"
                     className="p-1  px-2 mt-1 ml-3 lg:text-lg xs:text-xs border-2 w-32  focus:border-none rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 shadow-sm shadow-[#808080]"
                   >
-                    <option className="">Grade 7</option>
+                    <option className="hdScreen:text-lg semihdScreen:text-base laptopScreen:text-base averageScreen:text-base">
+                      Grade 7
+                    </option>
                   </select>
                 </div>
 
@@ -235,25 +199,38 @@ const EditSectionModal = ({ visible, onClose, onContinue }) => {
                     Section Name:{' '}
                   </label>
                   <input
-                    value={sectionName}
+                    value={values.sectionName}
                     onChange={sectionNameChange}
                     onBlur={handleBlur}
                     name="sectionName"
                     id="sectionName"
                     type="text"
-                    autoComplete="new-password"
+                    autoComplete="off"
                     placeholder="Enter Section Name"
                     className={`grow p-1  px-2 mt-1 ml-3 border-2 lg:text-lg xs:text-xs rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 focus:border-none shadow-sm shadow-[#808080] ${
                       errors.sectionName && touched.sectionName
                         ? ' shadow-red-500 border-red-500 focus:border-red-500 border-3 border-solid'
                         : ''
+                    }
+                    ${
+                      duplicateState
+                        ? 'shadow-red-500 border-red-500 focus:border-red-500 border-3 border-solid'
+                        : ''
                     }`}
                   />
                 </div>
                 {errors.sectionName && touched.sectionName && (
-                  <p className=" lg:text-base xs:text-xs text-red-500  absolute ml-[8rem] ">
+                  <p className=" lg:text-base xs:text-xs text-red-500 absolute ml-[8rem]">
                     {errors.sectionName}
                   </p>
+                )}
+
+                {duplicateState ? (
+                  <p className="lg:text-base xs:text-xs text-red-500 absolute ml-[8rem]">
+                    * This section name already exist.
+                  </p>
+                ) : (
+                  ''
                 )}
 
                 <div className="inline-flex w-full mt-8">
@@ -270,14 +247,14 @@ const EditSectionModal = ({ visible, onClose, onContinue }) => {
                     id="adviserName"
                     className="p-1  px-2 mt-1 ml-3 lg:text-lg xs:text-xs border-2 w-full  focus:border-none rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 shadow-sm shadow-[#808080]"
                   >
-                    {adviserData.map(adviser => (
+                    {adviserData.map((adviser, index) => (
                       <option
-                        className=""
-
-                        /* {...(section == section.SectionName
-                              ? { selected }
-                              : {})}
-                              */
+                        key={index}
+                        className="hdScreen:text-lg semihdScreen:text-base laptopScreen:text-base averageScreen:text-base"
+                        /*{...(adviser.SectionName == values.adviserName
+                          ? { selected }
+                          : {})}
+                          */
                       >
                         {`${adviser.GivenName} ${adviser.MiddleName} ${adviser.LastName}`}
                       </option>
@@ -291,16 +268,16 @@ const EditSectionModal = ({ visible, onClose, onContinue }) => {
                   className={`relative px-12 py-1.5  rounded-full font-semibold  transition duration-300 text-white bg-red-600 hover:bg-red-700 `}
                 >
                   <span className="font-normal lg:text-lg xs:text-xs flex justify-center">
-                    Close
+                    Cancel
                   </span>
                 </button>
                 <button
-                  onClick={onContinue}
+                  onClick={onSubmit}
                   type="submit"
-                  className="relative ml-6 py-1.5 px-4 mr-1.5  rounded-full font-semibold  transition duration-300 text-white bg-lime-600 hover:bg-lime-700"
+                  className="relative ml-6 py-1.5 px-12  rounded-full font-semibold  transition duration-300 text-white bg-lime-600 hover:bg-lime-700"
                 >
                   <span className="font-normal  lg:text-lg xs:text-xs flex justify-center">
-                    Apply Changes
+                    Create
                   </span>
                 </button>
               </div>
@@ -312,4 +289,4 @@ const EditSectionModal = ({ visible, onClose, onContinue }) => {
   );
 };
 
-export default EditSectionModal;
+export default CreateSectionModal;

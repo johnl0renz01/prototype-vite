@@ -5,6 +5,9 @@ import axios from 'axios';
 import * as ReactDOM from 'react-dom';
 import $ from 'jquery';
 
+import CreateSectionModal from './CreateSectionModal';
+import CreateSectionMessageModal from './CreateSectionMessageModal';
+
 import EditSectionModal from './EditSectionModal';
 import EditSectionMessageModal from './EditSectionMessageModal';
 
@@ -125,6 +128,18 @@ export default function ManageSection() {
       });
   };
 
+  // MODAL CREATE SECTION
+  const [showSectionModal, setShowSectionModal] = useState(false);
+  const handleOnCloseSectionModal = () => setShowSectionModal(false);
+
+  const [showSectionMessageModal, setSectionMessageModal] = useState(false);
+  const handleOnCloseSectionMessageModal = () => setSectionMessageModal(false);
+
+  const handleOnContinueSectionModal = () => {
+    setSectionMessageModal(true);
+    setShowSectionModal(false);
+  };
+
   // MODAL EDIT
   const [showModal, setShowModal] = useState(false);
   const handleOnCloseModal = () => setShowModal(false);
@@ -229,7 +244,8 @@ export default function ManageSection() {
                   />
                 </div>
                 <button
-                  type="submit"
+                  onClick={e => setShowSectionModal(true)}
+                  type="button"
                   className="relative hdScreen:w-[17rem] semihdScreen:w-[14rem] laptopScreen:w-[13rem] averageScreen:w-[13rem] lg:py-3 lg:px-5 sm:py-1.5 sm:px-2.5 xs:px-1 xs:py-1 text-white font-semibold  shadow-md rounded-full bg-lime-600 hover:bg-lime-700 hover:-translate-y-0.5 ease-in-out transition duration-300 transform drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)]"
                 >
                   <span className="pl-2 lg:text-xl sm:text-base xs:text-sm flex justify-center">
@@ -356,6 +372,16 @@ export default function ManageSection() {
           </div>
         </section>
       </div>
+      <CreateSectionModal
+        onClose={handleOnCloseSectionModal}
+        visible={showSectionModal}
+        onContinue={handleOnContinueSectionModal}
+      />
+      <CreateSectionMessageModal
+        onClose={handleOnCloseSectionMessageModal}
+        visible={showSectionMessageModal}
+      />
+
       <EditSectionModal
         onClose={handleOnCloseModal}
         visible={showModal}

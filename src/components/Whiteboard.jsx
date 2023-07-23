@@ -2160,7 +2160,7 @@ export default function Whiteboard() {
 
             {/*<!--White area in whiteboard under synthetic face-->*/}
             <div
-              className={`flex justify-end col-span-5 row-span-4 bg-white border-r-12  border-r-yellow-700 
+              className={`flex justify-end col-span-5 row-span-4 bg-white border-r-12  border-r-yellow-700 overflow-hidden
               }`}
             >
               <div

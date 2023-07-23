@@ -5,68 +5,21 @@ import axios from 'axios';
 import * as ReactDOM from 'react-dom';
 import $ from 'jquery';
 
-import { useFormik } from 'formik';
+import { Formik, useFormik } from 'formik';
 import { editAccountSchema } from '../schemas';
 import { editSectionSchema } from '../schemas';
-import { addSectionSchema } from '../schemas';
+import { contactAdminSchema } from '../schemas';
 
 import { VscCheckAll, VscPassFilled } from 'react-icons/vsc';
 
 import { BsSlashCircle } from 'react-icons/bs';
+import { BsFillSendFill } from 'react-icons/bs';
 
 import { MdClose } from 'react-icons/md';
 import { VscQuestion } from 'react-icons/vsc';
 
 const ContactAdminModal = ({ visible, onClose, onContinue }) => {
   const navigate = useNavigate();
-
-  const [sectionDetails, setSectionDetails] = useState([]);
-
-  const [editSectionName, setEditSectionName] = useState('');
-  const [editAdviserName, setEditAdviserName] = useState('');
-  const [editAdviserSurname, setEditAdviserSurname] = useState('');
-  const [editTitle, setEditTitle] = useState('');
-
-  useEffect(() => {
-    var sectionName = JSON.parse(
-      window.localStorage.getItem('CURRENT_SECTION_EDIT')
-    );
-
-    var editState = JSON.parse(
-      window.localStorage.getItem('EDIT_SECTION_STATE')
-    );
-
-    if (editState == true) {
-      window.localStorage.setItem('EDIT_SECTION_STATE', false);
-      getSectionDetails(sectionName);
-    }
-  });
-
-  function getSectionDetails(sectionName) {
-    let sectionLink = sectionName.replace(/ /g, '_');
-    sectionLink = sectionLink.replace(/"/g, ' ');
-
-    axios
-      .get(
-        `http://localhost:80/Prototype-Vite/my-project/api/sectionDetails/${sectionLink}`
-      )
-      .then(function (response) {
-        setSectionDetails(response.data);
-        var result = Object.values(response.data);
-
-        var keys = [];
-        for (var k in result[0]) keys.push(result[0][k]);
-
-        window.localStorage.setItem(
-          'EDIT_SECTION_NAME',
-          JSON.stringify(keys[2])
-        );
-        setEditSectionName(keys[2]);
-        setEditAdviserName(keys[3]);
-        setEditAdviserSurname(keys[4]);
-        setEditTitle(keys[5]);
-      });
-  }
 
   //window.localStorage.setItem("");
 
@@ -89,70 +42,17 @@ const ContactAdminModal = ({ visible, onClose, onContinue }) => {
     isSubmitting,
     handleChange,
     handleSubmit,
+    handleReset,
     errors,
     touched,
   } = useFormik({
     initialValues: {
-      gradeLevel: '7',
-      sectionName: '',
-      adviserName: '',
-      adviserSurname: '',
-      title: '',
+      subject: '',
+      message: '',
     },
-    validationSchema: addSectionSchema,
+    validationSchema: contactAdminSchema,
     onSubmit,
   });
-
-  const sectionNameChange = event => {
-    const value = event.target.value;
-    values.sectionName = value;
-    setEditSectionName(value);
-  };
-
-  const adviserNameChange = event => {
-    const value = event.target.value;
-    values.adviserName = value;
-    setEditAdviserName(value);
-  };
-
-  const adviserSurnameChange = event => {
-    const value = event.target.value;
-    values.adviserSurname = value;
-    setEditAdviserSurname(value);
-  };
-
-  const titleChange = event => {
-    const value = event.target.value;
-    values.title = value;
-    setEditTitle(value);
-  };
-
-  useEffect(() => {
-    var editState = JSON.parse(
-      window.localStorage.getItem('EDIT_SECTION_STATE')
-    );
-    if (editState == true) {
-      window.localStorage.setItem('EDIT_SECTION_STATE', false);
-      loadValues();
-    }
-  });
-
-  function loadValues() {
-    values.sectionName = editSectionName;
-    values.adviserName = editAdviserName;
-    values.adviserSurname = editAdviserSurname;
-    values.title = editTitle;
-  }
-
-  const gradeLevelChange = event => {
-    var value = event.target.value;
-    console.log('value: ' + value);
-    value = value.replace(/[A-za-z]/g, '');
-    value = value.replace(/ /g, '');
-    console.log('value: ' + value);
-    values.gradeLevel = value;
-    setGradeLevel(value);
-  };
 
   const [navbarWidth, setNavbarWidth] = useState(0);
   const [logoHeight, setLogoHeight] = useState(0);
@@ -172,7 +72,7 @@ const ContactAdminModal = ({ visible, onClose, onContinue }) => {
   }
 
   const handleOnClose = e => {
-    if (e.target.id === 'mainContainer') onClose();
+    if (e.target.id === 'mainContainer') handleReset(), onClose();
   };
 
   if (!visible) return null;
@@ -182,20 +82,10 @@ const ContactAdminModal = ({ visible, onClose, onContinue }) => {
       <div
         id="mainContainer"
         onClick={handleOnClose}
-        className={`fixed top-0 z-50 inset-0 bg-black bg-opacity-[0%] backdrop-blur-[4px] flex justify-center items-center "
-        ${
-          navbarWidth == 143
-            ? 'w-[calc(100%-143px)] ml-[143px]'
-            : navbarWidth == 95
-            ? 'w-[calc(100%-95px)] ml-[95px]'
-            : navbarWidth == 73
-            ? 'w-[calc(100%-73px)] ml-[73px]'
-            : navbarWidth == 39
-            ? 'w-[calc(100%-39px)] ml-[39px]'
-            : ''
-        }`}
+        className={`fixed top-0 z-50 inset-0 bg-black bg-opacity-50 backdrop-blur-[1.5px] flex justify-center items-center "
+        `}
       >
-        <div className="bg-white w-1/3 rounded lg:text-lg xs:text-xs shadow-md ">
+        <div className="bg-white hdScreen:w-1/3 rounded lg:text-lg xs:text-xs shadow-md ">
           <div className="grid grid-cols-2 bg-gray-300 border-b-2 border-gray-300">
             <span className="lg:text-xl xs:text-lg ml-2 mt-0.5 text-black/60 font-semibold">
               {' '}
@@ -217,77 +107,71 @@ const ContactAdminModal = ({ visible, onClose, onContinue }) => {
               autocomplete="off"
               onSubmit={onSubmit}
             >
-              <div className=" lg:text-lg xs:text-xs relative py-6 pb-8 pr-16 pl-8 ">
+              <div className=" lg:text-lg xs:text-xs relative lg:py-4 lg:pb-12 xs:pb-7 lg:px-6 xs:px-2 ">
                 <div className="inline-flex w-full mt-1">
-                  <label
-                    htmlFor="sectionName"
-                    className="inline-block pt-2 text-right"
-                  >
-                    Section Name:{' '}
-                  </label>
                   <input
-                    name="sectionName"
+                    id="subject"
+                    name="subject"
                     type="text"
+                    maxLength="45"
                     placeholder="Subject"
-                    className={`grow p-1  px-2 mt-1 ml-3 border-2 lg:text-lg xs:text-xs rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 focus:border-none shadow-sm shadow-[#808080] ${
-                      errors.sectionName && touched.sectionName
+                    className={` placeholder:font-normal tracking-wide text-gray-600 grow p-1 font-bold px-2 mt-1 ml-3 border-2 lg:text-lg xs:text-xs rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 focus:border-none shadow-sm shadow-[#808080] ${
+                      errors.subject && touched.subject
                         ? ' shadow-red-500 border-red-500 focus:border-red-500 border-3 border-solid'
                         : ''
                     }`}
-                    value={editSectionName}
-                    onChange={sectionNameChange}
+                    value={values.subject}
+                    onChange={handleChange}
                     onBlur={handleBlur}
                   />
                 </div>
-                {errors.sectionName && touched.sectionName && (
-                  <p className=" lg:text-base xs:text-xs text-red-500  absolute ml-[11rem] ">
-                    {errors.sectionName}
+                {errors.subject && touched.subject && (
+                  <p className=" lg:text-base xs:text-xs text-red-500  absolute ml-[1rem] ">
+                    {errors.subject}
                   </p>
                 )}
 
                 <div className="inline-flex w-full mt-8">
-                  <label
-                    htmlFor="adviserName"
-                    className="inline-block pt-2  text-right"
-                  >
-                    Adviser Name:{' '}
-                  </label>
-                  <input
-                    name="adviserName"
+                  <textarea
+                    id="message"
+                    name="message"
                     type="text"
-                    placeholder="Enter Given Name"
-                    className={`grow p-1  px-2 mt-1 ml-3 border-2 lg:text-lg xs:text-xs rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 focus:border-none shadow-sm shadow-[#808080] ${
-                      errors.adviserName && touched.adviserName
+                    placeholder="Write your concerns..."
+                    rows="8"
+                    className={` grow lg:py-4  lg:px-3 mt-1 ml-3 border-2 lg:text-lg xs:text-xs rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 focus:border-none shadow-sm shadow-[#808080] ${
+                      errors.message && touched.message
                         ? ' shadow-red-500 border-red-500 focus:border-red-500 border-3 border-solid'
                         : ''
                     }`}
-                    value={editAdviserName}
-                    onChange={adviserNameChange}
+                    value={values.message}
+                    onChange={handleChange}
                     onBlur={handleBlur}
                   />
                 </div>
-                {errors.adviserName && touched.adviserName && (
-                  <p className=" lg:text-base xs:text-xs text-red-500  absolute ml-[11rem] ">
-                    {errors.adviserName}
+                {errors.message && touched.message && (
+                  <p className=" lg:text-base xs:text-xs text-red-500  absolute ml-[1rem] ">
+                    {errors.message}
                   </p>
                 )}
               </div>
               <div className="mx-auto text-center border-t-2 border-gray-300 py-3">
                 <button
-                  onClick={onClose}
-                  className={`relative px-12 py-1.5  rounded-full font-semibold  transition duration-300 text-white bg-red-600 hover:bg-red-700 `}
+                  type="button"
+                  onClick={handleReset}
+                  className={`relative px-10 py-1.5  rounded-full font-semibold  transition duration-300 text-white bg-red-600 hover:bg-red-700 `}
                 >
                   <span className="font-normal lg:text-base xs:text-xs flex justify-center">
-                    Close
+                    Clear
                   </span>
                 </button>
                 <button
                   onClick={onContinue}
                   type="submit"
-                  className="relative ml-6 py-1.5 px-4 mr-1.5  rounded-full font-semibold  transition duration-300 text-white bg-lime-600 hover:bg-lime-700"
+                  className="relative ml-6 py-1.5 pl-8 pr-6 mr-1.5  rounded-full font-semibold  transition duration-300 text-white bg-lime-600 hover:bg-lime-700"
                 >
                   <span className="font-normal  lg:text-base xs:text-xs flex justify-center">
-                    Apply Changes
+                    Send
+                    <BsFillSendFill className="ml-1.5 mt-1.5 lg:text-sm xs:text-xs" />
                   </span>
                 </button>
               </div>

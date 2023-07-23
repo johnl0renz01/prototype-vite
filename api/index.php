@@ -83,9 +83,19 @@ switch($requestLink) {
         include('adviserList.php');
         break;
 
+
+    case "/Prototype-Vite/my-project/api/addSection":
+        include('addSection.php');
+    break;
     case "/Prototype-Vite/my-project/api/editSection":
         include('editSection.php');
         break;
+
+    case "/Prototype-Vite/my-project/api/verifySection":
+        include('verifySection.php');
+    break;
+
+
 
     //FOR CLASS LIST
     case "/Prototype-Vite/my-project/api/classList":
@@ -126,9 +136,7 @@ switch($requestLink) {
     case "/Prototype-Vite/my-project/api/sectionDetails":
         include('sectionDetails.php');
         break;
-    case "/Prototype-Vite/my-project/api/addSection":
-        include('addSection.php');
-    break;
+    
     
    
 

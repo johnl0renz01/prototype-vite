@@ -8,6 +8,7 @@ import Whiteboard from './components/Whiteboard';
 
 import AdminHomepage from './components/AdminHomepage';
 import SectionList from './components/SectionList';
+import Sections from './components/Sections';
 import ClassList from './components/ClassList';
 import StudentDetail from './components/StudentDetail';
 import Customization from './components/Customization';
@@ -82,14 +83,11 @@ class App extends Component {
 
           <Route path="Whiteboard" element={<Whiteboard />} />
 
-          <Route path="AdminHomepage" element={<AdminHomepage />} />
-          <Route path="SectionList" element={<SectionList />} />
+          <Route path="Sections" element={<Sections />} />
           <Route path="ClassList" element={<ClassList />} />
           <Route path="StudentDetail" element={<StudentDetail />} />
-          <Route path="Customization" element={<Customization />} />
-          <Route path="EditAccount" element={<EditAccount />} />
 
-          <Route path="Login" element={<Login />} />
+          <Route path="EditAccount" element={<EditAccount />} />
           <Route path="Registration" element={<Registration />} />
 
           <Route path="LoginPage" element={<LoginPage />} />
@@ -116,3 +114,11 @@ class App extends Component {
 }
 
 export default App;
+
+/*
+
+<Route path="AdminHomepage" element={<AdminHomepage />} />
+          <Route path="Customization" element={<Customization />} />
+          <Route path="Login" element={<Login />} />
+          
+*/

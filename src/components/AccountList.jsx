@@ -24,48 +24,8 @@ export default function AccountList() {
   var inputText = '';
 
   useEffect(() => {
-    getManageSection();
     getAccounts();
   }, []);
-
-  function getManageSection() {
-    axios
-      .get(`http://localhost:80/Prototype-Vite/my-project/api/sectionList/`)
-      .then(function (response) {
-        setSection(response.data);
-        let result = Object.values(response.data);
-
-        let items = [];
-        let keys = [];
-        for (let i = 0; i < result.length; i++) {
-          for (let k in result[i]) keys.push(result[i][k]);
-        }
-
-        for (let i = 6; i <= keys.length; i += 7) {
-          // GET IMAGE STRING 6th index (including id)
-          items.push(keys[i]);
-        }
-
-        var imgName = [];
-        var imgType = [];
-
-        for (let i = 0; i < items.length; i++) {
-          let string = items[i];
-          for (let j = 0; j < string.length; j++) {
-            if (string[j] == '.') {
-              imgName.push(string.substring(0, j));
-              imgType.push(string.substring(j + 1));
-              break;
-            }
-          }
-        }
-        console.log(imgName);
-        console.log(imgType);
-
-        setImageUrlList(imgName);
-        setImageTypeList(imgType);
-      });
-  }
 
   function getAccounts() {
     axios

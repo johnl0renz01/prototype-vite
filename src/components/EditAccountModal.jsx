@@ -32,6 +32,7 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
 
   useEffect(() => {
     getSections();
+    setEmail('@sanfrancisco.edu.ph');
   }, []);
 
   const [middleName, setMiddleName] = useState('');
@@ -80,9 +81,17 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
         );
 
         function setValues() {
-          setFirstName(keys[1]);
+          let fName = keys[1];
+          fName = fName.replace(/\s/g, '');
+          fName = fName.toLowerCase();
+
+          let lName = keys[3];
+          lName = lName.replace(/\s/g, '');
+          lName = lName.toLowerCase();
+
+          setFirstName(fName);
           setMiddleName(keys[2]);
-          setLastName(keys[3]);
+          setLastName(lName);
           setGender(keys[6]);
           setGradeLevel(keys[7]);
           setSection(keys[8]);
@@ -107,19 +116,24 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
 
   const onSubmit = async (values, actions) => {
     console.log('SUBMITTED');
-    axios
-      .post(
-        `http://localhost:80/Prototype-Vite/my-project/api/editAccount/${originalEmail}`,
-        values
-      )
-      .then(function (response) {
-        console.log(response.data);
-        //window.location.reload(false);
-      });
-    window.localStorage.setItem('SESSION_EMAIL', JSON.stringify(values.email));
-    await new Promise(resolve => setTimeout(resolve, 1));
-    window.alert('Changes have been applied successfully.');
-    window.location.reload(false);
+    if (!values.isDuplicate) {
+      axios
+        .post(
+          `http://localhost:80/Prototype-Vite/my-project/api/editAccount/${originalEmail}`,
+          values
+        )
+        .then(function (response) {
+          console.log(response.data);
+          //window.location.reload(false);
+        });
+      window.localStorage.setItem(
+        'SESSION_EMAIL',
+        JSON.stringify(values.email)
+      );
+      await new Promise(resolve => setTimeout(resolve, 1));
+      window.alert('Changes have been applied successfully.');
+      window.location.reload(false);
+    }
   };
 
   const middleNameChange = event => {
@@ -189,7 +203,8 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
   }
 
   const handleOnClose = e => {
-    if (e.target.id === 'mainContainer') onClose();
+    if (e.target.id === 'mainContainer')
+      handleReset(), resetValues(), onClose();
   };
 
   const [currentAge, setAge] = useState('');
@@ -233,9 +248,10 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
   var lName = '';
   var tempEmail = '';
 
-  const firstNameChange = event => {
-    setFirstName(event.target.value);
+  const [duplicateState, setDuplicateState] = useState(false);
+  const [validState, setValidState] = useState(false);
 
+  const firstNameChange = event => {
     const value = event.target.value;
     var emailValue = value.replace(/\s/g, '');
     emailValue = emailValue.toLowerCase();
@@ -243,18 +259,15 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
     values.firstName = value;
     handleChange.firstName;
 
+    setFirstName(emailValue);
     fName = emailValue;
 
     if (lastName != '') {
-      var tempLastName = lastName;
-      tempLastName = tempLastName.replace(/\s/g, '');
-      tempLastName = tempLastName.toLowerCase();
-
-      setEmail(tempLastName + '.' + emailValue + '@sanfrancisco.edu.ph');
-      tempEmail = tempLastName + '.' + emailValue + '@sanfrancisco.edu.ph';
+      setEmail(lastName + '.' + emailValue + '@sanfrancisco.edu.ph');
+      tempEmail = lastName + '.' + emailValue + '@sanfrancisco.edu.ph';
     } else {
       if (firstName === '') {
-        setEmail('');
+        setEmail('@sanfrancisco.edu.ph');
         tempEmail = '';
       } else {
         setEmail(emailValue + '@sanfrancisco.edu.ph');
@@ -271,11 +284,29 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
     document.getElementById('email').focus();
     document.getElementById('email').blur();
     document.getElementById('firstName').focus();
+
+    var currentEmail = JSON.parse(
+      window.localStorage.getItem('EDIT_ACCOUNT_NAME')
+    );
+    if (tempEmail != currentEmail) {
+      axios
+        .post(
+          `http://localhost:80/Prototype-Vite/my-project/api/verifyEmail/${tempEmail}`
+        )
+        .then(function (response) {
+          console.log(response.data);
+          if (response.data === 'duplicate') {
+            setDuplicateState(true);
+            values.isDuplicate = true;
+          } else {
+            setDuplicateState(false);
+            values.isDuplicate = false;
+          }
+        });
+    }
   };
 
   const lastNameChange = event => {
-    setLastName(event.target.value);
-
     const value = event.target.value;
     var emailValue = value.replace(/\s/g, '');
     emailValue = emailValue.toLowerCase();
@@ -283,18 +314,15 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
     values.lastName = value;
     handleChange.lastName;
 
+    setLastName(emailValue);
     lName = emailValue;
 
     if (firstName != '') {
-      var tempFirstName = firstName;
-      tempFirstName = tempFirstName.replace(/\s/g, '');
-      tempFirstName = tempFirstName.toLowerCase();
-
-      setEmail(emailValue + '.' + tempFirstName + '@sanfrancisco.edu.ph');
-      tempEmail = emailValue + '.' + tempFirstName + '@sanfrancisco.edu.ph';
+      setEmail(emailValue + '.' + firstName + '@sanfrancisco.edu.ph');
+      tempEmail = emailValue + '.' + firstName + '@sanfrancisco.edu.ph';
     } else {
       if (lastName === '') {
-        setEmail('');
+        setEmail('@sanfrancisco.edu.ph');
         tempEmail = '';
       } else {
         setEmail(emailValue + '@sanfrancisco.edu.ph');
@@ -311,6 +339,26 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
     document.getElementById('email').focus();
     document.getElementById('email').blur();
     document.getElementById('lastName').focus();
+
+    var currentEmail = JSON.parse(
+      window.localStorage.getItem('EDIT_ACCOUNT_NAME')
+    );
+    if (tempEmail != currentEmail) {
+      axios
+        .post(
+          `http://localhost:80/Prototype-Vite/my-project/api/verifyEmail/${tempEmail}`
+        )
+        .then(function (response) {
+          console.log(response.data);
+          if (response.data === 'duplicate') {
+            setDuplicateState(true);
+            values.isDuplicate = true;
+          } else {
+            setDuplicateState(false);
+            values.isDuplicate = false;
+          }
+        });
+    }
   };
 
   const {
@@ -319,6 +367,7 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
     isSubmitting,
     handleChange,
     handleSubmit,
+    handleReset,
     errors,
     touched,
   } = useFormik({
@@ -335,6 +384,7 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
       email: '',
       //password: '',
       //confirmPassword: '',
+      isDuplicate: false,
     },
     validationSchema: editAccountModalSchema,
     onSubmit,
@@ -343,15 +393,7 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
   const [registerType, setRegisterType] = useState('');
 
   function resetValues() {
-    values.firstName = '';
-    values.middleName = '';
-    values.lastName = '';
-    values.sex = '';
-    values.section = '';
-    values.groupType = '';
-    values.gradeLevel = '';
-    values.email = '';
-    setEmail(' ');
+    setDuplicateState(false);
   }
 
   if (!visible) return null;
@@ -361,20 +403,10 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
       <div
         id="mainContainer"
         onClick={handleOnClose}
-        className={`fixed top-0 z-50 inset-0 bg-black bg-opacity-[0%] backdrop-blur-[4px] flex justify-center items-center "
-        ${
-          navbarWidth == 176
-            ? 'w-[calc(100%-176px)] ml-[176px]'
-            : navbarWidth == 168
-            ? 'w-[calc(100%-168px)] ml-[168px]'
-            : navbarWidth == 108
-            ? 'w-[calc(100%-108px)] ml-[108px]'
-            : navbarWidth == 95
-            ? 'w-[calc(100%-95px)] ml-[95px]'
-            : 'w-[calc(100%-176px)] ml-[176px]'
-        }`}
+        className={`fixed top-0 z-50 inset-0 bg-black bg-opacity-50 backdrop-blur-[1.5px] flex justify-center items-center "
+        `}
       >
-        <div className="bg-white  rounded lg:text-lg xs:text-xs shadow-md ">
+        <div className="bg-white hdScreen:scale-100 semihdScreen:scale-90 laptopScreen:scale-85 averageScreen:scale-85 rounded lg:text-lg xs:text-xs shadow-md ">
           <div className="grid grid-cols-2 bg-gray-300 border-b-2 border-gray-300">
             <span className="lg:text-xl xs:text-lg ml-2 mt-0.5 text-black/60 font-semibold">
               {' '}
@@ -418,7 +450,7 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
                             ? 'shadow-red-500  border-red-500 focus:border-red-500 border-3 border-solid'
                             : ''
                         }`}
-                        value={firstName}
+                        value={values.firstName}
                         onChange={firstNameChange}
                         onBlur={handleBlur}
                       />
@@ -473,7 +505,7 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
                             ? ' shadow-red-500 border-red-500 focus:border-red-500 border-3 border-solid'
                             : ''
                         } `}
-                        value={lastName}
+                        value={values.lastName}
                         onChange={lastNameChange}
                         onBlur={handleBlur}
                       />
@@ -587,7 +619,7 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
                   </div>
 
                   {/*Group Type Input*/}
-                  <div>
+                  <div className="col-span-2">
                     <div className="inline-flex w-full">
                       <label
                         htmlFor="groupType"
@@ -637,9 +669,11 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
                         value={values.gradeLevel}
                         onChange={handleChange}
                         name="gradeLevel"
-                        className="py-2 lg:px-2 border-2 w-32  focus:border-none rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 shadow-sm shadow-[#808080]"
+                        className="py-2 lg:px-2 border-2 w-32   focus:border-none rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 shadow-sm shadow-[#808080]"
                       >
-                        <option className="">Grade 7</option>
+                        <option className="hdScreen:text-lg semihdScreen:text-base laptopScreen:text-base averageScreen:text-base">
+                          Grade 7
+                        </option>
                       </select>
                     </div>
                   </div>
@@ -662,7 +696,7 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
                         {sectionData.map((section, index) => (
                           <option
                             key={index}
-                            className=""
+                            className="hdScreen:text-lg semihdScreen:text-base laptopScreen:text-base averageScreen:text-base"
 
                             /* {...(section == section.SectionName
                               ? { selected }
@@ -698,6 +732,11 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
                           errors.email && touched.email
                             ? ' shadow-red-500 border-red-500 focus:border-red-500 border-3 border-solid'
                             : ''
+                        }
+                        ${
+                          duplicateState
+                            ? 'shadow-red-500 border-red-500 focus:border-red-500 border-3 border-solid'
+                            : ''
                         }`}
                         value={email}
                         onChange={handleChange}
@@ -710,6 +749,13 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
                       </p>
                     )}
                   </div>
+                  {duplicateState ? (
+                    <p className="text-red-500  -ml-[9rem] mt-2">
+                      * This email is already taken.
+                    </p>
+                  ) : (
+                    ''
+                  )}
                 </div>
 
                 <div className="hidden grid grid-cols-3 gap-x-3 mt-8">
@@ -782,7 +828,7 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
                   className={`relative px-12 py-1.5  rounded-full font-semibold  transition duration-300 text-white bg-red-600 hover:bg-red-700 `}
                 >
                   <span className="font-normal lg:text-lg xs:text-xs flex justify-center">
-                    Close
+                    Cancel
                   </span>
                 </button>
                 <button
