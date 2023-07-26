@@ -72,7 +72,7 @@ const ContactAdminModal = ({ visible, onClose, onContinue }) => {
   }
 
   const handleOnClose = e => {
-    if (e.target.id === 'mainContainer') handleReset(), onClose();
+    if (e.target.id === 'mainContainer') onClose();
   };
 
   if (!visible) return null;
@@ -107,7 +107,7 @@ const ContactAdminModal = ({ visible, onClose, onContinue }) => {
               autocomplete="off"
               onSubmit={onSubmit}
             >
-              <div className=" lg:text-lg xs:text-xs relative lg:py-4 lg:pb-12 xs:pb-7 lg:px-6 xs:px-2 ">
+              <div className=" lg:text-lg xs:text-xs relative lg:py-4 lg:pb-10 xs:pb-5 lg:px-8 xs:px-2 ">
                 <div className="inline-flex w-full mt-1">
                   <input
                     id="subject"

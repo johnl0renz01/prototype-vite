@@ -9,26 +9,28 @@ include 'DbConnect.php';
 $objDb = new DbConnect;
 $conn = $objDb->connect();
 
-$equation = $_SERVER['REQUEST_URI'];
+$adviser = $_SERVER['REQUEST_URI'];
 
-for ($i = strlen($equation) - 1; $i > 0; $i--) {
-    if ($equation[$i] == "/") {
-        $equation = substr($equation, ($i + 1));
-        $equation = str_replace("_"," ", $equation);
+for ($i = strlen($adviser) - 1; $i > 0; $i--) {
+    if ($adviser[$i] == "/") {
+        $adviser = substr($adviser, ($i + 1));
+        $adviser = str_replace("_"," ", $adviser);
         break;
     }
 }
 
+
 switch($_SESSION['method']) {
     case "GET":
-        break;
-    case "POST":
-        $sql = "DELETE FROM equation_list WHERE EquationString = '$equation'";
-        //$path = explode('/', $_SERVER['REQUEST_URI']);
-        
+        $sql = "SELECT * FROM section_list WHERE AdviserName = '$adviser' ORDER BY SectionName";
+
         $stmt = $conn->prepare($sql);
         $stmt->execute();
-    
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        echo json_encode($result);
+        break;
+    case "POST":
         break;
     case "PUT":
         break;

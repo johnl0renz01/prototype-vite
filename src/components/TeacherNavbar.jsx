@@ -34,11 +34,15 @@ export default function TeacherNavbar() {
   const navigate = useNavigate();
 
   const [tabHighlight, setTabHighlight] = useState(0);
+  const [accessReportCard, setAccessReportCard] = useState(false);
 
   useEffect(() => {
     window.addEventListener('resize', calculateWidth);
     calculateWidth();
     getCurrentTab();
+
+    const data = window.localStorage.getItem('CURRENT_SECTION');
+    if (data !== null) setAccessReportCard(true);
   });
 
   function calculateWidth() {
@@ -190,7 +194,9 @@ export default function TeacherNavbar() {
                     : 'hover:bg-black/30 text-white transition duration-300'
                 }
                 
-                ${sidebarMode == 'Minimized' ? 'pb-2.5 pt-2' : 'pb-1 pt-2'}`}
+                ${sidebarMode == 'Minimized' ? 'pb-2.5 pt-2' : 'pb-1 pt-2'}
+                
+                ${accessReportCard ? '' : 'hidden'}`}
               >
                 <div className="relative text-center font-bold">
                   <BsFillPersonVcardFill className="lg:text-[2.2rem] mx-auto -mb-1" />

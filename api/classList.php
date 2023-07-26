@@ -25,7 +25,12 @@ switch($_SESSION['method']) {
         $sql = "SELECT * FROM accounts WHERE Section LIKE '$section' ORDER BY LastName";
         
         $stmt = $conn->prepare($sql);
-        $stmt->execute();
+        if($stmt->execute()) {
+            $response = ['status' => 1, 'message' => 'Record created successfully.'];
+        } else {
+            break;
+        }
+        
         $accounts = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         echo json_encode($accounts);

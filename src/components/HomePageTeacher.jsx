@@ -83,10 +83,15 @@ import Registration from './Registration';
 export default function HomePageTeacher() {
   const navigate = useNavigate();
 
+  const [accessReportCard, setAccessReportCard] = useState(false);
+
   const [navbarWidth, setNavbarWidth] = useState(0);
   const [logoHeight, setLogoHeight] = useState(0);
 
   useEffect(() => {
+    const data = window.localStorage.getItem('CURRENT_SECTION');
+    if (data !== null) setAccessReportCard(true);
+
     document.body.style.backgroundImage =
       'linear-gradient(to top, #e2e2e2, #f1f1f1 , #ffffff)';
 
@@ -169,7 +174,8 @@ export default function HomePageTeacher() {
           <div className="grid grid-cols-2 grid-rows-2 gap-6 text-center">
             <div
               onClick={tab1}
-              className="overflow-hidden h-[calc(100vh-67.5vh)] grid grid-rows-2 shadow-sm border-3 rounded-lg bg-white hover:bg-gray-100 cursor-pointer transition duration-200"
+              className={`overflow-hidden h-[calc(100vh-67.5vh)]  grid-rows-2 shadow-sm border-3 rounded-lg bg-white hover:bg-gray-100 cursor-pointer transition duration-200
+              ${accessReportCard ? 'grid' : 'hidden'}`}
             >
               <div className="relative flex text-lime-600">
                 <div className="flex mx-auto mt-auto hdScreen:-mb-8 semihdScreen:-mb-4 laptopScreen:-mb-2 averageScreen:-mb-0 xs:-mb-0">

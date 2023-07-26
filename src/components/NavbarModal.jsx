@@ -1,6 +1,6 @@
 import React from 'react';
 import { MdClose } from 'react-icons/md';
-import { VscQuestion } from 'react-icons/vsc';
+import { VscWarning } from 'react-icons/vsc';
 
 const NavbarModal = ({ visible, onClose, onContinue }) => {
   const handleOnClose = e => {
@@ -18,7 +18,7 @@ const NavbarModal = ({ visible, onClose, onContinue }) => {
       >
         <div className="bg-white  rounded text-lg  ">
           <div className="grid grid-cols-2 bg-yellow-500 border-b-2 border-gray-300">
-            <VscQuestion className="text-[1.85rem] ml-1 mt-[0.18rem] text-black/60" />
+            <VscWarning className="text-[1.85rem] ml-1 mt-[0.18rem] text-black/60" />
             <div className="text-right">
               <button
                 onClick={onClose}

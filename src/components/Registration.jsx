@@ -75,6 +75,7 @@ function Registration() {
             values.middleName = '';
             values.lastName = '';
             values.email = '';
+            values.password = 'default';
             setEmail('@sanfrancisco.edu.ph');
             setFirstName('');
             setLastName('');
@@ -335,6 +336,8 @@ function Registration() {
     values.gradeLevel = 'Grade 7';
     values.email = '';
     values.role = '';
+    values.password = 'default';
+
     setEmail('@sanfrancisco.edu.ph');
     setFirstName('');
     setLastName('');

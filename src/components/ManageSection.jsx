@@ -276,7 +276,13 @@ export default function ManageSection() {
               </thead>
             </table>
 
-            <div className="min-h-[calc(100vh-40vh)] bg-white max-h-[calc(100vh-40vh)] relative overflow-y-scroll style-2 mx-auto w-full rounded-md">
+            <div
+              className="hdScreen:min-h-[calc(100vh-40vh)] hdScreen:max-h-[calc(100vh-40vh)] 
+                            semihdScreen:min-h-[calc(100vh-45vh)] semihdScreen:max-h-[calc(100vh-45vh)]
+                            laptopScreen:min-h-[calc(100vh-47.5vh)] laptopScreen:max-h-[calc(100vh-47.5vh)]
+                            averageScreen:min-h-[calc(100vh-50vh)] averageScreen:max-h-[calc(100vh-50vh)]
+                            bg-white relative overflow-y-scroll style-2 mx-auto w-full rounded-md"
+            >
               <div className="">
                 <div className="">
                   <div className="inline-block min-w-full  rounded-lg ">

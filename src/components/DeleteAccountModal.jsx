@@ -2,7 +2,7 @@ import React from 'react';
 import { MdClose } from 'react-icons/md';
 import { VscWarning } from 'react-icons/vsc';
 
-const DifficultyModal = ({ visible, onClose, onContinue }) => {
+const DeleteAccountModal = ({ visible, onClose, onContinue }) => {
   const handleOnClose = e => {
     if (e.target.id === 'mainContainer') onClose();
   };
@@ -61,4 +61,4 @@ const DifficultyModal = ({ visible, onClose, onContinue }) => {
   );
 };
 
-export default DifficultyModal;
+export default DeleteAccountModal;

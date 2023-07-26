@@ -82,7 +82,7 @@ switch($requestLink) {
     case "/Prototype-Vite/my-project/api/adviserList":
         include('adviserList.php');
         break;
-
+        
 
     case "/Prototype-Vite/my-project/api/addSection":
         include('addSection.php');
@@ -95,6 +95,16 @@ switch($requestLink) {
         include('verifySection.php');
     break;
 
+    case "/Prototype-Vite/my-project/api/sectionHandled":
+        include('sectionHandled.php');
+        break;
+
+    case "/Prototype-Vite/my-project/api/sectionTotalv2":
+        include('sectionTotalv2.php');
+        break;
+    case "/Prototype-Vite/my-project/api/sectionNamev2":
+        include('sectionNamev2.php');
+        break;
 
 
     //FOR CLASS LIST
@@ -147,6 +157,10 @@ switch($requestLink) {
     //FOR LOGIN
     case "/Prototype-Vite/my-project/api/validateLogin":
         include('validateLogin.php');
+    break;
+
+    case "/Prototype-Vite/my-project/api/teacherLoginSection":
+        include('teacherLoginSection.php');
     break;
 
     //FOR MANAGE ACCOUNTS

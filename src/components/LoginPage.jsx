@@ -68,6 +68,7 @@ export default function Login() {
     window.localStorage.setItem('SESSION_USER', JSON.stringify(''));
     window.localStorage.setItem('SESSION_ID', JSON.stringify(''));
     window.localStorage.setItem('LOGIN_TYPE', JSON.stringify('Student'));
+    window.localStorage.setItem('SESSION_FULLNAME', JSON.stringify(''));
   }, []);
 
   //END END END END END END END END END END END END
@@ -115,6 +116,8 @@ export default function Login() {
         currentData = currentData.replace('"Email":', '');
         currentData = currentData.replace('"Password":', '');
         currentData = currentData.replace('"GroupType":', '');
+        currentData = currentData.replace('"MiddleName":', '');
+        currentData = currentData.replace('"LastName":', '');
 
         var userData = [];
         convertStringToArray();
@@ -162,6 +165,29 @@ export default function Login() {
               JSON.stringify(userData[3])
             );
 
+            var firstName = JSON.stringify(userData[0]);
+            firstName = firstName.replace(/"/g, '');
+
+            var middleName = JSON.stringify(userData[4]);
+            middleName = middleName.replace(/"/g, '');
+
+            var lastName = JSON.stringify(userData[5]);
+            lastName = lastName.replace(/"/g, '');
+
+            var fullName = '';
+            if (middleName != '') {
+              fullName = firstName + ' ' + middleName + ' ' + lastName;
+            } else {
+              fullName = firstName + ' ' + lastName;
+            }
+
+            window.localStorage.setItem(
+              'SESSION_FULLNAME',
+              JSON.stringify(fullName)
+            );
+
+            //window.alert(fullName);
+
             var emailString = userData[1];
             for (let i = 0; i < emailString.length; i++) {
               if (emailString[i].match(/[\@]/)) {
@@ -207,6 +233,23 @@ export default function Login() {
               if (data == 'Student') {
                 navigate('/Homepage');
               } else if (data == 'Teacher') {
+                var fullName = JSON.parse(
+                  window.localStorage.getItem('SESSION_FULLNAME')
+                );
+                fullName = fullName.replace(/ /g, '_');
+                axios
+                  .get(
+                    `http://localhost:80/Prototype-Vite/my-project/api/teacherLoginSection/${fullName}`
+                  )
+                  .then(function (response) {
+                    console.log(response.data);
+                    var section = response.data;
+                    window.localStorage.setItem(
+                      'CURRENT_SECTION',
+                      JSON.stringify(section)
+                    );
+                  });
+
                 navigate('/HomePageTeacher');
                 //reloadPage();
               }

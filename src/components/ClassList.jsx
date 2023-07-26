@@ -8,6 +8,8 @@ import $ from 'jquery';
 import { BsCaretUpFill, BsStickies } from 'react-icons/bs';
 import { VscEye } from 'react-icons/vsc';
 
+import ChangeSectionModal from './ChangeSectionModal';
+
 export default function ClassList() {
   const navigate = useNavigate();
 
@@ -16,6 +18,9 @@ export default function ClassList() {
   const [pageLink, setPageLink] = useState([]);
 
   useEffect(() => {
+    const data = window.localStorage.getItem('CURRENT_SECTION');
+    if (data === null) navigate('/HomePageTeacher');
+
     setPage();
 
     window.addEventListener('focus', setPage);
@@ -115,18 +120,6 @@ export default function ClassList() {
   };
 
   const StudentDetailPage = () => {
-    let page = ['Home', 'Section List', 'Class List', 'Student Details'];
-    let link = [
-      '/AdminHomepage',
-      '/SectionList',
-      '/ClassList',
-      '/StudentDetail',
-    ];
-    setPageList(page);
-    setPageLink(link);
-
-    window.localStorage.setItem('NAVBAR_PAGE', JSON.stringify(pageList));
-    window.localStorage.setItem('NAVBAR_PAGE_LINK', JSON.stringify(pageLink));
     setTimeout(proceed, 1);
 
     function proceed() {
@@ -169,18 +162,26 @@ export default function ClassList() {
 
   //GO BACK FUNCTION
   const SectionListPage = () => {
-    let page = ['Home', 'Section List'];
-    let link = ['/AdminHomepage', '/SectionList'];
-    setPageList(page);
-    setPageLink(link);
-
-    window.localStorage.setItem('NAVBAR_PAGE', JSON.stringify(pageList));
-    window.localStorage.setItem('NAVBAR_PAGE_LINK', JSON.stringify(pageLink));
     setTimeout(proceed, 1);
 
     function proceed() {
       navigate('/SectionList');
     }
+  };
+
+  // MODAL EDIT
+  const [showModal, setShowModal] = useState(false);
+  const handleOnCloseModal = () => setShowModal(false);
+
+  const [choiceModal, setChoiceModal] = useState(false);
+
+  const handleOnContinueModal = () => {
+    setChoiceModal(true);
+    setShowModal(false);
+  };
+
+  const changeSection = () => {
+    setShowModal(true);
   };
 
   return (
@@ -274,6 +275,7 @@ export default function ClassList() {
                   />
                 </div>
                 <button
+                  onClick={changeSection}
                   type="button"
                   className="relative hdScreen:w-[14.5rem] semihdScreen:w-[14.5rem] laptopScreen:w-[14.5rem] averageScreen:w-[14.5rem] lg:py-3 lg:px-5 sm:py-1.5 sm:px-2.5 xs:px-1 xs:py-1 text-white font-semibold  shadow-md rounded-full bg-orange-500 hover:bg-orange-600/90 hover:-translate-y-0.5 ease-in-out transition duration-300 transform drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)]"
                 >
@@ -290,24 +292,30 @@ export default function ClassList() {
             <table className="w-full leading-normal ">
               <thead className="sticky top-0 z-40 shadow-md border-b-2 border-gray-200 bg-gray-200 text-left uppercase tracking-wider md:text-base xs:text-xs font-bold text-gray-600">
                 <tr>
-                  <th className="pl-20 py-3 ">Student Name</th>
+                  <th className="lg:pl-20 w-[32.5%] py-3 ">Student Name</th>
 
-                  <th className="lg:pr-20 py-3 ">Gender</th>
+                  <th className="w-[22%] py-3 ">Gender</th>
                   <th className="lg:py-3 ">Group Type</th>
                   <th className="lg:pl-[200px] md:pl-[110px] xs:pl-[80px] md py-3 select-none "></th>
                 </tr>
               </thead>
             </table>
-            <div className="min-h-[calc(100vh-40vh)] bg-white max-h-[calc(100vh-40vh)] relative overflow-y-scroll style-2 mx-auto w-full rounded-md">
+            <div
+              className="hdScreen:min-h-[calc(100vh-40vh)] hdScreen:max-h-[calc(100vh-40vh)] 
+                            semihdScreen:min-h-[calc(100vh-45vh)] semihdScreen:max-h-[calc(100vh-45vh)]
+                            laptopScreen:min-h-[calc(100vh-47.5vh)] laptopScreen:max-h-[calc(100vh-47.5vh)]
+                            averageScreen:min-h-[calc(100vh-50vh)] averageScreen:max-h-[calc(100vh-50vh)]
+                            bg-white relative overflow-y-scroll style-2 mx-auto w-full rounded-md"
+            >
               <div className="">
                 <div className="">
                   <div className="inline-block min-w-full shadow rounded-lg ">
                     <table className="min-w-full leading-normal -mt-[28px]">
                       <thead className="invisible md:text-base xs:text-xs">
                         <tr>
-                          <th className="pl-20">Student Name</th>
+                          <th className="lg:pl-20 w-[32.75%]">Student Name</th>
 
-                          <th className="lg:pr-20 ">Gender</th>
+                          <th className="w-[22.2%] ">Gender</th>
                           <th className="">Group Type</th>
                           <th className="lg:pl-16 select-none "></th>
                         </tr>
@@ -334,12 +342,12 @@ export default function ClassList() {
                                   />
                                 )}
                               </div>
-                              <p className="lg:pl-2 lg:-mr-20  md:text-base xs:text-xs">
+                              <p className="lg:pl-2 md:text-base xs:text-xs">
                                 {account.GivenName + ' ' + account.LastName}
                               </p>
                             </td>
 
-                            <td className=" lg:pr-20  md:text-base xs:text-xs">
+                            <td className="md:text-base xs:text-xs">
                               <p>{account.Gender}</p>
                             </td>
                             <td className="md:text-base xs:text-xs">
@@ -371,6 +379,11 @@ export default function ClassList() {
           </div>
         </section>
       </div>
+      <ChangeSectionModal
+        onClose={handleOnCloseModal}
+        visible={showModal}
+        onContinue={handleOnContinueModal}
+      />
     </>
   );
 }

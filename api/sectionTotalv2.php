@@ -9,26 +9,30 @@ include 'DbConnect.php';
 $objDb = new DbConnect;
 $conn = $objDb->connect();
 
-$equation = $_SERVER['REQUEST_URI'];
 
-for ($i = strlen($equation) - 1; $i > 0; $i--) {
-    if ($equation[$i] == "/") {
-        $equation = substr($equation, ($i + 1));
-        $equation = str_replace("_"," ", $equation);
+$adviser = $_SERVER['REQUEST_URI'];
+
+for ($i = strlen($adviser) - 1; $i > 0; $i--) {
+    if ($adviser[$i] == "/") {
+        $adviser = substr($adviser, ($i + 1));
+        $adviser = str_replace("_"," ", $adviser);
         break;
     }
 }
 
+
 switch($_SESSION['method']) {
     case "GET":
-        break;
-    case "POST":
-        $sql = "DELETE FROM equation_list WHERE EquationString = '$equation'";
+        $sql = "SELECT count(SectionID) FROM section_list WHERE AdviserName = '$adviser'";
         //$path = explode('/', $_SERVER['REQUEST_URI']);
         
         $stmt = $conn->prepare($sql);
         $stmt->execute();
-    
+        $number_of_rows = $stmt->fetchColumn();
+
+        echo json_encode($number_of_rows);
+        break;
+    case "POST":
         break;
     case "PUT":
         break;
