@@ -249,7 +249,7 @@ export default function ClassList() {
             </div>
             */}
 
-            <div className="overflow-hidden py-1 pr-2">
+            <div className="overflow-hidden hdScreen:py-1 semihdScreen:py-1 laptopScreen:py-0 averageScreen:py-0 pr-2">
               <div className="inline-flex w-full m-1   rounded-2xl lg:text-lg xs:text-xs">
                 <div className="grow mr-5 flex bg-gray-200 shadow-sm shadow-gray-600 py-1 items-center text-left rounded-2xl">
                   <svg
@@ -277,18 +277,18 @@ export default function ClassList() {
                 <button
                   onClick={changeSection}
                   type="button"
-                  className="relative hdScreen:w-[14.5rem] semihdScreen:w-[14.5rem] laptopScreen:w-[14.5rem] averageScreen:w-[14.5rem] lg:py-3 lg:px-5 sm:py-1.5 sm:px-2.5 xs:px-1 xs:py-1 text-white font-semibold  shadow-md rounded-full bg-orange-500 hover:bg-orange-600/90 hover:-translate-y-0.5 ease-in-out transition duration-300 transform drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)]"
+                  className="relative hdScreen:w-[14.5rem] semihdScreen:w-[14.5rem] laptopScreen:w-[14.5rem] averageScreen:w-[14.5rem] hdScreen:py-3 semihdScreen:py-2 laptopScreen:py-0 averageScreen:py-0 lg:px-5 sm:py-1.5 sm:px-2.5 xs:px-1 xs:py-1 text-white font-semibold  shadow-md rounded-full bg-orange-500 hover:bg-orange-600/90 hover:-translate-y-0.5 ease-in-out transition duration-300 transform drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)]"
                 >
                   <span className="pl-2 lg:text-xl sm:text-base xs:text-sm flex justify-center">
                     Change Section
-                    <BsStickies className="lg:ml-2 sm:ml-1 xs:ml-0.5 lg:mt-1 sm:mt-1.5 xs:mt-1.5 lg:text-xl rotate-[180deg] -scale-x-100 " />
+                    <BsStickies className="lg:ml-2 sm:ml-1 xs:ml-0.5 lg:mt-1 sm:mt-1.5 xs:mt-1 lg:text-xl sm:text-sm xs:text-xs rotate-[180deg] -scale-x-100 " />
                   </span>
                 </button>
               </div>
             </div>
           </div>
 
-          <div className="md:mt-6 xs:mt-3 rounded-3xl overflow-hidden bg-gradient-to-t from-gray-200 via-gray-100 to-white  ">
+          <div className="hdScreen:mt-6 semihdScreen:mt-5 laptopScreen:mt-3 averageScreen:mt-2 xs:mt-3 rounded-3xl overflow-hidden bg-gradient-to-t from-gray-200 via-gray-100 to-white  ">
             <table className="w-full leading-normal ">
               <thead className="sticky top-0 z-40 shadow-md border-b-2 border-gray-200 bg-gray-200 text-left uppercase tracking-wider md:text-base xs:text-xs font-bold text-gray-600">
                 <tr>

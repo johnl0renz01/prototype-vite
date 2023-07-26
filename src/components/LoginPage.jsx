@@ -328,7 +328,7 @@ export default function Login() {
 
   return (
     <>
-      <div className="h-[calc(100vh-27.5vh)] flex items-center ">
+      <div className="hdScreen:h-[calc(100vh-27.5vh)] semihdScreen:h-[calc(100vh-27.5vh)] laptopScreen:h-[calc(100vh-20vh)] averageScreen:h-[calc(100vh-17.5vh)] flex items-center ">
         <div className="mx-auto w-full  grid place-items-center">
           <div
             className="mt-16 
@@ -337,11 +337,11 @@ export default function Login() {
           bg-white rounded-2xl shadow-md relative"
           >
             <div className="lg:pb-16 xs:pb-10  px-10 rounded-3xl">
-              <div className="lg:text-4xl  sm:text-2xl xs:text-xl text-gray-700 font-bold text-center">
-                <i className=" fas fa-graduation-cap  lg:text-[5rem] lg:pt-10 xs:pt-4 pb-4"></i>
+              <div className="hdScreen:text-4xl semihdScreen:text-4xl laptopScreen:text-3xl  averageScreen:text-3xl  sm:text-2xl xs:text-xl text-gray-700 font-bold text-center">
+                <i className=" fas fa-graduation-cap  hdScreen:text-[5rem] semihdScreen:text-[4.5rem] laptopScreen:text-[4rem] averageScreen:text-[3.75rem] lg:pt-10 xs:pt-4 pb-4"></i>
               </div>
               <hr />
-              <div className="lg:text-4xl sm:text-2xl xs:text-lg text-gray-700 font-bold text-center">
+              <div className="hdScreen:text-4xl semihdScreen:text-4xl laptopScreen:text-3xl  averageScreen:text-3xl sm:text-2xl xs:text-lg text-gray-700 font-bold text-center">
                 <div className="pt-4 pb-2 select-none">
                   {accType == 'Student' ? 'Account Login' : 'Admin Login'}
                 </div>
