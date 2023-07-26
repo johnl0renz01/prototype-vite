@@ -103,7 +103,11 @@ export default function EquationList() {
             equation to change its difficulty.
           </div>
 
-          <div className="min-h-[calc(100vh-30vh)] bg-white max-h-[calc(100vh-30vh)] mt-3.5 grid grid-cols-3 text-center lg:text-xl xs:text-base w-full border-t-1  border-gray-400 rounded-xl">
+          <div className="hdScreen:min-h-[calc(100vh-30vh)] hdScreen:max-h-[calc(100vh-30vh)] 
+                          semihdScreen:min-h-[calc(100vh-30vh)] semihdScreen:max-h-[calc(100vh-30vh)]
+                          laptopScreen:min-h-[calc(100vh-40vh)] laptopScreen:max-h-[calc(100vh-40vh)]
+                          averageScreen:min-h-[calc(100vh-45vh)] averageScreen:max-h-[calc(100vh-45vh)]
+                          bg-white mt-3.5 grid grid-cols-3 text-center lg:text-xl xs:text-base w-full border-t-1  border-gray-400 rounded-xl">
             <div className="">
               <div className="py-1 border-gray-400 border-2 border-r-[3.5px] font-semibold rounded-tl-xl shadow-md">
                 Easy

@@ -205,7 +205,7 @@ export default function StudentDetail() {
               <div className="">
                 {accountDetail.map(account => (
                   <>
-                    <p className="hdScreen:text-3xl semihdScreen:text-3xl laptopScreen:text-2xl averageScreen:text-2xl xs:text-base text-gray-700  font-bold leading-4 mb-1">
+                    <p className="hdScreen:text-3xl semihdScreen:text-3xl laptopScreen:text-3xl averageScreen:text-2.5xl xs:text-base text-gray-700  font-bold leading-4 mb-1">
                       {account.MiddleName != '' ? (
                         <>
                           {account.GivenName +
@@ -219,7 +219,7 @@ export default function StudentDetail() {
                         <>{account.GivenName + ' ' + account.LastName}</>
                       )}
                     </p>
-                    <p className="hdScreen:text-base semihdScreen:text-base laptopScreen:text-sm averageScreen:text-sm xs:text-xs text-gray-700 leading-4">
+                    <p className="hdScreen:text-base semihdScreen:text-base laptopScreen:text-base averageScreen:text-base xs:text-xs text-gray-700 leading-4">
                       {account.Email}
                     </p>
                   </>
@@ -285,7 +285,7 @@ export default function StudentDetail() {
             </p>
             <div
               id="history"
-              className="overflow-auto bg-gray-300/80 rounded-md mx-3 mt-2 hdScreen:min-h-[32rem] hdScreen:max-h-[32rem] semihdScreen:min-h-[24rem] semihdScreen:max-h-[24rem] laptopScreen:min-h-[20rem] laptopScreen:max-h-[20rem] averageScreen:min-h-[18rem] averageScreen:max-h-[18rem] style-2 "
+              className="overflow-auto bg-gray-300/80 rounded-md mx-3 mt-2 hdScreen:min-h-[32rem] hdScreen:max-h-[32rem] semihdScreen:min-h-[24rem] semihdScreen:max-h-[24rem] laptopScreen:min-h-[15.7rem] laptopScreen:max-h-[15.7rem] averageScreen:min-h-[14rem] averageScreen:max-h-[14rem] style-2 "
             >
               {accountHistory.map(history => (
                 <>

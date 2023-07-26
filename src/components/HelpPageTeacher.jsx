@@ -93,8 +93,8 @@ export default function HelpPageTeacher() {
           </div>
 
           <div className="mt-1.5 ">
-            <div className="lg:text-lg xs:text-xs tracking-wide">
-              Welcome to the help page. Listed below are the various tabs and
+            <div className="lg:text-lg xs:text-xs hdScreen:tracking-wide semihdScreen:tracking-wide laptopScreen:tracking-normal averageScreen:tracking-tight">
+              Welcome, listed below are the various tabs and
               instructions on how to effectively utilize them. Please choose a
               category to get started.{' '}
             </div>

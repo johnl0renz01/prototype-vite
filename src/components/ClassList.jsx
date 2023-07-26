@@ -187,7 +187,7 @@ export default function ClassList() {
   return (
     <>
       <div
-        className={`bg-gradient-to-t from-[#e2e2e2] via-[#f1f1f1] to-[#ffffff] h-screen 
+        className={` bg-gradient-to-t from-[#e2e2e2] via-[#f1f1f1] to-[#ffffff] h-screen 
         ${
           navbarWidth == 143
             ? 'w-[calc(100%-143px)] ml-[143px]'
@@ -279,7 +279,7 @@ export default function ClassList() {
                   type="button"
                   className="relative hdScreen:w-[14.5rem] semihdScreen:w-[14.5rem] laptopScreen:w-[14.5rem] averageScreen:w-[14.5rem] hdScreen:py-3 semihdScreen:py-2 laptopScreen:py-0 averageScreen:py-0 lg:px-5 sm:py-1.5 sm:px-2.5 xs:px-1 xs:py-1 text-white font-semibold  shadow-md rounded-full bg-orange-500 hover:bg-orange-600/90 hover:-translate-y-0.5 ease-in-out transition duration-300 transform drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)]"
                 >
-                  <span className="pl-2 lg:text-xl sm:text-base xs:text-sm flex justify-center">
+                  <span className="pl-2 hdScreen:text-xl semihdScreen:text-xl laptopScreen:text-lg averageScreen:text-lg sm:text-base xs:text-sm flex justify-center">
                     Change Section
                     <BsStickies className="lg:ml-2 sm:ml-1 xs:ml-0.5 lg:mt-1 sm:mt-1.5 xs:mt-1 lg:text-xl sm:text-sm xs:text-xs rotate-[180deg] -scale-x-100 " />
                   </span>
@@ -303,7 +303,7 @@ export default function ClassList() {
             <div
               className="hdScreen:min-h-[calc(100vh-40vh)] hdScreen:max-h-[calc(100vh-40vh)] 
                             semihdScreen:min-h-[calc(100vh-45vh)] semihdScreen:max-h-[calc(100vh-45vh)]
-                            laptopScreen:min-h-[calc(100vh-47.5vh)] laptopScreen:max-h-[calc(100vh-47.5vh)]
+                            laptopScreen:min-h-[calc(100vh-43vh)] laptopScreen:max-h-[calc(100vh-43vh)]
                             averageScreen:min-h-[calc(100vh-50vh)] averageScreen:max-h-[calc(100vh-50vh)]
                             bg-white relative overflow-y-scroll style-2 mx-auto w-full rounded-md"
             >

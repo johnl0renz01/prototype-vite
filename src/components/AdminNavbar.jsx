@@ -193,7 +193,7 @@ export default function AdminNavbar() {
                   className={`fas fa-graduation-cap  lg:text-6xl xs:text-3xl mb-4 ${
                     sidebarMode == 'Minimized'
                       ? ''
-                      : 'hover:scale-115 transition duration-200'
+                      : 'hover:Screen-115 transition duration-200'
                   }`}
                 ></i>
               </li>
@@ -205,10 +205,10 @@ export default function AdminNavbar() {
                     : 'hover:bg-black/30 text-white transition duration-300'
                 }
                 
-                ${sidebarMode == 'Minimized' ? 'pb-2.5 pt-2' : 'pb-1 pt-2'}`}
+                ${sidebarMode == 'Minimized' ? 'pb-2.5 pt-2' : 'hdScreen:pb-1 hdScreen:pt-2 semihdScreen:pb-1 semihdScreen:pt-2 laptopScreen:pb-0.8 laptopScreen:pt-1.5 averageScreen:pb-0.7 averageScreen:pt-1.4'}`}
               >
                 <div className="relative text-center font-bold">
-                  <BsPeople className="lg:text-[2.2rem] mx-auto -mb-1" />
+                  <BsPeople className="hdScreen:text-[2.2rem] semihdScreen:text-[2rem] laptopScreen:text-[1.6rem] averageScreen:text-[1.5rem] mx-auto -mb-1" />
                   <span
                     className={`lg:text-base xs:text-xs font-poppins font-semibold lg:px-4 ${
                       sidebarMode == 'Minimized' ? 'hidden' : ''
@@ -225,11 +225,11 @@ export default function AdminNavbar() {
                     ? 'bg-white/[75%] text-yellow-700'
                     : 'hover:bg-black/30 text-white transition duration-300'
                 }
-                ${sidebarMode == 'Minimized' ? 'pb-2.5 pt-2' : 'pb-1 pt-2'}
+                ${sidebarMode == 'Minimized' ? 'pb-2.5 pt-2' : 'hdScreen:pb-1 hdScreen:pt-2 semihdScreen:pb-1 semihdScreen:pt-2 laptopScreen:pb-0.8 laptopScreen:pt-1.5 averageScreen:pb-0.7 averageScreen:pt-1.4'}
                 `}
               >
                 <div className="relative text-center  font-bold ">
-                  <BsReceiptCutoff className="lg:text-[2.2rem] mx-auto -mb-0.5" />
+                  <BsReceiptCutoff className="hdScreen:text-[2.2rem] semihdScreen:text-[2rem] laptopScreen:text-[1.6rem] averageScreen:text-[1.5rem] mx-auto -mb-0.5" />
                   <span
                     className={`lg:text-base xs:text-xs font-poppins font-semibold lg:px-2 ${
                       sidebarMode == 'Minimized' ? 'hidden' : ''
@@ -247,10 +247,10 @@ export default function AdminNavbar() {
                     : 'hover:bg-black/30 text-white transition duration-300'
                 }
                 
-                ${sidebarMode == 'Minimized' ? 'pb-2.5 pt-2' : 'pb-1 pt-3'}`}
+                ${sidebarMode == 'Minimized' ? 'pb-2.5 pt-2' : 'hdScreen:pb-1 hdScreen:pt-3 semihdScreen:pb-1 semihdScreen:pt-3 laptopScreen:pb-0.8 laptopScreen:pt-1.5 averageScreen:pb-0.7 averageScreen:pt-1.4'}`}
               >
                 <div className="relative text-center  font-bold ">
-                  <BsPersonAdd className="lg:text-[2.2rem] mx-auto " />
+                  <BsPersonAdd className="hdScreen:text-[2.2rem] semihdScreen:text-[2rem] laptopScreen:text-[1.6rem] averageScreen:text-[1.5rem] mx-auto " />
                   <span
                     className={`lg:text-base xs:text-xs font-poppins font-semibold lg:px-2 ${
                       sidebarMode == 'Minimized' ? 'hidden' : ''
@@ -268,11 +268,11 @@ export default function AdminNavbar() {
                     : 'hover:bg-black/30 text-white transition duration-300'
                 }
                 
-                ${sidebarMode == 'Minimized' ? 'pb-2.5 pt-2' : 'pb-1 pt-3'}
+                ${sidebarMode == 'Minimized' ? 'pb-2.5 pt-2' : 'hdScreen:pb-1 hdScreen:pt-3 semihdScreen:pb-1 semihdScreen:pt-3 laptopScreen:pb-0.8 laptopScreen:pt-1.5 averageScreen:pb-0.7 averageScreen:pt-1.4'}
                 `}
               >
                 <div className="relative text-center  font-bold">
-                  <BsPersonGear className="lg:text-[2.2rem] mx-auto" />
+                  <BsPersonGear className="hdScreen:text-[2.2rem] semihdScreen:text-[2rem] laptopScreen:text-[1.6rem] averageScreen:text-[1.5rem] mx-auto" />
                   <span
                     className={`lg:text-base xs:text-xs font-poppins font-semibold lg:px-2 ${
                       sidebarMode == 'Minimized' ? 'hidden' : ''
@@ -289,10 +289,10 @@ export default function AdminNavbar() {
                     ? 'bg-white/[75%] text-yellow-700'
                     : 'hover:bg-black/30 text-white transition duration-300'
                 }
-                ${sidebarMode == 'Minimized' ? 'pb-2.5 pt-2' : 'pb-1 pt-3'}`}
+                ${sidebarMode == 'Minimized' ? 'pb-2.5 pt-2' : 'hdScreen:pb-1 hdScreen:pt-3 semihdScreen:pb-1 semihdScreen:pt-3 laptopScreen:pb-0.8 laptopScreen:pt-1.5 averageScreen:pb-0.7 averageScreen:pt-1.4'}`}
               >
                 <div className="relative text-center  font-bold">
-                  <BsPersonExclamation className="lg:text-[2.2rem] mx-auto " />
+                  <BsPersonExclamation className="hdScreen:text-[2.2rem] semihdScreen:text-[2rem] laptopScreen:text-[1.6rem] averageScreen:text-[1.5rem] mx-auto " />
                   <span
                     className={`lg:text-base xs:text-xs font-poppins font-semibold lg:px-2 ${
                       sidebarMode == 'Minimized' ? 'hidden' : ''
@@ -309,10 +309,10 @@ export default function AdminNavbar() {
                     ? 'bg-white/[75%] text-yellow-700'
                     : 'hover:bg-black/30 text-white transition duration-300'
                 }
-                ${sidebarMode == 'Minimized' ? 'pb-2.5 pt-2' : 'pb-1 pt-3'}`}
+                ${sidebarMode == 'Minimized' ? 'pb-2.5 pt-2' : 'hdScreen:pb-1 hdScreen:pt-3 semihdScreen:pb-1 semihdScreen:pt-3 laptopScreen:pb-0.8 laptopScreen:pt-1.5 averageScreen:pb-0.7 averageScreen:pt-1.4'}`}
               >
                 <div className="relative text-center  font-bold">
-                  <BsQuestionCircle className="lg:text-[2.2rem] mx-auto " />
+                  <BsQuestionCircle className="hdScreen:text-[2.2rem] semihdScreen:text-[2rem] laptopScreen:text-[1.6rem] averageScreen:text-[1.5rem] mx-auto " />
                   <span
                     className={`lg:text-base xs:text-xs font-poppins font-semibold lg:px-2 ${
                       sidebarMode == 'Minimized' ? 'hidden' : ''
@@ -325,12 +325,12 @@ export default function AdminNavbar() {
               <li
                 onClick={logout}
                 className={`cursor-pointer border-b-2 border-black/5 hover:bg-black/30 text-white transition duration-300 ${
-                  sidebarMode == 'Minimized' ? 'pb-2.5 pt-2' : 'pb-1 pt-3'
+                  sidebarMode == 'Minimized' ? 'pb-2.5 pt-2' : 'hdScreen:pb-1 hdScreen:pt-3 semihdScreen:pb-1 semihdScreen:pt-3 laptopScreen:pb-0.8 laptopScreen:pt-1.5 averageScreen:pb-0.7 averageScreen:pt-1.4'
                 }
                 `}
               >
                 <div className="relative text-center  font-bold">
-                  <BsDoorOpen className="lg:text-[2.2rem] mx-auto " />
+                  <BsDoorOpen className="hdScreen:text-[2.2rem] semihdScreen:text-[2rem] laptopScreen:text-[1.6rem] averageScreen:text-[1.5rem] mx-auto " />
                   <span
                     className={`lg:text-base xs:text-xs font-poppins font-semibold lg:px-2 ${
                       sidebarMode == 'Minimized' ? 'hidden' : ''
@@ -351,10 +351,10 @@ export default function AdminNavbar() {
             >
               <div
                 className={`relative text-center font-bold transition duration-200 ${
-                  sidebarMode == 'Minimized' ? 'scale-x-[-1]' : ''
+                  sidebarMode == 'Minimized' ? 'Screen-x-[-1]' : ''
                 }`}
               >
-                <TfiShiftLeft className="lg:text-[2.2rem] mx-auto " />
+                <TfiShiftLeft className="hdScreen:text-[2.2rem] semihdScreen:text-[2rem] laptopScreen:text-[1.6rem] averageScreen:text-[1.5rem] mx-auto " />
               </div>
               {/* 
               <div className="flex justify-center  font-bold">

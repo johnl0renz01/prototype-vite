@@ -278,6 +278,7 @@ export default function Login() {
     isSubmitting,
     handleChange,
     handleSubmit,
+    handleReset,
     errors,
     touched,
   } = useFormik({
@@ -293,6 +294,7 @@ export default function Login() {
   //console.log(errors);
 
   const changeAccountType = () => {
+    handleReset();
     setAccountValidation('');
     if (accountType == 'loginAdmin') {
       values.email = '';

@@ -158,8 +158,8 @@ export default function UserRequest() {
             <div
               className="hdScreen:min-h-[calc(100vh-40vh)] hdScreen:max-h-[calc(100vh-40vh)] 
                             semihdScreen:min-h-[calc(100vh-45vh)] semihdScreen:max-h-[calc(100vh-45vh)]
-                            laptopScreen:min-h-[calc(100vh-47.5vh)] laptopScreen:max-h-[calc(100vh-47.5vh)]
-                            averageScreen:min-h-[calc(100vh-50vh)] averageScreen:max-h-[calc(100vh-50vh)]
+                            laptopScreen:min-h-[calc(100vh-43vh)] laptopScreen:max-h-[calc(100vh-43vh)]
+                            averageScreen:min-h-[calc(100vh-47.5vh)] averageScreen:max-h-[calc(100vh-47.5vh)]
                             bg-white relative overflow-y-scroll style-2 mx-auto w-full rounded-md"
             >
               <div className="">

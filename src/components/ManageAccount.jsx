@@ -139,7 +139,7 @@ export default function ManageAccounts() {
           </div>
 
           <div className="mt-1.5">
-            <div className="overflow-hidden py-1 pr-2">
+            <div className="overflow-hidden hdScreen:py-1 semihdScreen:py-1 laptopScreen:py-0 averageScreen:py-0 pr-2">
               <div className="w-full m-1 overflow-hidden shadow-sm shadow-gray-600 rounded-2xl lg:text-lg sm:text-sm xs:text-xs">
                 <div className="flex bg-gray-200 py-1 items-center text-left rounded-2xl">
                   <svg
@@ -189,8 +189,8 @@ export default function ManageAccounts() {
             <div
               className="hdScreen:min-h-[calc(100vh-40vh)] hdScreen:max-h-[calc(100vh-40vh)] 
                             semihdScreen:min-h-[calc(100vh-45vh)] semihdScreen:max-h-[calc(100vh-45vh)]
-                            laptopScreen:min-h-[calc(100vh-47.5vh)] laptopScreen:max-h-[calc(100vh-47.5vh)]
-                            averageScreen:min-h-[calc(100vh-50vh)] averageScreen:max-h-[calc(100vh-50vh)]
+                            laptopScreen:min-h-[calc(100vh-52.5vh)] laptopScreen:max-h-[calc(100vh-52.5vh)]
+                            averageScreen:min-h-[calc(100vh-55vh)] averageScreen:max-h-[calc(100vh-55vh)]
                             bg-white relative overflow-y-scroll style-2 mx-auto w-full rounded-md"
             >
               <div className="">

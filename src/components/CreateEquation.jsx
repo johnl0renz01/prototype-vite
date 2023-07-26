@@ -327,7 +327,7 @@ export default function CreateEquation() {
             </div>
             <div
               id="create_question"
-              className="lg:text-xl xs:text-sm p-4 text-gray-700"
+              className="lg:text-lg xs:text-sm p-4 text-gray-700"
             >
               <div className="font-semibold">Enter the equation:</div>
               <div className="flex mt-0.5">
@@ -407,7 +407,7 @@ export default function CreateEquation() {
               </div>
 
               <div
-                className={`mt-4 lg:text-xl font-semibold  transition select-none ${
+                className={`hdScreen:mt-4 semihdScreen:mt-2 laptopScreen:mt-2 averageScreen:mt-2 lg:text-xl font-semibold  transition select-none ${
                   isValid ? 'opacity-100  duration-[1500ms]' : 'opacity-0'
                 }`}
               >
@@ -415,7 +415,7 @@ export default function CreateEquation() {
                 <div className="mt-2 text-lg flex">
                   <button
                     onClick={isValid ? optionEasy : undefined}
-                    className={`py-1.5 md:px-10 xs:px-5  shadow-md rounded-xl  transition duration-300 ${
+                    className={`hdScreen:py-1.5 semihdScreen:py-1.5 laptopScreen:py-1 averageScreen:py-1 md:px-10 xs:px-5  shadow-md rounded-xl  transition duration-300 ${
                       isValid
                         ? choice == 'Easy'
                           ? 'bg-gray-700  text-gray-200'
@@ -429,7 +429,7 @@ export default function CreateEquation() {
                   </button>
                   <button
                     onClick={isValid ? optionAverage : undefined}
-                    className={`ml-6 py-1.5 md:px-10 xs:px-5  shadow-md rounded-xl  transition duration-300 ${
+                    className={`ml-6 hdScreen:py-1.5 semihdScreen:py-1.5 laptopScreen:py-1 averageScreen:py-1  md:px-10 xs:px-5  shadow-md rounded-xl  transition duration-300 ${
                       isValid
                         ? choice == 'Average'
                           ? 'bg-gray-700  text-gray-200'
@@ -443,7 +443,7 @@ export default function CreateEquation() {
                   </button>
                   <button
                     onClick={isValid ? optionDifficult : undefined}
-                    className={`ml-6 py-1.5 md:px-10 xs:px-5  shadow-md rounded-xl  transition duration-300 ${
+                    className={`ml-6 hdScreen:py-1.5 semihdScreen:py-1.5 laptopScreen:py-1 averageScreen:py-1  md:px-10 xs:px-5  shadow-md rounded-xl  transition duration-300 ${
                       isValid
                         ? choice == 'Difficult'
                           ? 'bg-gray-700  text-gray-200'
@@ -458,7 +458,7 @@ export default function CreateEquation() {
                 </div>
               </div>
               <div
-                className={`flex mt-6 shadow-md transition  select-none ${
+                className={`flex hdScreen:mt-6 semihdScreen:mt-6 laptopScreen:mt-4 averageScreen:mt-4 shadow-md transition  select-none ${
                   showSteps ? 'opacity-100  duration-[1500ms]' : 'opacity-0'
                 }`}
               >
@@ -532,7 +532,7 @@ export default function CreateEquation() {
               </div>
             </div>
           </section>
-          <div className="flex justify-end fixed bottom-8 right-8">
+          <div className="flex justify-end fixed bottom-7 right-8">
             <button
               onClick={showSteps ? resetEquation : undefined}
               className={`ml-6 py-1.5 pb-2 px-4 shadow-md rounded-full  transition duration-300 drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)] ${

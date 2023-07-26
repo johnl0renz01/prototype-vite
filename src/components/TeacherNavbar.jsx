@@ -199,7 +199,7 @@ export default function TeacherNavbar() {
                 ${accessReportCard ? '' : 'hidden'}`}
               >
                 <div className="relative text-center font-bold">
-                  <BsFillPersonVcardFill className="lg:text-[2.2rem] mx-auto -mb-1" />
+                  <BsFillPersonVcardFill className="hdScreen:text-[2.2rem] semihdScreen:text-[2rem] laptopScreen:text-[1.6rem] averageScreen:text-[1.5rem] mx-auto -mb-1" />
                   <span
                     className={`lg:text-base xs:text-xs font-poppins font-semibold lg:px-4 ${
                       sidebarMode == 'Minimized' ? 'hidden' : ''
@@ -220,7 +220,7 @@ export default function TeacherNavbar() {
                 `}
               >
                 <div className="relative text-center  font-bold ">
-                  <BsJournalText className="lg:text-[2.2rem] mx-auto -mb-0.5" />
+                  <BsJournalText className="hdScreen:text-[2.2rem] semihdScreen:text-[2rem] laptopScreen:text-[1.6rem] averageScreen:text-[1.5rem] mx-auto -mb-0.5" />
                   <span
                     className={`lg:text-base xs:text-xs font-poppins font-semibold lg:px-2 ${
                       sidebarMode == 'Minimized' ? 'hidden' : ''
@@ -238,10 +238,10 @@ export default function TeacherNavbar() {
                     : 'hover:bg-black/30 text-white transition duration-300'
                 }
                 
-                ${sidebarMode == 'Minimized' ? 'pb-2.5 pt-2' : 'pb-1 pt-3'}`}
+                ${sidebarMode == 'Minimized' ? 'pb-2.5 pt-2' : 'hdScreen:pb-1 hdScreen:pt-3 semihdScreen:pb-1 semihdScreen:pt-3 laptopScreen:pb-0.8 laptopScreen:pt-1.5 averageScreen:pb-0.7 averageScreen:pt-1.4'}`}
               >
                 <div className="relative text-center  font-bold ">
-                  <BsJournalPlus className="lg:text-[2.2rem] mx-auto " />
+                  <BsJournalPlus className="hdScreen:text-[2.2rem] semihdScreen:text-[2rem] laptopScreen:text-[1.6rem] averageScreen:text-[1.5rem] mx-auto " />
                   <span
                     className={`lg:text-base xs:text-xs font-poppins font-semibold lg:px-2 ${
                       sidebarMode == 'Minimized' ? 'hidden' : ''
@@ -258,10 +258,10 @@ export default function TeacherNavbar() {
                     ? 'bg-white/[75%] text-lime-700'
                     : 'hover:bg-black/30 text-white transition duration-300'
                 }
-                ${sidebarMode == 'Minimized' ? 'pb-2.5 pt-2' : 'pb-1 pt-3'}`}
+                ${sidebarMode == 'Minimized' ? 'pb-2.5 pt-2' : 'hdScreen:pb-1 hdScreen:pt-3 semihdScreen:pb-1 semihdScreen:pt-3 laptopScreen:pb-0.8 laptopScreen:pt-1.5 averageScreen:pb-0.7 averageScreen:pt-1.4'}`}
               >
                 <div className="relative text-center  font-bold">
-                  <BsQuestionCircle className="lg:text-[2.2rem] mx-auto " />
+                  <BsQuestionCircle className="hdScreen:text-[2.2rem] semihdScreen:text-[2rem] laptopScreen:text-[1.6rem] averageScreen:text-[1.5rem] mx-auto " />
                   <span
                     className={`lg:text-base xs:text-xs font-poppins font-semibold lg:px-2 ${
                       sidebarMode == 'Minimized' ? 'hidden' : ''
@@ -274,10 +274,10 @@ export default function TeacherNavbar() {
               <li
                 onClick={contactAdmin}
                 className={`cursor-pointer border-b-2 border-black/5 hover:bg-black/30 text-white transition duration-300
-                ${sidebarMode == 'Minimized' ? 'pb-2.5 pt-2' : 'pb-1 pt-3'}`}
+                ${sidebarMode == 'Minimized' ? 'pb-2.5 pt-2' : 'hdScreen:pb-1 hdScreen:pt-3 semihdScreen:pb-1 semihdScreen:pt-3 laptopScreen:pb-0.8 laptopScreen:pt-1.5 averageScreen:pb-0.7 averageScreen:pt-1.4'}`}
               >
                 <div className="relative text-center  font-bold">
-                  <BsTelephone className="lg:text-[1.8rem] mx-auto " />
+                  <BsTelephone className="hdScreen:text-[1.8rem] semihdScreen:text-[1.7rem] laptopScreen:text-[1.4rem] averageScreen:text-[1.3rem] mx-auto " />
                   <span
                     className={`lg:text-base xs:text-xs font-poppins font-semibold lg:px-2 ${
                       sidebarMode == 'Minimized' ? 'hidden' : ''
@@ -290,12 +290,12 @@ export default function TeacherNavbar() {
               <li
                 onClick={logout}
                 className={`cursor-pointer border-b-2 border-black/5 hover:bg-black/30 text-white transition duration-300 ${
-                  sidebarMode == 'Minimized' ? 'pb-2.5 pt-2' : 'pb-1 pt-3'
+                  sidebarMode == 'Minimized' ? 'pb-2.5 pt-2' : 'hdScreen:pb-1 hdScreen:pt-3 semihdScreen:pb-1 semihdScreen:pt-3 laptopScreen:pb-0.8 laptopScreen:pt-1.5 averageScreen:pb-0.7 averageScreen:pt-1.4'
                 }
                 `}
               >
                 <div className="relative text-center  font-bold">
-                  <BsDoorOpen className="lg:text-[2.2rem] mx-auto " />
+                  <BsDoorOpen className="hdScreen:text-[2.2rem] semihdScreen:text-[2rem] laptopScreen:text-[1.6rem] averageScreen:text-[1.5rem] mx-auto " />
                   <span
                     className={`lg:text-base xs:text-xs font-poppins font-semibold lg:px-2 ${
                       sidebarMode == 'Minimized' ? 'hidden' : ''
@@ -319,11 +319,11 @@ export default function TeacherNavbar() {
                   sidebarMode == 'Minimized' ? 'scale-x-[-1]' : ''
                 }`}
               >
-                <TfiShiftLeft className="lg:text-[2.2rem] mx-auto " />
+                <TfiShiftLeft className="hdScreen:text-[2.2rem] semihdScreen:text-[2rem] laptopScreen:text-[1.6rem] averageScreen:text-[1.5rem] mx-auto " />
               </div>
               {/* 
               <div className="flex justify-center  font-bold">
-                <TfiShiftLeft className="lg:text-[2.2rem]" />
+                <TfiShiftLeft className="hdScreen:text-[2.2rem] semihdScreen:text-[2rem] laptopScreen:text-[1.6rem] averageScreen:text-[1.5rem]" />
                 <span className="lg:text-base xs:text-xs font-poppins font-semibold lg:mt-1.5 lg:pl-0.5 lg:pr-3">
                   Minimize
                 </span>
