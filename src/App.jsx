@@ -45,6 +45,7 @@ import HomePageAdmin from './components/HomePageAdmin';
 
 class App extends Component {
   componentDidMount() {
+    document.body.style.overflow = "hidden"
     document.body.style.height = '100vh';
 
     document.body.style.backgroundImage =

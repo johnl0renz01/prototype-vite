@@ -1701,7 +1701,7 @@ export default function Whiteboard() {
       {/*<!--Container pang edit ng grids--> min-h-[calc(100vh-20rem)] grid-rows-11*/}
       <div
         id="whiteboard"
-        className="scale-90 -mt-8  mx-auto lg:w-11/12 min-h-[calc(100vh-2rem)] flex items-center justify-center"
+        className="hdScreen:scale-90 semihdScreen:scale-90 laptopScreen:scale-[82.5%] averageScreen:scale-80 hdScreen:-mt-8 semihdScreen:-mt-8 laptopScreen:-mt-12 averageScreen:-mt-16  mx-auto hdScreen:w-11/12 semihdScreen:w-11/12 laptopScreen:w-12/12 averageScreen:w-12/12 min-h-[calc(100vh-2rem)] flex items-center justify-center"
         onMouseEnter={loadAnswers}
         onClick={loadAnswers}
       >
