@@ -5,7 +5,7 @@ import axios from 'axios';
 import * as ReactDOM from 'react-dom';
 import $ from 'jquery';
 
-import EditSectionModal from './EditSectionModal';
+import ViewDetailModal from './ViewDetailModal';
 
 import EquationSolver from './equationSolver';
 
@@ -15,49 +15,82 @@ import { HiPencilSquare } from 'react-icons/hi2';
 export default function UserRequest() {
   const navigate = useNavigate();
 
-  const [accounts, setAccounts] = useState([]);
+  useEffect(() => {
+    setTabIndex();
+
+    window.addEventListener('focus', setTabIndex);
+    function setTabIndex() {
+      window.localStorage.setItem('CURRENT_TAB_INDEX', 4);
+    }
+  }, []);
+
+  useEffect(() => {
+    var logged = JSON.parse(window.localStorage.getItem('LOGGED'));
+    if (logged == 'FALSE') {
+      navigate('/LoginPage');
+    } else {
+      var closed = JSON.parse(window.localStorage.getItem('IS_CLOSED'));
+      if (closed) {
+        var unique = JSON.parse(window.localStorage.getItem('UNIQUE_ID'));
+        axios
+          .post(
+            `http://localhost:80/Prototype-Vite/my-project/api/logout/${unique}`
+          )
+          .then(function (response) {
+            window.localStorage.setItem('LOGGED', JSON.stringify('FALSE'));
+            navigate('/LoginPage');
+          });
+      }
+    }
+
+    var account = JSON.parse(window.localStorage.getItem('ACCOUNT_TYPE'));
+    if (account == 'Teacher') {
+      navigate('/HomePageTeacher');
+    } else if (account == 'Student') {
+      navigate('/Homepage');
+    }
+  });
+
+  const [requests, setRequests] = useState([]);
+  const [counter, setCounter] = useState(0);
 
   var inputText = '';
 
   useEffect(() => {
-    getAccounts();
+    getRequests();
+    getRequestTotal();
   }, []);
 
-  function getAccounts() {
+  function getRequests() {
     axios
-      .get(`http://localhost:80/Prototype-Vite/my-project/api/accountList/`)
+      .get(`http://localhost:80/Prototype-Vite/my-project/api/requestList/`)
       .then(function (response) {
         console.log(response.data);
-        setAccounts(response.data);
+        setRequests(response.data);
       });
   }
 
-  const editMode = e => {
-    let sectionName = e.target.name;
-    window.localStorage.setItem(
-      'CURRENT_SECTION_EDIT',
-      JSON.stringify(sectionName)
+  function getRequestTotal() {
+    axios
+      .get(`http://localhost:80/Prototype-Vite/my-project/api/requestTotal/`)
+      .then(function (response) {
+        var total = response.data;
+        total = parseInt(total);
+        setCounter(total);
+      });
+  }
+
+  const viewMode = e => {
+    let requestID = e.target.name;
+    window.sessionStorage.setItem(
+      'CURRENT_VIEW_DETAIL',
+      JSON.stringify(requestID)
     );
-    window.localStorage.setItem('EDIT_SECTION_STATE', true);
+    window.sessionStorage.setItem('VIEW_DETAIL_STATE', true);
     setShowModal(true);
   };
 
-  const handleChange = event => {
-    const name = event.target.name;
-    const value = event.target.value;
-    inputText = { [name]: value };
-
-    axios
-      .post(
-        `http://localhost:80/Prototype-Vite/my-project/api/accountList/`,
-        inputText
-      )
-      .then(function (response) {
-        setAccounts(response.data);
-      });
-  };
-
-  // MODAL EDIT
+  // MODAL VIEW
   const [showModal, setShowModal] = useState(false);
   const handleOnCloseModal = () => setShowModal(false);
 
@@ -66,6 +99,20 @@ export default function UserRequest() {
   const handleOnContinueModal = () => {
     setChoiceModal(true);
     setShowModal(false);
+  };
+
+  const solved = e => {
+    let requestID = e.target.name;
+    console.log(requestID);
+    axios
+      .post(
+        `http://localhost:80/Prototype-Vite/my-project/api/requestSolved/${requestID}`
+      )
+      .then(function (response) {
+        console.log(response.data);
+        getRequests();
+        getRequestTotal();
+      });
   };
 
   const [navbarWidth, setNavbarWidth] = useState(0);
@@ -83,21 +130,21 @@ export default function UserRequest() {
 
   function setWidthDelay() {
     setTimeout(function () {
-      var width = window.localStorage.getItem('NAVBAR_ADMIN_WIDTH');
+      var width = window.sessionStorage.getItem('NAVBAR_ADMIN_WIDTH');
       setNavbarWidth(width);
 
       // Logo height
-      var height = window.localStorage.getItem('NAVBAR_ADMIN_LOGO');
+      var height = window.sessionStorage.getItem('NAVBAR_ADMIN_LOGO');
       setLogoHeight(height);
     }, 1);
   }
 
   function setWidth() {
-    var width = window.localStorage.getItem('NAVBAR_ADMIN_WIDTH');
+    var width = window.sessionStorage.getItem('NAVBAR_ADMIN_WIDTH');
     setNavbarWidth(width);
 
     // Logo height
-    var height = window.localStorage.getItem('NAVBAR_ADMIN_LOGO');
+    var height = window.sessionStorage.getItem('NAVBAR_ADMIN_LOGO');
     setLogoHeight(height);
   }
 
@@ -131,26 +178,50 @@ export default function UserRequest() {
             Request(s)
           </div>
 
-          <div className="mt-1.5 lg:text-lg sm:text-base xs:text-xs font-semibold tracking-wide pl-2">
-            There are currently no requests.
+          <div className="text-gray-700 mt-1.5 lg:text-lg sm:text-base xs:text-xs font-semibold tracking-wide pl-2">
+            There are currently {counter > 0 ? <>[{counter}]</> : <>no</>}{' '}
+            requests.
           </div>
 
           <div className="md:mt-6 xs:mt-3 rounded-3xl overflow-hidden bg-gradient-to-t from-gray-200 via-gray-100 to-white  ">
             <table className="w-full leading-normal ">
               <thead className="sticky top-0 z-40 shadow-md border-b-2 border-gray-200 bg-gray-200 text-left uppercase tracking-wider md:text-base xs:text-xs font-bold text-gray-600">
                 <tr>
-                  <th className="lg:pl-8 w-[32.5%] py-3 md:text-base sm:text-sm ">
+                  <th className="lg:pl-8 w-[19.85%] py-3 md:text-base sm:text-sm">
                     <div className="lg:pl-0 sm:pl-3  xs:pl-3">Subject</div>
                   </th>
-                  <th className=" w-[27.3%] py-3 md:text-base sm:text-xs ">
+                  <th className="w-[27.25%] py-3 md:text-base sm:text-sm ">
                     From
                   </th>
-                  <th className="w-[10%] py-3 md:text-base sm:text-xs ">
+                  <th className="w-[12.4%] py-3 md:text-base sm:text-sm ">
                     Role
                   </th>
-                  <th className="w-[20%] py-3 "></th>
-                  <th className="w-[12.5%] py-3  "></th>
-                  <th className="w-[7%] "></th>
+                  <th className="w-[19.85%] py-3 md:text-base sm:text-sm ">
+                    Received on
+                  </th>
+                  <th className="">
+                    <input
+                      type="button"
+                      value="View Details"
+                      className="invisible cursor-pointer py-[0.2rem]  px-4 text-gray-700 hover:text-white  shadow-md rounded-full font-semibold  transition duration-500 border-gray-400 border-2  hover:bg-gray-500 hover:border-gray-500 lg:text-base"
+                    ></input>
+                  </th>
+                  <th className="">
+                    <div className="text-right invisible">
+                      <>
+                        <button
+                          type="button"
+                          className="relative py-[0.2rem]  px-2 shadow-md rounded-full font-semibold  transition duration-500 text-white bg-red-500 hover:bg-red-700 drop-shadow-[0_2px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_2px_0px_rgba(0,0,0,0.6)]"
+                        >
+                          <span className="font-normal pl-2 lg:text-base flex justify-center">
+                            Unsolved
+                            <BsDashCircle className="ml-1 lg:mt-[0.25rem] lg:text-base" />
+                          </span>
+                        </button>
+                      </>
+                    </div>
+                  </th>
+                  <th className="w-[1.5%]"></th>
                 </tr>
               </thead>
             </table>
@@ -165,88 +236,90 @@ export default function UserRequest() {
               <div className="">
                 <div className="">
                   <div className="inline-block min-w-full rounded-lg ">
-                    <table className="min-w-full leading-normal -mt-[28px]">
+                    <table className="min-w-full leading-normal -mt-[28px] relative">
                       <thead className="invisible text-left uppercase tracking-wider font-bold md:text-base xs:text-xs">
                         <tr>
-                          <th className="lg:pl-8 w-[32.5%] md:text-base sm:text-sm   whitespace-no-wrap">
-                            Name
+                          <th className="lg:pl-8 w-[20%]  md:text-base sm:text-sm  ">
+                            Subject
                           </th>
-                          <th className="w-[27.5%]    md:text-base sm:text-sm ">
+                          <th className="w-[27.5%]   md:text-base sm:text-sm ">
                             From
                           </th>
-                          <th className="w-[10%]  md:text-base sm:text-sm ">
+                          <th className="w-[12.5%]  md:text-base sm:text-sm ">
                             Role
                           </th>
-                          <th className="w-[20%] "></th>
-                          <th className="w-[12.5%] "></th>
+                          <th className="w-[20%] md:text-base sm:text-sm "></th>
+                          <th className=""></th>
+                          <th className="w-[10%]"></th>
+                          <th className="w-[0.25%]"></th>
                         </tr>
                       </thead>
 
-                      <tbody className=" ">
-                        {accounts.map((currentAccount, index) => (
+                      <tbody className="relative ">
+                        {requests.map((currentRequest, index) => (
                           <tr
                             key={index}
-                            className="border-b border-gray-200 bg-white hover:bg-gray-100 text-gray-900 hover:text-indigo-600"
+                            className="odd:bg-white even:bg-slate-50/30 border-b border-gray-200 bg-white hover:bg-gray-100 text-gray-900 hover:text-indigo-600  "
                           >
-                            <td className="flex items-center md:text-base xs:text-xs lg:px-5 py-[10px]  whitespace-no-wrap ">
+                            <td className="hdScreen:w-[320px] semihdScreen:w-[240px] laptopScreen:w-[190px] averageScreen:w-[130px] sm:w-[90px] xs:w-[50px] relative overflow-hidden flex items-center md:text-base xs:text-xs lg:px-5 py-[10px] whitespace-nowrap">
                               <div className="flex-shrink-0  h-10 mr-3 break-all "></div>
                               <p className="  md:text-base xs:text-xs ">
-                                {`${currentAccount.GivenName} ${currentAccount.MiddleName} ${currentAccount.LastName}`}
+                                {`${currentRequest.Subject}`}
                               </p>
                             </td>
                             <td className="md:text-base xs:text-xs break-all">
                               <div>
-                                <p>{currentAccount.Email}</p>
+                                <p>{currentRequest.Email}</p>
                               </div>
                             </td>
                             <td className="md:text-base xs:text-xs ">
-                              <p>{`${currentAccount.Role}`}</p>
+                              <p>{currentRequest.Role}</p>
+                            </td>
+                            <td className="md:text-base xs:text-xs ">
+                              <p>{currentRequest.Timestamp}</p>
                             </td>
                             <td className="text-right md:text-base xs:text-xs whitespace-no-wrap ">
-                              <div className="relative">
-                                <button
-                                  type="submit"
-                                  className="relative py-[0.2rem]  px-4 shadow-md rounded-full font-semibold  transition duration-500 text-gray-700 border-gray-400 border-2 hover:text-white hover:bg-gray-500 hover:border-gray-500 "
-                                >
-                                  <span className="font-normal pl-2 lg:text-base flex justify-center">
-                                    View Details
-                                    <BsEye className="ml-1 lg:mt-[0.4rem] xs:mt-[0.75rem] lg:text-sm" />
-                                  </span>
-                                </button>
+                              <div className="relative ">
+                                <input
+                                  onClick={viewMode}
+                                  name={currentRequest.RequestID}
+                                  type="button"
+                                  value="View Details"
+                                  className="cursor-pointer py-[0.2rem]  px-4 text-gray-700 hover:text-white  shadow-md rounded-full font-semibold  transition duration-500 border-gray-400 border-2  hover:bg-gray-500 hover:border-gray-500 lg:text-base"
+                                ></input>
                               </div>
                             </td>
-                            <td className="text-center md:text-base xs:text-xs">
-                              <div className="">
-                                {accounts.includes(
-                                  currentAccount.SectionName
-                                ) ? (
-                                  <>
-                                    <button
-                                      disabled
-                                      className="relative py-[0.2rem]  px-4 shadow-md rounded-full font-semibold  text-gray-300 bg-gray-400 drop-shadow-[0_2px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_2px_0px_rgba(0,0,0,0.6)]"
-                                      title="You can only delete an empty section."
-                                    >
-                                      <span className="font-normal pl-2 lg:text-base flex justify-center">
-                                        Solved
-                                        <BsCheckCircle className="ml-1 lg:mt-[0.25rem] lg:text-base" />
-                                      </span>
-                                    </button>
-                                  </>
-                                ) : (
-                                  <>
-                                    <button
+                            <td className="text-right hdScreen:pr-6 semihdScreen:pr-1 laptopScreen:pr-0.5 averageScreen:pr-0 md:text-base xs:text-xs">
+                              {currentRequest.Status == 'SOLVED' ? (
+                                <>
+                                  <button
+                                    disabled
+                                    className="relative py-[0.2rem]  px-3 shadow-md rounded-full font-semibold  text-white bg-lime-600 drop-shadow-[0_2px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_2px_0px_rgba(0,0,0,0.6)]"
+                                  >
+                                    <span className="font-semibold pl-3 lg:text-base flex justify-center">
+                                      Solved
+                                      <BsCheckCircle className="ml-4 lg:mt-[0.3rem] lg:text-base" />
+                                    </span>
+                                  </button>
+                                </>
+                              ) : (
+                                <>
+                                  <div className="relative ">
+                                    <input
+                                      onClick={solved}
+                                      name={currentRequest.RequestID}
                                       type="submit"
-                                      className="relative py-[0.2rem]  px-4 shadow-md rounded-full font-semibold  transition duration-500 text-white bg-red-500 hover:bg-red-700 drop-shadow-[0_2px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_2px_0px_rgba(0,0,0,0.6)]"
-                                    >
-                                      <span className="font-normal pl-2 lg:text-base flex justify-center">
-                                        Unsolved
-                                        <BsDashCircle className="ml-1 lg:mt-[0.25rem] lg:text-base" />
-                                      </span>
-                                    </button>
-                                  </>
-                                )}
-                              </div>
+                                      value="Unsolved"
+                                      className=" cursor-pointer py-[0.2rem]  pl-4 pr-[2.15rem] shadow-md rounded-full font-semibold  transition duration-500 text-white bg-red-500 hover:bg-red-700 drop-shadow-[0_2px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_2px_0px_rgba(0,0,0,0.6)]"
+                                    ></input>
+                                    <span className=" absolute top-[0.25rem] right-3 font-normal flex justify-center">
+                                      <BsDashCircle className="ml-1 lg:mt-[0.2rem] lg:text-base text-white" />
+                                    </span>
+                                  </div>
+                                </>
+                              )}
                             </td>
+                            <td></td>
                           </tr>
                         ))}
                       </tbody>
@@ -259,7 +332,7 @@ export default function UserRequest() {
           </div>
         </section>
       </div>
-      <EditSectionModal
+      <ViewDetailModal
         onClose={handleOnCloseModal}
         visible={showModal}
         onContinue={handleOnContinueModal}

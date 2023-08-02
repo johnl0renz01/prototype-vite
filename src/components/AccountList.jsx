@@ -107,11 +107,11 @@ export default function AccountList() {
   }, []);
 
   function setWidth() {
-    var width = window.localStorage.getItem('NAVBAR_TEACHER_WIDTH');
+    var width = window.sessionStorage.getItem('NAVBAR_TEACHER_WIDTH');
     setNavbarWidth(width);
 
     // Logo height
-    var height = window.localStorage.getItem('NAVBAR_TEACHER_LOGO');
+    var height = window.sessionStorage.getItem('NAVBAR_TEACHER_LOGO');
     setLogoHeight(height);
   }
 

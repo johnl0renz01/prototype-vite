@@ -14,6 +14,7 @@ $section = $_SERVER['REQUEST_URI'];
 for ($i = strlen($section) - 1; $i > 0; $i--) {
     if ($section[$i] == "/") {
         $section = substr($section, ($i + 1));
+        $section = str_replace("_"," ", $section);
         break;
     }
 }
@@ -37,6 +38,16 @@ switch($_SESSION['method']) {
             $response = ['status' => 1, 'message' => 'Record created successfully.'];
         } else {
             $response = ['status' => 0, 'message' => 'Failed to create record.'];
+        }
+
+        $sql2 = "UPDATE accounts SET Section = '$sectionName' WHERE Section = '$section'";
+
+        $stmt2 = $conn->prepare($sql2);
+        
+        if($stmt2->execute()) {
+            $response2 = ['status' => 1, 'message' => 'Record created successfully.'];
+        } else {
+            $response2 = ['status' => 0, 'message' => 'Failed to create record.'];
         }
 
         echo "\n".json_encode($response);

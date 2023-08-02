@@ -11,7 +11,41 @@ import { loginSchema } from '../schemas';
 import { VscEyeClosed } from 'react-icons/vsc';
 import { VscEye } from 'react-icons/vsc';
 
-export default function Login() {
+import ForgotPasswordModal from './ForgotPasswordModal';
+
+export default function LoginPage() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    var logged = JSON.parse(window.localStorage.getItem('LOGGED'));
+    if (logged === null) logged = '';
+    console.log(logged);
+
+    if (logged == 'TRUE') {
+      var accountType = JSON.parse(window.localStorage.getItem('ACCOUNT_TYPE'));
+      if (accountType === null) accountType = '';
+      console.log('asdad');
+      if (accountType !== null) {
+        if (accountType == 'Teacher') {
+          navigate('/HomePageTeacher');
+        } else if (accountType == 'Student') {
+          navigate('/Homepage');
+        } else if (accountType == 'Admin') {
+          navigate('/HomePageAdmin');
+        }
+      }
+    } else {
+      sessionStorage.clear();
+      window.localStorage.setItem('ACCOUNT_TYPE', JSON.stringify(''));
+      window.localStorage.setItem('SESSION_EMAIL', JSON.stringify(''));
+      window.localStorage.setItem('SESSION_USER', JSON.stringify(''));
+      window.localStorage.setItem('LOGIN_TYPE', JSON.stringify('Student'));
+      window.localStorage.setItem('SESSION_FULLNAME', JSON.stringify(''));
+
+      window.localStorage.setItem('IS_CLOSED', false);
+    }
+  }, []);
+
   document.body.style.height = '100vh';
   document.body.style.backgroundImage =
     'linear-gradient(to top, #bef264, #d9f99d , #ccf779)';
@@ -42,35 +76,6 @@ export default function Login() {
       'linear-gradient(to top, #bef264, #d9f99d , #ccf779)';
   }
 
-  const navigate = useNavigate();
-
-  //FOR LINKS/NAVBAR/BREADCRUMBS
-  const [pageList, setPageList] = useState([]);
-  const [pageLink, setPageLink] = useState([]);
-
-  useEffect(() => {
-    window.localStorage.removeItem('SESSION_ID');
-    window.localStorage.removeItem('ACCOUNT_TYPE');
-    window.localStorage.removeItem('CURRENT_TAB_INDEX');
-  }, []);
-
-  useEffect(() => {
-    window.localStorage.setItem('NAVBAR_PAGE', JSON.stringify(pageList));
-  }, [pageList]);
-
-  useEffect(() => {
-    window.localStorage.setItem('NAVBAR_PAGE_LINK', JSON.stringify(pageLink));
-  }, [pageLink]);
-
-  //RESET SESSION VARIABLES
-  useEffect(() => {
-    window.localStorage.setItem('SESSION_EMAIL', JSON.stringify(''));
-    window.localStorage.setItem('SESSION_USER', JSON.stringify(''));
-    window.localStorage.setItem('SESSION_ID', JSON.stringify(''));
-    window.localStorage.setItem('LOGIN_TYPE', JSON.stringify('Student'));
-    window.localStorage.setItem('SESSION_FULLNAME', JSON.stringify(''));
-  }, []);
-
   //END END END END END END END END END END END END
 
   // FOR LOGIN
@@ -86,7 +91,8 @@ export default function Login() {
     accountType = 'login' + JSON.parse(data);
     //console.log("acctype: " + accountType);
     //console.log(accountType == "loginStudent");
-    checkData();
+
+    /*checkData();
     function checkData() {
       if (accountType == 'loginStudent') {
         values.username = 'randomstring';
@@ -94,6 +100,7 @@ export default function Login() {
         values.email = 'randomstring@random';
       }
     }
+    */
   });
 
   const onSubmit = async (values, actions) => {
@@ -150,6 +157,8 @@ export default function Login() {
 
         console.log(currentData);
         if (currentData != '"Invalid"') {
+          window.localStorage.setItem('LOGGED', JSON.stringify('TRUE'));
+
           if (currentData.includes(',')) {
             window.localStorage.setItem(
               'SESSION_USER',
@@ -211,54 +220,116 @@ export default function Login() {
             window.localStorage.setItem('SESSION_EMAIL', JSON.stringify(''));
             isAdmin = true;
           }
-        }
 
-        if (isStudent) {
-          var data = '';
-          var email = JSON.parse(window.localStorage.getItem('SESSION_EMAIL'));
-          console.log(email);
+          //IS CLOSED
+          window.localStorage.setItem('IS_CLOSED', false);
+
           axios
             .post(
-              `http://localhost:80/Prototype-Vite/my-project/api/validateLogin/${email}`,
+              `http://localhost:80/Prototype-Vite/my-project/api/loginSession/save`,
               values
             )
             .then(function (response) {
               console.log(response.data);
-              data = JSON.stringify(response.data);
-              data = data.replace(/"/g, '');
-              data = data.replace(/\\/g, '');
-              console.log(data);
-              window.localStorage.setItem('ACCOUNT_TYPE', JSON.stringify(data));
+              let currentData = JSON.stringify(response.data);
+              setAccountValidation(currentData);
+              //console.log("CURRDATA:" + currentData);
+              currentData = currentData.replace('{', '');
+              currentData = currentData.replace('}', '');
+              currentData = currentData.replace('"UniqueID":', '');
 
-              if (data == 'Student') {
-                navigate('/Homepage');
-              } else if (data == 'Teacher') {
-                var fullName = JSON.parse(
-                  window.localStorage.getItem('SESSION_FULLNAME')
+              let userData = [];
+              convertStringToArray();
+              function convertStringToArray() {
+                let firstIndex = 0;
+                let endIndex = 0;
+                for (let i = 0; i < currentData.length; i++) {
+                  let isEnd = false;
+                  if (currentData[i] == ',') {
+                    firstIndex = 0;
+                    endIndex = 0;
+                    continue;
+                  }
+
+                  if (currentData[i] == '"') {
+                    if (firstIndex == 0) {
+                      firstIndex = i + 1;
+                    } else {
+                      endIndex = i;
+                      isEnd = true;
+                    }
+                  }
+                  if (isEnd) {
+                    //console.log(currentData.substring(firstIndex, endIndex));
+                    userData.push(currentData.substring(firstIndex, endIndex));
+                    isEnd = false;
+                  }
+                }
+              }
+              window.localStorage.setItem(
+                'UNIQUE_ID',
+                JSON.stringify(userData[0])
+              );
+
+              if (isStudent) {
+                var data = '';
+                var email = JSON.parse(
+                  window.localStorage.getItem('SESSION_EMAIL')
                 );
-                fullName = fullName.replace(/ /g, '_');
+                if (email === null) email = '';
+                console.log(email);
                 axios
-                  .get(
-                    `http://localhost:80/Prototype-Vite/my-project/api/teacherLoginSection/${fullName}`
+                  .post(
+                    `http://localhost:80/Prototype-Vite/my-project/api/validateLogin/${email}`,
+                    values
                   )
                   .then(function (response) {
                     console.log(response.data);
-                    var section = response.data;
+                    data = JSON.stringify(response.data);
+                    data = data.replace(/"/g, '');
+                    data = data.replace(/\\/g, '');
+                    console.log(data);
                     window.localStorage.setItem(
-                      'CURRENT_SECTION',
-                      JSON.stringify(section)
+                      'ACCOUNT_TYPE',
+                      JSON.stringify(data)
                     );
-                  });
 
-                navigate('/HomePageTeacher');
+                    if (data == 'Student') {
+                      navigate('/Homepage');
+                    } else if (data == 'Teacher') {
+                      var fullName = JSON.parse(
+                        window.localStorage.getItem('SESSION_FULLNAME')
+                      );
+                      if (fullName === null) fullName = '';
+                      fullName = fullName.replace(/ /g, '_');
+                      axios
+                        .get(
+                          `http://localhost:80/Prototype-Vite/my-project/api/teacherLoginSection/${fullName}`
+                        )
+                        .then(function (response) {
+                          console.log(response.data);
+                          var section = response.data;
+                          window.localStorage.setItem(
+                            'CURRENT_SECTION',
+                            JSON.stringify(section)
+                          );
+                          window.localStorage.setItem('LINK_TAB', 0);
+                          navigate('/HomePageTeacher');
+                        });
+
+                      //reloadPage();
+                    }
+                  });
+              } else if (isAdmin) {
+                var data = 'Admin';
+                window.localStorage.setItem(
+                  'ACCOUNT_TYPE',
+                  JSON.stringify(data)
+                );
+                navigate('/HomePageAdmin');
                 //reloadPage();
               }
             });
-        } else if (isAdmin) {
-          var data = 'Admin';
-          window.localStorage.setItem('ACCOUNT_TYPE', JSON.stringify(data));
-          navigate('/HomePageAdmin');
-          //reloadPage();
         }
       });
 
@@ -291,6 +362,7 @@ export default function Login() {
     validationSchema: loginSchema,
     onSubmit,
   });
+
   //console.log(errors);
 
   const changeAccountType = () => {
@@ -303,6 +375,7 @@ export default function Login() {
       accountType = 'loginStudent';
       window.localStorage.setItem('LOGIN_TYPE', JSON.stringify('Student'));
       setAccType('Student');
+      values.username = 'random';
     } else {
       values.username = '';
       touched.username = false;
@@ -310,6 +383,7 @@ export default function Login() {
       accountType = 'loginAdmin';
       window.localStorage.setItem('LOGIN_TYPE', JSON.stringify('Admin'));
       setAccType('Admin');
+      values.email = 'randomstring@random';
     }
     touched.password = false;
     values.password = '';
@@ -328,6 +402,22 @@ export default function Login() {
     }
   };
 
+  const forgotPassword = () => {
+    setShowModal(true);
+  };
+
+  // MODAL FORGOT PASSWORD
+  const [showModal, setShowModal] = useState(false);
+  const handleOnCloseModal = () => setShowModal(false);
+
+  const handleOnContinueModal = () => {
+    setMessageModal(true);
+    setShowModal(false);
+  };
+
+  const [forgotPass, setForgotPass] = useState(false);
+  const [accountFor, setAccountFor] = useState('Student');
+
   return (
     <>
       <div className="hdScreen:h-[calc(100vh-27.5vh)] semihdScreen:h-[calc(100vh-27.5vh)] laptopScreen:h-[calc(100vh-20vh)] averageScreen:h-[calc(100vh-17.5vh)] flex items-center ">
@@ -345,25 +435,73 @@ export default function Login() {
               <hr />
               <div className="hdScreen:text-4xl semihdScreen:text-4xl laptopScreen:text-3xl  averageScreen:text-3xl sm:text-2xl xs:text-lg text-gray-700 font-bold text-center">
                 <div className="pt-4 pb-2 select-none">
-                  {accType == 'Student' ? 'Account Login' : 'Admin Login'}
+                  {forgotPass ? (
+                    <>Forgot Password</>
+                  ) : (
+                    <>
+                      {accType == 'Student' ? 'Account Login' : 'Admin Login'}
+                    </>
+                  )}
                 </div>
               </div>
 
               <div className="p-1 rounded-xl lg:text-2xl xs:text-base grid place-items-center text-gray-400">
-                <h1 className="select-none">(Log-in to your account)</h1>
-                <p className="select-none text-red-500 text-center lg:text-lg sm:text-sm xs:text-xs pt-6 ">
-                  {accType == 'Student'
-                    ? accountValidation == '"Invalid"'
-                      ? 'Invalid email or password. Please try again.'
-                      : '\u00A0'
-                    : accountValidation == '"Invalid"'
-                    ? 'Invalid username or password. Please try again.'
-                    : '\u00A0'}
-                </p>
+                <h1 className="select-none">
+                  (
+                  {forgotPass ? (
+                    <>Fill-up required details</>
+                  ) : (
+                    <>Log-in to your account</>
+                  )}
+                  )
+                </h1>
+
+                {forgotPass ? (
+                  <div className="pt-4 w-full">
+                    <p className="lg:text-lg text-center py-2 text-gray-800">
+                      Select the account type for password reset.
+                    </p>
+                    <div className="flex  ">
+                      <button
+                        onClick={e => setAccountFor('Student')}
+                        className={`grow text-base lg:px-4 xs:px-1 py-1 rounded-lg  border-2   transition duration-200 ${
+                          accountFor == 'Student'
+                            ? 'bg-gray-500/80 text-white font-semibold border-gray-500/80'
+                            : 'bg-gray-100 hover:bg-gray-500/80 text-gray-500  border-gray-300 hover:border-gray-500/80  hover:text-white'
+                        }`}
+                      >
+                        Student
+                      </button>
+                      <button
+                        onClick={e => setAccountFor('Teacher')}
+                        className={`grow text-base ml-4 lg:px-4 xs:px-1 rounded-lg border-2  transition duration-200 ${
+                          accountFor == 'Teacher'
+                            ? 'bg-gray-500/80 text-white font-semibold border-gray-500/80'
+                            : 'bg-gray-100 hover:bg-gray-500/80 text-gray-500  border-gray-300 hover:border-gray-500/80  hover:text-white'
+                        }`}
+                      >
+                        Teacher
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <p className="select-none text-red-500 text-center lg:text-lg sm:text-sm xs:text-xs pt-6 ">
+                    {accType == 'Student'
+                      ? accountValidation == '"Invalid"'
+                        ? 'Invalid email or password. Please try again.'
+                        : '\u00A0'
+                      : accountValidation == '"Invalid"'
+                      ? 'Invalid username or password. Please try again.'
+                      : '\u00A0'}
+                  </p>
+                )}
               </div>
 
               <div className="">
-                <form onSubmit={handleSubmit} className="">
+                <form
+                  onSubmit={handleSubmit}
+                  className={`${forgotPass ? 'hidden' : ''}`}
+                >
                   {/* Email Input */}
 
                   <div className="text-left">
@@ -411,7 +549,7 @@ export default function Login() {
                         name={accType == 'Student' ? 'email' : 'username'}
                         placeholder={
                           accType == 'Student'
-                            ? 'lastname.firstname@sanfrancisco.edu.ph'
+                            ? 'lastname.firstname@sf.edu.ph'
                             : 'Enter your username'
                         }
                         autoComplete="off"
@@ -488,36 +626,83 @@ export default function Login() {
                       className="bg-lime-600 rounded-2xl w-1/2 py-2 lg:lg:text-lg sm:text-base xs:text-xs sm:text-md font-semibold hover:bg-lime-700 text-white ease-in-out transition duration-200 transform drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)]"
                     >
                       <span className="lg:text-xl sm:text-base xs:text-xs font-semibold">
-                        LOG-IN{' '}
+                        LOG-IN
                       </span>
                     </button>
                   </div>
-                  <div className="w-full text-center">
-                    <span
-                      className={` cursor-pointer lg:text-lg sm:text-base xs:text-xs text-lime-800 hover:underline ${
-                        accType == 'Student' ? 'visible' : 'invisible'
-                      }`}
-                    >
-                      Forgot Password?
-                    </span>
-                  </div>
-                  <div className="">
-                    <button
-                      onClick={function () {
-                        changeAccountType();
-                      }}
-                      type="button"
-                      className="absolute bottom-0 right-0 px-2 rounded-br-2xl text-gray-500 lg:text-sm xs:text-xs opacity-0 hover:opacity-100"
-                    >
-                      {accType == 'Student' ? 'Admin' : 'School'}
-                    </button>
-                  </div>
                 </form>
+                {/* Forgot Password area */}
+                {forgotPass ? (
+                  <div className="mt-2">
+                    <div className="border-2 border-gray-400 p-4 pb-6 rounded-xl">
+                      <p>
+                        To request a password reset as a student, please enter
+                        your email address below. After that, click on submit.
+                      </p>
+                      <input
+                        className={`mt-2 bg-[#e0e0e0] rounded-xl w-full lg:text-lg sm:text-base xs:text-xs text-gray-700 px-4  py-1.5   
+                          `}
+                        type="email"
+                        placeholder="lastname.firstname@sf.edu.ph"
+                        autoComplete="off"
+                      />
+                    </div>
+
+                    <div className=" mt-4 mb-3 text-center w-full ">
+                      <button
+                        disabled={isSubmitting}
+                        type="submit"
+                        className="bg-lime-600 rounded-2xl w-1/2 py-2 lg:lg:text-lg sm:text-base xs:text-xs sm:text-md font-semibold hover:bg-lime-700 text-white ease-in-out transition duration-200 transform drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)]"
+                      >
+                        <span className="lg:text-xl sm:text-base xs:text-xs font-semibold">
+                          {forgotPass ? <>SUBMIT</> : <>LOG-IN</>}
+                        </span>
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <></>
+                )}
+
+                <div className="w-full text-center">
+                  <span
+                    onClick={
+                      forgotPass
+                        ? e => setForgotPass(false)
+                        : e => setForgotPass(true)
+                    }
+                    className={` cursor-pointer lg:text-lg sm:text-base xs:text-xs text-lime-800 hover:underline ${
+                      accType == 'Student' ? 'visible' : 'invisible'
+                    }`}
+                  >
+                    {forgotPass ? <>Back to login</> : <>Forgot Password?</>}
+                  </span>
+                </div>
+                <div className="">
+                  <button
+                    onClick={function () {
+                      changeAccountType();
+                    }}
+                    type="button"
+                    className={`absolute bottom-0 right-0 px-2 rounded-br-2xl text-gray-500 lg:text-sm xs:text-xs  ${
+                      forgotPass ? 'invisible' : ''
+                    }`}
+                  >
+                    {accType == 'Student'
+                      ? 'Are you an admin?'
+                      : 'Go back to default.'}
+                  </button>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+      <ForgotPasswordModal
+        onClose={handleOnCloseModal}
+        visible={showModal}
+        onContinue={handleOnContinueModal}
+      />
     </>
   );
 }

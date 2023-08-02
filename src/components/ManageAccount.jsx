@@ -9,12 +9,53 @@ import EditSectionModal from './EditSectionModal';
 
 import EquationSolver from './equationSolver';
 
+import { BsGearFill } from 'react-icons/bs';
 import { BsTrash3 } from 'react-icons/bs';
 import { HiPencilSquare } from 'react-icons/hi2';
 import EditAccountModal from './EditAccountModal';
+import EditAccountMessageModal from './EditAccountMessageModal';
+
+import DeleteAccountModal from './DeleteAccountModal';
+import DeleteAccountMessageModal from './DeleteAccountMessageModal';
 
 export default function ManageAccounts() {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    setTabIndex();
+
+    window.addEventListener('focus', setTabIndex);
+    function setTabIndex() {
+      window.localStorage.setItem('CURRENT_TAB_INDEX', 1);
+    }
+  }, []);
+
+  useEffect(() => {
+    var logged = JSON.parse(window.localStorage.getItem('LOGGED'));
+    if (logged == 'FALSE') {
+      navigate('/LoginPage');
+    } else {
+      var closed = JSON.parse(window.localStorage.getItem('IS_CLOSED'));
+      if (closed) {
+        var unique = JSON.parse(window.localStorage.getItem('UNIQUE_ID'));
+        axios
+          .post(
+            `http://localhost:80/Prototype-Vite/my-project/api/logout/${unique}`
+          )
+          .then(function (response) {
+            window.localStorage.setItem('LOGGED', JSON.stringify('FALSE'));
+            navigate('/LoginPage');
+          });
+      }
+    }
+
+    var account = JSON.parse(window.localStorage.getItem('ACCOUNT_TYPE'));
+    if (account == 'Teacher') {
+      navigate('/HomePageTeacher');
+    } else if (account == 'Student') {
+      navigate('/Homepage');
+    }
+  });
 
   const [accounts, setAccounts] = useState([]);
 
@@ -28,23 +69,59 @@ export default function ManageAccounts() {
     axios
       .get(`http://localhost:80/Prototype-Vite/my-project/api/accountList/`)
       .then(function (response) {
-        console.log(response.data);
+        //console.log(response.data);
         setAccounts(response.data);
       });
   }
 
   const editMode = e => {
-    let accountName = e.target.name;
-    window.localStorage.setItem(
+    let accountEmail = e.target.name;
+    window.sessionStorage.setItem(
       'CURRENT_ACCOUNT_EDIT',
-      JSON.stringify(accountName)
+      JSON.stringify(accountEmail)
     );
-    window.localStorage.setItem('EDIT_ACCOUNT_STATE', true);
+    window.sessionStorage.setItem('EDIT_ACCOUNT_STATE', true);
     setShowModal(true);
   };
 
+  const deleteAccount = e => {
+    let accountEmail = e.target.name;
+    window.sessionStorage.setItem(
+      'CURRENT_ACCOUNT_DELETE',
+      JSON.stringify(accountEmail)
+    );
+    axios
+      .get(
+        `http://localhost:80/Prototype-Vite/my-project/api/accountType/${accountEmail}`
+      )
+      .then(function (response) {
+        //console.log(response.data);
+        var result = response.data;
+        window.sessionStorage.setItem(
+          'DELETE_ACCOUNT_TYPE',
+          JSON.stringify(result)
+        );
+        if (result == 'Teacher') {
+          axios
+            .get(
+              `http://localhost:80/Prototype-Vite/my-project/api/getSectionAssigned/${accountEmail}`
+            )
+            .then(function (response) {
+              var assignStatus = response.data;
+              window.sessionStorage.setItem(
+                'TEACHER_ASSIGN_STATUS',
+                JSON.stringify(assignStatus)
+              );
+              setShowDeleteModal(true);
+            });
+        } else {
+          setShowDeleteModal(true);
+        }
+      });
+  };
+
   const handleChange = event => {
-    console.log('HEYEHEY');
+    //console.log('HEYEHEY');
     const name = event.target.name;
     const value = event.target.value;
     inputText = { [name]: value };
@@ -55,7 +132,7 @@ export default function ManageAccounts() {
         inputText
       )
       .then(function (response) {
-        console.log(response.data);
+        //console.log(response.data);
         setAccounts(response.data);
       });
   };
@@ -64,11 +141,42 @@ export default function ManageAccounts() {
   const [showModal, setShowModal] = useState(false);
   const handleOnCloseModal = () => setShowModal(false);
 
-  const [choiceModal, setChoiceModal] = useState(false);
-
   const handleOnContinueModal = () => {
-    setChoiceModal(true);
     setShowModal(false);
+    setShowMessageModal(true);
+  };
+
+  // MODAL EDIT MESSAGE
+  const [showMessageModal, setShowMessageModal] = useState(false);
+  const handleOnCloseMessageModal = () => {
+    setShowMessageModal(false);
+    getAccounts();
+  };
+
+  // MODAL DELETE
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const handleOnCloseDeleteModal = () => setShowDeleteModal(false);
+
+  const handleOnContinueDeleteModal = () => {
+    let accountEmail = JSON.parse(
+      window.sessionStorage.getItem('CURRENT_ACCOUNT_DELETE')
+    );
+    axios
+      .post(
+        `http://localhost:80/Prototype-Vite/my-project/api/removeAccount/${accountEmail}`
+      )
+      .then(function (response) {
+        //console.log(response.data);
+        setShowDeleteModal(false);
+        setShowDeleteMessageModal(true);
+      });
+  };
+
+  // MODAL DELETE MESSAGE
+  const [showDeleteMessageModal, setShowDeleteMessageModal] = useState(false);
+  const handleOnCloseDeleteMessageModal = () => {
+    setShowDeleteMessageModal(false);
+    getAccounts();
   };
 
   useEffect(() => {
@@ -90,21 +198,21 @@ export default function ManageAccounts() {
 
   function setWidthDelay() {
     setTimeout(function () {
-      var width = window.localStorage.getItem('NAVBAR_ADMIN_WIDTH');
+      var width = window.sessionStorage.getItem('NAVBAR_ADMIN_WIDTH');
       setNavbarWidth(width);
 
       // Logo height
-      var height = window.localStorage.getItem('NAVBAR_ADMIN_LOGO');
+      var height = window.sessionStorage.getItem('NAVBAR_ADMIN_LOGO');
       setLogoHeight(height);
     }, 1);
   }
 
   function setWidth() {
-    var width = window.localStorage.getItem('NAVBAR_ADMIN_WIDTH');
+    var width = window.sessionStorage.getItem('NAVBAR_ADMIN_WIDTH');
     setNavbarWidth(width);
 
     // Logo height
-    var height = window.localStorage.getItem('NAVBAR_ADMIN_LOGO');
+    var height = window.sessionStorage.getItem('NAVBAR_ADMIN_LOGO');
     setLogoHeight(height);
   }
 
@@ -140,8 +248,8 @@ export default function ManageAccounts() {
 
           <div className="mt-1.5">
             <div className="overflow-hidden hdScreen:py-1 semihdScreen:py-1 laptopScreen:py-0 averageScreen:py-0 pr-2">
-              <div className="w-full m-1 overflow-hidden shadow-sm shadow-gray-600 rounded-2xl lg:text-lg sm:text-sm xs:text-xs">
-                <div className="flex bg-gray-200 py-1 items-center text-left rounded-2xl">
+              <div className="inline-flex w-full m-1   rounded-2xl lg:text-lg sm:text-sm xs:text-xs ">
+                <div className="grow mr-5 flex bg-gray-200 shadow-sm shadow-gray-600 py-1 items-center text-left rounded-2xl">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="ml-4 md:h-10 md:w-10 xs:h-5 xs:w-10 lg:scale-100 md-scale:80 sm-scale:60 text-gray-400"
@@ -155,15 +263,25 @@ export default function ManageAccounts() {
                     />
                   </svg>
                   <input
-                    className="bg-gray-200  outline-none ml-2 block w-full lg:text-lg sm:text-sm xs:text-xs font-normal"
+                    className="bg-gray-200  outline-none ml-2 block w-full lg:text-lg sm:text-sm xs:text-xs  font-normal"
                     type="text"
                     name="searchQuery"
                     id="searchQuery"
                     onChange={handleChange}
-                    placeholder="&nbsp;Search Account..."
+                    placeholder="&nbsp;Search Section..."
                     autoComplete="off"
                   />
                 </div>
+                <button
+                  onClick={e => navigate('/ResetPassword')}
+                  type="button"
+                  className="relative hdScreen:w-[19rem] semihdScreen:w-[16.5rem] laptopScreen:w-[15.5rem] averageScreen:w-[15rem] sm:w-[14rem] lg:py-3 lg:px-5 sm:py-1.5 sm:px-2.5 xs:px-1 xs:py-1 text-white font-semibold  shadow-md rounded-full bg-gray-500 hover:bg-gray-600 hover:-translate-y-0.5 ease-in-out transition duration-300 transform drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)]"
+                >
+                  <span className="pl-2 lg:text-xl sm:text-base xs:text-sm flex justify-center">
+                    Reset Password
+                    <BsGearFill className="lg:ml-2 sm:ml-1 xs:ml-0.5 lg:mt-0.5 sm:mt-1 xs:mt-1 lg:text-2xl" />
+                  </span>
+                </button>
               </div>
             </div>
           </div>
@@ -172,16 +290,36 @@ export default function ManageAccounts() {
             <table className="w-full leading-normal ">
               <thead className="sticky top-0 z-40 shadow-md border-b-2 border-gray-200 bg-gray-200 text-left uppercase tracking-wider md:text-base xs:text-xs font-bold text-gray-600">
                 <tr>
-                  <th className="lg:pl-8 w-[32.5%] py-3 md:text-base sm:text-sm ">
+                  <th className="lg:pl-8 w-[32.6%] py-3 md:text-base sm:text-sm ">
                     <div className="lg:pl-0 sm:pl-3  xs:pl-3">Name</div>
                   </th>
-                  <th className=" w-[39.65%] py-3 md:text-base sm:text-xs ">
+                  <th className=" w-[35.7%] py-3 md:text-base sm:text-xs ">
                     Email
                   </th>
-                  <th className="w-[7%] py-3 md:text-base sm:text-xs ">Role</th>
-                  <th className="w-[9%] py-3 "></th>
-                  <th className="w-[9%] py-3  "></th>
-                  <th className="w-[7%] "></th>
+                  <th className="w-[15%] py-3 md:text-base sm:text-xs ">
+                    Role
+                  </th>
+                  <th className="w-[5%]">
+                    <div className="invisible">
+                      <input
+                        type="submit"
+                        value="Edit"
+                        className="cursor-pointer py-[0.2rem] w-24 px-7   shadow-md rounded-full font-normal  transition duration-300 text-white bg-blue-500/90 hover:bg-blue-600 lg:text-base drop-shadow-[0_2px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_2px_0px_rgba(0,0,0,0.6)]"
+                      ></input>
+                    </div>
+                  </th>
+                  <th className="w-[10%]">
+                    <div className="invisible">
+                      <button
+                        disabled
+                        className="relative py-[0.2rem] w-24 px-6 shadow-md rounded-full font-semibold  text-gray-300 bg-gray-400 drop-shadow-[0_2px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_2px_0px_rgba(0,0,0,0.6)]"
+                        title="You can only delete an empty section."
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </th>
+                  <th className="w-[1%] "></th>
                 </tr>
               </thead>
             </table>
@@ -202,14 +340,15 @@ export default function ManageAccounts() {
                           <th className="lg:pl-8 w-[32.5%] md:text-base sm:text-sm   whitespace-no-wrap">
                             Name
                           </th>
-                          <th className="w-[39.5%]    md:text-base sm:text-sm ">
+                          <th className="w-[35.5%]    md:text-base sm:text-sm ">
                             Email
                           </th>
-                          <th className="w-[7%]  md:text-base sm:text-sm ">
+                          <th className="w-[14%]  md:text-base sm:text-sm ">
                             Role
                           </th>
-                          <th className="w-[10%] "></th>
-                          <th className="w-[10%] "></th>
+                          <th className="hdScreen:w-[7.5%] lg:w-[5%] "></th>
+                          <th className="hdScreen:w-[9%] lg:w-[10%] "></th>
+                          <th className="hdScreen:w-[0.5%] lg:w-[1%]"></th>
                         </tr>
                       </thead>
 
@@ -217,7 +356,7 @@ export default function ManageAccounts() {
                         {accounts.map((currentAccount, index) => (
                           <tr
                             key={index}
-                            className="border-b border-gray-200 bg-white hover:bg-gray-100 text-gray-900 hover:text-indigo-600"
+                            className="odd:bg-white even:bg-slate-50/30 border-b border-gray-200 bg-white hover:bg-gray-100 text-gray-900 hover:text-indigo-600"
                           >
                             <td className="flex items-center md:text-base xs:text-xs lg:px-5 py-[10px]  whitespace-no-wrap ">
                               <div className="flex-shrink-0  h-10 mr-3 break-all "></div>
@@ -240,45 +379,28 @@ export default function ManageAccounts() {
                                   name={currentAccount.Email}
                                   type="submit"
                                   value="Edit"
-                                  className="cursor-pointer py-[0.2rem]  pl-4 pr-[2.15rem]   shadow-md rounded-full font-normal  transition duration-300 text-white bg-blue-500/90 hover:bg-blue-600 lg:text-base drop-shadow-[0_2px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_2px_0px_rgba(0,0,0,0.6)]"
+                                  className="cursor-pointer py-[0.2rem] w-24 pl-4 pr-[2.15rem]   shadow-md rounded-full font-normal  transition duration-300 text-white bg-blue-500/90 hover:bg-blue-600 lg:text-base drop-shadow-[0_2px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_2px_0px_rgba(0,0,0,0.6)]"
                                 ></input>
-                                <span className=" absolute top-[0.25rem] right-3 font-normal text-base flex justify-center">
+                                <span className=" absolute top-[0.25rem] right-5 font-normal text-base flex justify-center">
                                   <HiPencilSquare className="ml-1 lg:mt-[0.2rem] lg:text-lg text-white" />
                                 </span>
                               </div>
                             </td>
-                            <td className="text-center md:text-base xs:text-xs">
-                              <div className="">
-                                {accounts.includes(
-                                  currentAccount.SectionName
-                                ) ? (
-                                  <>
-                                    <button
-                                      disabled
-                                      className="relative py-[0.2rem]  px-4 shadow-md rounded-full font-semibold  text-gray-300 bg-gray-400 drop-shadow-[0_2px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_2px_0px_rgba(0,0,0,0.6)]"
-                                      title="You can only delete an empty section."
-                                    >
-                                      <span className="font-normal pl-2 text-base flex justify-center">
-                                        Delete
-                                        <BsTrash3 className="ml-1 lg:mt-[0.25rem]  lg:text-base" />
-                                      </span>
-                                    </button>
-                                  </>
-                                ) : (
-                                  <>
-                                    <button
-                                      type="submit"
-                                      className="relative py-[0.2rem]  px-4 shadow-md rounded-full font-semibold  transition duration-500 text-white bg-red-500 hover:bg-red-700 drop-shadow-[0_2px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_2px_0px_rgba(0,0,0,0.6)]"
-                                    >
-                                      <span className="font-normal pl-2 lg:text-base flex justify-center">
-                                        Delete
-                                        <BsTrash3 className="ml-1 mt-[0.25rem] lg:text-base" />
-                                      </span>
-                                    </button>
-                                  </>
-                                )}
+                            <td className="text-right hdScreen:pr-6 semihdScreen:pr-1 laptopScreen:pr-0.5 averageScreen:pr-0 md:text-base xs:text-xs">
+                              <div className="relative ">
+                                <input
+                                  onClick={deleteAccount}
+                                  name={currentAccount.Email}
+                                  type="submit"
+                                  value="Delete"
+                                  className=" cursor-pointer py-[0.2rem]  pl-4 pr-[2.15rem] shadow-md rounded-full font-semibold  transition duration-500 text-white bg-red-500 hover:bg-red-700 drop-shadow-[0_2px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_2px_0px_rgba(0,0,0,0.6)]"
+                                ></input>
+                                <span className=" absolute top-[0.25rem] right-3 font-normal flex justify-center">
+                                  <BsTrash3 className="ml-1 lg:mt-[0.2rem] lg:text-base text-white" />
+                                </span>
                               </div>
                             </td>
+                            <td></td>
                           </tr>
                         ))}
                       </tbody>
@@ -295,6 +417,22 @@ export default function ManageAccounts() {
         onClose={handleOnCloseModal}
         visible={showModal}
         onContinue={handleOnContinueModal}
+      />
+
+      <EditAccountMessageModal
+        onClose={handleOnCloseMessageModal}
+        visible={showMessageModal}
+      />
+
+      <DeleteAccountModal
+        onClose={handleOnCloseDeleteModal}
+        visible={showDeleteModal}
+        onContinue={handleOnContinueDeleteModal}
+      />
+
+      <DeleteAccountMessageModal
+        onClose={handleOnCloseDeleteMessageModal}
+        visible={showDeleteMessageModal}
       />
     </>
   );

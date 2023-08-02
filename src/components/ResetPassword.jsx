@@ -9,10 +9,48 @@ import EditSectionModal from './EditSectionModal';
 
 import EquationSolver from './equationSolver';
 
-import { BsArrowCounterclockwise } from 'react-icons/bs';
+import { BsArrowCounterclockwise, BsCaretUpFill } from 'react-icons/bs';
 
 export default function ResetPassword() {
   const navigate = useNavigate();
+
+  /*
+  useEffect(() => {
+    setTabIndex();
+
+    window.addEventListener('focus', setTabIndex);
+    function setTabIndex() {
+      window.localStorage.setItem('CURRENT_TAB_INDEX', 4);
+    }
+  }, []);
+  */
+
+  useEffect(() => {
+    var logged = JSON.parse(window.localStorage.getItem('LOGGED'));
+    if (logged == 'FALSE') {
+      navigate('/LoginPage');
+    } else {
+      var closed = JSON.parse(window.localStorage.getItem('IS_CLOSED'));
+      if (closed) {
+        var unique = JSON.parse(window.localStorage.getItem('UNIQUE_ID'));
+        axios
+          .post(
+            `http://localhost:80/Prototype-Vite/my-project/api/logout/${unique}`
+          )
+          .then(function (response) {
+            window.localStorage.setItem('LOGGED', JSON.stringify('FALSE'));
+            navigate('/LoginPage');
+          });
+      }
+    }
+
+    var account = JSON.parse(window.localStorage.getItem('ACCOUNT_TYPE'));
+    if (account == 'Teacher') {
+      navigate('/HomePageTeacher');
+    } else if (account == 'Student') {
+      navigate('/Homepage');
+    }
+  });
 
   const [accounts, setAccounts] = useState([]);
 
@@ -82,21 +120,21 @@ export default function ResetPassword() {
 
   function setWidthDelay() {
     setTimeout(function () {
-      var width = window.localStorage.getItem('NAVBAR_ADMIN_WIDTH');
+      var width = window.sessionStorage.getItem('NAVBAR_ADMIN_WIDTH');
       setNavbarWidth(width);
 
       // Logo height
-      var height = window.localStorage.getItem('NAVBAR_ADMIN_LOGO');
+      var height = window.sessionStorage.getItem('NAVBAR_ADMIN_LOGO');
       setLogoHeight(height);
     }, 1);
   }
 
   function setWidth() {
-    var width = window.localStorage.getItem('NAVBAR_ADMIN_WIDTH');
+    var width = window.sessionStorage.getItem('NAVBAR_ADMIN_WIDTH');
     setNavbarWidth(width);
 
     // Logo height
-    var height = window.localStorage.getItem('NAVBAR_ADMIN_LOGO');
+    var height = window.sessionStorage.getItem('NAVBAR_ADMIN_LOGO');
     setLogoHeight(height);
   }
 
@@ -118,19 +156,24 @@ export default function ResetPassword() {
       >
         <section className="relative mx-auto p-8 w-full">
           <div
-            className={`md:-mt-0 xs:-mt-1 border-b-2 text-gray-600 lg:text-4xl font-bold
-          ${
-            logoHeight == 78.5
-              ? 'max-h-[78.5px]'
-              : logoHeight == 40.5
-              ? 'max-h-[40.5px]'
-              : 'max-h-[78.5px]'
-          }`}
+            className={`flex md:-mt-0 xs:-mt-1 border-b-2 text-gray-600 lg:text-4xl font-bold
+            ${
+              logoHeight == 94.5
+                ? 'max-h-[94.5px]'
+                : logoHeight == 67.5
+                ? 'max-h-[67.5px]'
+                : ''
+            }`}
           >
-            Reset Request(s)
+            <BsCaretUpFill
+              onClick={e => navigate('/ManageAccount')}
+              title="Go back"
+              className="cursor-pointer text-gray-100 bg-gray-400 border-4 border-gray-400 mr-3 hover:text-white hover:bg-gray-600 hover:border-gray-600 rounded-full pb-1 rotate-[270deg] mt-3.5 text-[2.25rem]"
+            />
+            <span className="">Reset Request(s)</span>
           </div>
 
-          <div className="mt-1.5 lg:text-lg sm:text-base xs:text-xs font-semibold tracking-wide pl-2 ">
+          <div className="text-gray-700 mt-1.5 lg:text-lg sm:text-base xs:text-xs font-semibold tracking-wide pl-2 ">
             There are currently no reset password requests.
           </div>
 
@@ -179,7 +222,7 @@ export default function ResetPassword() {
                         {accounts.map((currentAccount, index) => (
                           <tr
                             key={index}
-                            className="border-b border-gray-200 bg-white hover:bg-gray-100 text-gray-900 hover:text-indigo-600"
+                            className="odd:bg-white even:bg-slate-50/30 border-b border-gray-200 bg-white hover:bg-gray-100 text-gray-900 hover:text-indigo-600"
                           >
                             <td className="flex items-center md:text-base xs:text-xs lg:px-5 py-[10px]  whitespace-no-wrap ">
                               <div className="flex-shrink-0  h-10 mr-3 break-all "></div>

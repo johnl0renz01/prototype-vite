@@ -11,6 +11,9 @@ import CreateSectionMessageModal from './CreateSectionMessageModal';
 import EditSectionModal from './EditSectionModal';
 import EditSectionMessageModal from './EditSectionMessageModal';
 
+import DeleteSectionModal from './DeleteSectionModal';
+import DeleteSectionMessageModal from './DeleteSectionMessageModal';
+
 import EquationSolver from './equationSolver';
 import { BsClipboardPlus } from 'react-icons/bs';
 
@@ -20,11 +23,44 @@ import { HiPencilSquare } from 'react-icons/hi2';
 export default function ManageSection() {
   const navigate = useNavigate();
 
+  useEffect(() => {
+    setTabIndex();
+
+    window.addEventListener('focus', setTabIndex);
+    function setTabIndex() {
+      window.localStorage.setItem('CURRENT_TAB_INDEX', 2);
+    }
+  }, []);
+
+  useEffect(() => {
+    var logged = JSON.parse(window.localStorage.getItem('LOGGED'));
+    if (logged == 'FALSE') {
+      navigate('/LoginPage');
+    } else {
+      var closed = JSON.parse(window.localStorage.getItem('IS_CLOSED'));
+      if (closed) {
+        var unique = JSON.parse(window.localStorage.getItem('UNIQUE_ID'));
+        axios
+          .post(
+            `http://localhost:80/Prototype-Vite/my-project/api/logout/${unique}`
+          )
+          .then(function (response) {
+            window.localStorage.setItem('LOGGED', JSON.stringify('FALSE'));
+            navigate('/LoginPage');
+          });
+      }
+    }
+
+    var account = JSON.parse(window.localStorage.getItem('ACCOUNT_TYPE'));
+    if (account == 'Teacher') {
+      navigate('/HomePageTeacher');
+    } else if (account == 'Student') {
+      navigate('/Homepage');
+    }
+  });
+
   const [section, setSection] = useState([]);
   const [accounts, setAccounts] = useState([]);
-  const [imageUrlList, setImageUrlList] = useState([]);
-  const [imageTypeList, setImageTypeList] = useState([]);
-  const [imageIndex, setImageIndex] = useState(0);
 
   var inputText = '';
 
@@ -38,37 +74,6 @@ export default function ManageSection() {
       .get(`http://localhost:80/Prototype-Vite/my-project/api/sectionList/`)
       .then(function (response) {
         setSection(response.data);
-        let result = Object.values(response.data);
-
-        let items = [];
-        let keys = [];
-        for (let i = 0; i < result.length; i++) {
-          for (let k in result[i]) keys.push(result[i][k]);
-        }
-
-        for (let i = 6; i <= keys.length; i += 7) {
-          // GET IMAGE STRING 6th index (including id)
-          items.push(keys[i]);
-        }
-
-        var imgName = [];
-        var imgType = [];
-
-        for (let i = 0; i < items.length; i++) {
-          let string = items[i];
-          for (let j = 0; j < string.length; j++) {
-            if (string[j] == '.') {
-              imgName.push(string.substring(0, j));
-              imgType.push(string.substring(j + 1));
-              break;
-            }
-          }
-        }
-        console.log(imgName);
-        console.log(imgType);
-
-        setImageUrlList(imgName);
-        setImageTypeList(imgType);
       });
   }
 
@@ -90,7 +95,7 @@ export default function ManageSection() {
           for (let j = 0; j < result.length; j++) {
             tempArray.push(result[j][1]);
           }
-          console.log(tempArray);
+          //console.log(tempArray);
 
           let data = JSON.stringify(tempArray[0]);
           data = data.replace(/"/g, '');
@@ -98,19 +103,42 @@ export default function ManageSection() {
           newArray.push(data);
         }
 
-        console.log(newArray);
+        //console.log(newArray);
         setAccounts(newArray);
       });
   }
 
   const editMode = e => {
     let sectionName = e.target.name;
-    window.localStorage.setItem(
+    window.sessionStorage.setItem(
       'CURRENT_SECTION_EDIT',
       JSON.stringify(sectionName)
     );
-    window.localStorage.setItem('EDIT_SECTION_STATE', true);
+    window.sessionStorage.setItem('EDIT_SECTION_STATE', true);
     setShowModal(true);
+  };
+
+  const deleteSection = e => {
+    let sectionName = e.target.name;
+    window.sessionStorage.setItem(
+      'CURRENT_SECTION_DELETE',
+      JSON.stringify(sectionName)
+    );
+    sectionName = sectionName.replace(/ /g, '_');
+
+    axios
+      .get(
+        `http://localhost:80/Prototype-Vite/my-project/api/getAssignedStudent/${sectionName}`
+      )
+      .then(function (response) {
+        var statusStudent = response.data;
+        window.sessionStorage.setItem(
+          'DELETE_SECTION_STATUS',
+          JSON.stringify(statusStudent)
+        );
+
+        setShowDeleteModal(true);
+      });
   };
 
   const handleChange = event => {
@@ -133,7 +161,11 @@ export default function ManageSection() {
   const handleOnCloseSectionModal = () => setShowSectionModal(false);
 
   const [showSectionMessageModal, setSectionMessageModal] = useState(false);
-  const handleOnCloseSectionMessageModal = () => setSectionMessageModal(false);
+  const handleOnCloseSectionMessageModal = () => {
+    setSectionMessageModal(false);
+    getManageSection();
+    getAccounts();
+  };
 
   const handleOnContinueSectionModal = () => {
     setSectionMessageModal(true);
@@ -146,12 +178,32 @@ export default function ManageSection() {
 
   const [choiceModal, setChoiceModal] = useState(false);
   const [showMessageModal, setMessageModal] = useState(false);
-  const handleOnCloseMessageModal = () => setMessageModal(false);
+  const handleOnCloseMessageModal = () => {
+    setMessageModal(false);
+    getManageSection();
+    getAccounts();
+  };
 
   const handleOnContinueModal = () => {
     //setChoiceModal(true);
     setMessageModal(true);
     setShowModal(false);
+  };
+
+  // MODAL CREATE SECTION
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const handleOnCloseDeleteModal = () => setShowDeleteModal(false);
+
+  const [showDeleteMessageModal, setDeleteMessageModal] = useState(false);
+  const handleOnCloseDeleteMessageModal = () => {
+    setDeleteMessageModal(false);
+    getManageSection();
+    getAccounts();
+  };
+
+  const handleOnContinueDeleteModal = () => {
+    setDeleteMessageModal(true);
+    setShowDeleteModal(false);
   };
 
   const [navbarWidth, setNavbarWidth] = useState(0);
@@ -169,21 +221,21 @@ export default function ManageSection() {
 
   function setWidthDelay() {
     setTimeout(function () {
-      var width = window.localStorage.getItem('NAVBAR_ADMIN_WIDTH');
+      var width = window.sessionStorage.getItem('NAVBAR_ADMIN_WIDTH');
       setNavbarWidth(width);
 
       // Logo height
-      var height = window.localStorage.getItem('NAVBAR_ADMIN_LOGO');
+      var height = window.sessionStorage.getItem('NAVBAR_ADMIN_LOGO');
       setLogoHeight(height);
     }, 1);
   }
 
   function setWidth() {
-    var width = window.localStorage.getItem('NAVBAR_ADMIN_WIDTH');
+    var width = window.sessionStorage.getItem('NAVBAR_ADMIN_WIDTH');
     setNavbarWidth(width);
 
     // Logo height
-    var height = window.localStorage.getItem('NAVBAR_ADMIN_LOGO');
+    var height = window.sessionStorage.getItem('NAVBAR_ADMIN_LOGO');
     setLogoHeight(height);
   }
 
@@ -246,7 +298,7 @@ export default function ManageSection() {
                 <button
                   onClick={e => setShowSectionModal(true)}
                   type="button"
-                  className="relative hdScreen:w-[17rem] semihdScreen:w-[14rem] laptopScreen:w-[13rem] averageScreen:w-[13rem] lg:py-3 lg:px-5 sm:py-1.5 sm:px-2.5 xs:px-1 xs:py-1 text-white font-semibold  shadow-md rounded-full bg-lime-600 hover:bg-lime-700 hover:-translate-y-0.5 ease-in-out transition duration-300 transform drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)]"
+                  className="relative hdScreen:w-[19rem] semihdScreen:w-[16.5rem] laptopScreen:w-[15.5rem] averageScreen:w-[15rem] sm:w-[14rem] lg:py-3 lg:px-5 sm:py-1.5 sm:px-2.5 xs:px-1 xs:py-1 text-white font-semibold  shadow-md rounded-full bg-lime-600 hover:bg-lime-700 hover:-translate-y-0.5 ease-in-out transition duration-300 transform drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)]"
                 >
                   <span className="pl-2 lg:text-xl sm:text-base xs:text-sm flex justify-center">
                     Add Section
@@ -261,17 +313,36 @@ export default function ManageSection() {
             <table className="w-full leading-normal ">
               <thead className="sticky top-0 z-40 shadow-md border-b-2 border-gray-200 bg-gray-200 text-left uppercase tracking-wider md:text-base xs:text-xs font-bold text-gray-600">
                 <tr>
-                  <th className="lg:pl-8 w-[15%] py-3 md:text-base sm:text-sm">
+                  <th className="lg:pl-8 w-[25.25%] py-3 md:text-base sm:text-sm">
                     <div className="lg:pl-0 sm:pl-3  xs:pl-3">Grade Level</div>
                   </th>
-                  <th className="w-[23%] py-3 md:text-base sm:text-sm ">
+                  <th className="w-[25%] py-3 md:text-base sm:text-sm ">
                     Section Name
                   </th>
-                  <th className="w-[35%] py-3 md:text-base sm:text-sm ">
+                  <th className="w-[33%] py-3 md:text-base sm:text-sm ">
                     Adviser Name
                   </th>
-                  <th className="w-[14.15%] py-3 border-gray-600"></th>
-                  <th className="py-3 border-gray-600"></th>
+                  <th className="w-[5%]">
+                    <div className="invisible">
+                      <input
+                        type="submit"
+                        value="Edit"
+                        className="cursor-pointer py-[0.2rem] w-24 px-7   shadow-md rounded-full font-normal  transition duration-300 text-white bg-blue-500/90 hover:bg-blue-600 lg:text-base drop-shadow-[0_2px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_2px_0px_rgba(0,0,0,0.6)]"
+                      ></input>
+                    </div>
+                  </th>
+                  <th className="w-[10%]">
+                    <div className="invisible">
+                      <button
+                        disabled
+                        className="relative py-[0.2rem] w-24 px-6 shadow-md rounded-full font-semibold  text-gray-300 bg-gray-400 drop-shadow-[0_2px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_2px_0px_rgba(0,0,0,0.6)]"
+                        title="You can only delete an empty section."
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </th>
+                  <th className="w-[1%] "></th>
                 </tr>
               </thead>
             </table>
@@ -289,24 +360,25 @@ export default function ManageSection() {
                     <table className="min-w-full leading-normal -mt-[28px]">
                       <thead className="invisible md:text-base xs:text-xs">
                         <tr>
-                          <th className="lg:pl-8 w-[15%]  md:text-base sm:text-sm  ">
+                          <th className="lg:pl-8 w-[25.25%]  md:text-base sm:text-sm  ">
                             Grade Level
                           </th>
-                          <th className="w-[23.5%]   md:text-base sm:text-sm ">
+                          <th className="w-[25%]   md:text-base sm:text-sm ">
                             Section Name
                           </th>
-                          <th className="w-[35%]  md:text-base sm:text-sm ">
+                          <th className="w-[32%]  md:text-base sm:text-sm ">
                             Adviser Name
                           </th>
-                          <th className="w-[16.4%]"></th>
-                          <th className=""></th>
+                          <th className="hdScreen:w-[7.5%] lg:w-[5%] "></th>
+                          <th className="hdScreen:w-[9%] lg:w-[10%] "></th>
+                          <th className="hdScreen:w-[0.5%] lg:w-[1%]"></th>
                         </tr>
                       </thead>
                       <tbody className=" ">
                         {section.map((currentSection, index) => (
                           <tr
                             key={index}
-                            className="border-b border-gray-200 bg-white hover:bg-gray-100 text-gray-900 hover:text-indigo-600"
+                            className="odd:bg-white even:bg-slate-50/30 border-b border-gray-200 bg-white hover:bg-gray-100 text-gray-900 hover:text-indigo-600"
                           >
                             <td className="flex items-center md:text-base xs:text-xs lg:px-5 py-[10px]  whitespace-no-wrap">
                               <div className="flex-shrink-0  h-10 mr-3"></div>
@@ -318,7 +390,15 @@ export default function ManageSection() {
                               <p>{currentSection.SectionName}</p>
                             </td>
                             <td className="md:text-base xs:text-xs">
-                              <p>{`${currentSection.AdviserName} ${currentSection.AdviserMiddleName} ${currentSection.AdviserSurname}`}</p>
+                              <p>
+                                {currentSection.AdviserName != '' ? (
+                                  <>{currentSection.AdviserName}</>
+                                ) : (
+                                  <>
+                                    <span className="text-red-600">[None]</span>
+                                  </>
+                                )}
+                              </p>
                             </td>
                             <td className="text-right md:text-base xs:text-xs">
                               <div className="relative">
@@ -327,45 +407,28 @@ export default function ManageSection() {
                                   name={currentSection.SectionName}
                                   type="submit"
                                   value="Edit"
-                                  className="cursor-pointer py-[0.2rem]  pl-4 pr-[2.15rem]   shadow-md rounded-full font-normal  transition duration-300 text-white bg-blue-500/90 hover:bg-blue-600 lg:text-base drop-shadow-[0_2px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_2px_0px_rgba(0,0,0,0.6)]"
+                                  className="cursor-pointer py-[0.2rem] w-24 pl-4 pr-[2.15rem]   shadow-md rounded-full font-normal  transition duration-300 text-white bg-blue-500/90 hover:bg-blue-600 lg:text-base drop-shadow-[0_2px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_2px_0px_rgba(0,0,0,0.6)]"
                                 ></input>
-                                <span className=" absolute top-[0.25rem] right-3 font-normal text-base flex justify-center">
+                                <span className=" absolute top-[0.25rem] right-5 font-normal text-base flex justify-center">
                                   <HiPencilSquare className="ml-1 lg:mt-[0.2rem] lg:text-lg text-white" />
                                 </span>
                               </div>
                             </td>
-                            <td className="text-center md:text-base xs:text-xs">
-                              <div className="">
-                                {accounts.includes(
-                                  currentSection.SectionName
-                                ) ? (
-                                  <>
-                                    <button
-                                      disabled
-                                      className="relative py-[0.2rem]  px-4 shadow-md rounded-full font-semibold  text-gray-300 bg-gray-400 drop-shadow-[0_2px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_2px_0px_rgba(0,0,0,0.6)]"
-                                      title="You can only delete an empty section."
-                                    >
-                                      <span className="font-normal pl-2 lg:text-base flex justify-center">
-                                        Delete
-                                        <BsTrash3 className="ml-1 lg:mt-[0.25rem] lg:text-base" />
-                                      </span>
-                                    </button>
-                                  </>
-                                ) : (
-                                  <>
-                                    <button
-                                      type="submit"
-                                      className="relative py-[0.2rem]  px-4 shadow-md rounded-full font-semibold  transition duration-500 text-white bg-red-500 hover:bg-red-700 drop-shadow-[0_2px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_2px_0px_rgba(0,0,0,0.6)]"
-                                    >
-                                      <span className="font-normal pl-2 lg:text-base flex justify-center">
-                                        Delete
-                                        <BsTrash3 className="ml-1 lg:mt-[0.25rem] lg:text-base" />
-                                      </span>
-                                    </button>
-                                  </>
-                                )}
+                            <td className="text-right hdScreen:pr-6 semihdScreen:pr-1 laptopScreen:pr-0.5 averageScreen:pr-0 md:text-base xs:text-xs">
+                              <div className="relative ">
+                                <input
+                                  onClick={deleteSection}
+                                  name={currentSection.SectionName}
+                                  type="submit"
+                                  value="Delete"
+                                  className=" cursor-pointer py-[0.2rem]  pl-4 pr-[2.15rem] shadow-md rounded-full font-semibold  transition duration-500 text-white bg-red-500 hover:bg-red-700 drop-shadow-[0_2px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_2px_0px_rgba(0,0,0,0.6)]"
+                                ></input>
+                                <span className=" absolute top-[0.25rem] right-3 font-normal flex justify-center">
+                                  <BsTrash3 className="ml-1 lg:mt-[0.2rem] lg:text-base text-white" />
+                                </span>
                               </div>
                             </td>
+                            <td></td>
                           </tr>
                         ))}
                       </tbody>
@@ -396,6 +459,17 @@ export default function ManageSection() {
       <EditSectionMessageModal
         onClose={handleOnCloseMessageModal}
         visible={showMessageModal}
+      />
+
+      <DeleteSectionModal
+        onClose={handleOnCloseDeleteModal}
+        visible={showDeleteModal}
+        onContinue={handleOnContinueDeleteModal}
+      />
+
+      <DeleteSectionModal
+        onClose={handleOnCloseDeleteMessageModal}
+        visible={showDeleteMessageModal}
       />
     </>
   );

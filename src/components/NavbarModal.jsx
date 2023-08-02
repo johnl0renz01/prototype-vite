@@ -17,7 +17,7 @@ const NavbarModal = ({ visible, onClose, onContinue }) => {
         className="fixed top-0 z-50 inset-0 bg-black bg-opacity-50 backdrop-blur-[0.5px] flex justify-center items-center "
       >
         <div className="bg-white  rounded text-lg  ">
-          <div className="grid grid-cols-2 bg-yellow-500 border-b-2 border-gray-300">
+          <div className="grid grid-cols-2 bg-yellow-500">
             <VscWarning className="text-[1.85rem] ml-1 mt-[0.18rem] text-black/60" />
             <div className="text-right">
               <button
@@ -43,13 +43,13 @@ const NavbarModal = ({ visible, onClose, onContinue }) => {
             <div className="mx-auto text-center border-t-2 border-gray-300 py-3">
               <button
                 onClick={onClose}
-                className="mx-2 text-white bg-red-600/90 h-10 w-28 inline-block rounded-3xl hover:bg-red-700 hover:text-gray-100"
+                className="mx-2 text-white bg-red-600/90 h-10 w-28 inline-block rounded-lg hover:bg-red-700 hover:text-gray-100"
               >
                 No
               </button>
               <button
                 onClick={onContinue}
-                className="mx-2 text-white bg-lime-600 h-10 w-28 inline-block rounded-3xl hover:bg-lime-700 hover:text-gray-200"
+                className="mx-2 text-white bg-lime-600 h-10 w-28 inline-block rounded-lg hover:bg-lime-700 hover:text-gray-200"
               >
                 Yes
               </button>

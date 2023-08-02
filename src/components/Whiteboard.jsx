@@ -25,6 +25,35 @@ export default function Whiteboard() {
   document.body.style.height = '100vh';
   const navigate = useNavigate();
 
+  useEffect(() => {
+    var logged = JSON.parse(window.localStorage.getItem('LOGGED'));
+    if (logged == 'FALSE') {
+      navigate('/LoginPage');
+    } else {
+      var closed = JSON.parse(window.localStorage.getItem('IS_CLOSED'));
+      if (closed) {
+        var unique = JSON.parse(window.localStorage.getItem('UNIQUE_ID'));
+        axios
+          .post(
+            `http://localhost:80/Prototype-Vite/my-project/api/logout/${unique}`
+          )
+          .then(function (response) {
+            window.localStorage.setItem('LOGGED', JSON.stringify('FALSE'));
+            navigate('/LoginPage');
+          });
+      }
+    }
+
+    var account = JSON.parse(window.localStorage.getItem('ACCOUNT_TYPE'));
+    if (account == 'Admin') {
+      navigate('/HomePageAdmin');
+      window.location.reload(false);
+    } else if (account == 'Teacher') {
+      navigate('/HomePageTeacher');
+      window.location.reload(false);
+    }
+  });
+
   //FOR LINKS/NAVBAR/BREADCRUMBS
   const [pageList, setPageList] = useState([]);
   const [pageLink, setPageLink] = useState([]);

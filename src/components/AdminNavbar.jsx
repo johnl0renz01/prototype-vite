@@ -52,11 +52,46 @@ export default function AdminNavbar() {
   const navigate = useNavigate();
 
   const [tabHighlight, setTabHighlight] = useState(0);
-  const [accType, setAccType] = useState('');
 
   useEffect(() => {
-    var account = JSON.parse(window.localStorage.getItem('ACCOUNT_TYPE'));
-    setAccType(account);
+    window.addEventListener('focus', setTabDelay);
+
+    window.localStorage.removeItem('SESSION_FEEDBACK');
+    window.localStorage.removeItem('EXPRESSION_HAPPY');
+    window.localStorage.removeItem('EXPRESSION_SAD');
+    window.localStorage.removeItem('EXPRESSION_ANGRY');
+    window.localStorage.removeItem('EXPRESSION_SURPRISED');
+    window.localStorage.removeItem('SESSION_SCORE');
+    window.localStorage.removeItem('TIMER');
+  }, []);
+
+  useEffect(() => {
+    setTab();
+    setTabDelay();
+  });
+
+  function setTabDelay() {
+    setTimeout(set, 1);
+    function set() {
+      setTabHighlight(0);
+      var currentTab = JSON.parse(
+        window.localStorage.getItem('CURRENT_TAB_INDEX')
+      );
+      if (currentTab !== null) setTabHighlight(currentTab);
+      getCurrentTab();
+    }
+  }
+
+  function setTab() {
+    setTabHighlight(0);
+    var currentTab = JSON.parse(
+      window.localStorage.getItem('CURRENT_TAB_INDEX')
+    );
+    if (currentTab !== null) setTabHighlight(currentTab);
+    getCurrentTab();
+  }
+
+  useEffect(() => {
     window.addEventListener('resize', calculateWidthAdmin);
     calculateWidthAdmin();
     getCurrentTab();
@@ -71,23 +106,26 @@ export default function AdminNavbar() {
       widthValue1 += 2;
     }
 
-    window.localStorage.setItem('NAVBAR_ADMIN_WIDTH', widthValue1);
-    console.log(widthValue1);
+    window.sessionStorage.setItem('NAVBAR_ADMIN_WIDTH', widthValue1);
+    //console.log(widthValue1);
 
     //Calculate height logo
     var divElement2 = document.getElementById('logo');
     var heightValue1 = ReactDOM.findDOMNode(divElement2).offsetHeight;
     heightValue1 += 2.5;
-    window.localStorage.setItem('NAVBAR_ADMIN_LOGO', heightValue1);
+    window.sessionStorage.setItem('NAVBAR_ADMIN_LOGO', heightValue1);
   }
 
   function getCurrentTab() {
     let highlight = JSON.parse(
       window.localStorage.getItem('CURRENT_TAB_INDEX')
     );
-    if (highlight == null || highlight == undefined) {
+    if (highlight === null || highlight === undefined) {
+      setTabHighlight(0);
     } else {
-      if (highlight == 1) {
+      if (highlight == 0) {
+        setTabHighlight(0);
+      } else if (highlight == 1) {
         setTabHighlight(1);
       } else if (highlight == 2) {
         setTabHighlight(2);
@@ -123,20 +161,22 @@ export default function AdminNavbar() {
     navigate('/Registration');
   };
 
+  /*
   const tab4 = () => {
     window.localStorage.setItem('CURRENT_TAB_INDEX', 4);
     getCurrentTab();
     navigate('/ResetPassword');
   };
+  */
 
-  const tab5 = () => {
-    window.localStorage.setItem('CURRENT_TAB_INDEX', 5);
+  const tab4 = () => {
+    window.localStorage.setItem('CURRENT_TAB_INDEX', 4);
     getCurrentTab();
     navigate('/UserRequest');
   };
 
-  const tab6 = () => {
-    window.localStorage.setItem('CURRENT_TAB_INDEX', 6);
+  const tab5 = () => {
+    window.localStorage.setItem('CURRENT_TAB_INDEX', 5);
     getCurrentTab();
     navigate('/HelpPageAdmin');
   };
@@ -147,16 +187,46 @@ export default function AdminNavbar() {
     navigate('/HomePageAdmin');
   };
 
+  const [accType, setAccType] = useState('');
+  useEffect(() => {
+    var account = JSON.parse(window.localStorage.getItem('ACCOUNT_TYPE'));
+    if (account === null) account = '';
+    setAccType(account);
+
+    var logged = JSON.parse(window.localStorage.getItem('LOGGED'));
+    if (logged === null) logged = '';
+    if (logged !== null) {
+      if (logged == 'TRUE') {
+        if (account == 'Admin') {
+          setLogoutState(false);
+        } else {
+          setLogoutState(true);
+        }
+      } else {
+        setLogoutState(true);
+      }
+    }
+  });
+
   const [logoutState, setLogoutState] = useState(false);
 
   const logout = () => {
     setLogoutState(true);
     window.localStorage.removeItem('CURRENT_TAB_INDEX');
-    setTabHighlight(0);
-    navigate('/LoginPage');
-    document.body.style.backgroundImage =
-      'linear-gradient(to top, #bef264, #d9f99d , #ccf779)';
-    window.location.reload(false);
+    var unique = JSON.parse(window.localStorage.getItem('UNIQUE_ID'));
+    if (unique === null) unique = '';
+    axios
+      .post(
+        `http://localhost:80/Prototype-Vite/my-project/api/logout/${unique}`
+      )
+      .then(function (response) {
+        localStorage.clear();
+        window.localStorage.setItem('LOGGED', JSON.stringify('FALSE'));
+        setTabHighlight(0);
+        navigate('/LoginPage');
+        document.body.style.backgroundImage =
+          'linear-gradient(to top, #bef264, #d9f99d , #ccf779)';
+      });
   };
 
   const [sidebarMode, setSidebarMode] = useState('Maximized');
@@ -183,7 +253,7 @@ export default function AdminNavbar() {
           className="sm:flex xs:hidden lg:flex flex-col bg-gradient-to-b from-[#d6d135] via-[#cebc46] to-[#ddc236] text-center  h-screen fixed z-50 drop-shadow-[0_0px_5px_rgba(0,0,0,0.30)]"
         >
           <div className="">
-            <ul className="">
+            <ul className="text-xs">
               <li
                 onClick={homePage}
                 id="logo"
@@ -205,7 +275,11 @@ export default function AdminNavbar() {
                     : 'hover:bg-black/30 text-white transition duration-300'
                 }
                 
-                ${sidebarMode == 'Minimized' ? 'pb-2.5 pt-2' : 'hdScreen:pb-1 hdScreen:pt-2 semihdScreen:pb-1 semihdScreen:pt-2 laptopScreen:pb-0.8 laptopScreen:pt-1.5 averageScreen:pb-0.7 averageScreen:pt-1.4'}`}
+                ${
+                  sidebarMode == 'Minimized'
+                    ? 'pb-2.5 pt-2'
+                    : 'hdScreen:pb-1 hdScreen:pt-2 semihdScreen:pb-1 semihdScreen:pt-2 laptopScreen:pb-[0.2rem] laptopScreen:pt-1.5 averageScreen:pb-[0.18rem] averageScreen:pt-1.5 sm:pb-0.5 sm:pt-1 xs:pb-[0.1rem] xs:pt-0.5'
+                }`}
               >
                 <div className="relative text-center font-bold">
                   <BsPeople className="hdScreen:text-[2.2rem] semihdScreen:text-[2rem] laptopScreen:text-[1.6rem] averageScreen:text-[1.5rem] mx-auto -mb-1" />
@@ -225,7 +299,11 @@ export default function AdminNavbar() {
                     ? 'bg-white/[75%] text-yellow-700'
                     : 'hover:bg-black/30 text-white transition duration-300'
                 }
-                ${sidebarMode == 'Minimized' ? 'pb-2.5 pt-2' : 'hdScreen:pb-1 hdScreen:pt-2 semihdScreen:pb-1 semihdScreen:pt-2 laptopScreen:pb-0.8 laptopScreen:pt-1.5 averageScreen:pb-0.7 averageScreen:pt-1.4'}
+                ${
+                  sidebarMode == 'Minimized'
+                    ? 'pb-2.5 pt-2'
+                    : 'hdScreen:pb-1 hdScreen:pt-2 semihdScreen:pb-1 semihdScreen:pt-2 laptopScreen:pb-[0.2rem] laptopScreen:pt-1.5 averageScreen:pb-[0.18rem] averageScreen:pt-1.5 sm:pb-0.5 sm:pt-1 xs:pb-[0.1rem] xs:pt-0.5'
+                }
                 `}
               >
                 <div className="relative text-center  font-bold ">
@@ -247,7 +325,11 @@ export default function AdminNavbar() {
                     : 'hover:bg-black/30 text-white transition duration-300'
                 }
                 
-                ${sidebarMode == 'Minimized' ? 'pb-2.5 pt-2' : 'hdScreen:pb-1 hdScreen:pt-3 semihdScreen:pb-1 semihdScreen:pt-3 laptopScreen:pb-0.8 laptopScreen:pt-1.5 averageScreen:pb-0.7 averageScreen:pt-1.4'}`}
+                ${
+                  sidebarMode == 'Minimized'
+                    ? 'pb-2.5 pt-2'
+                    : 'hdScreen:pb-1 hdScreen:pt-3 semihdScreen:pb-1 semihdScreen:pt-3 laptopScreen:pb-[0.2rem] laptopScreen:pt-1.5 averageScreen:pb-[0.18rem] averageScreen:pt-1.5 sm:pb-0.5 sm:pt-1 xs:pb-[0.1rem] xs:pt-0.5'
+                }`}
               >
                 <div className="relative text-center  font-bold ">
                   <BsPersonAdd className="hdScreen:text-[2.2rem] semihdScreen:text-[2rem] laptopScreen:text-[1.6rem] averageScreen:text-[1.5rem] mx-auto " />
@@ -260,6 +342,7 @@ export default function AdminNavbar() {
                   </span>
                 </div>
               </li>
+              {/*
               <li
                 onClick={tab4}
                 className={`cursor-pointer border-b-2 border-black/5 ${
@@ -268,7 +351,11 @@ export default function AdminNavbar() {
                     : 'hover:bg-black/30 text-white transition duration-300'
                 }
                 
-                ${sidebarMode == 'Minimized' ? 'pb-2.5 pt-2' : 'hdScreen:pb-1 hdScreen:pt-3 semihdScreen:pb-1 semihdScreen:pt-3 laptopScreen:pb-0.8 laptopScreen:pt-1.5 averageScreen:pb-0.7 averageScreen:pt-1.4'}
+                ${
+                  sidebarMode == 'Minimized'
+                    ? 'pb-2.5 pt-2'
+                    : 'hdScreen:pb-1 hdScreen:pt-3 semihdScreen:pb-1 semihdScreen:pt-3 laptopScreen:pb-[0.2rem] laptopScreen:pt-1.5 averageScreen:pb-[0.18rem] averageScreen:pt-1.5 sm:pb-0.5 sm:pt-1 xs:pb-[0.1rem] xs:pt-0.5'
+                }
                 `}
               >
                 <div className="relative text-center  font-bold">
@@ -282,14 +369,19 @@ export default function AdminNavbar() {
                   </span>
                 </div>
               </li>
+              */}
               <li
-                onClick={tab5}
+                onClick={tab4}
                 className={`cursor-pointer border-b-2 border-black/5 ${
-                  tabHighlight == 5
+                  tabHighlight == 4
                     ? 'bg-white/[75%] text-yellow-700'
                     : 'hover:bg-black/30 text-white transition duration-300'
                 }
-                ${sidebarMode == 'Minimized' ? 'pb-2.5 pt-2' : 'hdScreen:pb-1 hdScreen:pt-3 semihdScreen:pb-1 semihdScreen:pt-3 laptopScreen:pb-0.8 laptopScreen:pt-1.5 averageScreen:pb-0.7 averageScreen:pt-1.4'}`}
+                ${
+                  sidebarMode == 'Minimized'
+                    ? 'pb-2.5 pt-2'
+                    : 'hdScreen:pb-1 hdScreen:pt-3 semihdScreen:pb-1 semihdScreen:pt-3 laptopScreen:pb-[0.2rem] laptopScreen:pt-1.5 averageScreen:pb-[0.18rem] averageScreen:pt-1.5 sm:pb-0.5 sm:pt-1 xs:pb-[0.1rem] xs:pt-0.5'
+                }`}
               >
                 <div className="relative text-center  font-bold">
                   <BsPersonExclamation className="hdScreen:text-[2.2rem] semihdScreen:text-[2rem] laptopScreen:text-[1.6rem] averageScreen:text-[1.5rem] mx-auto " />
@@ -303,13 +395,17 @@ export default function AdminNavbar() {
                 </div>
               </li>
               <li
-                onClick={tab6}
+                onClick={tab5}
                 className={`cursor-pointer border-b-2 border-black/5 ${
-                  tabHighlight == 6
+                  tabHighlight == 5
                     ? 'bg-white/[75%] text-yellow-700'
                     : 'hover:bg-black/30 text-white transition duration-300'
                 }
-                ${sidebarMode == 'Minimized' ? 'pb-2.5 pt-2' : 'hdScreen:pb-1 hdScreen:pt-3 semihdScreen:pb-1 semihdScreen:pt-3 laptopScreen:pb-0.8 laptopScreen:pt-1.5 averageScreen:pb-0.7 averageScreen:pt-1.4'}`}
+                ${
+                  sidebarMode == 'Minimized'
+                    ? 'pb-2.5 pt-2'
+                    : 'hdScreen:pb-1 hdScreen:pt-3 semihdScreen:pb-1 semihdScreen:pt-3 laptopScreen:pb-[0.2rem] laptopScreen:pt-1.5 averageScreen:pb-[0.18rem] averageScreen:pt-1.5 sm:pb-0.5 sm:pt-1 xs:pb-[0.1rem] xs:pt-0.5'
+                }`}
               >
                 <div className="relative text-center  font-bold">
                   <BsQuestionCircle className="hdScreen:text-[2.2rem] semihdScreen:text-[2rem] laptopScreen:text-[1.6rem] averageScreen:text-[1.5rem] mx-auto " />
@@ -325,7 +421,9 @@ export default function AdminNavbar() {
               <li
                 onClick={logout}
                 className={`cursor-pointer border-b-2 border-black/5 hover:bg-black/30 text-white transition duration-300 ${
-                  sidebarMode == 'Minimized' ? 'pb-2.5 pt-2' : 'hdScreen:pb-1 hdScreen:pt-3 semihdScreen:pb-1 semihdScreen:pt-3 laptopScreen:pb-0.8 laptopScreen:pt-1.5 averageScreen:pb-0.7 averageScreen:pt-1.4'
+                  sidebarMode == 'Minimized'
+                    ? 'pb-2.5 pt-2'
+                    : 'hdScreen:pb-1 hdScreen:pt-3 semihdScreen:pb-1 semihdScreen:pt-3 laptopScreen:pb-[0.2rem] laptopScreen:pt-1.5 averageScreen:pb-[0.18rem] averageScreen:pt-1.5 sm:pb-0.5 sm:pt-1 xs:pb-[0.1rem] xs:pt-0.5'
                 }
                 `}
               >
@@ -351,7 +449,7 @@ export default function AdminNavbar() {
             >
               <div
                 className={`relative text-center font-bold transition duration-200 ${
-                  sidebarMode == 'Minimized' ? 'Screen-x-[-1]' : ''
+                  sidebarMode == 'Minimized' ? 'scale-x-[-1]' : ''
                 }`}
               >
                 <TfiShiftLeft className="hdScreen:text-[2.2rem] semihdScreen:text-[2rem] laptopScreen:text-[1.6rem] averageScreen:text-[1.5rem] mx-auto " />

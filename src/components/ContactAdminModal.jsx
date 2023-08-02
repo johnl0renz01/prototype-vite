@@ -23,17 +23,19 @@ const ContactAdminModal = ({ visible, onClose, onContinue }) => {
 
   //window.localStorage.setItem("");
 
-  const onSubmit = (values, actions) => {
-    console.log('SUBMITTED');
+  const onSubmit = async (values, actions) => {
+    var email = JSON.parse(window.localStorage.getItem('SESSION_EMAIL'));
+    var role = JSON.parse(window.localStorage.getItem('ACCOUNT_TYPE'));
     axios
       .post(
-        'http://localhost:80/Prototype-Vite/my-project/api/addSection/save',
+        `http://localhost:80/Prototype-Vite/my-project/api/requestSend/${email}@${role}`,
         values
       )
       .then(function (response) {
-        console.log(response.data);
+        handleReset();
+        onContinue();
       });
-    //await new Promise((resolve) => setTimeout(resolve, 1));
+    await new Promise(resolve => setTimeout(resolve, 1));
   };
 
   const {
@@ -54,28 +56,15 @@ const ContactAdminModal = ({ visible, onClose, onContinue }) => {
     onSubmit,
   });
 
-  const [navbarWidth, setNavbarWidth] = useState(0);
-  const [logoHeight, setLogoHeight] = useState(0);
-
-  useEffect(() => {
-    window.addEventListener('resize', setWidth);
-    setWidth();
-  });
-
-  function setWidth() {
-    var width = window.localStorage.getItem('NAVBAR_TEACHER_WIDTH');
-    setNavbarWidth(width);
-
-    // Logo height
-    var height = window.localStorage.getItem('NAVBAR_TEACHER_LOGO');
-    setLogoHeight(height);
-  }
-
   const handleOnClose = e => {
     if (e.target.id === 'mainContainer') onClose();
   };
 
   if (!visible) return null;
+
+  const sendMessage = () => {
+    var email = JSON.parse(window.localStorage.getItem('SESSION_EMAIL'));
+  };
 
   return (
     <>
@@ -86,7 +75,7 @@ const ContactAdminModal = ({ visible, onClose, onContinue }) => {
         `}
       >
         <div className="bg-white hdScreen:w-1/3 rounded lg:text-lg xs:text-xs shadow-md ">
-          <div className="grid grid-cols-2 bg-gray-300 border-b-2 border-gray-300">
+          <div className="grid grid-cols-2 bg-gray-300 ">
             <span className="lg:text-xl xs:text-lg ml-2 mt-0.5 text-black/60 font-semibold">
               {' '}
               Contact Admin{' '}
@@ -104,8 +93,8 @@ const ContactAdminModal = ({ visible, onClose, onContinue }) => {
             <form
               action=""
               className="overflow-hidden "
-              autocomplete="off"
-              onSubmit={onSubmit}
+              autoComplete="off"
+              onSubmit={handleSubmit}
             >
               <div className=" lg:text-lg xs:text-xs relative lg:py-4 lg:pb-10 xs:pb-5 lg:px-8 xs:px-2 ">
                 <div className="inline-flex w-full mt-1">
@@ -158,20 +147,21 @@ const ContactAdminModal = ({ visible, onClose, onContinue }) => {
                 <button
                   type="button"
                   onClick={handleReset}
-                  className={`relative px-10 py-1.5  rounded-full font-semibold  transition duration-300 text-white bg-red-600 hover:bg-red-700 `}
+                  className={`relative px-10  h-9 w-28 tracking-wide rounded-lg font-semibold  transition duration-300 text-white bg-red-600 hover:bg-red-700 `}
                 >
-                  <span className="font-normal lg:text-base xs:text-xs flex justify-center">
+                  <span className="font-normal lg:text-lg xs:text-xs flex justify-center">
                     Clear
                   </span>
                 </button>
                 <button
-                  onClick={onContinue}
                   type="submit"
-                  className="relative ml-6 py-1.5 pl-8 pr-6 mr-1.5  rounded-full font-semibold  transition duration-300 text-white bg-lime-600 hover:bg-lime-700"
+                  disabled={isSubmitting}
+                  onClick={onSubmit}
+                  className="relative ml-6  pl-8 pr-6 mr-1.5 h-9 w-28 rounded-lg font-semibold  transition duration-300 text-white bg-lime-600 hover:bg-lime-700"
                 >
-                  <span className="font-normal  lg:text-base xs:text-xs flex justify-center">
+                  <span className="font-normal  lg:text-lg xs:text-xs flex justify-center">
                     Send
-                    <BsFillSendFill className="ml-1.5 mt-1.5 lg:text-sm xs:text-xs" />
+                    <BsFillSendFill className="ml-1.5 mt-1.5 " />
                   </span>
                 </button>
               </div>

@@ -31,6 +31,23 @@ switch($requestLink) {
         include('loginStudent.php');
     break;
 
+    case "/Prototype-Vite/my-project/api/loginSession":
+        include('loginSession.php');
+    break;
+
+    case "/Prototype-Vite/my-project/api/getSessionEmail":
+        include('getSessionEmail.php');
+    break;
+
+    case "/Prototype-Vite/my-project/api/getSessionLogged":
+        include('getSessionLogged.php');
+    break;
+
+    //LOGOUT
+    case "/Prototype-Vite/my-project/api/logout":
+        include('logout.php');
+    break;
+
     //===========STUDENT=============
      //FOR SELECT DIFFICULTY
      case "/Prototype-Vite/my-project/api/selectDifficulty":
@@ -62,7 +79,7 @@ switch($requestLink) {
         include('verifyEmail.php');
     break;
 
-    //FOR SECTION
+    //FOR MANAGE SECTION
     case "/Prototype-Vite/my-project/api/sectionTotal":
         include('sectionTotal.php');
         break;
@@ -106,6 +123,15 @@ switch($requestLink) {
         include('sectionNamev2.php');
         break;
 
+    case "/Prototype-Vite/my-project/api/getAssignedStudent":
+        include('getAssignedStudent.php');
+        break;
+
+    case "/Prototype-Vite/my-project/api/getAssignedTeacher":
+        include('getAssignedTeacher.php');
+        break;
+
+
 
     //FOR CLASS LIST
     case "/Prototype-Vite/my-project/api/classList":
@@ -127,6 +153,8 @@ switch($requestLink) {
     case "/Prototype-Vite/my-project/api/editAccountPassword":
         include('editAccountPassword.php');
     break;
+
+    //EQUATIONS
     case "/Prototype-Vite/my-project/api/removeEquation":
         include('removeEquation.php');
     break;
@@ -139,6 +167,23 @@ switch($requestLink) {
     case "/Prototype-Vite/my-project/api/getEquationList":
         include('getEquationList.php');
     break;
+    case "/Prototype-Vite/my-project/api/equationsEasy":
+        include('equationsEasy.php');
+    break;
+    case "/Prototype-Vite/my-project/api/equationsAverage":
+        include('equationsAverage.php');
+    break;
+    case "/Prototype-Vite/my-project/api/equationsDifficult":
+        include('equationsDifficult.php');
+    break;
+
+    case "/Prototype-Vite/my-project/api/editEquationType":
+        include('editEquationType.php');
+    break;
+
+
+    ////
+
 
     case "/Prototype-Vite/my-project/api/getAccountSection":
         include('getAccountSection.php');
@@ -170,6 +215,45 @@ switch($requestLink) {
 
     case "/Prototype-Vite/my-project/api/accountDetails":
         include('accountDetails.php');
+    break;
+
+    case "/Prototype-Vite/my-project/api/accountType":
+        include('accountType.php');
+    break;
+
+    case "/Prototype-Vite/my-project/api/getSectionAssigned":
+        include('getSectionAssigned.php');
+    break;
+
+    case "/Prototype-Vite/my-project/api/removeAccount":
+        include('removeAccount.php');
+    break;
+
+
+    //CONTACT ADMIN
+    case "/Prototype-Vite/my-project/api/requestSend":
+        include('requestSend.php');
+    break;
+
+    //USER REQUESTS
+    case "/Prototype-Vite/my-project/api/requestList":
+        include('requestList.php');
+    break;
+
+    case "/Prototype-Vite/my-project/api/requestDetails":
+        include('requestDetails.php');
+    break;
+
+    case "/Prototype-Vite/my-project/api/requestSolved":
+        include('requestSolved.php');
+    break;
+
+    case "/Prototype-Vite/my-project/api/requestTotal":
+        include('requestTotal.php');
+    break;
+
+    case "/Prototype-Vite/my-project/api/requestStatus":
+        include('requestStatus.php');
     break;
 }
 

@@ -15,29 +15,41 @@ function Registration() {
   document.body.style.height = '100vh';
   const navigate = useNavigate();
 
-  const [pageList, setPageList] = useState([]);
-  const [pageLink, setPageLink] = useState([]);
-
   useEffect(() => {
-    setPage();
-    window.addEventListener('focus', setPage);
-    function setPage() {
-      let page = ['Home', 'Registration'];
-      let link = ['/AdminHomepage', '/Registration'];
-      setPageList(page);
-      setPageLink(link);
-      window.localStorage.setItem('NAVBAR_PAGE', JSON.stringify(pageList));
-      window.localStorage.setItem('NAVBAR_PAGE_LINK', JSON.stringify(pageLink));
+    setTabIndex();
+
+    window.addEventListener('focus', setTabIndex);
+    function setTabIndex() {
+      window.localStorage.setItem('CURRENT_TAB_INDEX', 3);
     }
   }, []);
 
   useEffect(() => {
-    window.localStorage.setItem('NAVBAR_PAGE', JSON.stringify(pageList));
-  }, [pageList]);
+    var logged = JSON.parse(window.localStorage.getItem('LOGGED'));
+    if (logged == 'FALSE') {
+      navigate('/LoginPage');
+    } else {
+      var closed = JSON.parse(window.localStorage.getItem('IS_CLOSED'));
+      if (closed) {
+        var unique = JSON.parse(window.localStorage.getItem('UNIQUE_ID'));
+        axios
+          .post(
+            `http://localhost:80/Prototype-Vite/my-project/api/logout/${unique}`
+          )
+          .then(function (response) {
+            window.localStorage.setItem('LOGGED', JSON.stringify('FALSE'));
+            navigate('/LoginPage');
+          });
+      }
+    }
 
-  useEffect(() => {
-    window.localStorage.setItem('NAVBAR_PAGE_LINK', JSON.stringify(pageLink));
-  }, [pageLink]);
+    var account = JSON.parse(window.localStorage.getItem('ACCOUNT_TYPE'));
+    if (account == 'Teacher') {
+      navigate('/HomePageTeacher');
+    } else if (account == 'Student') {
+      navigate('/Homepage');
+    }
+  });
 
   //END END END END END END END END END END END END
 
@@ -54,7 +66,7 @@ function Registration() {
 
   useEffect(() => {
     getSections();
-    setEmail('@sanfrancisco.edu.ph');
+    setEmail('@sf.edu.ph');
   }, []);
 
   const onSubmit = async (values, actions) => {
@@ -76,7 +88,7 @@ function Registration() {
             values.lastName = '';
             values.email = '';
             values.password = 'default';
-            setEmail('@sanfrancisco.edu.ph');
+            setEmail('@sf.edu.ph');
             setFirstName('');
             setLastName('');
 
@@ -164,15 +176,15 @@ function Registration() {
     fName = emailValue;
 
     if (lastName != '') {
-      setEmail(lastName + '.' + emailValue + '@sanfrancisco.edu.ph');
-      tempEmail = lastName + '.' + emailValue + '@sanfrancisco.edu.ph';
+      setEmail(lastName + '.' + emailValue + '@sf.edu.ph');
+      tempEmail = lastName + '.' + emailValue + '@sf.edu.ph';
     } else {
       if (firstName === '') {
-        setEmail('@sanfrancisco.edu.ph');
+        setEmail('@sf.edu.ph');
         tempEmail = '';
       } else {
-        setEmail(emailValue + '@sanfrancisco.edu.ph');
-        tempEmail = emailValue + '@sanfrancisco.edu.ph';
+        setEmail(emailValue + '@sf.edu.ph');
+        tempEmail = emailValue + '@sf.edu.ph';
       }
     }
 
@@ -214,15 +226,15 @@ function Registration() {
     lName = emailValue;
 
     if (firstName != '') {
-      setEmail(emailValue + '.' + firstName + '@sanfrancisco.edu.ph');
-      tempEmail = emailValue + '.' + firstName + '@sanfrancisco.edu.ph';
+      setEmail(emailValue + '.' + firstName + '@sf.edu.ph');
+      tempEmail = emailValue + '.' + firstName + '@sf.edu.ph';
     } else {
       if (lastName === '') {
-        setEmail('@sanfrancisco.edu.ph');
+        setEmail('@sf.edu.ph');
         tempEmail = '';
       } else {
-        setEmail(emailValue + '@sanfrancisco.edu.ph');
-        tempEmail = emailValue + '@sanfrancisco.edu.ph';
+        setEmail(emailValue + '@sf.edu.ph');
+        tempEmail = emailValue + '@sf.edu.ph';
       }
     }
 
@@ -304,21 +316,21 @@ function Registration() {
 
   function setWidthDelay() {
     setTimeout(function () {
-      var width = window.localStorage.getItem('NAVBAR_ADMIN_WIDTH');
+      var width = window.sessionStorage.getItem('NAVBAR_ADMIN_WIDTH');
       setNavbarWidth(width);
 
       // Logo height
-      var height = window.localStorage.getItem('NAVBAR_ADMIN_LOGO');
+      var height = window.sessionStorage.getItem('NAVBAR_ADMIN_LOGO');
       setLogoHeight(height);
     }, 1);
   }
 
   function setWidth() {
-    var width = window.localStorage.getItem('NAVBAR_ADMIN_WIDTH');
+    var width = window.sessionStorage.getItem('NAVBAR_ADMIN_WIDTH');
     setNavbarWidth(width);
 
     // Logo height
-    var height = window.localStorage.getItem('NAVBAR_ADMIN_LOGO');
+    var height = window.sessionStorage.getItem('NAVBAR_ADMIN_LOGO');
     setLogoHeight(height);
   }
 
@@ -338,7 +350,7 @@ function Registration() {
     values.role = '';
     values.password = 'default';
 
-    setEmail('@sanfrancisco.edu.ph');
+    setEmail('@sf.edu.ph');
     setFirstName('');
     setLastName('');
     setDuplicateState(false);
@@ -434,7 +446,7 @@ function Registration() {
             <div className="flex mt-[0.7rem] lg:text-lg xs:text-xs px-2">
               <button
                 onClick={typeSingle}
-                className={` lg:px-2 xs:px-1 rounded-lg lg:w-24 hover:bg-gray-400 transition duration-200 ${
+                className={` lg:px-2 xs:px-1 rounded-lg lg:w-24  transition duration-200 ${
                   registerType == 'Single'
                     ? 'bg-gray-500 text-white font-semibold'
                     : 'bg-gray-300 hover:bg-gray-400 text-gray-600 hover:text-gray-900'
@@ -444,7 +456,7 @@ function Registration() {
               </button>
               <button
                 onClick={typeBulk}
-                className={` ml-4 lg:px-2 xs:px-1 rounded-lg lg:w-24 hover:bg-gray-400 transition duration-200 ${
+                className={` ml-4 lg:px-2 xs:px-1 rounded-lg lg:w-24  transition duration-200 ${
                   registerType == 'Bulk'
                     ? 'bg-gray-500 text-white font-semibold'
                     : 'bg-gray-300 hover:bg-gray-400 text-gray-600 hover:text-gray-900'
@@ -723,7 +735,7 @@ function Registration() {
                         onChange={handleChange}
                         name="gradeLevel"
                         id="gradeLevel"
-                        className="py-2 lg:px-2 border-2 w-32  focus:border-none rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 shadow-sm shadow-[#808080]"
+                        className="py-2 lg:px-2 border-2 focus:border-none rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 shadow-sm shadow-[#808080]"
                       >
                         <option className="" defaultValue={values.gradeLevel}>
                           Grade 7
@@ -745,7 +757,7 @@ function Registration() {
                         value={values.section}
                         onChange={handleChange}
                         name="section"
-                        className="py-2 lg:px-2 border-2 w-32 focus:border-none rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 shadow-sm shadow-[#808080] "
+                        className="py-2 lg:px-2 border-2 focus:border-none rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 shadow-sm shadow-[#808080] "
                       >
                         {sectionData.map((section, index) => (
                           <option key={index} className="">

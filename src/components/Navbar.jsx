@@ -28,9 +28,13 @@ function Navbar() {
 
   //SET HOMEPAGE AS FIRST LINK
   useEffect(() => {
+    var navbar = JSON.parse(window.localStorage.getItem('NAVBAR_PAGE'));
+    console.log(navbar);
     if (
-      window.localStorage.getItem('NAVBAR_PAGE') === null ||
-      window.localStorage.getItem('NAVBAR_PAGE') == []
+      navbar === null ||
+      navbar === undefined ||
+      navbar == [] ||
+      navbar == '[]'
     ) {
       Initiation.initiatePage();
     }
@@ -46,30 +50,30 @@ function Navbar() {
   // ADDED ARRAY NAME INSIDE use effect, empty array means run only once
   useEffect(() => {
     const data = window.localStorage.getItem('NAVBAR_PAGE');
-    setPageList(JSON.parse(data));
+    if (data !== null) setPageList(JSON.parse(data));
     // UPDATE DATA ON BODY HOVER
     document.body.addEventListener('mouseover', updateData);
   }, []);
 
   useEffect(() => {
     const data = window.localStorage.getItem('NAVBAR_PAGE_LINK');
-    setPageLink(JSON.parse(data));
+    if (data !== null) setPageLink(JSON.parse(data));
   }, []);
 
   useEffect(() => {
     const data = window.localStorage.getItem('SESSION_USER');
-    setCurrentUser(JSON.parse(data));
+    if (data !== null) setCurrentUser(JSON.parse(data));
   }, []);
 
   // UPDATE DATA ON HOVER asdasd
   function updateData() {
     const page = window.localStorage.getItem('NAVBAR_PAGE');
-    setPageList(JSON.parse(page));
+    if (page !== null) setPageList(JSON.parse(page));
     const link = window.localStorage.getItem('NAVBAR_PAGE_LINK');
-    setPageLink(JSON.parse(link));
+    if (link !== null) setPageLink(JSON.parse(link));
     var user = window.localStorage.getItem('SESSION_USER');
 
-    setCurrentUser(JSON.parse(user));
+    if (user !== null) setCurrentUser(JSON.parse(user));
   }
 
   const Login = () => {
@@ -113,6 +117,29 @@ function Navbar() {
     }
   };
 
+  const [accType, setAccType] = useState('');
+  useEffect(() => {
+    var account = JSON.parse(window.localStorage.getItem('ACCOUNT_TYPE'));
+    if (account === null) account = '';
+    setAccType(account);
+
+    var logged = JSON.parse(window.localStorage.getItem('LOGGED'));
+    if (logged === null) logged = '';
+    if (logged !== null) {
+      if (logged == 'TRUE') {
+        if (account == 'Student') {
+          setLogoutState(false);
+        } else {
+          setLogoutState(true);
+        }
+      } else {
+        setLogoutState(true);
+      }
+    }
+  });
+
+  const [logoutState, setLogoutState] = useState(false);
+
   const signOut = () => {
     if (
       window.localStorage.getItem('SESSION_ID') != '""' &&
@@ -122,6 +149,19 @@ function Navbar() {
     } else {
       window.localStorage.setItem('SESSION_USER', JSON.stringify(''));
       window.localStorage.setItem('SESSION_EMAIL', JSON.stringify(''));
+      setLogoutState(true);
+      var unique = JSON.parse(window.localStorage.getItem('UNIQUE_ID'));
+      if (unique === null) unique = '';
+      axios
+        .post(
+          `http://localhost:80/Prototype-Vite/my-project/api/logout/${unique}`
+        )
+        .then(function (response) {
+          window.localStorage.setItem('LOGGED', JSON.stringify('FALSE'));
+          navigate('/LoginPage');
+          document.body.style.backgroundImage =
+            'linear-gradient(to top, #bef264, #d9f99d , #ccf779)';
+        });
       navigate('/LoginPage');
     }
   };
@@ -139,14 +179,20 @@ function Navbar() {
     window.localStorage.setItem('SESSION_USER', JSON.stringify(''));
     window.localStorage.setItem('SESSION_EMAIL', JSON.stringify(''));
     window.localStorage.setItem('SESSION_ID', JSON.stringify(''));
-    navigate('/LoginPage');
+    setLogoutState(true);
+    var unique = JSON.parse(window.localStorage.getItem('UNIQUE_ID'));
+    if (unique === null) unique = '';
+    axios
+      .post(
+        `http://localhost:80/Prototype-Vite/my-project/api/logout/${unique}`
+      )
+      .then(function (response) {
+        window.localStorage.setItem('LOGGED', JSON.stringify('FALSE'));
+        navigate('/LoginPage');
+        document.body.style.backgroundImage =
+          'linear-gradient(to top, #bef264, #d9f99d , #ccf779)';
+      });
   };
-
-  const [accType, setAccType] = useState('');
-  useEffect(() => {
-    var account = JSON.parse(window.localStorage.getItem('ACCOUNT_TYPE'));
-    setAccType(account);
-  });
 
   return (
     <>
@@ -155,7 +201,7 @@ function Navbar() {
         onMouseEnter={() => updateData()}
         className={`sticky top-0 z-50 pt-1 visible lg:h-12  md:h-12 sm:h-10 xs:h-10 w-full  grid-cols-3 bg-white py-0.5 shadow-md shadow-lime-500/80 ${
           accType == 'Student' ? 'grid' : 'hidden'
-        }`}
+        } ${logoutState == true ? 'hidden' : ''}`}
       >
         <div className=" p-1 pl-2 overflow-hidden font-sans ">
           {pageLink.map((page, index) =>

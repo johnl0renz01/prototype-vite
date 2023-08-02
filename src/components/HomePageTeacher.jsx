@@ -83,6 +83,42 @@ import Registration from './Registration';
 export default function HomePageTeacher() {
   const navigate = useNavigate();
 
+  useEffect(() => {
+    setTabIndex();
+
+    window.addEventListener('focus', setTabIndex);
+    function setTabIndex() {
+      window.localStorage.setItem('CURRENT_TAB_INDEX', 0);
+    }
+  }, []);
+
+  useEffect(() => {
+    var logged = JSON.parse(window.localStorage.getItem('LOGGED'));
+    if (logged == 'FALSE') {
+      navigate('/LoginPage');
+    } else {
+      var closed = JSON.parse(window.localStorage.getItem('IS_CLOSED'));
+      if (closed) {
+        var unique = JSON.parse(window.localStorage.getItem('UNIQUE_ID'));
+        axios
+          .post(
+            `http://localhost:80/Prototype-Vite/my-project/api/logout/${unique}`
+          )
+          .then(function (response) {
+            window.localStorage.setItem('LOGGED', JSON.stringify('FALSE'));
+            navigate('/LoginPage');
+          });
+      }
+    }
+
+    var account = JSON.parse(window.localStorage.getItem('ACCOUNT_TYPE'));
+    if (account == 'Admin') {
+      navigate('/HomePageAdmin');
+    } else if (account == 'Student') {
+      navigate('/Homepage');
+    }
+  });
+
   const [accessReportCard, setAccessReportCard] = useState(false);
 
   const [navbarWidth, setNavbarWidth] = useState(0);
@@ -103,21 +139,21 @@ export default function HomePageTeacher() {
 
   function setWidthDelay() {
     setTimeout(function () {
-      var width = window.localStorage.getItem('NAVBAR_TEACHER_WIDTH');
+      var width = window.sessionStorage.getItem('NAVBAR_TEACHER_WIDTH');
       setNavbarWidth(width);
 
       // Logo height
-      var height = window.localStorage.getItem('NAVBAR_TEACHER_LOGO');
+      var height = window.sessionStorage.getItem('NAVBAR_TEACHER_LOGO');
       setLogoHeight(height);
     }, 1);
   }
 
   function setWidth() {
-    var width = window.localStorage.getItem('NAVBAR_TEACHER_WIDTH');
+    var width = window.sessionStorage.getItem('NAVBAR_TEACHER_WIDTH');
     setNavbarWidth(width);
 
     // Logo height
-    var height = window.localStorage.getItem('NAVBAR_TEACHER_LOGO');
+    var height = window.sessionStorage.getItem('NAVBAR_TEACHER_LOGO');
     setLogoHeight(height);
   }
 

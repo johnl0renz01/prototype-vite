@@ -13,42 +13,67 @@ import ChangeSectionModal from './ChangeSectionModal';
 export default function ClassList() {
   const navigate = useNavigate();
 
-  //FOR LINKS/NAVBAR/BREADCRUMBS
-  const [pageList, setPageList] = useState([]);
-  const [pageLink, setPageLink] = useState([]);
-
   useEffect(() => {
-    const data = window.localStorage.getItem('CURRENT_SECTION');
-    if (data === null) navigate('/HomePageTeacher');
+    setTabIndex();
 
-    setPage();
-
-    window.addEventListener('focus', setPage);
-    function setPage() {
-      let page = ['Home', 'Section List', 'Class List'];
-      let link = ['/AdminHomepage', '/SectionList', '/ClassList'];
-      setPageList(page);
-      setPageLink(link);
-      window.localStorage.setItem('NAVBAR_PAGE', JSON.stringify(pageList));
-      window.localStorage.setItem('NAVBAR_PAGE_LINK', JSON.stringify(pageLink));
+    window.addEventListener('focus', setTabIndex);
+    function setTabIndex() {
+      window.localStorage.setItem('CURRENT_TAB_INDEX', 1);
     }
   }, []);
 
   useEffect(() => {
-    window.localStorage.setItem('NAVBAR_PAGE', JSON.stringify(pageList));
-  }, [pageList]);
+    var logged = JSON.parse(window.localStorage.getItem('LOGGED'));
+    if (logged == 'FALSE') {
+      navigate('/LoginPage');
+    } else {
+      var closed = JSON.parse(window.localStorage.getItem('IS_CLOSED'));
+      if (closed) {
+        var unique = JSON.parse(window.localStorage.getItem('UNIQUE_ID'));
+        axios
+          .post(
+            `http://localhost:80/Prototype-Vite/my-project/api/logout/${unique}`
+          )
+          .then(function (response) {
+            window.localStorage.setItem('LOGGED', JSON.stringify('FALSE'));
+            navigate('/LoginPage');
+          });
+      }
+    }
 
-  useEffect(() => {
-    window.localStorage.setItem('NAVBAR_PAGE_LINK', JSON.stringify(pageLink));
-  }, [pageLink]);
+    var account = JSON.parse(window.localStorage.getItem('ACCOUNT_TYPE'));
+    if (account == 'Admin') {
+      navigate('/HomePageAdmin');
+    } else if (account == 'Student') {
+      navigate('/Homepage');
+    }
+  });
 
   var currentSection = '';
 
   useEffect(() => {
-    const data = window.localStorage.getItem('CURRENT_SECTION');
-    currentSection = JSON.parse(data);
-    currentSection = currentSection.replace(/ /g, '_');
-  });
+    var data = window.localStorage.getItem('CURRENT_SECTION');
+    if (data === null) {
+      navigate('/HomePageTeacher');
+    } else {
+      var data2 = window.sessionStorage.getItem('CURRENT_SECTION');
+      console.log(data2);
+      if (data2 === null) {
+        data = data.replace(/"/g, '');
+        window.sessionStorage.setItem('CURRENT_SECTION', JSON.stringify(data));
+        currentSection = data;
+        currentSection = currentSection.replace(/ /g, '_');
+        getClassList();
+        getCurrentSection();
+      } else {
+        data2 = data2.replace(/"/g, '');
+        currentSection = data2;
+        currentSection = currentSection.replace(/ /g, '_');
+        getClassList();
+        getCurrentSection();
+      }
+    }
+  }, []);
 
   const [classList, setClassList] = useState([]);
   const [sectionList, setCurrentSection] = useState([]);
@@ -59,7 +84,7 @@ export default function ClassList() {
         `http://localhost:80/Prototype-Vite/my-project/api/classList/${currentSection}`
       )
       .then(function (response) {
-        console.log(response.data);
+        //console.log(response.data);
         setClassList(response.data);
       });
   }
@@ -70,15 +95,10 @@ export default function ClassList() {
         `http://localhost:80/Prototype-Vite/my-project/api/sectionAdviser/${currentSection}`
       )
       .then(function (response) {
-        console.log(response.data);
+        //console.log(response.data);
         setCurrentSection(response.data);
       });
   }
-
-  useEffect(() => {
-    getClassList();
-    getCurrentSection();
-  }, []);
 
   var inputText = '';
 
@@ -93,7 +113,7 @@ export default function ClassList() {
         inputText
       )
       .then(function (response) {
-        console.log(response.data);
+        //console.log(response.data);
         setClassList(response.data);
       });
   };
@@ -101,7 +121,7 @@ export default function ClassList() {
   var currentAccount = '';
 
   const setCurrentAccount = () => {
-    window.localStorage.setItem(
+    window.sessionStorage.setItem(
       'CURRENT_EMAIL',
       JSON.stringify(currentAccount)
     );
@@ -112,8 +132,8 @@ export default function ClassList() {
         break;
       }
     }
-    console.log(currentAccount);
-    window.localStorage.setItem(
+    //console.log(currentAccount);
+    window.sessionStorage.setItem(
       'CURRENT_ACCOUNT',
       JSON.stringify(currentAccount)
     );
@@ -142,21 +162,21 @@ export default function ClassList() {
 
   function setWidthDelay() {
     setTimeout(function () {
-      var width = window.localStorage.getItem('NAVBAR_TEACHER_WIDTH');
+      var width = window.sessionStorage.getItem('NAVBAR_TEACHER_WIDTH');
       setNavbarWidth(width);
 
       // Logo height
-      var height = window.localStorage.getItem('NAVBAR_TEACHER_LOGO');
+      var height = window.sessionStorage.getItem('NAVBAR_TEACHER_LOGO');
       setLogoHeight(height);
     }, 1);
   }
 
   function setWidth() {
-    var width = window.localStorage.getItem('NAVBAR_TEACHER_WIDTH');
+    var width = window.sessionStorage.getItem('NAVBAR_TEACHER_WIDTH');
     setNavbarWidth(width);
 
     // Logo height
-    var height = window.localStorage.getItem('NAVBAR_TEACHER_LOGO');
+    var height = window.sessionStorage.getItem('NAVBAR_TEACHER_LOGO');
     setLogoHeight(height);
   }
 
@@ -169,15 +189,18 @@ export default function ClassList() {
     }
   };
 
-  // MODAL EDIT
+  // MODAL CHANGE SECTION
   const [showModal, setShowModal] = useState(false);
   const handleOnCloseModal = () => setShowModal(false);
 
-  const [choiceModal, setChoiceModal] = useState(false);
-
   const handleOnContinueModal = () => {
-    setChoiceModal(true);
     setShowModal(false);
+    const data = window.sessionStorage.getItem('CURRENT_SECTION');
+    if (data !== null) currentSection = JSON.parse(data);
+    currentSection = currentSection.replace(/ /g, '_');
+
+    getClassList();
+    getCurrentSection();
   };
 
   const changeSection = () => {
@@ -212,8 +235,10 @@ export default function ClassList() {
             }`}
           >
             <span className="">
-              {sectionList.map(section => (
-                <>{`${section.GradeLevel} - ${section.SectionName}`}</>
+              {sectionList.map((section, key) => (
+                <span
+                  key={key}
+                >{`${section.GradeLevel} - ${section.SectionName}`}</span>
               ))}
             </span>
           </div>
@@ -324,7 +349,7 @@ export default function ClassList() {
                         {classList.map((account, key) => (
                           <tr
                             key={key}
-                            className="border-b border-gray-200 bg-white hover:bg-gray-100 text-gray-900 hover:text-indigo-600"
+                            className="odd:bg-white even:bg-slate-50/30 border-b border-gray-200 bg-white hover:bg-gray-100 text-gray-900 hover:text-indigo-600"
                           >
                             <td className="flex items-center md:text-base xs:text-xs pl-5 py-[10px]  whitespace-no-wrap">
                               <div className="flex-shrink-0 w-10 h-10 mr-3">

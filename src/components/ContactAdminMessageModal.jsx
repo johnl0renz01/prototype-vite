@@ -1,0 +1,65 @@
+import React, { Component } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useEffect, useState, useCallback } from 'react';
+import axios from 'axios';
+import * as ReactDOM from 'react-dom';
+import $ from 'jquery';
+
+import { Formik, useFormik } from 'formik';
+import { editAccountSchema } from '../schemas';
+import { editSectionSchema } from '../schemas';
+import { contactAdminSchema } from '../schemas';
+
+import { VscCheckAll, VscPassFilled } from 'react-icons/vsc';
+
+import { BsSlashCircle } from 'react-icons/bs';
+import { BsFillSendFill } from 'react-icons/bs';
+
+import { MdClose } from 'react-icons/md';
+import { VscInfo } from 'react-icons/vsc';
+
+const ContactAdminMessageModal = ({ visible, onClose, onContinue }) => {
+  const handleOnClose = e => {
+    if (e.target.id === 'mainContainer') onClose();
+    //window.location.reload(false);
+  };
+
+  if (!visible) return null;
+
+  return (
+    <>
+      <div
+        id="mainContainer"
+        onClick={handleOnClose}
+        className="fixed top-0 inset-0 z-50 bg-black bg-opacity-50 backdrop-blur-[1.5px] flex justify-center items-center "
+      >
+        <div className="bg-white  rounded text-lg  ">
+          <div className="grid grid-cols-2 bg-gray-400 ">
+            <VscInfo className="text-[1.85rem] ml-1 mt-0.5 text-black/60" />
+            <div className="text-right">
+              <button
+                onClick={onClose}
+                className="bg-red-500 p-2 inline-block hover:bg-red-600 hover:text-white"
+              >
+                <MdClose />
+              </button>
+            </div>
+          </div>
+          <div className="">
+            <div className="p-4 ">The message has been sent successfully.</div>
+            <div className="mx-auto text-center border-t-2 border-gray-300 py-3 ">
+              <button
+                onClick={onClose}
+                className="bg-gray-400/60 h-8 w-20 tracking-wide inline-block rounded-lg hover:bg-gray-400 hover:text-gray-100"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default ContactAdminMessageModal;

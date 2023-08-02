@@ -25,14 +25,14 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
     axios
       .get('http://localhost:80/Prototype-Vite/my-project/api/sectionList/')
       .then(function (response) {
-        console.log(response.data);
+        //console.log(response.data);
         setSectionData(response.data);
       });
   }
 
   useEffect(() => {
     getSections();
-    setEmail('@sanfrancisco.edu.ph');
+    setEmail('@sf.edu.ph');
   }, []);
 
   const [middleName, setMiddleName] = useState('');
@@ -44,16 +44,16 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
 
   useEffect(() => {
     var accountName = JSON.parse(
-      window.localStorage.getItem('CURRENT_ACCOUNT_EDIT')
+      window.sessionStorage.getItem('CURRENT_ACCOUNT_EDIT')
     );
 
     var editState = JSON.parse(
-      window.localStorage.getItem('EDIT_ACCOUNT_STATE')
+      window.sessionStorage.getItem('EDIT_ACCOUNT_STATE')
     );
-    console.log(editState);
+    //console.log(editState);
 
     if (editState == true) {
-      window.localStorage.setItem('EDIT_ACCOUNT_STATE', false);
+      window.sessionStorage.setItem('EDIT_ACCOUNT_STATE', false);
       getAccountDetails(accountName);
       //loadValues();
     }
@@ -62,20 +62,20 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
   function getAccountDetails(accountName) {
     let accountLink = accountName.replace(/ /g, '_');
     accountLink = accountName.replace(/"/g, ' ');
-    console.log('ACCOUNT LINK', accountLink);
+    //console.log('ACCOUNT LINK', accountLink);
 
     axios
       .get(
         `http://localhost:80/Prototype-Vite/my-project/api/accountDetails/${accountLink}`
       )
       .then(function (response) {
-        console.log(response.data);
+        //console.log(response.data);
         var result = Object.values(response.data);
 
         var keys = [];
         for (var k in result[0]) keys.push(result[0][k]);
 
-        window.localStorage.setItem(
+        window.sessionStorage.setItem(
           'EDIT_ACCOUNT_NAME',
           JSON.stringify(keys[10])
         );
@@ -115,7 +115,7 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
   }
 
   const onSubmit = async (values, actions) => {
-    console.log('SUBMITTED');
+    //console.log('SUBMITTED');
     if (!values.isDuplicate) {
       axios
         .post(
@@ -123,16 +123,13 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
           values
         )
         .then(function (response) {
-          console.log(response.data);
+          //console.log(response.data);
           //window.location.reload(false);
+          //window.localStorage.setItem('SESSION_EMAIL',JSON.stringify(values.email));
+          onContinue();
         });
-      window.localStorage.setItem(
-        'SESSION_EMAIL',
-        JSON.stringify(values.email)
-      );
+
       await new Promise(resolve => setTimeout(resolve, 1));
-      window.alert('Changes have been applied successfully.');
-      window.location.reload(false);
     }
   };
 
@@ -167,7 +164,7 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
   };
 
   function loadValues() {
-    console.log('ASDJASDJAS');
+    //console.log('ASDJASDJAS');
 
     values.firstName = firstName;
     values.middleName = middleName;
@@ -178,28 +175,8 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
     values.gradeLevel = gradeLevel;
     values.email = email;
 
-    console.log(values.gradeLevel);
-    console.log(values.groupType);
-  }
-
-  const [navbarWidth, setNavbarWidth] = useState(0);
-  const [logoHeight, setLogoHeight] = useState(0);
-
-  useEffect(() => {
-    document.body.style.backgroundImage =
-      'linear-gradient(to top, #e2e2e2, #f1f1f1 , #ffffff)';
-
-    window.addEventListener('resize', setWidth);
-    setWidth();
-  });
-
-  function setWidth() {
-    var width = window.localStorage.getItem('NAVBAR_TEACHER_WIDTH');
-    setNavbarWidth(width);
-
-    // Logo height
-    var height = window.localStorage.getItem('NAVBAR_TEACHER_LOGO');
-    setLogoHeight(height);
+    //console.log(values.gradeLevel);
+    //console.log(values.groupType);
   }
 
   const handleOnClose = e => {
@@ -227,7 +204,7 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
       setTimeout(document.getElementById('age').blur(), 1);
     }
 
-    console.log(values.age);
+    //console.log(values.age);
   }
 
   const [birthday, setBirthday] = useState('');
@@ -263,15 +240,15 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
     fName = emailValue;
 
     if (lastName != '') {
-      setEmail(lastName + '.' + emailValue + '@sanfrancisco.edu.ph');
-      tempEmail = lastName + '.' + emailValue + '@sanfrancisco.edu.ph';
+      setEmail(lastName + '.' + emailValue + '@sf.edu.ph');
+      tempEmail = lastName + '.' + emailValue + '@sf.edu.ph';
     } else {
       if (firstName === '') {
-        setEmail('@sanfrancisco.edu.ph');
+        setEmail('@sf.edu.ph');
         tempEmail = '';
       } else {
-        setEmail(emailValue + '@sanfrancisco.edu.ph');
-        tempEmail = emailValue + '@sanfrancisco.edu.ph';
+        setEmail(emailValue + '@sf.edu.ph');
+        tempEmail = emailValue + '@sf.edu.ph';
       }
     }
 
@@ -286,7 +263,7 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
     document.getElementById('firstName').focus();
 
     var currentEmail = JSON.parse(
-      window.localStorage.getItem('EDIT_ACCOUNT_NAME')
+      window.sessionStorage.getItem('EDIT_ACCOUNT_NAME')
     );
     if (tempEmail != currentEmail) {
       axios
@@ -294,7 +271,7 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
           `http://localhost:80/Prototype-Vite/my-project/api/verifyEmail/${tempEmail}`
         )
         .then(function (response) {
-          console.log(response.data);
+          //console.log(response.data);
           if (response.data === 'duplicate') {
             setDuplicateState(true);
             values.isDuplicate = true;
@@ -318,15 +295,15 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
     lName = emailValue;
 
     if (firstName != '') {
-      setEmail(emailValue + '.' + firstName + '@sanfrancisco.edu.ph');
-      tempEmail = emailValue + '.' + firstName + '@sanfrancisco.edu.ph';
+      setEmail(emailValue + '.' + firstName + '@sf.edu.ph');
+      tempEmail = emailValue + '.' + firstName + '@sf.edu.ph';
     } else {
       if (lastName === '') {
-        setEmail('@sanfrancisco.edu.ph');
+        setEmail('@sf.edu.ph');
         tempEmail = '';
       } else {
-        setEmail(emailValue + '@sanfrancisco.edu.ph');
-        tempEmail = emailValue + '@sanfrancisco.edu.ph';
+        setEmail(emailValue + '@sf.edu.ph');
+        tempEmail = emailValue + '@sf.edu.ph';
       }
     }
 
@@ -341,7 +318,7 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
     document.getElementById('lastName').focus();
 
     var currentEmail = JSON.parse(
-      window.localStorage.getItem('EDIT_ACCOUNT_NAME')
+      window.sessionStorage.getItem('EDIT_ACCOUNT_NAME')
     );
     if (tempEmail != currentEmail) {
       axios
@@ -349,7 +326,7 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
           `http://localhost:80/Prototype-Vite/my-project/api/verifyEmail/${tempEmail}`
         )
         .then(function (response) {
-          console.log(response.data);
+          //console.log(response.data);
           if (response.data === 'duplicate') {
             setDuplicateState(true);
             values.isDuplicate = true;
@@ -407,7 +384,7 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
         `}
       >
         <div className="bg-white hdScreen:scale-100 semihdScreen:scale-90 laptopScreen:scale-85 averageScreen:scale-85 rounded lg:text-lg xs:text-xs shadow-md ">
-          <div className="grid grid-cols-2 bg-gray-300 border-b-2 border-gray-300">
+          <div className="grid grid-cols-2 bg-gray-300">
             <span className="lg:text-xl xs:text-lg ml-2 mt-0.5 text-black/60 font-semibold">
               {' '}
               Edit Account{' '}
@@ -669,7 +646,7 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
                         value={values.gradeLevel}
                         onChange={handleChange}
                         name="gradeLevel"
-                        className="py-2 lg:px-2 border-2 w-32   focus:border-none rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 shadow-sm shadow-[#808080]"
+                        className="py-2 lg:px-2 border-2 focus:border-none rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 shadow-sm shadow-[#808080]"
                       >
                         <option className="hdScreen:text-lg semihdScreen:text-base laptopScreen:text-base averageScreen:text-base">
                           Grade 7
@@ -691,7 +668,7 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
                         value={values.section}
                         onChange={handleChange}
                         name="section"
-                        className="py-2 lg:px-2 border-2 w-32 focus:border-none rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 shadow-sm shadow-[#808080] "
+                        className="py-2 lg:px-2 border-2 focus:border-none rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 shadow-sm shadow-[#808080] "
                       >
                         {sectionData.map((section, index) => (
                           <option
@@ -825,7 +802,7 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
               <div className="mx-auto text-center border-t-2 border-gray-300 py-3">
                 <button
                   onClick={onClose}
-                  className={`relative px-12 py-1.5  rounded-full font-semibold  transition duration-300 text-white bg-red-600 hover:bg-red-700 `}
+                  className={`relative px-12 py-1.5  rounded-lg font-semibold  transition duration-300 text-white bg-red-600 hover:bg-red-700 `}
                 >
                   <span className="font-normal lg:text-lg xs:text-xs flex justify-center">
                     Cancel
@@ -836,7 +813,7 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
                     onSubmit;
                   }}
                   type="submit"
-                  className="relative ml-6 py-1.5 px-4 mr-1.5  rounded-full font-semibold  transition duration-300 text-white bg-lime-600 hover:bg-lime-700"
+                  className="relative ml-6 py-1.5 px-4 mr-1.5  rounded-lg font-semibold  transition duration-300 text-white bg-lime-600 hover:bg-lime-700"
                 >
                   <span className="font-normal  lg:text-lg xs:text-xs flex justify-center">
                     Apply Changes

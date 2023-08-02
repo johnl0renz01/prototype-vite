@@ -67,6 +67,7 @@ export const editSectionSchema = yup.object().shape({
 
 export const addSectionSchema = yup.object().shape({
   sectionName: yup.string().required('* Required Field'),
+  adviserName: yup.string().required('* Select an Adviser'),
 });
 
 export const contactAdminSchema = yup.object().shape({

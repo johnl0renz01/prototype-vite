@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
-import React, { Component } from 'react';
+import { useNavigate } from 'react-router-dom';
+import React, { Component, useEffect } from 'react';
 
 import Navbar from './components/Navbar';
 import Homepage from './components/Homepage';
@@ -44,8 +45,12 @@ import HomePageTeacher from './components/HomePageTeacher';
 import HomePageAdmin from './components/HomePageAdmin';
 
 class App extends Component {
+  componentWillUnmount() {
+    localStorage.clear();
+  }
+
   componentDidMount() {
-    document.body.style.overflow = "hidden"
+    document.body.style.overflow = 'hidden';
     document.body.style.height = '100vh';
 
     document.body.style.backgroundImage =
