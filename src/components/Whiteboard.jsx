@@ -5,10 +5,6 @@ import { useNavigate } from 'react-router-dom';
 import * as ReactDOM from 'react-dom';
 import $ from 'jquery';
 
-import HintModal from './HintModal';
-import VideoModal from './VideoModal';
-import PenModal from './PenModal';
-
 import FinishSessionModal from './FinishSessionModal';
 import EquationSolver from './equationSolver';
 import FeedbackList from './FeedbackList';
@@ -92,6 +88,9 @@ export default function Whiteboard() {
       window.localStorage.setItem('SESSION_SCORE', JSON.stringify(0));
 
     document.getElementById('whiteboard').click();
+
+    document.body.style.backgroundImage =
+      'linear-gradient(to top, #bef264, #d9f99d , #ccf779)';
   }, []);
 
   useEffect(() => {
@@ -1962,7 +1961,7 @@ export default function Whiteboard() {
                 <div className="hdScreen:text-3.5xl semihdScreen:text-3xl laptopScreen:text-2.5xl averageScreen:text-2.5xl font-medium inline-flex ">
                   <span className=" font-poppins font-bold">Given: &nbsp;</span>
                   <span className="font-poppins">
-                    {questionList[currentQuestionIndex]}asdasdasd
+                    {questionList[currentQuestionIndex]}
                   </span>
                 </div>
               </div>
@@ -1971,22 +1970,24 @@ export default function Whiteboard() {
             {/*<!--Synthetic Facial AREA-->*/}
             <div
               id="facialArea"
-              className="col-span-5 row-span-5 bg-white border-t-12 border-r-12  border-yellow-700  select-none"
+              className="col-span-5 row-span-5 bg-white border-t-12 border-r-12  border-yellow-700  select-none overflow-hidden"
             >
               <div
                 className="flex  justify-center relative"
                 {...(isHelp
                   ? {
                       dataTooltip:
-                        'This is the area for facial expression res ponse of PIA.',
+                        'This is the area for facial expression response of PIA.',
                     }
                   : {})}
                 {...(isHelp ? { dataTooltipPosition: 'bottom' } : {})}
               >
                 <div
                   id="image_bg"
-                  className={`z-10 relative flex items-center text-center justify-center rounded-full bg-slate-200   object-cover w-65% mt-3 px-6 pt-2 ml-[70px] overflow-hidden ${
-                    isHelp ? 'hover:border-[5px] hover:border-red-500' : ''
+                  className={`z-10 relative flex items-center text-center justify-center rounded-full bg-slate-200   object-cover w-full mt-3 px-10 pt-2 ml-[70px] mr-[20px] overflow-hidden ${
+                    isHelp
+                      ? 'w-[21rem] hover:border-[5px] hover:border-red-500'
+                      : ''
                   }`}
                 >
                   <img
@@ -2117,13 +2118,18 @@ export default function Whiteboard() {
                         length === index + 1 ? (
                           // last one
                           <div
+                            key={index}
                             id={'answer' + index}
                             className="invisible px-2 border-black border-2"
                           >
                             {ans}
                           </div>
                         ) : (
-                          <div id={'answer' + index} className="invisible">
+                          <div
+                            key={index}
+                            id={'answer' + index}
+                            className="invisible"
+                          >
                             {ans}
                           </div>
                         )
@@ -2179,8 +2185,8 @@ export default function Whiteboard() {
               >
                 {
                   <div className=" text-white break-all font-poppins  hdScreen:text-3.5xl semihdScreen:text-2.5xl laptopScreen:text-2xl averageScreen:text-2xl hdScreen:leading-[2.75rem] semihdScreen:leading-[2.25rem] laptopScreen:leading-[2rem] averageScreen:leading-[2rem]">
-                    {arrTextLog.map(entry => (
-                      <p>{entry}</p>
+                    {arrTextLog.map((entry, index) => (
+                      <p key={index}>{entry}</p>
                     ))}
                   </div>
                 }

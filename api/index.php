@@ -78,6 +78,12 @@ switch($requestLink) {
     case "/Prototype-Vite/my-project/api/verifyEmail":
         include('verifyEmail.php');
     break;
+    case "/Prototype-Vite/my-project/api/registerBulk":
+        include('registerBulk.php');
+    case "/Prototype-Vite/my-project/api/verifyEmailBulk":
+        include('verifyEmailBulk.php');
+    break;
+
 
     //FOR MANAGE SECTION
     case "/Prototype-Vite/my-project/api/sectionTotal":
@@ -131,6 +137,14 @@ switch($requestLink) {
         include('getAssignedTeacher.php');
         break;
 
+    case "/Prototype-Vite/my-project/api/removeSection":
+        include('removeSection.php');
+        break;
+
+    case "/Prototype-Vite/my-project/api/removeSectionAccounts":
+        include('removeSectionAccounts.php');
+        break;
+
 
 
     //FOR CLASS LIST
@@ -182,7 +196,7 @@ switch($requestLink) {
     break;
 
 
-    ////
+    //// 
 
 
     case "/Prototype-Vite/my-project/api/getAccountSection":
@@ -254,6 +268,11 @@ switch($requestLink) {
 
     case "/Prototype-Vite/my-project/api/requestStatus":
         include('requestStatus.php');
+    break;
+
+    // SET NEW PASSWORD
+    case "/Prototype-Vite/my-project/api/setNewPassword":
+        include('setNewPassword.php');
     break;
 }
 

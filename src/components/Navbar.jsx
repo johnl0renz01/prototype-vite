@@ -227,7 +227,7 @@ function Navbar() {
                 </a>
               )
             ) : (
-              <></>
+              <div key={index}></div>
             )
           )}
         </div>
@@ -244,7 +244,7 @@ function Navbar() {
                 {page}
               </p>
             ) : (
-              <></>
+              <div key={index}></div>
             )
           )}
         </div>
@@ -267,7 +267,7 @@ function Navbar() {
                       window.localStorage.getItem('SESSION_ID') != null ? (
                         pageList.includes('Whiteboard') == false ? (
                           <>
-                            <span className="bell fa fa-bell w-7 h-7 lg:text-xl md:text-xl  xs:text-xs mr-3 hdScreen:mt-0.5 semihdScreen:mt-0.5 laptopScreen:mt-[0.30rem] averageScreen:mt-[0.20rem]"></span>
+                            <span className="bell fa fa-bell w-7 h-7 lg:text-xl md:text-xl  xs:text-xs mr-3 hdScreen:mt-1 semihdScreen:mt-1 laptopScreen:mt-[0.50rem] averageScreen:mt-[0.40rem]"></span>
                             <>{currentUser}</>
                           </>
                         ) : (
@@ -386,7 +386,7 @@ function Navbar() {
                     </a>
                   </li>
                 ) : (
-                  <>
+                  <div key={index} className="inline-block">
                     <li className="inline-block">
                       <a
                         onClick={() => {
@@ -399,7 +399,7 @@ function Navbar() {
                       </a>
                     </li>
                     <span className="mx-1 text-[#656565] text-xl">-</span>
-                  </>
+                  </div>
                 )
               )}
             </ul>

@@ -21,8 +21,6 @@ for ($i = strlen($email) - 1; $i > 0; $i--) {
 
 switch($_SESSION['method']) {
     case "GET":
-        break;
-    case "POST":
         $sql = "SELECT * FROM accounts WHERE Email = '$email'";
         
         $stmt = $conn->prepare($sql);
@@ -34,6 +32,9 @@ switch($_SESSION['method']) {
             $result = "unique";
         }
         echo json_encode($result);
+        break;
+    case "POST":
+        
         break;
     case "PUT":
         break;

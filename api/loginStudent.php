@@ -19,6 +19,7 @@ switch($_SESSION['method']) {
         $stmt->bindParam(':email', $user->email);
         //$stmt->bindParam(':password', $user->password);
         $passwordInput = $user->password;
+        //echo "\n".$passwordInput;
 
         $stmt->execute();
         $account = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -28,7 +29,12 @@ switch($_SESSION['method']) {
             $password = implode(",", $account[0]);
             $password = explode(",", $password);
             if(password_verify($passwordInput, $password[2]) || $passwordInput == $password[2]) { //Hashed Password and Not hashed
-                echo json_encode($account);
+                if ($passwordInput == "default") {
+                    echo json_encode("setPassword");
+                } else {
+                    echo json_encode($account);
+                }
+                
             } else {
                 echo json_encode("Invalid");
             }

@@ -55,6 +55,9 @@ export default function Homepage() {
       window.localStorage.setItem('NAVBAR_PAGE', JSON.stringify(pageList));
       window.localStorage.setItem('NAVBAR_PAGE_LINK', JSON.stringify(pageLink));
     }
+
+    document.body.style.backgroundImage =
+      'linear-gradient(to top, #bef264, #d9f99d , #ccf779)';
   }, []);
 
   useEffect(() => {

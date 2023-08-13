@@ -84,6 +84,9 @@ export default function DifficultyPage() {
       // Chrome requires returnValue to be set
       e.returnValue = '';
     });
+
+    document.body.style.backgroundImage =
+      'linear-gradient(to top, #bef264, #d9f99d , #ccf779)';
   }, []);
 
   useEffect(() => {
@@ -228,8 +231,6 @@ export default function DifficultyPage() {
     setChoiceModal(true);
     setShowModal(false);
 
-    window.localStorage.setItem('SESSION_SCORE', 0);
-
     window.localStorage.setItem('QUESTION_LIST', JSON.stringify(questionList));
     window.localStorage.setItem('QUESTION_INDEX', '0');
     var userLogs = window.localStorage.getItem('SESSION_USER_LOGS');
@@ -237,6 +238,7 @@ export default function DifficultyPage() {
     userLogs = userLogs.replace(/"/g, '');
     EndSession.recordData();
     ClearStorage.clearData();
+    window.localStorage.setItem('SESSION_SCORE', 0);
     axios
       .post(
         `http://localhost:80/Prototype-Vite/my-project/api/selectDifficulty/${userLogs}`
@@ -487,7 +489,10 @@ export default function DifficultyPage() {
                           <div className="text-black/80">
                             {easyEquations.map((string, index) => ({
                               ...(string.length <= 22 ? (
-                                <div className="bg-white grid grid-cols-4 text-left border-b-2 border-black/70 ">
+                                <div
+                                  key={index}
+                                  className="bg-white grid grid-cols-4 text-left border-b-2 border-black/70 "
+                                >
                                   <div className="rounded-full border-3  border-black/80 h-9 w-9 m-auto text-center lg:text-lg md:text-lg font-semibold">
                                     {index + 1}
                                   </div>
@@ -512,7 +517,10 @@ export default function DifficultyPage() {
                                   </div>
                                 </div>
                               ) : (
-                                <div className="bg-white grid grid-cols-4 text-left border-b-2 border-black/70">
+                                <div
+                                  key={index}
+                                  className="bg-white grid grid-cols-4 text-left border-b-2 border-black/70"
+                                >
                                   <div className="rounded-full border-3  border-black/80 h-9 w-9 m-auto text-center lg:text-lg md:text-lg font-semibold">
                                     {index + 1}
                                   </div>
@@ -539,9 +547,9 @@ export default function DifficultyPage() {
                           viewBox="0 0 24 24"
                           fill="none"
                           stroke="currentColor"
-                          stroke-width="2"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
                         >
                           {' '}
                           <polyline points="20 6 9 17 4 12" />
@@ -587,7 +595,10 @@ export default function DifficultyPage() {
                           <div className="text-black/80">
                             {averageEquations.map((string, index) => ({
                               ...(string.length <= 22 ? (
-                                <div className="bg-white grid grid-cols-4 text-left border-b-2 border-black/70">
+                                <div
+                                  key={index}
+                                  className="bg-white grid grid-cols-4 text-left border-b-2 border-black/70"
+                                >
                                   <div className="rounded-full border-3  border-black/80 h-9 w-9 m-auto text-center lg:text-lg md:text-lg font-semibold">
                                     {index + 1}
                                   </div>
@@ -600,7 +611,10 @@ export default function DifficultyPage() {
                                   </div>
                                 </div>
                               ) : (
-                                <div className="bg-white grid grid-cols-4 text-left border-b-2 border-black/70">
+                                <div
+                                  key={index}
+                                  className="bg-white grid grid-cols-4 text-left border-b-2 border-black/70"
+                                >
                                   <div className="rounded-full border-3  border-black/80 h-9 w-9 m-auto text-center lg:text-lg md:text-lg font-semibold">
                                     {index + 1}
                                   </div>
@@ -627,9 +641,9 @@ export default function DifficultyPage() {
                           viewBox="0 0 24 24"
                           fill="none"
                           stroke="currentColor"
-                          stroke-width="2"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
                         >
                           {' '}
                           <polyline points="20 6 9 17 4 12" />
@@ -737,9 +751,9 @@ export default function DifficultyPage() {
                           viewBox="0 0 24 24"
                           fill="none"
                           stroke="currentColor"
-                          stroke-width="2"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
                         >
                           {' '}
                           <polyline points="20 6 9 17 4 12" />

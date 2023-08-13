@@ -9,10 +9,10 @@ const DeleteSectionModal = ({ visible, onClose, onContinue }) => {
 
   if (!visible) return null;
 
+  const [validDeletion, setValidDeletion] = useState(false);
+
   const [deleteType, setDeleteType] = useState('');
-
   const [currentSection, setCurrentSection] = useState('');
-
   const [sectionStatus, setSectionStatus] = useState('Empty');
 
   useEffect(() => {
@@ -24,15 +24,36 @@ const DeleteSectionModal = ({ visible, onClose, onContinue }) => {
     var status = JSON.parse(
       window.sessionStorage.getItem('DELETE_SECTION_STATUS')
     );
-    if (status !== null) setSectionStatus(status);
+
+    if (status !== null) {
+      status = status.replace(/"/g);
+      setSectionStatus(status);
+    }
+
+    var data = JSON.parse(
+      window.sessionStorage.getItem('SECTION_DELETION_TYPE')
+    );
+    if (data !== null) {
+      setValidDeletion(true);
+    } else {
+      setValidDeletion(false);
+    }
   });
 
   const typeSection = () => {
     setDeleteType('Section');
+    window.sessionStorage.setItem(
+      'SECTION_DELETION_TYPE',
+      JSON.stringify('Section Only')
+    );
   };
 
   const typeSectionStudents = () => {
     setDeleteType('SectionStudents');
+    window.sessionStorage.setItem(
+      'SECTION_DELETION_TYPE',
+      JSON.stringify('Section Students')
+    );
   };
 
   return (
@@ -58,7 +79,7 @@ const DeleteSectionModal = ({ visible, onClose, onContinue }) => {
             </div>
           </div>
           <div className="w-[32rem] text-center text-gray-800">
-            <div className="p-4 pb-6 text-xl font-semibold">
+            <div className="p-4 text-xl font-semibold">
               {sectionStatus == 'Active' ? (
                 <>
                   <span className="text-orange-600 font-bold">Warning:</span>{' '}
@@ -72,7 +93,7 @@ const DeleteSectionModal = ({ visible, onClose, onContinue }) => {
                       className={`text-base lg:px-4 xs:px-1 py-1 rounded-lg  border-2   transition duration-200 ${
                         deleteType == 'Section'
                           ? 'bg-gray-500/80 text-white font-semibold border-gray-500/80'
-                          : 'bg-gray-100 hover:bg-gray-500/80 text-gray-500  border-gray-300 hover:border-gray-500/80  hover:text-white'
+                          : 'bg-gray-100 hover:bg-gray-500/80 text-gray-500  border-gray-300 hover:border-white  hover:text-gray-300'
                       }`}
                     >
                       Section
@@ -82,7 +103,7 @@ const DeleteSectionModal = ({ visible, onClose, onContinue }) => {
                       className={`text-base ml-4 lg:px-4 xs:px-1 rounded-lg border-2  transition duration-200 ${
                         deleteType == 'SectionStudents'
                           ? 'bg-gray-500/80 text-white font-semibold border-gray-500/80'
-                          : 'bg-gray-100 hover:bg-gray-500/80 text-gray-500  border-gray-300 hover:border-gray-500/80  hover:text-white'
+                          : 'bg-gray-100 hover:bg-gray-500/80 text-gray-500  border-gray-300 hover:border-white  hover:text-gray-300'
                       }`}
                     >
                       Section & Students' Accounts
@@ -105,7 +126,14 @@ const DeleteSectionModal = ({ visible, onClose, onContinue }) => {
                 <></>
               )}
               {sectionStatus == 'Active' ? (
-                <></>
+                <div className="pt-2">
+                  <p className="text-lg font-semibold ">
+                    Do you still want to delete this section?
+                  </p>{' '}
+                  <p className="text-gray-500 text-lg font-normal">
+                    ({currentSection})
+                  </p>
+                </div>
               ) : (
                 <div className="pt-2">
                   <p className="text-xl font-semibold ">
@@ -125,8 +153,21 @@ const DeleteSectionModal = ({ visible, onClose, onContinue }) => {
                 Cancel
               </button>
               <button
-                onClick={onContinue}
-                className="mx-2 text-white tracking-wide bg-red-600/90 h-9 w-28 inline-block rounded-lg hover:bg-red-700 hover:text-gray-200"
+                onClick={
+                  sectionStatus == 'Active'
+                    ? validDeletion
+                      ? onContinue
+                      : null
+                    : onContinue
+                }
+                className={`mx-2  tracking-wide  h-9 w-28 inline-block rounded-lg  
+                          ${
+                            sectionStatus == 'Active'
+                              ? validDeletion
+                                ? 'bg-red-600/90 hover:bg-red-700 text-white hover:text-gray-200'
+                                : 'cursor-default bg-gray-400/80 text-gray-300'
+                              : 'bg-red-600/90 hover:bg-red-700 text-white hover:text-gray-200'
+                          }`}
               >
                 Delete
               </button>

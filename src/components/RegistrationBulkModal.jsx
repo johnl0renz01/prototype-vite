@@ -2,7 +2,7 @@ import React from 'react';
 import { MdClose } from 'react-icons/md';
 import { VscInfo } from 'react-icons/vsc';
 
-const DeleteSectionMessageModal = ({ visible, onClose }) => {
+const RegistrationBulkModal = ({ visible, onClose }) => {
   const handleOnClose = e => {
     if (e.target.id === 'mainContainer') onClose();
     //window.location.reload(false);
@@ -31,7 +31,7 @@ const DeleteSectionMessageModal = ({ visible, onClose }) => {
           </div>
           <div className="">
             <div className="p-4 ">
-              This section has been deleted successfully.
+              Valid accounts has been registered successfully.
             </div>
             <div className="mx-auto text-center border-t-2 border-gray-300 py-3 ">
               <button
@@ -48,4 +48,4 @@ const DeleteSectionMessageModal = ({ visible, onClose }) => {
   );
 };
 
-export default DeleteSectionMessageModal;
+export default RegistrationBulkModal;

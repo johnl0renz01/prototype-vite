@@ -190,20 +190,66 @@ export default function ManageSection() {
     setShowModal(false);
   };
 
-  // MODAL CREATE SECTION
+  // MODAL DELETE SECTION
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const handleOnCloseDeleteModal = () => setShowDeleteModal(false);
+  const handleOnCloseDeleteModal = () => {
+    window.sessionStorage.removeItem('SECTION_DELETION_TYPE');
+    setShowDeleteModal(false);
+  };
 
   const [showDeleteMessageModal, setDeleteMessageModal] = useState(false);
+
   const handleOnCloseDeleteMessageModal = () => {
+    window.sessionStorage.removeItem('SECTION_DELETION_TYPE');
     setDeleteMessageModal(false);
     getManageSection();
     getAccounts();
   };
 
   const handleOnContinueDeleteModal = () => {
-    setDeleteMessageModal(true);
-    setShowDeleteModal(false);
+    var sectionName = JSON.parse(
+      window.sessionStorage.getItem('CURRENT_SECTION_DELETE')
+    );
+
+    sectionName = sectionName.replace(/"/g, '');
+    sectionName = sectionName.replace(/ /g, '_');
+
+    var deletionType = JSON.parse(
+      window.sessionStorage.getItem('SECTION_DELETION_TYPE')
+    );
+
+    if (deletionType !== null) {
+      deletionType = deletionType.replace(/"/g, '');
+      if (deletionType == 'Section Only') {
+        axios
+          .post(
+            `http://localhost:80/Prototype-Vite/my-project/api/removeSection/${sectionName}`
+          )
+          .then(function (response) {
+            setDeleteMessageModal(true);
+            setShowDeleteModal(false);
+          });
+      } else {
+        axios
+          .post(
+            `http://localhost:80/Prototype-Vite/my-project/api/removeSectionAccounts/${sectionName}`
+          )
+          .then(function (response) {
+            setDeleteMessageModal(true);
+            setShowDeleteModal(false);
+          });
+      }
+    } else {
+      console.log('GAGO NANDITO AKO!');
+      axios
+        .post(
+          `http://localhost:80/Prototype-Vite/my-project/api/removeSection/${sectionName}`
+        )
+        .then(function (response) {
+          setShowDeleteModal(false);
+          setDeleteMessageModal(true);
+        });
+    }
   };
 
   const [navbarWidth, setNavbarWidth] = useState(0);
@@ -298,7 +344,7 @@ export default function ManageSection() {
                 <button
                   onClick={e => setShowSectionModal(true)}
                   type="button"
-                  className="relative hdScreen:w-[19rem] semihdScreen:w-[16.5rem] laptopScreen:w-[15.5rem] averageScreen:w-[15rem] sm:w-[14rem] lg:py-3 lg:px-5 sm:py-1.5 sm:px-2.5 xs:px-1 xs:py-1 text-white font-semibold  shadow-md rounded-full bg-lime-600 hover:bg-lime-700 hover:-translate-y-0.5 ease-in-out transition duration-300 transform drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)]"
+                  className="relative hdScreen:w-[19rem] semihdScreen:w-[16.5rem] laptopScreen:w-[15.5rem] averageScreen:w-[15rem] sm:w-[14rem] lg:py-3 lg:px-5 sm:py-1.5 sm:px-2.5 xs:px-1 xs:py-1 text-white font-semibold  shadow-md rounded-full bg-lime-600 hover:bg-lime-700  ease-in-out transition duration-300 transform drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)]"
                 >
                   <span className="pl-2 lg:text-xl sm:text-base xs:text-sm flex justify-center">
                     Add Section
@@ -320,7 +366,7 @@ export default function ManageSection() {
                     Section Name
                   </th>
                   <th className="w-[33%] py-3 md:text-base sm:text-sm ">
-                    Adviser Name
+                    Assigned Teacher
                   </th>
                   <th className="w-[5%]">
                     <div className="invisible">
@@ -367,7 +413,7 @@ export default function ManageSection() {
                             Section Name
                           </th>
                           <th className="w-[32%]  md:text-base sm:text-sm ">
-                            Adviser Name
+                            Assigned Teacher
                           </th>
                           <th className="hdScreen:w-[7.5%] lg:w-[5%] "></th>
                           <th className="hdScreen:w-[9%] lg:w-[10%] "></th>
@@ -467,7 +513,7 @@ export default function ManageSection() {
         onContinue={handleOnContinueDeleteModal}
       />
 
-      <DeleteSectionModal
+      <DeleteSectionMessageModal
         onClose={handleOnCloseDeleteMessageModal}
         visible={showDeleteMessageModal}
       />

@@ -9,32 +9,43 @@ include 'DbConnect.php';
 $objDb = new DbConnect;
 $conn = $objDb->connect();
 
-$section = $_SERVER['REQUEST_URI'];
+$email = $_SERVER['REQUEST_URI'];
 
-for ($i = strlen($section) - 1; $i > 0; $i--) {
-    if ($section[$i] == "/") {
-        $section = substr($section, ($i + 1));
-        $section = str_replace("_"," ", $section);
+for ($i = strlen($email) - 1; $i > 0; $i--) {
+    if ($email[$i] == "/") {
+        $email = substr($email, ($i + 1));
         break;
     }
 }
 
+$row_id = "";
+
+//FOR ROW ID
+for ($i = strlen($email) - 1; $i > 0; $i--) {
+    if ($email[$i] == "@") {
+        $row_id = substr($email, ($i + 1));
+        $email = substr($email, 0, $i);
+        $email = str_replace("_"," ", $email);
+        break;
+    }
+}
+
+
 switch($_SESSION['method']) {
     case "GET":
-        $sql = "SELECT * FROM section_list WHERE SectionName = '$section'";
+        $sql = "SELECT * FROM accounts WHERE Email = '$email'";
         
         $stmt = $conn->prepare($sql);
         $stmt->execute();
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
         if (count($result) > 0) {
-            $result = "duplicate";
+            echo json_encode($row_id);
         } else {
-            $result = "unique";
+            echo json_encode("unique");
         }
-        echo json_encode($result);
         break;
     case "POST":
-       
+        
         break;
     case "PUT":
         break;

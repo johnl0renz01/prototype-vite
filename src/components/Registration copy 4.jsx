@@ -436,8 +436,6 @@ function Registration() {
   //const [emails, setEmails] = useState([]);
   const [duplicateAccount, setDuplicateAccount] = useState([]);
 
-  var requiredLengthArray = 73;
-
   const handleFileUpload = e => {
     //RESET VALUES
     window.sessionStorage.setItem('IS_ERROR_RESET_STATES', true);
@@ -491,254 +489,246 @@ function Registration() {
       const parsedData = XLSX.utils.sheet_to_json(sheet);
       console.log(parsedData);
       temporary = parsedData;
-      console.log(temporary.length);
 
-      if (temporary.length == requiredLengthArray) {
-        for (let i = 0; i < temporary.length; i++) {
-          console.log(i);
-          var currentData = JSON.stringify(temporary[i]);
-          //console.log(currentData);
-          if (currentData !== null && currentData !== undefined) {
-            currentData = currentData.replace('{', '');
-            currentData = currentData.replace('}', '');
-            currentData = currentData.replace('"Grade Level":', '');
-            currentData = currentData.replace('"Section":', '');
-            currentData = currentData.replace('"__EMPTY_1":', '');
-            currentData = currentData.replace('"Given Name":', '');
-            currentData = currentData.replace('"Middle Name":', '');
-            currentData = currentData.replace('"Last Name":', '');
-            currentData = currentData.replace('"Sex":', '');
-            currentData = currentData.replace('"Role":', '');
+      for (let i = 0; i < temporary.length; i++) {
+        console.log(i);
+        var currentData = JSON.stringify(temporary[i]);
+        //console.log(currentData);
+        if (currentData !== null && currentData !== undefined) {
+          currentData = currentData.replace('{', '');
+          currentData = currentData.replace('}', '');
+          currentData = currentData.replace('"Grade Level":', '');
+          currentData = currentData.replace('"Section":', '');
+          currentData = currentData.replace('"__EMPTY_1":', '');
+          currentData = currentData.replace('"Given Name":', '');
+          currentData = currentData.replace('"Middle Name":', '');
+          currentData = currentData.replace('"Last Name":', '');
+          currentData = currentData.replace('"Gender":', '');
+          currentData = currentData.replace('"Role":', '');
 
-            var userData = [];
-            convertStringToArray();
-            function convertStringToArray() {
-              let firstIndex = 0;
+          var userData = [];
+          convertStringToArray();
+          function convertStringToArray() {
+            let firstIndex = 0;
 
-              let endIndex = 0;
-              let isComma = false;
-              let isNumber = false;
-              for (let i = 0; i < currentData.length; i++) {
-                let isEnd = false;
-
-                if (i == 0) {
-                  if (currentData[i] !== '"') {
-                    isNumber = true;
-                  }
-                }
-
-                if (isComma) {
-                  if (currentData[i] != '"') {
-                    if (currentData[i - 1] == ',') {
-                      isNumber = true;
-                      isComma = false;
-                    }
-                  }
-                }
-
-                if (currentData[i] == ',') {
-                  firstIndex = 0;
-                  endIndex = 0;
-                  isComma = true;
-                  continue;
-                }
-
-                if (currentData[i] == '"') {
-                  if (isNumber) {
-                    endIndex = i - 1;
-                    isEnd = true;
-                  } else {
-                    if (firstIndex == 0) {
-                      firstIndex = i + 1;
-                    } else {
-                      endIndex = i;
-                      isEnd = true;
-                    }
-                  }
-                }
-
-                //console.log('eI: ' + endIndex);
-
-                if (isEnd) {
-                  //console.log(currentData.substring(firstIndex, endIndex));
-
-                  userData.push(currentData.substring(firstIndex, endIndex));
-                  isEnd = false;
-                  if (isNumber) {
-                    firstIndex = i + 1;
-                    isNumber = false;
-                  }
-
-                  isComma = false;
-                }
-              }
-            }
-
-            /////////////////
-
-            console.log(userData);
-            if (userData.length < 7) {
-              //setValidationStatus(validation);
-              if (values.totalRows != 0) {
-                setStudentList(parsedData);
-              }
-
-              return;
-            } else {
-              //ADD TO TOTAL ROWS
-              values.totalRows = values.totalRows + 1;
+            let endIndex = 0;
+            let isComma = false;
+            let isNumber = false;
+            for (let i = 0; i < currentData.length; i++) {
+              let isEnd = false;
 
               if (i == 0) {
-                var gradeLvl = userData[0];
-                var sect = userData[1];
-                sect = sect
-                  .toLowerCase()
-                  .replace(/\b[a-z]/g, function (letter) {
-                    return letter.toUpperCase();
-                  });
-
-                // CHECK GRADELEVEL - SECTION IF DUPLICATE
-                setGradeNumber(gradeLvl);
-                setSectionString(sect);
-
-                values.bulkGradeLevel = gradeLvl;
-                values.bulkSection = sect;
-
-                console.log('ASDASDASDAS');
-                var sectionValidate = sect.replace(/ /g, '_');
-                console.log(sectionValidate);
-                axios
-                  .get(
-                    `http://localhost:80/Prototype-Vite/my-project/api/verifySection/${sectionValidate}`
-                  )
-                  .then(function (response) {
-                    console.log(response.data);
-
-                    var result = response.data;
-                    if (result == 'unique') {
-                      values.isValidSection = true;
-                      window.sessionStorage.setItem('IS_ERROR_SECTION', false);
-                      window.sessionStorage.removeItem('IS_ERROR_SECTION_NAME');
-                      setValidSection(true);
-                    } else {
-                      values.isValidSection = false;
-                      window.sessionStorage.setItem('IS_ERROR_SECTION', true);
-                      window.sessionStorage.setItem(
-                        'IS_ERROR_SECTION_NAME',
-                        JSON.stringify(sect)
-                      );
-                      errorsCount++;
-                      setErrorTally(errorsCount);
-                      values.totalErrors = values.totalErrors + 1;
-                    }
-                    console.log(values.isValidSection);
-                  });
-              }
-
-              let fname = userData[2].replace(/ /g, '');
-              let lname = userData[5].replace(/ /g, '');
-              var email =
-                lname.toLowerCase() + '.' + fname.toLowerCase() + '@sf.edu.ph';
-
-              //for duplication within excel file
-              for (let j = 0; j < emails.length; j++) {
-                console.log(emails[j]);
-                console.log(email);
-                if (emails[j] == email) {
-                  if (duplicates.includes(email)) {
-                    errorsCount++;
-                    values.totalErrors = values.totalErrors + 1;
-                  } else {
-                    errorsCount += 2;
-                    values.totalErrors = values.totalErrors + 2;
-                    duplicates.push(email);
-                    window.sessionStorage.setItem(
-                      'IS_ERROR_ACCOUNT_MULTIPLE',
-                      true
-                    );
-                    window.sessionStorage.setItem(
-                      'IS_ERROR_ACCOUNT_MULTIPLE_IGNORE',
-                      true
-                    );
-
-                    var row = 'Row #' + (j + 1).toString();
-                    rowErrorMultiple.push(row.toString());
-                  }
-
-                  setDuplicateAccount(oldArray => [
-                    ...oldArray,
-                    'row' + j.toString(),
-                  ]);
-                  setDuplicateAccount(oldArray => [
-                    ...oldArray,
-                    'row' + i.toString(),
-                  ]);
-
-                  setErrorTally(errorsCount);
-
-                  values.isDuplicateAccount = true;
-
-                  var row = 'Row #' + (i + 1).toString();
-                  rowErrorMultiple.push(row.toString());
-                  console.log('ROW MUL: ');
-                  console.log(rowErrorMultiple);
-
-                  let array = JSON.stringify(rowErrorMultiple);
-                  window.sessionStorage.setItem('IS_ERROR_MULTIPLE_ROW', array);
-                  break;
+                if (currentData[i] !== '"') {
+                  isNumber = true;
                 }
               }
 
-              console.log('set the email!!');
-              emails.push(email);
-              console.log(emails);
-              //for duplication in accounts database
+              if (isComma) {
+                if (currentData[i] != '"') {
+                  if (currentData[i - 1] == ',') {
+                    isNumber = true;
+                    isComma = false;
+                  }
+                }
+              }
+
+              if (currentData[i] == ',') {
+                firstIndex = 0;
+                endIndex = 0;
+                isComma = true;
+                continue;
+              }
+
+              if (currentData[i] == '"') {
+                if (isNumber) {
+                  endIndex = i - 1;
+                  isEnd = true;
+                } else {
+                  if (firstIndex == 0) {
+                    firstIndex = i + 1;
+                  } else {
+                    endIndex = i;
+                    isEnd = true;
+                  }
+                }
+              }
+
+              //console.log('eI: ' + endIndex);
+
+              if (isEnd) {
+                //console.log(currentData.substring(firstIndex, endIndex));
+
+                userData.push(currentData.substring(firstIndex, endIndex));
+                isEnd = false;
+                if (isNumber) {
+                  firstIndex = i + 1;
+                  isNumber = false;
+                }
+
+                isComma = false;
+              }
+            }
+          }
+
+          /////////////////
+
+          console.log(userData);
+          if (userData.length < 7) {
+            //setValidationStatus(validation);
+            setStudentList(parsedData);
+            return;
+          } else {
+            //ADD TO TOTAL ROWS
+            values.totalRows = values.totalRows + 1;
+
+            if (i == 0) {
+              var gradeLvl = userData[0];
+              var sect = userData[1];
+              sect = sect.toLowerCase().replace(/\b[a-z]/g, function (letter) {
+                return letter.toUpperCase();
+              });
+
+              // CHECK GRADELEVEL - SECTION IF DUPLICATE
+              setGradeNumber(gradeLvl);
+              setSectionString(sect);
+
+              values.bulkGradeLevel = gradeLvl;
+              values.bulkSection = sect;
+
+              console.log('ASDASDASDAS');
+              var sectionValidate = sect.replace(/ /g, '_');
+              console.log(sectionValidate);
               axios
                 .get(
-                  `http://localhost:80/Prototype-Vite/my-project/api/verifyEmailBulk/${email}@row${i}`
+                  `http://localhost:80/Prototype-Vite/my-project/api/verifySection/${sectionValidate}`
                 )
                 .then(function (response) {
                   console.log(response.data);
 
                   var result = response.data;
-                  //setValidationStatus(oldArray => [...oldArray, result]);
-
                   if (result == 'unique') {
+                    values.isValidSection = true;
+                    window.sessionStorage.setItem('IS_ERROR_SECTION', false);
+                    window.sessionStorage.removeItem('IS_ERROR_SECTION_NAME');
+                    setValidSection(true);
                   } else {
+                    values.isValidSection = false;
+                    window.sessionStorage.setItem('IS_ERROR_SECTION', true);
+                    window.sessionStorage.setItem(
+                      'IS_ERROR_SECTION_NAME',
+                      JSON.stringify(sect)
+                    );
                     errorsCount++;
                     setErrorTally(errorsCount);
                     values.totalErrors = values.totalErrors + 1;
-                    setErrorAccount(oldArray => [...oldArray, result]);
-
-                    var row = result.charAt(0).toUpperCase() + result.slice(1);
-                    let number = parseInt(row.substring(3));
-                    row = row.substring(0, 3) + ' #' + (number + 1);
-                    rowErrorDuplicate.push(row.toString());
-                    console.log('ROW DUP: ' + rowErrorDuplicate);
-                    let array = JSON.stringify(rowErrorDuplicate);
-                    window.sessionStorage.setItem(
-                      'IS_ERROR_DUPLICATE_ROW',
-                      array
-                    );
-
-                    window.sessionStorage.setItem(
-                      'IS_ERROR_ACCOUNT_DUPLICATE',
-                      true
-                    );
-                    window.sessionStorage.setItem(
-                      'IS_ERROR_ACCOUNT_DUPLICATE_IGNORE',
-                      true
-                    );
                   }
+                  console.log(values.isValidSection);
                 });
             }
-          }
 
-          console.log(i + 1);
-          if (i + 1 == temporary.length) {
-            console.log(i);
-            setStudentList(parsedData);
+            let fname = userData[2].replace(/ /g, '');
+            let lname = userData[5].replace(/ /g, '');
+            var email =
+              lname.toLowerCase() + '.' + fname.toLowerCase() + '@sf.edu.ph';
+
+            //for duplication within excel file
+            for (let j = 0; j < emails.length; j++) {
+              console.log(emails[j]);
+              console.log(email);
+              if (emails[j] == email) {
+                if (duplicates.includes(email)) {
+                  errorsCount++;
+                  values.totalErrors = values.totalErrors + 1;
+                } else {
+                  errorsCount += 2;
+                  values.totalErrors = values.totalErrors + 2;
+                  duplicates.push(email);
+                  window.sessionStorage.setItem(
+                    'IS_ERROR_ACCOUNT_MULTIPLE',
+                    true
+                  );
+                  window.sessionStorage.setItem(
+                    'IS_ERROR_ACCOUNT_MULTIPLE_IGNORE',
+                    true
+                  );
+
+                  var row = 'Row #' + (j + 1).toString();
+                  rowErrorMultiple.push(row.toString());
+                }
+
+                setDuplicateAccount(oldArray => [
+                  ...oldArray,
+                  'row' + j.toString(),
+                ]);
+                setDuplicateAccount(oldArray => [
+                  ...oldArray,
+                  'row' + i.toString(),
+                ]);
+
+                setErrorTally(errorsCount);
+
+                values.isDuplicateAccount = true;
+
+                var row = 'Row #' + (i + 1).toString();
+                rowErrorMultiple.push(row.toString());
+                console.log('ROW MUL: ');
+                console.log(rowErrorMultiple);
+
+                let array = JSON.stringify(rowErrorMultiple);
+                window.sessionStorage.setItem('IS_ERROR_MULTIPLE_ROW', array);
+                break;
+              }
+            }
+
+            console.log('set the email!!');
+            emails.push(email);
+            console.log(emails);
+            //for duplication in accounts database
+            axios
+              .get(
+                `http://localhost:80/Prototype-Vite/my-project/api/verifyEmailBulk/${email}@row${i}`
+              )
+              .then(function (response) {
+                console.log(response.data);
+
+                var result = response.data;
+                //setValidationStatus(oldArray => [...oldArray, result]);
+
+                if (result == 'unique') {
+                } else {
+                  errorsCount++;
+                  setErrorTally(errorsCount);
+                  values.totalErrors = values.totalErrors + 1;
+                  setErrorAccount(oldArray => [...oldArray, result]);
+
+                  var row = result.charAt(0).toUpperCase() + result.slice(1);
+                  let number = parseInt(row.substring(3));
+                  row = row.substring(0, 3) + ' #' + (number + 1);
+                  rowErrorDuplicate.push(row.toString());
+                  console.log('ROW DUP: ' + rowErrorDuplicate);
+                  let array = JSON.stringify(rowErrorDuplicate);
+                  window.sessionStorage.setItem(
+                    'IS_ERROR_DUPLICATE_ROW',
+                    array
+                  );
+
+                  window.sessionStorage.setItem(
+                    'IS_ERROR_ACCOUNT_DUPLICATE',
+                    true
+                  );
+                  window.sessionStorage.setItem(
+                    'IS_ERROR_ACCOUNT_DUPLICATE_IGNORE',
+                    true
+                  );
+                }
+              });
           }
+        }
+
+        console.log(i + 1);
+        if (i + 1 == temporary.length) {
+          console.log(i);
+          setStudentList(parsedData);
         }
       }
     };
@@ -1019,7 +1009,7 @@ function Registration() {
             Registration
           </div>
 
-          <div className=" inline-flex lg:px-6 hdScreen:py-5 semihdScreen:py-3 laptopScreen:pb-3 averageScreen:pb-2 sm:pb-1 xs:pb-0.5">
+          <div className=" inline-flex lg:px-6 hdScreen:py-6 semihdScreen:py-4 laptopScreen:pb-3 averageScreen:pb-3 xs:p-3">
             <p className="mt-[0.55rem] pr-2 lg:text-xl xs:text-base">Role:</p>
             <div className="flex mt-[0.7rem] lg:text-lg xs:text-xs px-2">
               <button
@@ -1271,7 +1261,7 @@ function Registration() {
                         htmlFor="sex"
                         className="inline-block pt-2 pr-2 text-right lg:w-[136px]"
                       >
-                        Sex:{' '}
+                        Gender:{' '}
                       </label>
                       <div className="mt-2.5">
                         <input
@@ -1520,19 +1510,18 @@ function Registration() {
             <hr></hr>
             <div className="ml-6 md:mt-6 xs:mt-3 flex justify-between">
               <div
-                className={`hdScreen:text-xl semihdScreen:text-base laptopScreen:text-sm averageScreen:text-sm font-normal italic
+                className={`text-xl font-normal italic
               ${studentList.length > 0 ? 'hidden' : ''}`}
               >
                 [Download & open template file → Fill-up details → Choose file →
                 Open.]
               </div>
               <div
-                className={`select-none flex hdScreen:text-2xl semihdScreen:text-xl laptopScreen:text-lg averageScreen:text-lg sm:text-sm xs:text-xs font-bold hdScreen:-mt-2 semihdScreen:-mt-1.5 laptopScreen:-mt-1.5 averageScreen:-mt-2 text-gray-600/90
+                className={`select-none flex text-2xl font-bold -mt-2.5 text-gray-600/90
               ${studentList.length > 0 ? '' : 'hidden'}`}
               >
                 <div className="px-4  border-2 border-gray-400/60 rounded-xl">
-                  Grade:{'\u00A0'}
-                  {gradeNumber != '' ? <>{gradeNumber}</> : <>N/A</>}
+                  {`Grade: ${gradeNumber}`}
                 </div>
                 <div
                   className={`ml-4 px-4  border-2  rounded-xl 
@@ -1542,18 +1531,17 @@ function Registration() {
                     : 'text-red-500 border-red-500'
                 }`}
                 >
-                  Section:{'\u00A0'}
-                  {sectionString != '' ? <>{sectionString}</> : <>N/A</>}
+                  {`Section: ${sectionString}`}
                 </div>
               </div>
               <div className="-mt-1  flex ">
                 <div className="mt-0.5 mr-20">
-                  <label className="hdScreen:text-lg semihdScreen:text-base laptopScreen:text-sm averageScreen:text-sm xs:text-xs">
+                  <label className="text-lg ">
                     Upload .xlsx file:{'\u00A0'}
                   </label>
                   <input
                     id="upload"
-                    className="hdScreen:text-base semihdScreen:text-sm laptopScreen:text-xs averageScreen:text-xs xs:text-xs"
+                    className=""
                     type="file"
                     accept=".xlsx, .xls"
                     onChange={handleFileUpload}
@@ -1565,14 +1553,14 @@ function Registration() {
                   to="/files/Bulk_Registration-TEMPLATE.xlsx"
                   target="_blank"
                   download
-                  className="hdScreen:text-base semihdScreen:text-sm laptopScreen:text-sm averageScreen:text-sm xs:text-xs rounded-xl bg-blue-500 hover:bg-blue-600 hdScreen:py-1 semihdScreen:py-1 laptopScreen:py-1 averageScreen:py-0.5 pl-5 pr-10  text-white relative  shadow-sm  drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)] "
+                  className="rounded-xl bg-blue-500 hover:bg-blue-600 py-1 pl-5 pr-10 mr-5 text-white relative  shadow-sm  drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)] "
                 >
                   Template File
                   <span
-                    className={` absolute  right-4 font-normal  flex justify-center
+                    className={` absolute  right-4 font-normal text-base flex justify-center
                   ${studentList.length > 0 ? 'top-[0.25rem]' : 'top-[0.2rem]'}`}
                   >
-                    <BsArrowDownSquare className="ml-1 hdScreen:mt-[0.2rem] semihdScreen:mt-[0.2rem] laptopScreen:mt-[0.2rem] averageScreen:mt-[0.15rem] hdScreen:text-lg semihdScreen:text-base laptopScreen:text-sm averageScreen:text-sm xs:text-xs text-white" />
+                    <BsArrowDownSquare className="ml-1 lg:mt-[0.2rem] lg:text-lg text-white" />
                   </span>
                 </Link>
               </div>
@@ -1611,10 +1599,10 @@ function Registration() {
                 </table>
               )}
               <div
-                className={`hdScreen:min-h-[calc(100vh-55vh)] hdScreen:max-h-[calc(100vh-55vh)] 
-                            semihdScreen:min-h-[calc(100vh-62.5vh)] semihdScreen:max-h-[calc(100vh-62.5vh)]
-                            laptopScreen:min-h-[calc(100vh-65vh)] laptopScreen:max-h-[calc(100vh-65vh)]
-                            averageScreen:min-h-[calc(100vh-66vh)] averageScreen:max-h-[calc(100vh-66vh)]
+                className={`hdScreen:min-h-[calc(100vh-50vh)] hdScreen:max-h-[calc(100vh-50vh)] 
+                            semihdScreen:min-h-[calc(100vh-45vh)] semihdScreen:max-h-[calc(100vh-45vh)]
+                            laptopScreen:min-h-[calc(100vh-43vh)] laptopScreen:max-h-[calc(100vh-43vh)]
+                            averageScreen:min-h-[calc(100vh-47.5vh)] averageScreen:max-h-[calc(100vh-47.5vh)]
                             bg-white relative overflow-y-scroll style-2 mx-auto w-full 
                             ${
                               studentList.length > 0
@@ -1643,11 +1631,7 @@ function Registration() {
                                   ${index == 4 ? 'w-[15%]' : ''}
                                   ${index == 5 ? 'w-[17%]' : ''}
                                   ${index == 6 ? 'w-[16%]' : ''}
-                                  ${
-                                    index == 7
-                                      ? 'hdScreen:w-[12%] semihdScreen:w-[11%] laptopScreen:w-[8%] averageScreen:w-[7%] sm:w-[5%]'
-                                      : ''
-                                  }`}
+                                  ${index == 7 ? 'w-[10%]' : ''}`}
                                   >
                                     {key}
                                   </th>
@@ -1695,7 +1679,7 @@ function Registration() {
                                   )}
 
                                   <td
-                                    className={`md:text-base sm:text-sm py-[10px]
+                                    className={`lg:pl-8  md:text-base sm:text-sm py-[10px]
                                         `}
                                   >
                                     <div className="h-2"></div>
@@ -1711,14 +1695,14 @@ function Registration() {
                                         }`}
                                       >
                                         <BsXCircleFill
-                                          className={`mr-1 mt-1 hdScreen:text-xl semihdScreen:text-lg laptopScreen:text-base averageScreen:text-base  sm:text-sm xs:text-xs ${
+                                          className={`mr-1 mt-1 lg:text-xl ${
                                             ignored
                                               ? 'text-gray-500'
                                               : 'text-red-500'
                                           } `}
                                         />
                                         <span
-                                          className={` font-semibold hdScreen:text-base semihdScreen:text-sm laptopScreen:text-sm averageScreen:text-sm xs:text-xs ${
+                                          className={` font-semibold ${
                                             ignored
                                               ? 'text-gray-600'
                                               : 'text-red-600'
@@ -1738,14 +1722,14 @@ function Registration() {
                                         }`}
                                       >
                                         <BsXCircleFill
-                                          className={`mr-1 mt-1 hdScreen:text-xl semihdScreen:text-lg laptopScreen:text-base averageScreen:text-base  sm:text-sm xs:text-xs ${
+                                          className={`mr-1 mt-1 lg:text-xl ${
                                             ignored
                                               ? 'text-gray-500'
                                               : 'text-red-500'
                                           } `}
                                         />
                                         <span
-                                          className={` font-semibold hdScreen:text-base semihdScreen:text-sm laptopScreen:text-sm averageScreen:text-sm xs:text-xs ${
+                                          className={` font-semibold ${
                                             ignored
                                               ? 'text-gray-600'
                                               : 'text-red-600'
@@ -1756,9 +1740,9 @@ function Registration() {
                                       </div>
                                     ) : (
                                       <div className="flex ">
-                                        <VscPassFilled className="mr-1 mt-0.5 hdScreen:text-2xl semihdScreen:text-xl laptopScreen:text-lg averageScreen:text-lg sm:text-sm xs:text-xs text-lime-600" />
+                                        <VscPassFilled className="mr-1 mt-0.5  lg:text-2xl text-lime-600" />
 
-                                        <span className="text-lime-600 font-semibold hdScreen:text-base semihdScreen:text-sm laptopScreen:text-sm averageScreen:text-sm  xs:text-xs">
+                                        <span className="text-lime-600 font-semibold">
                                           [Account valid for registration.]
                                         </span>
                                       </div>
@@ -1783,7 +1767,7 @@ function Registration() {
                 className={`w-full flex justify-between rounded-b-3xl border-2 border-gray-400/40 border-t-gray-400/10 bg-gray-200 py-2.5 pb-3.5 px-5  drop-shadow-[0_2px_2px_rgba(0,0,0,0.35)]
                 ${studentList.length > 0 ? '' : 'hidden'}`}
               >
-                <div className="mt-2 hdScreen:text-lg semihdScreen:text-base laptopScreen:text-sm averageScreen:text-sm xs:text-xs">
+                <div className="mt-2 text-lg">
                   {errorTally > 1 ? (
                     <>
                       [{errorTally}] errors have been{' '}
@@ -1807,25 +1791,21 @@ function Registration() {
                         ? 'hidden'
                         : studentList.length == 0
                         ? 'hidden'
-                        : errorTally == 0
-                        ? 'hidden'
                         : ''
                     }`}
                     onClick={showErrors}
                   >
-                    <span className="hdScreen:text-lg semihdScreen:text-lg laptopScreen:text-base averageScreen:text-base sm:text-sm xs:text-xs flex justify-center">
+                    <span className="lg:text-lg sm:text-base xs:text-sm flex justify-center">
                       {errorTally > 1 ? <>View Errors</> : <>View Error</>}
 
-                      <BsExclamationCircle className="lg:mt-[0.25rem] xs:mt-[0.1rem] lg:ml-2 xs:ml-1  hdScreen:text-[1.2rem] semihdScreen:text-[1.2rem] laptopScreen:text-[1.1rem] averageScreen:text-[1.1rem]" />
+                      <BsExclamationCircle className="lg:mt-[0.25rem] xs:mt-[0.1rem] lg:ml-2 xs:ml-1 lg:text-[1.2rem] xs:text-[1rem]" />
                     </span>
                   </button>
                   <button
                     type="button"
                     className={`ml-4 relative lg:py-1.5 lg:px-4 sm:py-1.5 sm:px-2.5 xs:px-1 xs:py-1 text-white font-normal   shadow-md rounded-xl bg-red-600/90 hover:bg-red-700  ease-in-out transition duration-300 drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)]
                     ${
-                      values.totalErrors == 0
-                        ? 'hidden'
-                        : values.totalErrors == values.totalRows
+                      values.totalErrors == values.totalRows
                         ? 'hidden'
                         : ignored
                         ? 'hidden'
@@ -1839,13 +1819,13 @@ function Registration() {
                     }`}
                     onClick={ignoreWarning}
                   >
-                    <span className="hdScreen:text-lg semihdScreen:text-lg laptopScreen:text-base averageScreen:text-base sm:text-sm xs:text-xs flex justify-center">
+                    <span className="lg:text-lg sm:text-base xs:text-sm flex justify-center">
                       {errorTally > 1 ? (
                         <>Ignore Warnings</>
                       ) : (
                         <>Ignore Warning</>
                       )}
-                      <BsSlashCircle className="lg:mt-[0.25rem] xs:mt-[0.1rem] lg:ml-2 xs:ml-1 hdScreen:text-[1.2rem] semihdScreen:text-[1.2rem] laptopScreen:text-[1.1rem] averageScreen:text-[1.1rem]" />
+                      <BsSlashCircle className="lg:mt-[0.25rem] xs:mt-[0.1rem] lg:ml-2 xs:ml-1 lg:text-[1.2rem] xs:text-[1rem]" />
                     </span>
                   </button>
                   <button
@@ -1870,9 +1850,9 @@ function Registration() {
                         : bulkRegister
                     }
                   >
-                    <span className="pl-2 hdScreen:text-lg semihdScreen:text-lg laptopScreen:text-base averageScreen:text-base sm:text-sm xs:text-xs flex justify-center">
+                    <span className="pl-2 lg:text-lg sm:text-base xs:text-sm flex justify-center">
                       Register
-                      <BsPlus className=" hdScreen:text-[1.8rem] semihdScreen:text-[1.8rem] laptopScreen:text-[1.6rem] averageScreen:text-[1.6rem]" />
+                      <BsPlus className=" lg:text-[1.8rem]" />
                     </span>
                   </button>
                 </div>

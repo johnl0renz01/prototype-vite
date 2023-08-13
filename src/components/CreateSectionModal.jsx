@@ -218,7 +218,7 @@ const CreateSectionModal = ({ visible, onClose, onContinue }) => {
                     htmlFor="adviserName"
                     className="inline-block pt-2 lg:pl-[3.25rem] xs:pl-1 text-right"
                   >
-                    Adviser:{' '}
+                    Teacher:{' '}
                   </label>
                   <select
                     value={values.adviserName}

@@ -145,7 +145,7 @@ const EditSectionModal = ({ visible, onClose, onContinue }) => {
 
     if (values.sectionName.toLowerCase() != currentSection.toLowerCase()) {
       axios
-        .post(
+        .get(
           `http://localhost:80/Prototype-Vite/my-project/api/verifySection/${values.sectionName}`
         )
         .then(function (response) {
@@ -286,7 +286,7 @@ const EditSectionModal = ({ visible, onClose, onContinue }) => {
                     htmlFor="adviserName"
                     className="inline-block pt-2 lg:pl-[3.25rem] xs:pl-1 text-right"
                   >
-                    Adviser:{' '}
+                    Teacher:{' '}
                   </label>
                   <select
                     value={values.adviserName}

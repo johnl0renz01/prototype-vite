@@ -267,7 +267,7 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
     );
     if (tempEmail != currentEmail) {
       axios
-        .post(
+        .get(
           `http://localhost:80/Prototype-Vite/my-project/api/verifyEmail/${tempEmail}`
         )
         .then(function (response) {
@@ -322,7 +322,7 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
     );
     if (tempEmail != currentEmail) {
       axios
-        .post(
+        .get(
           `http://localhost:80/Prototype-Vite/my-project/api/verifyEmail/${tempEmail}`
         )
         .then(function (response) {

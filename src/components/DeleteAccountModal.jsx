@@ -84,11 +84,25 @@ const DeleteAccountModal = ({ visible, onClose, onContinue }) => {
               )}
 
               {assignStatus == 'Assigned' ? (
-                <></>
+                <div className="py-2">
+                  <p className="text-lg font-semibold ">
+                    Do you still want to delete this account?
+                  </p>{' '}
+                  <p className="text-gray-500 text-lg font-normal">
+                    ({currentAccount})
+                  </p>
+                </div>
               ) : (
                 <>
                   {accountType == 'Student' ? (
-                    <></>
+                    <div className="py-2">
+                      <p className="text-lg font-semibold ">
+                        Do you still want to delete this account?
+                      </p>{' '}
+                      <p className="text-gray-500 text-lg font-normal">
+                        ({currentAccount})
+                      </p>
+                    </div>
                   ) : (
                     <div className="py-2">
                       <p className="text-xl font-semibold ">

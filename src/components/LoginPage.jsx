@@ -11,7 +11,11 @@ import { loginSchema } from '../schemas';
 import { VscEyeClosed } from 'react-icons/vsc';
 import { VscEye } from 'react-icons/vsc';
 
-import ForgotPasswordModal from './ForgotPasswordModal';
+import { VscCheckAll, VscPassFilled } from 'react-icons/vsc';
+
+import { BsXCircleFill } from 'react-icons/bs';
+
+import SetPasswordMessageModal from './SetPasswordMessageModal';
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -92,7 +96,7 @@ export default function LoginPage() {
     //console.log("acctype: " + accountType);
     //console.log(accountType == "loginStudent");
 
-    /*checkData();
+    checkData();
     function checkData() {
       if (accountType == 'loginStudent') {
         values.username = 'randomstring';
@@ -100,241 +104,257 @@ export default function LoginPage() {
         values.email = 'randomstring@random';
       }
     }
-    */
   });
 
   const onSubmit = async (values, actions) => {
-    //console.log(accountType);
+    console.log(accountType);
     let isStudent = false;
     let isAdmin = false;
+
+    let firstLogin = false;
     axios
       .post(
         `http://localhost:80/Prototype-Vite/my-project/api/${accountType}/save`,
         values
       )
       .then(function (response) {
-        console.log(response.data);
-        var currentData = JSON.stringify(response.data);
-        setAccountValidation(currentData);
-        //console.log("CURRDATA:" + currentData);
-        currentData = currentData.replace('{', '');
-        currentData = currentData.replace('}', '');
-        currentData = currentData.replace('"GivenName":', '');
-        currentData = currentData.replace('"Email":', '');
-        currentData = currentData.replace('"Password":', '');
-        currentData = currentData.replace('"GroupType":', '');
-        currentData = currentData.replace('"MiddleName":', '');
-        currentData = currentData.replace('"LastName":', '');
-
-        var userData = [];
-        convertStringToArray();
-        function convertStringToArray() {
-          let firstIndex = 0;
-          let endIndex = 0;
-          for (let i = 0; i < currentData.length; i++) {
-            let isEnd = false;
-            if (currentData[i] == ',') {
-              firstIndex = 0;
-              endIndex = 0;
-              continue;
-            }
-
-            if (currentData[i] == '"') {
-              if (firstIndex == 0) {
-                firstIndex = i + 1;
-              } else {
-                endIndex = i;
-                isEnd = true;
-              }
-            }
-            if (isEnd) {
-              //console.log(currentData.substring(firstIndex, endIndex));
-              userData.push(currentData.substring(firstIndex, endIndex));
-              isEnd = false;
-            }
-          }
+        let message = response.data;
+        if (typeof message === 'string') {
+          message = message.replace(/"/g, '');
         }
 
-        console.log(currentData);
-        if (currentData != '"Invalid"') {
-          window.localStorage.setItem('LOGGED', JSON.stringify('TRUE'));
+        console.log(message);
+        if (message == 'setPassword') {
+          firstLogin = true;
+          setNewPass(true);
+        } else {
+          console.log(response.data);
+          var currentData = JSON.stringify(response.data);
+          setAccountValidation(currentData);
+          //console.log("CURRDATA:" + currentData);
+          currentData = currentData.replace('{', '');
+          currentData = currentData.replace('}', '');
+          currentData = currentData.replace('"GivenName":', '');
+          currentData = currentData.replace('"Email":', '');
+          currentData = currentData.replace('"Password":', '');
+          currentData = currentData.replace('"GroupType":', '');
+          currentData = currentData.replace('"MiddleName":', '');
+          currentData = currentData.replace('"LastName":', '');
 
-          if (currentData.includes(',')) {
-            window.localStorage.setItem(
-              'SESSION_USER',
-              JSON.stringify(userData[0])
-            );
-            window.localStorage.setItem(
-              'SESSION_EMAIL',
-              JSON.stringify(userData[1])
-            );
+          var userData = [];
+          convertStringToArray();
+          function convertStringToArray() {
+            let firstIndex = 0;
+            let endIndex = 0;
+            for (let i = 0; i < currentData.length; i++) {
+              let isEnd = false;
+              if (currentData[i] == ',') {
+                firstIndex = 0;
+                endIndex = 0;
+                continue;
+              }
 
-            window.localStorage.setItem(
-              'SYSTEM_VERSION',
-              JSON.stringify(userData[3])
-            );
-
-            var firstName = JSON.stringify(userData[0]);
-            firstName = firstName.replace(/"/g, '');
-
-            var middleName = JSON.stringify(userData[4]);
-            middleName = middleName.replace(/"/g, '');
-
-            var lastName = JSON.stringify(userData[5]);
-            lastName = lastName.replace(/"/g, '');
-
-            var fullName = '';
-            if (middleName != '') {
-              fullName = firstName + ' ' + middleName + ' ' + lastName;
-            } else {
-              fullName = firstName + ' ' + lastName;
-            }
-
-            window.localStorage.setItem(
-              'SESSION_FULLNAME',
-              JSON.stringify(fullName)
-            );
-
-            //window.alert(fullName);
-
-            var emailString = userData[1];
-            for (let i = 0; i < emailString.length; i++) {
-              if (emailString[i].match(/[\@]/)) {
-                emailString = emailString.substring(0, i);
-                emailString = emailString.replace('.', '_');
-                break;
+              if (currentData[i] == '"') {
+                if (firstIndex == 0) {
+                  firstIndex = i + 1;
+                } else {
+                  endIndex = i;
+                  isEnd = true;
+                }
+              }
+              if (isEnd) {
+                //console.log(currentData.substring(firstIndex, endIndex));
+                userData.push(currentData.substring(firstIndex, endIndex));
+                isEnd = false;
               }
             }
-            window.localStorage.setItem(
-              'SESSION_USER_LOGS',
-              JSON.stringify(emailString)
-            );
-
-            isStudent = true;
-          } else if (currentData != '""' && currentData != '[]') {
-            currentData = currentData.replace(/"/g, '');
-            window.localStorage.setItem(
-              'SESSION_USER',
-              JSON.stringify(currentData)
-            );
-            window.localStorage.setItem('SESSION_EMAIL', JSON.stringify(''));
-            isAdmin = true;
           }
 
-          //IS CLOSED
-          window.localStorage.setItem('IS_CLOSED', false);
+          console.log(currentData);
+          if (currentData != '"Invalid"') {
+            window.localStorage.setItem('LOGGED', JSON.stringify('TRUE'));
 
-          axios
-            .post(
-              `http://localhost:80/Prototype-Vite/my-project/api/loginSession/save`,
-              values
-            )
-            .then(function (response) {
-              console.log(response.data);
-              let currentData = JSON.stringify(response.data);
-              setAccountValidation(currentData);
-              //console.log("CURRDATA:" + currentData);
-              currentData = currentData.replace('{', '');
-              currentData = currentData.replace('}', '');
-              currentData = currentData.replace('"UniqueID":', '');
+            if (currentData.includes(',')) {
+              window.localStorage.setItem(
+                'SESSION_USER',
+                JSON.stringify(userData[0])
+              );
+              window.localStorage.setItem(
+                'SESSION_EMAIL',
+                JSON.stringify(userData[1])
+              );
 
-              let userData = [];
-              convertStringToArray();
-              function convertStringToArray() {
-                let firstIndex = 0;
-                let endIndex = 0;
-                for (let i = 0; i < currentData.length; i++) {
-                  let isEnd = false;
-                  if (currentData[i] == ',') {
-                    firstIndex = 0;
-                    endIndex = 0;
-                    continue;
-                  }
+              window.localStorage.setItem(
+                'SYSTEM_VERSION',
+                JSON.stringify(userData[3])
+              );
 
-                  if (currentData[i] == '"') {
-                    if (firstIndex == 0) {
-                      firstIndex = i + 1;
-                    } else {
-                      endIndex = i;
-                      isEnd = true;
-                    }
-                  }
-                  if (isEnd) {
-                    //console.log(currentData.substring(firstIndex, endIndex));
-                    userData.push(currentData.substring(firstIndex, endIndex));
-                    isEnd = false;
-                  }
+              var firstName = JSON.stringify(userData[0]);
+              firstName = firstName.replace(/"/g, '');
+
+              var middleName = JSON.stringify(userData[4]);
+              middleName = middleName.replace(/"/g, '');
+
+              var lastName = JSON.stringify(userData[5]);
+              lastName = lastName.replace(/"/g, '');
+
+              var fullName = '';
+              if (middleName != '') {
+                fullName = firstName + ' ' + middleName + ' ' + lastName;
+              } else {
+                fullName = firstName + ' ' + lastName;
+              }
+
+              window.localStorage.setItem(
+                'SESSION_FULLNAME',
+                JSON.stringify(fullName)
+              );
+
+              //window.alert(fullName);
+
+              var emailString = userData[1];
+              for (let i = 0; i < emailString.length; i++) {
+                if (emailString[i].match(/[\@]/)) {
+                  emailString = emailString.substring(0, i);
+                  emailString = emailString.replace('.', '_');
+                  break;
                 }
               }
               window.localStorage.setItem(
-                'UNIQUE_ID',
-                JSON.stringify(userData[0])
+                'SESSION_USER_LOGS',
+                JSON.stringify(emailString)
               );
 
-              if (isStudent) {
-                var data = '';
-                var email = JSON.parse(
-                  window.localStorage.getItem('SESSION_EMAIL')
-                );
-                if (email === null) email = '';
-                console.log(email);
-                axios
-                  .post(
-                    `http://localhost:80/Prototype-Vite/my-project/api/validateLogin/${email}`,
-                    values
-                  )
-                  .then(function (response) {
-                    console.log(response.data);
-                    data = JSON.stringify(response.data);
-                    data = data.replace(/"/g, '');
-                    data = data.replace(/\\/g, '');
-                    console.log(data);
-                    window.localStorage.setItem(
-                      'ACCOUNT_TYPE',
-                      JSON.stringify(data)
-                    );
+              isStudent = true;
+            } else if (currentData != '""' && currentData != '[]') {
+              currentData = currentData.replace(/"/g, '');
+              window.localStorage.setItem(
+                'SESSION_USER',
+                JSON.stringify(currentData)
+              );
+              window.localStorage.setItem('SESSION_EMAIL', JSON.stringify(''));
+              isAdmin = true;
+            }
 
-                    if (data == 'Student') {
-                      navigate('/Homepage');
-                    } else if (data == 'Teacher') {
-                      var fullName = JSON.parse(
-                        window.localStorage.getItem('SESSION_FULLNAME')
-                      );
-                      if (fullName === null) fullName = '';
-                      fullName = fullName.replace(/ /g, '_');
-                      axios
-                        .get(
-                          `http://localhost:80/Prototype-Vite/my-project/api/teacherLoginSection/${fullName}`
-                        )
-                        .then(function (response) {
-                          console.log(response.data);
-                          var section = response.data;
-                          window.localStorage.setItem(
-                            'CURRENT_SECTION',
-                            JSON.stringify(section)
-                          );
-                          window.localStorage.setItem('LINK_TAB', 0);
-                          navigate('/HomePageTeacher');
-                        });
+            //IS CLOSED
+            window.localStorage.setItem('IS_CLOSED', false);
 
-                      //reloadPage();
+            axios
+              .post(
+                `http://localhost:80/Prototype-Vite/my-project/api/loginSession/save`,
+                values
+              )
+              .then(function (response) {
+                console.log(response.data);
+                let currentData = JSON.stringify(response.data);
+                setAccountValidation(currentData);
+                //console.log("CURRDATA:" + currentData);
+                currentData = currentData.replace('{', '');
+                currentData = currentData.replace('}', '');
+                currentData = currentData.replace('"UniqueID":', '');
+
+                let userData = [];
+                convertStringToArray();
+                function convertStringToArray() {
+                  let firstIndex = 0;
+                  let endIndex = 0;
+                  for (let i = 0; i < currentData.length; i++) {
+                    let isEnd = false;
+                    if (currentData[i] == ',') {
+                      firstIndex = 0;
+                      endIndex = 0;
+                      continue;
                     }
-                  });
-              } else if (isAdmin) {
-                var data = 'Admin';
+
+                    if (currentData[i] == '"') {
+                      if (firstIndex == 0) {
+                        firstIndex = i + 1;
+                      } else {
+                        endIndex = i;
+                        isEnd = true;
+                      }
+                    }
+                    if (isEnd) {
+                      //console.log(currentData.substring(firstIndex, endIndex));
+                      userData.push(
+                        currentData.substring(firstIndex, endIndex)
+                      );
+                      isEnd = false;
+                    }
+                  }
+                }
                 window.localStorage.setItem(
-                  'ACCOUNT_TYPE',
-                  JSON.stringify(data)
+                  'UNIQUE_ID',
+                  JSON.stringify(userData[0])
                 );
-                navigate('/HomePageAdmin');
-                //reloadPage();
-              }
-            });
+
+                if (isStudent) {
+                  var data = '';
+                  var email = JSON.parse(
+                    window.localStorage.getItem('SESSION_EMAIL')
+                  );
+                  if (email === null) email = '';
+                  console.log(email);
+                  axios
+                    .post(
+                      `http://localhost:80/Prototype-Vite/my-project/api/validateLogin/${email}`,
+                      values
+                    )
+                    .then(function (response) {
+                      console.log(response.data);
+                      data = JSON.stringify(response.data);
+                      data = data.replace(/"/g, '');
+                      data = data.replace(/\\/g, '');
+                      console.log(data);
+                      window.localStorage.setItem(
+                        'ACCOUNT_TYPE',
+                        JSON.stringify(data)
+                      );
+
+                      if (data == 'Student') {
+                        navigate('/Homepage');
+                      } else if (data == 'Teacher') {
+                        var fullName = JSON.parse(
+                          window.localStorage.getItem('SESSION_FULLNAME')
+                        );
+                        if (fullName === null) fullName = '';
+                        fullName = fullName.replace(/ /g, '_');
+                        axios
+                          .get(
+                            `http://localhost:80/Prototype-Vite/my-project/api/teacherLoginSection/${fullName}`
+                          )
+                          .then(function (response) {
+                            console.log(response.data);
+                            var section = response.data;
+                            window.localStorage.setItem(
+                              'CURRENT_SECTION',
+                              JSON.stringify(section)
+                            );
+                            window.localStorage.setItem('LINK_TAB', 0);
+                            navigate('/HomePageTeacher');
+                          });
+
+                        //reloadPage();
+                      }
+                    });
+                } else if (isAdmin) {
+                  var data = 'Admin';
+                  window.localStorage.setItem(
+                    'ACCOUNT_TYPE',
+                    JSON.stringify(data)
+                  );
+                  navigate('/HomePageAdmin');
+                  //reloadPage();
+                }
+              });
+          }
+        }
+
+        if (!firstLogin) {
+          actions.resetForm();
         }
       });
-
     await new Promise(resolve => setTimeout(resolve, 1));
-    actions.resetForm();
   };
 
   function reloadPage() {
@@ -357,6 +377,12 @@ export default function LoginPage() {
       email: '',
       password: '',
       username: '',
+
+      newPassword: 'default',
+      confirmPassword: 'default',
+
+      validNew: false,
+      validConfirm: false,
     },
     //Page Validation Form
     validationSchema: loginSchema,
@@ -387,6 +413,8 @@ export default function LoginPage() {
     }
     touched.password = false;
     values.password = '';
+    values.newPassword = 'default';
+    values.confirmPassword = 'default';
   };
 
   const [passwordState, setPasswordState] = useState(false);
@@ -402,19 +430,93 @@ export default function LoginPage() {
     }
   };
 
-  const forgotPassword = () => {
-    setShowModal(true);
+  // SET NEW PASSWORD
+
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [passwordValidation, setPasswordValidation] = useState(true);
+  const [validNewPass, setValidNewPass] = useState(true);
+  const [validConfirmPass, setValidConfirmPass] = useState(true);
+
+  function onlyLettersAndNumbers(str) {
+    return Boolean(str.match(/^[A-Za-z0-9]*$/));
+  }
+
+  const newPasswordChange = event => {
+    const value = event.target.value;
+    if (onlyLettersAndNumbers(value)) {
+      setValidNewPass(true);
+      values.validNew = true;
+    } else {
+      setValidNewPass(false);
+      values.validNew = false;
+    }
+
+    if (value == '') {
+      setValidNewPass(true);
+      values.validNew = false;
+    }
+
+    values.newPassword = value;
+    setNewPassword(value);
+    handleChange.newPassword;
+    handleChange.validNew;
+
+    if (value == values.confirmPassword) {
+      setValidConfirmPass(true);
+      values.validConfirm = true;
+    } else {
+      setValidConfirmPass(false);
+      values.validConfirm = false;
+    }
+    handleChange.validConfirm;
+
+    //UPDATE INSTANTLY
+    document.getElementById('newPassword').focus();
+    document.getElementById('newPassword').blur();
+    document.getElementById('newPassword').focus();
   };
 
-  // MODAL FORGOT PASSWORD
+  const confirmPasswordChange = event => {
+    const value = event.target.value;
+    if (value == values.newPassword) {
+      setValidConfirmPass(true);
+      values.validConfirm = true;
+    } else {
+      setValidConfirmPass(false);
+      values.validConfirm = false;
+    }
+
+    values.confirmPassword = value;
+    setConfirmPassword(value);
+    handleChange.confirmPassword;
+    handleChange.validConfirm;
+
+    //UPDATE INSTANTLY
+    document.getElementById('confirmPassword').focus();
+    document.getElementById('confirmPassword').blur();
+    document.getElementById('confirmPassword').focus();
+  };
+
+  const submitNewPassword = () => {
+    let passwordNew = values.newPassword;
+    let email = values.email;
+    if (values.validNew && values.validConfirm) {
+      axios
+        .post(
+          `http://localhost:80/Prototype-Vite/my-project/api/setNewPassword/${email}@${passwordNew}`
+        )
+        .then(function (response) {
+          setShowModal(true);
+        });
+    }
+  };
+
+  // PASSWORD SET MODAL
   const [showModal, setShowModal] = useState(false);
   const handleOnCloseModal = () => setShowModal(false);
 
-  const handleOnContinueModal = () => {
-    setMessageModal(true);
-    setShowModal(false);
-  };
-
+  const [newPass, setNewPass] = useState(false);
   const [forgotPass, setForgotPass] = useState(false);
   const [accountFor, setAccountFor] = useState('Student');
 
@@ -435,7 +537,9 @@ export default function LoginPage() {
               <hr />
               <div className="hdScreen:text-4xl semihdScreen:text-4xl laptopScreen:text-3xl  averageScreen:text-3xl sm:text-2xl xs:text-lg text-gray-700 font-bold text-center">
                 <div className="pt-4 pb-2 select-none">
-                  {forgotPass ? (
+                  {newPass ? (
+                    <>Set New Password</>
+                  ) : forgotPass ? (
                     <>Forgot Password</>
                   ) : (
                     <>
@@ -448,7 +552,9 @@ export default function LoginPage() {
               <div className="p-1 rounded-xl lg:text-2xl xs:text-base grid place-items-center text-gray-400">
                 <h1 className="select-none">
                   (
-                  {forgotPass ? (
+                  {newPass ? (
+                    <>Fill-up required details</>
+                  ) : forgotPass ? (
                     <>Fill-up required details</>
                   ) : (
                     <>Log-in to your account</>
@@ -456,7 +562,9 @@ export default function LoginPage() {
                   )
                 </h1>
 
-                {forgotPass ? (
+                {newPass ? (
+                  <div className="pt-4"></div>
+                ) : forgotPass ? (
                   <div className="pt-4 w-full">
                     <p className="lg:text-lg text-center py-2 text-gray-800">
                       Select the account type for password reset.
@@ -500,7 +608,9 @@ export default function LoginPage() {
               <div className="">
                 <form
                   onSubmit={handleSubmit}
-                  className={`${forgotPass ? 'hidden' : ''}`}
+                  className={`${
+                    newPass ? 'hidden' : forgotPass ? 'hidden' : ''
+                  }`}
                 >
                   {/* Email Input */}
 
@@ -631,7 +741,140 @@ export default function LoginPage() {
                     </button>
                   </div>
                 </form>
-                {/* Forgot Password area */}
+                {/* Set New Password */}
+                {newPass ? (
+                  <div className="mt-2">
+                    <div className="border-2 border-gray-400 p-4 pb-6 rounded-xl">
+                      <p className="text-justify">
+                        The password must be at least 8 characters long, and it
+                        must not contain any special characters or spaces.
+                      </p>
+                      {/* New Password Input */}
+                      <div className="my-1 text-left h-20">
+                        <div className="relative">
+                          <div className="inline-flex ">
+                            <label
+                              htmlFor="newPassword"
+                              className="mr-2 lg:text-lg sm:text-base xs:text-xs mt-1.5 ml-1 font-semibold"
+                            >
+                              {' '}
+                              New Password:{' '}
+                            </label>
+
+                            <div className="mt-2">
+                              {errors.newPassword && touched.newPassword ? (
+                                <p className="text-red-500 flex-w lg:text-base xs:text-xs">
+                                  {errors.newPassword}
+                                </p>
+                              ) : newPassword == '' ? (
+                                <></>
+                              ) : validNewPass ? (
+                                <div className="text-lime-600 flex lg:text-base xs:text-xs">
+                                  <VscPassFilled className="mt-1.5 mr-1 lg:text-sm text-lime-600" />
+                                  Valid
+                                </div>
+                              ) : (
+                                <div className="text-red-500 flex lg:text-base xs:text-xs">
+                                  <BsXCircleFill className="mt-1.5 mr-1 lg:text-sm text-red-500" />
+                                  Invalid
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                          <input
+                            onFocus={function () {
+                              setPasswordValidation(true);
+                            }}
+                            id="newPassword"
+                            className={` bg-[#e0e0e0] rounded-xl w-full lg:text-lg sm:text-base xs:text-xs text-gray-700 px-4 pr-10 py-1.5 mr-3 ${
+                              errors.newPassword && touched.newPassword
+                                ? ' border-red-500 focus:border-red-500 border-2 border-solid'
+                                : ''
+                            } `}
+                            type="password"
+                            name="newPassword"
+                            placeholder="Input password"
+                            autoComplete="off"
+                            /* Formik password validation Section */
+
+                            value={newPassword}
+                            onChange={newPasswordChange}
+                            onBlur={handleBlur}
+                          />
+                        </div>
+                      </div>
+                      {/* Confirm Password Input */}
+                      <div className="my-1 text-left h-20">
+                        <div className="relative">
+                          <div className="inline-flex ">
+                            <label
+                              htmlFor="confirmPassword"
+                              className="mr-2 lg:text-lg sm:text-base xs:text-xs mt-1.5 ml-1 font-semibold"
+                            >
+                              {' '}
+                              Confirm Password:{' '}
+                            </label>
+
+                            <div className="mt-2">
+                              {errors.confirmPassword &&
+                              touched.confirmPassword ? (
+                                <p className="text-red-500 flex-w lg:text-base xs:text-xs">
+                                  {errors.confirmPassword}
+                                </p>
+                              ) : confirmPassword == '' ? (
+                                <></>
+                              ) : validConfirmPass ? (
+                                <div className="text-lime-600 flex lg:text-base xs:text-xs">
+                                  <VscPassFilled className="mt-1.5 mr-1 lg:text-sm text-lime-600" />
+                                  Matched
+                                </div>
+                              ) : (
+                                <div className="text-red-500 flex lg:text-base xs:text-xs">
+                                  <BsXCircleFill className="mt-1.5 mr-1 lg:text-sm text-red-500" />
+                                  Not matched
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                          <input
+                            onFocus={function () {
+                              setPasswordValidation(true);
+                            }}
+                            className={` bg-[#e0e0e0] rounded-xl w-full lg:text-lg sm:text-base xs:text-xs text-gray-700 px-4 pr-10 py-1.5 mr-3 ${
+                              errors.confirmPassword && touched.confirmPassword
+                                ? ' border-red-500 focus:border-red-500 border-2 border-solid'
+                                : ''
+                            } `}
+                            id="confirmPassword"
+                            type="password"
+                            name="confirmPassword"
+                            placeholder="Confirm password"
+                            autoComplete="off"
+                            /* Formik password validation Section */
+
+                            value={confirmPassword}
+                            onChange={confirmPasswordChange}
+                            onBlur={handleBlur}
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className=" mt-7 text-center w-full ">
+                      <button
+                        onClick={submitNewPassword}
+                        className="bg-lime-600 rounded-2xl w-1/2 py-2 lg:lg:text-lg sm:text-base xs:text-xs sm:text-md font-semibold hover:bg-lime-700 text-white ease-in-out transition duration-200 transform drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)]"
+                      >
+                        <span className="lg:text-xl sm:text-base xs:text-xs font-semibold">
+                          SUBMIT
+                        </span>
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <></>
+                )}
+
                 {forgotPass ? (
                   <div className="mt-2">
                     <div className="border-2 border-gray-400 p-4 pb-6 rounded-xl">
@@ -655,7 +898,7 @@ export default function LoginPage() {
                         className="bg-lime-600 rounded-2xl w-1/2 py-2 lg:lg:text-lg sm:text-base xs:text-xs sm:text-md font-semibold hover:bg-lime-700 text-white ease-in-out transition duration-200 transform drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)]"
                       >
                         <span className="lg:text-xl sm:text-base xs:text-xs font-semibold">
-                          {forgotPass ? <>SUBMIT</> : <>LOG-IN</>}
+                          SUBMIT
                         </span>
                       </button>
                     </div>
@@ -664,7 +907,9 @@ export default function LoginPage() {
                   <></>
                 )}
 
-                <div className="w-full text-center">
+                <div
+                  className={`w-full text-center ${newPass ? 'hidden' : ''}`}
+                >
                   <span
                     onClick={
                       forgotPass
@@ -685,7 +930,7 @@ export default function LoginPage() {
                     }}
                     type="button"
                     className={`absolute bottom-0 right-0 px-2 rounded-br-2xl text-gray-500 lg:text-sm xs:text-xs  ${
-                      forgotPass ? 'invisible' : ''
+                      newPass ? 'invisible' : forgotPass ? 'invisible' : ''
                     }`}
                   >
                     {accType == 'Student'
@@ -698,10 +943,9 @@ export default function LoginPage() {
           </div>
         </div>
       </div>
-      <ForgotPasswordModal
+      <SetPasswordMessageModal
         onClose={handleOnCloseModal}
         visible={showModal}
-        onContinue={handleOnContinueModal}
       />
     </>
   );

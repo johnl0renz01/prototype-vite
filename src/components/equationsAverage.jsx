@@ -2,6 +2,25 @@ import axios from 'axios';
 
 var EquationGeneratorAverage = (function () {
   const lhsSchemas = [
+    '2x @ 3',
+    '2x @ 3 @ 3',
+    '2x @ 3 @ 3 @ 3',
+    '3 @ 2x',
+    '3 @ 3 @ 2x',
+    '3 @ 3 @ 3 @ 2x',
+    '3 @ 2x @ 3',
+    '3 @ 3 @ 2x @ 3',
+    '3 @ 2x @ 3 @ 3',
+    '2x @ 2x @ 3',
+    '3 @ 2x @ 2x',
+    '2x @ 2x @ 2x',
+    '3 @ 2x @ 3 @ 2x',
+    '2x @ 3 @ 2x @ 3',
+  ];
+  const rhsSchemas = lhsSchemas;
+
+  /*
+  const lhsSchemas = [
     '2x * 3',
     '2x * 3 * 3',
     '3 * 2x',
@@ -49,6 +68,7 @@ var EquationGeneratorAverage = (function () {
   ];
 
   const rhsSchemas = lhsSchemas;
+  */
 
   var averageEquationList = [];
   function generateEquations(quantity) {
@@ -179,8 +199,8 @@ var EquationGeneratorAverage = (function () {
               maximumRange = 99;
             } else {
               // 96-100
-              minimumRange = 11;
-              maximumRange = 99;
+              minimumRange = 100;
+              maximumRange = 999;
             }
             rndInt = randomIntFromInterval(minimumRange, maximumRange);
           }

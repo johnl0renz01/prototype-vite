@@ -21,24 +21,21 @@ for ($i = strlen($section) - 1; $i > 0; $i--) {
 
 switch($_SESSION['method']) {
     case "GET":
-        $sql = "SELECT * FROM section_list WHERE SectionName = '$section'";
-        
-        $stmt = $conn->prepare($sql);
-        $stmt->execute();
-        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        if (count($result) > 0) {
-            $result = "duplicate";
-        } else {
-            $result = "unique";
-        }
-        echo json_encode($result);
         break;
     case "POST":
-       
+        $sql = "DELETE FROM section_list WHERE SectionName = '$section'";
+        $stmt = $conn->prepare($sql);
+
+        if($stmt->execute()) {
+            $response = ['status' => 1, 'message' => 'Record created successfully.'];
+        } else {
+            $response = ['status' => 0, 'message' => 'Failed to create record.'];
+        }
+
+        echo json_encode($response);
         break;
     case "PUT":
         break;
-        
     case "DELETE":
         break;
 }

@@ -35,6 +35,7 @@
     "react-router-dom": "^6.8.2",
     "vite-plugin-full-reload": "^1.0.5",
     "vite-plugin-require": "^1.1.10",
+    "xlsx": "^0.18.5",
     "yup": "^1.0.2"
   },
   "devDependencies": {

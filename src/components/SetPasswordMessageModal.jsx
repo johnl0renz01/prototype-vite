@@ -2,10 +2,10 @@ import React from 'react';
 import { MdClose } from 'react-icons/md';
 import { VscInfo } from 'react-icons/vsc';
 
-const DeleteSectionMessageModal = ({ visible, onClose }) => {
+const SetPasswordMessageModal = ({ visible, onClose }) => {
   const handleOnClose = e => {
     if (e.target.id === 'mainContainer') onClose();
-    //window.location.reload(false);
+    window.location.reload(false);
   };
 
   if (!visible) return null;
@@ -29,9 +29,12 @@ const DeleteSectionMessageModal = ({ visible, onClose }) => {
               </button>
             </div>
           </div>
-          <div className="">
+          <div className="text-center">
             <div className="p-4 ">
-              This section has been deleted successfully.
+              The new password has been set successfully.<br></br>
+              <span className="text-gray-500">
+                (Please log-in with your new password)
+              </span>
             </div>
             <div className="mx-auto text-center border-t-2 border-gray-300 py-3 ">
               <button
@@ -48,4 +51,4 @@ const DeleteSectionMessageModal = ({ visible, onClose }) => {
   );
 };
 
-export default DeleteSectionMessageModal;
+export default SetPasswordMessageModal;

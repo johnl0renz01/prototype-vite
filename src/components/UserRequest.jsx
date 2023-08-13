@@ -115,6 +115,23 @@ export default function UserRequest() {
       });
   };
 
+  const handleChange = event => {
+    //console.log('HEYEHEY');
+    const name = event.target.name;
+    const value = event.target.value;
+    inputText = { [name]: value };
+
+    axios
+      .post(
+        `http://localhost:80/Prototype-Vite/my-project/api/requestList/`,
+        inputText
+      )
+      .then(function (response) {
+        //console.log(response.data);
+        setRequests(response.data);
+      });
+  };
+
   const [navbarWidth, setNavbarWidth] = useState(0);
   const [logoHeight, setLogoHeight] = useState(0);
 
@@ -178,9 +195,38 @@ export default function UserRequest() {
             Request(s)
           </div>
 
-          <div className="text-gray-700 mt-1.5 lg:text-lg sm:text-base xs:text-xs font-semibold tracking-wide pl-2">
-            There are currently {counter > 0 ? <>[{counter}]</> : <>no</>}{' '}
-            requests.
+          <div className="mt-1.5">
+            <div className="overflow-hidden hdScreen:py-1 semihdScreen:py-1 laptopScreen:py-0 averageScreen:py-0 pr-2">
+              <div className="inline-flex w-full m-1   rounded-2xl lg:text-lg sm:text-sm xs:text-xs ">
+                <div className="mr-5 text-gray-700 mt-1.5 lg:text-lg sm:text-base xs:text-xs font-semibold tracking-wide pl-2">
+                  There are currently {counter > 0 ? <>[{counter}]</> : <>no</>}{' '}
+                  requests.
+                </div>
+                <div className="grow flex bg-gray-200 shadow-sm shadow-gray-600  items-center text-left rounded-2xl">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="ml-4 md:h-10 md:w-10 xs:h-5 xs:w-10 lg:scale-80 md-scale:80 sm-scale:60 text-gray-400"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                  <input
+                    className="bg-gray-200  outline-none ml-2 block w-full lg:text-lg sm:text-sm xs:text-xs  font-normal"
+                    type="text"
+                    name="searchQuery"
+                    id="searchQuery"
+                    onChange={handleChange}
+                    placeholder="&nbsp;Search Request..."
+                    autoComplete="off"
+                  />
+                </div>
+              </div>
+            </div>
           </div>
 
           <div className="md:mt-6 xs:mt-3 rounded-3xl overflow-hidden bg-gradient-to-t from-gray-200 via-gray-100 to-white  ">

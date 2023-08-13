@@ -673,6 +673,7 @@ var EquationSolver = (function () {
                     console.log("MDsymbol :+_+_+_+_+: " + MDsymbol);
                     console.log("MDindex :+_+_+_+_+: " + MDindex);
                     */
+          let tempConstant = currentConstant;
           if (evaluateCoefficient) {
             if (MDsymbol && MDindex != 0) {
               //ABC console.log("BEFORE MD SYMBOL LETSZFXZFOZPGO: ");
@@ -722,13 +723,18 @@ var EquationSolver = (function () {
                   coefficientIndex = 0;
                 }
                 //removeLastTerm();
+                if (tempConstant != currentConstant) {
+                  if (firstCoefficientFinish) {
+                    // PALATANDAAN
+                    removeLastTerm();
+                    currentCoefficient =
+                      currentCoefficient.concat(tempCoefficient);
 
-                if (firstCoefficientFinish) {
-                  currentCoefficient =
-                    currentCoefficient.concat(tempCoefficient);
-                } else {
-                  removeLastTerm();
-                  currentCoefficient = tempCoefficient;
+                    //currentCoefficient = currentCoefficient.concat(tempCoefficient);
+                  } else {
+                    removeLastTerm();
+                    currentCoefficient = tempCoefficient;
+                  }
                 }
 
                 //ABC console.log("AFTER curr coeff: " + currentCoefficient );
@@ -1160,6 +1166,12 @@ var EquationSolver = (function () {
         RHScoefficientSymbol,
         rhsConstant,
       ].join('');
+
+      if (rhsConstant == '' || rhsConstant == undefined) {
+        if (lhsConstant == '' || lhsConstant == undefined) {
+          lhsConstant = '0';
+        }
+      }
 
       if (checkSimilarity != equation) {
         if (checkSimilarity != stepsArray[0]) {

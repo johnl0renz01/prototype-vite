@@ -268,14 +268,14 @@ export default function ManageAccounts() {
                     name="searchQuery"
                     id="searchQuery"
                     onChange={handleChange}
-                    placeholder="&nbsp;Search Section..."
+                    placeholder="&nbsp;Search Account..."
                     autoComplete="off"
                   />
                 </div>
                 <button
                   onClick={e => navigate('/ResetPassword')}
                   type="button"
-                  className="relative hdScreen:w-[19rem] semihdScreen:w-[16.5rem] laptopScreen:w-[15.5rem] averageScreen:w-[15rem] sm:w-[14rem] lg:py-3 lg:px-5 sm:py-1.5 sm:px-2.5 xs:px-1 xs:py-1 text-white font-semibold  shadow-md rounded-full bg-gray-500 hover:bg-gray-600 hover:-translate-y-0.5 ease-in-out transition duration-300 transform drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)]"
+                  className="relative hdScreen:w-[19rem] semihdScreen:w-[16.5rem] laptopScreen:w-[15.5rem] averageScreen:w-[15rem] sm:w-[14rem] lg:py-3 lg:px-5 sm:py-1.5 sm:px-2.5 xs:px-1 xs:py-1 text-white font-semibold  shadow-md rounded-full bg-gray-500/70 hover:bg-gray-600/70  ease-in-out transition duration-300 transform drop-shadow-[0_3px_0px_rgba(0,0,0,0.2)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.35)]"
                 >
                   <span className="pl-2 lg:text-xl sm:text-base xs:text-sm flex justify-center">
                     Reset Password
