@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 26, 2023 at 03:51 AM
+-- Generation Time: Aug 13, 2023 at 12:15 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -48,27 +48,30 @@ CREATE TABLE `accounts` (
 --
 
 INSERT INTO `accounts` (`AccountID`, `GivenName`, `MiddleName`, `LastName`, `Birthdate`, `Age`, `Gender`, `GradeLevel`, `Section`, `GroupType`, `Email`, `Password`, `Role`) VALUES
-(4, 'John Lorenz', 'Naga', 'Dela Cruz', '2010-06-09', 12, 'Male', 'Grade 7', 'Aguinaldo', 'Facial Group', 'delacruz.johnlorenz@sanfrancisco.edu.ph', '123456', 'Student'),
-(10, 'Danica', 'Sevilla', 'Mendoza', '2010-10-07', 12, 'Female', 'Grade 7', 'Del Pilar', 'Facial Group', 'mendoza.danica@sanfrancisco.edu.ph', '123456', 'Student'),
-(46, 'John', 'Moe', 'Doe', '2010-02-12', 13, 'Male', 'Grade 7', 'Aguinaldo', 'Facial Group', 'doe.john@sanfrancisco.edu.ph', '$2y$10$agQXvAiDKUZzH8HqU0S6w.yK7rwxVjSu43/Lnt21FtwhSxNGg5eHK', 'Student'),
-(47, 'Suriad', '', 'Dimagiba', '2009-03-31', 14, 'Male', 'Grade 7', 'Bonifacio', 'Facial Group', 'dimagiba.suriad@sanfrancisco.edu.ph', '$2y$10$bbijHt9SUeFMgrkQJ7Ku4OqQ2p9Zab5ea9JBFdrYgf6JSctHeOb2u', 'Student'),
-(48, 'Mark Paul', 'Borja', 'Ramos', '2010-07-30', 13, 'Male', 'Grade 7', 'Aguinaldo', 'Facial Group', 'ramos.markpaul@sanfrancisco.edu.ph', '$2y$10$cjOEThU4JyTAEf6FP5Yf9O9dc9hxSJC0AvhNKCMKf8rsvJkYZeZhi', 'Student'),
-(62, 'Paulyn Joy', 'Chua', 'Dela Cruz', '2010-12-30', 12, 'Female', 'Grade 7', 'Aguinaldo', 'Facial Group', 'delacruz.paulynjoy@sanfrancisco.edu.ph', '$2y$10$NObtQyEvVghDa.6LyMEXcudNlXqipY68IacmaQiB1FSNufGjL.yNO', 'Student'),
-(63, 'Joyce Antonette', 'Buenafe', 'Guadalupe', '2010-12-11', 12, 'Female', 'Grade 7', 'Aguinaldo', 'Facial Group', 'guadalupe.joyceantonette@sanfrancisco.edu.ph', '$2y$10$4XjYRm9va5aNunxsg5ZSIu77cVLFBHBZBpxwqa4gOAavr7lljI8n2', 'Student'),
-(64, 'Jiabianca', 'Lorenzo', 'Macaraeg', '2010-02-29', 13, 'Female', 'Grade 7', 'Aguinaldo', 'Facial Group', 'macaraeg.jiabianca@sanfrancisco.edu.ph', '$2y$10$PWNF2rglW4NhwDJD90v38.tTUh7W9y3VT9KYiWrDxWCxg/G6muZwS', 'Student'),
-(65, 'Piolo Jose', 'Suyu', 'Montesa', '2009-06-21', 13, 'Male', 'Grade 7', 'Aguinaldo', 'Facial Group', 'montesa.piolojose@sanfrancisco.edu.ph', '$2y$10$iQ4ZfmVKyhNKn6aoIsA26uq5lDkxZmkqH1Pybht9cR7lbXHTITQfW', 'Student'),
-(66, 'Chris', '', 'Cornell', '2010-12-25', 12, 'Male', 'Grade 7', 'Aguinaldo', 'Facial Group', 'cornell.chris@sanfrancisco.edu.ph', '$2y$10$I3lnbHd4UV5RN3SX8zf.r.ifvoKIKjvlEYdIJMD4i0Fn90OB2/9Ga', 'Student'),
-(68, 'Triple', '', 'H', '2009-12-09', 13, 'Male', 'Grade 7', 'Bonifacio', 'Facial Group', 'h.triple@sanfrancisco.edu.ph', '$2y$10$T0YXgusm2RQn2OPCup.90Ob8ymuO6h2ctUyYIwnTcDjUC9nHxMlEC', 'Student'),
-(69, 'Beethoven', '', 'Martin', '2011-12-18', 11, 'Male', 'Grade 7', 'Aguinaldo', 'Facial Group', 'martin.beethoven@sanfrancisco.edu.ph', '$2y$10$BX9MOXnMHGdCgRm7GaNY.uM2YMc1vBKUDmvffK0qCw69B2DfyerXm', 'Student'),
-(70, 'Bolby', '', 'Montesa', '2011-02-09', 12, 'Male', 'Grade 7', 'Bonifacio', 'Non Facial Group', 'montesa.bolby@sanfrancisco.edu.ph', '$2y$10$8roK2CbyjmCmH3prsGLl8OyUUWp.YxKYAt.5pzo.Fz8aiOxy4L5xO', 'Student'),
-(71, 'Reynalyn', '', 'Tolentino', '', 0, '', '', '', '', 'tolentino.reynalyn@sanfrancisco.edu.ph', '123456', 'Teacher'),
-(72, 'Arne', '', 'Bana', '', 0, '', '', '', '', 'bana.arne@sanfrancisco.edu.ph', '$2y$10$TUoHhtjk/dKyYYH8TR6MyuwgDNL53Rc3k/VeB8ep8AdvF1e8FHd9q', 'Teacher'),
-(80, 'Emilyn', '', 'Ortencio', '', 0, '', '', '', '', 'ortencio.emilyn@sanfrancisco.edu.ph', '$2y$10$1B3LVyStRaU.ZiGCCW5Tau8K8AVitSSpFA8PEatpWyJy41.Nar4lq', 'Teacher'),
-(81, 'Jovy', '', 'Afable', '', 0, '', '', '', '', 'afable.jovy@sanfrancisco.edu.ph', '$2y$10$N3/b/ROdQ0xOh3Fu3Kk1xO3rwGxzK9hdLu.y25kxs2K1EP4bEdieW', 'Teacher'),
-(82, 'Mary Grace', '', 'Ventura', '', 0, '', '', '', '', 'ventura.marygrace@sanfrancisco.edu.ph', '$2y$10$N/5dpr6IkhKhLAaa.T5Y6uIvB6BsWh4efPYFM0M1HlQNlS7R0lJTq', 'Teacher'),
-(83, 'Imelda', '', 'Ramirez', '', 0, '', '', '', '', 'ramirez.imelda@sanfrancisco.edu.ph', '$2y$10$RPh3ihy/2d4/k5c48cJDAelLPpe.XDylKvEkBLlrR6XN4kbp.qbla', 'Teacher'),
-(84, 'Madelyn', '', 'Co', '', 0, '', '', '', '', 'co.madelyn@sanfrancisco.edu.ph', '$2y$10$92JfZzuHf8P4pb.xDYUDCO5EwWZB5Tv1u4Y/x9ALqeboRQDVV9NG.', 'Teacher'),
-(85, 'Roy', '', 'Callope', '', 0, '', '', '', '', 'callope.roy@sanfrancisco.edu.ph', '$2y$10$sN0bukzDi.Lp2knP42MF9OtaZegHorDaphHnIH4BoMoMmZXH0KdRq', 'Teacher');
+(4, 'John Lorenz', 'Naga', 'Dela Cruz', '2010-06-09', 12, 'Male', 'Grade 7', 'Aguinaldo', 'Facial Group', 'delacruz.johnlorenz@sf.edu.ph', '123456', 'Student'),
+(10, 'Danica', 'Sevilla', 'Mendoza', '2010-10-07', 12, 'Female', 'Grade 7', 'Bonifacio', 'Facial Group', 'mendoza.danica@sf.edu.ph', '123456', 'Student'),
+(46, 'John', 'Moe', 'Doe', '2010-02-12', 13, 'Male', 'Grade 7', 'Aguinaldo', 'Facial Group', 'doe.john@sf.edu.ph', '$2y$10$agQXvAiDKUZzH8HqU0S6w.yK7rwxVjSu43/Lnt21FtwhSxNGg5eHK', 'Student'),
+(47, 'Suriad', '', 'Dimagiba', '2009-03-31', 14, 'Male', 'Grade 7', 'Bonifacio', 'Facial Group', 'dimagiba.suriad@sf.edu.ph', '$2y$10$bbijHt9SUeFMgrkQJ7Ku4OqQ2p9Zab5ea9JBFdrYgf6JSctHeOb2u', 'Student'),
+(48, 'Mark Paul', 'Borja', 'Ramos', '2010-07-30', 13, 'Male', 'Grade 7', 'Aguinaldo', 'Facial Group', 'ramos.markpaul@sf.edu.ph', '$2y$10$cjOEThU4JyTAEf6FP5Yf9O9dc9hxSJC0AvhNKCMKf8rsvJkYZeZhi', 'Student'),
+(62, 'Paulyn Joy', 'Chua', 'Dela Cruz', '2010-12-30', 12, 'Female', 'Grade 7', 'Aguinaldo', 'Facial Group', 'delacruz.paulynjoy@sf.edu.ph', '$2y$10$NObtQyEvVghDa.6LyMEXcudNlXqipY68IacmaQiB1FSNufGjL.yNO', 'Student'),
+(63, 'Joyce Antonette', 'Buenafe', 'Guadalupe', '2010-12-11', 12, 'Female', 'Grade 7', 'Aguinaldo', 'Facial Group', 'guadalupe.joyceantonette@sf.edu.ph', '$2y$10$4XjYRm9va5aNunxsg5ZSIu77cVLFBHBZBpxwqa4gOAavr7lljI8n2', 'Student'),
+(64, 'Jiabianca', 'Lorenzo', 'Macaraeg', '2010-02-29', 13, 'Female', 'Grade 7', 'Aguinaldo', 'Facial Group', 'macaraeg.jiabianca@sf.edu.ph', '$2y$10$PWNF2rglW4NhwDJD90v38.tTUh7W9y3VT9KYiWrDxWCxg/G6muZwS', 'Student'),
+(65, 'Piolo Jose', 'Suyu', 'Montesa', '2009-06-21', 13, 'Male', 'Grade 7', 'Aguinaldo', 'Facial Group', 'montesa.piolojose@sf.edu.ph', '$2y$10$iQ4ZfmVKyhNKn6aoIsA26uq5lDkxZmkqH1Pybht9cR7lbXHTITQfW', 'Student'),
+(66, 'Chris', '', 'Cornell', '2010-12-25', 12, 'Male', 'Grade 7', 'Aguinaldo', 'Facial Group', 'cornell.chris@sf.edu.ph', '$2y$10$I3lnbHd4UV5RN3SX8zf.r.ifvoKIKjvlEYdIJMD4i0Fn90OB2/9Ga', 'Student'),
+(68, 'Triple', '', 'H', '2009-12-09', 13, 'Male', 'Grade 7', 'Del Pilar', 'Facial Group', 'h.triple@sf.edu.ph', '$2y$10$T0YXgusm2RQn2OPCup.90Ob8ymuO6h2ctUyYIwnTcDjUC9nHxMlEC', 'Student'),
+(69, 'Beethoven', '', 'Martin', '2011-12-18', 11, 'Male', 'Grade 7', 'Aguinaldo', 'Facial Group', 'martin.beethoven@sf.edu.ph', '$2y$10$BX9MOXnMHGdCgRm7GaNY.uM2YMc1vBKUDmvffK0qCw69B2DfyerXm', 'Student'),
+(70, 'Bolby', '', 'Montesa', '2011-02-09', 12, 'Male', 'Grade 7', 'Bonifacio', 'Non Facial Group', 'montesa.bolby@sf.edu.ph', '$2y$10$8roK2CbyjmCmH3prsGLl8OyUUWp.YxKYAt.5pzo.Fz8aiOxy4L5xO', 'Student'),
+(71, 'Reynalyn', '', 'Tolentino', '', 0, '', '', '', '', 'tolentino.reynalyn@sf.edu.ph', '123456', 'Teacher'),
+(72, 'Arne', '', 'Bana', '', 0, '', '', '', '', 'bana.arne@sf.edu.ph', '$2y$10$gv70fSjJ.S2pchN2/q4w4.X4f1HB6c3iNxoZEeo9MlFaa90vqAlO.', 'Teacher'),
+(80, 'Emilyn', '', 'Ortencio', '', 0, '', '', '', '', 'ortencio.emilyn@sf.edu.ph', '$2y$10$1B3LVyStRaU.ZiGCCW5Tau8K8AVitSSpFA8PEatpWyJy41.Nar4lq', 'Teacher'),
+(82, 'Mary Grace', '', 'Ventura', '', 0, '', '', '', '', 'ventura.marygrace@sf.edu.ph', '$2y$10$N/5dpr6IkhKhLAaa.T5Y6uIvB6BsWh4efPYFM0M1HlQNlS7R0lJTq', 'Teacher'),
+(83, 'Imelda', '', 'Ramirez', '', 0, '', '', '', '', 'ramirez.imelda@sf.edu.ph', '$2y$10$RPh3ihy/2d4/k5c48cJDAelLPpe.XDylKvEkBLlrR6XN4kbp.qbla', 'Teacher'),
+(84, 'Madelyn', '', 'Co', '', 0, '', '', '', '', 'co.madelyn@sf.edu.ph', '$2y$10$92JfZzuHf8P4pb.xDYUDCO5EwWZB5Tv1u4Y/x9ALqeboRQDVV9NG.', 'Teacher'),
+(85, 'Roy', '', 'Callope', '', 0, '', '', '', '', 'callope.roy@sf.edu.ph', '$2y$10$sN0bukzDi.Lp2knP42MF9OtaZegHorDaphHnIH4BoMoMmZXH0KdRq', 'Teacher'),
+(93, 'Jovy', '', 'Afable', '', 0, '', '', '', '', 'afable.jovy@sf.edu.ph', '$2y$10$ZjQjXa1leQZP0TCFRxz/EeeAzru8QCYz/j3pmNukBzfzTxhv4V.ny', 'Teacher'),
+(97, 'Oluf', 'Landulf', 'Fausti', '', 0, 'Male', 'Grade 7', 'Plaridel', 'Facial Group', 'fausti.oluf@sf.edu.ph', '$2y$10$LKJf8id4O/VlTQHQMR6dF.J7a50QksvsRkyc0KQrF9r2ly2.lWNCq', 'Student'),
+(98, 'Zawisza', 'Catriona', 'Ververs', '', 0, 'Female', 'Grade 7', 'Plaridel', 'Facial Group', 'ververs.zawisza@sf.edu.ph', '$2y$10$M1Ubqs1hKAlmxT2paaohTOgAer3QQvFkhyr43ERVlPyFiF0PaIy/6', 'Student'),
+(101, 'Imelda', '', 'Batalla', '', 0, '', '', '', '', 'batalla.imelda@sf.edu.ph', '$2y$10$9Iwx4Nb4KilGdQQdgvn3E.Nj8FG7UNQxWeZMcOHOi2oVJ8bfsEXCW', 'Teacher');
 
 -- --------------------------------------------------------
 
@@ -138,11 +141,8 @@ INSERT INTO `delacruz_johnlorenz` (`SessionID`, `SessionType`, `Score`, `TimeSpe
 (28, 'Easy', 20, '00:04:54', 'Apr 17, 2023 - 04:52 AM', '17-04-2023 04:52:21', '0', '12', '11', '0', ''),
 (29, 'Average', 19, '00:05:59', 'Apr 17, 2023 - 04:57 AM', '17-04-2023 04:57:27', '0', '13', '0', '0', ''),
 (37, 'Average', 20, '00:01:17', 'Apr 17, 2023 - 05:19 AM', '17-04-2023 05:19:13', '0', '8', '0', '0', ''),
-(38, 'Difficult', 15, '0', 'Apr 17, 2023 - 05:20 AM', '17-04-2023 05:20:38', '', '', '', '', ''),
 (39, 'Easy', 0, '12:41:08', 'Apr 17, 2023 - 10:11 AM', '17-04-2023 10:11:35', '1', '4', '3', '0', ''),
-(40, 'Easy', 0, '0', 'Apr 19, 2023 - 10:52 PM', '19-04-2023 22:52:42', '', '', '', '', ''),
 (41, 'Easy', 20, '04:29:52', 'Apr 19, 2023 - 10:55 PM', '19-04-2023 22:55:05', '0', '13', '0', '0', ''),
-(42, '', 0, '0', 'Apr 22, 2023 - 03:25 AM', '22-04-2023 03:25:03', '', '', '', '', ''),
 (43, 'Average', 0, '00:03:13', 'Apr 22, 2023 - 03:25 AM', '22-04-2023 03:25:03', '0', '0', '0', '0', ''),
 (44, 'Easy', 0, '0', 'Apr 22, 2023 - 03:28 AM', '22-04-2023 03:28:16', '', '', '', '', ''),
 (45, 'Average', 1, '08:27:18', 'Apr 22, 2023 - 03:29 AM', '22-04-2023 03:29:59', '5', '1', '11', '0', ''),
@@ -151,8 +151,10 @@ INSERT INTO `delacruz_johnlorenz` (`SessionID`, `SessionType`, `Score`, `TimeSpe
 (48, 'Easy', 20, '03:20:50', 'Apr 29, 2023 - 12:13 PM', '29-04-2023 12:13:36', '4', '18', '22', '2', ''),
 (49, 'Average', 0, '00:03:17', 'Apr 29, 2023 - 03:37 PM', '29-04-2023 15:37:41', '0', '0', '0', '0', ''),
 (50, 'Average', 0, '00:07:12', 'Apr 29, 2023 - 03:40 PM', '29-04-2023 15:40:59', '0', '0', '0', '0', ''),
-(51, 'Easy', 0, '0', 'Jul 06, 2023 - 02:40 AM', '06-07-2023 02:40:47', '', '', '', '', ''),
-(52, 'Easy', 0, '01:32:06', 'Jul 06, 2023 - 09:57 PM', '06-07-2023 21:57:35', '71', '0', '0', '0', 'null');
+(52, 'Easy', 0, '01:32:06', 'Jul 06, 2023 - 09:57 PM', '06-07-2023 21:57:35', '71', '0', '0', '0', 'null'),
+(53, 'Average', 1, '01:56:04', 'Aug 03, 2023 - 06:25 AM', '03-08-2023 06:25:33', '0', '1', '0', '0', 'null'),
+(54, 'Average', 0, '0', 'Aug 03, 2023 - 08:21 AM', '03-08-2023 08:21:37', '', '', '', '', ''),
+(55, 'Average', 0, '10:02:36', 'Aug 03, 2023 - 07:22 PM', '03-08-2023 19:22:52', 'null', 'null', 'null', 'null', 'null');
 
 -- --------------------------------------------------------
 
@@ -232,15 +234,33 @@ CREATE TABLE `equation_list` (
 
 INSERT INTO `equation_list` (`EquationID`, `EquationType`, `EquationString`) VALUES
 (11, 'Average', '2x - 3 = 4x + 5'),
-(12, 'Easy', '3 + 3x = 4x'),
-(13, 'Average', '2 + 9 - 3 = 2 * 2x'),
-(18, 'Easy', '2x + 3 = 4x - 9'),
+(12, 'Average', '3 + 3x = 4x'),
+(13, 'Difficult', '2 + 9 - 3 = 2 * 2x'),
 (21, 'Difficult', '2(23 + x) - 25(2x) = 4 + 3 * 4x - 10020'),
 (22, 'Easy', '2x + 3 = 6'),
-(28, 'Easy', '3 + 2 = 5x'),
-(29, 'Easy', '3 + 2 = 5x'),
 (30, 'Easy', '4x + 5 = 1'),
-(34, 'Easy', '2x + 1 = 5');
+(37, 'Easy', '2x + 3 = 4x - 9'),
+(39, 'Average', '84 - 32x = 11 + 2 - 10x');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `fausti_oluf`
+--
+
+CREATE TABLE `fausti_oluf` (
+  `SessionID` int(10) UNSIGNED NOT NULL,
+  `SessionType` varchar(255) NOT NULL,
+  `Score` int(11) NOT NULL,
+  `TimeSpent` varchar(255) NOT NULL,
+  `TimeStamp` varchar(255) NOT NULL,
+  `TimeStart` varchar(255) NOT NULL,
+  `ExpressionAngry` varchar(255) NOT NULL,
+  `ExpressionHappy` varchar(255) NOT NULL,
+  `ExpressionSad` varchar(255) NOT NULL,
+  `ExpressionSurprised` varchar(255) NOT NULL,
+  `ExpressionMotivation` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -485,7 +505,7 @@ CREATE TABLE `section_list` (
 
 INSERT INTO `section_list` (`SectionID`, `GradeLevel`, `SectionName`, `AdviserName`, `AdviserMiddleName`, `AdviserSurname`, `AdviserTitle`, `SectionImage`) VALUES
 (1, '7', 'Rizal', 'Emilyn Ortencio', '', '', 'Ms', 'rizal.png'),
-(2, '7', 'Bonifacio', 'Arne Bana', '', '', 'Mr', 'bonifacio.png'),
+(2, '7', 'Bonifacio', 'Reynalyn Tolentino', '', '', 'Mr', 'bonifacio.png'),
 (3, '7', 'Mabini', 'Jovy Afable', '', '', 'Mr', 'mabini.png'),
 (4, '7', 'Aguinaldo', 'Reynalyn Tolentino', '', '', 'Mrs', 'aguinaldo.png'),
 (5, '7', 'Jacinto', 'Mary Grace Ventura', '', '', 'Mrs', 'jacinto.png'),
@@ -493,7 +513,208 @@ INSERT INTO `section_list` (`SectionID`, `GradeLevel`, `SectionName`, `AdviserNa
 (7, '7', 'Del Pilar', 'Madelyn Co', '', '', 'Ms', 'del-pilar.png'),
 (8, '7', 'Silang', 'Roy Callope', '', '', 'Mr', 'silang.png'),
 (9, '7', 'Batumbakal', 'Emilyn Ortencio', '', '', '', ''),
-(10, '7', 'Bonifacioz', 'Roy Callope', '', '', '', '');
+(10, '7', 'Bonifacioz', 'Roy Callope', '', '', '', ''),
+(31, '7', 'Plaridel', 'Imelda Batalla', '', '', '', '');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sessions`
+--
+
+CREATE TABLE `sessions` (
+  `SessionID` int(10) UNSIGNED NOT NULL,
+  `UniqueID` varchar(255) NOT NULL,
+  `UserEmail` varchar(255) NOT NULL,
+  `Logged` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `sessions`
+--
+
+INSERT INTO `sessions` (`SessionID`, `UniqueID`, `UserEmail`, `Logged`) VALUES
+(1, 'BT2f00XXFiYYbLnP4wYgXHle3JdCyse59DPPTOyGNiGXbRBg8RImV4gBolMS3SXB', 'tolentino.reynalyn@sf.edu.ph', 'FALSE'),
+(2, 'bwyribQQXvQvZfj6isP1rEPeMntEzB6NGOaanI71YcZhBfqp5A7ydpQrXqP95AqW', 'tolentino.reynalyn@sf.edu.ph', 'FALSE'),
+(3, 'PGkvsapKyLziEwvEso8aq86IgvZCbI9Tht9wus6D0ODROhKibByGopDUOVkwx6XY', 'tolentino.reynalyn@sf.edu.ph', 'FALSE'),
+(4, 'A6DTZHrLkLgOp7vKUYJppdLbcnaaZZFZymEKo0fm9yWCP0XMBjq1tQBwokEecsEp', 'tolentino.reynalyn@sf.edu.ph', 'FALSE'),
+(5, 'od1h3UL7X0at0mdCmzSYKjZobzNbAlCQzBkL5hoppWI894UXKLdj99EneZtikiTj', 'tolentino.reynalyn@sf.edu.ph', 'FALSE'),
+(6, 'jG7J5ntC1sD8hYMEM10Va93ezfysTgFTdY2NfdZlqlSRGWpGsS3fLthdGPpprcuB', 'tolentino.reynalyn@sf.edu.ph', 'FALSE'),
+(7, 'EHSadnCBiz2au6J4GFqfGo2pwXSRVtLT6S8424MgNTjHIr87y0q155KEg6EbVK9Y', 'tolentino.reynalyn@sf.edu.ph', 'FALSE'),
+(8, 'viFqGo6DqdoZ75TiGhcPdrLCyOj5MeSKOcfAokUTVQMIADug9woQ2GjZJVB1oZQd', 'tolentino.reynalyn@sf.edu.ph', 'FALSE'),
+(9, 'IhFpYvwtxQnBOwZw3xs4wTXWWBUPMuoFrnn1MXU2JYOEfYg3QtmrTXKtERViW43C', 'tolentino.reynalyn@sf.edu.ph', 'FALSE'),
+(10, '17P0g57CgKuiwXqOt0mbg6bJnadO1ZwfeHmxXmf20BZ7Aqyuo9flfLu9pmBT8Juk', 'tolentino.reynalyn@sf.edu.ph', 'FALSE'),
+(11, 'bI9r9qzjWwtrOvv4mzEcBg3GWK2IUFMCoSgwGkWpqg1uo8rWgHpFN1iiiXbhNqLy', 'tolentino.reynalyn@sf.edu.ph', 'FALSE'),
+(12, 'pAJyJEVkKxHocmfnBFt7KPs835ibHpjVbq60VLUOiTrYEKmEHUXcz9BrAClG2eUt', 'tolentino.reynalyn@sf.edu.ph', 'FALSE'),
+(13, 'pbXgJ7ENzU8sEas5Gxeiz6AJpHwpOaZLsAUmNpkPbUFKLxlauWAOBpGZrrZSNjmL', 'tolentino.reynalyn@sf.edu.ph', 'FALSE'),
+(14, '9BEagTRmQOkjN0cqxCtbOoqqXXXkpCDZE1UJsr2XfW2acbIzHvLIgBnbz3NOIpKu', 'tolentino.reynalyn@sf.edu.ph', 'FALSE'),
+(15, '4Hxt4KihFKysiHlyGsTSeY7nci3sgufmIBKrt3IxpRXq4iBCDBPeATKEPASiUcIH', 'tolentino.reynalyn@sf.edu.ph', 'FALSE'),
+(16, '5oPGzdre7Ky0K0HTQltoic8pYV5e4wq02gwjBP8jHHwHLei1wAGuYUOoRuqgNSfW', 'tolentino.reynalyn@sf.edu.ph', 'FALSE'),
+(17, 'SNZrsZLwFMfIHacIOPWIFRxbOTDjvG1LRg0GYvxpN78idz0Ogije0L9sHqy3B6Wz', 'tolentino.reynalyn@sf.edu.ph', 'FALSE'),
+(18, '99HdkRneiIQ75w4dKeQTjxCvnZ6tH75r9Ax5AtknA3MKwU6HYD7tX38qB5PH3gwW', 'tolentino.reynalyn@sf.edu.ph', 'FALSE'),
+(19, 'FMvLkP8YdBBeMxPc4I34EyDBjIflOQKl1zKg2K2Ly5FCOEPXa22OOh5CBrqTZzaF', 'tolentino.reynalyn@sf.edu.ph', 'FALSE'),
+(20, 'XpZ4PrwOqN0EVeSUoPFYwwmMsEG1Iw448gZ7Uun3PpUNOrJFtax12BHgFTrhntyN', 'tolentino.reynalyn@sf.edu.ph', 'FALSE'),
+(21, 'NXaACQOfOa2MCbbEpv8lTvBTKQl9dV5FstS6OgrtDWlMsmnjmd7KXiA1I0n79M9f', 'tolentino.reynalyn@sf.edu.ph', 'FALSE'),
+(22, 'eRJFqT78fiitZRmCzts2q4wshBYT2b5T9azk8cTvt8WYFDzXWJzWkncLwChjAnsc', 'tolentino.reynalyn@sf.edu.ph', 'FALSE'),
+(23, 'dJZMER5dW84Yp1JoZcJjyVd8lab1pNpaMSzPj5S9ZuCElqtergS0eSvAhh3tSc7L', 'tolentino.reynalyn@sf.edu.ph', 'FALSE'),
+(24, 'Hjpr72tqjS39nfHPUJ3yXeMh5F8U77L6gsr69L16zeVODWX6bg86XTwlOIrl50xv', 'tolentino.reynalyn@sf.edu.ph', 'FALSE'),
+(25, 'CMDceyfk0L8eFJ98HpnxGfn9j9HDn9H7dcytIgHpKph2fTPMNZGgYFPc8uxeVaEf', 'tolentino.reynalyn@sf.edu.ph', 'FALSE'),
+(26, 'PHRXvWXz4s7BbXAn1XqxqkXMydf6UCD90cnyeapdQMjr7kfKRWPBgg6LkvOUUvvZ', 'tolentino.reynalyn@sf.edu.ph', 'FALSE'),
+(27, '62B5m8BT60OHX4ow8bClBFwcdtYPEYLUr5XJz0bUxEJ2YWeX5iB5NMCiMtYEds6y', 'tolentino.reynalyn@sf.edu.ph', 'FALSE'),
+(28, 'iq0JpTvfWUMjE6f5DC75Y6WW1bTknVul7c83XjIWrRAGNwovbmLD8yraD8huUU5u', 'tolentino.reynalyn@sf.edu.ph', 'FALSE'),
+(29, 'uXVgB99tmRk7iz6s8HCSymvFiVvU3WLws2VKwlMpBFfBBQovoByCqDoDHmvA0eEN', 'tolentino.reynalyn@sf.edu.ph', 'FALSE'),
+(30, 'V99fxlc6EedCDVzcNDsmHvJPnLwrJamc9PraBAQnD2dAqbZeoZBOiCuYgU0uN2qE', 'tolentino.reynalyn@sf.edu.ph', 'FALSE'),
+(31, '3MWJAaAj6lj0lxjR4bp1KNGjkwHONuvk7GbzF9hWVc1YAQPqhE7hjTiPatOdFTLr', 'tolentino.reynalyn@sf.edu.ph', 'FALSE'),
+(32, 'O5I6Smc3KREXmvbytBmkRbjucxKv8WbYRDj8d3hBeAtFsNtJR7uAhr8unB9RzDjg', 'tolentino.reynalyn@sf.edu.ph', 'FALSE'),
+(33, '8kZ7ubqf5Y8YNYtCL5jsnBpTC8sh8Gzeef9Or5U48fhTQRbuORyAnXLGIa0Maq0A', 'tolentino.reynalyn@sf.edu.ph', 'FALSE'),
+(34, 'kdmPNvQ1Hx93mh80sCZAQGEOuG1HvivUvd06hhR2LfAuHsDV42UenmykRZdcsZcG', 'tolentino.reynalyn@sf.edu.ph', 'FALSE'),
+(35, 'PQn51n6ZMyiyOz1fgucM3dX10Po2rNwduF2myJzE4wJ7vHAtEogwsEPgM7NwrwTD', 'tolentino.reynalyn@sf.edu.ph', 'FALSE'),
+(36, 'l3rzFnTdZGkSFLRXFVYgUsQ4bSGZWuxSLl9B6HGHWbVnMZISO94PecPkspQqc0XQ', 'tolentino.reynalyn@sf.edu.ph', 'FALSE'),
+(37, 'BEI5rvWF4C0fuAFwEjWxwUJTG57ytyjdV8zafbnaNOwgYRpXpRKNwFo4ajVLmzKe', 'tolentino.reynalyn@sf.edu.ph', 'FALSE'),
+(38, 'yGaMzrlN2o5CJumdXc3LXXRLYTPM4FjYv1w8gE9SbtJaPpJlzN2pLj4JQaA39SaR', 'tolentino.reynalyn@sf.edu.ph', 'FALSE'),
+(39, 'vBWDTQjYRz5TFeuZxsH3pI1r0zOOcY89SZ8JbWfexQkjNAjvVDhVfsoZ2jpGqRUz', 'tolentino.reynalyn@sf.edu.ph', 'FALSE'),
+(40, 'IRB2ML6zhTsmKO0AwUV0be69RN4cs7eQScczGbyjKybgqkGz5F3BdYMtmcQpTIKG', 'randomstring@random', 'FALSE'),
+(41, 'SaOUbmJqi1u9Mm6vLZJW3hFi5gI5mrjoQU7GGUR9FLmhhknaHbcyY3gwvsPomeYO', 'randomstring@random', 'FALSE'),
+(42, 'KhXQSox0joaDCM4Y7v5yS5G3VbfBhr5WEQxNsKLKkDzVCMw3kN4f2CqtJoqkfXiX', 'tolentino.reynalyn@sf.edu.ph', 'FALSE'),
+(43, '0mE7utZVBYBGMeLz9GtsowXM0neKweHnHvatmMwgTmwKIPEo8l5rZ54SOP0ZpHlm', 'tolentino.reynalyn@sf.edu.ph', 'FALSE'),
+(44, '4sAk01Rk6eXthjzPDIGUzzIAOKZlWitKYxd5f6re4XfNjHzxhbrkvjWy3iedaYBm', 'tolentino.reynalyn@sf.edu.ph', 'FALSE'),
+(45, 'GMvknRNEzY0VzdqDelccV0W4cO3xpBg6UwtlwjkPTCuuLH4PPSXLggfvlQECjOwa', 'randomstring@random', 'FALSE'),
+(46, '0BKdnlWHClifDvnB7iLTXyuc4cosdZTa0roOVudQVBk8DiDgq8B9WthaiB3ZeFle', 'randomstring@random', 'FALSE'),
+(47, 'pegONQlT4sUL8b7GZceE5nHpaN5YCAjGBnOLLm6ZHwAmkF15dQPIwUUccRPRcPXH', 'randomstring@random', 'FALSE'),
+(48, 'ONC1saIqu4EemAOzTxclDnBzECF4Y6hNjXMD3jqp4s54O8HdXYCHgBQZpzpzejRP', 'tolentino.reynalyn@sf.edu.ph', 'FALSE'),
+(49, 'kYxtcS8tywpiYqewkUFHXKypw3rM6f9O8iUN4Nc0mzKZUjYRXUGuEstb98CLYo2k', 'randomstring@random', 'FALSE'),
+(50, '93I8yTGsyk6fbZASklVL4vcaZXbBvE6H9jOEnvFL0epEDZvPyU7HpGPJu8j4mrCa', 'randomstring@random', 'FALSE'),
+(51, 'mgXr6OqA4EItrEh5wYbfFGGaHNDwOu6NtJrhMX6X7AQKHFEkHgWRDsk4GI6vyt1n', 'tolentino.reynalyn@sf.edu.ph', 'FALSE'),
+(52, 'XhzNTdFfO4EsCTc6hfWavskZH9o4lsTgvLwivOHsQcISw6gC0Qmwaa2sWXs6SkUp', 'randomstring@random', 'FALSE'),
+(53, 'p8govsoMzC9IGfd32jOLE1pIATnkvgbOduOwYoKOpadXKqf47FABijNsVzcvXh6c', 'randomstring@random', 'FALSE'),
+(54, 'Oca0sonz4eRPzcjsRaVlEoeTIdmUNMrWaP0ZTDPlRGzRvanDNFNXBT8QY2AYwhK4', 'randomstring@random', 'FALSE'),
+(55, '7VNhsWevNMualhmONoAEW92tuQUZ1w8T53nMLnM70TLY4SNxxoD1qjYguoy38MwA', 'randomstring@random', 'FALSE'),
+(56, 'VTCBV3UXtq6vTfPXLhQKtDez2AOQmLZcrW83zrXVXHt5wP8j1UJSud2v8FSeOHWh', 'randomstring@random', 'FALSE'),
+(57, 'UeLkNwOpk5tdACf7WG7DlB0vg3iTLz4Hs3MKlekMBglgL1BSkok4OPNU257TWDdY', 'randomstring@random', 'FALSE'),
+(58, 'gFbjGALyxwkFFLFqoHbPJkUCPNbsFAMddPdco8vMwJA32hmDS2W6yf0C5voANt0l', 'tolentino.reynalyn@sf.edu.ph', 'FALSE'),
+(59, 'JYx4mMTLmSd3aP6RLoIZ9XGmRUzz8yZYzWN72y03RgZoQ0w7FYGQrM9vUvlDF1VF', 'randomstring@random', 'FALSE'),
+(60, 'NpVDSmrRHZmbtdxnrhvtsxfgtAOyqXyS4uo3UbIrx2qarq7UgbIdjre70hMj2tJl', 'randomstring@random', 'FALSE'),
+(61, 'JgIfaERvGcU8ARweaitBZU6DVJXzlyEpcPjvDbDpIu19U02D0UjnF1ihMKcAsTnh', 'randomstring@random', 'FALSE'),
+(62, 'ysnyxxVKdOLf5Er6FjZUmk5S0D2xsx056TPPjYwjeWYsTdXZ0RpnQJ1qukTMu3GV', 'tolentino.reynalyn@sf.edu.ph', 'FALSE'),
+(63, 'eMYY24L7s8W4EygYHYbWEuzVzppkE751NY8IJHwWOnyINzBOpyyQxWXUFin377hQ', 'tolentino.reynalyn@sf.edu.ph', 'FALSE'),
+(64, 'fhBpOdpXGymxSoVwdM1jdu0gZjJup5cMknFSNQ6CJy8FRsxvwFXupU0hFm8snTl9', 'tolentino.reynalyn@sf.edu.ph', 'FALSE'),
+(65, 'VhEV6aL4Nt1SHLTydtiXE6upXNToExv3UdfyvH4DhRGc3fpviR2hjrmSmb0zJ4RA', 'randomstring@random', 'FALSE'),
+(66, 'ddAKIvRjgsfd8JXVfLCsjI8DtOhtRTwLwF8Yw52uGU3hNXMjG0NgMYKos0Qnenae', 'tolentino.reynalyn@sf.edu.ph', 'FALSE'),
+(67, 'yMfVx3qPam3PNrDKumCEu7f8TcnwQPFdpgZ7TenX54tYqlmfz48U7dYYZE50MmId', 'randomstring@random', 'FALSE'),
+(68, 'gUSzJ2CZrK9D5Cunbrlnqr4PwhIs7pDO7FFHlNjBpvTpo3sYXeqMcIpDfSx5JLS2', 'randomstring@random', 'FALSE'),
+(69, 'syKH9zns3hl10T43pGkq01fOU5PfZkUVb5SBHjJWnLOEgAsJJq5J1vG8CNdT9jTH', 'randomstring@random', 'FALSE'),
+(70, '63Nipt1yCixQfOlT0o77i09ftOWWBlVBpcqelmzs6J2BrRn0QaFIPmaNSCyfq0JQ', 'randomstring@random', 'FALSE'),
+(71, 'NQ0U29PgUcYoA8Gf5jnABvDUlO1sq8OHa3wYvUL345738eSuP47FdLNYBZSyAKmo', 'randomstring@random', 'FALSE'),
+(72, 'uNxHCD2Xfq4yCOzm8dhjd1rf3BWqe1Xn7Xx0qZg4sH87wUCdneF9dhvXZZkACseA', 'randomstring@random', 'FALSE'),
+(73, 'm39wISXTMvcsF2ymZnSUSb1Mf6mkVv46mGW0GM9UV4DXV00sySIbhN0XI6gREZ33', 'randomstring@random', 'FALSE'),
+(74, 'gdGpmBJQw14AdWSkVK2CSZxqd8n8c4H3TWsmUDxU4CktxXKm9PrGto4s596Nx65I', 'randomstring@random', 'FALSE'),
+(75, 'ruqG0BWTei1jD7i1GbjUZCiTtZyZfuTgFIucbzF53xcRsQLkxTEXTkaNiJ7B9wLz', 'tolentino.reynalyn@sf.edu.ph', 'FALSE'),
+(76, 'cefdf30cKChR7rW38cttotZUeQXOQCKVN05K66AJiQwKnFr9e2eKwDN8757imGv1', 'randomstring@random', 'FALSE'),
+(77, 'QL37TDhJuvDp5GOpZuXO9xnkGOrGSVZfREOzwlVgxSwAEobtDmAUKUv9KO0rU384', 'tolentino.reynalyn@sf.edu.ph', 'FALSE'),
+(78, 'guiRLShAdjpTn23BnvCyoVN3X4ojxheXPvJWj6drTvLLdy85pEOTAvrnuXqA22o6', 'randomstring@random', 'FALSE'),
+(79, 'vjYnN5FqjcZvyg3q6Va1hRriVDxtQ8l3sZmcAncaaj7PhJIWgXW514AcfDj4CB9T', 'randomstring@random', 'FALSE'),
+(80, '1ENOFV8mwiLwPEKkvxtUPegsen1PldOrr6dTVaBQ6tPFMdQ9ZscKtAnmLU9DkFsA', 'randomstring@random', 'FALSE'),
+(81, 'TMrwSZGnhyv6w1DvxoheBtxh5VnXLUtjUln3MdaFU389GTjbxx3iktN5mh8j6nHD', 'randomstring@random', 'FALSE'),
+(82, '3vyWpEE3lE3F4Mv7EkCmQ0fC3OuSow8QYW5VIJpetN5vm1HodkP2FMbV993L7ieV', 'randomstring@random', 'FALSE'),
+(83, 'Bw8rbBFba68VgQOKum45mLuwfVqCdJMtpPY4mLmrTgAIr3gC15Q9KTyKJFuYgUC9', 'randomstring@random', 'FALSE'),
+(84, '8nCMDS9n5Jd3RmeiPcwLxDlJmcfRBE57a29BnJ6CtmeQpEORmhTCFU6Dg4ZcvhHu', 'randomstring@random', 'FALSE'),
+(85, 'eeVbrz1VPT5zTIlqcMlT2KE8ykYiLZHh5onWgTQEK5C8R1FTPKzjF582K6Jk2Vz0', 'randomstring@random', 'FALSE'),
+(86, '3DyrBoxZxq5EV37OVPrdkSUi8zYhzjkZWdSgWxZQxeJnhwrQVR4feGwhjNYv8Up1', 'randomstring@random', 'FALSE'),
+(87, 'weGVNMW3D94xFPpu11506mo3kTWg8UKRCG0neVVqIJhaSUznLynbqygl0ayjlvcq', 'randomstring@random', 'FALSE'),
+(88, 'AVEbd8CapHZ1ghxMOWZHxim5wTHEyBGnmuhGmxeSugk5V5mDrFKRfH5fe0w7tOlJ', 'randomstring@random', 'FALSE'),
+(89, 'U5RWw8IqGJldnB20JFryeY9PrB3W46sAX94Wd70rAkJu09T7UqGkS7L2ozNYGbI0', 'tolentino.reynalyn@sf.edu.ph', 'FALSE'),
+(90, 'H4S7XXkmRQhnekv22t2zay7FUCo9q1p0uCe9Naf9PMHxBnHROO4d0RIIXLhb8lFT', 'randomstring@random', 'FALSE'),
+(91, '056B7tqeKal9vF0ALg8vN3FAemaGitiWajN6eLuDsZCIW43tyeyZQkKT12mFiJ8c', 'tolentino.reynalyn@sf.edu.ph', 'FALSE'),
+(92, 'sVkzirGAhLbsQE17BhPqsGMgJHLuDlM6dSBvcrmMy8wDa70fgucYQ5jN8ghqq0CW', 'tolentino.reynalyn@sf.edu.ph', 'FALSE'),
+(93, 'tC7l8HZTwXDn0jm4D0Ef6SGmx7isOeGAz2DjDxNDKYjAfxUgYj6aAMeY9dms2mLS', 'tolentino.reynalyn@sf.edu.ph', 'FALSE'),
+(94, '0I6USdndNsQQaJtkhUkCAZKDUmNPlTaQD9aknzEWnquOPiKcr24yB1Wo1QknRkST', 'tolentino.reynalyn@sf.edu.ph', 'FALSE'),
+(95, 'qIJy6YEcCzs8weSXujtJwQotETwf8L1QuLqxC1g3Xp8rKrFGoOWKJBdVLeyazkpo', 'tolentino.reynalyn@sf.edu.ph', 'FALSE'),
+(96, 'Ibr2v1BoVHcjpw69pInnJr4h5t6GqDzBdQAoAufG47ojXHC8L5sDtlj0IQTAsLPd', 'delacruz.johnlorenz@sf.edu.ph', 'FALSE'),
+(97, 'r2nU3zvL4fz5PLMlZ1xedp9PxOyGvNjU6688LTsWBkpdhyLqGG8Rvf4rc62DXOZ2', 'tolentino.reynalyn@sf.edu.ph', 'FALSE'),
+(98, 'pSfHVIxwp0ChiuLFKBVf6xmOZsZIgkvsNFWdcvDv8JGFK2KNcV6h02kshmeGVznc', 'tolentino.reynalyn@sf.edu.ph', 'FALSE'),
+(99, 'xdvqBripHAcTLM5YHH6FJgOTnVS46Yp5rVqTdHRw4vLbVYLkLYX4SBZFT3N7ZRNm', 'tolentino.reynalyn@sf.edu.ph', 'FALSE'),
+(100, 'AgNKnilCcJb3FmBVTQp3IDqjdL29ppmL35TE5nL8g93tmjf214kPJaVIstAvky89', 'tolentino.reynalyn@sf.edu.ph', 'FALSE'),
+(101, 'eElsLifC69V5hiTKBH3D5edZ2QZHrFvkcZzRQUoUhabeVf5ievU8J8OvQsWRxxOY', 'tolentino.reynalyn@sf.edu.ph', 'FALSE'),
+(102, 'ZYTMyCCQ7618MoTBvW5GhtVCQRogMRMgavtW0AC6kVrmYNZ7XMMaFFsx1Hy28fKe', 'tolentino.reynalyn@sf.edu.ph', 'FALSE'),
+(103, 'll8Ibk4fUgNReE6ZHNCftNvi5D56zrswpNElLyKXG0MUuDAP6tLDMJLtHQKR2zWK', 'tolentino.reynalyn@sf.edu.ph', 'FALSE'),
+(104, 'Rz4NA7cTZioFzAm2aI3ZuZcR2x7hl8wtsiWoT9ExHxOEC09qQcZ5GGKs0sFIx8bG', 'tolentino.reynalyn@sf.edu.ph', 'FALSE'),
+(105, 'tUimY00my5n3K024EgyNXUkIxG2RS6zgM6rXepDo6U7ErlLdtcC2T4yceEp2EMIe', 'tolentino.reynalyn@sf.edu.ph', 'FALSE'),
+(106, 'NAIppqx0SPX8YQlsfldxosSMQbTIxxi22SlFjO2i32XxVvbY141m1pv9k2jWgYDG', 'tolentino.reynalyn@sf.edu.ph', 'FALSE'),
+(107, 'MjNPXxZMxF4Nmzru5MxIc9aVaoM5hjIsWeLfEgcEpmL4ZsuaX4FYJG3nAmKme4lh', 'tolentino.reynalyn@sf.edu.ph', 'FALSE'),
+(108, 'cEplCT3i2r7NirwZw4iRx5hBSySX2Hutq6G5vnn6huouS7eyHvQMVerHElIMTVyP', 'tolentino.reynalyn@sf.edu.ph', 'FALSE'),
+(109, 'LD0wRCsbW5AfhPb81gcW8o4IAtexcVWmclnlwAG7AMoq5XegjzRvVqecCanQqPbX', 'randomstring@random', 'FALSE'),
+(110, 'FaeVp3JbKVQNzln7DhdC4cX6zicF5EPlwwXrzbY0brcIwkHsExCvZwDuZ56JRJ8a', 'randomstring@random', 'FALSE'),
+(111, 'on7L0ZaojY4Fw8YKS48hEKKoSvflIgFJ1qAMXollItYUdPTJIeFQhicTZHmfv0uI', 'tolentino.reynalyn@sf.edu.ph', 'FALSE'),
+(112, 'zyzc1CrNhOndH4ktnAe5CAc8QtDY0grNgOwxz6mbZgCyH2cU1K6vnK2aNbuQXLNk', 'randomstring@random', 'FALSE'),
+(113, '2jpunQz2w5u76HSVKZpgpQ93CB2RvnoPWGNqM8LqRUtAgLSpdkXD3eRBBGim88sA', 'randomstring@random', 'FALSE'),
+(114, 'VZJ6fFwXXGpPgRxsoVTS8smRPiUsg2tCK9YilNkNgT626LB4bw1CnPIURLla4Chz', 'delacruz.johnlorenz@sf.edu.ph', 'FALSE'),
+(115, 'DajIU9pvMTOcr1Zlg2q9Q1UgUnO7JDrNC6gRqXs6R8oXirdxX4N2YQYdszB6rHYl', 'delacruz.johnlorenz@sf.edu.ph', 'FALSE'),
+(116, '08QqmIzfw5O4Bz87jukvRS1Ewd7ZL4CohRfXOxwZK5DtW24F3umO0mxw61OsJuMS', 'randomstring@random', 'FALSE'),
+(117, 'ubFBaCxLtG8iWMFIJLNum40OElv1DvlysPsQ2RilJyDXyxUbufjiquvSSnV4blA1', 'randomstring@random', 'FALSE'),
+(118, 'SpBxXcaThNhtE9yfzJp2YyIurCrFgbMmXK0kwjp9ClaoXXkrprpMxoi8qtj6HpDQ', 'tolentino.reynalyn@sf.edu.ph', 'FALSE'),
+(119, 'waWYvD8tCMdmBTv3jIUG3cy0Iq6exmOvizyLVz6yaEncKoPSZMKgqqchzuRMLPfG', 'delacruz.johnlorenz@sf.edu.ph', 'FALSE'),
+(120, 'k8Aacv2qqRlYEPZFsIJbp3Suo6mJx2aLUs1R5yQiAmolmzTQgW697cEt8BzoQ3NR', 'randomstring@random', 'FALSE'),
+(121, 'rxadbGcKrG75ZVMB0o8dFqYGuf07oon9iPEMqqmNRZWMhkCIC2wLehLZIeBQuQoN', 'randomstring@random', 'FALSE'),
+(122, 'UvsN8YGtO2QI5VOaVl89mMhCJYJc1CcjeI12oPFpdNh5w4O6KXUy4sun5fKHtpI3', 'randomstring@random', 'FALSE'),
+(123, 'sG61jVECdr6YzQmdcA8YKjWLDq2xoEFivSvGkLGyX1IRSWX7bdMMcwKgXe9kUkfb', 'randomstring@random', 'FALSE'),
+(124, 'An8bXW9gshmglT3ZViLtpMMf8tK5MWtPGj77AukwANYsF0VLxgBepBevNfro7zQ7', 'randomstring@random', 'FALSE'),
+(125, 'r8xnWKOO22Rc6SxlJTpmC3K0iT5MzutPZ09ENgJXQfRRt9XKQ46ai8zC6VLv1WUN', 'randomstring@random', 'FALSE'),
+(126, 'yHwpaUQi6TUvqWeiHRhfIr2RSe8FEI4Hha5xutOsVAqWEA2hIZTjpw3L0rJ9rxj5', 'randomstring@random', 'FALSE'),
+(127, 'yHFy6iVdinowNy5XxQWnjSuMGO1eeMgyGSSOuWe6bwM6AaYZLwCwApQmhu3zBybi', 'randomstring@random', 'FALSE'),
+(128, 'ODqxN08n12fBH4AyCdVZ9wQZAmMDkMIdfLzCGJf7u6pRmPDkEh9xuHVubsmUnP6n', 'randomstring@random', 'FALSE'),
+(129, '6uIMBOlPQKLGNH5oz0fin6oa7f29GZrQ6qqNRcs2k94QAkdW16szran3b48SEHLJ', 'randomstring@random', 'FALSE'),
+(130, 'EjFxtZMGHkryFgYQFk3Zc0c1UQ8W4liCbUySWlLklkMPmlIG4QTafYHz3HIWY7wX', 'randomstring@random', 'FALSE'),
+(131, '8kskXhADmlG5I8ajUkqJz2i1IgGulToRTIZB1yjtQcMlR38Qd1BrRdYsLB7q0ClN', 'randomstring@random', 'FALSE'),
+(132, 'EURZgQ9OdMKLqG3OetfJHQB4kdgghdUQ0SxNcI0isz5MC5XByYVkz5gD2FQQrlwU', 'randomstring@random', 'FALSE'),
+(133, 'DTmGQ6chTA0KTpfT6VVLKRDvsQorFEHkcuPDta7zN1EorngEwpoHuRND8Wifd3Wa', 'tolentino.reynalyn@sf.edu.ph', 'FALSE'),
+(134, '6vMsf2dCrurLhlgdusw35uniKWQdsnwb4kFwWxh4BKpNcPa6Uxj3XYfGNYM3FeEO', 'randomstring@random', 'FALSE'),
+(135, '80tQKNEFaqF7swKS7szhIJL0aTWdH1GFcmP2A4CzQrrVhcenoZH607fRvWUy11aC', 'randomstring@random', 'FALSE'),
+(136, 'fwO0bw9tHav3CiTjeWb4wkHzGn3ARlJYp3bKsLF3A8pbnjOLL8GBBJ5qdCrYx23o', 'randomstring@random', 'FALSE'),
+(137, 'M7BfyBcP3UaR5MQZ25zRVclcuHv79pmxPTFWwue16uoDSC0zYuJc0gAptdqV0YoV', 'randomstring@random', 'FALSE'),
+(138, 'EnvnOCzE0yJI5y6D6yjutx82g0XiHUTwg7vEWYKmIXi6jZThf4I1pYU98cAbYFmx', 'randomstring@random', 'FALSE'),
+(139, 'kLEaos4UepNtEVkGKYPen4KfbI0oq3K3O1JoG3W6yQwRw1LcrxswkWSGHk2oqWoc', 'randomstring@random', 'FALSE'),
+(140, 'k9m0M56503wfGynZEfbgYoQz7DldrgNZ9Axk0IFPEMQbRZi5ca3ZBoT9nKEPbjYV', 'randomstring@random', 'FALSE'),
+(141, 'o1wwmsp2Sxw3gg0DU96al6mgZ5M11jidekNZtk41EetA3IoaeoJMla7eVCJRH8zh', 'randomstring@random', 'FALSE'),
+(142, 'ouPrcy7nrjpvVFdynsgqhOUw5Jt3qbQxWjnt5fY6wgnXGFWPzBQF0RneylJC3ZPU', 'randomstring@random', 'FALSE'),
+(143, '0lL0LK0XU39TAVrpuxlm3WgXJC1sTOzHT9RZ6rUXmbEknoXQ5nvzHB4HHuYWHU5F', 'randomstring@random', 'FALSE'),
+(144, 'vXfjy3Hk4Ib3t5JTZrTGjtbfXifvR6wutezJEtnKgmMILAYj4w5HUTqL5qyPFuDu', 'randomstring@random', 'FALSE'),
+(145, 'Dr0xgY3HN5Qg5roEDXErUHsKSaTRrp5ZiumUZsNdDIPJI8kHGYCRMsJgjf2IzNiq', 'randomstring@random', 'FALSE'),
+(146, 'N2i9dRychtYCv9hsvcPqL5U1NhLhorFdsJY2IwoCQkUcWyLk3F21qvX8W0uLO9mE', 'randomstring@random', 'FALSE'),
+(147, 'vJoV8HtPzfppGA0wsNoKqkV27FlnJKaEui45PSuI8NmO94zEGuduUAvdnSByElBB', 'randomstring@random', 'FALSE'),
+(148, 'SJQnNRGfoW3IoFpG1flJRniTa68ZHvgDzQ6BBIzi9Kp4hzMxzydByBiyoEkYRAKL', 'randomstring@random', 'FALSE'),
+(149, 'Uu7pRM9VXW6SxBpIjHMj2PsgcYDYjlISv8xYUbAgnTU5dPLfxMSmDROqoQs4sie6', 'randomstring@random', 'FALSE'),
+(150, 'XR6Veu1TkLoyZrbch2aKUxZZLyikFEIHofXXNuAcNxioRmBRUxgQpPFTqnmK1VaX', 'randomstring@random', 'FALSE'),
+(151, 'Ffh9wYmlecOoU9sJlsK8uEcXKvPj5l5aPvcIGWq4I7veDc8DK6zDRkaKusBhFkhp', 'randomstring@random', 'FALSE'),
+(152, 'N9mR9wN7dPv2K175Yf7YPtLlkOKKxwj7WPFxEpnYD5tCfbceybNpfXFBCuBKVt8A', 'randomstring@random', 'FALSE'),
+(153, 'k3HS1KwtqJDU9m5pnCDiXuJ9jzVJ5KXdpOcxTf2M4faih6kpL1aSQw7VvOkn2Jv6', 'randomstring@random', 'FALSE'),
+(154, 'xMbe00fNyvQDWvyS5pv7IeUMRYesfDVWZhiC2XxgsZZJVuKZq8E2EkZhd7Nb6idD', 'randomstring@random', 'FALSE'),
+(155, 'tSb0awqg7ZZ8NM9JPqQVMPzqmLXYAE54YtySq6OM6sLNr3JkGoKW35f2ywIWqxnk', 'randomstring@random', 'FALSE'),
+(156, 'mTvRmDRhkAo1n0tEj0pJRvCbCzMPomiMot1TFhsiJvZfqlMQvKGxy43lP0MEXpTO', 'randomstring@random', 'FALSE'),
+(157, 'lPpZxa1Wxl5Wmak5Nqj3ULmBPHXEY5dybDitVq3MPu84G0RPuw6BJH0RHePPMRKu', 'batalla.imelda@sf.edu.ph', 'FALSE'),
+(158, 'xtXdvM66SSBcGdHkKNgWkVWh9cCOe6DxRBiFiPYicJTpfrKSIfSk01MDeY98Z5PQ', 'randomstring@random', 'FALSE'),
+(159, 'zLdJ66W4tWudps67Z32xBxDSLGeGOGQHXznPDaJ1i6Lptp9iGW7rmKdVVPBZl2Vm', 'randomstring@random', 'FALSE'),
+(160, 'pwPA1ugQT4qbmnLoousj0iMQfjNssVUUZZpuE6sxFfsWNafE4RZGWOAPa0PyEp29', 'tolentino.reynalyn@sf.edu.ph', 'FALSE'),
+(161, '8NJIZqBCywmgHc9OM1QtKxSOz7ROJdvzowZFepUkumM1KurjR0eHkUOgkNequoPo', 'randomstring@random', 'FALSE'),
+(162, 'UNpGlz4OIOmWIdCTW75195ZYBlQ0EC0FRB9y0qrWhZviwW1JRXvfyVFilIVMj38E', 'tolentino.reynalyn@sf.edu.ph', 'FALSE'),
+(163, 'oHsAGcMwijHqqY5q4hhtAYrVBIt28Iwfewa8V97scsxWxufQ25lNeeJWPKoF22H1', 'bana.arne@sf.edu.ph', 'FALSE'),
+(164, 'cGwWNKXuP7pW7s7VJPCNzWXDeBJFj6PHaaiKC0Hii4c3IJYvVfpQ3aT41jRQNS7V', 'bana.arne@sf.edu.ph', 'FALSE'),
+(165, 'Mrcs49F8bvxzeXCJPQias74ZW8tIQPDgSv2Fjn5Rt6gDSV3SRwC2lMQLFEhDJIHW', 'bana.arne@sf.edu.ph', 'FALSE'),
+(166, 'jVuDuWEjqEYWEYGFFG56W1TBTFEtME4cIkdcMV6K8pH7bsFeMXcuFETCTioAVS29', 'bana.arne@sf.edu.ph', 'FALSE'),
+(167, '4Kf1xrxfFlYJMJTNdyokt7j0GSUUhAUylPwjghcXSZYcF12lPBZugFFsGcXlBy45', 'bana.arne@sf.edu.ph', 'FALSE'),
+(168, 'zAGYeaqM8b1dhRZH0vZ2Jl3eDZ5rfMQFkcrv7B6T6EPHsOuL7jvWA1tPHJeiVil0', 'bana.arne@sf.edu.ph', 'FALSE'),
+(169, 'r5dPbe4jm1KZMWYtGhitR3AN7UjQtcM7WGLzWC96cndqrpRVpfpSRwBjWI5tbGN8', 'randomstring@random', 'FALSE'),
+(170, 'oytvQNHfFEKVYPVme4ccn5XkEC6zmZZweaGA6nyTfICIw6ItLnwNsSdecQq93Z6C', 'bana.arne@sf.edu.ph', 'FALSE'),
+(171, 'vw6Z99zBgPwE5rWYuGmhCzF5B5nqdgFulNwuBvdAwQ6vGmKTgHkOtvjn2WnyPTpu', 'randomstring@random', 'FALSE'),
+(172, '3GG8fNd2OM6J42BIASrypjd7eHaOHdE7yAwNNGD31LZIHJ8Ydy68qnqKGwVZBPCN', 'randomstring@random', 'FALSE'),
+(173, 'Gn8LGHPSRQaT6rqeiAy1vQJt3BKRjXjcPTmB0Y34s9EVaAsq2p3KgHVRZRV2qyVd', 'tolentino.reynalyn@sf.edu.ph', 'FALSE'),
+(174, 'DHwmBa5K14WZVE74RN9kYKPXHbvaOTEo1UZv1cX0FgL53G8brAxlpfk6G6Na5E9v', 'randomstring@random', 'FALSE'),
+(175, 'g0GWA87Emsmjldk8W2jcHEdIkZvX9zz7rYadd3XTdIwnx6q2yEB6ZzeNT1eYeP38', 'tolentino.reynalyn@sf.edu.ph', 'FALSE'),
+(176, 'y79jw5HzwEbLnSOciz4jVZTczkfQJI6WHsqtcccRkL7M4TmIMHWXvquOuw53w0Ji', 'randomstring@random', 'FALSE'),
+(177, 'NPz1o1lwwBxwxTCSCXtQbb57pmKwa8UGsAXA6ie3W7tAj0kQq0M7zgb8PnlkBgdE', 'randomstring@random', 'FALSE'),
+(178, '3vaROWYrkvibSJIejEBuEP8UMq6rbtkcOkP8RyFFhhfV8bfbTUQcJPjahhiv96hG', 'randomstring@random', 'FALSE'),
+(179, 'qnrOorD6GKhcTe0mrKflqzWhN4YNKqtTimz4X5ZHzgy5Ag52qsTryEWirwYwNVzk', 'randomstring@random', 'FALSE'),
+(180, 'KdlUjVBsfL1NCCzLu4Qjd4r2yDCc0c6m1huVI5q5eIT1vWD62ng7KzVqd4QZNf3y', 'randomstring@random', 'FALSE'),
+(181, 'SbzvdlIkOXd83n9vT4UktBGdYSI0BoO8mOgjt7hj3mz2kdEO6NEZvqPk3xBS5y4H', 'randomstring@random', 'TRUE');
 
 -- --------------------------------------------------------
 
@@ -2270,7 +2491,127 @@ INSERT INTO `user_logs` (`inputID`, `user`, `input`, `timestamp`, `user_email`, 
 (1925, 'Chris', 'Pen Button Clicked', '2023-07-21 18:01:33', 'cornell_chris', '129'),
 (1926, 'Chris', 'Pen Button Clicked', '2023-07-21 18:03:08', 'cornell_chris', '130'),
 (1927, 'Chris', 'Pen Button Clicked', '2023-07-21 18:04:32', 'cornell_chris', '130'),
-(1928, 'Chris', 'Pen Button Clicked', '2023-07-21 18:05:13', 'cornell_chris', '130');
+(1928, 'Chris', 'Pen Button Clicked', '2023-07-21 18:05:13', 'cornell_chris', '130'),
+(1929, 'John Lorenz', 'Help Button Clicked', '2023-08-02 22:28:57', 'delacruz_johnlorenz', '53'),
+(1930, 'John Lorenz', 'Help Button Clicked', '2023-08-02 22:29:08', 'delacruz_johnlorenz', '53'),
+(1931, 'John Lorenz', 'Help Button Clicked', '2023-08-02 22:29:18', 'delacruz_johnlorenz', '53'),
+(1932, 'John Lorenz', 'Help Button Clicked', '2023-08-02 22:29:20', 'delacruz_johnlorenz', '53'),
+(1933, 'John Lorenz', 'Help Button Clicked', '2023-08-02 22:29:46', 'delacruz_johnlorenz', '53'),
+(1934, 'John Lorenz', 'Help Button Clicked', '2023-08-02 22:29:55', 'delacruz_johnlorenz', '53'),
+(1935, 'John Lorenz', 'Help Button Clicked', '2023-08-02 22:30:02', 'delacruz_johnlorenz', '53'),
+(1936, 'John Lorenz', 'Help Button Clicked', '2023-08-02 22:30:03', 'delacruz_johnlorenz', '53'),
+(1937, 'John Lorenz', 'Help Button Clicked', '2023-08-02 22:30:09', 'delacruz_johnlorenz', '53'),
+(1938, 'John Lorenz', 'Help Button Clicked', '2023-08-02 22:30:18', 'delacruz_johnlorenz', '53'),
+(1939, 'John Lorenz', 'Help Button Clicked', '2023-08-02 22:30:27', 'delacruz_johnlorenz', '53'),
+(1940, 'John Lorenz', 'Help Button Clicked', '2023-08-02 22:30:29', 'delacruz_johnlorenz', '53'),
+(1941, 'John Lorenz', 'Hint Button Clicked', '2023-08-02 22:30:30', 'delacruz_johnlorenz', '53'),
+(1942, 'John Lorenz', 'Help Button Clicked', '2023-08-02 22:30:31', 'delacruz_johnlorenz', '53'),
+(1943, 'John Lorenz', 'Help Button Clicked', '2023-08-02 22:30:32', 'delacruz_johnlorenz', '53'),
+(1944, 'John Lorenz', 'Help Button Clicked', '2023-08-02 22:30:36', 'delacruz_johnlorenz', '53'),
+(1945, 'John Lorenz', 'Help Button Clicked', '2023-08-02 22:30:40', 'delacruz_johnlorenz', '53'),
+(1946, 'John Lorenz', 'Help Button Clicked', '2023-08-02 22:30:42', 'delacruz_johnlorenz', '53'),
+(1947, 'John Lorenz', 'Help Button Clicked', '2023-08-02 22:30:43', 'delacruz_johnlorenz', '53'),
+(1948, 'John Lorenz', 'Help Button Clicked', '2023-08-02 22:30:44', 'delacruz_johnlorenz', '53'),
+(1949, 'John Lorenz', 'Help Button Clicked', '2023-08-02 22:30:45', 'delacruz_johnlorenz', '53'),
+(1950, 'John Lorenz', 'Help Button Clicked', '2023-08-02 22:30:47', 'delacruz_johnlorenz', '53'),
+(1951, 'John Lorenz', 'Help Button Clicked', '2023-08-02 22:30:47', 'delacruz_johnlorenz', '53'),
+(1952, 'John Lorenz', 'Help Button Clicked', '2023-08-02 22:30:48', 'delacruz_johnlorenz', '53'),
+(1953, 'John Lorenz', 'Help Button Clicked', '2023-08-02 22:30:51', 'delacruz_johnlorenz', '53'),
+(1954, 'John Lorenz', 'Help Button Clicked', '2023-08-02 22:30:51', 'delacruz_johnlorenz', '53'),
+(1955, 'John Lorenz', 'Help Button Clicked', '2023-08-02 22:30:52', 'delacruz_johnlorenz', '53'),
+(1956, 'John Lorenz', 'Help Button Clicked', '2023-08-02 22:31:01', 'delacruz_johnlorenz', '53'),
+(1957, 'John Lorenz', 'Help Button Clicked', '2023-08-02 22:31:07', 'delacruz_johnlorenz', '53'),
+(1958, 'John Lorenz', 'Help Button Clicked', '2023-08-02 22:31:15', 'delacruz_johnlorenz', '53'),
+(1959, 'John Lorenz', 'Help Button Clicked', '2023-08-02 22:31:15', 'delacruz_johnlorenz', '53'),
+(1960, 'John Lorenz', 'Help Button Clicked', '2023-08-02 22:31:16', 'delacruz_johnlorenz', '53'),
+(1961, 'John Lorenz', 'Help Button Clicked', '2023-08-02 22:31:17', 'delacruz_johnlorenz', '53'),
+(1962, 'John Lorenz', 'Help Button Clicked', '2023-08-02 22:31:18', 'delacruz_johnlorenz', '53'),
+(1963, 'John Lorenz', 'Help Button Clicked', '2023-08-02 22:31:39', 'delacruz_johnlorenz', '53'),
+(1964, 'John Lorenz', 'Help Button Clicked', '2023-08-02 22:31:41', 'delacruz_johnlorenz', '53'),
+(1965, 'John Lorenz', 'Help Button Clicked', '2023-08-02 22:31:42', 'delacruz_johnlorenz', '53'),
+(1966, 'John Lorenz', 'Help Button Clicked', '2023-08-02 22:31:52', 'delacruz_johnlorenz', '53'),
+(1967, 'John Lorenz', 'Help Button Clicked', '2023-08-02 22:31:52', 'delacruz_johnlorenz', '53'),
+(1968, 'John Lorenz', 'Help Button Clicked', '2023-08-02 22:32:04', 'delacruz_johnlorenz', '53'),
+(1969, 'John Lorenz', 'Help Button Clicked', '2023-08-02 22:32:05', 'delacruz_johnlorenz', '53'),
+(1970, 'John Lorenz', 'Help Button Clicked', '2023-08-02 22:32:12', 'delacruz_johnlorenz', '53'),
+(1971, 'John Lorenz', 'Help Button Clicked', '2023-08-02 22:32:25', 'delacruz_johnlorenz', '53'),
+(1972, 'John Lorenz', 'Help Button Clicked', '2023-08-02 22:32:26', 'delacruz_johnlorenz', '53'),
+(1973, 'John Lorenz', 'q=0.01', '2023-08-03 00:09:50', 'delacruz_johnlorenz', '53'),
+(1974, 'John Lorenz', 'x=-4', '2023-08-03 00:18:14', 'delacruz_johnlorenz', '53'),
+(1975, 'John Lorenz', 'p=-0.35', '2023-08-03 00:20:45', 'delacruz_johnlorenz', '53'),
+(1976, 'John Lorenz', 'Pen Button Clicked', '2023-08-03 00:32:03', 'delacruz_johnlorenz', '54'),
+(1977, 'John Lorenz', 'Trash Button Clicked', '2023-08-03 00:32:13', 'delacruz_johnlorenz', '54'),
+(1978, 'John Lorenz', 'Tutorial Button Clicked', '2023-08-03 00:32:14', 'delacruz_johnlorenz', '54'),
+(1979, 'John Lorenz', 'Tutorial Button Clicked', '2023-08-03 00:32:15', 'delacruz_johnlorenz', '54'),
+(1980, 'John Lorenz', 'Tutorial Button Clicked', '2023-08-03 00:32:25', 'delacruz_johnlorenz', '54'),
+(1981, 'John Lorenz', 'Tutorial Button Clicked', '2023-08-03 00:36:35', 'delacruz_johnlorenz', '54'),
+(1982, 'John Lorenz', 'Pen Button Clicked', '2023-08-03 00:37:01', 'delacruz_johnlorenz', '54'),
+(1983, 'John Lorenz', 'Tutorial Button Clicked', '2023-08-03 00:37:02', 'delacruz_johnlorenz', '54'),
+(1984, 'John Lorenz', 'Tutorial Button Clicked', '2023-08-03 00:37:04', 'delacruz_johnlorenz', '54'),
+(1985, 'John Lorenz', 'Tutorial Button Clicked', '2023-08-03 00:37:05', 'delacruz_johnlorenz', '54'),
+(1986, 'John Lorenz', 'Tutorial Button Clicked', '2023-08-03 00:37:06', 'delacruz_johnlorenz', '54'),
+(1987, 'John Lorenz', 'Tutorial Button Clicked', '2023-08-03 00:37:08', 'delacruz_johnlorenz', '54'),
+(1988, 'John Lorenz', 'jkj', '2023-08-03 00:37:15', 'delacruz_johnlorenz', '54'),
+(1989, 'John Lorenz', 'kjkjklj', '2023-08-03 00:37:16', 'delacruz_johnlorenz', '54'),
+(1990, 'John Lorenz', 'klklklk', '2023-08-03 00:37:18', 'delacruz_johnlorenz', '54'),
+(1991, 'John Lorenz', 'lklkl', '2023-08-03 00:37:19', 'delacruz_johnlorenz', '54'),
+(1992, 'John Lorenz', 'Trash Button Clicked', '2023-08-03 00:37:23', 'delacruz_johnlorenz', '54'),
+(1993, 'John Lorenz', 'Hint Button Clicked', '2023-08-02 22:50:43', 'delacruz_johnlorenz', '54'),
+(1994, 'John Lorenz', 'Help Button Clicked', '2023-08-02 22:50:46', 'delacruz_johnlorenz', '54'),
+(1995, 'John Lorenz', 'Help Button Clicked', '2023-08-02 22:50:48', 'delacruz_johnlorenz', '54'),
+(1996, 'John Lorenz', 'Help Button Clicked', '2023-08-02 22:51:00', 'delacruz_johnlorenz', '54'),
+(1997, 'John Lorenz', 'Help Button Clicked', '2023-08-02 22:51:02', 'delacruz_johnlorenz', '54'),
+(1998, 'John Lorenz', 'Help Button Clicked', '2023-08-02 22:51:10', 'delacruz_johnlorenz', '54'),
+(1999, 'John Lorenz', 'Help Button Clicked', '2023-08-02 22:51:11', 'delacruz_johnlorenz', '54'),
+(2000, 'John Lorenz', 'Help Button Clicked', '2023-08-02 22:51:14', 'delacruz_johnlorenz', '54'),
+(2001, 'John Lorenz', 'Help Button Clicked', '2023-08-02 22:51:16', 'delacruz_johnlorenz', '54'),
+(2002, 'John Lorenz', 'Help Button Clicked', '2023-08-02 22:51:21', 'delacruz_johnlorenz', '54');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_request`
+--
+
+CREATE TABLE `user_request` (
+  `UserID` int(10) UNSIGNED NOT NULL,
+  `Subject` varchar(255) NOT NULL,
+  `Message` text NOT NULL,
+  `Email` varchar(255) NOT NULL,
+  `Role` varchar(255) NOT NULL,
+  `Status` varchar(255) NOT NULL,
+  `RequestID` varchar(255) NOT NULL,
+  `Timestamp` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `user_request`
+--
+
+INSERT INTO `user_request` (`UserID`, `Subject`, `Message`, `Email`, `Role`, `Status`, `RequestID`, `Timestamp`) VALUES
+(11, 'Hello', 'Try lang', 'tolentino.reynalyn@sf.edu.ph', 'Teacher', 'SOLVED', 'wDSByySXfViH8gceqltI4ojZlM8RjgL7uU5cVTp2ZqxCYJoEM2sbWNXCDfv8QA7S', 'Aug 01, 2023 - 09:56 PM'),
+(12, 'Testing again', 'asdadadas', 'tolentino.reynalyn@sf.edu.ph', 'Teacher', 'SOLVED', 'TikBemlQ3PieWeo2N71FoFSvd5CvtLGR1KkSILsXYD2KaOXEFTpxw7NvsWfu646s', 'Aug 01, 2023 - 10:05 PM'),
+(13, 'HAy hay ', 'heyhey', 'tolentino.reynalyn@sf.edu.ph', 'Teacher', 'UNSOLVED', 'gLSCSyQCsjtwvuIGiLxhUtF6y3szWQq3CrSQNo6PmTeFt3WkuwogfZoqbHmXI3vu', 'Aug 02, 2023 - 08:03 PM');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ververs_zawisza`
+--
+
+CREATE TABLE `ververs_zawisza` (
+  `SessionID` int(10) UNSIGNED NOT NULL,
+  `SessionType` varchar(255) NOT NULL,
+  `Score` int(11) NOT NULL,
+  `TimeSpent` varchar(255) NOT NULL,
+  `TimeStamp` varchar(255) NOT NULL,
+  `TimeStart` varchar(255) NOT NULL,
+  `ExpressionAngry` varchar(255) NOT NULL,
+  `ExpressionHappy` varchar(255) NOT NULL,
+  `ExpressionSad` varchar(255) NOT NULL,
+  `ExpressionSurprised` varchar(255) NOT NULL,
+  `ExpressionMotivation` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -2342,6 +2683,12 @@ ALTER TABLE `equation_list`
   ADD PRIMARY KEY (`EquationID`);
 
 --
+-- Indexes for table `fausti_oluf`
+--
+ALTER TABLE `fausti_oluf`
+  ADD PRIMARY KEY (`SessionID`);
+
+--
 -- Indexes for table `guadalupe_joyceantonette`
 --
 ALTER TABLE `guadalupe_joyceantonette`
@@ -2396,6 +2743,12 @@ ALTER TABLE `section_list`
   ADD PRIMARY KEY (`SectionID`);
 
 --
+-- Indexes for table `sessions`
+--
+ALTER TABLE `sessions`
+  ADD PRIMARY KEY (`SessionID`);
+
+--
 -- Indexes for table `testing`
 --
 ALTER TABLE `testing`
@@ -2414,6 +2767,18 @@ ALTER TABLE `user_logs`
   ADD PRIMARY KEY (`inputID`);
 
 --
+-- Indexes for table `user_request`
+--
+ALTER TABLE `user_request`
+  ADD PRIMARY KEY (`UserID`);
+
+--
+-- Indexes for table `ververs_zawisza`
+--
+ALTER TABLE `ververs_zawisza`
+  ADD PRIMARY KEY (`SessionID`);
+
+--
 -- Indexes for table `zxczx_asd`
 --
 ALTER TABLE `zxczx_asd`
@@ -2427,7 +2792,7 @@ ALTER TABLE `zxczx_asd`
 -- AUTO_INCREMENT for table `accounts`
 --
 ALTER TABLE `accounts`
-  MODIFY `AccountID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=86;
+  MODIFY `AccountID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=102;
 
 --
 -- AUTO_INCREMENT for table `cornell_chris`
@@ -2439,7 +2804,7 @@ ALTER TABLE `cornell_chris`
 -- AUTO_INCREMENT for table `delacruz_johnlorenz`
 --
 ALTER TABLE `delacruz_johnlorenz`
-  MODIFY `SessionID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
+  MODIFY `SessionID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
 
 --
 -- AUTO_INCREMENT for table `delacruz_paulynjoy`
@@ -2463,7 +2828,13 @@ ALTER TABLE `doe_john`
 -- AUTO_INCREMENT for table `equation_list`
 --
 ALTER TABLE `equation_list`
-  MODIFY `EquationID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `EquationID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+
+--
+-- AUTO_INCREMENT for table `fausti_oluf`
+--
+ALTER TABLE `fausti_oluf`
+  MODIFY `SessionID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `guadalupe_joyceantonette`
@@ -2517,7 +2888,13 @@ ALTER TABLE `ramos_markpaul`
 -- AUTO_INCREMENT for table `section_list`
 --
 ALTER TABLE `section_list`
-  MODIFY `SectionID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `SectionID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+
+--
+-- AUTO_INCREMENT for table `sessions`
+--
+ALTER TABLE `sessions`
+  MODIFY `SessionID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=182;
 
 --
 -- AUTO_INCREMENT for table `testing`
@@ -2535,7 +2912,19 @@ ALTER TABLE `user_database`
 -- AUTO_INCREMENT for table `user_logs`
 --
 ALTER TABLE `user_logs`
-  MODIFY `inputID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1929;
+  MODIFY `inputID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2003;
+
+--
+-- AUTO_INCREMENT for table `user_request`
+--
+ALTER TABLE `user_request`
+  MODIFY `UserID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+
+--
+-- AUTO_INCREMENT for table `ververs_zawisza`
+--
+ALTER TABLE `ververs_zawisza`
+  MODIFY `SessionID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `zxczx_asd`
