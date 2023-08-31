@@ -17,6 +17,8 @@ import { BsXCircleFill } from 'react-icons/bs';
 
 import SetPasswordMessageModal from './SetPasswordMessageModal';
 
+import LoginPageSkeleton from './LoginPageSkeleton';
+
 export default function LoginPage() {
   const navigate = useNavigate();
 
@@ -520,9 +522,34 @@ export default function LoginPage() {
   const [forgotPass, setForgotPass] = useState(false);
   const [accountFor, setAccountFor] = useState('Student');
 
+  //FOR SKELETON
+  const [skeletonState, setSkeletonState] = useState(true);
+
+  useEffect(() => {
+    const onPageLoad = () => {
+      setTimeout(hideNavbar, 1000);
+
+      function hideNavbar() {
+        setSkeletonState(false);
+      }
+    };
+    if (document.readyState === 'complete') {
+      onPageLoad();
+    } else {
+      window.addEventListener('load', onPageLoad, false);
+      return () => window.removeEventListener('load', onPageLoad);
+    }
+  }, []);
+
   return (
     <>
-      <div className="hdScreen:h-[calc(100vh-27.5vh)] semihdScreen:h-[calc(100vh-27.5vh)] laptopScreen:h-[calc(100vh-20vh)] averageScreen:h-[calc(100vh-17.5vh)] flex items-center ">
+      <div className={`${!skeletonState ? 'hidden' : ''}`}>
+        <LoginPageSkeleton />
+      </div>
+      <div
+        className={`hdScreen:h-[calc(100vh-27.5vh)] semihdScreen:h-[calc(100vh-27.5vh)] laptopScreen:h-[calc(100vh-20vh)] averageScreen:h-[calc(100vh-17.5vh)] flex items-center 
+                      ${skeletonState ? 'hidden' : ''}`}
+      >
         <div className="mx-auto w-full  grid place-items-center">
           <div
             className="mt-16 

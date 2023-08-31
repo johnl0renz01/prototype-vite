@@ -5,90 +5,11 @@ import axios from 'axios';
 import * as ReactDOM from 'react-dom';
 import $ from 'jquery';
 
-import { BsPersonPlusFill } from 'react-icons/bs';
-import { BsFillPersonVcardFill } from 'react-icons/bs';
-import { BsGearFill } from 'react-icons/bs';
-//import { IconName } from "react-icons/fa";
-
-import EquationSolver from './equationSolver';
-import FileUploadForm from './FileUploadForm.jsx';
-
-import { useFormik } from 'formik';
-import { editAccountSchema } from '../schemas';
-import { editSectionSchema } from '../schemas';
-import { addSectionSchema } from '../schemas';
-
-import { MdClose } from 'react-icons/md';
-import { VscCheckAll, VscPassFilled } from 'react-icons/vsc';
-
-import { BsXCircleFill } from 'react-icons/bs';
-import { BsX } from 'react-icons/bs';
-import { BsSlashCircle } from 'react-icons/bs';
-import { BsTrash3 } from 'react-icons/bs';
-
-import { GoChecklist } from 'react-icons/go';
-import { HiPlusSmall } from 'react-icons/hi2';
-
-import { VscEyeClosed } from 'react-icons/vsc';
-import { VscEye } from 'react-icons/vsc';
-
-import { HiPencilSquare } from 'react-icons/hi2';
-
-import {
-  BsFilePersonFill,
-  BsGraphUp,
-  BsCardHeading,
-  BsCardText,
-  BsJournalText,
-  BsJournal,
-  BsLayoutWtf,
-  BsLayoutThreeColumns,
-  BsPersonBoundingBox,
-  BsViewList,
-  BsUsbC,
-  BsViewStacked,
-  BsWallet,
-  BsWindowStack,
-  BsBarChart,
-  BsTextLeft,
-  BsFillQuestionCircleFill,
-  BsPersonSquare,
-  BsLightbulb,
-  BsArrowCounterclockwise,
-  BsEnvelopeExclamation,
-} from 'react-icons/bs';
-
-import { GoLightBulb } from 'react-icons/go';
-
-import { RxClipboard, RxPerson, RxBarChart, RxLockOpen1 } from 'react-icons/rx';
-
-import {
-  CiViewList,
-  CiEdit,
-  CiViewTable,
-  CiUnlock,
-  CiServer,
-  CiMail,
-} from 'react-icons/ci';
-import { FiEdit2 } from 'react-icons/fi';
-import {
-  LiaLightbulb,
-  LiaAlignLeftSolid,
-  LiaQuestionCircle,
-  LiaSitemapSolid,
-  LiaServerSolid,
-  LiaElementor,
-  LiaUserEditSolid,
-  LiaEnvelope,
-} from 'react-icons/lia';
-
-import { SlOrganization } from 'react-icons/sl';
-
-import { RiLoopRightFill } from 'react-icons/ri';
-
-import { TfiViewListAlt } from 'react-icons/tfi';
+import HomePageAdminSkeleton from './HomePageAdminSkeleton';
 
 export default function HomePageAdmin() {
+  document.body.style.backgroundImage =
+    'linear-gradient(to top, #e2e2e2, #f1f1f1 , #ffffff)';
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -190,8 +111,30 @@ export default function HomePageAdmin() {
     navigate('/HelpPageAdmin');
   };
 
+  //FOR SKELETON
+  const [skeletonState, setSkeletonState] = useState(true);
+
+  useEffect(() => {
+    const onPageLoad = () => {
+      setTimeout(hideNavbar, 1000);
+
+      function hideNavbar() {
+        setSkeletonState(false);
+      }
+    };
+    if (document.readyState === 'complete') {
+      onPageLoad();
+    } else {
+      window.addEventListener('load', onPageLoad, false);
+      return () => window.removeEventListener('load', onPageLoad);
+    }
+  }, []);
+
   return (
     <>
+      <div className={`${!skeletonState ? 'hidden' : ''}`}>
+        <HomePageAdminSkeleton />
+      </div>
       <div
         className={`bg-gradient-to-t from-[#e2e2e2] via-[#f1f1f1] to-[#ffffff] h-screen   
         ${
@@ -204,7 +147,7 @@ export default function HomePageAdmin() {
             : navbarWidth == 39
             ? 'w-[calc(100%-39px)] ml-[39px]'
             : ''
-        }`}
+        } ${skeletonState ? 'hidden' : ''}`}
       >
         <section className="relative mx-auto p-8 w-full">
           <div

@@ -9,7 +9,12 @@ import FinishSessionModal from './FinishSessionModal';
 import EquationSolver from './equationSolver';
 import FeedbackList from './FeedbackList';
 
+import LoadingStudent from './LoadingStudent';
+
 import MY_API_KEY from './API_KEY';
+
+import { BsFillPlayFill } from 'react-icons/bs';
+import { IoArrowUndo } from 'react-icons/io5';
 
 import '../board.css';
 //import Board from "./Board.jsx";
@@ -826,7 +831,7 @@ export default function Whiteboard() {
   // CHANGE  RESPONSE BG COLOR FUNCTION
 
   function changeResponseColor(color) {
-    ReactDOM.findDOMNode(imageBackground).style.backgroundColor = color;
+    //ReactDOM.findDOMNode(imageBackground).style.backgroundColor = color;
     ReactDOM.findDOMNode(messageArea).style.backgroundColor = color;
     ReactDOM.findDOMNode(messageAreaTail).style.borderRight =
       '18px solid ' + color;
@@ -1425,6 +1430,9 @@ export default function Whiteboard() {
     document.getElementById('tutorialArea').style.width =
       penAreaWidthValue + 'px';
 
+    document.getElementById('tutorialAlbum').style.height =
+      penAreaHeightValue + 'px';
+
     //123px and //147px
   }
 
@@ -1724,12 +1732,55 @@ export default function Whiteboard() {
     window.localStorage.setItem('SESSION_END', true);
     setShowModal(true);
   };
+
+  const [tutorialLink, setTutorialLink] = useState(
+    'https://www.youtube.com/embed/crJI4iZ_DbI'
+  );
+
+  const [albumState, setAlbumState] = useState(true);
+  const [videoState, setVideoState] = useState(false);
+
+  //GO BACK TO ALBUM
+  const showAlbum = () => {
+    setAlbumState(true);
+    setVideoState(false);
+  };
+  //TUTORIAL LINKS
+  const video1 = () => {
+    setAlbumState(false);
+    setVideoState(true);
+    setTutorialLink('https://www.youtube.com/embed/crJI4iZ_DbI');
+  };
+
+  //FOR SKELETON
+  const [skeletonState, setSkeletonState] = useState(true);
+
+  useEffect(() => {
+    const onPageLoad = () => {
+      setTimeout(hideNavbar, 1000);
+
+      function hideNavbar() {
+        setSkeletonState(false);
+      }
+    };
+    if (document.readyState === 'complete') {
+      onPageLoad();
+    } else {
+      window.addEventListener('load', onPageLoad, false);
+      return () => window.removeEventListener('load', onPageLoad);
+    }
+  }, []);
+
   return (
     <>
       {/*<!--Container pang edit ng grids--> min-h-[calc(100vh-20rem)] grid-rows-11*/}
+      <div className={`${!skeletonState ? 'hidden' : ''}`}>
+        <LoadingStudent />
+      </div>
       <div
         id="whiteboard"
-        className="hdScreen:scale-90 semihdScreen:scale-90 laptopScreen:scale-[82.5%] averageScreen:scale-80 hdScreen:-mt-8 semihdScreen:-mt-8 laptopScreen:-mt-12 averageScreen:-mt-16  mx-auto hdScreen:w-11/12 semihdScreen:w-11/12 laptopScreen:w-12/12 averageScreen:w-12/12 min-h-[calc(100vh-2rem)] flex items-center justify-center"
+        className={`hdScreen:scale-90 semihdScreen:scale-90 laptopScreen:scale-[82.5%] averageScreen:scale-80 hdScreen:-mt-8 semihdScreen:-mt-8 laptopScreen:-mt-12 averageScreen:-mt-16  mx-auto hdScreen:w-11/12 semihdScreen:w-11/12 laptopScreen:w-12/12 averageScreen:w-12/12 min-h-[calc(100vh-2rem)] flex items-center justify-center
+                  ${skeletonState ? 'hidden' : ''}`}
         onMouseEnter={loadAnswers}
         onClick={loadAnswers}
       >
@@ -1924,20 +1975,131 @@ export default function Whiteboard() {
               {/* PEN AREA, not modal */}
               <div
                 id="tutorialArea"
-                className={`bg-gray-800 absolute  z-50 overflow-hidden" ${
+                className={`bg-gray-800 absolute  z-50 overflow-hidden max-h-[calc(100vh-34.25vh)]" ${
                   isTutorial ? '' : 'invisible'
                 } `}
               >
-                <section>
-                  <div>
+                <section id="tutorialAlbum">
+                  <div
+                    className={`grid grid-cols-4 gap-4 grid-rows-3 bg-white h-full w-full
+                    ${albumState ? '' : 'hidden'}`}
+                  >
+                    <div className=" border-4 border-gray-700 hover:border-white  break-all overflow-hidden shadow drop-shadow-[0_3px_0px_rgba(0,0,0,0.3)]">
+                      <div
+                        onClick={video1}
+                        className=" [&>*:nth-child(odd)]:hover:blur-[3px] [&>*:nth-child(even)]:hover:opacity-100 flex flex-col justify-center  items-center text-center "
+                      >
+                        <img
+                          className=" hover:cursor-pointer border-4 border-slate-700 object-cover w-full h-full transition duration-100"
+                          src="https://i.ytimg.com/vi/crJI4iZ_DbI/hqdefault.jpg"
+                        />
+
+                        <BsFillPlayFill
+                          id="playButton"
+                          className="opacity-0 cursor-pointer absolute top-[32.5%] bg-red-600 hover:bg-red-700 text-white hover:text-gray-100 rounded-full h-10 w-10 z-10 pl-1 transition duration-300 "
+                        />
+                      </div>
+
+                      <div className="p-0.5 text-center hdScreen:text-sm averageScreen:text-xs absolute bottom-0 bg-slate-600 text-white border-t-3 border-slate-700 w-full">
+                        Linear Equations in One Variable
+                        <br></br>
+                        @MathTeacherGon
+                      </div>
+                    </div>
+
+                    <div className=" border-4 border-gray-700 hover:border-white  break-all overflow-hidden shadow drop-shadow-[0_3px_0px_rgba(0,0,0,0.3)]">
+                      <div
+                        onClick={video1}
+                        className=" [&>*:nth-child(odd)]:hover:blur-[3px] [&>*:nth-child(even)]:hover:opacity-100 flex flex-col justify-center  items-center text-center "
+                      >
+                        <img
+                          className=" hover:cursor-pointer border-4 border-slate-700 object-cover w-full h-full transition duration-100"
+                          src="https://i.ytimg.com/vi/crJI4iZ_DbI/hqdefault.jpg"
+                        />
+
+                        <BsFillPlayFill
+                          id="playButton"
+                          className="opacity-0 cursor-pointer absolute top-[32.5%] bg-red-600 hover:bg-red-700 text-white hover:text-gray-100 rounded-full h-10 w-10 z-10 pl-1 transition duration-300 "
+                        />
+                      </div>
+
+                      <div className="p-0.5 text-center hdScreen:text-sm averageScreen:text-xs absolute bottom-0 bg-slate-600 text-white border-t-3 border-slate-700 w-full">
+                        Linear Equations in One Variable
+                        <br></br>
+                        @MathTeacherGon
+                      </div>
+                    </div>
+
+                    <div className=" border-4 border-gray-700 hover:border-white  break-all overflow-hidden shadow drop-shadow-[0_3px_0px_rgba(0,0,0,0.3)]">
+                      <div
+                        onClick={video1}
+                        className=" [&>*:nth-child(odd)]:hover:blur-[3px] [&>*:nth-child(even)]:hover:opacity-100 flex flex-col justify-center  items-center text-center "
+                      >
+                        <img
+                          className=" hover:cursor-pointer border-4 border-slate-700 object-cover w-full h-full transition duration-100"
+                          src="https://i.ytimg.com/vi/crJI4iZ_DbI/hqdefault.jpg"
+                        />
+
+                        <BsFillPlayFill
+                          id="playButton"
+                          className="opacity-0 cursor-pointer absolute top-[32.5%] bg-red-600 hover:bg-red-700 text-white hover:text-gray-100 rounded-full h-10 w-10 z-10 pl-1 transition duration-300 "
+                        />
+                      </div>
+
+                      <div className="p-0.5 text-center hdScreen:text-sm averageScreen:text-xs absolute bottom-0 bg-slate-600 text-white border-t-3 border-slate-700 w-full">
+                        Linear Equations in One Variable
+                        <br></br>
+                        @MathTeacherGon
+                      </div>
+                    </div>
+
+                    <div className=" border-4 border-gray-700 hover:border-white  break-all overflow-hidden shadow drop-shadow-[0_3px_0px_rgba(0,0,0,0.3)]">
+                      <div
+                        onClick={video1}
+                        className=" [&>*:nth-child(odd)]:hover:blur-[3px] [&>*:nth-child(even)]:hover:opacity-100 flex flex-col justify-center  items-center text-center "
+                      >
+                        <img
+                          className=" hover:cursor-pointer border-4 border-slate-700 object-cover w-full h-full transition duration-100"
+                          src="https://i.ytimg.com/vi/crJI4iZ_DbI/hqdefault.jpg"
+                        />
+
+                        <BsFillPlayFill
+                          id="playButton"
+                          className="opacity-0 cursor-pointer absolute top-[32.5%] bg-red-600 hover:bg-red-700 text-white hover:text-gray-100 rounded-full h-10 w-10 z-10 pl-1 transition duration-300 "
+                        />
+                      </div>
+
+                      <div className="p-0.5 text-center hdScreen:text-sm averageScreen:text-xs absolute bottom-0 bg-slate-600 text-white border-t-3 border-slate-700 w-full">
+                        Linear Equations in One Variable
+                        <br></br>
+                        @MathTeacherGon
+                      </div>
+                    </div>
+
+                    {/** 
+                    <div className="w-full h-full bg-white"></div>
+                   
+                    
+                    */}
+                  </div>
+                  <div
+                    className={`absolute w-full h-full 
+                    ${videoState ? '' : 'hidden'}`}
+                  >
                     <iframe
-                      className="absolute w-full aspect-auto h-full"
-                      src="https://www.youtube.com/embed/crJI4iZ_DbI"
+                      className="w-full aspect-auto h-full"
+                      src={tutorialLink}
                       title="Solving linear equations — Harder example | Math | SAT | Khan Academy"
                       frameBorder="0"
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                       allowFullScreen
                     ></iframe>
+                    <IoArrowUndo
+                      onClick={showAlbum}
+                      title="Go back to album"
+                      id="playButton"
+                      className=" p-1.5 cursor-pointer absolute top-3 left-3 bg-red-600 hover:bg-red-700 text-white hover:text-gray-100 rounded-full h-10 w-10 z-10 pl-1 transition duration-300 "
+                    />
                   </div>
                 </section>
               </div>
@@ -1973,7 +2135,7 @@ export default function Whiteboard() {
               className="col-span-5 row-span-5 bg-white border-t-12 border-r-12  border-yellow-700  select-none overflow-hidden"
             >
               <div
-                className="flex  justify-center relative"
+                className="flex justify-center  overflow-hidden"
                 {...(isHelp
                   ? {
                       dataTooltip:
@@ -1984,14 +2146,14 @@ export default function Whiteboard() {
               >
                 <div
                   id="image_bg"
-                  className={`z-10 relative flex items-center text-center justify-center rounded-full bg-slate-200   object-cover w-full mt-3 px-10 pt-2 ml-[70px] mr-[20px] overflow-hidden ${
+                  className={`z-10 scale-[150%] overflow-hidden object-cover mt-2 px-6 pt-10 hdScreen:w-[77.75%] semihdScreen:w-[79%] laptopScreen:w-[80%] averageScreen:w-[81%] ${
                     isHelp
-                      ? 'w-[21rem] hover:border-[5px] hover:border-red-500'
+                      ? 'hdScreen:ml-10 semihdScreen:ml-8 laptopScreen:ml-7 averageScreen:ml-6 hover:border-[5px] hover:border-red-500'
                       : ''
                   }`}
                 >
                   <img
-                    className="-mb-1"
+                    className="-mb-1 "
                     src={require('../assets/facial_expressions/' +
                       imageLink +
                       '.png')}

@@ -80,7 +80,12 @@ import {
 
 import Registration from './Registration';
 
+import HomePageTeacherSkeleton from './HomePageTeacherSkeleton';
+
 export default function HomePageTeacher() {
+  document.body.style.backgroundImage =
+    'linear-gradient(to top, #e2e2e2, #f1f1f1 , #ffffff)';
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -177,8 +182,30 @@ export default function HomePageTeacher() {
     navigate('/HelpPageTeacher');
   };
 
+  //FOR SKELETON
+  const [skeletonState, setSkeletonState] = useState(true);
+
+  useEffect(() => {
+    const onPageLoad = () => {
+      setTimeout(hideNavbar, 1000);
+
+      function hideNavbar() {
+        setSkeletonState(false);
+      }
+    };
+    if (document.readyState === 'complete') {
+      onPageLoad();
+    } else {
+      window.addEventListener('load', onPageLoad, false);
+      return () => window.removeEventListener('load', onPageLoad);
+    }
+  }, []);
+
   return (
     <>
+      <div className={`${!skeletonState ? 'hidden' : ''}`}>
+        <HomePageTeacherSkeleton />
+      </div>
       <div
         className={`bg-gradient-to-t from-[#e2e2e2] via-[#f1f1f1] to-[#ffffff] h-screen   
         ${
@@ -191,7 +218,7 @@ export default function HomePageTeacher() {
             : navbarWidth == 39
             ? 'w-[calc(100%-39px)] ml-[39px]'
             : ''
-        }`}
+        } ${skeletonState ? 'hidden' : ''}`}
       >
         <section className="relative mx-auto p-8 w-full">
           <div

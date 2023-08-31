@@ -12,6 +12,8 @@ import { HiPencilSquare } from 'react-icons/hi2';
 import ImageModalTeacher from './ImageModalTeacher';
 import CreateEquation from './CreateEquation';
 
+import HelpPageTeacherSkeleton from './HelpPageTeacherSkeleton';
+
 export default function HelpPageTeacher() {
   document.body.style.overflow = 'visible';
 
@@ -199,7 +201,7 @@ export default function HelpPageTeacher() {
   //hdScreen: semihdScreen: laptopScreen: averageScreen:
   function Home() {
     return (
-      <div className={linkTab == 0 ? '' : 'hidden'}>
+      <div className={`${linkTab == 0 ? '' : 'hidden'}`}>
         <div id="about">
           <h1 className="inline-block hdScreen:text-3xl semihdScreen:text-2xl laptopScreen:text-xl averageScreen:text-lg sm:text-base xs:text-sm font-[800] text-slate-800/90 tracking-normal">
             Learn about the system
@@ -342,7 +344,7 @@ export default function HelpPageTeacher() {
 
   function ReportCards() {
     return (
-      <div className={linkTab == 1 ? '' : 'hidden'}>
+      <div className={`${linkTab == 1 ? '' : 'hidden'} `}>
         <div id="report-cards">
           <h1 className="inline-block hdScreen:text-3xl semihdScreen:text-2xl laptopScreen:text-xl averageScreen:text-lg sm:text-base xs:text-sm font-[800] text-slate-800/90 tracking-normal">
             Report Cards
@@ -416,10 +418,10 @@ export default function HelpPageTeacher() {
             className="hdScreen:leading-[1.9rem] semihdScreen:leading-[1.6rem] laptopScreen:leading-[1.5rem] averageScreen:leading-[1.5rem]"
           >
             <a
-              id="search-students"
+              id="search-student"
               className="scroll-element hdScreen:text-xl semihdScreen:text-lg laptopScreen:text-lg averageScreen:text-base sm:text-sm xs:text-xs font-bold pb-3"
             >
-              Search students{' '}
+              Search student{' '}
             </a>
             <div className="">
               <p className="hdScreen:py-2 semihdScreen:py-2 laptopScreen:py-1.5 averageScreen:py-1 sm:py-1 xs:py-0.5">
@@ -445,7 +447,7 @@ export default function HelpPageTeacher() {
                 key", it automatically search when the teacher start typing.
                 <br></br>
                 <br></br>
-                As an example below, typing they word "Male" will filter all in
+                As an example below, typing the word "Male" will filter all in
                 each category. The search bar is not case sensitive. <br></br>
                 <span className="text-gray-400">
                   (You can type "male", "MAle", "MALe", "MALE" and still get the
@@ -602,7 +604,7 @@ export default function HelpPageTeacher() {
 
   function EquationList() {
     return (
-      <div className={linkTab == 2 ? '' : 'hidden'}>
+      <div className={`${linkTab == 2 ? '' : 'hidden'}`}>
         <div id="equation-list">
           <h1 className="inline-block hdScreen:text-3xl semihdScreen:text-2xl laptopScreen:text-xl averageScreen:text-lg sm:text-base xs:text-sm font-[800] text-slate-800/90 tracking-normal">
             Equation List
@@ -667,7 +669,7 @@ export default function HelpPageTeacher() {
                       JSON.stringify('equation-list-change-1')
                     );
                 }}
-                className="cursor-pointer border-2 border-gray-300 my-3"
+                className="cursor-pointer border-2 border-gray-300 my-3 w-[50%]"
                 src={require('../assets/teacher_guide/equation-list-change-1.png')}
                 alt=""
               />
@@ -727,7 +729,7 @@ export default function HelpPageTeacher() {
                       JSON.stringify('delete-equation-1')
                     );
                 }}
-                className="cursor-pointer border-2 border-gray-300 my-3"
+                className="cursor-pointer border-2 border-gray-300 my-3  w-[35%]"
                 src={require('../assets/teacher_guide/delete-equation-1.png')}
                 alt=""
               />
@@ -746,7 +748,7 @@ export default function HelpPageTeacher() {
                       JSON.stringify('delete-equation-2')
                     );
                 }}
-                className="cursor-pointer border-2 border-gray-300 my-3"
+                className="cursor-pointer border-2 border-gray-300 my-3 w-[35%]"
                 src={require('../assets/teacher_guide/delete-equation-2.png')}
                 alt=""
               />
@@ -780,7 +782,7 @@ export default function HelpPageTeacher() {
 
   function CreateEquation() {
     return (
-      <div className={linkTab == 3 ? '' : 'hidden'}>
+      <div className={`${linkTab == 3 ? '' : 'hidden'}`}>
         <div id="create-equation">
           <h1 className="inline-block hdScreen:text-3xl semihdScreen:text-2xl laptopScreen:text-xl averageScreen:text-lg sm:text-base xs:text-sm font-[800] text-slate-800/90 tracking-normal">
             Create Equation
@@ -853,7 +855,7 @@ export default function HelpPageTeacher() {
                       JSON.stringify('validate-equation-error')
                     );
                 }}
-                className="cursor-pointer border-2 border-gray-300 my-3"
+                className="cursor-pointer border-2 border-gray-300 my-3 w-[60%]"
                 src={require('../assets/teacher_guide/validate-equation-error.png')}
                 alt=""
               />
@@ -869,7 +871,7 @@ export default function HelpPageTeacher() {
                       JSON.stringify('validate-equation')
                     );
                 }}
-                className="cursor-pointer border-2 border-gray-300 my-3"
+                className="cursor-pointer border-2 border-gray-300 my-3 w-[60%]"
                 src={require('../assets/teacher_guide/validate-equation.png')}
                 alt=""
               />
@@ -979,8 +981,31 @@ export default function HelpPageTeacher() {
       </div>
     );
   }
+
+  //FOR SKELETON
+  const [skeletonState, setSkeletonState] = useState(true);
+
+  useEffect(() => {
+    const onPageLoad = () => {
+      setTimeout(hideNavbar, 1000);
+
+      function hideNavbar() {
+        setSkeletonState(false);
+      }
+    };
+    if (document.readyState === 'complete') {
+      onPageLoad();
+    } else {
+      window.addEventListener('load', onPageLoad, false);
+      return () => window.removeEventListener('load', onPageLoad);
+    }
+  }, []);
+
   return (
     <>
+      <div className={`${!skeletonState ? 'hidden' : ''}`}>
+        <HelpPageTeacherSkeleton />
+      </div>
       <div
         className={`bg-gradient-to-t from-[#e2e2e2] via-[#f1f1f1] to-[#ffffff]  
         ${
@@ -993,7 +1018,7 @@ export default function HelpPageTeacher() {
             : navbarWidth == 39
             ? 'w-[calc(100%-39px)] ml-[39px]'
             : ''
-        }`}
+        } ${skeletonState ? 'hidden' : ''}`}
       >
         <section className="relative mx-auto p-8 w-full">
           <div
@@ -1029,7 +1054,8 @@ export default function HelpPageTeacher() {
                     <div
                       onClick={e => {
                         setLinkTab(0),
-                          window.sessionStorage.setItem('LINK_TAB', 0);
+                          window.sessionStorage.setItem('LINK_TAB', 0),
+                          window.scrollTo({ top: 0, behavior: 'auto' });
                       }}
                       href="#about"
                       className={`cursor-pointer block py-1 font-bold hdScreen:text-[1.170rem] semihdScreen:text-[1.05rem] laptopScreen:text-[1.02rem] averageScreen:text-[0.85rem] sm:text-sm xs:text-xs  leading-[1.75rem]  hdScreen:mt-5 semihdScreen:mt-4 laptopScreen:mt-3 averageScreen:mt-2
@@ -1083,7 +1109,7 @@ export default function HelpPageTeacher() {
                             setLinkTab(1),
                               window.sessionStorage.setItem('LINK_TAB', 1);
                           }}
-                          href="#search-students"
+                          href="#search-student"
                           className={`group flex items-start py-1 
                           ${
                             currentId == 'rc_2'
@@ -1091,7 +1117,7 @@ export default function HelpPageTeacher() {
                               : 'text-slate-500 hover:text-slate-400'
                           }`}
                         >
-                          Search students
+                          Search student
                         </a>
                       </li>
                       <li className="lg:ml-8 xs:ml-4 list-disc">

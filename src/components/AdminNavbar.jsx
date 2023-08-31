@@ -48,6 +48,8 @@ import { HiPencilSquare } from 'react-icons/hi2';
 
 import Registration from './Registration';
 
+import AdminNavbarSkeleton from './AdminNavbarSkeleton';
+
 export default function AdminNavbar() {
   const navigate = useNavigate();
 
@@ -241,8 +243,53 @@ export default function AdminNavbar() {
     window.blur();
   };
 
+  //FOR SKELETON
+
+  const [skeletonState, setSkeletonState] = useState(true);
+
+  useEffect(() => {
+    var logged = JSON.parse(window.localStorage.getItem('LOGGED'));
+    if (logged === null) logged = '';
+
+    var account = JSON.parse(window.localStorage.getItem('ACCOUNT_TYPE'));
+    if (account === null) account = '';
+
+    if (logged == 'TRUE') {
+      if (account != 'Admin') {
+        setSkeletonState(false);
+      }
+    } else {
+      setSkeletonState(false);
+    }
+  }, []);
+
+  // This will run one time after the component mounts
+  useEffect(() => {
+    // callback function to call when event triggers
+    const onPageLoad = () => {
+      setTimeout(hideNavbar, 1000);
+
+      function hideNavbar() {
+        setSkeletonState(false);
+      }
+      // do something else
+    };
+
+    // Check if the page has already loaded
+    if (document.readyState === 'complete') {
+      onPageLoad();
+    } else {
+      window.addEventListener('load', onPageLoad, false);
+      // Remove the event listener when component unmounts
+      return () => window.removeEventListener('load', onPageLoad);
+    }
+  }, []);
+
   return (
     <>
+      <div className={`${!skeletonState ? 'hidden' : ''}`}>
+        <AdminNavbarSkeleton />
+      </div>
       <div
         className={`${accType == 'Admin' ? 'visible' : 'hidden'} ${
           logoutState == true ? 'hidden' : ''

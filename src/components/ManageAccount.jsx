@@ -18,7 +18,9 @@ import EditAccountMessageModal from './EditAccountMessageModal';
 import DeleteAccountModal from './DeleteAccountModal';
 import DeleteAccountMessageModal from './DeleteAccountMessageModal';
 
-export default function ManageAccounts() {
+import ManageAccountSkeleton from './ManageAccountSkeleton';
+
+export default function ManageAccount() {
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -216,8 +218,30 @@ export default function ManageAccounts() {
     setLogoHeight(height);
   }
 
+  //FOR SKELETON
+  const [skeletonState, setSkeletonState] = useState(true);
+
+  useEffect(() => {
+    const onPageLoad = () => {
+      setTimeout(hideNavbar, 1000);
+
+      function hideNavbar() {
+        setSkeletonState(false);
+      }
+    };
+    if (document.readyState === 'complete') {
+      onPageLoad();
+    } else {
+      window.addEventListener('load', onPageLoad, false);
+      return () => window.removeEventListener('load', onPageLoad);
+    }
+  }, []);
+
   return (
     <>
+      <div className={`${!skeletonState ? 'hidden' : ''}`}>
+        <ManageAccountSkeleton />
+      </div>
       <div
         className={`bg-gradient-to-t from-[#e2e2e2] via-[#f1f1f1] to-[#ffffff] h-screen   
         ${
@@ -230,7 +254,7 @@ export default function ManageAccounts() {
             : navbarWidth == 39
             ? 'w-[calc(100%-39px)] ml-[39px]'
             : ''
-        }`}
+        } ${skeletonState ? 'hidden' : ''}`}
       >
         <section className="relative mx-auto p-8 w-full">
           <div
@@ -275,7 +299,7 @@ export default function ManageAccounts() {
                 <button
                   onClick={e => navigate('/ResetPassword')}
                   type="button"
-                  className="relative hdScreen:w-[19rem] semihdScreen:w-[16.5rem] laptopScreen:w-[15.5rem] averageScreen:w-[15rem] sm:w-[14rem] lg:py-3 lg:px-5 sm:py-1.5 sm:px-2.5 xs:px-1 xs:py-1 text-white font-semibold  shadow-md rounded-full bg-gray-500/70 hover:bg-gray-600/70  ease-in-out transition duration-300 transform drop-shadow-[0_3px_0px_rgba(0,0,0,0.2)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.35)]"
+                  className="relative hdScreen:w-[19rem] semihdScreen:w-[16.5rem] laptopScreen:w-[15.5rem] averageScreen:w-[15rem] sm:w-[14rem] lg:py-3 lg:px-5 sm:py-1.5 sm:px-2.5 xs:px-1 xs:py-1 text-white font-semibold  shadow-md rounded-2xl bg-gray-500/70 hover:bg-gray-600/70  ease-in-out transition duration-300 transform drop-shadow-[0_3px_0px_rgba(0,0,0,0.2)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.35)]"
                 >
                   <span className="pl-2 lg:text-xl sm:text-base xs:text-sm flex justify-center">
                     Reset Password
@@ -379,7 +403,7 @@ export default function ManageAccounts() {
                                   name={currentAccount.Email}
                                   type="submit"
                                   value="Edit"
-                                  className="cursor-pointer py-[0.2rem] w-24 pl-4 pr-[2.15rem]   shadow-md rounded-full font-normal  transition duration-300 text-white bg-blue-500/90 hover:bg-blue-600 lg:text-base drop-shadow-[0_2px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_2px_0px_rgba(0,0,0,0.6)]"
+                                  className="cursor-pointer py-[0.2rem] w-24 pl-4 pr-[2.15rem]   shadow-md rounded-md font-normal  transition duration-300 text-white bg-blue-500/90 hover:bg-blue-600 lg:text-base drop-shadow-[0_2px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_2px_0px_rgba(0,0,0,0.6)]"
                                 ></input>
                                 <span className=" absolute top-[0.25rem] right-5 font-normal text-base flex justify-center">
                                   <HiPencilSquare className="ml-1 lg:mt-[0.2rem] lg:text-lg text-white" />
@@ -393,7 +417,7 @@ export default function ManageAccounts() {
                                   name={currentAccount.Email}
                                   type="submit"
                                   value="Delete"
-                                  className=" cursor-pointer py-[0.2rem]  pl-4 pr-[2.15rem] shadow-md rounded-full font-semibold  transition duration-500 text-white bg-red-500 hover:bg-red-700 drop-shadow-[0_2px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_2px_0px_rgba(0,0,0,0.6)]"
+                                  className=" cursor-pointer py-[0.2rem]  pl-4 pr-[2.15rem] shadow-md rounded-md font-semibold  transition duration-500 text-white bg-red-500 hover:bg-red-700 drop-shadow-[0_2px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_2px_0px_rgba(0,0,0,0.6)]"
                                 ></input>
                                 <span className=" absolute top-[0.25rem] right-3 font-normal flex justify-center">
                                   <BsTrash3 className="ml-1 lg:mt-[0.2rem] lg:text-base text-white" />

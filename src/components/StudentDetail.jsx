@@ -7,6 +7,8 @@ import $ from 'jquery';
 
 import { BsCaretUpFill } from 'react-icons/bs';
 
+import StudentDetailSkeleton from './StudentDetailSkeleton';
+
 export default function StudentDetail() {
   document.body.style.height = '100vh';
   const navigate = useNavigate();
@@ -180,8 +182,30 @@ export default function StudentDetail() {
     setLogoHeight(height);
   }
 
+  //FOR SKELETON
+  const [skeletonState, setSkeletonState] = useState(true);
+
+  useEffect(() => {
+    const onPageLoad = () => {
+      setTimeout(hideNavbar, 1000);
+
+      function hideNavbar() {
+        setSkeletonState(false);
+      }
+    };
+    if (document.readyState === 'complete') {
+      onPageLoad();
+    } else {
+      window.addEventListener('load', onPageLoad, false);
+      return () => window.removeEventListener('load', onPageLoad);
+    }
+  }, []);
+
   return (
     <>
+      <div className={`${!skeletonState ? 'hidden' : ''}`}>
+        <StudentDetailSkeleton />
+      </div>
       <div
         className={`bg-gradient-to-t from-[#e2e2e2] via-[#f1f1f1] to-[#ffffff] h-screen 
         ${
@@ -194,7 +218,7 @@ export default function StudentDetail() {
             : navbarWidth == 39
             ? 'w-[calc(100%-39px)] ml-[39px]'
             : ''
-        }`}
+        } ${skeletonState ? 'hidden' : ''}`}
       >
         <section className="relative mx-auto p-8 w-full">
           <div

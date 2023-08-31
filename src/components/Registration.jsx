@@ -34,6 +34,8 @@ import ViewErrorModal from './ViewErrorModal';
 import IgnoreWarningModal from './IgnoreWarningModal';
 import RegistrationBulkModal from './RegistrationBulkModal';
 
+import RegistrationSkeleton from './RegistrationSkeleton';
+
 function Registration() {
   document.body.style.height = '100vh';
   const navigate = useNavigate();
@@ -989,8 +991,31 @@ function Registration() {
   console.log('SL::4');
   console.log(studentList[4]);
 */
+
+  //FOR SKELETON
+  const [skeletonState, setSkeletonState] = useState(true);
+
+  useEffect(() => {
+    const onPageLoad = () => {
+      setTimeout(hideNavbar, 1000);
+
+      function hideNavbar() {
+        setSkeletonState(false);
+      }
+    };
+    if (document.readyState === 'complete') {
+      onPageLoad();
+    } else {
+      window.addEventListener('load', onPageLoad, false);
+      return () => window.removeEventListener('load', onPageLoad);
+    }
+  }, []);
+
   return (
     <>
+      <div className={`${!skeletonState ? 'hidden' : ''}`}>
+        <RegistrationSkeleton />
+      </div>
       <div
         className={`bg-gradient-to-t from-[#e2e2e2] via-[#f1f1f1] to-[#ffffff] h-screen   
         ${
@@ -1003,7 +1028,7 @@ function Registration() {
             : navbarWidth == 39
             ? 'w-[calc(100%-39px)] ml-[39px]'
             : ''
-        }`}
+        } ${skeletonState ? 'hidden' : ''}`}
       >
         <div className="relative mx-auto p-8 w-full text-gray-700">
           <div
@@ -1354,7 +1379,7 @@ function Registration() {
                         onChange={handleChange}
                         name="gradeLevel"
                         id="gradeLevel"
-                        className="py-2 lg:px-2 border-2 focus:border-none rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 shadow-sm shadow-[#808080]"
+                        className="py-2 lg:px-2 border- 2 focus:border-none rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 shadow-sm shadow-[#808080]"
                       >
                         <option className="" defaultValue={values.gradeLevel}>
                           Grade 7

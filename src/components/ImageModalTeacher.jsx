@@ -23,7 +23,7 @@ const ImageModalTeacher = ({ visible, onClose, onContinue }) => {
   const [imageLink, setImageLink] = useState('report-card-home');
 
   useEffect(() => {
-    var link = JSON.parse(window.localStorage.getItem('IMAGE_LINK_TEACHER'));
+    var link = JSON.parse(window.sessionStorage.getItem('IMAGE_LINK_TEACHER'));
     //console.log('LINK: ', link);
     if (link !== null) setImageLink(link);
   });

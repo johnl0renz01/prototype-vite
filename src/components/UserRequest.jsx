@@ -12,6 +12,8 @@ import EquationSolver from './equationSolver';
 import { BsEye, BsDashCircle, BsCheckCircle } from 'react-icons/bs';
 import { HiPencilSquare } from 'react-icons/hi2';
 
+import UserRequestSkeleton from './UserRequestSkeleton';
+
 export default function UserRequest() {
   const navigate = useNavigate();
 
@@ -165,8 +167,30 @@ export default function UserRequest() {
     setLogoHeight(height);
   }
 
+  //FOR SKELETON
+  const [skeletonState, setSkeletonState] = useState(true);
+
+  useEffect(() => {
+    const onPageLoad = () => {
+      setTimeout(hideNavbar, 1000);
+
+      function hideNavbar() {
+        setSkeletonState(false);
+      }
+    };
+    if (document.readyState === 'complete') {
+      onPageLoad();
+    } else {
+      window.addEventListener('load', onPageLoad, false);
+      return () => window.removeEventListener('load', onPageLoad);
+    }
+  }, []);
+
   return (
     <>
+      <div className={`${!skeletonState ? 'hidden' : ''}`}>
+        <UserRequestSkeleton />
+      </div>
       <div
         className={`bg-gradient-to-t from-[#e2e2e2] via-[#f1f1f1] to-[#ffffff] h-screen   
         ${
@@ -179,7 +203,7 @@ export default function UserRequest() {
             : navbarWidth == 39
             ? 'w-[calc(100%-39px)] ml-[39px]'
             : ''
-        }`}
+        } ${skeletonState ? 'hidden' : ''}`}
       >
         <section className="relative mx-auto p-8 w-full">
           <div
@@ -331,7 +355,7 @@ export default function UserRequest() {
                                   name={currentRequest.RequestID}
                                   type="button"
                                   value="View Details"
-                                  className="cursor-pointer py-[0.2rem]  px-4 text-gray-700 hover:text-white  shadow-md rounded-full font-semibold  transition duration-500 border-gray-400 border-2  hover:bg-gray-500 hover:border-gray-500 lg:text-base"
+                                  className="cursor-pointer py-[0.2rem]  px-4 text-gray-700 hover:text-white  shadow-md rounded-md font-semibold  transition duration-500 border-gray-400 border-2  hover:bg-gray-500 hover:border-gray-500 lg:text-base"
                                 ></input>
                               </div>
                             </td>
@@ -340,7 +364,7 @@ export default function UserRequest() {
                                 <>
                                   <button
                                     disabled
-                                    className="relative py-[0.2rem]  px-3 shadow-md rounded-full font-semibold  text-white bg-lime-600 drop-shadow-[0_2px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_2px_0px_rgba(0,0,0,0.6)]"
+                                    className="relative py-[0.2rem]  px-3 shadow-md rounded-md font-semibold  text-white bg-lime-600 drop-shadow-[0_2px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_2px_0px_rgba(0,0,0,0.6)]"
                                   >
                                     <span className="font-semibold pl-3 lg:text-base flex justify-center">
                                       Solved
@@ -356,7 +380,7 @@ export default function UserRequest() {
                                       name={currentRequest.RequestID}
                                       type="submit"
                                       value="Unsolved"
-                                      className=" cursor-pointer py-[0.2rem]  pl-4 pr-[2.15rem] shadow-md rounded-full font-semibold  transition duration-500 text-white bg-red-500 hover:bg-red-700 drop-shadow-[0_2px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_2px_0px_rgba(0,0,0,0.6)]"
+                                      className=" cursor-pointer py-[0.2rem]  pl-4 pr-[2.15rem] shadow-md rounded-md font-semibold  transition duration-500 text-white bg-red-500 hover:bg-red-700 drop-shadow-[0_2px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_2px_0px_rgba(0,0,0,0.6)]"
                                     ></input>
                                     <span className=" absolute top-[0.25rem] right-3 font-normal flex justify-center">
                                       <BsDashCircle className="ml-1 lg:mt-[0.2rem] lg:text-base text-white" />

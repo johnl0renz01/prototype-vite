@@ -15,6 +15,7 @@ import { BsArrowCounterclockwise } from 'react-icons/bs';
 import { GoChecklist } from 'react-icons/go';
 import { HiPlusSmall } from 'react-icons/hi2';
 
+import CreateEquationSkeleton from './CreateEquationSkeleton';
 export default function CreateEquation() {
   const navigate = useNavigate();
 
@@ -310,8 +311,30 @@ export default function CreateEquation() {
     setLogoHeight(height);
   }
 
+  //FOR SKELETON
+  const [skeletonState, setSkeletonState] = useState(true);
+
+  useEffect(() => {
+    const onPageLoad = () => {
+      setTimeout(hideNavbar, 1000);
+
+      function hideNavbar() {
+        setSkeletonState(false);
+      }
+    };
+    if (document.readyState === 'complete') {
+      onPageLoad();
+    } else {
+      window.addEventListener('load', onPageLoad, false);
+      return () => window.removeEventListener('load', onPageLoad);
+    }
+  }, []);
+
   return (
     <>
+      <div className={`${!skeletonState ? 'hidden' : ''}`}>
+        <CreateEquationSkeleton />
+      </div>
       <div
         className={`bg-gradient-to-t from-[#e2e2e2] via-[#f1f1f1] to-[#ffffff] h-full 
       ${
@@ -324,7 +347,7 @@ export default function CreateEquation() {
           : navbarWidth == 39
           ? 'w-[calc(100%-39px)] ml-[39px]'
           : ''
-      }`}
+      } ${skeletonState ? 'hidden' : ''}`}
       >
         <div
           className={`bg-gradient-to-t from-[#e2e2e2] via-[#f1f1f1] to-[#ffffff] h-screen`}
@@ -375,7 +398,7 @@ export default function CreateEquation() {
                 ></input>
                 <button
                   onClick={equationString != '' ? validateEquation : undefined}
-                  className={`ml-6 py-1.5 lg:w-36 px-4 shadow-md rounded-full transition duration-300 drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)] ${
+                  className={`ml-6 py-1.5 lg:w-36 px-4 shadow-md rounded-md transition duration-300 drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)] ${
                     equationString != ''
                       ? ' text-white  bg-yellow-600 hover:bg-yellow-700'
                       : ' cursor-default text-gray-300  bg-gray-400 '
@@ -566,10 +589,13 @@ export default function CreateEquation() {
               </div>
             </div>
           </section>
-          <div className="flex justify-end fixed bottom-7 right-8">
+          <div
+            className={`flex justify-end fixed bottom-7 right-8  
+            ${skeletonState ? 'hidden' : ''}`}
+          >
             <button
               onClick={showSteps ? resetEquation : undefined}
-              className={`ml-6 py-1.5 pb-2 px-4 shadow-md rounded-full  transition duration-300 drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)] ${
+              className={`ml-6 py-1.5 pb-2 px-4 shadow-md rounded-md  transition duration-300 drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)] ${
                 showSteps
                   ? 'text-white bg-red-600 hover:bg-red-700'
                   : 'cursor-default text-gray-300 bg-gray-400'
@@ -582,7 +608,7 @@ export default function CreateEquation() {
             </button>
             <button
               onClick={showSteps ? addEquation : undefined}
-              className={` ml-6 py-1.5 pb-2 px-3 shadow-md rounded-full  transition duration-300 drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)] ${
+              className={` ml-6 py-1.5 pb-2 px-3 shadow-md rounded-md  transition duration-300 drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)] ${
                 showSteps
                   ? 'text-white bg-lime-600 hover:bg-lime-700'
                   : 'cursor-default text-gray-300 bg-gray-400'

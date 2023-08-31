@@ -31,6 +31,8 @@ import Registration from './Registration';
 import ContactAdminModal from './ContactAdminModal';
 import ContactAdminMessageModal from './ContactAdminMessageModal';
 
+import TeacherNavbarSkeleton from './TeacherNavbarSkeleton';
+
 export default function TeacherNavbar() {
   const navigate = useNavigate();
 
@@ -112,6 +114,9 @@ export default function TeacherNavbar() {
     heightValue1 += 2.5;
     window.sessionStorage.setItem('NAVBAR_TEACHER_LOGO', heightValue1);
     //console.log(heightValue1);
+
+    console.log(widthValue1);
+    console.log(heightValue1);
   }
 
   function getCurrentTab() {
@@ -245,12 +250,60 @@ export default function TeacherNavbar() {
     setShowModal2(false);
   };
 
+  //FOR SKELETON
+
+  const [skeletonState, setSkeletonState] = useState(true);
+
+  useEffect(() => {
+    var logged = JSON.parse(window.localStorage.getItem('LOGGED'));
+    if (logged === null) logged = '';
+
+    var account = JSON.parse(window.localStorage.getItem('ACCOUNT_TYPE'));
+    if (account === null) account = '';
+
+    if (logged == 'TRUE') {
+      if (account != 'Teacher') {
+        setSkeletonState(false);
+      }
+    } else {
+      setSkeletonState(false);
+    }
+  }, []);
+
+  // This will run one time after the component mounts
+  useEffect(() => {
+    // callback function to call when event triggers
+    const onPageLoad = () => {
+      setTimeout(hideNavbar, 1000);
+
+      function hideNavbar() {
+        setSkeletonState(false);
+      }
+      // do something else
+    };
+
+    // Check if the page has already loaded
+    if (document.readyState === 'complete') {
+      onPageLoad();
+    } else {
+      window.addEventListener('load', onPageLoad, false);
+      // Remove the event listener when component unmounts
+      return () => window.removeEventListener('load', onPageLoad);
+    }
+  }, []);
+
   return (
     <>
+      <div className={`${!skeletonState ? 'hidden' : ''}`}>
+        <TeacherNavbarSkeleton />
+      </div>
+
       <div
         className={`${accType == 'Teacher' ? 'visible' : 'hidden'} ${
           logoutState == true ? 'hidden' : ''
-        }`}
+        }
+        
+        `}
       >
         <div
           id="teacherNavbar"

@@ -187,6 +187,11 @@ module.exports = {
         '31rem': '31rem',
       },
     },
+    keyframes: {
+      shimmer: {
+        '100%': { transform: 'translateX(100%)' },
+      },
+    },
   },
   plugins: [],
 };

@@ -17,6 +17,8 @@ import DifficultyModal from './DifficultyModal';
 import EndSession from './EndSession';
 import ClearStorage from './ClearStorage';
 
+import LoadingStudent from './LoadingStudent';
+
 export default function DifficultyPage() {
   document.body.style.height = '100vh';
   const navigate = useNavigate();
@@ -441,9 +443,34 @@ export default function DifficultyPage() {
     '8(3x + 6) = 3(2 - 32x)',
   ]);
 
+  //FOR SKELETON
+  const [skeletonState, setSkeletonState] = useState(true);
+
+  useEffect(() => {
+    const onPageLoad = () => {
+      setTimeout(hideNavbar, 1000);
+
+      function hideNavbar() {
+        setSkeletonState(false);
+      }
+    };
+    if (document.readyState === 'complete') {
+      onPageLoad();
+    } else {
+      window.addEventListener('load', onPageLoad, false);
+      return () => window.removeEventListener('load', onPageLoad);
+    }
+  }, []);
+
   return (
     <>
-      <section className="no-scrollbar overflow-y-auto">
+      <div className={`${!skeletonState ? 'hidden' : ''}`}>
+        <LoadingStudent />
+      </div>
+      <section
+        className={`no-scrollbar overflow-y-auto
+                          ${skeletonState ? 'hidden' : ''}`}
+      >
         {/* <input type="text" value={result} className="w-full"></input>*/}
         <div className="hdScreen:scale-[100%] semihdScreen:scale-[90%] laptopScreen:scale-[77.5%] averageScreen:scale-[75%] hdScreen:-mt-6 semihdScreen:-mt-8 laptopScreen:-mt-12 averageScreen:-mt-16 mx-auto lg:w-full min-h-[calc(100vh-5.5rem)]  flex items-center justify-center select-none ">
           <div className="">

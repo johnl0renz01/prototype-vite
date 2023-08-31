@@ -9,6 +9,7 @@ import { BsCaretUpFill, BsStickies } from 'react-icons/bs';
 import { VscEye } from 'react-icons/vsc';
 
 import ChangeSectionModal from './ChangeSectionModal';
+import ClassListSkeleton from './ClassListSkeleton';
 
 export default function ClassList() {
   const navigate = useNavigate();
@@ -207,8 +208,30 @@ export default function ClassList() {
     setShowModal(true);
   };
 
+  //FOR SKELETON
+  const [skeletonState, setSkeletonState] = useState(true);
+
+  useEffect(() => {
+    const onPageLoad = () => {
+      setTimeout(hideNavbar, 1000);
+
+      function hideNavbar() {
+        setSkeletonState(false);
+      }
+    };
+    if (document.readyState === 'complete') {
+      onPageLoad();
+    } else {
+      window.addEventListener('load', onPageLoad, false);
+      return () => window.removeEventListener('load', onPageLoad);
+    }
+  }, []);
+
   return (
     <>
+      <div className={`${!skeletonState ? 'hidden' : ''}`}>
+        <ClassListSkeleton />
+      </div>
       <div
         className={` bg-gradient-to-t from-[#e2e2e2] via-[#f1f1f1] to-[#ffffff] h-screen 
         ${
@@ -221,7 +244,7 @@ export default function ClassList() {
             : navbarWidth == 39
             ? 'w-[calc(100%-39px)] ml-[39px]'
             : ''
-        }`}
+        } ${skeletonState ? 'hidden' : ''}`}
       >
         <section id="container" className="relative mx-auto p-8 w-full">
           <div
@@ -302,7 +325,7 @@ export default function ClassList() {
                 <button
                   onClick={changeSection}
                   type="button"
-                  className="relative hdScreen:w-[14.5rem] semihdScreen:w-[14.5rem] laptopScreen:w-[14.5rem] averageScreen:w-[14.5rem] hdScreen:py-3 semihdScreen:py-2 laptopScreen:py-0 averageScreen:py-0 lg:px-5 sm:py-1.5 sm:px-2.5 xs:px-1 xs:py-1 text-white font-semibold  shadow-md rounded-full bg-orange-500 hover:bg-orange-600/90 hover:-translate-y-0.5 ease-in-out transition duration-300 transform drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)]"
+                  className="relative hdScreen:w-[14.5rem] semihdScreen:w-[14.5rem] laptopScreen:w-[14.5rem] averageScreen:w-[14.5rem] hdScreen:py-3 semihdScreen:py-2 laptopScreen:py-0 averageScreen:py-0 lg:px-5 sm:py-1.5 sm:px-2.5 xs:px-1 xs:py-1 text-white font-semibold  shadow-md rounded-2xl bg-orange-500 hover:bg-orange-600/90 hover:-translate-y-0.5 ease-in-out transition duration-300 transform drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)]"
                 >
                   <span className="pl-2 hdScreen:text-xl semihdScreen:text-xl laptopScreen:text-lg averageScreen:text-lg sm:text-base xs:text-sm flex justify-center">
                     Change Section
