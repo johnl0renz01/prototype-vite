@@ -233,7 +233,7 @@ export default function HelpPageTeacher() {
               </p>
               <p className="hdScreen:py-2 semihdScreen:py-2 laptopScreen:py-1.5 averageScreen:py-1 sm:py-1 xs:py-0.5">
                 <span className="font-semibold">Search Students: </span>
-                This branch allows users to search for specific students within
+                This branch allows tea to search for specific students within
                 the system. They can search by student name, group type, or
                 other relevant information. The search feature should be
                 intuitive and efficient, providing quick access to student
@@ -252,8 +252,8 @@ export default function HelpPageTeacher() {
                 This branch provides a comprehensive overview of a student's
                 academic progress. It should display information such as their
                 scores, session history, basic information, and any additional
-                relevant data. The system should allow users to easily track a
-                student's performance over time.
+                relevant data. The system should allow teachers to easily track
+                a student's performance over time.
               </p>
             </div>
           </div>
@@ -269,17 +269,17 @@ export default function HelpPageTeacher() {
             <div className="pl-3">
               <p className="hdScreen:py-2 semihdScreen:py-2 laptopScreen:py-1.5 averageScreen:py-1 sm:py-1 xs:py-0.5">
                 <span className="font-semibold">Changing Difficulty: </span>
-                This branch enables authorized users to adjust the difficulty
+                This branch enables authorized teachers to adjust the difficulty
                 level of existing equations. The system should support
                 categorization of equations based on difficulty levels, making
                 it easy to update and manage the equation difficulty settings.
               </p>
               <p className="hdScreen:py-2 semihdScreen:py-2 laptopScreen:py-1.5 averageScreen:py-1 sm:py-1 xs:py-0.5">
                 <span className="font-semibold">Removing Equation: </span>
-                Users with appropriate permissions can remove equations from the
-                equation list. This branch should include confirmation prompts
-                to avoid accidental deletions. Additionally, any related data or
-                references to the equation should be properly handled to
+                Teachers with appropriate permissions can remove equations from
+                the equation list. This branch should include confirmation
+                prompts to avoid accidental deletions. Additionally, any related
+                data or references to the equation should be properly handled to
                 maintain data integrity.
               </p>
             </div>
@@ -303,7 +303,7 @@ export default function HelpPageTeacher() {
               </p>
               <p className="hdScreen:py-2 semihdScreen:py-2 laptopScreen:py-1.5 averageScreen:py-1 sm:py-1 xs:py-0.5">
                 <span className="font-semibold">Selecting Difficulty: </span>
-                In this step, users can assign a difficulty level before
+                In this step, teachers can assign a difficulty level before
                 creating an equation. The system should provide a user-friendly
                 interface for selecting from predefined difficulty options or
                 adding custom difficulty categories.
@@ -311,7 +311,7 @@ export default function HelpPageTeacher() {
               <p className="hdScreen:py-2 semihdScreen:py-2 laptopScreen:py-1.5 averageScreen:py-1 sm:py-1 xs:py-0.5">
                 <span className="font-semibold">Adding Equation: </span>
                 Once the equation is validated and a difficulty level is
-                assigned, the equation is added to the equation list. Users
+                assigned, the equation is added to the equation list. Teachers
                 should receive confirmation of successful addition and be able
                 to view the equation in the appropriate difficulty category.
               </p>
@@ -374,7 +374,7 @@ export default function HelpPageTeacher() {
             </a>
             <div className="">
               <p className="hdScreen:py-2 semihdScreen:py-2 laptopScreen:py-1.5 averageScreen:py-1 sm:py-1 xs:py-0.5">
-                The first page user will see after clicking the report cards
+                The first page teacher will see after clicking the report cards
                 tab.
                 <span className="text-gray-400">
                   {'\u00A0'}(The following information serves as an illustrative
@@ -426,8 +426,8 @@ export default function HelpPageTeacher() {
             <div className="">
               <p className="hdScreen:py-2 semihdScreen:py-2 laptopScreen:py-1.5 averageScreen:py-1 sm:py-1 xs:py-0.5">
                 The search bar offers various methods to look up students and
-                retrieve information, providing users with multiple options to
-                find specific students and access relevant data easily.
+                retrieve information, providing teachers with multiple options
+                to find specific students and access relevant data easily.
               </p>
               <img
                 onClick={function () {
@@ -633,7 +633,7 @@ export default function HelpPageTeacher() {
             </a>
             <div className="">
               <p className="hdScreen:py-2 semihdScreen:py-2 laptopScreen:py-1.5 averageScreen:py-1 sm:py-1 xs:py-0.5">
-                The first page user will see after clicking the equation list
+                The first page teacher will see after clicking the equation list
                 tab.
                 <span className="text-gray-400">
                   {'\u00A0'}(The following information serves as an illustrative
@@ -811,8 +811,8 @@ export default function HelpPageTeacher() {
             </a>
             <div className="">
               <p className="hdScreen:py-2 semihdScreen:py-2 laptopScreen:py-1.5 averageScreen:py-1 sm:py-1 xs:py-0.5">
-                The first page user will see after clicking the create equation
-                tab.
+                The first page teacher will see after clicking the create
+                equation tab.
                 <br></br>
                 <br></br>
                 Equation validation is a critical process where the system
@@ -1007,9 +1007,17 @@ export default function HelpPageTeacher() {
         <HelpPageTeacherSkeleton />
       </div>
       <div
-        className={`bg-gradient-to-t from-[#e2e2e2] via-[#f1f1f1] to-[#ffffff]  
+        className={`bg-gradient-to-t from-[#e2e2e2] via-[#f1f1f1] to-[#ffffff] h-full
         ${
-          navbarWidth == 143
+          navbarWidth == 160
+            ? 'w-[calc(100%-160px)] ml-[160px]'
+            : navbarWidth == 112
+            ? 'w-[calc(100%-112px)] ml-[112px]'
+            : navbarWidth == 90
+            ? 'w-[calc(100%-90px)] ml-[90px]'
+            : navbarWidth == 56
+            ? 'w-[calc(100%-56px)] ml-[56px]'
+            : navbarWidth == 143
             ? 'w-[calc(100%-143px)] ml-[143px]'
             : navbarWidth == 95
             ? 'w-[calc(100%-95px)] ml-[95px]'
@@ -1049,7 +1057,7 @@ export default function HelpPageTeacher() {
               </div>
 
               <div className="hdScreen:w-[17.5%] semihdScreen:w-[20.5%] laptopScreen:w-[22.5%] averageScreen:w-[26%] ">
-                <div className="sticky top-10 right-[5%]  hdScreen:pl-8 semihdScreen:pl-6 laptopScreen:pl-4 averageScreen:pl-3 sm:pl-2 xs:pl-1">
+                <div className="overflow-y-auto style-4 sticky max-h-screen top-0 right-[5%] pb-10 hdScreen:pl-8 semihdScreen:pl-6 laptopScreen:pl-4 averageScreen:pl-3 sm:pl-2 xs:pl-1">
                   <div className="">
                     <div
                       onClick={e => {

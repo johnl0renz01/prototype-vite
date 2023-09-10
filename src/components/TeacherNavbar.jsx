@@ -89,8 +89,8 @@ export default function TeacherNavbar() {
     window.addEventListener('resize', calculateWidth);
     calculateWidth();
 
-    var data = window.localStorage.getItem('CURRENT_SECTION');
-    if (data !== null) {
+    var data = JSON.parse(window.localStorage.getItem('CURRENT_SECTION'));
+    if (data !== null && data !== false) {
       setAccessReportCard(true);
     }
   });
@@ -102,6 +102,10 @@ export default function TeacherNavbar() {
     if (widthValue1 == 139) {
       widthValue1 += 4;
     } else if (widthValue1 == 92) {
+      widthValue1 += 3;
+    } else if (widthValue1 == 156) {
+      widthValue1 += 4;
+    } else if (widthValue1 == 109) {
       widthValue1 += 3;
     }
 
@@ -274,7 +278,7 @@ export default function TeacherNavbar() {
   useEffect(() => {
     // callback function to call when event triggers
     const onPageLoad = () => {
-      setTimeout(hideNavbar, 1000);
+      setTimeout(hideNavbar, 1);
 
       function hideNavbar() {
         setSkeletonState(false);
@@ -307,7 +311,7 @@ export default function TeacherNavbar() {
       >
         <div
           id="teacherNavbar"
-          className="sm:flex xs:hidden lg:flex flex-col bg-gradient-to-b from-[#95cd35] via-[#9ec15c] to-[#a8c05f] text-center  h-screen fixed z-50 drop-shadow-[0_0px_5px_rgba(0,0,0,0.30)]"
+          className="sm:flex xs:hidden md:flex lg:flex flex-col bg-gradient-to-b from-[#95cd35] via-[#9ec15c] to-[#a8c05f] text-center  h-screen fixed z-50 drop-shadow-[0_0px_5px_rgba(0,0,0,0.30)] overflow-y-auto"
         >
           <div className="">
             <ul className="text-xs">

@@ -59,9 +59,17 @@ export default function EquationList() {
   return (
     <>
       <div
-        className={`bg-gradient-to-t from-[#e2e2e2] via-[#f1f1f1] to-[#ffffff] h-screen select-none 
+        className={`bg-gradient-to-t from-[#e2e2e2] via-[#f1f1f1] to-[#ffffff] h-screen select-none overflow-y-auto 
         ${
-          navbarWidth == 143
+          navbarWidth == 160
+            ? 'w-[calc(100%-160px)] ml-[160px]'
+            : navbarWidth == 112
+            ? 'w-[calc(100%-112px)] ml-[112px]'
+            : navbarWidth == 90
+            ? 'w-[calc(100%-90px)] ml-[90px]'
+            : navbarWidth == 56
+            ? 'w-[calc(100%-56px)] ml-[56px]'
+            : navbarWidth == 143
             ? 'w-[calc(100%-143px)] ml-[143px]'
             : navbarWidth == 95
             ? 'w-[calc(100%-95px)] ml-[95px]'
@@ -99,7 +107,9 @@ export default function EquationList() {
                   semihdScreen:min-h-[calc(100vh-30vh)] semihdScreen:max-h-[calc(100vh-30vh)]
                   laptopScreen:min-h-[calc(100vh-40vh)] laptopScreen:max-h-[calc(100vh-40vh)]
                   averageScreen:min-h-[calc(100vh-45vh)] averageScreen:max-h-[calc(100vh-45vh)]
-                  bg-gray-200 mt-4 py-1 grid grid-cols-3 text-center lg:text-xl xs:text-base w-full overflow-hidden relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_1.5s_infinite]"
+                  sm:min-h-[calc(100vh-45vh)] sm:max-h-[calc(100vh-45vh)]
+                  xs:min-h-[calc(100vh-45vh)] xs:max-h-[calc(100vh-45vh)]
+                  bg-gray-200 mt-4 py-1 grid grid-cols-3 text-center lg:text-xl md:text-base sm:text-sm xs:text-xs  w-full overflow-hidden relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_1.5s_infinite]"
           >
             <div className="">
               <div className="py-1  font-semibold rounded-tl-xl shadow-md">
@@ -107,7 +117,7 @@ export default function EquationList() {
                   EASY
                 </span>
               </div>
-              <div className="bg-white pt-0.5 lg:text-lg xs:text-sm h-full style-3 overflow-y-scroll   shadow-md">
+              <div className="bg-white pt-0.5 lg:text-base md:text-sm xs:text-xs  h-full style-3 overflow-y-scroll   shadow-md">
                 {equation('2x + 3x = 5x')}
                 {equation('2x + 3x = 5x')}
                 {equation('2x + 3x = 5x')}
@@ -137,7 +147,7 @@ export default function EquationList() {
                   AVERAGE
                 </span>
               </div>
-              <div className="bg-white pt-0.5 h-full lg:text-lg xs:text-sm style-3 overflow-y-scroll    shadow-md">
+              <div className="bg-white pt-0.5 h-full lg:text-base md:text-sm xs:text-xs  style-3 overflow-y-scroll    shadow-md">
                 {equation('2x + 3x = 5x + 3x')} {equation('2x + 3x = 5x + 3x')}{' '}
                 {equation('2x + 3x = 5x + 3x')} {equation('2x + 3x = 5x + 3x')}{' '}
                 {equation('2x + 3x = 5x + 3x')} {equation('2x + 3x = 5x + 3x')}{' '}
@@ -158,7 +168,7 @@ export default function EquationList() {
                   DIFFICULT
                 </span>
               </div>
-              <div className="bg-white pt-0.5 h-full lg:text-lg xs:text-sm style-3 overflow-y-scroll  shadow-md">
+              <div className="bg-white pt-0.5 h-full lg:text-base md:text-sm xs:text-xs  style-3 overflow-y-scroll  shadow-md">
                 {equation('2x + 3x = 5x + 3x + 4x + 4x')}
                 {equation('2x + 3x = 5x + 3x + 4x + 4x')}
                 {equation('2x + 3x = 5x + 3x + 4x + 4x')}

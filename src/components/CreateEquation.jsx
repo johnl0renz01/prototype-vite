@@ -16,6 +16,8 @@ import { GoChecklist } from 'react-icons/go';
 import { HiPlusSmall } from 'react-icons/hi2';
 
 import CreateEquationSkeleton from './CreateEquationSkeleton';
+import CreateEquationMessageModal from './CreateEquationMessageModal';
+
 export default function CreateEquation() {
   const navigate = useNavigate();
 
@@ -268,15 +270,22 @@ export default function CreateEquation() {
       .then(function (response) {
         resetEquation();
         console.log(response.data);
+        setShowModal(true);
+        /*
         setEquationAddState(true);
         setTimeout(resetState, 3000);
         function resetState() {
           setEquationAddState(false);
         }
+        */
       });
   };
 
   const [equationAdded, setEquationAddState] = useState(false);
+
+  // MODAL CREATED EQUATION
+  const [showModal, setShowModal] = useState(false);
+  const handleOnCloseModal = () => setShowModal(false);
 
   const [navbarWidth, setNavbarWidth] = useState(0);
   const [logoHeight, setLogoHeight] = useState(0);
@@ -336,9 +345,17 @@ export default function CreateEquation() {
         <CreateEquationSkeleton />
       </div>
       <div
-        className={`bg-gradient-to-t from-[#e2e2e2] via-[#f1f1f1] to-[#ffffff] h-full 
+        className={`bg-gradient-to-t from-[#e2e2e2] via-[#f1f1f1] to-[#ffffff] h-full overflow-y-auto
       ${
-        navbarWidth == 143
+        navbarWidth == 160
+          ? 'w-[calc(100%-160px)] ml-[160px]'
+          : navbarWidth == 112
+          ? 'w-[calc(100%-112px)] ml-[112px]'
+          : navbarWidth == 90
+          ? 'w-[calc(100%-90px)] ml-[90px]'
+          : navbarWidth == 56
+          ? 'w-[calc(100%-56px)] ml-[56px]'
+          : navbarWidth == 143
           ? 'w-[calc(100%-143px)] ml-[143px]'
           : navbarWidth == 95
           ? 'w-[calc(100%-95px)] ml-[95px]'
@@ -352,7 +369,7 @@ export default function CreateEquation() {
         <div
           className={`bg-gradient-to-t from-[#e2e2e2] via-[#f1f1f1] to-[#ffffff] h-screen`}
         >
-          <section id="container" className="relative mx-auto p-8 w-full">
+          <section id="container" className=" relative mx-auto p-8 w-full">
             <div
               className={`md:-mt-0 xs:-mt-1 border-b-2 text-gray-600 lg:text-4xl font-bold
           ${
@@ -365,26 +382,17 @@ export default function CreateEquation() {
             >
               Create Equation
             </div>
-            <div
-              className={`absolute left-0 right-0 top-0 bottom-0 w-full flex flex-col justify-center items-center bg-gradient-to-t from-[#e2e2e2] via-[#f1f1f1] to-[#ffffff] h-screen z-50 ${
-                equationAdded ? '' : 'invisible'
-              }`}
-            >
-              <div className="lg:text-4xl sm:text-2xl font-bold text-center">
-                <div className="mb-5 select-none">
-                  Equation Successfully Added
-                </div>
-              </div>
 
-              <div className="p-1  rounded-xl lg:text-2xl  grid place-items-center text-gray-400 select-none">
-                <h1 className="select-none">
-                  (Move to the equation list tab to see.)
-                </h1>
-              </div>
-            </div>
             <div
               id="create_question"
-              className="lg:text-lg xs:text-sm p-4 text-gray-700"
+              className="flex flex-col 
+              hdScreen:min-h-[calc(100vh-12.5vh)] hdScreen:max-h-[calc(100vh-12.5vh)]  
+              semihdScreen:min-h-[calc(100vh-17.5vh)] semihdScreen:max-h-[calc(100vh-17.5vh)]  
+              laptopScreen:min-h-[calc(100vh-22.5vh)] laptopScreen:max-h-[calc(100vh-22.5vh)]  
+              averageScreen:min-h-[calc(100vh-27.5vh)] averageScreen:max-h-[calc(100vh-27.5vh)] 
+              xs:min-h-[calc(100vh-27.5vh)] xs:max-h-[calc(100vh-27.5vh)] 
+
+              lg:text-lg xs:text-sm p-4 text-gray-700"
             >
               <div className="font-semibold">Enter the equation:</div>
               <div className="flex mt-0.5">
@@ -404,9 +412,9 @@ export default function CreateEquation() {
                       : ' cursor-default text-gray-300  bg-gray-400 '
                   }`}
                 >
-                  <span className="pl-1 lg:text-xl xs:text-xs flex justify-center">
+                  <span className="pl-1 lg:text-xl xs:text-xs flex justify-center items-center">
                     Validate
-                    <GoChecklist className="ml-2 mt-1 lg:text-2xl" />
+                    <GoChecklist className="ml-2  lg:text-2xl" />
                   </span>
                 </button>
               </div>
@@ -429,7 +437,7 @@ export default function CreateEquation() {
                   </div>
                 </div>
 
-                <div className="flex">
+                <div className="flex ">
                   {isValid ? (
                     equationString.length >= 30 ? (
                       <VscPassFilled className="ml-3 mt-1.5  lg:text-2xl text-lime-600" />
@@ -482,7 +490,7 @@ export default function CreateEquation() {
                         : 'bg-gray-400 hover:bg-gray-600 text-white cursor-default'
                     }`}
                   >
-                    <span className="lg:text-lg">Easy</span>
+                    <span className="lg:text-lg xs:text-sm">Easy</span>
                   </button>
                   <button
                     onClick={isValid ? optionAverage : undefined}
@@ -496,7 +504,7 @@ export default function CreateEquation() {
                         : 'bg-gray-400 hover:bg-gray-600 text-white cursor-default'
                     }`}
                   >
-                    <span className="lg:text-lg">Average</span>
+                    <span className="lg:text-lg xs:text-sm">Average</span>
                   </button>
                   <button
                     onClick={isValid ? optionDifficult : undefined}
@@ -510,12 +518,12 @@ export default function CreateEquation() {
                         : 'bg-gray-400 hover:bg-gray-600 text-white cursor-default'
                     }`}
                   >
-                    <span className="lg:text-lg">Difficult</span>
+                    <span className="lg:text-lg xs:text-sm">Difficult</span>
                   </button>
                 </div>
               </div>
               <div
-                className={`flex hdScreen:mt-6 semihdScreen:mt-6 laptopScreen:mt-4 averageScreen:mt-4 shadow-md transition  select-none ${
+                className={`flex  hdScreen:mt-6 semihdScreen:mt-6 laptopScreen:mt-4 averageScreen:mt-4 xs:mt-4 shadow-md transition  select-none ${
                   showSteps ? 'opacity-100  duration-[1500ms]' : 'opacity-0'
                 }`}
               >
@@ -587,41 +595,46 @@ export default function CreateEquation() {
                   )}
                 </div>
               </div>
+
+              <div
+                className={`flex  mt-auto justify-end pt-4
+              ${skeletonState ? 'hidden' : ''}`}
+              >
+                <button
+                  onClick={showSteps ? resetEquation : undefined}
+                  className={`ml-6 py-1.5 pb-2 px-4 shadow-md rounded-md  transition duration-300 drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)] ${
+                    showSteps
+                      ? 'text-white bg-red-600 hover:bg-red-700'
+                      : 'cursor-default text-gray-300 bg-gray-400'
+                  }`}
+                >
+                  <span className="pl-1 lg:text-xl xs:text-sm flex justify-center items-center">
+                    Reset
+                    <BsArrowCounterclockwise className="ml-2 lg:text-xl xs:text-xs -rotate-45" />
+                  </span>
+                </button>
+                <button
+                  onClick={showSteps ? addEquation : undefined}
+                  className={` ml-6 py-1.5 pb-2 px-3 shadow-md rounded-md  transition duration-300 drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)] ${
+                    showSteps
+                      ? 'text-white bg-lime-600 hover:bg-lime-700'
+                      : 'cursor-default text-gray-300 bg-gray-400'
+                  }`}
+                >
+                  <span className="pl-2 lg:text-xl xs:text-sm flex justify-center items-center">
+                    Add Equation
+                    <HiPlusSmall className="ml-1 lg:text-2xl xs:text-base" />
+                  </span>
+                </button>
+              </div>
             </div>
           </section>
-          <div
-            className={`flex justify-end fixed bottom-7 right-8  
-            ${skeletonState ? 'hidden' : ''}`}
-          >
-            <button
-              onClick={showSteps ? resetEquation : undefined}
-              className={`ml-6 py-1.5 pb-2 px-4 shadow-md rounded-md  transition duration-300 drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)] ${
-                showSteps
-                  ? 'text-white bg-red-600 hover:bg-red-700'
-                  : 'cursor-default text-gray-300 bg-gray-400'
-              }`}
-            >
-              <span className="pl-1 lg:text-xl xs:text-sm flex justify-center">
-                Reset
-                <BsArrowCounterclockwise className="ml-2 mt-1.5 lg:text-xl xs:text-xs -rotate-45" />
-              </span>
-            </button>
-            <button
-              onClick={showSteps ? addEquation : undefined}
-              className={` ml-6 py-1.5 pb-2 px-3 shadow-md rounded-md  transition duration-300 drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)] ${
-                showSteps
-                  ? 'text-white bg-lime-600 hover:bg-lime-700'
-                  : 'cursor-default text-gray-300 bg-gray-400'
-              }`}
-            >
-              <span className="pl-2 lg:text-xl xs:text-sm flex justify-center">
-                Add Equation
-                <HiPlusSmall className="ml-1 mt-1 lg:text-2xl xs:text-base" />
-              </span>
-            </button>
-          </div>
         </div>
       </div>
+      <CreateEquationMessageModal
+        onClose={handleOnCloseModal}
+        visible={showModal}
+      />
     </>
   );
 }

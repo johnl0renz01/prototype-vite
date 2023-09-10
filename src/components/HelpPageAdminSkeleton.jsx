@@ -304,9 +304,17 @@ export default function HelpPageAdminSkeleton() {
   return (
     <>
       <div
-        className={`bg-gradient-to-t from-[#e2e2e2] via-[#f1f1f1] to-[#ffffff] h-full z-10 select-none
+        className={`bg-gradient-to-t from-[#e2e2e2] via-[#f1f1f1] to-[#ffffff] h-full z-10 select-none 
         ${
-          navbarWidth == 176
+          navbarWidth == 193
+            ? 'w-[calc(100%-193px)] ml-[193px]'
+            : navbarWidth == 125
+            ? 'w-[calc(100%-125px)] ml-[125px]'
+            : navbarWidth == 90
+            ? 'w-[calc(100%-90px)] ml-[90px]'
+            : navbarWidth == 56
+            ? 'w-[calc(100%-56px)] ml-[56px]'
+            : navbarWidth == 176
             ? 'w-[calc(100%-176px)] ml-[176px]'
             : navbarWidth == 108
             ? 'w-[calc(100%-108px)] ml-[108px]'

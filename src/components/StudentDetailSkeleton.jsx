@@ -54,18 +54,18 @@ export default function StudentDetailSkeleton() {
               <span className="bg-gray-200 text-gray-200 mr-2 rounded-md">
                 {sessiontype}
               </span>
-              <span className="lg:text-sm sm:text-xs font-normal bg-gray-200 text-gray-200 rounded-md">
+              <span className="lg:text-sm sm:text-sm xs:text-xs font-normal bg-gray-200 text-gray-200 rounded-md">
                 Aug 03, 2023 - 07:22 PM
               </span>
             </p>
           </div>
           <div className="lg:col-span-6 text-right lg:-mt-0 xs:-mt-8">
-            <span className="lg:text-lg  font-normal bg-gray-200 text-gray-200 rounded-md">
+            <span className="lg:text-lg sm:text-sm xs:text-xs font-normal bg-gray-200 text-gray-200 rounded-md">
               Score: 15/20
             </span>
           </div>
           <div className="lg:col-span-2 text-right lg:-mt-0  xs:-mt-3">
-            <span className="lg:text-lg  font-normal bg-gray-200 text-gray-200 rounded-md">
+            <span className="lg:text-lg sm:text-sm xs:text-xs font-normal bg-gray-200 text-gray-200 rounded-md">
               Time: 01:56:04
             </span>
           </div>
@@ -78,9 +78,17 @@ export default function StudentDetailSkeleton() {
   return (
     <>
       <div
-        className={`bg-gradient-to-t from-[#e2e2e2] via-[#f1f1f1] to-[#ffffff] h-screen z-10 select-none
+        className={`bg-gradient-to-t from-[#e2e2e2] via-[#f1f1f1] to-[#ffffff] h-screen z-10 select-none overflow-y-auto
         ${
-          navbarWidth == 143
+          navbarWidth == 160
+            ? 'w-[calc(100%-160px)] ml-[160px]'
+            : navbarWidth == 112
+            ? 'w-[calc(100%-112px)] ml-[112px]'
+            : navbarWidth == 90
+            ? 'w-[calc(100%-90px)] ml-[90px]'
+            : navbarWidth == 56
+            ? 'w-[calc(100%-56px)] ml-[56px]'
+            : navbarWidth == 143
             ? 'w-[calc(100%-143px)] ml-[143px]'
             : navbarWidth == 95
             ? 'w-[calc(100%-95px)] ml-[95px]'
@@ -104,7 +112,7 @@ export default function StudentDetailSkeleton() {
           >
             <BsCaretUpFill
               title="Go back"
-              className=" text-gray-300 bg-gray-300 border-4 border-gray-300 mr-3  rounded-full pb-1 rotate-[270deg] mt-3.5 text-[2.25rem] relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_1.5s_infinite]"
+              className=" text-gray-300 bg-gray-300 averageScreen:border-4 xs:border-2 border-gray-300 averageScreen:mr-3 xs:mr-1 rounded-full averageScreen:pb-1 xs:pb-0.5 rotate-[270deg] averageScreen:mt-3.5 averageScreen:text-[2.25rem] xs:mt-0.5 xs:text-[1.25rem] relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_1.5s_infinite]"
             />
             <div className="mt-0.5">
               <span className="bg-gray-200 text-gray-200 rounded-md">
@@ -113,20 +121,18 @@ export default function StudentDetailSkeleton() {
             </div>
           </div>
           <div className="p-4 overflow-hidden w-full ">
-            <div className="grid sm:grid-cols-1 lg:grid-cols-2">
+            <div className="grid xs:grid-cols-2">
               <div className="">
                 <p className="-mt-0.5 hdScreen:text-3xl semihdScreen:text-3xl laptopScreen:text-3xl averageScreen:text-2.5xl xs:text-base text-gray-700  font-bold leading-4 mb-1">
                   <span className="bg-gray-300 text-gray-300 rounded-md relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_1.5s_infinite]">
                     John Lorenz N. Dela Cruz
                   </span>
                 </p>
-                <p className="mt-3 -mb-2 hdScreen:text-base semihdScreen:text-base laptopScreen:text-base averageScreen:text-base xs:text-xs text-gray-700 leading-4">
+                <p className="mt-3 -mb-2 hdScreen:text-base semihdScreen:text-base laptopScreen:text-base averageScreen:text-base xs:text-xs text-gray-700 leading-4 averageScreen:pb-4 xs:pb-1">
                   <span className="bg-gray-200 text-gray-200 rounded-md relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_1.5s_infinite]">
                     delacruz.johnlorenz@sf.edu.ph
                   </span>
                 </p>
-
-                <br></br>
                 <p className="hdScreen:text-lg semihdScreen:text-base laptopScreen:text-base averageScreen:text-base xs:text-xs text-gray-700 font-medium leading-4 hdScreen:mb-3 semihdScreen:mb-2 laptopScreen:mb-1 averageScreen:mb-0.5">
                   <span className="bg-gray-300 text-gray-300 rounded-md mr-1 relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_1.5s_infinite]">
                     Answered Equations:{' '}
@@ -161,39 +167,39 @@ export default function StudentDetailSkeleton() {
                   </span>
                 </p>
               </div>
-              <div className="grid grid-cols-3 text-center mb-2">
+              <div className="grid grid-cols-3 text-center averageScreen:mb-2 ">
                 <div>
-                  <p className="hdScreen:text-2xl semihdScreen:text-xl laptopScreen:text-xl averageScreen:text-2xl sm:text-xl xs:text-base text-gray-700 font-medium leading-4 mb-5">
+                  <p className="hdScreen:text-2xl semihdScreen:text-xl laptopScreen:text-xl averageScreen:text-2xl sm:text-lg xs:text-base text-gray-700 font-medium leading-4 averageScreen:mb-5 xs:mb-1">
                     <span className="bg-gray-300 text-gray-300 rounded-md relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_1.5s_infinite]">
                       Easy
                     </span>
                   </p>
-                  <div className="hdScreen:w-32 hdScreen:h-32 semihdScreen:w-[7.5rem] semihdScreen:h-[7.5rem]  laptopScreen:w-[7rem] laptopScreen:h-[7rem] averageScreen:w-[6.5rem] averageScreen:h-[6.5rem] sm:w-24 sm:h-24 bg-gray-300 rounded-full text-center hdScreen:py-12 semihdScreen:py-10 laptopScreen:py-9 averageScreen:py-8  mx-auto relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_1.5s_infinite]">
-                    <span className="opacity-0 text-green-100 hdScreen:text-6xl semihdScreen:text-6xl laptopScreen:text-5xl averageScreen:text-5xl sm:text-4xl xs:text-2xl">
+                  <div className="hdScreen:w-32 hdScreen:h-32 semihdScreen:w-[7.5rem] semihdScreen:h-[7.5rem]  laptopScreen:w-[7rem] laptopScreen:h-[7rem] averageScreen:w-[6.5rem] averageScreen:h-[6.5rem] xs:w-16 xs:h-16  bg-gray-300 rounded-full text-center flex items-center justify-center  mx-auto relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_1.5s_infinite]">
+                    <span className="opacity-0 text-green-100 hdScreen:text-6xl semihdScreen:text-6xl laptopScreen:text-5xl averageScreen:text-5xl sm:text-2xl xs:text-xl">
                       10
                     </span>
                   </div>
                 </div>
                 <div>
-                  <p className="hdScreen:text-2xl semihdScreen:text-xl laptopScreen:text-xl averageScreen:text-2xl sm:text-xl xs:text-base text-gray-700 font-medium leading-4 mb-5">
+                  <p className="hdScreen:text-2xl semihdScreen:text-xl laptopScreen:text-xl averageScreen:text-2xl sm:text-lg xs:text-base text-gray-700 font-medium leading-4 averageScreen:mb-5 xs:mb-1">
                     <span className="bg-gray-300 text-gray-300 rounded-md relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_1.5s_infinite]">
                       Average
                     </span>
                   </p>
-                  <div className="hdScreen:w-32 hdScreen:h-32 semihdScreen:w-[7.5rem] semihdScreen:h-[7.5rem]  laptopScreen:w-[7rem] laptopScreen:h-[7rem] averageScreen:w-[6.5rem] averageScreen:h-[6.5rem] sm:w-24 sm:h-24 bg-gray-300  rounded-full text-center hdScreen:py-12 semihdScreen:py-10 laptopScreen:py-9 averageScreen:py-8   mx-auto relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_1.5s_infinite]">
-                    <span className="opacity-0 text-yellow-100 hdScreen:text-6xl semihdScreen:text-6xl laptopScreen:text-5xl averageScreen:text-5xl sm:text-4xl xs:text-2xl">
+                  <div className="hdScreen:w-32 hdScreen:h-32 semihdScreen:w-[7.5rem] semihdScreen:h-[7.5rem]  laptopScreen:w-[7rem] laptopScreen:h-[7rem] averageScreen:w-[6.5rem] averageScreen:h-[6.5rem] xs:w-16 xs:h-16 bg-gray-300  rounded-full text-center flex items-center justify-center   mx-auto relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_1.5s_infinite]">
+                    <span className="opacity-0 text-yellow-100 hdScreen:text-6xl semihdScreen:text-6xl laptopScreen:text-5xl averageScreen:text-5xl sm:text-2xl xs:text-xl">
                       10
                     </span>
                   </div>
                 </div>
                 <div>
-                  <p className="hdScreen:text-2xl semihdScreen:text-xl laptopScreen:text-xl averageScreen:text-2xl sm:text-xl xs:text-base text-gray-700 font-medium leading-4 mb-5">
+                  <p className="hdScreen:text-2xl semihdScreen:text-xl laptopScreen:text-xl averageScreen:text-2xl sm:text-lg xs:text-base text-gray-700 font-medium leading-4 averageScreen:mb-5 xs:mb-1">
                     <span className="bg-gray-300 text-gray-300 rounded-md relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_1.5s_infinite]">
                       Difficult
                     </span>
                   </p>
-                  <div className="hdScreen:w-32 hdScreen:h-32 semihdScreen:w-[7.5rem] semihdScreen:h-[7.5rem]  laptopScreen:w-[7rem] laptopScreen:h-[7rem] averageScreen:w-[6.5rem] averageScreen:h-[6.5rem] sm:w-24 sm:h-24 bg-gray-300  rounded-full text-center hdScreen:py-12 semihdScreen:py-10 laptopScreen:py-9 averageScreen:py-8    mx-auto relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_1.5s_infinite]">
-                    <span className="opacity-0 text-red-100 hdScreen:text-6xl semihdScreen:text-6xl laptopScreen:text-5xl averageScreen:text-5xl sm:text-4xl xs:text-2xl">
+                  <div className="hdScreen:w-32 hdScreen:h-32 semihdScreen:w-[7.5rem] semihdScreen:h-[7.5rem]  laptopScreen:w-[7rem] laptopScreen:h-[7rem] averageScreen:w-[6.5rem] averageScreen:h-[6.5rem] xs:w-16 xs:h-16 bg-gray-300  rounded-full text-center flex items-center justify-center    mx-auto relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_1.5s_infinite]">
+                    <span className="opacity-0 text-red-100 hdScreen:text-6xl semihdScreen:text-6xl laptopScreen:text-5xl averageScreen:text-5xl sm:text-2xl xs:text-xl">
                       10
                     </span>
                   </div>
@@ -210,7 +216,7 @@ export default function StudentDetailSkeleton() {
             </p>
             <div
               id="history"
-              className="overflow-auto bg-gray-200/80 rounded-md mx-3 mt-2 hdScreen:min-h-[32rem] hdScreen:max-h-[32rem] semihdScreen:min-h-[24rem] semihdScreen:max-h-[24rem] laptopScreen:min-h-[15.7rem] laptopScreen:max-h-[15.7rem] averageScreen:min-h-[14rem] averageScreen:max-h-[14rem] style-2 "
+              className="overflow-auto bg-gray-200/80 rounded-md mx-3 mt-2 hdScreen:min-h-[32rem] hdScreen:max-h-[32rem] semihdScreen:min-h-[24rem] semihdScreen:max-h-[24rem] laptopScreen:min-h-[15.7rem] laptopScreen:max-h-[15.7rem] averageScreen:min-h-[14rem] averageScreen:max-h-[14rem] xs:min-h-[14rem] xs:max-h-[14rem] style-2 "
             >
               {session('Easy')}
               {session('Easy')}

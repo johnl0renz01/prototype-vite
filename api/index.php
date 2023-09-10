@@ -243,6 +243,17 @@ switch($requestLink) {
         include('removeAccount.php');
     break;
 
+    //RESET REQUESTS
+    case "/Prototype-Vite/my-project/api/resetPasswordList":
+        include('resetPasswordList.php');
+    break;
+    case "/Prototype-Vite/my-project/api/resetPassword":
+        include('resetPassword.php');
+    break;
+    case "/Prototype-Vite/my-project/api/removeResetRequest":
+        include('removeResetRequest.php');
+    break;
+
 
     //CONTACT ADMIN
     case "/Prototype-Vite/my-project/api/requestSend":
@@ -273,6 +284,15 @@ switch($requestLink) {
     // SET NEW PASSWORD
     case "/Prototype-Vite/my-project/api/setNewPassword":
         include('setNewPassword.php');
+    break;
+
+    // FORGOT PASSWORD
+    case "/Prototype-Vite/my-project/api/forgotPassEmail":
+        include('forgotPassEmail.php');
+    break;
+
+    case "/Prototype-Vite/my-project/api/forgotPassCode":
+        include('forgotPassCode.php');
     break;
 }
 

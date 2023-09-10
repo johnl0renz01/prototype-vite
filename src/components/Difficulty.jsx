@@ -468,11 +468,11 @@ export default function DifficultyPage() {
         <LoadingStudent />
       </div>
       <section
-        className={`no-scrollbar overflow-y-auto
+        className={` averageScreen:h-full xs:h-screen overflow-y-auto
                           ${skeletonState ? 'hidden' : ''}`}
       >
         {/* <input type="text" value={result} className="w-full"></input>*/}
-        <div className="hdScreen:scale-[100%] semihdScreen:scale-[90%] laptopScreen:scale-[77.5%] averageScreen:scale-[75%] hdScreen:-mt-6 semihdScreen:-mt-8 laptopScreen:-mt-12 averageScreen:-mt-16 mx-auto lg:w-full min-h-[calc(100vh-5.5rem)]  flex items-center justify-center select-none ">
+        <div className="hdScreen:scale-[100%] semihdScreen:scale-[90%] laptopScreen:scale-[77.5%] averageScreen:scale-[75%] hdScreen:-mt-6 semihdScreen:-mt-8 laptopScreen:-mt-12 averageScreen:-mt-16 mx-auto lg:w-full averageScreen:min-h-[calc(100vh-5.5rem)]  flex items-center justify-center   select-none ">
           <div className="">
             <div className="  pt-10 rounded-6xl  border-l-12 border-b-12 border-gray-600/60 bg-gradient-to-t from-gray-200 via-white to-white border-r-12 border-r-gray-300/80 shadow-2xl shadow-yellow-400 overflow-hidden">
               <div className="px-10   rounded-4xl  mx-auto ">

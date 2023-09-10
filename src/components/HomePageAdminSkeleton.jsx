@@ -42,9 +42,17 @@ export default function HomePageAdminSkeleton() {
   return (
     <>
       <div
-        className={`bg-gradient-to-t from-[#e2e2e2] via-[#f1f1f1] to-[#ffffff] h-screen z-10 select-none  
+        className={`bg-gradient-to-t from-[#e2e2e2] via-[#f1f1f1] to-[#ffffff] h-screen z-10 select-none overflow-y-auto  
         ${
-          navbarWidth == 176
+          navbarWidth == 193
+            ? 'w-[calc(100%-193px)] ml-[193px]'
+            : navbarWidth == 125
+            ? 'w-[calc(100%-125px)] ml-[125px]'
+            : navbarWidth == 90
+            ? 'w-[calc(100%-90px)] ml-[90px]'
+            : navbarWidth == 56
+            ? 'w-[calc(100%-56px)] ml-[56px]'
+            : navbarWidth == 176
             ? 'w-[calc(100%-176px)] ml-[176px]'
             : navbarWidth == 108
             ? 'w-[calc(100%-108px)] ml-[108px]'
@@ -77,7 +85,7 @@ export default function HomePageAdminSkeleton() {
                 <div className="flex mx-auto mt-auto hdScreen:-mb-8 semihdScreen:-mb-4 laptopScreen:-mb-2 averageScreen:-mb-0 xs:-mb-0">
                   <div className="bg-gray-300 rounded-md overflow-hidden relative before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_1.5s_infinite]">
                     <img
-                      className="opacity-0 hdScreen:h-[105px] semihdScreen:h-[95px] laptopScreen:h-[85px] averageScreen:h-[80px] xs:h-[50px] w-full"
+                      className="opacity-0 hdScreen:h-[105px] semihdScreen:h-[95px] laptopScreen:h-[85px] averageScreen:h-[80px] sm:h-[50px] xs:h-[40px] w-full"
                       src={require('../assets/images/home_admin/ManageAccounts.png')}
                     ></img>
                   </div>
@@ -99,7 +107,7 @@ export default function HomePageAdminSkeleton() {
                 <div className="flex mx-auto mt-auto hdScreen:-mb-8 semihdScreen:-mb-4 laptopScreen:-mb-2 averageScreen:-mb-0 xs:-mb-0">
                   <div className="bg-gray-300 rounded-md overflow-hidden relative before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_1.5s_infinite]">
                     <img
-                      className="opacity-0 hdScreen:h-[105px] semihdScreen:h-[95px] laptopScreen:h-[85px] averageScreen:h-[80px] xs:h-[50px] w-full"
+                      className="opacity-0 hdScreen:h-[105px] semihdScreen:h-[95px] laptopScreen:h-[85px] averageScreen:h-[80px] sm:h-[50px] xs:h-[40px] w-full"
                       src={require('../assets/images/home_admin/ManageSections.png')}
                     ></img>
                   </div>
@@ -121,7 +129,7 @@ export default function HomePageAdminSkeleton() {
                 <div className="flex mx-auto mt-auto hdScreen:-mb-8 semihdScreen:-mb-4 laptopScreen:-mb-2 averageScreen:-mb-0 xs:-mb-0">
                   <div className="bg-gray-300 rounded-md overflow-hidden relative before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_1.5s_infinite]">
                     <img
-                      className="opacity-0 hdScreen:h-[105px] semihdScreen:h-[95px] laptopScreen:h-[85px] averageScreen:h-[80px] xs:h-[50px] w-full"
+                      className="opacity-0 hdScreen:h-[105px] semihdScreen:h-[95px] laptopScreen:h-[85px] averageScreen:h-[80px] sm:h-[50px] xs:h-[40px] w-full"
                       src={require('../assets/images/home_admin/RegisterAccount.png')}
                     ></img>
                   </div>
@@ -143,7 +151,7 @@ export default function HomePageAdminSkeleton() {
                 <div className="flex mx-auto mt-auto hdScreen:-mb-8 semihdScreen:-mb-4 laptopScreen:-mb-2 averageScreen:-mb-0 xs:-mb-0">
                   <div className="bg-gray-300 rounded-md overflow-hidden relative before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_1.5s_infinite]">
                     <img
-                      className="opacity-0 hdScreen:h-[105px] semihdScreen:h-[95px] laptopScreen:h-[85px] averageScreen:h-[80px] xs:h-[50px] w-full"
+                      className="opacity-0 hdScreen:h-[105px] semihdScreen:h-[95px] laptopScreen:h-[85px] averageScreen:h-[80px] sm:h-[50px] xs:h-[40px] w-full"
                       src={require('../assets/images/home_admin/ResetPassword.png')}
                     ></img>
                   </div>
@@ -165,7 +173,7 @@ export default function HomePageAdminSkeleton() {
                 <div className="flex mx-auto mt-auto hdScreen:-mb-10 semihdScreen:-mb-6 laptopScreen:-mb-4 averageScreen:-mb-1 xs:-mb-0">
                   <div className="bg-gray-300 rounded-md overflow-hidden relative before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_1.5s_infinite]">
                     <img
-                      className="opacity-0 hdScreen:h-[105px] semihdScreen:h-[95px] laptopScreen:h-[85px] averageScreen:h-[80px] xs:h-[50px] w-full"
+                      className="opacity-0 hdScreen:h-[105px] semihdScreen:h-[95px] laptopScreen:h-[85px] averageScreen:h-[80px] sm:h-[50px] xs:h-[40px] w-full"
                       src={require('../assets/images/home_admin/UserRequests.png')}
                     ></img>
                   </div>
@@ -187,7 +195,7 @@ export default function HomePageAdminSkeleton() {
                 <div className="flex mx-auto mt-auto hdScreen:-mb-8 semihdScreen:-mb-4 laptopScreen:-mb-2 averageScreen:-mb-0 xs:-mb-0">
                   <div className="bg-gray-300 rounded-md overflow-hidden relative before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_1.5s_infinite]">
                     <img
-                      className="opacity-0 hdScreen:h-[105px] semihdScreen:h-[95px] laptopScreen:h-[85px] averageScreen:h-[80px] xs:h-[50px] w-full"
+                      className="opacity-0 hdScreen:h-[105px] semihdScreen:h-[95px] laptopScreen:h-[85px] averageScreen:h-[80px] sm:h-[50px] xs:h-[40px] w-full"
                       src={require('../assets/images/home_admin/HelpAdmin.png')}
                     ></img>
                   </div>

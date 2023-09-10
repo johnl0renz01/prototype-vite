@@ -563,6 +563,11 @@ export default function HelpPageAdmin() {
               <p className="hdScreen:py-2 semihdScreen:py-2 laptopScreen:py-1.5 averageScreen:py-1 sm:py-1 xs:py-0.5">
                 The search yields two outcomes for "John Lorenz Naga Dela Cruz"
                 and "John Moe Doe," displaying their email addresses and roles.
+                <br></br>
+                <br></br>
+                <span className="text-gray-400">
+                  Note: You can also filter the search using the section name.
+                </span>
               </p>
             </div>
           </div>
@@ -1586,9 +1591,17 @@ export default function HelpPageAdmin() {
       </div>
 
       <div
-        className={`bg-gradient-to-t from-[#e2e2e2] via-[#f1f1f1] to-[#ffffff] h-full   
+        className={`bg-gradient-to-t from-[#e2e2e2] via-[#f1f1f1] to-[#ffffff] h-full 
         ${
-          navbarWidth == 176
+          navbarWidth == 193
+            ? 'w-[calc(100%-193px)] ml-[193px]'
+            : navbarWidth == 125
+            ? 'w-[calc(100%-125px)] ml-[125px]'
+            : navbarWidth == 90
+            ? 'w-[calc(100%-90px)] ml-[90px]'
+            : navbarWidth == 56
+            ? 'w-[calc(100%-56px)] ml-[56px]'
+            : navbarWidth == 176
             ? 'w-[calc(100%-176px)] ml-[176px]'
             : navbarWidth == 108
             ? 'w-[calc(100%-108px)] ml-[108px]'
@@ -1629,7 +1642,7 @@ export default function HelpPageAdmin() {
               </div>
 
               <div className="hdScreen:w-[17.5%] semihdScreen:w-[20.5%] laptopScreen:w-[22.5%] averageScreen:w-[26%] ">
-                <div className="sticky top-10 right-[5%]  hdScreen:pl-8 semihdScreen:pl-6 laptopScreen:pl-4 averageScreen:pl-3 sm:pl-2 xs:pl-1">
+                <div className="overflow-y-auto style-4 sticky max-h-screen top-0 right-[5%] pb-10 hdScreen:pl-8 semihdScreen:pl-6 laptopScreen:pl-4 averageScreen:pl-4 sm:pl-2 xs:pl-1">
                   <div className="">
                     <div
                       onClick={e => {

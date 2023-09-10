@@ -47,6 +47,7 @@ $a = random_str(32);
 $b = random_str(8, 'abcdefghijklmnopqrstuvwxyz');
 $c = random_str();
 
+
 switch($_SESSION['method']) {
     case "GET":
         break;

@@ -130,8 +130,8 @@ export default function HomePageTeacher() {
   const [logoHeight, setLogoHeight] = useState(0);
 
   useEffect(() => {
-    const data = window.localStorage.getItem('CURRENT_SECTION');
-    if (data !== null) setAccessReportCard(true);
+    const data = JSON.parse(window.localStorage.getItem('CURRENT_SECTION'));
+    if (data !== null && data !== false) setAccessReportCard(true);
 
     document.body.style.backgroundImage =
       'linear-gradient(to top, #e2e2e2, #f1f1f1 , #ffffff)';
@@ -207,9 +207,17 @@ export default function HomePageTeacher() {
         <HomePageTeacherSkeleton />
       </div>
       <div
-        className={`bg-gradient-to-t from-[#e2e2e2] via-[#f1f1f1] to-[#ffffff] h-screen   
+        className={`bg-gradient-to-t from-[#e2e2e2] via-[#f1f1f1] to-[#ffffff] h-screen overflow-y-auto   
         ${
-          navbarWidth == 143
+          navbarWidth == 160
+            ? 'w-[calc(100%-160px)] ml-[160px]'
+            : navbarWidth == 112
+            ? 'w-[calc(100%-112px)] ml-[112px]'
+            : navbarWidth == 90
+            ? 'w-[calc(100%-90px)] ml-[90px]'
+            : navbarWidth == 56
+            ? 'w-[calc(100%-56px)] ml-[56px]'
+            : navbarWidth == 143
             ? 'w-[calc(100%-143px)] ml-[143px]'
             : navbarWidth == 95
             ? 'w-[calc(100%-95px)] ml-[95px]'
@@ -234,7 +242,7 @@ export default function HomePageTeacher() {
             Overview
           </div>
           <div className="py-1.5"></div>
-          <div className="grid grid-cols-2 grid-rows-2 gap-6 text-center">
+          <div className="grid grid-cols-2 grid-rows-2 gap-6 text-center ">
             <div
               onClick={tab1}
               className={`overflow-hidden h-[calc(100vh-67.5vh)]  grid-rows-2 shadow-sm border-3 rounded-lg bg-white hover:bg-gray-100 cursor-pointer transition duration-200
@@ -243,12 +251,12 @@ export default function HomePageTeacher() {
               <div className="relative flex text-lime-600">
                 <div className="flex mx-auto mt-auto hdScreen:-mb-8 semihdScreen:-mb-4 laptopScreen:-mb-2 averageScreen:-mb-0 xs:-mb-0">
                   <img
-                    className="hdScreen:h-[105px] semihdScreen:h-[95px] laptopScreen:h-[85px] averageScreen:h-[80px] xs:h-[50px] w-full"
+                    className="hdScreen:h-[105px] semihdScreen:h-[95px] laptopScreen:h-[85px] averageScreen:h-[80px] sm:h-[50px] xs:h-[40px] w-full"
                     src={require('../assets/images/home_teacher/ReportCards.png')}
                   ></img>
                 </div>
               </div>
-              <div className="hdScreen:pt-16 semihdScreen:pt-10 laptopScreen:pt-8 averageScreen:pt-6 xs:pt-2">
+              <div className="hdScreen:pt-16 semihdScreen:pt-10 laptopScreen:pt-8 averageScreen:pt-6 xs:pt-2 ">
                 <span className="font-semibold hdScreen:text-lg semihdScreen:text-lg laptopScreen:text-base averageScreen:text-base xs:text-sm text-gray-700">
                   Report Cards
                 </span>
@@ -264,7 +272,7 @@ export default function HomePageTeacher() {
               <div className="relative flex text-lime-600">
                 <div className="flex mx-auto mt-auto hdScreen:-mb-8 semihdScreen:-mb-4 laptopScreen:-mb-2 averageScreen:-mb-0 xs:-mb-0">
                   <img
-                    className="hdScreen:h-[105px] semihdScreen:h-[95px] laptopScreen:h-[85px] averageScreen:h-[80px] xs:h-[50px] w-full"
+                    className="hdScreen:h-[105px] semihdScreen:h-[95px] laptopScreen:h-[85px] averageScreen:h-[80px] sm:h-[50px] xs:h-[40px] w-full"
                     src={require('../assets/images/home_teacher/EquationList.png')}
                   ></img>
                 </div>
@@ -285,7 +293,7 @@ export default function HomePageTeacher() {
               <div className="relative flex text-lime-600">
                 <div className="flex mx-auto mt-auto hdScreen:-mb-8 semihdScreen:-mb-4 laptopScreen:-mb-2 averageScreen:-mb-0 xs:-mb-0">
                   <img
-                    className="hdScreen:h-[105px] semihdScreen:h-[95px] laptopScreen:h-[85px] averageScreen:h-[80px] xs:h-[50px] w-full"
+                    className="hdScreen:h-[105px] semihdScreen:h-[95px] laptopScreen:h-[85px] averageScreen:h-[80px] sm:h-[50px] xs:h-[40px] w-full"
                     src={require('../assets/images/home_teacher/CreateEquation.png')}
                   ></img>
                 </div>
@@ -306,7 +314,7 @@ export default function HomePageTeacher() {
               <div className="hdScreen:pl-11 semihdScreen:pl-10 laptopScreen:pl-9 averageScreen:pl-5  relative flex text-lime-600">
                 <div className="flex mx-auto mt-auto hdScreen:-mb-8 semihdScreen:-mb-4 laptopScreen:-mb-2 averageScreen:-mb-0 xs:-mb-0">
                   <img
-                    className="hdScreen:h-[105px] semihdScreen:h-[95px] laptopScreen:h-[85px] averageScreen:h-[80px] xs:h-[50px] w-full"
+                    className="hdScreen:h-[105px] semihdScreen:h-[95px] laptopScreen:h-[85px] averageScreen:h-[80px] sm:h-[50px] xs:h-[40px] w-full"
                     src={require('../assets/images/home_teacher/HelpTeacher.png')}
                   ></img>
                 </div>

@@ -321,9 +321,17 @@ export default function EquationList() {
         <EquationListSkeleton />
       </div>
       <div
-        className={`bg-gradient-to-t from-[#e2e2e2] via-[#f1f1f1] to-[#ffffff] h-screen 
+        className={`bg-gradient-to-t from-[#e2e2e2] via-[#f1f1f1] to-[#ffffff] h-screen overflow-y-auto
         ${
-          navbarWidth == 143
+          navbarWidth == 160
+            ? 'w-[calc(100%-160px)] ml-[160px]'
+            : navbarWidth == 112
+            ? 'w-[calc(100%-112px)] ml-[112px]'
+            : navbarWidth == 90
+            ? 'w-[calc(100%-90px)] ml-[90px]'
+            : navbarWidth == 56
+            ? 'w-[calc(100%-56px)] ml-[56px]'
+            : navbarWidth == 143
             ? 'w-[calc(100%-143px)] ml-[143px]'
             : navbarWidth == 95
             ? 'w-[calc(100%-95px)] ml-[95px]'
@@ -348,8 +356,8 @@ export default function EquationList() {
             Equation List
           </div>
           <div className="text-gray-700 mt-1.5 lg:text-lg sm:text-base xs:text-xs font-semibold tracking-wide pl-2 ">
-            The following are current custom equations created. Drag the
-            equation to change its difficulty.
+            The following are current custom equations created. Drag and drop
+            the equation to change its difficulty.
           </div>
 
           <div>
@@ -361,6 +369,8 @@ export default function EquationList() {
                   semihdScreen:min-h-[calc(100vh-30vh)] semihdScreen:max-h-[calc(100vh-30vh)]
                   laptopScreen:min-h-[calc(100vh-40vh)] laptopScreen:max-h-[calc(100vh-40vh)]
                   averageScreen:min-h-[calc(100vh-45vh)] averageScreen:max-h-[calc(100vh-45vh)]
+                  sm:min-h-[calc(100vh-45vh)] sm:max-h-[calc(100vh-45vh)]
+                  xs:min-h-[calc(100vh-45vh)] xs:max-h-[calc(100vh-45vh)]
                   bg-white mt-3.5 grid grid-cols-3 text-center lg:text-xl xs:text-base w-full border-t-1  border-gray-400 rounded-xl"
                     {...provided.droppableProps}
                     ref={provided.innerRef}
@@ -415,7 +425,7 @@ export default function EquationList() {
             {...provided.droppableProps}
             ref={provided.innerRef}
           >
-            <div className="bg-gray-200 py-1 border-b-[1px] border-gray-400 uppercase tracking-wide text-xl font-bold text-gray-700">
+            <div className="bg-gray-200 py-1 border-b-[1px] border-gray-400 uppercase tracking-wide lg:text-xl md:text-base sm:text-sm xs:text-xs  font-bold text-gray-700">
               {name}
             </div>
             <div className="items-container">
@@ -431,14 +441,14 @@ export default function EquationList() {
                       {...provided.draggableProps}
                       ref={provided.innerRef}
                     >
-                      <div className="font-normal bg-white pt-0.5 lg:text-lg xs:text-sm h-full    border-[1px] border-l-0 border-r-0  border-gray-400 shadow-md">
-                        <div className="border-b-2 flex justify-center relative hover:bg-gray-200">
+                      <div className="font-normal bg-white pt-0.5 lg:text-base md:text-sm xs:text-xs  h-full    border-[1px] border-l-0 border-r-0  border-gray-400 shadow-md">
+                        <div className="border-b-2 flex justify-center items-center relative hover:bg-gray-200">
                           <p className="mx-4">{item.EquationString}</p>
                           <input
                             type="submit"
                             id={item.EquationString}
                             onClick={deleteEquation}
-                            className="cursor-pointer absolute right-0 text-black/60  hover:text-red-500 rounded-full w-6 h-6"
+                            className=" cursor-pointer absolute right-0 text-black/60  hover:text-red-500 rounded-full w-6 h-6"
                             title="Remove Equation"
                             value="x"
                           ></input>

@@ -57,21 +57,21 @@ export default function LoginPageSkeleton() {
 
   return (
     <>
-      <div className="hdScreen:h-[calc(100vh-27.5vh)] semihdScreen:h-[calc(100vh-27.5vh)] laptopScreen:h-[calc(100vh-20vh)] averageScreen:h-[calc(100vh-17.5vh)] flex items-center select-none">
-        <div className="mx-auto w-full  grid place-items-center">
+      <div className="flex items-center  select-none">
+        <div className="mx-auto w-full  grid place-items-center overflow-y-auto h-screen">
           <div
-            className="mt-16 
-            hdScreen:w-[30%] semihdScreen:w-[35%] laptopScreen:w-[40%] averageScreen:w-[42.5%] 
-            hdScreen:scale-100 semihdScreen:scale-95 laptopScreen:scale-85 averageScreen:scale-80
+            className=" 
+            hdScreen:w-[30%] semihdScreen:w-[35%] laptopScreen:w-[40%] averageScreen:w-[42.5%] md:w-[45%] sm:w-[50%] xs:w-[60%] 
+            hdScreen:scale-100 semihdScreen:scale-95 laptopScreen:scale-85 averageScreen:scale-80  xs:scale-80
           bg-gray-100 rounded-2xl shadow-md relative  overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_1.5s_infinite]"
           >
             <div className="lg:pb-16 xs:pb-10  px-10 rounded-3xl">
-              <div className="hdScreen:text-4xl semihdScreen:text-4xl laptopScreen:text-3xl  averageScreen:text-3xl  sm:text-2xl xs:text-xl text-gray-700 font-bold text-center lg:pt-10 xs:pt-4 pb-4">
-                <i className="bg-gray-300 text-gray-300 rounded-md fas fa-graduation-cap  hdScreen:text-[5rem] semihdScreen:text-[4.5rem] laptopScreen:text-[4rem] averageScreen:text-[3.75rem]"></i>
+              <div className="hdScreen:text-4xl semihdScreen:text-4xl laptopScreen:text-3xl  averageScreen:text-3xl  sm:text-2xl xs:text-xl text-gray-700 font-bold text-center lg:pt-6 xs:pt-2 pb-4">
+                <i className="bg-gray-300 text-gray-300 rounded-md fas fa-graduation-cap  hdScreen:text-[5rem] semihdScreen:text-[4.5rem] laptopScreen:text-[4rem] averageScreen:text-[3.75rem] sm:text-[2.5rem] xs:text-[2rem]"></i>
               </div>
               <hr />
               <div className="hdScreen:text-4xl semihdScreen:text-4xl laptopScreen:text-3xl  averageScreen:text-3xl sm:text-2xl xs:text-lg text-gray-700 font-bold text-center">
-                <div className="pt-4 pb-2 select-none">
+                <div className="averageScreen:pt-4 xs:pt-2 averageScreen:pb-2 select-none">
                   <span className="bg-gray-300 text-gray-300 rounded-md">
                     Account Login
                   </span>
@@ -85,7 +85,7 @@ export default function LoginPageSkeleton() {
                   </span>
                 </h1>
 
-                <div className="mt-12"></div>
+                <div className="averageScreen:mt-12 xs:mt-6"></div>
               </div>
 
               <div className="">
@@ -148,7 +148,7 @@ export default function LoginPageSkeleton() {
                   </div>
 
                   {/* Login Button */}
-                  <div className=" mt-8 mb-3 text-center w-full ">
+                  <div className=" averageScreen:mt-8 averageScreen:mb-3 xs:mb-1 text-center w-full ">
                     <button
                       disabled
                       type="submit"

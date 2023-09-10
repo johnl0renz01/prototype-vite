@@ -11,7 +11,6 @@ import MY_API_KEY from './API_KEY';
 import LoadingStudent from './LoadingStudent';
 
 export default function Homepage() {
-  document.body.style.height = '100vh';
   document.body.style.backgroundImage =
     'linear-gradient(to top, #bef264, #d9f99d , #ccf779)';
 
@@ -123,10 +122,10 @@ export default function Homepage() {
         <LoadingStudent />
       </div>
       <section
-        className={`hdScreen:scale-95 semihdScreen:scale-95 laptopScreen:scale-85 averageScreen:scale-85 hdScreen:-mt-0 semihdScreen:-mt-2 laptopScreen:-mt-6 averageScreen:-mt-8 grid place-items-center 
+        className={`hdScreen:scale-95 semihdScreen:scale-95 laptopScreen:scale-85 averageScreen:scale-85 hdScreen:-mt-0 semihdScreen:-mt-2 laptopScreen:-mt-6 averageScreen:-mt-8  flex justify-center items-start averageScreen:h-full xs:h-screen overflow-y-auto 
                           ${skeletonState ? 'hidden' : ''}`}
       >
-        <div className=" w-10/12 min-h-[calc(100vh-6rem)] flex items-center justify-center">
+        <div className=" w-10/12 averageScreen:min-h-[calc(100vh-6rem)] flex items-center justify-center">
           <div className="bg-white border-l-12 border-b-12 border-gray-600/60 border-r-12 border-r-gray-300/80 px-2 py-2 rounded-6xl shadow-2xl shadow-yellow-400 ">
             <div className=" mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-4 lg:px-8 lg:py-20 ">
               <div className="lg:flex w-full overflow-hidden bg-white rounded-6xl sm:mx-auto">

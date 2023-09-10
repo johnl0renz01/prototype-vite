@@ -1779,7 +1779,7 @@ export default function Whiteboard() {
       </div>
       <div
         id="whiteboard"
-        className={`hdScreen:scale-90 semihdScreen:scale-90 laptopScreen:scale-[82.5%] averageScreen:scale-80 hdScreen:-mt-8 semihdScreen:-mt-8 laptopScreen:-mt-12 averageScreen:-mt-16  mx-auto hdScreen:w-11/12 semihdScreen:w-11/12 laptopScreen:w-12/12 averageScreen:w-12/12 min-h-[calc(100vh-2rem)] flex items-center justify-center
+        className={`hdScreen:scale-90 semihdScreen:scale-90 laptopScreen:scale-[82.5%] averageScreen:scale-80 hdScreen:-mt-8 semihdScreen:-mt-8 laptopScreen:-mt-12 averageScreen:-mt-16  mx-auto hdScreen:w-11/12 semihdScreen:w-11/12 laptopScreen:w-12/12 averageScreen:w-12/12 averageScreen:min-h-[calc(100vh-2rem)] flex items-center justify-center  h-screen averageScreen:overflow-y-hidden xs:overflow-y-auto
                   ${skeletonState ? 'hidden' : ''}`}
         onMouseEnter={loadAnswers}
         onClick={loadAnswers}
@@ -1817,7 +1817,7 @@ export default function Whiteboard() {
                     viewBox="0 0 24 24"
                     strokeWidth="1.5"
                     stroke="currentColor"
-                    className={`cursor-pointer hdScreen:h-11 semihdScreen:h-10 laptopScreen:h-9 averageScreen:h-8  hdScreen:w-11 semihdScreen:w-10 laptopScreen:w-9 averageScreen:w-8 hover:fill-gray-200/90 hover:bg-gray-200/90 hover:text-white rounded-full p-1 drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)] ${
+                    className={`cursor-pointer hdScreen:h-11 semihdScreen:h-10 laptopScreen:h-9 averageScreen:h-8 xs:h-7  hdScreen:w-11 semihdScreen:w-10 laptopScreen:w-9 averageScreen:w-8 xs:w-7 hover:fill-gray-200/90 hover:bg-gray-200/90 hover:text-white rounded-full p-1 drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)] ${
                       isHelp
                         ? 'hover:border-3 hover:border-white fill-gray-200 bg-gray-200/90 text-white'
                         : 'text-black/50 bg-gray-300/90 fill-gray-300/90'
@@ -1849,7 +1849,7 @@ export default function Whiteboard() {
                   <svg
                     id="help_button"
                     onClick={!isSolved ? hintMode : undefined}
-                    className={` hdScreen:h-11 semihdScreen:h-10 laptopScreen:h-9 averageScreen:h-8  hdScreen:w-11 semihdScreen:w-10 laptopScreen:w-9 averageScreen:w-8 rounded-full   p-1 drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)] ${
+                    className={` hdScreen:h-11 semihdScreen:h-10 laptopScreen:h-9 averageScreen:h-8 xs:h-7  hdScreen:w-11 semihdScreen:w-10 laptopScreen:w-9 xs:w-7 rounded-full   p-1 drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)] ${
                       isSolved
                         ? isHelp
                           ? 'hover:border-3 hover:border-white text-black/50 fill-gray-400/90 bg-gray-400/90 cursor-default aria-disabled: hover:text-white'
@@ -1898,7 +1898,7 @@ export default function Whiteboard() {
                     viewBox="0 0 24 24"
                     strokeWidth="1.5"
                     stroke="currentColor"
-                    className={`cursor-pointer hdScreen:h-11 semihdScreen:h-10 laptopScreen:h-9 averageScreen:h-8  hdScreen:w-11 semihdScreen:w-10 laptopScreen:w-9 averageScreen:w-8 p-1   hover:fill-red-500/90 hover:bg-red-500/90 hover:text-white rounded-full focus:text-white drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)] ${
+                    className={`cursor-pointer hdScreen:h-11 semihdScreen:h-10 laptopScreen:h-9 averageScreen:h-8 xs:h-7  hdScreen:w-11 semihdScreen:w-10 laptopScreen:w-9 averageScreen:w-8 xs:w-7 p-1   hover:fill-red-500/90 hover:bg-red-500/90 hover:text-white rounded-full focus:text-white drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)] ${
                       isTutorial
                         ? 'fill-red-500 bg-red-500/90 text-white '
                         : isHelp
@@ -1936,7 +1936,7 @@ export default function Whiteboard() {
                   <svg
                     id="pen_button"
                     onClick={penMode}
-                    className={`cursor-pointer  hdScreen:h-11 semihdScreen:h-10 laptopScreen:h-9 averageScreen:h-8  hdScreen:w-11 semihdScreen:w-10 laptopScreen:w-9 averageScreen:w-8  rounded-full hover:fill-lime-600/90 hover:bg-lime-600/90 hover:text-white p-1 focus:text-white drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)] ${
+                    className={`cursor-pointer  hdScreen:h-11 semihdScreen:h-10 laptopScreen:h-9 averageScreen:h-8 xs:h-7  hdScreen:w-11 semihdScreen:w-10 laptopScreen:w-9 averageScreen:w-8  xs:w-7 rounded-full hover:fill-lime-600/90 hover:bg-lime-600/90 hover:text-white p-1 focus:text-white drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)] ${
                       isPen
                         ? 'fill-lime-600 bg-lime-600/90 text-white '
                         : isHelp
@@ -2000,7 +2000,7 @@ export default function Whiteboard() {
                         />
                       </div>
 
-                      <div className="p-0.5 text-center hdScreen:text-sm averageScreen:text-xs absolute bottom-0 bg-slate-600 text-white border-t-3 border-slate-700 w-full">
+                      <div className="p-0.5 text-center hdScreen:text-sm averageScreen:text-xs  xs:text-xs absolute bottom-0 bg-slate-600 text-white border-t-3 border-slate-700 w-full">
                         Linear Equations in One Variable
                         <br></br>
                         @MathTeacherGon
@@ -2023,7 +2023,7 @@ export default function Whiteboard() {
                         />
                       </div>
 
-                      <div className="p-0.5 text-center hdScreen:text-sm averageScreen:text-xs absolute bottom-0 bg-slate-600 text-white border-t-3 border-slate-700 w-full">
+                      <div className="p-0.5 text-center hdScreen:text-sm averageScreen:text-xs xs:text-xs absolute bottom-0 bg-slate-600 text-white border-t-3 border-slate-700 w-full">
                         Linear Equations in One Variable
                         <br></br>
                         @MathTeacherGon
@@ -2046,7 +2046,7 @@ export default function Whiteboard() {
                         />
                       </div>
 
-                      <div className="p-0.5 text-center hdScreen:text-sm averageScreen:text-xs absolute bottom-0 bg-slate-600 text-white border-t-3 border-slate-700 w-full">
+                      <div className="p-0.5 text-center hdScreen:text-sm averageScreen:text-xs xs:text-xs absolute bottom-0 bg-slate-600 text-white border-t-3 border-slate-700 w-full">
                         Linear Equations in One Variable
                         <br></br>
                         @MathTeacherGon
@@ -2069,7 +2069,7 @@ export default function Whiteboard() {
                         />
                       </div>
 
-                      <div className="p-0.5 text-center hdScreen:text-sm averageScreen:text-xs absolute bottom-0 bg-slate-600 text-white border-t-3 border-slate-700 w-full">
+                      <div className="p-0.5 text-center hdScreen:text-sm averageScreen:text-xs xs:text-xs absolute bottom-0 bg-slate-600 text-white border-t-3 border-slate-700 w-full">
                         Linear Equations in One Variable
                         <br></br>
                         @MathTeacherGon
@@ -2120,7 +2120,7 @@ export default function Whiteboard() {
                   isPen ? 'select-none' : ''
                 } `}
               >
-                <div className="hdScreen:text-3.5xl semihdScreen:text-3xl laptopScreen:text-2.5xl averageScreen:text-2.5xl font-medium inline-flex ">
+                <div className="hdScreen:text-3.5xl semihdScreen:text-3xl laptopScreen:text-2.5xl averageScreen:text-2.5xl md:text-lg sm:text-base :xs:text-sm font-medium inline-flex ">
                   <span className=" font-poppins font-bold">Given: &nbsp;</span>
                   <span className="font-poppins">
                     {questionList[currentQuestionIndex]}
@@ -2199,10 +2199,10 @@ export default function Whiteboard() {
                 className="border-l-brTwo border-l-18 relative grid grid-rows-6 h-full w-2/2  bg-slate-200 rounded-tr-4xl "
               >
                 <div className="row-span-5 flex justify-center text-center items-center  drop-shadow-[0_2px_1px_rgba(255,255,255,0.35)]">
-                  <div className=" hdScreen:text-3.5xl semihdScreen:text-2.5xl laptopScreen:text-2xl averageScreen:text-2xl hdScreen:leading-9 font-poppins font-semibold px-4">
+                  <div className=" hdScreen:text-3.5xl semihdScreen:text-2.5xl laptopScreen:text-2xl averageScreen:text-2xl  md:text-lg sm:text-base xs:text-sm hdScreen:leading-9 font-poppins font-semibold px-4">
                     {textResponse}
 
-                    <p className="hdScreen:text-4.5xl semihdScreen:text-4.5xl laptopScreen:text-3.5xl averageScreen:text-3.5xl mt-3 font-extrabold ">
+                    <p className="hdScreen:text-4.5xl semihdScreen:text-4.5xl laptopScreen:text-3.5xl averageScreen:text-3.5xl md:text-xl sm:text-lg xs:text-base  mt-3 font-extrabold ">
                       {' '}
                       {subtextResponse}
                     </p>
@@ -2274,7 +2274,7 @@ export default function Whiteboard() {
             >
               <div className="flex">
                 {
-                  <div className="ml-32 font-poppins hdScreen:text-3.5xl semihdScreen:text-3xl laptopScreen:text-2.5xl averageScreen:text-2.5xl font-medium">
+                  <div className="ml-32 font-poppins hdScreen:text-3.5xl semihdScreen:text-3xl laptopScreen:text-2.5xl averageScreen:text-2.5xl md:text-xl sm:text-lg xs:text-base  font-medium">
                     <div id="answer_area" className="invisible p-2 text-center">
                       {answerDisplay.map((ans, index) =>
                         length === index + 1 ? (
@@ -2313,7 +2313,7 @@ export default function Whiteboard() {
             {/*<!--userlogs TEXT divider section-->*/}
             <div className="col-span-6 ml-3 border-l-18 border-brTwo pt-1 bg-mainBGBrown ">
               <div className="flex justify-center text-center border-dotted border-b-4">
-                <p className="hdScreen:text-3.5xl semihdScreen:text-3.5xl laptopScreen:text-2.5xl averageScreen:text-2.5xl font-poppins font-bold text-white overflow-hidden">
+                <p className="hdScreen:text-3.5xl semihdScreen:text-3.5xl laptopScreen:text-2.5xl averageScreen:text-2.5xl md:text-xl sm:text-lg xs:text-base  font-poppins font-bold text-white overflow-hidden">
                   USER LOGS
                 </p>
               </div>
@@ -2346,7 +2346,7 @@ export default function Whiteboard() {
                 style-1 pb-11"
               >
                 {
-                  <div className=" text-white break-all font-poppins  hdScreen:text-3.5xl semihdScreen:text-2.5xl laptopScreen:text-2xl averageScreen:text-2xl hdScreen:leading-[2.75rem] semihdScreen:leading-[2.25rem] laptopScreen:leading-[2rem] averageScreen:leading-[2rem]">
+                  <div className=" text-white break-all font-poppins  hdScreen:text-3.5xl semihdScreen:text-2.5xl laptopScreen:text-2xl averageScreen:text-2xl md:text-lg sm:text-base xs:text-sm  hdScreen:leading-[2.75rem] semihdScreen:leading-[2.25rem] laptopScreen:leading-[2rem] averageScreen:leading-[2rem]">
                     {arrTextLog.map((entry, index) => (
                       <p key={index}>{entry}</p>
                     ))}
@@ -2482,7 +2482,7 @@ export default function Whiteboard() {
                                 src={require('../assets/icons/brush.svg')}
                                 alt=""
                               ></img>
-                              <span className="text-lg font-semibold hdScreen:pr-0 semihdScreen:pr-0 laptopScreen:pr-2 averageScreen:pr-2">
+                              <span className="text-lg font-semibold hdScreen:pr-0 semihdScreen:pr-0 laptopScreen:pr-2 averageScreen:pr-2 xs:pr-1">
                                 Brush
                               </span>
                             </li>
@@ -2496,7 +2496,7 @@ export default function Whiteboard() {
                                 src={require('../assets/icons/eraser.svg')}
                                 alt=""
                               ></img>
-                              <span className="text-lg  font-semibold hdScreen:pr-0 semihdScreen:pr-0 laptopScreen:pr-2 averageScreen:pr-2">
+                              <span className="text-lg  font-semibold hdScreen:pr-0 semihdScreen:pr-0 laptopScreen:pr-2 averageScreen:pr-2 xs:pr-1">
                                 Eraser
                               </span>
                             </li>
@@ -2561,7 +2561,7 @@ export default function Whiteboard() {
                   {...(isHelp ? { dataTooltipPosition: 'left' } : {})}
                 >
                   <svg
-                    className={`hdScreen:h-20 semihdScreen:h-[4.5rem] laptopScreen:h-16 averageScreen:h-16 hdScreen:w-20 semihdScreen:w-[4.5rem] laptopScreen:w-16 averageScreen:w-16 bg-white rounded-full p-3 hover:bg-gray-300 drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)] ${
+                    className={`hdScreen:h-20 semihdScreen:h-[4.5rem] laptopScreen:h-16 averageScreen:h-16 xs:h-14 hdScreen:w-20 semihdScreen:w-[4.5rem] laptopScreen:w-16 averageScreen:w-16 xs:w-15 bg-white rounded-full p-3 hover:bg-gray-300 drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)] ${
                       isHelp ? 'hover:border-6 hover:border-red-500' : ''
                     }`}
                     id="Layer_1"

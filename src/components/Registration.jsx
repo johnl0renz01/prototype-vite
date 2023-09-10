@@ -1017,9 +1017,17 @@ function Registration() {
         <RegistrationSkeleton />
       </div>
       <div
-        className={`bg-gradient-to-t from-[#e2e2e2] via-[#f1f1f1] to-[#ffffff] h-screen   
+        className={`bg-gradient-to-t from-[#e2e2e2] via-[#f1f1f1] to-[#ffffff] h-screen  overflow-y-auto  
         ${
-          navbarWidth == 176
+          navbarWidth == 193
+            ? 'w-[calc(100%-193px)] ml-[193px]'
+            : navbarWidth == 125
+            ? 'w-[calc(100%-125px)] ml-[125px]'
+            : navbarWidth == 90
+            ? 'w-[calc(100%-90px)] ml-[90px]'
+            : navbarWidth == 56
+            ? 'w-[calc(100%-56px)] ml-[56px]'
+            : navbarWidth == 176
             ? 'w-[calc(100%-176px)] ml-[176px]'
             : navbarWidth == 108
             ? 'w-[calc(100%-108px)] ml-[108px]'
@@ -1049,7 +1057,7 @@ function Registration() {
             <div className="flex mt-[0.7rem] lg:text-lg xs:text-xs px-2">
               <button
                 onClick={registerType == 'Bulk' ? null : roleStudent}
-                className={`lg:px-2 xs:px-1 rounded-lg lg:w-24 transition duration-200 ${
+                className={`lg:px-2 sm:px-2 xs:px-1 rounded-lg lg:w-24 transition duration-200 ${
                   registerType == 'Bulk'
                     ? 'bg-gray-300/90 text-gray-400'
                     : accountRole == 'Student'
@@ -1064,7 +1072,7 @@ function Registration() {
               </button>
               <button
                 onClick={registerType == 'Bulk' ? null : roleTeacher}
-                className={` ml-4  lg:px-2 xs:px-1 rounded-lg lg:w-24 transition duration-200 ${
+                className={` ml-4  lg:px-2 sm:px-2 xs:px-1 rounded-lg lg:w-24 transition duration-200 ${
                   registerType == 'Bulk'
                     ? 'bg-gray-300/90 text-gray-400'
                     : accountRole == 'Teacher'
@@ -1086,7 +1094,7 @@ function Registration() {
               <button
                 id="single"
                 onClick={typeSingle}
-                className={` lg:px-2 xs:px-1 rounded-lg lg:w-24  transition duration-200 ${
+                className={` lg:px-2 sm:px-2 xs:px-1 rounded-lg lg:w-24  transition duration-200 ${
                   registerType == 'Single'
                     ? 'bg-gray-500 text-white font-semibold'
                     : 'bg-gray-300 hover:bg-gray-400 text-gray-600 hover:text-gray-900'
@@ -1097,7 +1105,7 @@ function Registration() {
               <button
                 id="bulk"
                 onClick={typeBulk}
-                className={` ml-4 lg:px-2 xs:px-1 rounded-lg lg:w-24  transition duration-200 ${
+                className={` ml-4 lg:px-2 sm:px-2 xs:px-1 rounded-lg lg:w-24  transition duration-200 ${
                   registerType == 'Bulk'
                     ? 'bg-gray-500 text-white font-semibold'
                     : 'bg-gray-300 hover:bg-gray-400 text-gray-600 hover:text-gray-900'
@@ -1126,7 +1134,7 @@ function Registration() {
                   : 'Teacher Account'}{' '}
                 &#41;
               </h1>
-              <h1 className="mt-2 text-gray-500 text-xl italic">
+              <h1 className="lg:mt-2 text-gray-500 lg:text-xl xs:text-sm italic">
                 - Fill-up required details -
               </h1>
             </div>
@@ -1134,403 +1142,468 @@ function Registration() {
             <form
               onSubmit={handleSubmit}
               action=""
-              className="overflow-hidden"
+              className=" relative"
               autoComplete="off"
             >
-              <main className="hdScreen:pt-10 semihdScreen:pt-9 laptopScreen:pt-8 averageScreen:pt-6 pb-12 pr-12 min-w-fit hdScreen:text-lg semihdScreen:text-lg laptopScreen:text-base averageScreen:text-base xs:text-xs   overflow-hidden">
-                <div className="grid grid-cols-3 gap-x-3 ">
-                  {/*FirstName Input*/}
-                  <div>
-                    <div className="inline-flex w-full">
+              <main
+                className=" flex flex-col 
+              hdScreen:min-h-[calc(100vh-30vh)] hdScreen:max-h-[calc(100vh-30vh)]  
+              semihdScreen:min-h-[calc(100vh-35vh)] semihdScreen:max-h-[calc(100vh-35vh)]  
+              laptopScreen:min-h-[calc(100vh-37vh)] laptopScreen:max-h-[calc(100vh-37vh)]  
+              averageScreen:min-h-[calc(100vh-38vh)] averageScreen:max-h-[calc(100vh-38vh)] 
+              xs:min-h-[calc(100vh-38vh)] xs:max-h-[calc(100vh-38vh)] 
+              
+              hdScreen:pt-6 semihdScreen:pt-5 laptopScreen:pt-4 averageScreen:pt-3 xs:pt-3  min-w-fit hdScreen:text-lg semihdScreen:text-lg laptopScreen:text-base averageScreen:text-base xs:text-xs   "
+              >
+                <div className="grid grid-cols-3 w-full relative ">
+                  <div className="flex space-x-3">
+                    <div
+                      className={` md:grid xs:hidden averageScreen:gap-y-10 md:gap-y-6 xs:gap-y-4
+                    ${
+                      accountRole == 'Teacher'
+                        ? 'place-items-start '
+                        : 'place-items-center'
+                    } `}
+                    >
                       <label
                         htmlFor="firstName"
-                        className="inline-block mt-2 pr-2 text-right lg:w-[136px]"
+                        className={` w-full text-right 
+                      ${accountRole == 'Teacher' ? 'md:mt-2  xs:mt-1.5' : ''} `}
                       >
                         Given Name:{' '}
                       </label>
-                      <input
-                        id="firstName"
-                        name="firstName"
-                        type="text "
-                        placeholder="Enter Given Name "
-                        autoComplete="new-password"
-                        className={` grow py-2 lg:px-2 border-2 rounded-md border-gray-500 focus:outline-teal-500 relative focus:ring-teal-500 shadow-sm  shadow-[#808080] ${
-                          errors.firstName && touched.firstName
-                            ? 'shadow-red-500  border-red-500 focus:border-red-500 border-3 border-solid'
-                            : ''
-                        }`}
-                        value={values.firstName}
-                        onChange={firstNameChange}
-                        onBlur={handleBlur}
-                      />
-                    </div>
-                    {errors.firstName && touched.firstName && (
-                      <p className="text-red-500 absolute lg:ml-[136px] xs:ml-[43px]">
-                        {errors.firstName}
-                      </p>
-                    )}
-                  </div>
-
-                  {/*MiddleName Input*/}
-                  <div>
-                    <div className="inline-flex w-full">
-                      <label
-                        htmlFor="middleName"
-                        className="inline-block pt-2 pr-2 text-right lg:w-[120px]"
-                      >
-                        Middle Name:{' '}
-                      </label>
-                      <input
-                        name="middleName"
-                        type="text "
-                        placeholder="Enter Middle Name"
-                        autoComplete="new-password"
-                        className={`grow py-2 lg:px-2 border-2  rounded-md relative border-gray-500 focus:outline-teal-500 focus:ring-teal-500 shadow-sm  shadow-[#808080]`}
-                        value={values.middleName}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                      />
-                    </div>
-                  </div>
-
-                  {/*LastName Input*/}
-                  <div>
-                    <div className="inline-flex w-full">
-                      <label
-                        htmlFor="lastName"
-                        className="inline-block pt-2 pr-2 text-right lg:w-[7rem]"
-                      >
-                        {' '}
-                        Last Name:{' '}
-                      </label>
-                      <input
-                        id="lastName"
-                        name="lastName"
-                        type="text "
-                        placeholder="Enter Last Name"
-                        autoComplete="new-password"
-                        className={`grow py-2 lg:px-2 border-2 relative rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 w-52 shadow-sm shadow-[#808080] ${
-                          errors.lastName && touched.lastName
-                            ? ' shadow-red-500 border-red-500 focus:border-red-500 border-3 border-solid'
-                            : ''
-                        } `}
-                        value={values.lastName}
-                        onChange={lastNameChange}
-                        onBlur={handleBlur}
-                      />
-                    </div>
-                    {errors.lastName && touched.lastName && (
-                      <p className="text-red-500  absolute lg:ml-[7rem] xs:ml-[44px] ">
-                        {errors.lastName}
-                      </p>
-                    )}
-                  </div>
-                </div>
-
-                <div
-                  className={` grid-cols-3 gap-x-3 mt-8 ${
-                    accountRole == 'Teacher' ? 'hidden' : 'grid'
-                  }`}
-                >
-                  {/*Birthday Input*/}
-                  <div className="hidden">
-                    <div className="inline-flex w-full">
-                      <label
-                        htmlFor="birthDay"
-                        className="inline-block pt-2 pr-2 text-right lg:w-[136px]"
-                      >
-                        Birth date:{' '}
-                      </label>
-                      <input
-                        id="birthDay"
-                        name="birthDay"
-                        type="date"
-                        autoComplete="new-password"
-                        className="grow py-2 lg:px-2 border-2  focus:border-none rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 shadow-sm shadow-[#808080]"
-                        onChange={dateChange}
-                        onBlur={handleBlur}
-                        value={birthday}
-                        min="2000-01-01"
-                        max="2013-12-31"
-                      />
-                    </div>
-                  </div>
-
-                  {/*Age Input*/}
-                  <div className="hidden">
-                    <div className="inline-flex w-full">
-                      <label
-                        htmlFor="age"
-                        className="inline-block pt-2 pr-2 text-right lg:w-[120px]"
-                      >
-                        Age:{' '}
-                      </label>
-                      <input
-                        readOnly
-                        id="age"
-                        name="age"
-                        type="text"
-                        placeholder="Set birthday"
-                        autoComplete="new-password"
-                        className={`py-2 lg:px-2 border-2 w-[9rem] rounded-md focus:border-none border-gray-500 focus:outline-teal-500 focus:ring-teal-500 relative shadow-sm shadow-[#808080] ${
-                          errors.age && touched.age
-                            ? ' shadow-red-500 border-red-500 focus:border-red-500 border-3 border-solid'
-                            : ''
-                        }`}
-                        value={currentAge}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                      />
-                    </div>
-                    {errors.age && touched.age && (
-                      <p className="text-red-500  absolute ml-[120px] ">
-                        {errors.age}
-                      </p>
-                    )}
-                  </div>
-
-                  {/*Gender Input*/}
-                  <div>
-                    <div className="inline-flex w-full ">
                       <label
                         htmlFor="sex"
-                        className="inline-block pt-2 pr-2 text-right lg:w-[136px]"
+                        className={`w-full text-right averageScreen:-mt-0.5  
+                      ${accountRole == 'Teacher' ? 'hidden' : ''}`}
                       >
                         Sex:{' '}
                       </label>
-                      <div className="mt-2.5">
-                        <input
-                          name="sex"
-                          type="radio"
-                          className=""
-                          value="Male"
-                          checked={values.sex === 'Male'}
-                          onChange={handleChange}
-                        />{' '}
-                        Male
-                        <input
-                          name="sex"
-                          type="radio"
-                          className="ml-4"
-                          value="Female"
-                          checked={values.sex === 'Female'}
-                          onChange={handleChange}
-                        />{' '}
-                        Female
-                      </div>
-                    </div>
-                    {touched.sex ||
-                      (errors.sex && (
-                        <p className="text-red-500 absolute ml-[7rem]">
-                          {errors.sex}
-                        </p>
-                      ))}
-                  </div>
-
-                  {/*Group Type Input*/}
-                  <div className="col-span-2">
-                    <div className="inline-flex w-full">
-                      <label
-                        htmlFor="groupType"
-                        className="inline-block pt-2 pr-2 text-right lg:w-[120px]"
-                      >
-                        Group Type:{' '}
-                      </label>
-                      <div className="mt-2.5">
-                        <input
-                          name="groupType"
-                          type="radio"
-                          className=""
-                          value="Facial Group"
-                          checked={values.groupType === 'Facial Group'}
-                          onChange={handleChange}
-                        />{' '}
-                        Facial Group
-                        <input
-                          name="groupType"
-                          type="radio"
-                          className="ml-4"
-                          value="Non-Facial Group"
-                          checked={values.groupType === 'Non-Facial Group'}
-                          onChange={handleChange}
-                        />{' '}
-                        Non-Facial Group
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div
-                  className={` grid-cols-3 gap-x-3 mt-8 ${
-                    accountRole == 'Teacher' ? 'hidden' : 'grid'
-                  }`}
-                >
-                  {/*GradeLevel Input*/}
-                  <div>
-                    <div className="inline-flex w-full">
                       <label
                         htmlFor="gradeLevel"
-                        className="inline-block pt-2 pr-2 text-right lg:w-[136px]"
+                        className={`w-full text-right  
+                      ${accountRole == 'Teacher' ? 'hidden' : ''}`}
                       >
                         Grade Level:{' '}
                       </label>
-                      <select
-                        value={values.gradeLevel}
-                        onChange={handleChange}
-                        name="gradeLevel"
-                        id="gradeLevel"
-                        className="py-2 lg:px-2 border- 2 focus:border-none rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 shadow-sm shadow-[#808080]"
+                    </div>
+
+                    <div className="shrink-0  grid  averageScreen:gap-y-12 md:gap-y-8 xs:gap-y-4 place-items-start ">
+                      <div>
+                        <div className="inline-flex w-full ">
+                          <input
+                            id="firstName"
+                            name="firstName"
+                            type="text "
+                            placeholder="Enter Given Name "
+                            autoComplete="new-password"
+                            className={`grow  w-full py-2 lg:px-2 border-2 rounded-md border-gray-500 focus:outline-teal-500 relative focus:ring-teal-500 shadow-sm  shadow-[#808080] ${
+                              errors.firstName && touched.firstName
+                                ? 'shadow-red-500  border-red-500 focus:border-red-500 border-3 border-solid'
+                                : ''
+                            }`}
+                            value={values.firstName}
+                            onChange={firstNameChange}
+                            onBlur={handleBlur}
+                          />
+                        </div>
+                        {errors.firstName && touched.firstName && (
+                          <p className="text-red-500 absolute ">
+                            {errors.firstName}
+                          </p>
+                        )}
+                      </div>
+
+                      <div
+                        className={` w-full
+                      ${accountRole == 'Teacher' ? 'hidden' : ''}`}
                       >
-                        <option className="" defaultValue={values.gradeLevel}>
-                          Grade 7
-                        </option>
-                      </select>
+                        <div className="inline-flex -mt-5 w-full">
+                          <div className=" mt-2.5 ">
+                            <input
+                              name="sex"
+                              type="radio"
+                              className=""
+                              value="Male"
+                              checked={values.sex === 'Male'}
+                              onChange={handleChange}
+                            />{' '}
+                            Male
+                            <input
+                              name="sex"
+                              type="radio"
+                              className="ml-4"
+                              value="Female"
+                              checked={values.sex === 'Female'}
+                              onChange={handleChange}
+                            />{' '}
+                            Female
+                          </div>
+                        </div>
+                        {touched.sex ||
+                          (errors.sex && (
+                            <p className="text-red-500 absolute ml-[7rem]">
+                              {errors.sex}
+                            </p>
+                          ))}
+                      </div>
+
+                      <div
+                        className={`w-full text-right  
+                      ${accountRole == 'Teacher' ? 'hidden' : ''}`}
+                      >
+                        <div className="inline-flex w-full">
+                          <select
+                            value={values.gradeLevel}
+                            onChange={handleChange}
+                            name="gradeLevel"
+                            id="gradeLevel"
+                            className="py-2 lg:px-2 border- 2 focus:border-none rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 shadow-sm shadow-[#808080]"
+                          >
+                            <option
+                              className=""
+                              defaultValue={values.gradeLevel}
+                            >
+                              Grade 7
+                            </option>
+                          </select>
+                        </div>
+                      </div>
                     </div>
                   </div>
 
-                  {/*Section Input*/}
-                  <div>
-                    <div className="inline-flex w-full">
+                  <div className="flex space-x-3 ">
+                    <div
+                      className={` md:grid xs:hidden averageScreen:gap-y-10 md:gap-y-6 xs:gap-y-4
+                  ${
+                    accountRole == 'Teacher'
+                      ? 'place-items-start'
+                      : 'place-items-center'
+                  } `}
+                    >
+                      <label
+                        htmlFor="middleName"
+                        className={` w-full text-right  
+                      ${accountRole == 'Teacher' ? 'md:mt-2  xs:mt-1.5' : ''} `}
+                      >
+                        Middle Name:{' '}
+                      </label>
+                      <label
+                        htmlFor="groupType"
+                        className={`w-full text-right laptopScreen:-mt-0 averageScreen:-mt-3 xs:-mt-5 
+                      ${accountRole == 'Teacher' ? 'hidden' : ''}`}
+                      >
+                        Group Type:{' '}
+                      </label>
                       <label
                         htmlFor="section"
-                        className="inline-block pt-2 pr-2 text-right lg:w-[120px]"
+                        className={`w-full text-right  
+                      ${accountRole == 'Teacher' ? 'hidden' : ''}`}
                       >
-                        Section:
+                        Section:{' '}
                       </label>
-                      <select
-                        value={values.section}
-                        onChange={handleChange}
-                        name="section"
-                        className="py-2 lg:px-2 border-2 focus:border-none rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 shadow-sm shadow-[#808080] "
+                    </div>
+
+                    <div className=" grid averageScreen:gap-y-12 md:gap-y-8 xs:gap-y-4 place-items-start  ">
+                      <div>
+                        <div className="inline-flex w-full ">
+                          <input
+                            name="middleName"
+                            type="text "
+                            placeholder="Enter Middle Name"
+                            autoComplete="new-password"
+                            className={`grow py-2 lg:px-2 border-2  rounded-md relative border-gray-500 focus:outline-teal-500 focus:ring-teal-500 shadow-sm  shadow-[#808080]`}
+                            value={values.middleName}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                          />
+                        </div>
+                      </div>
+
+                      <div
+                        className={`inline-flex w-full   
+                      ${accountRole == 'Teacher' ? 'hidden' : ''}`}
                       >
-                        {sectionData.map((section, index) => (
-                          <option key={index} className="">
-                            {section.SectionName}
-                          </option>
-                        ))}
-                      </select>
+                        <div className="">
+                          <input
+                            name="groupType"
+                            type="radio"
+                            className=""
+                            value="Facial Group"
+                            checked={values.groupType === 'Facial Group'}
+                            onChange={handleChange}
+                          />{' '}
+                          Facial Group
+                          <input
+                            name="groupType"
+                            type="radio"
+                            className="ml-4"
+                            value="Non-Facial Group"
+                            checked={values.groupType === 'Non-Facial Group'}
+                            onChange={handleChange}
+                          />{' '}
+                          Non-Facial Group
+                        </div>
+                      </div>
+
+                      <div>
+                        <div
+                          className={`inline-flex w-full 
+                      ${accountRole == 'Teacher' ? 'hidden' : ''}`}
+                        >
+                          <select
+                            value={values.section}
+                            onChange={handleChange}
+                            name="section"
+                            className="py-2 lg:px-2 border-2 focus:border-none rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 shadow-sm shadow-[#808080] "
+                          >
+                            {sectionData.map((section, index) => (
+                              <option key={index} className="">
+                                {section.SectionName}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex space-x-3">
+                    <div
+                      className={` md:grid xs:hidden  averageScreen:gap-y-10 md:gap-y-6 xs:gap-y-4
+                  ${
+                    accountRole == 'Teacher'
+                      ? 'place-items-start'
+                      : 'place-items-start'
+                  } `}
+                    >
+                      <label
+                        htmlFor="lastName"
+                        className={` w-full text-right md:mt-2  xs:mt-1.5`}
+                      >
+                        Last Name:{' '}
+                      </label>
+                    </div>
+
+                    <div className=" grid averageScreen:gap-y-12 md:gap-y-8 xs:gap-y-4 place-items-start  ">
+                      <div>
+                        <div className="inline-flex  ">
+                          <input
+                            id="lastName"
+                            name="lastName"
+                            type="text "
+                            placeholder="Enter Last Name"
+                            autoComplete="new-password"
+                            className={`xs:max-w-[130px] sm:max-w-full  py-2 lg:px-2 border-2  rounded-md relative border-gray-500 focus:outline-teal-500 focus:ring-teal-500 shadow-sm  shadow-[#808080]`}
+                            value={values.lastName}
+                            onChange={lastNameChange}
+                            onBlur={handleBlur}
+                          />
+                        </div>
+                        {errors.lastName && touched.lastName && (
+                          <p className="text-red-500  absolute ">
+                            {errors.lastName}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                  {/*FirstName Input*/}
+
+                  {/*MiddleName Input*/}
+
+                  {/*LastName Input*/}
+
+                  <div
+                    className={` hidden ${
+                      accountRole == 'Teacher' ? 'hidden' : 'grid'
+                    }`}
+                  >
+                    {/*Birthday Input*/}
+                    <div className="hidden">
+                      <div className="inline-flex w-full">
+                        <label
+                          htmlFor="birthDay"
+                          className="inline-block pt-2 pr-2 text-right lg:w-[136px]"
+                        >
+                          Birth date:{' '}
+                        </label>
+                        <input
+                          id="birthDay"
+                          name="birthDay"
+                          type="date"
+                          autoComplete="new-password"
+                          className="grow py-2 lg:px-2 border-2  focus:border-none rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 shadow-sm shadow-[#808080]"
+                          onChange={dateChange}
+                          onBlur={handleBlur}
+                          value={birthday}
+                          min="2000-01-01"
+                          max="2013-12-31"
+                        />
+                      </div>
+                    </div>
+
+                    {/*Age Input*/}
+                    <div className="hidden">
+                      <div className="inline-flex w-full">
+                        <label
+                          htmlFor="age"
+                          className="inline-block pt-2 pr-2 text-right lg:w-[120px]"
+                        >
+                          Age:{' '}
+                        </label>
+                        <input
+                          readOnly
+                          id="age"
+                          name="age"
+                          type="text"
+                          placeholder="Set birthday"
+                          autoComplete="new-password"
+                          className={`py-2 lg:px-2 border-2 w-[9rem] rounded-md focus:border-none border-gray-500 focus:outline-teal-500 focus:ring-teal-500 relative shadow-sm shadow-[#808080] ${
+                            errors.age && touched.age
+                              ? ' shadow-red-500 border-red-500 focus:border-red-500 border-3 border-solid'
+                              : ''
+                          }`}
+                          value={currentAge}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                        />
+                      </div>
+                      {errors.age && touched.age && (
+                        <p className="text-red-500  absolute ml-[120px] ">
+                          {errors.age}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+
+                  <div
+                    className={`col-span-2 gap-x-3 
+                  ${
+                    accountRole == 'Teacher'
+                      ? ''
+                      : 'averageScreen:mt-14 md:mt-10 xs:mt-6'
+                  }
+                  `}
+                  >
+                    <div className="">
+                      {/*Email Input*/}
+                      <div className="inline-flex w-full justify-center items-center hdScreen:-ml-[2.2rem] semihdScreen:-ml-[2.2rem] laptopScreen:-ml-[2.9rem] averageScreen:-ml-[3rem] md:ml-[1.7rem]">
+                        <label
+                          htmlFor="email"
+                          className="md:inline-block xs:hidden  text-right lg:w-[136px] "
+                        >
+                          Email:{' '}
+                        </label>
+                        <input
+                          readOnly
+                          id="email"
+                          name="email"
+                          type="email"
+                          autoComplete="off"
+                          placeholder="lastname.firstname@school.edu.ph"
+                          className={`ml-3 grow py-2 lg:px-2 border-2 rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 shadow-sm shadow-[#808080] ${
+                            errors.email && touched.email
+                              ? ' shadow-red-500 border-red-500 focus:border-red-500 border-3 border-solid'
+                              : ''
+                          } ${
+                            duplicateState
+                              ? 'shadow-red-500 border-red-500 focus:border-red-500 border-3 border-solid'
+                              : ''
+                          }`}
+                          value={email}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                        />
+                      </div>
+                      {errors.email && touched.email && (
+                        <p className="text-red-500  absolute lg:ml-[136px]  xs:ml-[43px]">
+                          {errors.email}
+                        </p>
+                      )}
+                      {duplicateState ? (
+                        <p className="text-red-500  absolute lg:ml-[136px]  xs:ml-[43px]">
+                          * This email is already taken.
+                        </p>
+                      ) : (
+                        ''
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="hidden grid grid-cols-3 gap-x-3 mt-8">
+                    {/*Password Input*/}
+                    <div>
+                      <div className="inline-flex w-full">
+                        <label
+                          htmlFor="password"
+                          className="inline-block pt-3.5 pr-2 text-right lg:w-[136px]"
+                        >
+                          Password:{' '}
+                        </label>
+                        <input
+                          name="password"
+                          type="password"
+                          autoComplete="new-password"
+                          placeholder="Enter Password"
+                          className={`grow py-2 lg:px-2 py-[14.5px] border-2  rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 focus:border-none relative shadow-sm shadow-[#808080] ${
+                            errors.password && touched.password
+                              ? ' shadow-red-500 border-red-500 focus:border-red-500 border-3 border-solid'
+                              : ''
+                          }`}
+                          value={values.password}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                        />
+                      </div>
+                      {errors.password && touched.password && (
+                        <p className="text-red-500  absolute ml-[136px] ">
+                          {errors.password}
+                        </p>
+                      )}
+                    </div>
+
+                    {/*Confirm  Password Input*/}
+                    <div className="col-span-1">
+                      <div className="inline-flex w-full">
+                        <label
+                          htmlFor="confirmPassword"
+                          className="inline-block pt-2 pr-2 text-right lg:w-[7rem]"
+                        >
+                          Confirm Password:{' '}
+                        </label>
+                        <input
+                          name="confirmPassword"
+                          type="password"
+                          autoComplete="new-password"
+                          placeholder="Confirm Password"
+                          className={`grow py-2 lg:px-2 border-2  rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 focus:border-none shadow-sm shadow-[#808080] ${
+                            errors.confirmPassword && touched.confirmPassword
+                              ? ' shadow-red-500 border-red-500 focus:border-red-500 border-3 border-solid'
+                              : ''
+                          }`}
+                          value={values.confirmPassword}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                        />
+                      </div>
+                      {errors.confirmPassword && touched.confirmPassword && (
+                        <p className="text-red-500  absolute ml-28 ">
+                          {errors.confirmPassword}
+                        </p>
+                      )}
                     </div>
                   </div>
                 </div>
 
-                <div className="grid grid-cols-3 gap-x-3 mt-8">
-                  <div className="col-span-2">
-                    {/*Email Input*/}
-                    <div className="inline-flex w-full">
-                      <label
-                        htmlFor="email"
-                        className="inline-block pt-2 pr-2 text-right lg:w-[136px]"
-                      >
-                        Email:{' '}
-                      </label>
-                      <input
-                        readOnly
-                        id="email"
-                        name="email"
-                        type="email"
-                        autoComplete="off"
-                        placeholder="lastname.firstname@school.edu.ph"
-                        className={`grow py-2 lg:px-2 border-2 rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 shadow-sm shadow-[#808080] ${
-                          errors.email && touched.email
-                            ? ' shadow-red-500 border-red-500 focus:border-red-500 border-3 border-solid'
-                            : ''
-                        } ${
-                          duplicateState
-                            ? 'shadow-red-500 border-red-500 focus:border-red-500 border-3 border-solid'
-                            : ''
-                        }`}
-                        value={email}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                      />
-                    </div>
-                    {errors.email && touched.email && (
-                      <p className="text-red-500  absolute lg:ml-[136px]  xs:ml-[43px]">
-                        {errors.email}
-                      </p>
-                    )}
-                    {duplicateState ? (
-                      <p className="text-red-500  absolute lg:ml-[136px]  xs:ml-[43px]">
-                        * This email is already taken.
-                      </p>
-                    ) : (
-                      ''
-                    )}
-                  </div>
-                </div>
-
-                <div className="hidden grid grid-cols-3 gap-x-3 mt-8">
-                  {/*Password Input*/}
-                  <div>
-                    <div className="inline-flex w-full">
-                      <label
-                        htmlFor="password"
-                        className="inline-block pt-3.5 pr-2 text-right lg:w-[136px]"
-                      >
-                        Password:{' '}
-                      </label>
-                      <input
-                        name="password"
-                        type="password"
-                        autoComplete="new-password"
-                        placeholder="Enter Password"
-                        className={`grow py-2 lg:px-2 py-[14.5px] border-2  rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 focus:border-none relative shadow-sm shadow-[#808080] ${
-                          errors.password && touched.password
-                            ? ' shadow-red-500 border-red-500 focus:border-red-500 border-3 border-solid'
-                            : ''
-                        }`}
-                        value={values.password}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                      />
-                    </div>
-                    {errors.password && touched.password && (
-                      <p className="text-red-500  absolute ml-[136px] ">
-                        {errors.password}
-                      </p>
-                    )}
-                  </div>
-
-                  {/*Confirm  Password Input*/}
-                  <div className="col-span-1">
-                    <div className="inline-flex w-full">
-                      <label
-                        htmlFor="confirmPassword"
-                        className="inline-block pt-2 pr-2 text-right lg:w-[7rem]"
-                      >
-                        Confirm Password:{' '}
-                      </label>
-                      <input
-                        name="confirmPassword"
-                        type="password"
-                        autoComplete="new-password"
-                        placeholder="Confirm Password"
-                        className={`grow py-2 lg:px-2 border-2  rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 focus:border-none shadow-sm shadow-[#808080] ${
-                          errors.confirmPassword && touched.confirmPassword
-                            ? ' shadow-red-500 border-red-500 focus:border-red-500 border-3 border-solid'
-                            : ''
-                        }`}
-                        value={values.confirmPassword}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                      />
-                    </div>
-                    {errors.confirmPassword && touched.confirmPassword && (
-                      <p className="text-red-500  absolute ml-28 ">
-                        {errors.confirmPassword}
-                      </p>
-                    )}
-                  </div>
-                </div>
-
-                <div className=" absolute lg:right-20 sm:right-20 xs:right-6 mt-16 ">
+                <div className="pt-8 pb-2 mt-auto flex justify-end ">
                   <button
                     type="submit"
                     disabled={isSubmitting}
                     className="relative lg:py-2 lg:px-4 sm:py-1.5 sm:px-2.5 xs:px-1 xs:py-1 text-white font-semibold  shadow-md rounded-xl bg-lime-600 hover:bg-lime-700  ease-in-out transition duration-300 transform drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)]"
                     onClick={onSubmit}
                   >
-                    <span className="pl-2 lg:text-xl sm:text-base xs:text-sm flex justify-center">
+                    <span className="pl-2 lg:text-xl sm:text-base xs:text-sm flex justify-center items-center">
                       Register
                       <BsPlus className="lg:text-3xl" />
                     </span>
@@ -1545,7 +1618,7 @@ function Registration() {
             <hr></hr>
             <div className="ml-6 md:mt-6 xs:mt-3 flex justify-between">
               <div
-                className={`hdScreen:text-xl semihdScreen:text-base laptopScreen:text-sm averageScreen:text-sm font-normal italic
+                className={`hdScreen:text-xl semihdScreen:text-base laptopScreen:text-sm averageScreen:text-sm xs:text-xs font-normal italic
               ${studentList.length > 0 ? 'hidden' : ''}`}
               >
                 [Download & open template file → Fill-up details → Choose file →
@@ -1572,13 +1645,13 @@ function Registration() {
                 </div>
               </div>
               <div className="-mt-1  flex ">
-                <div className="mt-0.5 mr-20">
+                <div className="mt-0.5 lg:mr-0 md:mr-5">
                   <label className="hdScreen:text-lg semihdScreen:text-base laptopScreen:text-sm averageScreen:text-sm xs:text-xs">
                     Upload .xlsx file:{'\u00A0'}
                   </label>
                   <input
                     id="upload"
-                    className="hdScreen:text-base semihdScreen:text-sm laptopScreen:text-xs averageScreen:text-xs xs:text-xs"
+                    className="lg:max-w-[100%] xs:max-w-[80px] hdScreen:text-base semihdScreen:text-sm laptopScreen:text-xs averageScreen:text-xs xs:text-xs"
                     type="file"
                     accept=".xlsx, .xls"
                     onChange={handleFileUpload}
@@ -1590,11 +1663,11 @@ function Registration() {
                   to="/files/Bulk_Registration-TEMPLATE.xlsx"
                   target="_blank"
                   download
-                  className="hdScreen:text-base semihdScreen:text-sm laptopScreen:text-sm averageScreen:text-sm xs:text-xs rounded-xl bg-blue-500 hover:bg-blue-600 hdScreen:py-1 semihdScreen:py-1 laptopScreen:py-1 averageScreen:py-0.5 pl-5 pr-10  text-white relative  shadow-sm  drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)] "
+                  className=" grow flex text-center justify-center items-center hdScreen:text-base semihdScreen:text-sm laptopScreen:text-sm averageScreen:text-sm xs:text-xs rounded-xl bg-blue-500 hover:bg-blue-600 hdScreen:py-1 semihdScreen:py-1 laptopScreen:py-1 averageScreen:py-0.5 px-5  text-white relative  shadow-sm  drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)] "
                 >
                   Template File
                   <span
-                    className={` absolute  right-4 font-normal  flex justify-center
+                    className={`   font-normal  flex justify-center items-center text-center
                   ${studentList.length > 0 ? 'top-[0.25rem]' : 'top-[0.2rem]'}`}
                   >
                     <BsArrowDownSquare className="ml-1 hdScreen:mt-[0.2rem] semihdScreen:mt-[0.2rem] laptopScreen:mt-[0.2rem] averageScreen:mt-[0.15rem] hdScreen:text-lg semihdScreen:text-base laptopScreen:text-sm averageScreen:text-sm xs:text-xs text-white" />
@@ -1606,16 +1679,16 @@ function Registration() {
             <div className="md:mt-6 xs:mt-3 rounded-3xl shadow overflow-hidden bg-gradient-to-t from-gray-200 via-gray-100 to-white  ">
               {studentList.length > 0 && (
                 <table className="w-full leading-normal ">
-                  <thead className="sticky top-0 z-40 shadow-md border-b-2 border-gray-200 bg-gray-200 text-left uppercase tracking-wider md:text-base xs:text-xs font-bold text-gray-600">
+                  <thead className="sticky top-0 z-40 shadow-md border-b-2 border-gray-200 bg-gray-200 text-left uppercase tracking-wider lg:text-base md:text-sm xs:text-xs font-bold text-gray-600">
                     <tr>
-                      <th className="lg:pl-8 w-[6%] md:text-base sm:text-sm">
+                      <th className="lg:pl-8 w-[6%] lg:text-base md:text-sm sm:text-sm">
                         #
                       </th>
                       {Object.keys(studentList[0]).map((key, index) =>
                         index > 1 && index != 3 ? (
                           <th
                             key={key}
-                            className={` py-3 md:text-base sm:text-sm
+                            className={` py-3 lg:text-base md:text-sm sm:text-sm
                             ${index == 2 ? 'w-[15%]' : ''} 
                             ${index == 4 ? 'w-[15%]' : ''}
                             ${index == 5 ? 'w-[16.75%]' : ''}
@@ -1628,7 +1701,7 @@ function Registration() {
                           <></>
                         )
                       )}
-                      <th className="w-[19.5%] md:text-base sm:text-sm">
+                      <th className="w-[19.5%] lg:text-base md:text-sm sm:text-sm">
                         Status
                       </th>
                     </tr>
@@ -1640,6 +1713,7 @@ function Registration() {
                             semihdScreen:min-h-[calc(100vh-62.5vh)] semihdScreen:max-h-[calc(100vh-62.5vh)]
                             laptopScreen:min-h-[calc(100vh-65vh)] laptopScreen:max-h-[calc(100vh-65vh)]
                             averageScreen:min-h-[calc(100vh-66vh)] averageScreen:max-h-[calc(100vh-66vh)]
+                            xs:min-h-[calc(100vh-66vh)] xs:max-h-[calc(100vh-66vh)]
                             bg-white relative overflow-y-scroll style-2 mx-auto w-full 
                             ${
                               studentList.length > 0
@@ -1655,7 +1729,7 @@ function Registration() {
                           id="main_table"
                           className="min-w-full leading-normal -mt-[28px] relative"
                         >
-                          <thead className="invisible text-left uppercase tracking-wider font-bold md:text-base xs:text-xs">
+                          <thead className="invisible text-left uppercase tracking-wider font-bold lg:text-base md:text-sm xs:text-xs">
                             <tr>
                               <th className="lg:pl-8 w-[6%]">#</th>
                               {Object.keys(studentList[0]).map((key, index) =>
@@ -1694,7 +1768,7 @@ function Registration() {
                                     errorAccount[counter] == 'unique' ? '' : ''
                                   }`}
                                 >
-                                  <td className="lg:pl-8 md:text-base sm:text-sm py-[10px]">
+                                  <td className="lg:pl-8 lg:text-base md:text-sm sm:text-sm xs:text-xs py-[10px]">
                                     <div className="h-2">{counter + 1}</div>
                                   </td>
                                   {Object.values(row).map((value, index) =>
@@ -1702,7 +1776,7 @@ function Registration() {
                                       <td
                                         name={value}
                                         key={index}
-                                        className={`  md:text-base sm:text-sm py-[10px]
+                                        className={`  lg:text-base md:text-sm sm:text-sm xs:text-xs py-[10px]
                                         `}
                                       >
                                         <div className="h-2"></div>
@@ -1720,7 +1794,7 @@ function Registration() {
                                   )}
 
                                   <td
-                                    className={`md:text-base sm:text-sm py-[10px]
+                                    className={`lg:text-base md:text-sm sm:text-sm xs:text-xs py-[10px]
                                         `}
                                   >
                                     <div className="h-2"></div>

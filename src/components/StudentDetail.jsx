@@ -207,9 +207,17 @@ export default function StudentDetail() {
         <StudentDetailSkeleton />
       </div>
       <div
-        className={`bg-gradient-to-t from-[#e2e2e2] via-[#f1f1f1] to-[#ffffff] h-screen 
+        className={`bg-gradient-to-t from-[#e2e2e2] via-[#f1f1f1] to-[#ffffff] h-screen overflow-y-auto 
         ${
-          navbarWidth == 143
+          navbarWidth == 160
+            ? 'w-[calc(100%-160px)] ml-[160px]'
+            : navbarWidth == 112
+            ? 'w-[calc(100%-112px)] ml-[112px]'
+            : navbarWidth == 90
+            ? 'w-[calc(100%-90px)] ml-[90px]'
+            : navbarWidth == 56
+            ? 'w-[calc(100%-56px)] ml-[56px]'
+            : navbarWidth == 143
             ? 'w-[calc(100%-143px)] ml-[143px]'
             : navbarWidth == 95
             ? 'w-[calc(100%-95px)] ml-[95px]'
@@ -234,12 +242,12 @@ export default function StudentDetail() {
             <BsCaretUpFill
               onClick={ClassListPage}
               title="Go back"
-              className="cursor-pointer text-gray-100 bg-gray-400 border-4 border-gray-400 mr-3 hover:text-white hover:bg-gray-600 hover:border-gray-600 rounded-full pb-1 rotate-[270deg] mt-3.5 text-[2.25rem]"
+              className="cursor-pointer text-gray-100 bg-gray-400 averageScreen:border-4 xs:border-2 border-gray-400 averageScreen:mr-3 xs:mr-1 hover:text-white hover:bg-gray-600 hover:border-gray-600 rounded-full averageScreen:pb-1 xs:pb-0.5 rotate-[270deg] averageScreen:mt-3.5 averageScreen:text-[2.25rem] xs:mt-0.5 xs:text-[1.25rem]"
             />
             <span className="">Report Details</span>
           </div>
           <div className="p-4 overflow-hidden w-full ">
-            <div className="grid sm:grid-cols-1 lg:grid-cols-2">
+            <div className="grid xs:grid-cols-2">
               <div className="">
                 {accountDetail.map(account => (
                   <>
@@ -257,12 +265,12 @@ export default function StudentDetail() {
                         <>{account.GivenName + ' ' + account.LastName}</>
                       )}
                     </p>
-                    <p className="hdScreen:text-base semihdScreen:text-base laptopScreen:text-base averageScreen:text-base xs:text-xs text-gray-700 leading-4">
+                    <p className="hdScreen:text-base semihdScreen:text-base laptopScreen:text-base averageScreen:text-base xs:text-xs text-gray-700 leading-4 averageScreen:pb-4 xs:pb-1">
                       {account.Email}
                     </p>
                   </>
                 ))}
-                <br></br>
+
                 <p className="hdScreen:text-lg semihdScreen:text-base laptopScreen:text-base averageScreen:text-base xs:text-xs text-gray-700 font-medium leading-4 hdScreen:mb-3 semihdScreen:mb-2 laptopScreen:mb-1 averageScreen:mb-0.5">
                   Answered Equations:{' '}
                   <span id="correct" className="font-normal">
@@ -282,33 +290,33 @@ export default function StudentDetail() {
                   </span>
                 </p>
               </div>
-              <div className="grid grid-cols-3 text-center mb-2">
+              <div className="grid grid-cols-3 text-center averageScreen:mb-2 ">
                 <div>
-                  <p className="hdScreen:text-2xl semihdScreen:text-xl laptopScreen:text-xl averageScreen:text-2xl sm:text-xl xs:text-base text-gray-700 font-medium leading-4 mb-5">
+                  <p className="hdScreen:text-2xl semihdScreen:text-xl laptopScreen:text-xl averageScreen:text-2xl sm:text-lg xs:text-base text-gray-700 font-medium leading-4 averageScreen:mb-5 xs:mb-1">
                     Easy
                   </p>
-                  <div className="hdScreen:w-32 hdScreen:h-32 semihdScreen:w-[7.5rem] semihdScreen:h-[7.5rem]  laptopScreen:w-[7rem] laptopScreen:h-[7rem] averageScreen:w-[6.5rem] averageScreen:h-[6.5rem] sm:w-24 sm:h-24 bg-green-500 rounded-full text-center hdScreen:py-12 semihdScreen:py-10 laptopScreen:py-9 averageScreen:py-8  mx-auto ">
-                    <span className="text-green-100 hdScreen:text-6xl semihdScreen:text-6xl laptopScreen:text-5xl averageScreen:text-5xl sm:text-4xl xs:text-2xl">
+                  <div className="hdScreen:w-32 hdScreen:h-32 semihdScreen:w-[7.5rem] semihdScreen:h-[7.5rem]  laptopScreen:w-[7rem] laptopScreen:h-[7rem] averageScreen:w-[6.5rem] averageScreen:h-[6.5rem] xs:w-16 xs:h-16 bg-green-500 rounded-full text-center flex items-center justify-center  mx-auto ">
+                    <span className="text-green-100 hdScreen:text-6xl semihdScreen:text-6xl laptopScreen:text-5xl averageScreen:text-5xl sm:text-2xl xs:text-xl">
                       {tallyEasy}
                     </span>
                   </div>
                 </div>
                 <div>
-                  <p className="hdScreen:text-2xl semihdScreen:text-xl laptopScreen:text-xl averageScreen:text-2xl sm:text-xl xs:text-base text-gray-700 font-medium leading-4 mb-5">
+                  <p className="hdScreen:text-2xl semihdScreen:text-xl laptopScreen:text-xl averageScreen:text-2xl sm:text-lg xs:text-base text-gray-700 font-medium leading-4 averageScreen:mb-5 xs:mb-1">
                     Average
                   </p>
-                  <div className="hdScreen:w-32 hdScreen:h-32 semihdScreen:w-[7.5rem] semihdScreen:h-[7.5rem]  laptopScreen:w-[7rem] laptopScreen:h-[7rem] averageScreen:w-[6.5rem] averageScreen:h-[6.5rem] sm:w-24 sm:h-24 bg-yellow-500 rounded-full text-center hdScreen:py-12 semihdScreen:py-10 laptopScreen:py-9 averageScreen:py-8   mx-auto">
-                    <span className="text-yellow-100 hdScreen:text-6xl semihdScreen:text-6xl laptopScreen:text-5xl averageScreen:text-5xl sm:text-4xl xs:text-2xl">
+                  <div className="hdScreen:w-32 hdScreen:h-32 semihdScreen:w-[7.5rem] semihdScreen:h-[7.5rem]  laptopScreen:w-[7rem] laptopScreen:h-[7rem] averageScreen:w-[6.5rem] averageScreen:h-[6.5rem] xs:w-16 xs:h-16 bg-yellow-500 rounded-full text-center flex items-center justify-center mx-auto">
+                    <span className="text-yellow-100 hdScreen:text-6xl semihdScreen:text-6xl laptopScreen:text-5xl averageScreen:text-5xl sm:text-2xl xs:text-xl">
                       {tallyAverage}
                     </span>
                   </div>
                 </div>
                 <div>
-                  <p className="hdScreen:text-2xl semihdScreen:text-xl laptopScreen:text-xl averageScreen:text-2xl sm:text-xl xs:text-base text-gray-700 font-medium leading-4 mb-5">
+                  <p className="hdScreen:text-2xl semihdScreen:text-xl laptopScreen:text-xl averageScreen:text-2xl sm:text-lg xs:text-base text-gray-700 font-medium leading-4 averageScreen:mb-5 xs:mb-1">
                     Difficult
                   </p>
-                  <div className="hdScreen:w-32 hdScreen:h-32 semihdScreen:w-[7.5rem] semihdScreen:h-[7.5rem]  laptopScreen:w-[7rem] laptopScreen:h-[7rem] averageScreen:w-[6.5rem] averageScreen:h-[6.5rem] sm:w-24 sm:h-24 bg-red-500 rounded-full text-center hdScreen:py-12 semihdScreen:py-10 laptopScreen:py-9 averageScreen:py-8    mx-auto">
-                    <span className="text-red-100 hdScreen:text-6xl semihdScreen:text-6xl laptopScreen:text-5xl averageScreen:text-5xl sm:text-4xl xs:text-2xl">
+                  <div className="hdScreen:w-32 hdScreen:h-32 semihdScreen:w-[7.5rem] semihdScreen:h-[7.5rem]  laptopScreen:w-[7rem] laptopScreen:h-[7rem] averageScreen:w-[6.5rem] averageScreen:h-[6.5rem] xs:w-16 xs:h-16 bg-red-500 rounded-full text-center flex items-center justify-center mx-auto">
+                    <span className="text-red-100 hdScreen:text-6xl semihdScreen:text-6xl laptopScreen:text-5xl averageScreen:text-5xl sm:text-2xl xs:text-xl">
                       {tallyDifficult}
                     </span>
                   </div>
@@ -323,7 +331,7 @@ export default function StudentDetail() {
             </p>
             <div
               id="history"
-              className="overflow-auto bg-gray-300/80 rounded-md mx-3 mt-2 hdScreen:min-h-[32rem] hdScreen:max-h-[32rem] semihdScreen:min-h-[24rem] semihdScreen:max-h-[24rem] laptopScreen:min-h-[15.7rem] laptopScreen:max-h-[15.7rem] averageScreen:min-h-[14rem] averageScreen:max-h-[14rem] style-2 "
+              className="overflow-auto bg-gray-300/80 rounded-md mx-3 mt-2 hdScreen:min-h-[32rem] hdScreen:max-h-[32rem] semihdScreen:min-h-[24rem] semihdScreen:max-h-[24rem] laptopScreen:min-h-[15.7rem] laptopScreen:max-h-[15.7rem] averageScreen:min-h-[14rem] averageScreen:max-h-[14rem] xs:min-h-[14rem] xs:max-h-[14rem] style-2 "
             >
               {accountHistory.map(history => (
                 <>
@@ -339,18 +347,18 @@ export default function StudentDetail() {
                     <div className="lg:col-span-3">
                       <p className="lg:text-[1.75rem] text-gray-100 font-medium leading-4 mt-1">
                         {history.SessionType}
-                        <span className="lg:text-sm sm:text-xs text-white font-normal ">
+                        <span className="lg:text-sm sm:text-xs xs:text-xs text-white font-normal ">
                           {'\u00A0\u00A0' + history.TimeStamp}
                         </span>
                       </p>
                     </div>
                     <div className="lg:col-span-6 text-right lg:-mt-0 xs:-mt-8">
-                      <span className="lg:text-lg text-white font-normal">
+                      <span className="lg:text-lg sm:text-sm xs:text-xs text-white font-normal">
                         Score: {history.Score + '/20'}
                       </span>
                     </div>
                     <div className="lg:col-span-2 text-right lg:-mt-0  xs:-mt-3">
-                      <span className="lg:text-lg text-white font-normal">
+                      <span className="lg:text-lg sm:text-sm xs:text-xs text-white font-normal">
                         Time: {history.TimeSpent}
                       </span>
                     </div>

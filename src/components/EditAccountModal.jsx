@@ -383,7 +383,7 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
         className={`fixed top-0 z-50 inset-0 bg-black bg-opacity-50 backdrop-blur-[1.5px] flex justify-center items-center "
         `}
       >
-        <div className="bg-white hdScreen:scale-100 semihdScreen:scale-90 laptopScreen:scale-85 averageScreen:scale-85 rounded lg:text-lg xs:text-xs shadow-md ">
+        <div className="bg-white hdScreen:scale-100 semihdScreen:scale-90 laptopScreen:scale-85 averageScreen:scale-80 md:scale-80 sm:scale-80 xs:scale-75 rounded lg:text-lg md:text-base sm:text-sm xs:text-xs shadow-md ">
           <div className="grid grid-cols-2 bg-gray-300">
             <span className="lg:text-xl xs:text-lg ml-2 mt-0.5 text-black/60 font-semibold">
               {' '}
@@ -405,7 +405,7 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
               className="overflow-hidden"
               autoComplete="off"
             >
-              <main className="py-12 pr-12 min-w-fit lg:text-lg xs:text-xs   overflow-hidden">
+              <main className="py-12 pr-12 min-w-fit lg:text-lg md:text-base sm:text-sm xs:text-xs   overflow-hidden">
                 <div className="grid grid-cols-3 gap-x-3 ">
                   {/*FirstName Input*/}
                   <div>
@@ -804,7 +804,7 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
                   onClick={onClose}
                   className={`relative px-12 py-1.5  rounded-lg font-semibold  transition duration-300 text-white bg-red-600 hover:bg-red-700 `}
                 >
-                  <span className="font-normal lg:text-lg xs:text-xs flex justify-center">
+                  <span className="font-normal lg:text-lg md:text-base sm:text-sm xs:text-xs flex justify-center">
                     Cancel
                   </span>
                 </button>
@@ -815,7 +815,7 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
                   type="submit"
                   className="relative ml-6 py-1.5 px-4 mr-1.5  rounded-lg font-semibold  transition duration-300 text-white bg-lime-600 hover:bg-lime-700"
                 >
-                  <span className="font-normal  lg:text-lg xs:text-xs flex justify-center">
+                  <span className="font-normal  lg:text-lg md:text-base sm:text-sm xs:text-xs flex justify-center">
                     Apply Changes
                   </span>
                 </button>

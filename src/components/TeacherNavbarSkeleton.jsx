@@ -17,7 +17,7 @@ export default function TeacherNavbarSkeleton() {
 
   return (
     <>
-      <div className={``}>
+      <div className={`overflow-y-auto`}>
         <div className="sm:flex xs:hidden lg:flex flex-col  text-gray-300/0 text-center  h-screen fixed z-[100] overflow-hidden bg-gray-200  before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50 before:animate-[shimmer_1.5s_infinite]">
           <div className="">
             <ul className="text-xs">

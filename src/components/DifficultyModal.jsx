@@ -16,7 +16,7 @@ const DifficultyModal = ({ visible, onClose, onContinue }) => {
         onClick={handleOnClose}
         className="fixed top-0 inset-0 z-50 bg-black bg-opacity-50 backdrop-blur-[0.5px] flex justify-center items-center "
       >
-        <div className="bg-white  rounded text-lg  ">
+        <div className="bg-white  rounded text-lg  hdScreen:scale-100 semihdScreen:scale-95 laptopScreen:scale-90 averageScreen:scale-90 md:scale-85 sm:scale-80 xs:scale-75">
           <div className="grid grid-cols-2 bg-yellow-500 ">
             <VscWarning className="text-[1.85rem] ml-1 mt-[0.18rem] text-black/60" />
             <div className="text-right">

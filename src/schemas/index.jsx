@@ -76,3 +76,7 @@ export const contactAdminSchema = yup.object().shape({
   subject: yup.string().required('* Please fill out this field.'),
   message: yup.string().required('* Please fill out this field.'),
 });
+
+export const forgotPasswordSchema = yup.object().shape({
+  emailReset: yup.string().required(),
+});

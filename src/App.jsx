@@ -44,6 +44,8 @@ import HelpPageTeacher from './components/HelpPageTeacher';
 import HomePageTeacher from './components/HomePageTeacher';
 import HomePageAdmin from './components/HomePageAdmin';
 
+import ErrorPage from './components/ErrorPage';
+
 class App extends Component {
   componentWillUnmount() {
     localStorage.clear();
@@ -113,6 +115,8 @@ class App extends Component {
 
           <Route path="HomePageAdmin" element={<HomePageAdmin />} />
           <Route path="HomePageTeacher" element={<HomePageTeacher />} />
+
+          <Route path="*" element={<ErrorPage />} />
         </Routes>
       </BrowserRouter>
     );

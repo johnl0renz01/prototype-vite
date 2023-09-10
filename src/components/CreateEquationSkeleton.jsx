@@ -14,6 +14,7 @@ import { BsArrowCounterclockwise } from 'react-icons/bs';
 
 import { GoChecklist } from 'react-icons/go';
 import { HiPlusSmall } from 'react-icons/hi2';
+import CreateEquationMessageModal from './CreateEquationMessageModal';
 
 export default function CreateEquationSkeleton() {
   const [navbarWidth, setNavbarWidth] = useState(0);
@@ -52,9 +53,17 @@ export default function CreateEquationSkeleton() {
   return (
     <>
       <div
-        className={`bg-gradient-to-t from-[#e2e2e2] via-[#f1f1f1] to-[#ffffff] h-full z-10 select-none
+        className={`bg-gradient-to-t from-[#e2e2e2] via-[#f1f1f1] to-[#ffffff] h-full z-10 select-none overflow-y-auto
       ${
-        navbarWidth == 143
+        navbarWidth == 160
+          ? 'w-[calc(100%-160px)] ml-[160px]'
+          : navbarWidth == 112
+          ? 'w-[calc(100%-112px)] ml-[112px]'
+          : navbarWidth == 90
+          ? 'w-[calc(100%-90px)] ml-[90px]'
+          : navbarWidth == 56
+          ? 'w-[calc(100%-56px)] ml-[56px]'
+          : navbarWidth == 143
           ? 'w-[calc(100%-143px)] ml-[143px]'
           : navbarWidth == 95
           ? 'w-[calc(100%-95px)] ml-[95px]'
@@ -101,7 +110,14 @@ export default function CreateEquationSkeleton() {
             </div>
             <div
               id="create_question"
-              className="lg:text-lg xs:text-sm p-4 text-gray-700"
+              className="flex flex-col 
+              hdScreen:min-h-[calc(100vh-12.5vh)] hdScreen:max-h-[calc(100vh-12.5vh)]  
+              semihdScreen:min-h-[calc(100vh-17.5vh)] semihdScreen:max-h-[calc(100vh-17.5vh)]  
+              laptopScreen:min-h-[calc(100vh-22.5vh)] laptopScreen:max-h-[calc(100vh-22.5vh)]  
+              averageScreen:min-h-[calc(100vh-27.5vh)] averageScreen:max-h-[calc(100vh-27.5vh)] 
+              xs:min-h-[calc(100vh-27.5vh)] xs:max-h-[calc(100vh-27.5vh)] 
+              
+              lg:text-lg xs:text-sm p-4 text-gray-700"
             >
               <div className="font-semibold">
                 <span className="bg-gray-200 text-gray-200 rounded-md">
@@ -120,9 +136,9 @@ export default function CreateEquationSkeleton() {
                   className={`ml-6 cursor-default bg-gray-300 text-gray-300  py-1.5 lg:w-36 px-4 shadow rounded-md  
                     `}
                 >
-                  <span className=" pl-1 lg:text-xl xs:text-xs flex justify-center">
+                  <span className=" pl-1 lg:text-xl xs:text-xs flex justify-center items-center">
                     Validate
-                    <GoChecklist className="opacity-0 ml-2 mt-1 lg:text-2xl" />
+                    <GoChecklist className="opacity-0 ml-2 lg:text-2xl" />
                   </span>
                 </button>
               </div>
@@ -132,28 +148,28 @@ export default function CreateEquationSkeleton() {
                   the algorithm.)
                 </span>
               </div>
+              <div className="flex  mt-auto justify-end pt-4">
+                <button
+                  className={`cursor-default text-gray-300 bg-gray-300 ml-6 py-1.5 pb-2 px-4 shadow-md rounded-md
+                `}
+                >
+                  <span className="pl-1 lg:text-xl xs:text-sm flex justify-center items-center">
+                    Reset
+                    <BsArrowCounterclockwise className="ml-2  lg:text-xl xs:text-xs -rotate-45" />
+                  </span>
+                </button>
+                <button
+                  className={` cursor-default text-gray-300 bg-gray-300 ml-6 py-1.5 pb-2 px-3 shadow rounded-md
+                `}
+                >
+                  <span className="pl-2 lg:text-xl xs:text-sm flex justify-center items-center">
+                    Add Equation
+                    <HiPlusSmall className="ml-1  lg:text-2xl xs:text-base" />
+                  </span>
+                </button>
+              </div>
             </div>
           </section>
-          <div className="flex justify-end fixed bottom-7 right-8">
-            <button
-              className={`cursor-default text-gray-300 bg-gray-300 ml-6 py-1.5 pb-2 px-4 shadow-md rounded-md
-                `}
-            >
-              <span className="pl-1 lg:text-xl xs:text-sm flex justify-center">
-                Reset
-                <BsArrowCounterclockwise className="ml-2 mt-1.5 lg:text-xl xs:text-xs -rotate-45" />
-              </span>
-            </button>
-            <button
-              className={` cursor-default text-gray-300 bg-gray-300 ml-6 py-1.5 pb-2 px-3 shadow rounded-md
-                `}
-            >
-              <span className="pl-2 lg:text-xl xs:text-sm flex justify-center">
-                Add Equation
-                <HiPlusSmall className="ml-1 mt-1 lg:text-2xl xs:text-base" />
-              </span>
-            </button>
-          </div>
         </div>
       </div>
     </>

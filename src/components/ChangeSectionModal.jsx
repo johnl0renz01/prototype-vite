@@ -217,7 +217,7 @@ const ChangeSection = ({ visible, onClose, onContinue }) => {
         className={`fixed top-0 z-50 inset-0 bg-black bg-opacity-50 backdrop-blur-[1.5px] flex justify-center items-center "
        `}
       >
-        <div className="bg-white hdScreen:w-[27.5%] semihdScreen:w-[40%] laptopScreen:w-[45%] averageScreen:w-[45%] hdScreen:scale-100 semihdScreen:scale-95 laptopScreen:scale-90 averageScreen:scale-90 rounded lg:text-lg xs:text-xs shadow-md ">
+        <div className="bg-white hdScreen:w-[27.5%] semihdScreen:w-[40%] laptopScreen:w-[45%] averageScreen:w-[45%] sm:w-[50%] xs:w-[60%] hdScreen:scale-100 semihdScreen:scale-95 laptopScreen:scale-90 averageScreen:scale-90 rounded lg:text-lg xs:text-xs shadow-md ">
           <div className="overflow-hidden  ">
             <table className="w-full leading-normal ">
               <thead className="sticky top-0 z-40 shadow-md border-b-2 border-gray-200 bg-gray-200 text-left uppercase tracking-wider md:text-base xs:text-xs font-bold text-gray-600">

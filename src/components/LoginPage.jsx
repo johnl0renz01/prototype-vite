@@ -16,6 +16,8 @@ import { VscCheckAll, VscPassFilled } from 'react-icons/vsc';
 import { BsXCircleFill } from 'react-icons/bs';
 
 import SetPasswordMessageModal from './SetPasswordMessageModal';
+import ForgotPasswordMessageModal from './ForgotPasswordMessageModal';
+import ForgotPassword from './ForgotPassword';
 
 import LoginPageSkeleton from './LoginPageSkeleton';
 
@@ -52,7 +54,6 @@ export default function LoginPage() {
     }
   }, []);
 
-  document.body.style.height = '100vh';
   document.body.style.backgroundImage =
     'linear-gradient(to top, #bef264, #d9f99d , #ccf779)';
 
@@ -110,252 +111,271 @@ export default function LoginPage() {
 
   const onSubmit = async (values, actions) => {
     console.log(accountType);
-    let isStudent = false;
-    let isAdmin = false;
+    var isForgot = JSON.parse(window.sessionStorage.getItem('FORGOT_PASSWORD'));
+    console.log(isForgot);
 
-    let firstLogin = false;
-    axios
-      .post(
-        `http://localhost:80/Prototype-Vite/my-project/api/${accountType}/save`,
-        values
-      )
-      .then(function (response) {
-        let message = response.data;
-        if (typeof message === 'string') {
-          message = message.replace(/"/g, '');
-        }
+    if (isForgot) {
+      console.log('TESTING IM HERE');
+      var type = JSON.parse(window.sessionStorage.getItem('RESET_TYPE'));
+      type = type.replace(/"/g, '');
+      if (type == 'Email') {
+        console.log('EMIALSADAS');
+        setShowModal2(true);
+      } else if (type == 'Code') {
+        console.log('COEDED');
+      }
+    } else {
+      let isStudent = false;
+      let isAdmin = false;
 
-        console.log(message);
-        if (message == 'setPassword') {
-          firstLogin = true;
-          setNewPass(true);
-        } else {
-          console.log(response.data);
-          var currentData = JSON.stringify(response.data);
-          setAccountValidation(currentData);
-          //console.log("CURRDATA:" + currentData);
-          currentData = currentData.replace('{', '');
-          currentData = currentData.replace('}', '');
-          currentData = currentData.replace('"GivenName":', '');
-          currentData = currentData.replace('"Email":', '');
-          currentData = currentData.replace('"Password":', '');
-          currentData = currentData.replace('"GroupType":', '');
-          currentData = currentData.replace('"MiddleName":', '');
-          currentData = currentData.replace('"LastName":', '');
-
-          var userData = [];
-          convertStringToArray();
-          function convertStringToArray() {
-            let firstIndex = 0;
-            let endIndex = 0;
-            for (let i = 0; i < currentData.length; i++) {
-              let isEnd = false;
-              if (currentData[i] == ',') {
-                firstIndex = 0;
-                endIndex = 0;
-                continue;
-              }
-
-              if (currentData[i] == '"') {
-                if (firstIndex == 0) {
-                  firstIndex = i + 1;
-                } else {
-                  endIndex = i;
-                  isEnd = true;
-                }
-              }
-              if (isEnd) {
-                //console.log(currentData.substring(firstIndex, endIndex));
-                userData.push(currentData.substring(firstIndex, endIndex));
-                isEnd = false;
-              }
-            }
+      let firstLogin = false;
+      axios
+        .post(
+          `http://localhost:80/Prototype-Vite/my-project/api/${accountType}/save`,
+          values
+        )
+        .then(function (response) {
+          let message = response.data;
+          if (typeof message === 'string') {
+            message = message.replace(/"/g, '');
           }
 
-          console.log(currentData);
-          if (currentData != '"Invalid"') {
-            window.localStorage.setItem('LOGGED', JSON.stringify('TRUE'));
+          console.log(message);
+          if (message == 'setPassword') {
+            firstLogin = true;
+            setNewPass(true);
+          } else {
+            console.log(response.data);
+            var currentData = JSON.stringify(response.data);
+            setAccountValidation(currentData);
+            //console.log("CURRDATA:" + currentData);
+            currentData = currentData.replace('{', '');
+            currentData = currentData.replace('}', '');
+            currentData = currentData.replace('"GivenName":', '');
+            currentData = currentData.replace('"Email":', '');
+            currentData = currentData.replace('"Password":', '');
+            currentData = currentData.replace('"GroupType":', '');
+            currentData = currentData.replace('"MiddleName":', '');
+            currentData = currentData.replace('"LastName":', '');
 
-            if (currentData.includes(',')) {
-              window.localStorage.setItem(
-                'SESSION_USER',
-                JSON.stringify(userData[0])
-              );
-              window.localStorage.setItem(
-                'SESSION_EMAIL',
-                JSON.stringify(userData[1])
-              );
+            var userData = [];
+            convertStringToArray();
+            function convertStringToArray() {
+              let firstIndex = 0;
+              let endIndex = 0;
+              for (let i = 0; i < currentData.length; i++) {
+                let isEnd = false;
+                if (currentData[i] == ',') {
+                  firstIndex = 0;
+                  endIndex = 0;
+                  continue;
+                }
 
-              window.localStorage.setItem(
-                'SYSTEM_VERSION',
-                JSON.stringify(userData[3])
-              );
-
-              var firstName = JSON.stringify(userData[0]);
-              firstName = firstName.replace(/"/g, '');
-
-              var middleName = JSON.stringify(userData[4]);
-              middleName = middleName.replace(/"/g, '');
-
-              var lastName = JSON.stringify(userData[5]);
-              lastName = lastName.replace(/"/g, '');
-
-              var fullName = '';
-              if (middleName != '') {
-                fullName = firstName + ' ' + middleName + ' ' + lastName;
-              } else {
-                fullName = firstName + ' ' + lastName;
-              }
-
-              window.localStorage.setItem(
-                'SESSION_FULLNAME',
-                JSON.stringify(fullName)
-              );
-
-              //window.alert(fullName);
-
-              var emailString = userData[1];
-              for (let i = 0; i < emailString.length; i++) {
-                if (emailString[i].match(/[\@]/)) {
-                  emailString = emailString.substring(0, i);
-                  emailString = emailString.replace('.', '_');
-                  break;
+                if (currentData[i] == '"') {
+                  if (firstIndex == 0) {
+                    firstIndex = i + 1;
+                  } else {
+                    endIndex = i;
+                    isEnd = true;
+                  }
+                }
+                if (isEnd) {
+                  //console.log(currentData.substring(firstIndex, endIndex));
+                  userData.push(currentData.substring(firstIndex, endIndex));
+                  isEnd = false;
                 }
               }
-              window.localStorage.setItem(
-                'SESSION_USER_LOGS',
-                JSON.stringify(emailString)
-              );
-
-              isStudent = true;
-            } else if (currentData != '""' && currentData != '[]') {
-              currentData = currentData.replace(/"/g, '');
-              window.localStorage.setItem(
-                'SESSION_USER',
-                JSON.stringify(currentData)
-              );
-              window.localStorage.setItem('SESSION_EMAIL', JSON.stringify(''));
-              isAdmin = true;
             }
 
-            //IS CLOSED
-            window.localStorage.setItem('IS_CLOSED', false);
+            console.log(currentData);
+            if (currentData != '"Invalid"') {
+              window.localStorage.setItem('LOGGED', JSON.stringify('TRUE'));
 
-            axios
-              .post(
-                `http://localhost:80/Prototype-Vite/my-project/api/loginSession/save`,
-                values
-              )
-              .then(function (response) {
-                console.log(response.data);
-                let currentData = JSON.stringify(response.data);
-                setAccountValidation(currentData);
-                //console.log("CURRDATA:" + currentData);
-                currentData = currentData.replace('{', '');
-                currentData = currentData.replace('}', '');
-                currentData = currentData.replace('"UniqueID":', '');
+              if (currentData.includes(',')) {
+                window.localStorage.setItem(
+                  'SESSION_USER',
+                  JSON.stringify(userData[0])
+                );
+                window.localStorage.setItem(
+                  'SESSION_EMAIL',
+                  JSON.stringify(userData[1])
+                );
 
-                let userData = [];
-                convertStringToArray();
-                function convertStringToArray() {
-                  let firstIndex = 0;
-                  let endIndex = 0;
-                  for (let i = 0; i < currentData.length; i++) {
-                    let isEnd = false;
-                    if (currentData[i] == ',') {
-                      firstIndex = 0;
-                      endIndex = 0;
-                      continue;
-                    }
+                window.localStorage.setItem(
+                  'SYSTEM_VERSION',
+                  JSON.stringify(userData[3])
+                );
 
-                    if (currentData[i] == '"') {
-                      if (firstIndex == 0) {
-                        firstIndex = i + 1;
-                      } else {
-                        endIndex = i;
-                        isEnd = true;
-                      }
-                    }
-                    if (isEnd) {
-                      //console.log(currentData.substring(firstIndex, endIndex));
-                      userData.push(
-                        currentData.substring(firstIndex, endIndex)
-                      );
-                      isEnd = false;
-                    }
+                var firstName = JSON.stringify(userData[0]);
+                firstName = firstName.replace(/"/g, '');
+
+                var middleName = JSON.stringify(userData[4]);
+                middleName = middleName.replace(/"/g, '');
+
+                var lastName = JSON.stringify(userData[5]);
+                lastName = lastName.replace(/"/g, '');
+
+                var fullName = '';
+                if (middleName != '') {
+                  fullName = firstName + ' ' + middleName + ' ' + lastName;
+                } else {
+                  fullName = firstName + ' ' + lastName;
+                }
+
+                window.localStorage.setItem(
+                  'SESSION_FULLNAME',
+                  JSON.stringify(fullName)
+                );
+
+                //window.alert(fullName);
+
+                var emailString = userData[1];
+                for (let i = 0; i < emailString.length; i++) {
+                  if (emailString[i].match(/[\@]/)) {
+                    emailString = emailString.substring(0, i);
+                    emailString = emailString.replace('.', '_');
+                    break;
                   }
                 }
                 window.localStorage.setItem(
-                  'UNIQUE_ID',
-                  JSON.stringify(userData[0])
+                  'SESSION_USER_LOGS',
+                  JSON.stringify(emailString)
                 );
 
-                if (isStudent) {
-                  var data = '';
-                  var email = JSON.parse(
-                    window.localStorage.getItem('SESSION_EMAIL')
-                  );
-                  if (email === null) email = '';
-                  console.log(email);
-                  axios
-                    .post(
-                      `http://localhost:80/Prototype-Vite/my-project/api/validateLogin/${email}`,
-                      values
-                    )
-                    .then(function (response) {
-                      console.log(response.data);
-                      data = JSON.stringify(response.data);
-                      data = data.replace(/"/g, '');
-                      data = data.replace(/\\/g, '');
-                      console.log(data);
-                      window.localStorage.setItem(
-                        'ACCOUNT_TYPE',
-                        JSON.stringify(data)
-                      );
+                isStudent = true;
+              } else if (currentData != '""' && currentData != '[]') {
+                currentData = currentData.replace(/"/g, '');
+                window.localStorage.setItem(
+                  'SESSION_USER',
+                  JSON.stringify(currentData)
+                );
+                window.localStorage.setItem(
+                  'SESSION_EMAIL',
+                  JSON.stringify('')
+                );
+                isAdmin = true;
+              }
 
-                      if (data == 'Student') {
-                        navigate('/Homepage');
-                      } else if (data == 'Teacher') {
-                        var fullName = JSON.parse(
-                          window.localStorage.getItem('SESSION_FULLNAME')
-                        );
-                        if (fullName === null) fullName = '';
-                        fullName = fullName.replace(/ /g, '_');
-                        axios
-                          .get(
-                            `http://localhost:80/Prototype-Vite/my-project/api/teacherLoginSection/${fullName}`
-                          )
-                          .then(function (response) {
-                            console.log(response.data);
-                            var section = response.data;
-                            window.localStorage.setItem(
-                              'CURRENT_SECTION',
-                              JSON.stringify(section)
-                            );
-                            window.localStorage.setItem('LINK_TAB', 0);
-                            navigate('/HomePageTeacher');
-                          });
+              //IS CLOSED
+              window.localStorage.setItem('IS_CLOSED', false);
 
-                        //reloadPage();
+              axios
+                .post(
+                  `http://localhost:80/Prototype-Vite/my-project/api/loginSession/save`,
+                  values
+                )
+                .then(function (response) {
+                  console.log(response.data);
+                  let currentData = JSON.stringify(response.data);
+                  setAccountValidation(currentData);
+                  //console.log("CURRDATA:" + currentData);
+                  currentData = currentData.replace('{', '');
+                  currentData = currentData.replace('}', '');
+                  currentData = currentData.replace('"UniqueID":', '');
+
+                  let userData = [];
+                  convertStringToArray();
+                  function convertStringToArray() {
+                    let firstIndex = 0;
+                    let endIndex = 0;
+                    for (let i = 0; i < currentData.length; i++) {
+                      let isEnd = false;
+                      if (currentData[i] == ',') {
+                        firstIndex = 0;
+                        endIndex = 0;
+                        continue;
                       }
-                    });
-                } else if (isAdmin) {
-                  var data = 'Admin';
-                  window.localStorage.setItem(
-                    'ACCOUNT_TYPE',
-                    JSON.stringify(data)
-                  );
-                  navigate('/HomePageAdmin');
-                  //reloadPage();
-                }
-              });
-          }
-        }
 
-        if (!firstLogin) {
-          actions.resetForm();
-        }
-      });
+                      if (currentData[i] == '"') {
+                        if (firstIndex == 0) {
+                          firstIndex = i + 1;
+                        } else {
+                          endIndex = i;
+                          isEnd = true;
+                        }
+                      }
+                      if (isEnd) {
+                        //console.log(currentData.substring(firstIndex, endIndex));
+                        userData.push(
+                          currentData.substring(firstIndex, endIndex)
+                        );
+                        isEnd = false;
+                      }
+                    }
+                  }
+                  window.localStorage.setItem(
+                    'UNIQUE_ID',
+                    JSON.stringify(userData[0])
+                  );
+
+                  if (isStudent) {
+                    var data = '';
+                    var email = JSON.parse(
+                      window.localStorage.getItem('SESSION_EMAIL')
+                    );
+                    if (email === null) email = '';
+                    console.log(email);
+                    axios
+                      .post(
+                        `http://localhost:80/Prototype-Vite/my-project/api/validateLogin/${email}`,
+                        values
+                      )
+                      .then(function (response) {
+                        console.log(response.data);
+                        data = JSON.stringify(response.data);
+                        data = data.replace(/"/g, '');
+                        data = data.replace(/\\/g, '');
+                        console.log(data);
+                        window.localStorage.setItem(
+                          'ACCOUNT_TYPE',
+                          JSON.stringify(data)
+                        );
+
+                        if (data == 'Student') {
+                          navigate('/Homepage');
+                        } else if (data == 'Teacher') {
+                          var fullName = JSON.parse(
+                            window.localStorage.getItem('SESSION_FULLNAME')
+                          );
+                          if (fullName === null) fullName = '';
+                          fullName = fullName.replace(/ /g, '_');
+                          axios
+                            .get(
+                              `http://localhost:80/Prototype-Vite/my-project/api/teacherLoginSection/${fullName}`
+                            )
+                            .then(function (response) {
+                              console.log(response.data);
+                              var section = response.data;
+                              window.localStorage.setItem(
+                                'CURRENT_SECTION',
+                                JSON.stringify(section)
+                              );
+                              window.localStorage.setItem('LINK_TAB', 0);
+                              navigate('/HomePageTeacher');
+                            });
+
+                          //reloadPage();
+                        }
+                      });
+                  } else if (isAdmin) {
+                    var data = 'Admin';
+                    window.localStorage.setItem(
+                      'ACCOUNT_TYPE',
+                      JSON.stringify(data)
+                    );
+                    navigate('/HomePageAdmin');
+                    //reloadPage();
+                  }
+                });
+            }
+          }
+
+          if (!firstLogin) {
+            actions.resetForm();
+          }
+        });
+    }
+
     await new Promise(resolve => setTimeout(resolve, 1));
   };
 
@@ -385,6 +405,9 @@ export default function LoginPage() {
 
       validNew: false,
       validConfirm: false,
+
+      emailReset: '',
+      code: '',
     },
     //Page Validation Form
     validationSchema: loginSchema,
@@ -446,7 +469,7 @@ export default function LoginPage() {
 
   const newPasswordChange = event => {
     const value = event.target.value;
-    if (onlyLettersAndNumbers(value)) {
+    if (onlyLettersAndNumbers(value) && value.length >= 8) {
       setValidNewPass(true);
       values.validNew = true;
     } else {
@@ -518,9 +541,27 @@ export default function LoginPage() {
   const [showModal, setShowModal] = useState(false);
   const handleOnCloseModal = () => setShowModal(false);
 
+  const [showModal2, setShowModal2] = useState(false);
+
+  const handleOnContinueModal = () => {
+    setShowModal2(true);
+  };
+
+  const handleOnCloseModal2 = () => {
+    setShowModal2(false);
+    setForgotPass(false);
+    setResetType('Email');
+    window.sessionStorage.setItem('FORGOT_PASSWORD', false);
+  };
+
   const [newPass, setNewPass] = useState(false);
   const [forgotPass, setForgotPass] = useState(false);
-  const [accountFor, setAccountFor] = useState('Student');
+
+  const [resetType, setResetType] = useState('Email');
+
+  useEffect(() => {
+    window.sessionStorage.setItem('FORGOT_PASSWORD', false);
+  }, []);
 
   //FOR SKELETON
   const [skeletonState, setSkeletonState] = useState(true);
@@ -547,23 +588,23 @@ export default function LoginPage() {
         <LoginPageSkeleton />
       </div>
       <div
-        className={`hdScreen:h-[calc(100vh-27.5vh)] semihdScreen:h-[calc(100vh-27.5vh)] laptopScreen:h-[calc(100vh-20vh)] averageScreen:h-[calc(100vh-17.5vh)] flex items-center 
+        className={` flex items-center select-none
                       ${skeletonState ? 'hidden' : ''}`}
       >
-        <div className="mx-auto w-full  grid place-items-center">
+        <div className="mx-auto w-full  grid place-items-center overflow-y-auto h-screen">
           <div
-            className="mt-16 
-            hdScreen:w-[30%] semihdScreen:w-[35%] laptopScreen:w-[40%] averageScreen:w-[42.5%] 
-            hdScreen:scale-100 semihdScreen:scale-95 laptopScreen:scale-85 averageScreen:scale-80
+            className="
+            hdScreen:w-[30%] semihdScreen:w-[35%] laptopScreen:w-[40%] averageScreen:w-[42.5%] md:w-[45%] sm:w-[50%] xs:w-[60%] 
+            hdScreen:scale-100 semihdScreen:scale-95 laptopScreen:scale-85 averageScreen:scale-80 xs:scale-80
           bg-white rounded-2xl shadow-md relative"
           >
             <div className="lg:pb-16 xs:pb-10  px-10 rounded-3xl">
               <div className="hdScreen:text-4xl semihdScreen:text-4xl laptopScreen:text-3xl  averageScreen:text-3xl  sm:text-2xl xs:text-xl text-gray-700 font-bold text-center">
-                <i className=" fas fa-graduation-cap  hdScreen:text-[5rem] semihdScreen:text-[4.5rem] laptopScreen:text-[4rem] averageScreen:text-[3.75rem] lg:pt-10 xs:pt-4 pb-4"></i>
+                <i className=" fas fa-graduation-cap  hdScreen:text-[5rem] semihdScreen:text-[4.5rem] laptopScreen:text-[4rem] averageScreen:text-[3.75rem] sm:text-[2.5rem] xs:text-[2rem] lg:pt-6 xs:pt-2 pb-4"></i>
               </div>
               <hr />
               <div className="hdScreen:text-4xl semihdScreen:text-4xl laptopScreen:text-3xl  averageScreen:text-3xl sm:text-2xl xs:text-lg text-gray-700 font-bold text-center">
-                <div className="pt-4 pb-2 select-none">
+                <div className="averageScreen:pt-4 xs:pt-2 averageScreen:pb-2 select-none">
                   {newPass ? (
                     <>Set New Password</>
                   ) : forgotPass ? (
@@ -576,7 +617,7 @@ export default function LoginPage() {
                 </div>
               </div>
 
-              <div className="p-1 rounded-xl lg:text-2xl xs:text-base grid place-items-center text-gray-400">
+              <div className="averageScreen:p-1 rounded-xl lg:text-2xl xs:text-base grid place-items-center text-gray-400">
                 <h1 className="select-none">
                   (
                   {newPass ? (
@@ -590,32 +631,44 @@ export default function LoginPage() {
                 </h1>
 
                 {newPass ? (
-                  <div className="pt-4"></div>
+                  <div className="averageScreen:pt-4 xs:pt-2"></div>
                 ) : forgotPass ? (
-                  <div className="pt-4 w-full">
+                  <div className="averageScreen:pt-4 xs:pt-2 w-full">
                     <p className="lg:text-lg text-center py-2 text-gray-800">
-                      Select the account type for password reset.
+                      Select the type for password reset.
                     </p>
                     <div className="flex  ">
                       <button
-                        onClick={e => setAccountFor('Student')}
+                        onClick={() => {
+                          setResetType('Email');
+                          window.sessionStorage.setItem(
+                            'RESET_TYPE',
+                            JSON.stringify('Email')
+                          );
+                        }}
                         className={`grow text-base lg:px-4 xs:px-1 py-1 rounded-lg  border-2   transition duration-200 ${
-                          accountFor == 'Student'
+                          resetType == 'Email'
                             ? 'bg-gray-500/80 text-white font-semibold border-gray-500/80'
                             : 'bg-gray-100 hover:bg-gray-500/80 text-gray-500  border-gray-300 hover:border-gray-500/80  hover:text-white'
                         }`}
                       >
-                        Student
+                        Email
                       </button>
                       <button
-                        onClick={e => setAccountFor('Teacher')}
+                        onClick={() => {
+                          setResetType('Code');
+                          window.sessionStorage.setItem(
+                            'RESET_TYPE',
+                            JSON.stringify('Code')
+                          );
+                        }}
                         className={`grow text-base ml-4 lg:px-4 xs:px-1 rounded-lg border-2  transition duration-200 ${
-                          accountFor == 'Teacher'
+                          resetType == 'Code'
                             ? 'bg-gray-500/80 text-white font-semibold border-gray-500/80'
                             : 'bg-gray-100 hover:bg-gray-500/80 text-gray-500  border-gray-300 hover:border-gray-500/80  hover:text-white'
                         }`}
                       >
-                        Teacher
+                        Code
                       </button>
                     </div>
                   </div>
@@ -756,7 +809,7 @@ export default function LoginPage() {
                   </div>
 
                   {/* Login Button */}
-                  <div className=" mt-8 mb-3 text-center w-full ">
+                  <div className=" averageScreen:mt-8 averageScreen:mb-3 xs:mb-1 text-center w-full ">
                     <button
                       disabled={isSubmitting}
                       type="submit"
@@ -903,33 +956,9 @@ export default function LoginPage() {
                 )}
 
                 {forgotPass ? (
-                  <div className="mt-2">
-                    <div className="border-2 border-gray-400 p-4 pb-6 rounded-xl">
-                      <p>
-                        To request a password reset as a student, please enter
-                        your email address below. After that, click on submit.
-                      </p>
-                      <input
-                        className={`mt-2 bg-[#e0e0e0] rounded-xl w-full lg:text-lg sm:text-base xs:text-xs text-gray-700 px-4  py-1.5   
-                          `}
-                        type="email"
-                        placeholder="lastname.firstname@sf.edu.ph"
-                        autoComplete="off"
-                      />
-                    </div>
-
-                    <div className=" mt-4 mb-3 text-center w-full ">
-                      <button
-                        disabled={isSubmitting}
-                        type="submit"
-                        className="bg-lime-600 rounded-2xl w-1/2 py-2 lg:lg:text-lg sm:text-base xs:text-xs sm:text-md font-semibold hover:bg-lime-700 text-white ease-in-out transition duration-200 transform drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)]"
-                      >
-                        <span className="lg:text-xl sm:text-base xs:text-xs font-semibold">
-                          SUBMIT
-                        </span>
-                      </button>
-                    </div>
-                  </div>
+                  <>
+                    <ForgotPassword onContinue={handleOnContinueModal} />
+                  </>
                 ) : (
                   <></>
                 )}
@@ -937,18 +966,36 @@ export default function LoginPage() {
                 <div
                   className={`w-full text-center ${newPass ? 'hidden' : ''}`}
                 >
-                  <span
+                  <a
+                    id="link"
                     onClick={
                       forgotPass
-                        ? e => setForgotPass(false)
-                        : e => setForgotPass(true)
+                        ? () => {
+                            setForgotPass(false);
+                            window.sessionStorage.setItem(
+                              'FORGOT_PASSWORD',
+                              false
+                            );
+                          }
+                        : () => {
+                            setForgotPass(true);
+                            window.sessionStorage.setItem(
+                              'FORGOT_PASSWORD',
+                              true
+                            );
+                            console.log(
+                              JSON.parse(
+                                window.sessionStorage.getItem('FORGOT_PASSWORD')
+                              )
+                            );
+                          }
                     }
-                    className={` cursor-pointer lg:text-lg sm:text-base xs:text-xs text-lime-800 hover:underline ${
+                    className={`no-underline cursor-pointer lg:text-lg sm:text-base xs:text-xs text-lime-800 hover:underline ${
                       accType == 'Student' ? 'visible' : 'invisible'
                     }`}
                   >
                     {forgotPass ? <>Back to login</> : <>Forgot Password?</>}
-                  </span>
+                  </a>
                 </div>
                 <div className="">
                   <button
@@ -973,6 +1020,10 @@ export default function LoginPage() {
       <SetPasswordMessageModal
         onClose={handleOnCloseModal}
         visible={showModal}
+      />
+      <ForgotPasswordMessageModal
+        onClose={handleOnCloseModal2}
+        visible={showModal2}
       />
     </>
   );

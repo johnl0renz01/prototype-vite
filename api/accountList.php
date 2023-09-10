@@ -52,6 +52,11 @@ switch($_SESSION['method']) {
                                         OR Email LIKE '%$inputSearch'
                                         OR Email LIKE '$inputSearch%'
 
+                                        OR Section LIKE '$inputSearch'
+                                        OR Section LIKE '%$inputSearch%'
+                                        OR Section LIKE '%$inputSearch'
+                                        OR Section LIKE '$inputSearch%'
+
                                         OR CONCAT(GivenName, ' ', LastName) LIKE '$inputSearch'
                                         OR CONCAT(GivenName, ' ', LastName) LIKE '%$inputSearch%'
                                         OR CONCAT(GivenName, ' ', LastName) LIKE '%$inputSearch'

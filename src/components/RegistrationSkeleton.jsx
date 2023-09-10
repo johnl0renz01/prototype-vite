@@ -47,9 +47,17 @@ export default function RegistrationSkeleton() {
   return (
     <>
       <div
-        className={`bg-gradient-to-t from-[#e2e2e2] via-[#f1f1f1] to-[#ffffff] h-screen z-10 select-none   
+        className={`bg-gradient-to-t from-[#e2e2e2] via-[#f1f1f1] to-[#ffffff] h-screen z-10 select-none overflow-y-auto  
         ${
-          navbarWidth == 176
+          navbarWidth == 193
+            ? 'w-[calc(100%-193px)] ml-[193px]'
+            : navbarWidth == 125
+            ? 'w-[calc(100%-125px)] ml-[125px]'
+            : navbarWidth == 90
+            ? 'w-[calc(100%-90px)] ml-[90px]'
+            : navbarWidth == 56
+            ? 'w-[calc(100%-56px)] ml-[56px]'
+            : navbarWidth == 176
             ? 'w-[calc(100%-176px)] ml-[176px]'
             : navbarWidth == 108
             ? 'w-[calc(100%-108px)] ml-[108px]'
@@ -84,12 +92,12 @@ export default function RegistrationSkeleton() {
             </p>
             <div className="flex mt-[0.7rem] lg:text-lg xs:text-xs px-2">
               <button
-                className={`bg-gray-300 text-gray-300 lg:px-2 xs:px-1 rounded-lg lg:w-24 relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_1.5s_infinite]`}
+                className={`cursor-default bg-gray-300 text-gray-300 lg:px-2 sm:px-2 xs:px-1 rounded-lg lg:w-24 relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_1.5s_infinite]`}
               >
                 Student
               </button>
               <button
-                className={`bg-gray-300 text-gray-300  ml-4  lg:px-2 xs:px-1 rounded-lg lg:w-24 relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_1.5s_infinite] `}
+                className={`cursor-default bg-gray-300 text-gray-300  ml-4  lg:px-2 xs:px-1 rounded-lg lg:w-24 relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_1.5s_infinite] `}
               >
                 Teacher
               </button>
@@ -102,12 +110,12 @@ export default function RegistrationSkeleton() {
             </p>
             <div className="flex mt-[0.7rem] lg:text-lg xs:text-xs px-2">
               <button
-                className={`bg-gray-300 text-gray-300  lg:px-2 xs:px-1 rounded-lg lg:w-24 relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_1.5s_infinite] `}
+                className={`cursor-default bg-gray-300 text-gray-300  lg:px-2 sm:px-2 xs:px-1 rounded-lg lg:w-24 relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_1.5s_infinite] `}
               >
                 Single
               </button>
               <button
-                className={`bg-gray-300 text-gray-300  ml-4 lg:px-2 xs:px-1 rounded-lg lg:w-24 relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_1.5s_infinite] `}
+                className={`cursor-default bg-gray-300 text-gray-300  ml-4 lg:px-2 xs:px-1 rounded-lg lg:w-24 relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_1.5s_infinite] `}
               >
                 Bulk
               </button>

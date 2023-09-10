@@ -104,8 +104,14 @@ export default function AdminNavbar() {
     var widthValue1 = ReactDOM.findDOMNode(divElement1).offsetWidth;
     if (widthValue1 == 168) {
       widthValue1 += 8;
+    } else if (widthValue1 == 185) {
+      widthValue1 += 8;
+    } else if (widthValue1 == 119) {
+      widthValue1 += 6;
+    } else if (widthValue1 == 104) {
+      widthValue1 += 4;
     } else if (widthValue1 == 102) {
-      widthValue1 += 2;
+      widthValue1 += 6;
     }
 
     window.sessionStorage.setItem('NAVBAR_ADMIN_WIDTH', widthValue1);
@@ -116,6 +122,9 @@ export default function AdminNavbar() {
     var heightValue1 = ReactDOM.findDOMNode(divElement2).offsetHeight;
     heightValue1 += 2.5;
     window.sessionStorage.setItem('NAVBAR_ADMIN_LOGO', heightValue1);
+
+    console.log(widthValue1);
+    console.log(heightValue1);
   }
 
   function getCurrentTab() {
@@ -267,7 +276,7 @@ export default function AdminNavbar() {
   useEffect(() => {
     // callback function to call when event triggers
     const onPageLoad = () => {
-      setTimeout(hideNavbar, 1000);
+      setTimeout(hideNavbar, 1);
 
       function hideNavbar() {
         setSkeletonState(false);
@@ -297,7 +306,7 @@ export default function AdminNavbar() {
       >
         <div
           id="adminNavbar"
-          className="sm:flex xs:hidden lg:flex flex-col bg-gradient-to-b from-[#d6d135] via-[#cebc46] to-[#ddc236] text-center  h-screen fixed z-50 drop-shadow-[0_0px_5px_rgba(0,0,0,0.30)]"
+          className="sm:flex xs:hidden md:flex lg:flex flex-col bg-gradient-to-b from-[#d6d135] via-[#cebc46] to-[#ddc236] text-center  h-screen fixed z-50 drop-shadow-[0_0px_5px_rgba(0,0,0,0.30)] overflow-y-auto"
         >
           <div className="">
             <ul className="text-xs">

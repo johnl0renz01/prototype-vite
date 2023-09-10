@@ -95,7 +95,7 @@ export default function HelpPageTeacherSkeleton() {
                   Search Student:{' '}
                 </span>
                 <span className="bg-gray-200 text-gray-200 rounded-md relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_1.5s_infinite]">
-                  This branch allows users to search for specific students
+                  This branch allows teachers to search for specific students
                   within the system. They can search by student name, group
                   type, or other relevant information. The search feature should
                   be intuitive and efficient, providing quick access to student
@@ -120,8 +120,8 @@ export default function HelpPageTeacherSkeleton() {
                   This branch provides a comprehensive overview of a student's
                   academic progress. It should display information such as their
                   scores, session history, basic information, and any additional
-                  relevant data. The system should allow users to easily track a
-                  student's performance over time.{' '}
+                  relevant data. The system should allow teachers to easily
+                  track a student's performance over time.{' '}
                 </span>
               </p>
             </div>
@@ -143,10 +143,11 @@ export default function HelpPageTeacherSkeleton() {
                   Changing Difficulty:{' '}
                 </span>
                 <span className="bg-gray-200 text-gray-200 rounded-md relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_1.5s_infinite]">
-                  This branch enables authorized users to adjust the difficulty
-                  level of existing equations. The system should support
-                  categorization of equations based on difficulty levels, making
-                  it easy to update and manage the equation difficulty settings.
+                  This branch enables authorized teachers to adjust the
+                  difficulty level of existing equations. The system should
+                  support categorization of equations based on difficulty
+                  levels, making it easy to update and manage the equation
+                  difficulty settings.
                 </span>
               </p>
               <p className="hdScreen:py-2 semihdScreen:py-2 laptopScreen:py-1.5 averageScreen:py-1 sm:py-1 xs:py-0.5">
@@ -155,11 +156,11 @@ export default function HelpPageTeacherSkeleton() {
                 </span>
                 <span className="bg-gray-200 text-gray-200 rounded-md relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_1.5s_infinite]">
                   {' '}
-                  Users with appropriate permissions can remove equations from
-                  the equation list. This branch should include confirmation
-                  prompts to avoid accidental deletions. Additionally, any
-                  related data or references to the equation should be properly
-                  handled to maintain data integrity.
+                  Teachers with appropriate permissions can remove equations
+                  from the equation list. This branch should include
+                  confirmation prompts to avoid accidental deletions.
+                  Additionally, any related data or references to the equation
+                  should be properly handled to maintain data integrity.
                 </span>
               </p>
             </div>
@@ -192,7 +193,7 @@ export default function HelpPageTeacherSkeleton() {
                   Selecting Difficulty:{' '}
                 </span>
                 <span className="bg-gray-200 text-gray-200 rounded-md relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_1.5s_infinite]">
-                  In this step, users can assign a difficulty level before
+                  In this step, teachers can assign a difficulty level before
                   creating an equation. The system should provide a
                   user-friendly interface for selecting from predefined
                   difficulty options or adding custom difficulty categories.
@@ -204,7 +205,7 @@ export default function HelpPageTeacherSkeleton() {
                 </span>
                 <span className="bg-gray-200 text-gray-200 rounded-md relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_1.5s_infinite]">
                   Once the equation is validated and a difficulty level is
-                  assigned, the equation is added to the equation list. Users
+                  assigned, the equation is added to the equation list. Teachers
                   should receive confirmation of successful addition and be able
                   to view the equation in the appropriate difficulty category.
                 </span>
@@ -222,9 +223,17 @@ export default function HelpPageTeacherSkeleton() {
   return (
     <>
       <div
-        className={`bg-gradient-to-t from-[#e2e2e2] via-[#f1f1f1] to-[#ffffff]  z-10 select-none
+        className={`bg-gradient-to-t from-[#e2e2e2] via-[#f1f1f1] to-[#ffffff]  z-10 select-none h-full
         ${
-          navbarWidth == 143
+          navbarWidth == 160
+            ? 'w-[calc(100%-160px)] ml-[160px]'
+            : navbarWidth == 112
+            ? 'w-[calc(100%-112px)] ml-[112px]'
+            : navbarWidth == 90
+            ? 'w-[calc(100%-90px)] ml-[90px]'
+            : navbarWidth == 56
+            ? 'w-[calc(100%-56px)] ml-[56px]'
+            : navbarWidth == 143
             ? 'w-[calc(100%-143px)] ml-[143px]'
             : navbarWidth == 95
             ? 'w-[calc(100%-95px)] ml-[95px]'

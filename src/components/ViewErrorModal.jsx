@@ -210,7 +210,7 @@ const ViewErrorModal = ({ visible, onClose, onContinue }) => {
         className={`fixed top-0 z-50 inset-0 bg-black bg-opacity-50 backdrop-blur-[1.5px] flex justify-center items-center "
         `}
       >
-        <div className="bg-white rounded lg:text-lg xs:text-xs shadow-md  ">
+        <div className="bg-white rounded hdScreen:w-1/3 semihdScreen:w-[40%] laptopScreen:w-[45%] averageScreen:w-[45%] md:w-[50%] sm:w-[65%] xs:w-[70%] hdScreen:scale-100 semihdScreen:scale-90 laptopScreen:scale-85 averageScreen:scale-80 md:scale-80 sm:scale-80 xs:scale-75  lg:text-lg md:text-base sm:text-sm xs:text-xs shadow-md   ">
           <div className="grid grid-cols-2 bg-gray-400 ">
             <span className="lg:text-xl xs:text-lg ml-2 mt-0.5 text-black/60 font-semibold">
               {' '}
@@ -226,7 +226,7 @@ const ViewErrorModal = ({ visible, onClose, onContinue }) => {
             </div>
           </div>
           <div className=" text-center text-gray-800">
-            <div className="overflow-y-auto max-h-[20vh] lg:text-lg xs:text-xs relative lg:py-1 lg:pb-6 xs:pb-3 lg:px-8 xs:px-2 ">
+            <div className="overflow-y-auto max-h-[30vh] lg:text-lg md:text-base sm:text-sm xs:text-xs relative lg:py-1 lg:pb-6 xs:pb-3 lg:px-8 xs:px-2 ">
               {sectionDuplicate ? (
                 <div className="flex flex-col">
                   <div className="flex  mt-4 ">
