@@ -27,10 +27,7 @@ const ContactAdminModal = ({ visible, onClose, onContinue }) => {
     var email = JSON.parse(window.localStorage.getItem('SESSION_EMAIL'));
     var role = JSON.parse(window.localStorage.getItem('ACCOUNT_TYPE'));
     axios
-      .post(
-        `http://localhost:80/Prototype-Vite/my-project/api/requestSend/${email}@${role}`,
-        values
-      )
+      .post(`https://pia-sfe.online/api/requestSend/${email}@${role}`, values)
       .then(function (response) {
         handleReset();
         onContinue();

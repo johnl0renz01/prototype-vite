@@ -25,7 +25,7 @@ export default function CreateEquation() {
 
   function getEquations() {
     axios
-      .get(`http://localhost:80/Prototype-Vite/my-project/api/getEquationList/`)
+      .get(`https://pia-sfe.online/api/getEquationList/`)
       .then(function (response) {
         setEquationList(response.data);
       });
@@ -51,9 +51,7 @@ export default function CreateEquation() {
       if (closed) {
         var unique = JSON.parse(window.localStorage.getItem('UNIQUE_ID'));
         axios
-          .post(
-            `http://localhost:80/Prototype-Vite/my-project/api/logout/${unique}`
-          )
+          .post(`https://pia-sfe.online/api/logout/${unique}`)
           .then(function (response) {
             window.localStorage.setItem('LOGGED', JSON.stringify('FALSE'));
             navigate('/LoginPage');
@@ -144,9 +142,7 @@ export default function CreateEquation() {
     equationLink = equationLink.replace(/ /g, '_');
 
     axios
-      .post(
-        `http://localhost:80/Prototype-Vite/my-project/api/verifyEquation/${equationLink}`
-      )
+      .post(`https://pia-sfe.online/api/verifyEquation/${equationLink}`)
       .then(function (response) {
         console.log(response.data);
         document.getElementById('validation_result').style.visibility =
@@ -264,9 +260,7 @@ export default function CreateEquation() {
     var equationDetails = difficulty + '@' + equationLink;
     console.log(equationDetails);
     axios
-      .post(
-        `http://localhost:80/Prototype-Vite/my-project/api/addEquation/${equationDetails}`
-      )
+      .post(`https://pia-sfe.online/api/addEquation/${equationDetails}`)
       .then(function (response) {
         resetEquation();
         console.log(response.data);

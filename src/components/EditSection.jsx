@@ -40,9 +40,7 @@ export default function EditSection() {
     sectionLink = sectionLink.replace(/"/g, ' ');
     console.log(sectionLink);
     axios
-      .get(
-        `http://localhost:80/Prototype-Vite/my-project/api/sectionDetails/${sectionLink}`
-      )
+      .get(`https://pia-sfe.online/api/sectionDetails/${sectionLink}`)
       .then(function (response) {
         setSectionDetails(response.data);
         var result = Object.values(response.data);
@@ -66,10 +64,7 @@ export default function EditSection() {
   const onSubmit = (values, actions) => {
     console.log('SUBMITTED');
     axios
-      .post(
-        'http://localhost:80/Prototype-Vite/my-project/api/addSection/save',
-        values
-      )
+      .post('https://pia-sfe.online/api/addSection/save', values)
       .then(function (response) {
         console.log(response.data);
       });

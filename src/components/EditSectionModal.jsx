@@ -24,7 +24,7 @@ const EditSectionModal = ({ visible, onClose, onContinue }) => {
 
   function getAdvisers() {
     axios
-      .get('http://localhost:80/Prototype-Vite/my-project/api/adviserList/')
+      .get('https://pia-sfe.online/api/adviserList/')
       .then(function (response) {
         console.log(response.data);
         setAdviserData(response.data);
@@ -55,9 +55,7 @@ const EditSectionModal = ({ visible, onClose, onContinue }) => {
     sectionLink = sectionLink.replace(/"/g, ' ');
 
     axios
-      .get(
-        `http://localhost:80/Prototype-Vite/my-project/api/sectionDetails/${sectionLink}`
-      )
+      .get(`https://pia-sfe.online/api/sectionDetails/${sectionLink}`)
       .then(function (response) {
         var result = Object.values(response.data);
 
@@ -91,10 +89,7 @@ const EditSectionModal = ({ visible, onClose, onContinue }) => {
     section = section.replace(/ /g, '_');
     if (!values.isDuplicate) {
       axios
-        .post(
-          `http://localhost:80/Prototype-Vite/my-project/api/editSection/${section}`,
-          values
-        )
+        .post(`https://pia-sfe.online/api/editSection/${section}`, values)
         .then(function (response) {
           console.log(response.data);
           onContinue();
@@ -145,9 +140,7 @@ const EditSectionModal = ({ visible, onClose, onContinue }) => {
 
     if (values.sectionName.toLowerCase() != currentSection.toLowerCase()) {
       axios
-        .get(
-          `http://localhost:80/Prototype-Vite/my-project/api/verifySection/${values.sectionName}`
-        )
+        .get(`https://pia-sfe.online/api/verifySection/${values.sectionName}`)
         .then(function (response) {
           console.log(response.data);
           if (response.data === 'duplicate') {

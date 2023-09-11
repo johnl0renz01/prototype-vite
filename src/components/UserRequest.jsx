@@ -35,9 +35,7 @@ export default function UserRequest() {
       if (closed) {
         var unique = JSON.parse(window.localStorage.getItem('UNIQUE_ID'));
         axios
-          .post(
-            `http://localhost:80/Prototype-Vite/my-project/api/logout/${unique}`
-          )
+          .post(`https://pia-sfe.online/api/logout/${unique}`)
           .then(function (response) {
             window.localStorage.setItem('LOGGED', JSON.stringify('FALSE'));
             navigate('/LoginPage');
@@ -65,7 +63,7 @@ export default function UserRequest() {
 
   function getRequests() {
     axios
-      .get(`http://localhost:80/Prototype-Vite/my-project/api/requestList/`)
+      .get(`https://pia-sfe.online/api/requestList/`)
       .then(function (response) {
         console.log(response.data);
         setRequests(response.data);
@@ -74,7 +72,7 @@ export default function UserRequest() {
 
   function getRequestTotal() {
     axios
-      .get(`http://localhost:80/Prototype-Vite/my-project/api/requestTotal/`)
+      .get(`https://pia-sfe.online/api/requestTotal/`)
       .then(function (response) {
         var total = response.data;
         total = parseInt(total);
@@ -107,9 +105,7 @@ export default function UserRequest() {
     let requestID = e.target.name;
     console.log(requestID);
     axios
-      .post(
-        `http://localhost:80/Prototype-Vite/my-project/api/requestSolved/${requestID}`
-      )
+      .post(`https://pia-sfe.online/api/requestSolved/${requestID}`)
       .then(function (response) {
         console.log(response.data);
         getRequests();
@@ -124,10 +120,7 @@ export default function UserRequest() {
     inputText = { [name]: value };
 
     axios
-      .post(
-        `http://localhost:80/Prototype-Vite/my-project/api/requestList/`,
-        inputText
-      )
+      .post(`https://pia-sfe.online/api/requestList/`, inputText)
       .then(function (response) {
         //console.log(response.data);
         setRequests(response.data);

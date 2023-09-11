@@ -201,9 +201,7 @@ export default function TeacherNavbar() {
     var unique = JSON.parse(window.localStorage.getItem('UNIQUE_ID'));
     if (unique === null) unique = '';
     axios
-      .post(
-        `http://localhost:80/Prototype-Vite/my-project/api/logout/${unique}`
-      )
+      .post(`https://pia-sfe.online/api/logout/${unique}`)
       .then(function (response) {
         localStorage.clear();
         window.localStorage.setItem('LOGGED', JSON.stringify('FALSE'));

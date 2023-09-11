@@ -47,9 +47,7 @@ const ViewDetailModal = ({ visible, onClose, onContinue }) => {
   function getRequestDetails(requestID) {
     let id = requestID.replace(/"/g, ' ');
     axios
-      .get(
-        `http://localhost:80/Prototype-Vite/my-project/api/requestDetails/${id}`
-      )
+      .get(`https://pia-sfe.online/api/requestDetails/${id}`)
       .then(function (response) {
         var result = Object.values(response.data);
 

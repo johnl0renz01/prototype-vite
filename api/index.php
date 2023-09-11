@@ -24,174 +24,174 @@ $_SESSION['method'] = $_SERVER['REQUEST_METHOD'];
 
 switch($requestLink) {
     //FOR LOGIN
-     case "/Prototype-Vite/my-project/api/loginAdmin":
+     case "/api/loginAdmin":
         include('loginAdmin.php');
     break;
-    case "/Prototype-Vite/my-project/api/loginStudent":
+    case "/api/loginStudent":
         include('loginStudent.php');
     break;
 
-    case "/Prototype-Vite/my-project/api/loginSession":
+    case "/api/loginSession":
         include('loginSession.php');
     break;
 
-    case "/Prototype-Vite/my-project/api/getSessionEmail":
+    case "/api/getSessionEmail":
         include('getSessionEmail.php');
     break;
 
-    case "/Prototype-Vite/my-project/api/getSessionLogged":
+    case "/api/getSessionLogged":
         include('getSessionLogged.php');
     break;
 
     //LOGOUT
-    case "/Prototype-Vite/my-project/api/logout":
+    case "/api/logout":
         include('logout.php');
     break;
 
     //===========STUDENT=============
      //FOR SELECT DIFFICULTY
-     case "/Prototype-Vite/my-project/api/selectDifficulty":
+     case "/api/selectDifficulty":
         include('selectDifficulty.php');
     break;
-    case "/Prototype-Vite/my-project/api/getEquation":
+    case "/api/getEquation":
         include('getEquation.php');
     break;
 
     //FOR WHITEBOARD
-    case "/Prototype-Vite/my-project/api/whiteboardLog":
+    case "/api/whiteboardLog":
         include('whiteboardLog.php');
         break;
-    case "/Prototype-Vite/my-project/api/whiteboardClick":
+    case "/api/whiteboardClick":
         include('whiteboardClick.php');
     break;
-    case "/Prototype-Vite/my-project/api/endSession":
+    case "/api/endSession":
         include('endSession.php');
     break;
-    case "/Prototype-Vite/my-project/api/getTimeSpent":
+    case "/api/getTimeSpent":
         include('getTimeSpent.php');
     break;
 
     //===========ADMIN=============
     //FOR REGISTRATION
-    case "/Prototype-Vite/my-project/api/registerAccount":
+    case "/api/registerAccount":
     include('registerAccount.php');
-    case "/Prototype-Vite/my-project/api/verifyEmail":
+    case "/api/verifyEmail":
         include('verifyEmail.php');
     break;
-    case "/Prototype-Vite/my-project/api/registerBulk":
+    case "/api/registerBulk":
         include('registerBulk.php');
-    case "/Prototype-Vite/my-project/api/verifyEmailBulk":
+    case "/api/verifyEmailBulk":
         include('verifyEmailBulk.php');
     break;
 
 
     //FOR MANAGE SECTION
-    case "/Prototype-Vite/my-project/api/sectionTotal":
+    case "/api/sectionTotal":
         include('sectionTotal.php');
         break;
-    case "/Prototype-Vite/my-project/api/sectionName":
+    case "/api/sectionName":
         include('sectionName.php');
         break;
-    case "/Prototype-Vite/my-project/api/sectionList":
+    case "/api/sectionList":
         include('sectionList.php');
         break;
-    case "/Prototype-Vite/my-project/api/sectionTotalStudents":
+    case "/api/sectionTotalStudents":
         include('sectionTotalStudents.php');
         break;
-    case "/Prototype-Vite/my-project/api/sectionAdviser":
+    case "/api/sectionAdviser":
         include('sectionAdviser.php');
         break;
 
-    case "/Prototype-Vite/my-project/api/adviserList":
+    case "/api/adviserList":
         include('adviserList.php');
         break;
         
 
-    case "/Prototype-Vite/my-project/api/addSection":
+    case "/api/addSection":
         include('addSection.php');
     break;
-    case "/Prototype-Vite/my-project/api/editSection":
+    case "/api/editSection":
         include('editSection.php');
         break;
 
-    case "/Prototype-Vite/my-project/api/verifySection":
+    case "/api/verifySection":
         include('verifySection.php');
     break;
 
-    case "/Prototype-Vite/my-project/api/sectionHandled":
+    case "/api/sectionHandled":
         include('sectionHandled.php');
         break;
 
-    case "/Prototype-Vite/my-project/api/sectionTotalv2":
+    case "/api/sectionTotalv2":
         include('sectionTotalv2.php');
         break;
-    case "/Prototype-Vite/my-project/api/sectionNamev2":
+    case "/api/sectionNamev2":
         include('sectionNamev2.php');
         break;
 
-    case "/Prototype-Vite/my-project/api/getAssignedStudent":
+    case "/api/getAssignedStudent":
         include('getAssignedStudent.php');
         break;
 
-    case "/Prototype-Vite/my-project/api/getAssignedTeacher":
+    case "/api/getAssignedTeacher":
         include('getAssignedTeacher.php');
         break;
 
-    case "/Prototype-Vite/my-project/api/removeSection":
+    case "/api/removeSection":
         include('removeSection.php');
         break;
 
-    case "/Prototype-Vite/my-project/api/removeSectionAccounts":
+    case "/api/removeSectionAccounts":
         include('removeSectionAccounts.php');
         break;
 
 
 
     //FOR CLASS LIST
-    case "/Prototype-Vite/my-project/api/classList":
+    case "/api/classList":
         include('classList.php');
         break;
 
     //FOR STUDENT DETAIL
-    case "/Prototype-Vite/my-project/api/studentDetail":
+    case "/api/studentDetail":
         include('studentDetail.php');
         break;
-    case "/Prototype-Vite/my-project/api/studentHistory":
+    case "/api/studentHistory":
         include('studentHistory.php');
     break;
    
     //FOR CUSTOMIZATION
-    case "/Prototype-Vite/my-project/api/editAccount":
+    case "/api/editAccount":
         include('editAccount.php');
     break;
-    case "/Prototype-Vite/my-project/api/editAccountPassword":
+    case "/api/editAccountPassword":
         include('editAccountPassword.php');
     break;
 
     //EQUATIONS
-    case "/Prototype-Vite/my-project/api/removeEquation":
+    case "/api/removeEquation":
         include('removeEquation.php');
     break;
-    case "/Prototype-Vite/my-project/api/verifyEquation":
+    case "/api/verifyEquation":
         include('verifyEquation.php');
     break;
-    case "/Prototype-Vite/my-project/api/addEquation":
+    case "/api/addEquation":
         include('addEquation.php');
     break;
-    case "/Prototype-Vite/my-project/api/getEquationList":
+    case "/api/getEquationList":
         include('getEquationList.php');
     break;
-    case "/Prototype-Vite/my-project/api/equationsEasy":
+    case "/api/equationsEasy":
         include('equationsEasy.php');
     break;
-    case "/Prototype-Vite/my-project/api/equationsAverage":
+    case "/api/equationsAverage":
         include('equationsAverage.php');
     break;
-    case "/Prototype-Vite/my-project/api/equationsDifficult":
+    case "/api/equationsDifficult":
         include('equationsDifficult.php');
     break;
 
-    case "/Prototype-Vite/my-project/api/editEquationType":
+    case "/api/editEquationType":
         include('editEquationType.php');
     break;
 
@@ -199,99 +199,99 @@ switch($requestLink) {
     //// 
 
 
-    case "/Prototype-Vite/my-project/api/getAccountSection":
+    case "/api/getAccountSection":
         include('getAccountSection.php');
         break;
-    case "/Prototype-Vite/my-project/api/sectionDetails":
+    case "/api/sectionDetails":
         include('sectionDetails.php');
         break;
     
     
    
 
-    case "/Prototype-Vite/my-project/api/upload":
+    case "/api/upload":
         include('upload.php');
     break;
 
     //FOR LOGIN
-    case "/Prototype-Vite/my-project/api/validateLogin":
+    case "/api/validateLogin":
         include('validateLogin.php');
     break;
 
-    case "/Prototype-Vite/my-project/api/teacherLoginSection":
+    case "/api/teacherLoginSection":
         include('teacherLoginSection.php');
     break;
 
     //FOR MANAGE ACCOUNTS
-    case "/Prototype-Vite/my-project/api/accountList":
+    case "/api/accountList":
         include('accountList.php');
     break;
 
-    case "/Prototype-Vite/my-project/api/accountDetails":
+    case "/api/accountDetails":
         include('accountDetails.php');
     break;
 
-    case "/Prototype-Vite/my-project/api/accountType":
+    case "/api/accountType":
         include('accountType.php');
     break;
 
-    case "/Prototype-Vite/my-project/api/getSectionAssigned":
+    case "/api/getSectionAssigned":
         include('getSectionAssigned.php');
     break;
 
-    case "/Prototype-Vite/my-project/api/removeAccount":
+    case "/api/removeAccount":
         include('removeAccount.php');
     break;
 
     //RESET REQUESTS
-    case "/Prototype-Vite/my-project/api/resetPasswordList":
+    case "/api/resetPasswordList":
         include('resetPasswordList.php');
     break;
-    case "/Prototype-Vite/my-project/api/resetPassword":
+    case "/api/resetPassword":
         include('resetPassword.php');
     break;
-    case "/Prototype-Vite/my-project/api/removeResetRequest":
+    case "/api/removeResetRequest":
         include('removeResetRequest.php');
     break;
 
 
     //CONTACT ADMIN
-    case "/Prototype-Vite/my-project/api/requestSend":
+    case "/api/requestSend":
         include('requestSend.php');
     break;
 
     //USER REQUESTS
-    case "/Prototype-Vite/my-project/api/requestList":
+    case "/api/requestList":
         include('requestList.php');
     break;
 
-    case "/Prototype-Vite/my-project/api/requestDetails":
+    case "/api/requestDetails":
         include('requestDetails.php');
     break;
 
-    case "/Prototype-Vite/my-project/api/requestSolved":
+    case "/api/requestSolved":
         include('requestSolved.php');
     break;
 
-    case "/Prototype-Vite/my-project/api/requestTotal":
+    case "/api/requestTotal":
         include('requestTotal.php');
     break;
 
-    case "/Prototype-Vite/my-project/api/requestStatus":
+    case "/api/requestStatus":
         include('requestStatus.php');
     break;
 
     // SET NEW PASSWORD
-    case "/Prototype-Vite/my-project/api/setNewPassword":
+    case "/api/setNewPassword":
         include('setNewPassword.php');
     break;
 
     // FORGOT PASSWORD
-    case "/Prototype-Vite/my-project/api/forgotPassEmail":
+    case "/api/forgotPassEmail":
         include('forgotPassEmail.php');
     break;
 
-    case "/Prototype-Vite/my-project/api/forgotPassCode":
+    case "/api/forgotPassCode":
         include('forgotPassCode.php');
     break;
 }

@@ -114,7 +114,7 @@ export default function Customization() {
 
   function getEquations() {
     axios
-      .get(`http://localhost:80/Prototype-Vite/my-project/api/getEquationList/`)
+      .get(`https://pia-sfe.online/api/getEquationList/`)
       .then(function (response) {
         setEquationList(response.data);
         console.log(response.data);
@@ -200,9 +200,7 @@ export default function Customization() {
       equationLink = equationLink.replace(/ /g, '_');
 
       axios
-        .post(
-          `http://localhost:80/Prototype-Vite/my-project/api/verifyEquation/${equationLink}`
-        )
+        .post(`https://pia-sfe.online/api/verifyEquation/${equationLink}`)
         .then(function (response) {
           console.log(response.data);
           document.getElementById('validation_result').style.visibility =
@@ -323,9 +321,7 @@ export default function Customization() {
       var equationDetails = difficulty + '@' + equationLink;
       console.log(equationDetails);
       axios
-        .post(
-          `http://localhost:80/Prototype-Vite/my-project/api/addEquation/${equationDetails}`
-        )
+        .post(`https://pia-sfe.online/api/addEquation/${equationDetails}`)
         .then(function (response) {
           resetEquation();
           console.log(response.data);
@@ -601,10 +597,7 @@ export default function Customization() {
     const onSubmit = async (values, actions) => {
       console.log('test');
       axios
-        .post(
-          `http://localhost:80/Prototype-Vite/my-project/api/loginStudent/save`,
-          values
-        )
+        .post(`https://pia-sfe.online/api/loginStudent/save`, values)
         .then(function (response) {
           console.log(response.data);
           var currentData = JSON.stringify(response.data);
@@ -817,49 +810,47 @@ export default function Customization() {
   });
 
   function getUploadedImage() {
-    axios
-      .get(`http://localhost:80/Prototype-Vite/my-project/api/upload/`)
-      .then(function (response) {
-        let imageLink = response.data;
-        imageLink = imageLink.replace(/ /g, '-');
-        let type = '';
-        for (let i = imageLink.length; i > 0; i--) {
-          if (imageLink[i] == '.') {
-            type = imageLink.substring(i + 1);
-            imageLink = imageLink.substring(0, i);
+    axios.get(`https://pia-sfe.online/api/upload/`).then(function (response) {
+      let imageLink = response.data;
+      imageLink = imageLink.replace(/ /g, '-');
+      let type = '';
+      for (let i = imageLink.length; i > 0; i--) {
+        if (imageLink[i] == '.') {
+          type = imageLink.substring(i + 1);
+          imageLink = imageLink.substring(0, i);
 
-            break;
-          }
+          break;
         }
-        console.log('type: ' + type);
-        if (import.meta.hot) {
-          import.meta.hot.accept('./FileUploadForm.jsx', newFoo => {
-            // the callback receives the updated './foo.js' module
-          });
-        }
+      }
+      console.log('type: ' + type);
+      if (import.meta.hot) {
+        import.meta.hot.accept('./FileUploadForm.jsx', newFoo => {
+          // the callback receives the updated './foo.js' module
+        });
+      }
 
-        try {
-          console.log(
-            'VALIDATION: ' + require('../assets/uploads/' + imageLink + '.png')
-          );
+      try {
+        console.log(
+          'VALIDATION: ' + require('../assets/uploads/' + imageLink + '.png')
+        );
 
-          if (type == 'png') {
-            require('../assets/uploads/' + imageLink + '.png');
-          } else if (type == 'jpg') {
-            require('../assets/uploads/' + imageLink + '.jpg');
-          } else if (type == 'jpeg') {
-            require('../assets/uploads/' + imageLink + '.jpeg');
-          }
-
-          setImageUrl(imageLink);
-          setImageType(type);
-        } catch (err) {
-          setImageUrl('PIA-Neutral');
-          setImageType('png');
+        if (type == 'png') {
+          require('../assets/uploads/' + imageLink + '.png');
+        } else if (type == 'jpg') {
+          require('../assets/uploads/' + imageLink + '.jpg');
+        } else if (type == 'jpeg') {
+          require('../assets/uploads/' + imageLink + '.jpeg');
         }
 
-        //setImageUrl(imageLink);
-      });
+        setImageUrl(imageLink);
+        setImageType(type);
+      } catch (err) {
+        setImageUrl('PIA-Neutral');
+        setImageType('png');
+      }
+
+      //setImageUrl(imageLink);
+    });
   }
 
   const [section, setSection] = useState([]);
@@ -877,7 +868,7 @@ export default function Customization() {
 
   function getManageSection() {
     axios
-      .get(`http://localhost:80/Prototype-Vite/my-project/api/sectionList/`)
+      .get(`https://pia-sfe.online/api/sectionList/`)
       .then(function (response) {
         setSection(response.data);
         let result = Object.values(response.data);
@@ -916,9 +907,7 @@ export default function Customization() {
 
   function getAccounts() {
     axios
-      .get(
-        `http://localhost:80/Prototype-Vite/my-project/api/getAccountSection/`
-      )
+      .get(`https://pia-sfe.online/api/getAccountSection/`)
       .then(function (response) {
         let responseData = response.data;
         var newArray = [];
@@ -999,10 +988,7 @@ export default function Customization() {
       inputText = { [name]: value };
 
       axios
-        .post(
-          `http://localhost:80/Prototype-Vite/my-project/api/sectionList/`,
-          inputText
-        )
+        .post(`https://pia-sfe.online/api/sectionList/`, inputText)
         .then(function (response) {
           setSection(response.data);
         });
@@ -1128,9 +1114,7 @@ export default function Customization() {
   function getSectionDetails(sectionName) {
     let sectionLink = sectionName.replace(/ /g, '_');
     axios
-      .get(
-        `http://localhost:80/Prototype-Vite/my-project/api/sectionDetails/${sectionLink}`
-      )
+      .get(`https://pia-sfe.online/api/sectionDetails/${sectionLink}`)
       .then(function (response) {
         setSectionDetails(response.data);
         var result = Object.values(response.data);
@@ -1171,10 +1155,7 @@ export default function Customization() {
     const onSubmit = (values, actions) => {
       console.log('SUBMITTED');
       axios
-        .post(
-          'http://localhost:80/Prototype-Vite/my-project/api/addSection/save',
-          values
-        )
+        .post('https://pia-sfe.online/api/addSection/save', values)
         .then(function (response) {
           console.log(response.data);
         });
@@ -1525,10 +1506,7 @@ export default function Customization() {
     const onSubmit = (values, actions) => {
       console.log('SUBMITTED');
       axios
-        .post(
-          'http://localhost:80/Prototype-Vite/my-project/api/addSection/save',
-          values
-        )
+        .post('https://pia-sfe.online/api/addSection/save', values)
         .then(function (response) {
           console.log(response.data);
         });
@@ -1871,9 +1849,7 @@ export default function Customization() {
     let equationString = e.target.id;
     equationString = equationString.replace(/ /g, '_');
     axios
-      .post(
-        `http://localhost:80/Prototype-Vite/my-project/api/removeEquation/${equationString}`
-      )
+      .post(`https://pia-sfe.online/api/removeEquation/${equationString}`)
       .then(function (response) {
         window.location.reload(false);
       });

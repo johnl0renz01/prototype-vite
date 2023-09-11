@@ -23,7 +23,7 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
 
   function getSections() {
     axios
-      .get('http://localhost:80/Prototype-Vite/my-project/api/sectionList/')
+      .get('https://pia-sfe.online/api/sectionList/')
       .then(function (response) {
         //console.log(response.data);
         setSectionData(response.data);
@@ -65,9 +65,7 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
     //console.log('ACCOUNT LINK', accountLink);
 
     axios
-      .get(
-        `http://localhost:80/Prototype-Vite/my-project/api/accountDetails/${accountLink}`
-      )
+      .get(`https://pia-sfe.online/api/accountDetails/${accountLink}`)
       .then(function (response) {
         //console.log(response.data);
         var result = Object.values(response.data);
@@ -118,10 +116,7 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
     //console.log('SUBMITTED');
     if (!values.isDuplicate) {
       axios
-        .post(
-          `http://localhost:80/Prototype-Vite/my-project/api/editAccount/${originalEmail}`,
-          values
-        )
+        .post(`https://pia-sfe.online/api/editAccount/${originalEmail}`, values)
         .then(function (response) {
           //console.log(response.data);
           //window.location.reload(false);
@@ -267,9 +262,7 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
     );
     if (tempEmail != currentEmail) {
       axios
-        .get(
-          `http://localhost:80/Prototype-Vite/my-project/api/verifyEmail/${tempEmail}`
-        )
+        .get(`https://pia-sfe.online/api/verifyEmail/${tempEmail}`)
         .then(function (response) {
           //console.log(response.data);
           if (response.data === 'duplicate') {
@@ -322,9 +315,7 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
     );
     if (tempEmail != currentEmail) {
       axios
-        .get(
-          `http://localhost:80/Prototype-Vite/my-project/api/verifyEmail/${tempEmail}`
-        )
+        .get(`https://pia-sfe.online/api/verifyEmail/${tempEmail}`)
         .then(function (response) {
           //console.log(response.data);
           if (response.data === 'duplicate') {

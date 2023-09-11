@@ -46,9 +46,7 @@ export default function ManageAccount() {
       if (closed) {
         var unique = JSON.parse(window.localStorage.getItem('UNIQUE_ID'));
         axios
-          .post(
-            `http://localhost:80/Prototype-Vite/my-project/api/logout/${unique}`
-          )
+          .post(`https://pia-sfe.online/api/logout/${unique}`)
           .then(function (response) {
             window.localStorage.setItem('LOGGED', JSON.stringify('FALSE'));
             navigate('/LoginPage');
@@ -74,7 +72,7 @@ export default function ManageAccount() {
 
   function getAccounts() {
     axios
-      .get(`http://localhost:80/Prototype-Vite/my-project/api/accountList/`)
+      .get(`https://pia-sfe.online/api/accountList/`)
       .then(function (response) {
         //console.log(response.data);
         setAccounts(response.data);
@@ -98,9 +96,7 @@ export default function ManageAccount() {
       JSON.stringify(accountEmail)
     );
     axios
-      .get(
-        `http://localhost:80/Prototype-Vite/my-project/api/accountType/${accountEmail}`
-      )
+      .get(`https://pia-sfe.online/api/accountType/${accountEmail}`)
       .then(function (response) {
         //console.log(response.data);
         var result = response.data;
@@ -111,7 +107,7 @@ export default function ManageAccount() {
         if (result == 'Teacher') {
           axios
             .get(
-              `http://localhost:80/Prototype-Vite/my-project/api/getSectionAssigned/${accountEmail}`
+              `https://pia-sfe.online/api/getSectionAssigned/${accountEmail}`
             )
             .then(function (response) {
               var assignStatus = response.data;
@@ -134,10 +130,7 @@ export default function ManageAccount() {
     inputText = { [name]: value };
 
     axios
-      .post(
-        `http://localhost:80/Prototype-Vite/my-project/api/accountList/`,
-        inputText
-      )
+      .post(`https://pia-sfe.online/api/accountList/`, inputText)
       .then(function (response) {
         //console.log(response.data);
         setAccounts(response.data);
@@ -169,9 +162,7 @@ export default function ManageAccount() {
       window.sessionStorage.getItem('CURRENT_ACCOUNT_DELETE')
     );
     axios
-      .post(
-        `http://localhost:80/Prototype-Vite/my-project/api/removeAccount/${accountEmail}`
-      )
+      .post(`https://pia-sfe.online/api/removeAccount/${accountEmail}`)
       .then(function (response) {
         //console.log(response.data);
         setShowDeleteModal(false);

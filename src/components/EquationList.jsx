@@ -35,9 +35,7 @@ export default function EquationList() {
       if (closed) {
         var unique = JSON.parse(window.localStorage.getItem('UNIQUE_ID'));
         axios
-          .post(
-            `http://localhost:80/Prototype-Vite/my-project/api/logout/${unique}`
-          )
+          .post(`https://pia-sfe.online/api/logout/${unique}`)
           .then(function (response) {
             window.localStorage.setItem('LOGGED', JSON.stringify('FALSE'));
             navigate('/LoginPage');
@@ -74,7 +72,7 @@ export default function EquationList() {
     var difficultEquations = [];
 
     axios
-      .get(`http://localhost:80/Prototype-Vite/my-project/api/equationsEasy/`)
+      .get(`https://pia-sfe.online/api/equationsEasy/`)
       .then(function (response) {
         for (let i = 0; i < response.data.length; i++) {
           //console.log(response.data[i]);
@@ -82,18 +80,14 @@ export default function EquationList() {
         }
 
         axios
-          .get(
-            `http://localhost:80/Prototype-Vite/my-project/api/equationsAverage/`
-          )
+          .get(`https://pia-sfe.online/api/equationsAverage/`)
           .then(function (response) {
             for (let i = 0; i < response.data.length; i++) {
               //console.log(response.data[i]);
               averageEquations.push(response.data[i]);
             }
             axios
-              .get(
-                `http://localhost:80/Prototype-Vite/my-project/api/equationsDifficult/`
-              )
+              .get(`https://pia-sfe.online/api/equationsDifficult/`)
               .then(function (response) {
                 for (let i = 0; i < response.data.length; i++) {
                   //console.log(response.data[i]);
@@ -135,9 +129,7 @@ export default function EquationList() {
     let equationString = equation;
     equationString = equationString.replace(/ /g, '_');
     axios
-      .post(
-        `http://localhost:80/Prototype-Vite/my-project/api/removeEquation/${equationString}`
-      )
+      .post(`https://pia-sfe.online/api/removeEquation/${equationString}`)
       .then(function (response) {
         //window.location.reload(false);
       });
@@ -229,7 +221,7 @@ export default function EquationList() {
 
     axios
       .post(
-        `http://localhost:80/Prototype-Vite/my-project/api/editEquationType/${equationType}@${stringRequest}`
+        `https://pia-sfe.online/api/editEquationType/${equationType}@${stringRequest}`
       )
       .then(function (response) {
         console.log(response.data);

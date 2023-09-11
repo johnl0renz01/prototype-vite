@@ -43,9 +43,7 @@ export default function ManageSection() {
       if (closed) {
         var unique = JSON.parse(window.localStorage.getItem('UNIQUE_ID'));
         axios
-          .post(
-            `http://localhost:80/Prototype-Vite/my-project/api/logout/${unique}`
-          )
+          .post(`https://pia-sfe.online/api/logout/${unique}`)
           .then(function (response) {
             window.localStorage.setItem('LOGGED', JSON.stringify('FALSE'));
             navigate('/LoginPage');
@@ -73,7 +71,7 @@ export default function ManageSection() {
 
   function getManageSection() {
     axios
-      .get(`http://localhost:80/Prototype-Vite/my-project/api/sectionList/`)
+      .get(`https://pia-sfe.online/api/sectionList/`)
       .then(function (response) {
         setSection(response.data);
       });
@@ -81,9 +79,7 @@ export default function ManageSection() {
 
   function getAccounts() {
     axios
-      .get(
-        `http://localhost:80/Prototype-Vite/my-project/api/getAccountSection/`
-      )
+      .get(`https://pia-sfe.online/api/getAccountSection/`)
       .then(function (response) {
         let responseData = response.data;
         var newArray = [];
@@ -129,9 +125,7 @@ export default function ManageSection() {
     sectionName = sectionName.replace(/ /g, '_');
 
     axios
-      .get(
-        `http://localhost:80/Prototype-Vite/my-project/api/getAssignedStudent/${sectionName}`
-      )
+      .get(`https://pia-sfe.online/api/getAssignedStudent/${sectionName}`)
       .then(function (response) {
         var statusStudent = response.data;
         window.sessionStorage.setItem(
@@ -149,10 +143,7 @@ export default function ManageSection() {
     inputText = { [name]: value };
 
     axios
-      .post(
-        `http://localhost:80/Prototype-Vite/my-project/api/sectionList/`,
-        inputText
-      )
+      .post(`https://pia-sfe.online/api/sectionList/`, inputText)
       .then(function (response) {
         setSection(response.data);
       });
@@ -224,9 +215,7 @@ export default function ManageSection() {
       deletionType = deletionType.replace(/"/g, '');
       if (deletionType == 'Section Only') {
         axios
-          .post(
-            `http://localhost:80/Prototype-Vite/my-project/api/removeSection/${sectionName}`
-          )
+          .post(`https://pia-sfe.online/api/removeSection/${sectionName}`)
           .then(function (response) {
             setDeleteMessageModal(true);
             setShowDeleteModal(false);
@@ -234,7 +223,7 @@ export default function ManageSection() {
       } else {
         axios
           .post(
-            `http://localhost:80/Prototype-Vite/my-project/api/removeSectionAccounts/${sectionName}`
+            `https://pia-sfe.online/api/removeSectionAccounts/${sectionName}`
           )
           .then(function (response) {
             setDeleteMessageModal(true);
@@ -244,9 +233,7 @@ export default function ManageSection() {
     } else {
       console.log('GAGO NANDITO AKO!');
       axios
-        .post(
-          `http://localhost:80/Prototype-Vite/my-project/api/removeSection/${sectionName}`
-        )
+        .post(`https://pia-sfe.online/api/removeSection/${sectionName}`)
         .then(function (response) {
           setShowDeleteModal(false);
           setDeleteMessageModal(true);

@@ -32,10 +32,7 @@ export default function CreateSection() {
   const onSubmit = (values, actions) => {
     console.log('SUBMITTED');
     axios
-      .post(
-        'http://localhost:80/Prototype-Vite/my-project/api/addSection/save',
-        values
-      )
+      .post('https://pia-sfe.online/api/addSection/save', values)
       .then(function (response) {
         console.log(response.data);
       });

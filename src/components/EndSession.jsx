@@ -41,9 +41,7 @@ var EndSession = (function () {
     sessionData = sessionData.replace(/"/g, '');
 
     axios
-      .post(
-        `http://localhost:80/Prototype-Vite/my-project/api/endSession/${sessionData}`
-      )
+      .post(`https://pia-sfe.online/api/endSession/${sessionData}`)
       .then(function (response) {
         console.log(response.data);
       });

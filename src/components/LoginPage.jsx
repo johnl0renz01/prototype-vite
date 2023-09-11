@@ -125,16 +125,15 @@ export default function LoginPage() {
         console.log('COEDED');
       }
     } else {
+      console.log('else');
       let isStudent = false;
       let isAdmin = false;
 
       let firstLogin = false;
       axios
-        .post(
-          `http://localhost:80/Prototype-Vite/my-project/api/${accountType}/save`,
-          values
-        )
+        .post(`https://pia-sfe.online/api/${accountType}/save`, values)
         .then(function (response) {
+          console.log('then');
           let message = response.data;
           if (typeof message === 'string') {
             message = message.replace(/"/g, '');
@@ -260,10 +259,7 @@ export default function LoginPage() {
               window.localStorage.setItem('IS_CLOSED', false);
 
               axios
-                .post(
-                  `http://localhost:80/Prototype-Vite/my-project/api/loginSession/save`,
-                  values
-                )
+                .post(`https://pia-sfe.online/api/loginSession/save`, values)
                 .then(function (response) {
                   console.log(response.data);
                   let currentData = JSON.stringify(response.data);
@@ -317,7 +313,7 @@ export default function LoginPage() {
                     console.log(email);
                     axios
                       .post(
-                        `http://localhost:80/Prototype-Vite/my-project/api/validateLogin/${email}`,
+                        `https://pia-sfe.online/api/validateLogin/${email}`,
                         values
                       )
                       .then(function (response) {
@@ -341,7 +337,7 @@ export default function LoginPage() {
                           fullName = fullName.replace(/ /g, '_');
                           axios
                             .get(
-                              `http://localhost:80/Prototype-Vite/my-project/api/teacherLoginSection/${fullName}`
+                              `https://pia-sfe.online/api/teacherLoginSection/${fullName}`
                             )
                             .then(function (response) {
                               console.log(response.data);
@@ -529,7 +525,7 @@ export default function LoginPage() {
     if (values.validNew && values.validConfirm) {
       axios
         .post(
-          `http://localhost:80/Prototype-Vite/my-project/api/setNewPassword/${email}@${passwordNew}`
+          `https://pia-sfe.online/api/setNewPassword/${email}@${passwordNew}`
         )
         .then(function (response) {
           setShowModal(true);

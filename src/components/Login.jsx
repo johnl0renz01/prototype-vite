@@ -80,10 +80,7 @@ export default function Login() {
     let isStudent = false;
     let isAdmin = false;
     axios
-      .post(
-        `http://localhost:80/Prototype-Vite/my-project/api/${accountType}/save`,
-        values
-      )
+      .post(`https://pia-sfe.online/api/${accountType}/save`, values)
       .then(function (response) {
         console.log(response.data);
         var currentData = JSON.stringify(response.data);

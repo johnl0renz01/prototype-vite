@@ -29,9 +29,7 @@ export default function AccountList() {
 
   function getAccounts() {
     axios
-      .get(
-        `http://localhost:80/Prototype-Vite/my-project/api/getAccountSection/`
-      )
+      .get(`https://pia-sfe.online/api/getAccountSection/`)
       .then(function (response) {
         let responseData = response.data;
         var newArray = [];
@@ -74,10 +72,7 @@ export default function AccountList() {
     inputText = { [name]: value };
 
     axios
-      .post(
-        `http://localhost:80/Prototype-Vite/my-project/api/sectionList/`,
-        inputText
-      )
+      .post(`https://pia-sfe.online/api/sectionList/`, inputText)
       .then(function (response) {
         setSection(response.data);
       });

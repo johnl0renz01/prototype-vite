@@ -49,9 +49,7 @@ export default function ReportCard() {
 
   function getClassList() {
     axios
-      .get(
-        `http://localhost:80/Prototype-Vite/my-project/api/classList/${currentSection}`
-      )
+      .get(`https://pia-sfe.online/api/classList/${currentSection}`)
       .then(function (response) {
         console.log(response.data);
         setClassList(response.data);
@@ -60,9 +58,7 @@ export default function ReportCard() {
 
   function getCurrentSection() {
     axios
-      .get(
-        `http://localhost:80/Prototype-Vite/my-project/api/sectionAdviser/${currentSection}`
-      )
+      .get(`https://pia-sfe.online/api/sectionAdviser/${currentSection}`)
       .then(function (response) {
         console.log(response.data);
         setCurrentSection(response.data);
@@ -82,10 +78,7 @@ export default function ReportCard() {
     inputText = { [name]: value };
 
     axios
-      .post(
-        `http://localhost:80/Prototype-Vite/my-project/api/classList/${currentSection}`,
-        inputText
-      )
+      .post(`https://pia-sfe.online/api/classList/${currentSection}`, inputText)
       .then(function (response) {
         console.log(response.data);
         setClassList(response.data);

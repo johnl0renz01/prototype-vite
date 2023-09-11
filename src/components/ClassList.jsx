@@ -32,9 +32,7 @@ export default function ClassList() {
       if (closed) {
         var unique = JSON.parse(window.localStorage.getItem('UNIQUE_ID'));
         axios
-          .post(
-            `http://localhost:80/Prototype-Vite/my-project/api/logout/${unique}`
-          )
+          .post(`https://pia-sfe.online/api/logout/${unique}`)
           .then(function (response) {
             window.localStorage.setItem('LOGGED', JSON.stringify('FALSE'));
             navigate('/LoginPage');
@@ -81,9 +79,7 @@ export default function ClassList() {
 
   function getClassList() {
     axios
-      .get(
-        `http://localhost:80/Prototype-Vite/my-project/api/classList/${currentSection}`
-      )
+      .get(`https://pia-sfe.online/api/classList/${currentSection}`)
       .then(function (response) {
         //console.log(response.data);
         setClassList(response.data);
@@ -92,9 +88,7 @@ export default function ClassList() {
 
   function getCurrentSection() {
     axios
-      .get(
-        `http://localhost:80/Prototype-Vite/my-project/api/sectionAdviser/${currentSection}`
-      )
+      .get(`https://pia-sfe.online/api/sectionAdviser/${currentSection}`)
       .then(function (response) {
         //console.log(response.data);
         setCurrentSection(response.data);
@@ -109,10 +103,7 @@ export default function ClassList() {
     inputText = { [name]: value };
 
     axios
-      .post(
-        `http://localhost:80/Prototype-Vite/my-project/api/classList/${currentSection}`,
-        inputText
-      )
+      .post(`https://pia-sfe.online/api/classList/${currentSection}`, inputText)
       .then(function (response) {
         //console.log(response.data);
         setClassList(response.data);

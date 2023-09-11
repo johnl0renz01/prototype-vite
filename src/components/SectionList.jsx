@@ -79,7 +79,7 @@ export default function SectionList() {
     var sectionNames = [];
 
     axios
-      .get('http://localhost:80/Prototype-Vite/my-project/api/sectionList/')
+      .get('https://pia-sfe.online/api/sectionList/')
       .then(function (response) {
         console.log(response.data);
         setSectionData(response.data);
@@ -118,7 +118,7 @@ export default function SectionList() {
       });
 
     axios
-      .get('http://localhost:80/Prototype-Vite/my-project/api/sectionTotal/')
+      .get('https://pia-sfe.online/api/sectionTotal/')
       .then(function (response) {
         console.log(response.data);
         totalSections = response.data;
@@ -131,9 +131,7 @@ export default function SectionList() {
 
         // FOR SECTION NAMES
         const promises = ids.map(id =>
-          axios.get(
-            `http://localhost:80/Prototype-Vite/my-project/api/sectionName/${id}`
-          )
+          axios.get(`https://pia-sfe.online/api/sectionName/${id}`)
         );
         Promise.all([...promises]).then(function (values) {
           sectionNames.push(values);
@@ -176,9 +174,7 @@ export default function SectionList() {
     if (processData) {
       console.log('Imh here');
       const promises2 = sectionNames.map(id =>
-        axios.get(
-          `http://localhost:80/Prototype-Vite/my-project/api/sectionTotalStudents/${id}`
-        )
+        axios.get(`https://pia-sfe.online/api/sectionTotalStudents/${id}`)
       );
       Promise.all([...promises2]).then(function (values) {
         tally.push(values);
@@ -236,13 +232,13 @@ export default function SectionList() {
     ==============METHOD 1METHOD 1METHOD 1METHOD 1==============
           axios
             .get(
-              `http://localhost:80/Prototype-Vite/my-project/api/sectionName/${i}`
+              `https://pia-sfe.online/api/sectionName/${i}`
             )
             .then((res1) => {
               console.log(res1.data);
               sectionName = res1.data;
               return axios.get(
-                `http://localhost:80/Prototype-Vite/my-project/api/sectionTotalStudents/${sectionName}`
+                `https://pia-sfe.online/api/sectionTotalStudents/${sectionName}`
               );
             })
             .then((res2) => {
@@ -257,11 +253,11 @@ export default function SectionList() {
             ==============METHOD 2METHOD 2METHOD 2METHOD 2METHOD 2==============
     try {
       const response1 = await axios.get(
-        `http://localhost:80/Prototype-Vite/my-project/api/sectionName/${index}`
+        `https://pia-sfe.online/api/sectionName/${index}`
       );
       const sectionName = response1.data;
       const response2 = await axios.get(
-        `http://localhost:80/Prototype-Vite/my-project/api/sectionTotalStudents/${sectionName}`
+        `https://pia-sfe.online/api/sectionTotalStudents/${sectionName}`
       );
       setStudentsTotal((oldArray) => [...oldArray, response2.data]);
       console.log(studentsTotal);
@@ -276,7 +272,7 @@ export default function SectionList() {
     console.log("sectname: " + sectionName);
     axios
       .get(
-        `http://localhost:80/Prototype-Vite/my-project/api/sectionTotalStudents/${sectionName}`
+        `https://pia-sfe.online/api/sectionTotalStudents/${sectionName}`
       )
       .then(function (response) {
         console.log(response.data);

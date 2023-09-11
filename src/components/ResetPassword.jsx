@@ -34,9 +34,7 @@ export default function ResetPassword() {
       if (closed) {
         var unique = JSON.parse(window.localStorage.getItem('UNIQUE_ID'));
         axios
-          .post(
-            `http://localhost:80/Prototype-Vite/my-project/api/logout/${unique}`
-          )
+          .post(`https://pia-sfe.online/api/logout/${unique}`)
           .then(function (response) {
             window.localStorage.setItem('LOGGED', JSON.stringify('FALSE'));
             navigate('/LoginPage');
@@ -62,7 +60,7 @@ export default function ResetPassword() {
 
   function getAccounts() {
     axios
-      .get(`http://localhost:80/Prototype-Vite/my-project/api/accountList/`)
+      .get(`https://pia-sfe.online/api/accountList/`)
       .then(function (response) {
         console.log(response.data);
         setAccounts(response.data);
@@ -85,10 +83,7 @@ export default function ResetPassword() {
     inputText = { [name]: value };
 
     axios
-      .post(
-        `http://localhost:80/Prototype-Vite/my-project/api/accountList/`,
-        inputText
-      )
+      .post(`https://pia-sfe.online/api/accountList/`, inputText)
       .then(function (response) {
         setAccounts(response.data);
       });

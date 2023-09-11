@@ -58,9 +58,7 @@ function Registration() {
       if (closed) {
         var unique = JSON.parse(window.localStorage.getItem('UNIQUE_ID'));
         axios
-          .post(
-            `http://localhost:80/Prototype-Vite/my-project/api/logout/${unique}`
-          )
+          .post(`https://pia-sfe.online/api/logout/${unique}`)
           .then(function (response) {
             window.localStorage.setItem('LOGGED', JSON.stringify('FALSE'));
             navigate('/LoginPage');
@@ -82,7 +80,7 @@ function Registration() {
 
   function getSections() {
     axios
-      .get('http://localhost:80/Prototype-Vite/my-project/api/sectionList/')
+      .get('https://pia-sfe.online/api/sectionList/')
       .then(function (response) {
         //console.log(response.data);
         setSectionData(response.data);
@@ -98,10 +96,7 @@ function Registration() {
     console.log('SUBMITTED');
     if (!values.isDuplicate) {
       axios
-        .post(
-          'http://localhost:80/Prototype-Vite/my-project/api/registerAccount/save',
-          values
-        )
+        .post('https://pia-sfe.online/api/registerAccount/save', values)
         .then(function (response) {
           console.log(response.data);
           setShowModal(true);
@@ -224,9 +219,7 @@ function Registration() {
     document.getElementById('firstName').focus();
 
     axios
-      .get(
-        `http://localhost:80/Prototype-Vite/my-project/api/verifyEmail/${tempEmail}`
-      )
+      .get(`https://pia-sfe.online/api/verifyEmail/${tempEmail}`)
       .then(function (response) {
         console.log(response.data);
         if (response.data === 'duplicate') {
@@ -274,9 +267,7 @@ function Registration() {
     document.getElementById('lastName').focus();
 
     axios
-      .get(
-        `http://localhost:80/Prototype-Vite/my-project/api/verifyEmail/${tempEmail}`
-      )
+      .get(`https://pia-sfe.online/api/verifyEmail/${tempEmail}`)
       .then(function (response) {
         console.log(response.data);
         if (response.data === 'duplicate') {
@@ -611,7 +602,7 @@ function Registration() {
                 console.log(sectionValidate);
                 axios
                   .get(
-                    `http://localhost:80/Prototype-Vite/my-project/api/verifySection/${sectionValidate}`
+                    `https://pia-sfe.online/api/verifySection/${sectionValidate}`
                   )
                   .then(function (response) {
                     console.log(response.data);
@@ -697,7 +688,7 @@ function Registration() {
               //for duplication in accounts database
               axios
                 .get(
-                  `http://localhost:80/Prototype-Vite/my-project/api/verifyEmailBulk/${email}@row${i}`
+                  `https://pia-sfe.online/api/verifyEmailBulk/${email}@row${i}`
                 )
                 .then(function (response) {
                   console.log(response.data);
@@ -843,7 +834,7 @@ function Registration() {
         console.log(email);
         axios
           .get(
-            `http://localhost:80/Prototype-Vite/my-project/api/verifyEmail/${email}`
+            `https://pia-sfe.online/api/verifyEmail/${email}`
           )
           .then(function (response) {
             console.log(response.data);
@@ -899,9 +890,7 @@ function Registration() {
         console.log(link);
 
         axios
-          .post(
-            `http://localhost:80/Prototype-Vite/my-project/api/registerBulk/${link}`
-          )
+          .post(`https://pia-sfe.online/api/registerBulk/${link}`)
           .then(function (response) {
             console.log(response.data);
           });

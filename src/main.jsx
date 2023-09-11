@@ -50,9 +50,7 @@ function checkLogged() {
   var unique = JSON.parse(window.localStorage.getItem('UNIQUE_ID'));
   if (unique !== null) {
     axios
-      .get(
-        `http://localhost:80/Prototype-Vite/my-project/api/getSessionLogged/${unique}`
-      )
+      .get(`https://pia-sfe.online/api/getSessionLogged/${unique}`)
       .then(function (response) {
         var result = response.data;
         window.localStorage.setItem('LOGGED', JSON.stringify(result));
@@ -73,7 +71,7 @@ function addEmail() {
 
   axios
     .get(
-      `http://localhost:80/Prototype-Vite/my-project/api/getSessionEmail/${unique}`
+      `https://pia-sfe.online/api/getSessionEmail/${unique}`
     )
     .then(function (response) {
       var result = response.data;
@@ -88,9 +86,7 @@ function getLogData() {
   var unique = JSON.parse(window.localStorage.getItem('UNIQUE_ID'));
   if (unique !== null) {
     axios
-      .get(
-        `http://localhost:80/Prototype-Vite/my-project/api/getSessionLogged/${unique}`
-      )
+      .get(`https://pia-sfe.online/api/getSessionLogged/${unique}`)
       .then(function (response) {
         var result = response.data;
         window.localStorage.setItem('LOGGED', JSON.stringify(result));
