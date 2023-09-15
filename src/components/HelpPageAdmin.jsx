@@ -32,7 +32,7 @@ export default function HelpPageAdmin() {
   useEffect(() => {
     var logged = JSON.parse(window.localStorage.getItem('LOGGED'));
     if (logged == 'FALSE') {
-      navigate('/LoginPage');
+      window.localStorage.setItem('LOGIN_STATUS', JSON.stringify('Terminated'));
     } else {
       var closed = JSON.parse(window.localStorage.getItem('IS_CLOSED'));
       if (closed) {
@@ -41,7 +41,10 @@ export default function HelpPageAdmin() {
           .post(`https://pia-sfe.online/api/logout/${unique}`)
           .then(function (response) {
             window.localStorage.setItem('LOGGED', JSON.stringify('FALSE'));
-            navigate('/LoginPage');
+            window.localStorage.setItem(
+              'LOGIN_STATUS',
+              JSON.stringify('Terminated')
+            );
           });
       }
     }
@@ -1568,7 +1571,7 @@ export default function HelpPageAdmin() {
 
   useEffect(() => {
     const onPageLoad = () => {
-      setTimeout(hideNavbar, 1000);
+      setTimeout(hideNavbar, 500);
 
       function hideNavbar() {
         setSkeletonState(false);

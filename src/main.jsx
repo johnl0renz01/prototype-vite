@@ -22,13 +22,16 @@ if (closed) {
 }
 
 function removeBeforeUnload() {
+  /*
   window.localStorage.setItem('IS_CLOSED', false);
   window.onbeforeunload = function () {
     // blank function do nothing
   };
+  */
 }
 
 function keydown(evt) {
+  /*
   if (evt.altKey) {
     window.onbeforeunload = function () {
       window.localStorage.setItem('IS_CLOSED', true);
@@ -39,13 +42,16 @@ function keydown(evt) {
       alert('ALT+F4');
     }
   }
+  */
 }
 
 function keyup(evt) {
   removeBeforeUnload();
 }
 
+document.addEventListener('click', checkLogged);
 document.addEventListener('mouseenter', checkLogged);
+
 function checkLogged() {
   var unique = JSON.parse(window.localStorage.getItem('UNIQUE_ID'));
   if (unique !== null) {
@@ -53,8 +59,24 @@ function checkLogged() {
       .get(`https://pia-sfe.online/api/getSessionLogged/${unique}`)
       .then(function (response) {
         var result = response.data;
+        if (result == 'FALSE') {
+          window.localStorage.setItem(
+            'LOGIN_STATUS',
+            JSON.stringify('Terminated')
+          );
+        }
         window.localStorage.setItem('LOGGED', JSON.stringify(result));
       });
+  }
+}
+
+document.addEventListener('mouseenter', checkChange);
+
+function checkChange() {
+  var verify = JSON.parse(window.localStorage.getItem('UPDATE_WHITEBOARD'));
+  if (verify !== null) {
+    window.localStorage.removeItem('UPDATE_WHITEBOARD');
+    window.location.reload(false);
   }
 }
 
@@ -89,6 +111,12 @@ function getLogData() {
       .get(`https://pia-sfe.online/api/getSessionLogged/${unique}`)
       .then(function (response) {
         var result = response.data;
+        if (result == 'FALSE') {
+          window.localStorage.setItem(
+            'LOGIN_STATUS',
+            JSON.stringify('Terminated')
+          );
+        }
         window.localStorage.setItem('LOGGED', JSON.stringify(result));
         root.render(
           <React.Fragment>

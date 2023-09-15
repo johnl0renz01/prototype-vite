@@ -74,16 +74,16 @@ export default function HomePageAdminSkeleton() {
               : 'max-h-[78.5px]'
           }`}
           >
-            <span className="bg-gray-200 text-gray-200 rounded-md relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_1.5s_infinite]">
+            <span className="bg-gray-200 text-gray-200 rounded-md relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_.5s_infinite]">
               Overview
             </span>
           </div>
           <div className="py-1.5"></div>
           <div className="grid grid-cols-3 grid-rows-2 gap-6 text-center">
-            <div className="overflow-hidden h-[calc(100vh-67.5vh)] grid grid-rows-2 shadow-sm border-3 rounded-lg bg-gray-200  transition duration-200 relative before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_1.5s_infinite]">
+            <div className="overflow-hidden h-[calc(100vh-67.5vh)] grid grid-rows-2 shadow-sm border-3 rounded-lg bg-gray-200  transition duration-200 relative before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_.5s_infinite]">
               <div className="relative flex text-[#dac238]">
                 <div className="flex mx-auto mt-auto hdScreen:-mb-8 semihdScreen:-mb-4 laptopScreen:-mb-2 averageScreen:-mb-0 xs:-mb-0">
-                  <div className="bg-gray-300 rounded-md overflow-hidden relative before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_1.5s_infinite]">
+                  <div className="bg-gray-300 rounded-md overflow-hidden relative before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_.5s_infinite]">
                     <img
                       className="opacity-0 hdScreen:h-[105px] semihdScreen:h-[95px] laptopScreen:h-[85px] averageScreen:h-[80px] sm:h-[50px] xs:h-[40px] w-full"
                       src={require('../assets/images/home_admin/ManageAccounts.png')}
@@ -102,10 +102,10 @@ export default function HomePageAdminSkeleton() {
                 </p>
               </div>
             </div>
-            <div className="overflow-hidden h-[calc(100vh-67.5vh)] grid grid-rows-2 shadow-sm border-3 rounded-lg bg-gray-200  transition duration-200 relative before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_1.5s_infinite]">
+            <div className="overflow-hidden h-[calc(100vh-67.5vh)] grid grid-rows-2 shadow-sm border-3 rounded-lg bg-gray-200  transition duration-200 relative before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_.5s_infinite]">
               <div className="relative flex text-[#dac238]">
                 <div className="flex mx-auto mt-auto hdScreen:-mb-8 semihdScreen:-mb-4 laptopScreen:-mb-2 averageScreen:-mb-0 xs:-mb-0">
-                  <div className="bg-gray-300 rounded-md overflow-hidden relative before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_1.5s_infinite]">
+                  <div className="bg-gray-300 rounded-md overflow-hidden relative before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_.5s_infinite]">
                     <img
                       className="opacity-0 hdScreen:h-[105px] semihdScreen:h-[95px] laptopScreen:h-[85px] averageScreen:h-[80px] sm:h-[50px] xs:h-[40px] w-full"
                       src={require('../assets/images/home_admin/ManageSections.png')}
@@ -124,10 +124,10 @@ export default function HomePageAdminSkeleton() {
                 </p>
               </div>
             </div>
-            <div className="overflow-hidden h-[calc(100vh-67.5vh)] grid grid-rows-2 shadow-sm border-3 border-b-2 rounded-lg bg-gray-200  transition duration-200 relative before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_1.5s_infinite]">
+            <div className="overflow-hidden h-[calc(100vh-67.5vh)] grid grid-rows-2 shadow-sm border-3 border-b-2 rounded-lg bg-gray-200  transition duration-200 relative before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_.5s_infinite]">
               <div className="relative flex text-[#dac238]">
                 <div className="flex mx-auto mt-auto hdScreen:-mb-8 semihdScreen:-mb-4 laptopScreen:-mb-2 averageScreen:-mb-0 xs:-mb-0">
-                  <div className="bg-gray-300 rounded-md overflow-hidden relative before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_1.5s_infinite]">
+                  <div className="bg-gray-300 rounded-md overflow-hidden relative before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_.5s_infinite]">
                     <img
                       className="opacity-0 hdScreen:h-[105px] semihdScreen:h-[95px] laptopScreen:h-[85px] averageScreen:h-[80px] sm:h-[50px] xs:h-[40px] w-full"
                       src={require('../assets/images/home_admin/RegisterAccount.png')}
@@ -146,10 +146,10 @@ export default function HomePageAdminSkeleton() {
                 </p>
               </div>
             </div>
-            <div className="overflow-hidden h-[calc(100vh-67.5vh)] grid grid-rows-2 shadow-sm border-3 rounded-lg bg-gray-200  transition duration-200 relative before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_1.5s_infinite]">
+            <div className="overflow-hidden h-[calc(100vh-67.5vh)] grid grid-rows-2 shadow-sm border-3 rounded-lg bg-gray-200  transition duration-200 relative before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_.5s_infinite]">
               <div className="relative flex text-[#dac238]">
                 <div className="flex mx-auto mt-auto hdScreen:-mb-8 semihdScreen:-mb-4 laptopScreen:-mb-2 averageScreen:-mb-0 xs:-mb-0">
-                  <div className="bg-gray-300 rounded-md overflow-hidden relative before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_1.5s_infinite]">
+                  <div className="bg-gray-300 rounded-md overflow-hidden relative before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_.5s_infinite]">
                     <img
                       className="opacity-0 hdScreen:h-[105px] semihdScreen:h-[95px] laptopScreen:h-[85px] averageScreen:h-[80px] sm:h-[50px] xs:h-[40px] w-full"
                       src={require('../assets/images/home_admin/ResetPassword.png')}
@@ -168,10 +168,10 @@ export default function HomePageAdminSkeleton() {
                 </p>
               </div>
             </div>
-            <div className="overflow-hidden h-[calc(100vh-67.5vh)] grid grid-rows-2 shadow-sm border-3 rounded-lg bg-gray-200  transition duration-200 relative before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_1.5s_infinite]">
+            <div className="overflow-hidden h-[calc(100vh-67.5vh)] grid grid-rows-2 shadow-sm border-3 rounded-lg bg-gray-200  transition duration-200 relative before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_.5s_infinite]">
               <div className="relative flex text-[#dac238]">
                 <div className="flex mx-auto mt-auto hdScreen:-mb-10 semihdScreen:-mb-6 laptopScreen:-mb-4 averageScreen:-mb-1 xs:-mb-0">
-                  <div className="bg-gray-300 rounded-md overflow-hidden relative before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_1.5s_infinite]">
+                  <div className="bg-gray-300 rounded-md overflow-hidden relative before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_.5s_infinite]">
                     <img
                       className="opacity-0 hdScreen:h-[105px] semihdScreen:h-[95px] laptopScreen:h-[85px] averageScreen:h-[80px] sm:h-[50px] xs:h-[40px] w-full"
                       src={require('../assets/images/home_admin/UserRequests.png')}
@@ -190,10 +190,10 @@ export default function HomePageAdminSkeleton() {
                 </p>
               </div>
             </div>
-            <div className="overflow-hidden h-[calc(100vh-67.5vh)] grid grid-rows-2 shadow-sm border-3 rounded-lg bg-gray-200  transition duration-200 relative before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_1.5s_infinite]">
+            <div className="overflow-hidden h-[calc(100vh-67.5vh)] grid grid-rows-2 shadow-sm border-3 rounded-lg bg-gray-200  transition duration-200 relative before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_.5s_infinite]">
               <div className="hdScreen:pl-9 semihdScreen:pl-8 laptopScreen:pl-7 averageScreen:pl-7 xs:pl-4 relative flex text-lime-600">
                 <div className="flex mx-auto mt-auto hdScreen:-mb-8 semihdScreen:-mb-4 laptopScreen:-mb-2 averageScreen:-mb-0 xs:-mb-0">
-                  <div className="bg-gray-300 rounded-md overflow-hidden relative before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_1.5s_infinite]">
+                  <div className="bg-gray-300 rounded-md overflow-hidden relative before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_.5s_infinite]">
                     <img
                       className="opacity-0 hdScreen:h-[105px] semihdScreen:h-[95px] laptopScreen:h-[85px] averageScreen:h-[80px] sm:h-[50px] xs:h-[40px] w-full"
                       src={require('../assets/images/home_admin/HelpAdmin.png')}

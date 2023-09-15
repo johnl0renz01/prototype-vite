@@ -2,15 +2,14 @@ import React, { Component } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
-import * as ReactDOM from 'react-dom';
-import $ from 'jquery';
 
 import { MdClose } from 'react-icons/md';
 import { VscInfo } from 'react-icons/vsc';
-import { BsArrowCounterclockwise, BsCaretUpFill } from 'react-icons/bs';
-import ResetPassword from './ResetPassword';
+
+import LoadingSpinner from './LoadingSpinner';
 
 const ResetPasswordModal = ({ visible, onClose, onContinue }) => {
+  const [showLoading, setShowLoading] = useState(false);
   const navigate = useNavigate();
 
   const [accounts, setAccounts] = useState([]);
@@ -20,9 +19,11 @@ const ResetPasswordModal = ({ visible, onClose, onContinue }) => {
   }, []);
 
   function getAccounts() {
+    setShowLoading(true);
     axios
       .get(`https://pia-sfe.online/api/resetPasswordList/`)
       .then(function (response) {
+        setShowLoading(false);
         console.log(response.data);
         setAccounts(response.data);
       });
@@ -33,24 +34,28 @@ const ResetPasswordModal = ({ visible, onClose, onContinue }) => {
   };
 
   const resetPass = e => {
+    setShowLoading(true);
     window.sessionStorage.setItem('REQUEST_OPTION', JSON.stringify('Reset'));
 
     let accountEmail = e.target.name;
     axios
       .post(`https://pia-sfe.online/api/resetPassword/${accountEmail}`)
       .then(function (response) {
+        setShowLoading(false);
         getAccounts();
         onContinue();
       });
   };
 
   const removeRequest = e => {
+    setShowLoading(true);
     window.sessionStorage.setItem('REQUEST_OPTION', JSON.stringify('Remove'));
 
     let accountEmail = e.target.name;
     axios
       .post(`https://pia-sfe.online/api/resetPassword/${accountEmail}`)
       .then(function (response) {
+        setShowLoading(false);
         getAccounts();
         //onContinue();
       });
@@ -64,7 +69,7 @@ const ResetPasswordModal = ({ visible, onClose, onContinue }) => {
         id="mainContainer"
         onClick={handleOnClose}
         className={`fixed top-0 z-50 inset-0 bg-black bg-opacity-50 backdrop-blur-[1.5px] flex justify-center items-center "
-       `}
+                  ${showLoading ? 'invisible' : ''}`}
       >
         {accounts.length > 0 ? (
           <div className="bg-white hdScreen:w-[50%] semihdScreen:w-[65%] laptopScreen:w-[65%] averageScreen:w-[65%] hdScreen:scale-100 semihdScreen:scale-95 laptopScreen:scale-90 averageScreen:scale-90 rounded lg:text-lg xs:text-xs shadow-md ">
@@ -192,6 +197,7 @@ const ResetPasswordModal = ({ visible, onClose, onContinue }) => {
           </>
         )}
       </div>
+      <LoadingSpinner visible={showLoading} />
     </>
   );
 };

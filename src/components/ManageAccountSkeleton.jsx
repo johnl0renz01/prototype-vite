@@ -53,7 +53,7 @@ export default function ManageAccountSkeleton() {
 
   function sampleRow(name, email, role) {
     return (
-      <tr className="odd:bg-gray-100/30 even:bg-gray-200/30 border-b border-gray-200  text-gray-200 relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_1.5s_infinite]">
+      <tr className="odd:bg-gray-100/30 even:bg-gray-200/30 border-b border-gray-200  text-gray-200 relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_1s_infinite]">
         <td className="flex items-center lg:text-base md:text-sm xs:text-xs lg:px-5 py-[10px]  whitespace-no-wrap ">
           <div className="flex-shrink-0  h-10 mr-3 break-all "></div>
           <p className="  lg:text-base md:text-sm xs:text-xs ">
@@ -73,7 +73,7 @@ export default function ManageAccountSkeleton() {
           </p>
         </td>
         <td className="text-right lg:text-base md:text-sm xs:text-xs">
-          <div className="relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_1.5s_infinite]">
+          <div className="relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_1s_infinite]">
             <input
               disabled
               type="submit"
@@ -85,7 +85,7 @@ export default function ManageAccountSkeleton() {
           </div>
         </td>
         <td className="text-right hdScreen:pr-6 semihdScreen:pr-1 laptopScreen:pr-0.5 averageScreen:pr-0 lg:text-base md:text-sm xs:text-xs">
-          <div className="relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_1.5s_infinite] ">
+          <div className="relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_1s_infinite] ">
             <input
               disabled
               value="Edit"
@@ -137,7 +137,7 @@ export default function ManageAccountSkeleton() {
               : 'max-h-[78.5px]'
           }`}
           >
-            <span className="bg-gray-200 text-gray-200 rounded-md relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_1.5s_infinite]">
+            <span className="bg-gray-200 text-gray-200 rounded-md relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_1s_infinite]">
               Accounts
             </span>
           </div>
@@ -145,7 +145,7 @@ export default function ManageAccountSkeleton() {
           <div className="mt-1.5">
             <div className="overflow-hidden hdScreen:py-1 semihdScreen:py-1 laptopScreen:py-0 averageScreen:py-0 pr-2">
               <div className="inline-flex w-full m-1   rounded-2xl lg:text-lg sm:text-sm xs:text-xs ">
-                <div className="grow mr-5 flex bg-gray-200 shadow py-1 items-center text-left rounded-2xl relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_1.5s_infinite]">
+                <div className="grow mr-5 flex bg-gray-200 shadow py-1 items-center text-left rounded-2xl relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_1s_infinite]">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="ml-4 lg:h-10 lg:w-10  xs:h-5 xs:w-10  lg:scale-100 md-scale:80 sm-scale:60 text-gray-300 bg-gray-300 rounded-full"
@@ -170,7 +170,7 @@ export default function ManageAccountSkeleton() {
                 <button
                   disabled
                   type="button"
-                  className="bg-gray-300 text-gray-300  hdScreen:w-[19rem] semihdScreen:w-[16.5rem] laptopScreen:w-[15.5rem] averageScreen:w-[15rem] md:w-[14rem] sm:w-[10rem] xs:w-[8rem] lg:py-3 lg:px-5 sm:py-1.5 sm:px-2.5 xs:px-1 xs:py-1  font-semibold  shadow rounded-2xl relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_1.5s_infinite] "
+                  className="bg-gray-300 text-gray-300  hdScreen:w-[19rem] semihdScreen:w-[16.5rem] laptopScreen:w-[15.5rem] averageScreen:w-[15rem] md:w-[14rem] sm:w-[10rem] xs:w-[8rem] lg:py-3 lg:px-5 sm:py-1.5 sm:px-2.5 xs:px-1 xs:py-1  font-semibold  shadow rounded-2xl relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_1s_infinite] "
                 >
                   <span className="md:pl-2 text-gray-300  lg:text-xl sm:text-base xs:text-sm flex justify-center">
                     Reset Password
@@ -183,7 +183,7 @@ export default function ManageAccountSkeleton() {
 
           <div className="md:mt-6 xs:mt-3 rounded-3xl overflow-hidden bg-gradient-to-t from-gray-200 via-gray-100 to-white  ">
             <table className="w-full leading-normal ">
-              <thead className=" top-0 z-40 shadow-md border-b-2 border-gray-200/0 bg-gray-200 text-gray-200 text-left uppercase tracking-wider lg:text-base md:text-sm xs:text-xs font-bold relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_1.5s_infinite]">
+              <thead className=" top-0 z-40 shadow-md border-b-2 border-gray-200/0 bg-gray-200 text-gray-200 text-left uppercase tracking-wider lg:text-base md:text-sm xs:text-xs font-bold relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_1s_infinite]">
                 <tr>
                   <th className="lg:pl-8 w-[32.6%] py-3 lg:text-base md:text-sm sm:text-sm ">
                     <div className="lg:pl-0 sm:pl-3  xs:pl-3">Name</div>

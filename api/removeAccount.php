@@ -23,6 +23,24 @@ switch($_SESSION['method']) {
     case "GET":
         break;
     case "POST":
+
+        $rl = "SELECT Role FROM accounts WHERE Email = '$email'";
+        $rl = $conn->prepare($rl);
+        $rl->execute();
+        $role = $rl->fetchColumn();
+
+        if ($role == "Student") {
+            $dbname = "SELECT REPLACE(CONCAT(LastName, '_', GivenName), ' ', '') AS DatabaseName FROM accounts WHERE Email = '$email'";
+            $db = $conn->prepare($dbname);
+            $db->execute();
+            $database = $db->fetchColumn();
+            $database = strtolower($database);
+
+
+            $drop = "DROP TABLE $database";
+            $stmtdrop = $conn->prepare($drop);
+            $stmtdrop->execute();
+        }
    
         $midname = "SELECT MiddleName FROM accounts WHERE Email = '$email'";
         $mn = $conn->prepare($midname);
@@ -53,6 +71,9 @@ switch($_SESSION['method']) {
 
         $stmt2 = $conn->prepare($sql2);
         $stmt2->execute();
+
+        
+
         break;
     case "PUT":
         break;

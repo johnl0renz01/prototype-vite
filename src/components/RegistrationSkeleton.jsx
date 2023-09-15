@@ -79,43 +79,43 @@ export default function RegistrationSkeleton() {
               : 'max-h-[78.5px]'
           }`}
           >
-            <span className="bg-gray-200 text-gray-200 rounded-md relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_1.5s_infinite]">
+            <span className="bg-gray-200 text-gray-200 rounded-md relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_.5s_infinite]">
               Registration
             </span>
           </div>
 
           <div className=" inline-flex lg:px-6 hdScreen:py-5 semihdScreen:py-3 laptopScreen:pb-3 averageScreen:pb-2 sm:pb-1 xs:pb-0.5">
             <p className="mt-[0.7rem] pr-2 lg:text-xl xs:text-base">
-              <span className="bg-gray-200 text-gray-200 rounded-md relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_1.5s_infinite]">
+              <span className="bg-gray-200 text-gray-200 rounded-md relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_.5s_infinite]">
                 Role:
               </span>
             </p>
             <div className="flex mt-[0.7rem] lg:text-lg xs:text-xs px-2">
               <button
-                className={`cursor-default bg-gray-300 text-gray-300 lg:px-2 sm:px-2 xs:px-1 rounded-lg lg:w-24 relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_1.5s_infinite]`}
+                className={`cursor-default bg-gray-300 text-gray-300 lg:px-2 sm:px-2 xs:px-1 rounded-lg lg:w-24 relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_.5s_infinite]`}
               >
                 Student
               </button>
               <button
-                className={`cursor-default bg-gray-300 text-gray-300  ml-4  lg:px-2 xs:px-1 rounded-lg lg:w-24 relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_1.5s_infinite] `}
+                className={`cursor-default bg-gray-300 text-gray-300  ml-4  lg:px-2 xs:px-1 rounded-lg lg:w-24 relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_.5s_infinite] `}
               >
                 Teacher
               </button>
             </div>
 
             <p className="border-l-2 border-gray-400 ml-6 pl-6 mt-[0.7rem] pr-2 lg:text-xl xs:text-base">
-              <span className="bg-gray-200 text-gray-200 rounded-md relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_1.5s_infinite]">
+              <span className="bg-gray-200 text-gray-200 rounded-md relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_.5s_infinite]">
                 Registration Type:
               </span>
             </p>
             <div className="flex mt-[0.7rem] lg:text-lg xs:text-xs px-2">
               <button
-                className={`cursor-default bg-gray-300 text-gray-300  lg:px-2 sm:px-2 xs:px-1 rounded-lg lg:w-24 relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_1.5s_infinite] `}
+                className={`cursor-default bg-gray-300 text-gray-300  lg:px-2 sm:px-2 xs:px-1 rounded-lg lg:w-24 relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_.5s_infinite] `}
               >
                 Single
               </button>
               <button
-                className={`cursor-default bg-gray-300 text-gray-300  ml-4 lg:px-2 xs:px-1 rounded-lg lg:w-24 relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_1.5s_infinite] `}
+                className={`cursor-default bg-gray-300 text-gray-300  ml-4 lg:px-2 xs:px-1 rounded-lg lg:w-24 relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_.5s_infinite] `}
               >
                 Bulk
               </button>

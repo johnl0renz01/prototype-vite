@@ -34,7 +34,7 @@ export default function StudentDetail() {
 
     var logged = JSON.parse(window.localStorage.getItem('LOGGED'));
     if (logged == 'FALSE') {
-      navigate('/LoginPage');
+      window.localStorage.setItem('LOGIN_STATUS', JSON.stringify('Terminated'));
     } else {
       var closed = JSON.parse(window.localStorage.getItem('IS_CLOSED'));
       if (closed) {
@@ -43,7 +43,10 @@ export default function StudentDetail() {
           .post(`https://pia-sfe.online/api/logout/${unique}`)
           .then(function (response) {
             window.localStorage.setItem('LOGGED', JSON.stringify('FALSE'));
-            navigate('/LoginPage');
+            window.localStorage.setItem(
+              'LOGIN_STATUS',
+              JSON.stringify('Terminated')
+            );
           });
       }
     }
@@ -68,13 +71,13 @@ export default function StudentDetail() {
 
   const [accountDetail, setAccountDetail] = useState([]);
   const [accountHistory, setAccountHistory] = useState([]);
-  const [tallyEasy, countEasy] = useState();
-  const [tallyAverage, countAverage] = useState();
-  const [tallyDifficult, countDifficult] = useState();
+  const [tallyEasy, countEasy] = useState(0);
+  const [tallyAverage, countAverage] = useState(0);
+  const [tallyDifficult, countDifficult] = useState(0);
 
-  const [totalUnanswered, setTotalUnanswered] = useState();
-  const [totalAnswered, setTotalAnswered] = useState();
-  const [accuracyRate, setAccuracy] = useState();
+  const [totalUnanswered, setTotalUnanswered] = useState(0);
+  const [totalAnswered, setTotalAnswered] = useState(0);
+  const [accuracyRate, setAccuracy] = useState(0);
 
   function getAccountDetail() {
     axios
@@ -119,7 +122,7 @@ export default function StudentDetail() {
       }
       // Each session have 10 questions or might change depends.
       totalSkip += 20;
-      totalScore += history.Score;
+      totalScore += parseInt(history.Score);
     });
     accuracy = (totalScore / totalSkip) * 100;
     totalSkip = totalSkip - totalScore;
@@ -139,7 +142,7 @@ export default function StudentDetail() {
   const ClassListPage = () => {
     setTimeout(proceed, 1);
     function proceed() {
-      navigate('/ClassList');
+      navigate(-1);
     }
   };
 
@@ -181,7 +184,7 @@ export default function StudentDetail() {
 
   useEffect(() => {
     const onPageLoad = () => {
-      setTimeout(hideNavbar, 1000);
+      setTimeout(hideNavbar, 1);
 
       function hideNavbar() {
         setSkeletonState(false);

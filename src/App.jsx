@@ -7,24 +7,14 @@ import Homepage from './components/Homepage';
 import Difficulty from './components/Difficulty';
 import Whiteboard from './components/Whiteboard';
 
-import AdminHomepage from './components/AdminHomepage';
-import SectionList from './components/SectionList';
-import Sections from './components/Sections';
 import ClassList from './components/ClassList';
 import StudentDetail from './components/StudentDetail';
-import Customization from './components/Customization';
-import EditAccount from './components/EditAccount';
 
-import Login from './components/Login';
 import Registration from './components/Registration';
-
-import Initiation from './components/Initiation';
 
 import './index.css';
 
 import LoginPage from './components/LoginPage';
-
-import TeacherPage from './components/TeacherPage';
 import TeacherNavbar from './components/TeacherNavbar';
 
 import EquationList from './components/EquationList';
@@ -32,11 +22,8 @@ import CreateEquation from './components/CreateEquation';
 
 import AdminNavbar from './components/AdminNavbar';
 import ManageSection from './components/ManageSection';
-import EditSection from './components/EditSection';
-import CreateSection from './components/CreateSection';
 
 import ManageAccount from './components/ManageAccount';
-import ResetPassword from './components/ResetPassword';
 import UserRequest from './components/UserRequest';
 import HelpPageAdmin from './components/HelpPageAdmin';
 import HelpPageTeacher from './components/HelpPageTeacher';
@@ -45,6 +32,7 @@ import HomePageTeacher from './components/HomePageTeacher';
 import HomePageAdmin from './components/HomePageAdmin';
 
 import ErrorPage from './components/ErrorPage';
+import LogoutWarning from './components/LogoutWarning';
 
 class App extends Component {
   componentWillUnmount() {
@@ -80,6 +68,7 @@ class App extends Component {
     console.log('App - Rendered');
     return (
       <BrowserRouter>
+        <LogoutWarning></LogoutWarning>
         <Navbar></Navbar>
         <TeacherNavbar></TeacherNavbar>
         <AdminNavbar></AdminNavbar>
@@ -91,24 +80,18 @@ class App extends Component {
 
           <Route path="Whiteboard" element={<Whiteboard />} />
 
-          <Route path="Sections" element={<Sections />} />
           <Route path="ClassList" element={<ClassList />} />
           <Route path="StudentDetail" element={<StudentDetail />} />
 
-          <Route path="EditAccount" element={<EditAccount />} />
           <Route path="Registration" element={<Registration />} />
 
           <Route path="LoginPage" element={<LoginPage />} />
-          <Route path="TeacherPage" element={<TeacherPage />} />
 
           <Route path="EquationList" element={<EquationList />} />
           <Route path="CreateEquation" element={<CreateEquation />} />
           <Route path="ManageSection" element={<ManageSection />} />
-          <Route path="EditSection" element={<EditSection />} />
-          <Route path="CreateSection" element={<CreateSection />} />
 
           <Route path="ManageAccount" element={<ManageAccount />} />
-          <Route path="ResetPassword" element={<ResetPassword />} />
           <Route path="UserRequest" element={<UserRequest />} />
           <Route path="HelpPageAdmin" element={<HelpPageAdmin />} />
           <Route path="HelpPageTeacher" element={<HelpPageTeacher />} />

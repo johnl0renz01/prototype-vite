@@ -180,6 +180,7 @@ export default function TeacherNavbar() {
     var logged = JSON.parse(window.localStorage.getItem('LOGGED'));
     if (logged === null) logged = '';
     if (logged !== null) {
+      var terminated = JSON.parse(window.localStorage.getItem('LOGIN_STATUS'));
       if (logged == 'TRUE') {
         if (account == 'Teacher') {
           setLogoutState(false);
@@ -187,7 +188,9 @@ export default function TeacherNavbar() {
           setLogoutState(true);
         }
       } else {
-        setLogoutState(true);
+        if (terminated === null) {
+          setLogoutState(true);
+        }
       }
     }
   });

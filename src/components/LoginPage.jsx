@@ -439,7 +439,7 @@ export default function LoginPage() {
   };
 
   const [passwordState, setPasswordState] = useState(false);
-  const passwordElement = document.getElementById('password');
+  const passwordElement = document.getElementById('pass');
 
   const showPassword = () => {
     if (passwordState) {
@@ -448,6 +448,20 @@ export default function LoginPage() {
     } else {
       setPasswordState(true);
       ReactDOM.findDOMNode(passwordElement).type = 'text';
+    }
+  };
+
+  // SHOW NEW PASSWORD EYE (OPTIONAL)
+  const [passwordState2, setPasswordState2] = useState(false);
+  const passwordElement2 = document.getElementById('newPassword');
+
+  const showNewPassword = () => {
+    if (passwordState2) {
+      setPasswordState2(false);
+      ReactDOM.findDOMNode(passwordElement2).type = 'password';
+    } else {
+      setPasswordState2(true);
+      ReactDOM.findDOMNode(passwordElement2).type = 'text';
     }
   };
 
@@ -564,7 +578,7 @@ export default function LoginPage() {
 
   useEffect(() => {
     const onPageLoad = () => {
-      setTimeout(hideNavbar, 1000);
+      setTimeout(hideNavbar, 1);
 
       function hideNavbar() {
         setSkeletonState(false);
@@ -771,7 +785,7 @@ export default function LoginPage() {
                         </div>
                       </div>
                       <input
-                        id="password"
+                        id="pass"
                         onFocus={function () {
                           setAccountValidation('');
                         }}

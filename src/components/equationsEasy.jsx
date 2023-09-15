@@ -142,14 +142,14 @@ var EquationGeneratorEasy = (function () {
             }
             if (easyEquationList[i].includes(digit)) {
               let search1 = ' ' + digit + ' ';
-              let search4 = '\\(' + digit + ' ';
-              let search5 = ' ' + digit + '\\)';
-              let search6 = '\\(' + digit + '\\)';
+              let search2 = '\\(' + digit + ' ';
+              let search3 = ' ' + digit + '\\)';
+              let search4 = '\\(' + digit + '\\)';
 
               let find1 = new RegExp(search1, '');
+              let find2 = new RegExp(search2, '');
+              let find3 = new RegExp(search3, '');
               let find4 = new RegExp(search4, '');
-              let find5 = new RegExp(search5, '');
-              let find6 = new RegExp(search6, '');
 
               randomPercentage();
               easyEquationList[i] = easyEquationList[i].replace(
@@ -158,17 +158,17 @@ var EquationGeneratorEasy = (function () {
               );
               randomPercentage();
               easyEquationList[i] = easyEquationList[i].replace(
-                find4,
+                find2,
                 '(' + negativeSymbol + rndInt.toString() + ' '
               );
               randomPercentage();
               easyEquationList[i] = easyEquationList[i].replace(
-                find5,
+                find3,
                 ' ' + negativeSymbol + rndInt.toString() + ')'
               );
               randomPercentage();
               easyEquationList[i] = easyEquationList[i].replace(
-                find6,
+                find4,
                 '(' + negativeSymbol + rndInt.toString() + ')'
               );
             }
@@ -182,14 +182,14 @@ var EquationGeneratorEasy = (function () {
             }
             if (easyEquationList[i].includes(digit)) {
               let search1 = ' ' + digit + 'x ';
-              let search4 = '\\(' + digit + 'x ';
-              let search5 = ' ' + digit + 'x\\)';
-              let search6 = '\\(' + digit + 'x\\)';
+              let search2 = '\\(' + digit + 'x ';
+              let search3 = ' ' + digit + 'x\\)';
+              let search4 = '\\(' + digit + 'x\\)';
 
               let find1 = new RegExp(search1, '');
+              let find2 = new RegExp(search2, '');
+              let find3 = new RegExp(search3, '');
               let find4 = new RegExp(search4, '');
-              let find5 = new RegExp(search5, '');
-              let find6 = new RegExp(search6, '');
 
               randomPercentage();
               easyEquationList[i] = easyEquationList[i].replace(
@@ -198,17 +198,17 @@ var EquationGeneratorEasy = (function () {
               );
               randomPercentage();
               easyEquationList[i] = easyEquationList[i].replace(
-                find4,
+                find2,
                 '(' + negativeSymbol + rndInt.toString() + 'x'
               );
               randomPercentage();
               easyEquationList[i] = easyEquationList[i].replace(
-                find5,
+                find3,
                 ' ' + negativeSymbol + rndInt.toString() + 'x)'
               );
               randomPercentage();
               easyEquationList[i] = easyEquationList[i].replace(
-                find6,
+                find4,
                 '(' + negativeSymbol + rndInt.toString() + 'x)'
               );
             }

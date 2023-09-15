@@ -25,18 +25,19 @@ export default function ErrorPage() {
   useEffect(() => {
     var logged = JSON.parse(window.localStorage.getItem('LOGGED'));
     if (logged == 'FALSE') {
-      navigate('/LoginPage');
+      window.localStorage.setItem('LOGIN_STATUS', JSON.stringify('Terminated'));
     } else {
       var closed = JSON.parse(window.localStorage.getItem('IS_CLOSED'));
       if (closed) {
         var unique = JSON.parse(window.localStorage.getItem('UNIQUE_ID'));
         axios
-          .post(
-            `http://localhost:80/Prototype-Vite/my-project/api/logout/${unique}`
-          )
+          .post(`https://pia-sfe.online/api/logout/${unique}`)
           .then(function (response) {
             window.localStorage.setItem('LOGGED', JSON.stringify('FALSE'));
-            navigate('/LoginPage');
+            window.localStorage.setItem(
+              'LOGIN_STATUS',
+              JSON.stringify('Terminated')
+            );
           });
       }
     }
