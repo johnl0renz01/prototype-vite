@@ -7,7 +7,6 @@ import $ from 'jquery';
 
 import QuestionList from './questionList';
 import EquationSolver from './equationSolver';
-import MY_API_KEY from './API_KEY';
 
 import EquationGeneratorEasy from './equationsEasy';
 import EquationGeneratorAverage from './equationsAverage';
@@ -311,112 +310,6 @@ export default function DifficultyPage() {
       setShowModal(true);
     }
   };
-
-  // CHATGPT GENERATED EQUATIONS
-  /*
-  function pickDifficulty() {
-    console.log(difficultyType);
-    var prompt = "";
-    if (difficultyType == "easy") {
-      prompt =
-        '{"text":" Generate 5 linear equation to solve for, only 1 variable, it must be very difficult level and distinct to each other. The equation should be similiar as this example: 9x + 13 = -4x, or much even complicated, randomize each equation, include multiplication symbol between expressions, values can range from 1 to 1000. Put each equation inside bracket []"}';
-    } else if (difficultyType == "average") {
-      prompt =
-        '{"text":" Generate 5 linear equation to solve for, only 1 variable, it must be very difficult level and distinct to each other. The equation should be similiar as this example: 23x + 2 = 13x - 26, or much even complicated, randomize each equation, include multiplication symbol between expressions, values can range from 1 to 1000. Put each equation inside bracket []"}';
-    } else if (difficultyType == "difficult") {
-      prompt =
-        '{"text":" Generate 5 linear equation to solve for, only 1 variable, it must be very difficult level and distinct to each other. The equation should be similiar as this example: 2(3x-5) = 3(4x+2), or much even complicated, randomize each equation, include multiplication symbol between expressions, values can range from 1 to 1000. Put each equation inside bracket []"}';
-    }
-
-    var equationString = "";
-    const options = {
-      method: "POST",
-      url: "https://chatgpt-ai-chat-bot.p.rapidapi.com/ask",
-      headers: {
-        "content-type": "application/json",
-        "X-RapidAPI-Key": MY_API_KEY.getGPT_KEY(),
-        "X-RapidAPI-Host": "chatgpt-ai-chat-bot.p.rapidapi.com",
-      },
-      data: prompt,
-    };
-
-    //Generate 5 linear equation to solve for, only 1 variable, it must be very difficult level and distinct to each other. The equation should be similiar as this example: 2(3x-5) = 3(4x+2), or much even complicated, randomize each equation, include multiplication symbol between expressions, values can range from 1-1000. Put each equation inside bracket []
-
-    axios
-      .request(options)
-      .then(function (response) {
-        var equationList = [];
-
-        console.log(response);
-        console.log(response.data);
-        console.log(response.data.split(""));
-
-        let dataSplit = response.data.split("");
-        setRawList(response.data);
-        let firstBracket = 0;
-        let secondBracket = 0;
-
-        for (let i = 0; i < dataSplit.length; i++) {
-          let closingBracket = false;
-          if (dataSplit[i].match(/[\[]/)) {
-            firstBracket = i;
-          } else if (dataSplit[i].match(/[\]]/)) {
-            secondBracket = i;
-            closingBracket = true;
-          }
-
-          if (closingBracket) {
-            let equation = [
-              dataSplit.slice(firstBracket + 1, secondBracket),
-            ].join("");
-            equation = equation.replaceAll(",", "");
-            equationString = equation;
-            console.log("this isequation: " + equationString);
-            equationList.push(equationString);
-            closingBracket = false;
-          }
-        }
-
-        setQuestions(equationList);
-        console.log(questionList);
-
-        console.log(equationList[0]);
-        //QuestionList.setQuestionString(equationString);
-
-        console.log("THE length: " + equationList.length);
-        if (equationList.length > 5) {
-          pickDifficulty();
-        } else {
-          computeEquation();
-        }
-
-        function computeEquation() {
-          var equationValid = false;
-          var checkEquation = "";
-          for (let i = 0; i < equationList.length; i++) {
-            EquationSolver.setEquation(equationList[i]);
-            checkEquation = EquationSolver.getEquationAnswer();
-            if (checkEquation == "invalid") {
-              equationValid = false;
-              break;
-            } else {
-              equationValid = true;
-            }
-          }
-          if (equationValid) {
-            //WhiteboardPage();
-            //setQuestionArray((oldArray) => [...oldArray, equationList]);
-            //console.log(questionArray);
-          } else {
-            pickDifficulty();
-          }
-        }
-      })
-      .catch(function (error) {
-        console.error(error);
-      });
-  }
-  */
 
   const [easyEquations, setEasyEquations] = useState([
     '2x - 2 = 1',

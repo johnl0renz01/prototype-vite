@@ -11,8 +11,6 @@ import FeedbackList from './FeedbackList';
 
 import LoadingStudent from './LoadingStudent';
 
-import MY_API_KEY from './API_KEY';
-
 import { BsFillPlayFill } from 'react-icons/bs';
 import { IoArrowUndo } from 'react-icons/io5';
 

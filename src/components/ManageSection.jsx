@@ -442,7 +442,7 @@ export default function ManageSection() {
                             bg-white relative overflow-y-scroll style-2 mx-auto w-full rounded-md"
             >
               <div
-                className={` flex-col items-center absolute hdScreen:top-10 semihdScreen:top-9 laptopScreen:top-8 averageScreen:top-7 md:top-4 sm:top-3 xs:top-2 left-1/2 transform -translate-x-1/2 hdScreen:scale-100 semihdScreen:scale-90 laptopScreen:scale-85 averageScreen:scale-80 md:scale-75 sm:scale-70 xs:scale-60
+                className={` -mt-4 absolute flex-col items-center justify-center h-full w-full hdScreen:scale-100 semihdScreen:scale-90 laptopScreen:scale-85 averageScreen:scale-80 md:scale-75 sm:scale-70 xs:scale-60
                  ${tableLoader ? 'flex' : 'hidden'}`}
               >
                 <div className="loader border-8 border-[#e2c209]"></div>
@@ -537,7 +537,7 @@ export default function ManageSection() {
                   </div>
                 ) : (
                   <>
-                    <div className="text-gray-700 text-center flex-col items-center absolute top-[5%] left-1/2 transform -translate-x-1/2 hdScreen:scale-100 semihdScreen:scale-90 laptopScreen:scale-85 averageScreen:scale-80 md:scale-75 sm:scale-70 xs:scale-60">
+                    <div className="text-gray-700 text-center -mt-4 absolute flex flex-col items-center justify-center h-full w-full hdScreen:scale-100 semihdScreen:scale-90 laptopScreen:scale-85 averageScreen:scale-80 md:scale-75 sm:scale-70 xs:scale-60">
                       <BsClipboard2X className="w-full text-[4rem]" />
                       <p className="py-2 font-semibold semihdScreen:text-xl sm:text-lg xs:text-base">
                         No matches found.

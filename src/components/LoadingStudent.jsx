@@ -2,16 +2,9 @@ import React, { Component } from 'react';
 import { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import * as ReactDOM from 'react-dom';
-import $ from 'jquery';
-
-import EquationSolver from './equationSolver';
-import MY_API_KEY from './API_KEY';
 
 export default function LoadingStudent() {
   document.body.style.height = '100vh';
-
-  function changeImage() {}
 
   return (
     <>
@@ -25,7 +18,7 @@ export default function LoadingStudent() {
                 className="rounded-full w-[20rem]"
               />
             </div>
-            <div className=" inline-flex blink "> 
+            <div className=" inline-flex blink ">
               <span className="font-league-spartan tracking-wide text-gray-700 text-2xl font-bold">
                 LOADING
               </span>

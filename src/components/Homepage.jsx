@@ -6,7 +6,6 @@ import * as ReactDOM from 'react-dom';
 import $ from 'jquery';
 
 import EquationSolver from './equationSolver';
-import MY_API_KEY from './API_KEY';
 
 import LoadingStudent from './LoadingStudent';
 

@@ -45,7 +45,7 @@ export default function UserRequestSkeleton() {
 
   function sampleRow(subject, from, role, date) {
     return (
-      <tr className="odd:bg-gray-100/30 even:bg-gray-200/30 border-b border-gray-200  text-gray-200 relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_.5s_infinite]">
+      <tr className="odd:bg-gray-100/30 even:bg-gray-200/30 border-b border-gray-200  text-gray-200 relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_2s_infinite]">
         <td className="hdScreen:w-[320px] semihdScreen:w-[240px] laptopScreen:w-[190px] averageScreen:w-[130px] sm:w-[90px] xs:w-[50px] relative overflow-hidden flex items-center lg:text-base md:text-sm xs:text-xs lg:px-5 py-[10px] whitespace-nowrap">
           <div className="flex-shrink-0  h-10 mr-3 break-all "></div>
           <p className="  lg:text-base md:text-sm xs:text-xs ">
@@ -74,7 +74,7 @@ export default function UserRequestSkeleton() {
           </p>
         </td>
         <td className="text-right lg:text-base md:text-sm xs:text-xs whitespace-no-wrap ">
-          <div className="relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_.5s_infinite]">
+          <div className="relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_2s_infinite]">
             <input
               disabled
               type="button"
@@ -86,7 +86,7 @@ export default function UserRequestSkeleton() {
         <td className="text-right hdScreen:pr-6 semihdScreen:pr-1 laptopScreen:pr-0.5 averageScreen:pr-0 lg:text-base md:text-sm xs:text-xs">
           <button
             disabled
-            className="bg-gray-300  py-[0.2rem]  md:px-3 md:w-auto xs:w-16 shadow-md rounded-md font-semibold  relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_.5s_infinite]"
+            className="bg-gray-300  py-[0.2rem]  md:px-3 md:w-auto xs:w-16 shadow-md rounded-md font-semibold  relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_2s_infinite]"
           >
             <span className="text-gray-300 font-semibold md:pl-3 lg:text-base flex justify-center items-center">
               Solved
@@ -134,7 +134,7 @@ export default function UserRequestSkeleton() {
               : 'max-h-[78.5px]'
           }`}
           >
-            <span className="bg-gray-200 text-gray-200 rounded-md relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_.5s_infinite]">
+            <span className="bg-gray-200 text-gray-200 rounded-md relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_2s_infinite]">
               Request(s)
             </span>
           </div>
@@ -143,11 +143,11 @@ export default function UserRequestSkeleton() {
             <div className="overflow-hidden hdScreen:py-1 semihdScreen:py-1 laptopScreen:py-0 averageScreen:py-0 pr-2">
               <div className="inline-flex w-full m-1   rounded-2xl lg:text-lg sm:text-sm xs:text-xs ">
                 <div className="md:mr-5 xs:mr-2 text-gray-700 mt-1.5 lg:text-lg sm:text-sm xs:text-xs font-semibold tracking-wide pl-2">
-                  <span className="bg-gray-200 text-gray-200 rounded-md relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_.5s_infinite]">
+                  <span className="bg-gray-200 text-gray-200 rounded-md relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_2s_infinite]">
                     There are currently [1] unsolved request.
                   </span>
                 </div>
-                <div className="grow flex bg-gray-200 shadow  items-center text-left rounded-2xl relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_.5s_infinite]">
+                <div className="grow flex bg-gray-200 shadow  items-center text-left rounded-2xl relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_2s_infinite]">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="ml-4 lg:h-10 lg:w-10 xs:h-5 xs:w-10 lg:scale-80 md-scale:80 sm-scale:60 text-gray-300 bg-gray-300 rounded-full"

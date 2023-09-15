@@ -2,39 +2,17 @@ import React, { Component } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
-import * as ReactDOM from 'react-dom';
-import $ from 'jquery';
 
 import ViewDetailModal from './ViewDetailModal';
 
-import EquationSolver from './equationSolver';
-
 import { BsEye, BsDashCircle, BsCheckCircle } from 'react-icons/bs';
 import { BsGearFill, BsClipboard2X } from 'react-icons/bs';
-import { HiPencilSquare } from 'react-icons/hi2';
 
 import UserRequestSkeleton from './UserRequestSkeleton';
 
 import LoadingSpinner from './LoadingSpinner';
 
 export default function UserRequest() {
-  //FOR SKELETON
-
-  useEffect(() => {
-    const onPageLoad = () => {
-      document.querySelector('#loader').style.display = 'none';
-      document.querySelector('#main').style.visibility = 'visible';
-    };
-    if (document.readyState === 'complete') {
-      onPageLoad();
-    } else {
-      document.querySelector('#main').style.visibility = 'hidden';
-      document.querySelector('#loader').style.visibility = 'visible';
-      window.addEventListener('load', onPageLoad, false);
-      return () => window.removeEventListener('load', onPageLoad);
-    }
-  }, []);
-
   const navigate = useNavigate();
 
   useEffect(() => {
