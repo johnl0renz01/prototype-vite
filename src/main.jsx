@@ -45,6 +45,8 @@ function keyup(evt) {
   removeBeforeUnload();
 }
 
+document.addEventListener('click', checkLogged);
+
 document.addEventListener('mouseenter', checkLogged);
 function checkLogged() {
   var unique = JSON.parse(window.localStorage.getItem('UNIQUE_ID'));
@@ -55,6 +57,12 @@ function checkLogged() {
       )
       .then(function (response) {
         var result = response.data;
+        if (result == 'FALSE') {
+          window.localStorage.setItem(
+            'LOGIN_STATUS',
+            JSON.stringify('Terminated')
+          );
+        }
         window.localStorage.setItem('LOGGED', JSON.stringify(result));
       });
   }
@@ -93,6 +101,12 @@ function getLogData() {
       )
       .then(function (response) {
         var result = response.data;
+        if (result == 'FALSE') {
+          window.localStorage.setItem(
+            'LOGIN_STATUS',
+            JSON.stringify('Terminated')
+          );
+        }
         window.localStorage.setItem('LOGGED', JSON.stringify(result));
         root.render(
           <React.Fragment>
@@ -101,7 +115,7 @@ function getLogData() {
         );
       });
   } else {
-    window.localStorage.setItem('LOGGED', JSON.stringify('FALSE'));
+    //window.localStorage.setItem('LOGGED', JSON.stringify('FALSE'));
     root.render(
       <React.Fragment>
         <App />

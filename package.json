@@ -34,6 +34,7 @@
     "react-dom": "^18.2.0",
     "react-icons": "^4.10.1",
     "react-router-dom": "^6.8.2",
+    "use-debounce": "^9.0.4",
     "vite-plugin-full-reload": "^1.0.5",
     "vite-plugin-require": "^1.1.10",
     "xlsx": "^0.18.5",

@@ -19,11 +19,15 @@ import { HiArrowUturnRight } from 'react-icons/hi2';
 
 import { BsChevronBarRight } from 'react-icons/bs';
 
+import LoadingSpinner from './LoadingSpinner';
+
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 
 function Navbar() {
+  const [showLoading, setShowLoading] = useState(false);
+
   const navigate = useNavigate();
 
   //SET HOMEPAGE AS FIRST LINK
@@ -141,15 +145,16 @@ function Navbar() {
   const [logoutState, setLogoutState] = useState(false);
 
   const signOut = () => {
+    setShowLoading(true);
     if (
       window.localStorage.getItem('SESSION_ID') != '""' &&
       window.localStorage.getItem('SESSION_ID') != null
     ) {
+      setShowLoading(false);
       setShowModal(true);
     } else {
       window.localStorage.setItem('SESSION_USER', JSON.stringify(''));
       window.localStorage.setItem('SESSION_EMAIL', JSON.stringify(''));
-      setLogoutState(true);
       var unique = JSON.parse(window.localStorage.getItem('UNIQUE_ID'));
       if (unique === null) unique = '';
       axios
@@ -157,12 +162,15 @@ function Navbar() {
           `http://localhost:80/Prototype-Vite/my-project/api/logout/${unique}`
         )
         .then(function (response) {
+          setShowLoading(false);
+          setLogoutState(true);
+          window.localStorage.removeItem('LOGIN_STATUS');
+          window.localStorage.removeItem('UNIQUE_ID');
           window.localStorage.setItem('LOGGED', JSON.stringify('FALSE'));
           navigate('/LoginPage');
           document.body.style.backgroundImage =
             'linear-gradient(to top, #bef264, #d9f99d , #ccf779)';
         });
-      navigate('/LoginPage');
     }
   };
 
@@ -172,6 +180,7 @@ function Navbar() {
   const [choiceModal, setChoiceModal] = useState(false);
 
   const handleOnContinueModal = () => {
+    setShowLoading(true);
     EndSession.recordData();
     ClearStorage.clearData();
     setChoiceModal(true);
@@ -179,7 +188,7 @@ function Navbar() {
     window.localStorage.setItem('SESSION_USER', JSON.stringify(''));
     window.localStorage.setItem('SESSION_EMAIL', JSON.stringify(''));
     window.localStorage.setItem('SESSION_ID', JSON.stringify(''));
-    setLogoutState(true);
+
     var unique = JSON.parse(window.localStorage.getItem('UNIQUE_ID'));
     if (unique === null) unique = '';
     axios
@@ -187,6 +196,10 @@ function Navbar() {
         `http://localhost:80/Prototype-Vite/my-project/api/logout/${unique}`
       )
       .then(function (response) {
+        setShowLoading(false);
+        setLogoutState(true);
+        window.localStorage.removeItem('LOGIN_STATUS');
+        window.localStorage.removeItem('UNIQUE_ID');
         window.localStorage.setItem('LOGGED', JSON.stringify('FALSE'));
         navigate('/LoginPage');
         document.body.style.backgroundImage =
@@ -415,6 +428,7 @@ function Navbar() {
         visible={showModal}
         onContinue={handleOnContinueModal}
       />
+      <LoadingSpinner visible={showLoading} />
     </>
   );
 }

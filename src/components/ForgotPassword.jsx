@@ -9,12 +9,17 @@ import { useFormik } from 'formik';
 
 import { forgotPasswordSchema } from '../schemas';
 
+import LoadingSpinner from './LoadingSpinner';
+
 const ForgotPassword = ({ visible, onClose, onContinue }) => {
+  const [showLoading, setShowLoading] = useState(false);
+
   const onSubmit = async (values, actions) => {
     var isForgot = JSON.parse(window.sessionStorage.getItem('FORGOT_PASSWORD'));
     console.log(isForgot);
 
     if (isForgot) {
+      setShowLoading(true);
       console.log('TESTING IM HERE');
       var type = JSON.parse(window.sessionStorage.getItem('RESET_TYPE'));
       type = type.replace(/"/g, '');
@@ -26,6 +31,7 @@ const ForgotPassword = ({ visible, onClose, onContinue }) => {
           )
           .then(function (response) {
             console.log(response.data);
+            setShowLoading(false);
             onContinue();
           });
       } else if (type == 'Code') {
@@ -161,6 +167,7 @@ const ForgotPassword = ({ visible, onClose, onContinue }) => {
           </div>
         </form>
       </div>
+      <LoadingSpinner visible={showLoading} />
     </>
   );
 };

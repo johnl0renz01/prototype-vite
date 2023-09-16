@@ -21,6 +21,9 @@ import {
   BsSlashCircle,
   BsExclamationCircle,
 } from 'react-icons/bs';
+
+import { BsFileEarmarkExcel, BsFiletypeXlsx } from 'react-icons/bs';
+
 import { BsArrowCounterclockwise } from 'react-icons/bs';
 
 import { GoChecklist } from 'react-icons/go';
@@ -35,6 +38,8 @@ import IgnoreWarningModal from './IgnoreWarningModal';
 import RegistrationBulkModal from './RegistrationBulkModal';
 
 import RegistrationSkeleton from './RegistrationSkeleton';
+
+import LoadingSpinner from './LoadingSpinner';
 
 function Registration() {
   document.body.style.height = '100vh';
@@ -78,6 +83,8 @@ function Registration() {
 
   //END END END END END END END END END END END END
 
+  const [showLoading, setShowLoading] = useState(false);
+
   const [sectionData, setSectionData] = useState([]);
 
   function getSections() {
@@ -92,11 +99,15 @@ function Registration() {
   useEffect(() => {
     getSections();
     setEmail('@sf.edu.ph');
+    window.sessionStorage.setItem('IS_VALID_FORM', true);
   }, []);
 
   const onSubmit = async (values, actions) => {
     console.log('SUBMITTED');
-    if (!values.isDuplicate) {
+
+    var validForm = JSON.parse(window.sessionStorage.getItem('IS_VALID_FORM'));
+    if (validForm) {
+      setShowLoading(true);
       axios
         .post(
           'http://localhost:80/Prototype-Vite/my-project/api/registerAccount/save',
@@ -104,6 +115,7 @@ function Registration() {
         )
         .then(function (response) {
           console.log(response.data);
+          setShowLoading(false);
           setShowModal(true);
           resetValues();
 
@@ -223,6 +235,8 @@ function Registration() {
     document.getElementById('email').blur();
     document.getElementById('firstName').focus();
 
+    window.sessionStorage.setItem('IS_VALID_FORM', false);
+
     axios
       .get(
         `http://localhost:80/Prototype-Vite/my-project/api/verifyEmail/${tempEmail}`
@@ -231,10 +245,10 @@ function Registration() {
         console.log(response.data);
         if (response.data === 'duplicate') {
           setDuplicateState(true);
-          values.isDuplicate = true;
+          window.sessionStorage.setItem('IS_VALID_FORM', false);
         } else {
           setDuplicateState(false);
-          values.isDuplicate = false;
+          window.sessionStorage.setItem('IS_VALID_FORM', true);
         }
       });
   };
@@ -273,6 +287,8 @@ function Registration() {
     document.getElementById('email').blur();
     document.getElementById('lastName').focus();
 
+    window.sessionStorage.setItem('IS_VALID_FORM', false);
+
     axios
       .get(
         `http://localhost:80/Prototype-Vite/my-project/api/verifyEmail/${tempEmail}`
@@ -281,10 +297,10 @@ function Registration() {
         console.log(response.data);
         if (response.data === 'duplicate') {
           setDuplicateState(true);
-          values.isDuplicate = true;
+          window.sessionStorage.setItem('IS_VALID_FORM', false);
         } else {
           setDuplicateState(false);
-          values.isDuplicate = false;
+          window.sessionStorage.setItem('IS_VALID_FORM', true);
         }
       });
   };
@@ -314,13 +330,11 @@ function Registration() {
       password: 'default',
       //confirmPassword: '',
       role: '',
-      isDuplicate: false,
 
       //For bulk register
       bulkGradeLevel: '',
       bulkSection: '',
       isValidSection: false,
-      isDuplicateAccount: false,
       totalRows: 0,
       totalErrors: 0,
     },
@@ -416,6 +430,7 @@ function Registration() {
     setGradeNumber('');
     setSectionString('');
     document.getElementById('upload').value = null;
+    setUploadFail(false);
   };
 
   const typeBulk = () => {
@@ -437,6 +452,7 @@ function Registration() {
 
   //const [emails, setEmails] = useState([]);
   const [duplicateAccount, setDuplicateAccount] = useState([]);
+  const [uploadFail, setUploadFail] = useState(false);
 
   var requiredLengthArray = 73;
 
@@ -453,7 +469,6 @@ function Registration() {
     var rowErrorMultiple = [];
     var rowErrorDuplicate = [];
     var errorsCount = 0;
-    values.isDuplicateAccount = false;
     values.isValidSection = false;
     values.totalRows = 0;
     values.totalErrors = 0;
@@ -484,8 +499,15 @@ function Registration() {
     //END OF RESET
 
     const reader = new FileReader();
+    if (e.target.files[0].name.lastIndexOf('.xlsx') === -1) {
+      setUploadFail(true);
+      return;
+    }
     reader.readAsBinaryString(e.target.files[0]);
+
     reader.onload = e => {
+      setUploadFail(false);
+      setShowLoading(true);
       const data = e.target.result;
       const workbook = XLSX.read(data, { type: 'binary' });
       const sheetName = workbook.SheetNames[0];
@@ -583,8 +605,10 @@ function Registration() {
               //setValidationStatus(validation);
               if (values.totalRows != 0) {
                 setStudentList(parsedData);
+              } else {
+                setUploadFail(true);
+                setShowLoading(false);
               }
-
               return;
             } else {
               //ADD TO TOTAL ROWS
@@ -678,8 +702,6 @@ function Registration() {
 
                   setErrorTally(errorsCount);
 
-                  values.isDuplicateAccount = true;
-
                   var row = 'Row #' + (i + 1).toString();
                   rowErrorMultiple.push(row.toString());
                   console.log('ROW MUL: ');
@@ -695,6 +717,7 @@ function Registration() {
               emails.push(email);
               console.log(emails);
               //for duplication in accounts database
+
               axios
                 .get(
                   `http://localhost:80/Prototype-Vite/my-project/api/verifyEmailBulk/${email}@row${i}`
@@ -706,6 +729,7 @@ function Registration() {
                   //setValidationStatus(oldArray => [...oldArray, result]);
 
                   if (result == 'unique') {
+                    setShowLoading(false);
                   } else {
                     errorsCount++;
                     setErrorTally(errorsCount);
@@ -731,6 +755,7 @@ function Registration() {
                       'IS_ERROR_ACCOUNT_DUPLICATE_IGNORE',
                       true
                     );
+                    setShowLoading(false);
                   }
                 });
             }
@@ -854,7 +879,8 @@ function Registration() {
   };
 
   const bulkRegister = () => {
-    setShowModal4(true);
+    setShowLoading(true);
+
     var grade_level = values.bulkGradeLevel;
     var section_name = values.bulkSection;
 
@@ -903,6 +929,8 @@ function Registration() {
             `http://localhost:80/Prototype-Vite/my-project/api/registerBulk/${link}`
           )
           .then(function (response) {
+            setShowLoading(false);
+            setShowModal4(true);
             console.log(response.data);
           });
       }
@@ -943,7 +971,6 @@ function Registration() {
     setTimeout(setErrorTally(0), 1);
     setTimeout(setErrorAccount([]), 1);
 
-    values.isDuplicateAccount = false;
     values.isValidSection = false;
     values.totalRows = 0;
     values.totalErrors = 0;
@@ -997,7 +1024,7 @@ function Registration() {
 
   useEffect(() => {
     const onPageLoad = () => {
-      setTimeout(hideNavbar, 1000);
+      setTimeout(hideNavbar, 500);
 
       function hideNavbar() {
         setSkeletonState(false);
@@ -1156,7 +1183,7 @@ function Registration() {
               hdScreen:pt-6 semihdScreen:pt-5 laptopScreen:pt-4 averageScreen:pt-3 xs:pt-3  min-w-fit hdScreen:text-lg semihdScreen:text-lg laptopScreen:text-base averageScreen:text-base xs:text-xs   "
               >
                 <div className="grid grid-cols-3 w-full relative ">
-                  <div className="flex space-x-3">
+                  <div className="flex space-x-3 ">
                     <div
                       className={` md:grid xs:hidden averageScreen:gap-y-10 md:gap-y-6 xs:gap-y-4
                     ${
@@ -1188,9 +1215,9 @@ function Registration() {
                       </label>
                     </div>
 
-                    <div className="shrink-0  grid  averageScreen:gap-y-12 md:gap-y-8 xs:gap-y-4 place-items-start ">
-                      <div>
-                        <div className="inline-flex w-full ">
+                    <div className="w-full grid  averageScreen:gap-y-12 md:gap-y-8 xs:gap-y-4 place-items-start ">
+                      <div className="w-full ">
+                        <div className="inline-flex w-full  ">
                           <input
                             id="firstName"
                             name="firstName"
@@ -1304,15 +1331,15 @@ function Registration() {
                       </label>
                     </div>
 
-                    <div className=" grid averageScreen:gap-y-12 md:gap-y-8 xs:gap-y-4 place-items-start  ">
-                      <div>
+                    <div className="w-full  grid averageScreen:gap-y-12 md:gap-y-8 xs:gap-y-4 place-items-start  ">
+                      <div className="w-full ">
                         <div className="inline-flex w-full ">
                           <input
                             name="middleName"
                             type="text "
                             placeholder="Enter Middle Name"
                             autoComplete="new-password"
-                            className={`grow py-2 lg:px-2 border-2  rounded-md relative border-gray-500 focus:outline-teal-500 focus:ring-teal-500 shadow-sm  shadow-[#808080]`}
+                            className={`grow w-full py-2 lg:px-2 border-2  rounded-md relative border-gray-500 focus:outline-teal-500 focus:ring-teal-500 shadow-sm  shadow-[#808080]`}
                             value={values.middleName}
                             onChange={handleChange}
                             onBlur={handleBlur}
@@ -1385,16 +1412,16 @@ function Registration() {
                       </label>
                     </div>
 
-                    <div className=" grid averageScreen:gap-y-12 md:gap-y-8 xs:gap-y-4 place-items-start  ">
-                      <div>
-                        <div className="inline-flex  ">
+                    <div className="w-full  grid averageScreen:gap-y-12 md:gap-y-8 xs:gap-y-4 place-items-start  ">
+                      <div className="w-full ">
+                        <div className="inline-flex  w-full ">
                           <input
                             id="lastName"
                             name="lastName"
                             type="text "
                             placeholder="Enter Last Name"
                             autoComplete="new-password"
-                            className={`xs:max-w-[130px] sm:max-w-full  py-2 lg:px-2 border-2  rounded-md relative border-gray-500 focus:outline-teal-500 focus:ring-teal-500 shadow-sm  shadow-[#808080]`}
+                            className={`grow w-full py-2 lg:px-2 border-2  rounded-md relative border-gray-500 focus:outline-teal-500 focus:ring-teal-500 shadow-sm  shadow-[#808080]`}
                             value={values.lastName}
                             onChange={lastNameChange}
                             onBlur={handleBlur}
@@ -1488,7 +1515,7 @@ function Registration() {
                   >
                     <div className="">
                       {/*Email Input*/}
-                      <div className="inline-flex w-full justify-center items-center hdScreen:-ml-[2.2rem] semihdScreen:-ml-[2.2rem] laptopScreen:-ml-[2.9rem] averageScreen:-ml-[3rem] md:ml-[1.7rem]">
+                      <div className="inline-flex w-full justify-center items-center hdScreen:-ml-[3.5rem] semihdScreen:-ml-[3.5rem] laptopScreen:-ml-[4.2rem] averageScreen:-ml-[4.3rem] md:ml-[3rem]">
                         <label
                           htmlFor="email"
                           className="md:inline-block xs:hidden  text-right lg:w-[136px] "
@@ -1722,23 +1749,24 @@ function Registration() {
                             }`}
               >
                 <div className="">
-                  <div className="">
-                    <div className="inline-block min-w-full rounded-lg ">
-                      {studentList.length > 0 && (
-                        <table
-                          id="main_table"
-                          className="min-w-full leading-normal -mt-[28px] relative"
-                        >
-                          <thead className="invisible text-left uppercase tracking-wider font-bold lg:text-base md:text-sm xs:text-xs">
-                            <tr>
-                              <th className="lg:pl-8 w-[6%]">#</th>
-                              {Object.keys(studentList[0]).map((key, index) =>
-                                index > 1 && index != 3 ? (
-                                  <th
-                                    key={key}
-                                    className={`${
-                                      index == 2 ? 'w-[15.25%]' : ''
-                                    } 
+                  {!uploadFail ? (
+                    <div className="">
+                      <div className="inline-block min-w-full rounded-lg ">
+                        {studentList.length > 0 && (
+                          <table
+                            id="main_table"
+                            className="min-w-full leading-normal -mt-[28px] relative"
+                          >
+                            <thead className="invisible text-left uppercase tracking-wider font-bold lg:text-base md:text-sm xs:text-xs">
+                              <tr>
+                                <th className="lg:pl-8 w-[6%]">#</th>
+                                {Object.keys(studentList[0]).map((key, index) =>
+                                  index > 1 && index != 3 ? (
+                                    <th
+                                      key={key}
+                                      className={`${
+                                        index == 2 ? 'w-[15.25%]' : ''
+                                      } 
                                   ${index == 4 ? 'w-[15%]' : ''}
                                   ${index == 5 ? 'w-[17%]' : ''}
                                   ${index == 6 ? 'w-[16%]' : ''}
@@ -1747,134 +1775,149 @@ function Registration() {
                                       ? 'hdScreen:w-[12%] semihdScreen:w-[11%] laptopScreen:w-[8%] averageScreen:w-[7%] sm:w-[5%]'
                                       : ''
                                   }`}
+                                    >
+                                      {key}
+                                    </th>
+                                  ) : (
+                                    <></>
+                                  )
+                                )}
+                              </tr>
+                            </thead>
+
+                            <tbody className="relative ">
+                              {studentList.map((row, counter) =>
+                                row.Role != ' ' ? (
+                                  <tr
+                                    id={`row${counter}`}
+                                    key={counter}
+                                    className={`odd:bg-white even:bg-slate-50/30 hover:bg-gray-100 hover:text-indigo-600 border-b border-gray-200 bg-white  text-gray-900 
+                                  ${
+                                    errorAccount[counter] == 'unique' ? '' : ''
+                                  }`}
                                   >
-                                    {key}
-                                  </th>
+                                    <td className="lg:pl-8 lg:text-base md:text-sm sm:text-sm xs:text-xs py-[10px]">
+                                      <div className="h-2">{counter + 1}</div>
+                                    </td>
+                                    {Object.values(row).map((value, index) =>
+                                      index > 1 && index != 3 ? (
+                                        <td
+                                          name={value}
+                                          key={index}
+                                          className={`  lg:text-base md:text-sm sm:text-sm xs:text-xs py-[10px]
+                                        `}
+                                        >
+                                          <div className="h-2"></div>
+                                          {value == '(Optional)' ? (
+                                            <span className="font-light text-gray-400">
+                                              (Blank)
+                                            </span>
+                                          ) : (
+                                            value
+                                          )}
+                                        </td>
+                                      ) : (
+                                        <></>
+                                      )
+                                    )}
+
+                                    <td
+                                      className={`lg:text-base md:text-sm sm:text-sm xs:text-xs py-[10px]
+                                        `}
+                                    >
+                                      <div className="h-2"></div>
+
+                                      {duplicateAccount.includes(
+                                        'row' + counter.toString()
+                                      ) ? (
+                                        <div
+                                          className={`flex ${
+                                            ignored
+                                              ? 'line-through text-gray-600'
+                                              : ''
+                                          }`}
+                                        >
+                                          <BsXCircleFill
+                                            className={`mr-1 mt-1 hdScreen:text-xl semihdScreen:text-lg laptopScreen:text-base averageScreen:text-base  sm:text-sm xs:text-xs ${
+                                              ignored
+                                                ? 'text-gray-500'
+                                                : 'text-red-500'
+                                            } `}
+                                          />
+                                          <span
+                                            className={` font-semibold hdScreen:text-base semihdScreen:text-sm laptopScreen:text-sm averageScreen:text-sm xs:text-xs ${
+                                              ignored
+                                                ? 'text-gray-600'
+                                                : 'text-red-600'
+                                            }`}
+                                          >
+                                            [Account invalid for registration.]
+                                          </span>
+                                        </div>
+                                      ) : errorAccount.includes(
+                                          'row' + counter.toString()
+                                        ) ? (
+                                        <div
+                                          className={`flex ${
+                                            ignored
+                                              ? 'line-through text-gray-600'
+                                              : ''
+                                          }`}
+                                        >
+                                          <BsXCircleFill
+                                            className={`mr-1 mt-1 hdScreen:text-xl semihdScreen:text-lg laptopScreen:text-base averageScreen:text-base  sm:text-sm xs:text-xs ${
+                                              ignored
+                                                ? 'text-gray-500'
+                                                : 'text-red-500'
+                                            } `}
+                                          />
+                                          <span
+                                            className={` font-semibold hdScreen:text-base semihdScreen:text-sm laptopScreen:text-sm averageScreen:text-sm xs:text-xs ${
+                                              ignored
+                                                ? 'text-gray-600'
+                                                : 'text-red-600'
+                                            }`}
+                                          >
+                                            [Account invalid for registration.]
+                                          </span>
+                                        </div>
+                                      ) : (
+                                        <div className="flex ">
+                                          <VscPassFilled className="mr-1 mt-0.5 hdScreen:text-2xl semihdScreen:text-xl laptopScreen:text-lg averageScreen:text-lg sm:text-sm xs:text-xs text-lime-600" />
+
+                                          <span className="text-lime-600 font-semibold hdScreen:text-base semihdScreen:text-sm laptopScreen:text-sm averageScreen:text-sm  xs:text-xs">
+                                            [Account valid for registration.]
+                                          </span>
+                                        </div>
+                                      )}
+                                    </td>
+                                  </tr>
                                 ) : (
                                   <></>
                                 )
                               )}
-                            </tr>
-                          </thead>
+                            </tbody>
+                          </table>
+                        )}
 
-                          <tbody className="relative ">
-                            {studentList.map((row, counter) =>
-                              row.Role != ' ' ? (
-                                <tr
-                                  id={`row${counter}`}
-                                  key={counter}
-                                  className={`odd:bg-white even:bg-slate-50/30 hover:bg-gray-100 hover:text-indigo-600 border-b border-gray-200 bg-white  text-gray-900 
-                                  ${
-                                    errorAccount[counter] == 'unique' ? '' : ''
-                                  }`}
-                                >
-                                  <td className="lg:pl-8 lg:text-base md:text-sm sm:text-sm xs:text-xs py-[10px]">
-                                    <div className="h-2">{counter + 1}</div>
-                                  </td>
-                                  {Object.values(row).map((value, index) =>
-                                    index > 1 && index != 3 ? (
-                                      <td
-                                        name={value}
-                                        key={index}
-                                        className={`  lg:text-base md:text-sm sm:text-sm xs:text-xs py-[10px]
-                                        `}
-                                      >
-                                        <div className="h-2"></div>
-                                        {value == '(Optional)' ? (
-                                          <span className="font-light text-gray-400">
-                                            (Blank)
-                                          </span>
-                                        ) : (
-                                          value
-                                        )}
-                                      </td>
-                                    ) : (
-                                      <></>
-                                    )
-                                  )}
-
-                                  <td
-                                    className={`lg:text-base md:text-sm sm:text-sm xs:text-xs py-[10px]
-                                        `}
-                                  >
-                                    <div className="h-2"></div>
-
-                                    {duplicateAccount.includes(
-                                      'row' + counter.toString()
-                                    ) ? (
-                                      <div
-                                        className={`flex ${
-                                          ignored
-                                            ? 'line-through text-gray-600'
-                                            : ''
-                                        }`}
-                                      >
-                                        <BsXCircleFill
-                                          className={`mr-1 mt-1 hdScreen:text-xl semihdScreen:text-lg laptopScreen:text-base averageScreen:text-base  sm:text-sm xs:text-xs ${
-                                            ignored
-                                              ? 'text-gray-500'
-                                              : 'text-red-500'
-                                          } `}
-                                        />
-                                        <span
-                                          className={` font-semibold hdScreen:text-base semihdScreen:text-sm laptopScreen:text-sm averageScreen:text-sm xs:text-xs ${
-                                            ignored
-                                              ? 'text-gray-600'
-                                              : 'text-red-600'
-                                          }`}
-                                        >
-                                          [Account invalid for registration.]
-                                        </span>
-                                      </div>
-                                    ) : errorAccount.includes(
-                                        'row' + counter.toString()
-                                      ) ? (
-                                      <div
-                                        className={`flex ${
-                                          ignored
-                                            ? 'line-through text-gray-600'
-                                            : ''
-                                        }`}
-                                      >
-                                        <BsXCircleFill
-                                          className={`mr-1 mt-1 hdScreen:text-xl semihdScreen:text-lg laptopScreen:text-base averageScreen:text-base  sm:text-sm xs:text-xs ${
-                                            ignored
-                                              ? 'text-gray-500'
-                                              : 'text-red-500'
-                                          } `}
-                                        />
-                                        <span
-                                          className={` font-semibold hdScreen:text-base semihdScreen:text-sm laptopScreen:text-sm averageScreen:text-sm xs:text-xs ${
-                                            ignored
-                                              ? 'text-gray-600'
-                                              : 'text-red-600'
-                                          }`}
-                                        >
-                                          [Account invalid for registration.]
-                                        </span>
-                                      </div>
-                                    ) : (
-                                      <div className="flex ">
-                                        <VscPassFilled className="mr-1 mt-0.5 hdScreen:text-2xl semihdScreen:text-xl laptopScreen:text-lg averageScreen:text-lg sm:text-sm xs:text-xs text-lime-600" />
-
-                                        <span className="text-lime-600 font-semibold hdScreen:text-base semihdScreen:text-sm laptopScreen:text-sm averageScreen:text-sm  xs:text-xs">
-                                          [Account valid for registration.]
-                                        </span>
-                                      </div>
-                                    )}
-                                  </td>
-                                </tr>
-                              ) : (
-                                <></>
-                              )
-                            )}
-                          </tbody>
-                        </table>
-                      )}
-
-                      <div className="w-full bg-white"></div>
+                        <div className="w-full bg-white"></div>
+                      </div>
                     </div>
-                  </div>
+                  ) : (
+                    <>
+                      <div className="text-gray-700 text-center -mt-4 absolute flex flex-col items-center justify-center h-full w-full hdScreen:scale-100 semihdScreen:scale-90 laptopScreen:scale-85 averageScreen:scale-80 md:scale-75 sm:scale-70 xs:scale-60">
+                        <BsFileEarmarkExcel className="w-full text-[4rem]" />
+                        <p className="py-2 font-semibold semihdScreen:text-xl sm:text-lg xs:text-base">
+                          Upload Failed
+                        </p>
+                        <p className="sm:text-lg xs:text-sm">
+                          The uploaded .xlsx is empty, not from template or{' '}
+                          <br></br>
+                          different file type has been uploaded.
+                        </p>
+                      </div>
+                    </>
+                  )}
                 </div>
               </div>
 
@@ -1991,6 +2034,8 @@ function Registration() {
         onClose={handleOnCloseModal4}
         visible={showModal4}
       />
+
+      <LoadingSpinner visible={showLoading} />
     </>
   );
 }

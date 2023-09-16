@@ -265,6 +265,7 @@ export default function Whiteboard() {
     }
   }, []);
   //WINDOW ON LOAD FUNCTION
+  /*
   window.addEventListener(
     'load',
     function () {
@@ -272,6 +273,20 @@ export default function Whiteboard() {
     },
     { once: true }
   );
+  */
+
+  useEffect(() => {
+    const onPageLoad = () => {
+      setTimeout(loadAnswers, 1);
+      setTimeout(document.getElementById('whiteboard').click(), 1);
+    };
+    if (document.readyState === 'complete') {
+      onPageLoad();
+    } else {
+      window.addEventListener('load', onPageLoad, false);
+      return () => window.removeEventListener('load', onPageLoad);
+    }
+  }, []);
 
   const loadAnswers = e => {
     //GET CURRENT COEFFICIENT
@@ -305,6 +320,9 @@ export default function Whiteboard() {
       //correctAnswer(oldArray => [...oldArray,ans] );
       //
       let steps = questionSteps[currentQuestionIndex];
+      if (steps === undefined) {
+        steps = 0;
+      }
       //steps.push(ans);
       var equationSteps = [];
 
@@ -383,7 +401,6 @@ export default function Whiteboard() {
       hintMessage.push('');
       setHint(hintMessage);
 
-      document.getElementById('whiteboard').click();
       setTimeout(checkAnswered, 1);
     }
   };
@@ -528,18 +545,6 @@ export default function Whiteboard() {
 
   const nextQuestion = e => {
     //SESSION SCORE
-    var currentScore = window.localStorage.getItem('SESSION_SCORE');
-    if (
-      currentScore == null ||
-      currentScore == undefined ||
-      currentScore == '0'
-    ) {
-      currentScore = '0';
-    }
-
-    currentScore = parseInt(currentScore);
-    currentScore++;
-    window.localStorage.setItem('SESSION_SCORE', currentScore);
 
     ReactDOM.findDOMNode(confirmationArea).style.visibility = 'hidden';
     ReactDOM.findDOMNode(choiceArea).style.visibility = 'hidden';
@@ -628,14 +633,13 @@ export default function Whiteboard() {
 
       // **********************API BAD WORDS FILTER**********************
 
-      var Filter = require('bad-words'),
-        filter = new Filter();
+      const Filter = require('bad-words');
+      const filipinoBadwords = require('filipino-badwords-list');
+
+      const filter = new Filter({ list: filipinoBadwords.array });
 
       var newBadWords = ['stupid', 'idiot', 'dumb', 'tang', 'tangina'];
       filter.addWords(...newBadWords);
-
-      var filipinoBadwords = require('filipino-badwords-list');
-      filter.addWords(...filipinoBadwords.array);
 
       //var valueChanged = false;
       var isProfanity = false;
@@ -700,6 +704,19 @@ export default function Whiteboard() {
 
             increaseTally('EXPRESSION_HAPPY');
             increaseTally('QUESTION_ANSWERED');
+
+            var currentScore = window.localStorage.getItem('SESSION_SCORE');
+            if (
+              currentScore == null ||
+              currentScore == undefined ||
+              currentScore == '0'
+            ) {
+              currentScore = '0';
+            }
+
+            currentScore = parseInt(currentScore);
+            currentScore++;
+            window.localStorage.setItem('SESSION_SCORE', currentScore);
 
             return;
           } else {
@@ -1757,7 +1774,7 @@ export default function Whiteboard() {
 
   useEffect(() => {
     const onPageLoad = () => {
-      setTimeout(hideNavbar, 1000);
+      hideNavbar();
 
       function hideNavbar() {
         setSkeletonState(false);
@@ -1779,19 +1796,27 @@ export default function Whiteboard() {
       </div>
       <div
         id="whiteboard"
-        className={`hdScreen:scale-90 semihdScreen:scale-90 laptopScreen:scale-[82.5%] averageScreen:scale-80 hdScreen:-mt-8 semihdScreen:-mt-8 laptopScreen:-mt-12 averageScreen:-mt-16  mx-auto hdScreen:w-11/12 semihdScreen:w-11/12 laptopScreen:w-12/12 averageScreen:w-12/12 averageScreen:min-h-[calc(100vh-2rem)] flex items-center justify-center  h-screen averageScreen:overflow-y-hidden xs:overflow-y-auto
+        className={` sm:mt-4 hdScreen:scale-90 semihdScreen:scale-90 laptopScreen:scale-[82.5%] averageScreen:scale-80 hdScreen:-mt-8 semihdScreen:-mt-8 laptopScreen:-mt-20 averageScreen:-mt-20  mx-auto hdScreen:w-11/12 semihdScreen:w-11/12 laptopScreen:w-12/12 averageScreen:w-12/12 averageScreen:min-h-[calc(100vh-2rem)] flex items-center justify-center  h-screen averageScreen:overflow-y-hidden xs:overflow-y-auto
                   ${skeletonState ? 'hidden' : ''}`}
         onMouseEnter={loadAnswers}
         onClick={loadAnswers}
       >
-        <div className="w-full mx-auto grid  rounded-bl-6xl rounded-tr-6xl rounded-tl-6xl border-l-12 border-b-12 border-yellow-700 border-r-brTwo border-r-12  md:flex-row items-center  bg-mainBGBrown shadow-lg shadow-yellow-400  ">
+        <div
+          className={` w-full  lg:my-0 sm:my-12 mx-auto grid  rounded-bl-6xl rounded-tr-6xl rounded-tl-6xl border-l-12 border-b-12 border-yellow-700 border-r-brTwo border-r-12  md:flex-row items-center  bg-mainBGBrown shadow-lg shadow-yellow-400 
+        ${
+          whiteboardHeightValue <= 143
+            ? 'min-[1601px]:scale-100 min-[1367px]:scale-95 max-[1600px]:scale-95 min-[1281px]:scale-90 max-[1366px]:scale-90 min-[480px]:scale-90 max-[1280px]:scale-90'
+            : ''
+        }`}
+        >
           {/*<!--Mothergrids-->*/}
           <div
             id="container"
-            className={`relative grid grid-cols-21  bg-mainBrown  overflow-hidden pt-3 pl-3 pr-3 ${
+            className={`relative grid grid-cols-21  bg-mainBrown  overflow-hidden pt-3 pl-3 pr-3 
+            ${
               whiteboardHeightValue <= 143
-                ? 'min-[1536px]:grid-rows-10 min-[1367px]:grid-rows-7 max-[1535px]:grid-rows-7 min-[1281px]:grid-rows-6 max-[1366px]:grid-rows-6 min-[480px]:grid-rows-4 max-[1280px]:grid-rows-4'
-                : 'min-[1536px]:grid-rows-11 min-[1367px]:grid-rows-8 max-[1535px]:grid-rows-8 min-[1281px]:grid-rows-6 max-[1366px]:grid-rows-6 min-[480px]:grid-rows-4 max-[1280px]:grid-rows-4'
+                ? 'min-[1601px]:grid-rows-10 min-[1367px]:grid-rows-5 max-[1600px]:grid-rows-5 min-[1281px]:grid-rows-5 max-[1366px]:grid-rows-5 min-[480px]:grid-rows-4 max-[1280px]:grid-rows-4   '
+                : 'min-[1601px]:grid-rows-11 min-[1367px]:grid-rows-8 max-[1600px]:grid-rows-8 min-[1281px]:grid-rows-6 max-[1366px]:grid-rows-6 min-[480px]:grid-rows-4 max-[1280px]:grid-rows-4'
             }`}
           >
             {/*<!--Button container-->*/}

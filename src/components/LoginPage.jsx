@@ -21,6 +21,8 @@ import ForgotPassword from './ForgotPassword';
 
 import LoginPageSkeleton from './LoginPageSkeleton';
 
+import LoadingSpinner from './LoadingSpinner';
+
 export default function LoginPage() {
   const navigate = useNavigate();
 
@@ -85,6 +87,8 @@ export default function LoginPage() {
 
   //END END END END END END END END END END END END
 
+  const [showLoading, setShowLoading] = useState(false);
+
   // FOR LOGIN
 
   const [accountValidation, setAccountValidation] = useState('');
@@ -125,6 +129,7 @@ export default function LoginPage() {
         console.log('COEDED');
       }
     } else {
+      setShowLoading(true);
       let isStudent = false;
       let isAdmin = false;
 
@@ -143,6 +148,7 @@ export default function LoginPage() {
           console.log(message);
           if (message == 'setPassword') {
             firstLogin = true;
+            setShowLoading(false);
             setNewPass(true);
           } else {
             console.log(response.data);
@@ -332,8 +338,11 @@ export default function LoginPage() {
                         );
 
                         if (data == 'Student') {
+                          window.localStorage.removeItem('LOGIN_STATUS');
+                          setShowLoading(false);
                           navigate('/Homepage');
                         } else if (data == 'Teacher') {
+                          window.localStorage.removeItem('LOGIN_STATUS');
                           var fullName = JSON.parse(
                             window.localStorage.getItem('SESSION_FULLNAME')
                           );
@@ -351,6 +360,7 @@ export default function LoginPage() {
                                 JSON.stringify(section)
                               );
                               window.localStorage.setItem('LINK_TAB', 0);
+                              setShowLoading(false);
                               navigate('/HomePageTeacher');
                             });
 
@@ -358,15 +368,19 @@ export default function LoginPage() {
                         }
                       });
                   } else if (isAdmin) {
+                    window.localStorage.removeItem('LOGIN_STATUS');
                     var data = 'Admin';
                     window.localStorage.setItem(
                       'ACCOUNT_TYPE',
                       JSON.stringify(data)
                     );
+                    setShowLoading(false);
                     navigate('/HomePageAdmin');
                     //reloadPage();
                   }
                 });
+            } else {
+              setShowLoading(false);
             }
           }
 
@@ -443,7 +457,7 @@ export default function LoginPage() {
   };
 
   const [passwordState, setPasswordState] = useState(false);
-  const passwordElement = document.getElementById('password');
+  const passwordElement = document.getElementById('pass');
 
   const showPassword = () => {
     if (passwordState) {
@@ -452,6 +466,20 @@ export default function LoginPage() {
     } else {
       setPasswordState(true);
       ReactDOM.findDOMNode(passwordElement).type = 'text';
+    }
+  };
+
+  // SHOW NEW PASSWORD EYE (OPTIONAL)
+  const [passwordState2, setPasswordState2] = useState(false);
+  const passwordElement2 = document.getElementById('newPassword');
+
+  const showNewPassword = () => {
+    if (passwordState2) {
+      setPasswordState2(false);
+      ReactDOM.findDOMNode(passwordElement2).type = 'password';
+    } else {
+      setPasswordState2(true);
+      ReactDOM.findDOMNode(passwordElement2).type = 'text';
     }
   };
 
@@ -524,6 +552,7 @@ export default function LoginPage() {
   };
 
   const submitNewPassword = () => {
+    setShowLoading(true);
     let passwordNew = values.newPassword;
     let email = values.email;
     if (values.validNew && values.validConfirm) {
@@ -532,6 +561,7 @@ export default function LoginPage() {
           `http://localhost:80/Prototype-Vite/my-project/api/setNewPassword/${email}@${passwordNew}`
         )
         .then(function (response) {
+          setShowLoading(false);
           setShowModal(true);
         });
     }
@@ -564,8 +594,10 @@ export default function LoginPage() {
   }, []);
 
   //FOR SKELETON
+
   const [skeletonState, setSkeletonState] = useState(true);
 
+  /*
   useEffect(() => {
     const onPageLoad = () => {
       setTimeout(hideNavbar, 1000);
@@ -581,15 +613,18 @@ export default function LoginPage() {
       return () => window.removeEventListener('load', onPageLoad);
     }
   }, []);
+  */
 
   return (
     <>
-      <div className={`${!skeletonState ? 'hidden' : ''}`}>
+      {/** 
+      <div className={`${!skeletonState ? '' : ''}`}>
         <LoginPageSkeleton />
       </div>
+      */}
       <div
         className={` flex items-center select-none
-                      ${skeletonState ? 'hidden' : ''}`}
+                      ${skeletonState ? '' : ''}`}
       >
         <div className="mx-auto w-full  grid place-items-center overflow-y-auto h-screen">
           <div
@@ -775,7 +810,7 @@ export default function LoginPage() {
                         </div>
                       </div>
                       <input
-                        id="password"
+                        id="pass"
                         onFocus={function () {
                           setAccountValidation('');
                         }}
@@ -1025,6 +1060,7 @@ export default function LoginPage() {
         onClose={handleOnCloseModal2}
         visible={showModal2}
       />
+      <LoadingSpinner visible={showLoading} />
     </>
   );
 }

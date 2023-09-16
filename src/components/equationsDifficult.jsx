@@ -3,6 +3,13 @@ import axios from 'axios';
 var EquationGeneratorDifficult = (function () {
   const lhsSchemas = [
     // ORIGINAL
+
+    '2x @ 2x @ 3 @ 3',
+    '2x @ 3 @ 2x @ 3',
+    '2x @ 3 @ 3 @ 2x',
+    '3 @ 2x @ 3 @ 2x',
+    '3 @ 2x @ 2x @ 3',
+
     '3(2x)',
     '3(2x @ 3)',
     '3(3 @ 2x @ 3)',
@@ -296,14 +303,20 @@ var EquationGeneratorDifficult = (function () {
             }
             if (difficultEquationList[i].includes(digit)) {
               let search1 = ' ' + digit + ' ';
-              let search4 = '\\(' + digit + ' ';
-              let search5 = ' ' + digit + '\\)';
-              let search6 = '\\(' + digit + '\\)';
+              let search2 = '\\(' + digit + ' ';
+              let search3 = ' ' + digit + '\\)';
+              let search4 = '\\(' + digit + '\\)';
+              let search5 = ' ' + digit + '\\(';
+              let search6 = '\\)' + digit + ' ';
+              let search7 = '\\(' + digit + '\\(';
 
               let find1 = new RegExp(search1, '');
+              let find2 = new RegExp(search2, '');
+              let find3 = new RegExp(search3, '');
               let find4 = new RegExp(search4, '');
               let find5 = new RegExp(search5, '');
               let find6 = new RegExp(search6, '');
+              let find7 = new RegExp(search7, '');
 
               randomPercentage();
               difficultEquationList[i] = difficultEquationList[i].replace(
@@ -312,18 +325,33 @@ var EquationGeneratorDifficult = (function () {
               );
               randomPercentage();
               difficultEquationList[i] = difficultEquationList[i].replace(
-                find4,
+                find2,
                 '(' + negativeSymbol + rndInt.toString() + ' '
               );
               randomPercentage();
               difficultEquationList[i] = difficultEquationList[i].replace(
-                find5,
+                find3,
                 ' ' + negativeSymbol + rndInt.toString() + ')'
               );
               randomPercentage();
               difficultEquationList[i] = difficultEquationList[i].replace(
-                find6,
+                find4,
                 '(' + negativeSymbol + rndInt.toString() + ')'
+              );
+              randomPercentage();
+              difficultEquationList[i] = difficultEquationList[i].replace(
+                find5,
+                ' ' + negativeSymbol + rndInt.toString() + '('
+              );
+              randomPercentage();
+              difficultEquationList[i] = difficultEquationList[i].replace(
+                find6,
+                ')' + negativeSymbol + rndInt.toString()
+              );
+              randomPercentage();
+              difficultEquationList[i] = difficultEquationList[i].replace(
+                find7,
+                '(' + negativeSymbol + rndInt.toString() + '('
               );
             }
           }
@@ -336,14 +364,20 @@ var EquationGeneratorDifficult = (function () {
             }
             if (difficultEquationList[i].includes(digit)) {
               let search1 = ' ' + digit + 'x ';
-              let search4 = '\\(' + digit + 'x ';
-              let search5 = ' ' + digit + 'x\\)';
-              let search6 = '\\(' + digit + 'x\\)';
+              let search2 = '\\(' + digit + 'x ';
+              let search3 = ' ' + digit + 'x\\)';
+              let search4 = '\\(' + digit + 'x\\)';
+              let search5 = ' ' + digit + 'x\\(';
+              let search6 = '\\)' + digit + 'x ';
+              let search7 = '\\(' + digit + 'x\\(';
 
               let find1 = new RegExp(search1, '');
+              let find2 = new RegExp(search2, '');
+              let find3 = new RegExp(search3, '');
               let find4 = new RegExp(search4, '');
               let find5 = new RegExp(search5, '');
               let find6 = new RegExp(search6, '');
+              let find7 = new RegExp(search7, '');
 
               randomPercentage();
               difficultEquationList[i] = difficultEquationList[i].replace(
@@ -352,18 +386,28 @@ var EquationGeneratorDifficult = (function () {
               );
               randomPercentage();
               difficultEquationList[i] = difficultEquationList[i].replace(
-                find4,
+                find2,
                 '(' + negativeSymbol + rndInt.toString() + 'x'
               );
               randomPercentage();
               difficultEquationList[i] = difficultEquationList[i].replace(
-                find5,
+                find3,
                 ' ' + negativeSymbol + rndInt.toString() + 'x)'
               );
               randomPercentage();
               difficultEquationList[i] = difficultEquationList[i].replace(
-                find6,
+                find4,
                 '(' + negativeSymbol + rndInt.toString() + 'x)'
+              );
+              randomPercentage();
+              difficultEquationList[i] = difficultEquationList[i].replace(
+                find5,
+                ' ' + negativeSymbol + rndInt.toString() + 'x('
+              );
+              randomPercentage();
+              difficultEquationList[i] = difficultEquationList[i].replace(
+                find7,
+                '(' + negativeSymbol + rndInt.toString() + 'x('
               );
             }
           }

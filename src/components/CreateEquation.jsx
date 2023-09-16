@@ -18,6 +18,9 @@ import { HiPlusSmall } from 'react-icons/hi2';
 import CreateEquationSkeleton from './CreateEquationSkeleton';
 import CreateEquationMessageModal from './CreateEquationMessageModal';
 
+import { BsClipboard2X } from 'react-icons/bs';
+import LoadingSpinner from './LoadingSpinner';
+
 export default function CreateEquation() {
   const navigate = useNavigate();
 
@@ -69,6 +72,10 @@ export default function CreateEquation() {
     }
   });
 
+  const [showLoading, setShowLoading] = useState(false);
+  const [tableLoader, setTableLoader] = useState(false);
+  var highestTimeoutId = setTimeout(';');
+
   const [equationString, setEquationString] = useState('');
   const [equationResult, setEquationResult] = useState('');
   const [equationSteps, setEquationSteps] = useState([]);
@@ -101,6 +108,7 @@ export default function CreateEquation() {
   };
 
   const validateEquation = () => {
+    setShowLoading(true);
     let equationLink = equationString.replace(/ /g, '');
 
     equationLink = formatGivenEquation(equationLink);
@@ -153,6 +161,7 @@ export default function CreateEquation() {
           'visible';
         setEquationResult(equationString);
         if (response.data === 'duplicate') {
+          setShowLoading(false);
           setDuplicateState(true);
           setValidState(false);
         } else {
@@ -228,6 +237,7 @@ export default function CreateEquation() {
             }
             setEquationSteps(fixedEquationSteps);
           }
+          setShowLoading(false);
         }
       });
   };
@@ -261,6 +271,7 @@ export default function CreateEquation() {
   };
 
   const addEquation = () => {
+    setShowLoading(true);
     var equationDetails = difficulty + '@' + equationLink;
     console.log(equationDetails);
     axios
@@ -268,6 +279,7 @@ export default function CreateEquation() {
         `http://localhost:80/Prototype-Vite/my-project/api/addEquation/${equationDetails}`
       )
       .then(function (response) {
+        setShowLoading(false);
         resetEquation();
         console.log(response.data);
         setShowModal(true);
@@ -635,6 +647,7 @@ export default function CreateEquation() {
         onClose={handleOnCloseModal}
         visible={showModal}
       />
+      <LoadingSpinner visible={showLoading} />
     </>
   );
 }

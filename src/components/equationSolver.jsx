@@ -19,8 +19,24 @@ var EquationSolver = (function () {
         return equation;
       }
 
+      if (!/[a-z]/i.test(equation)) {
+        equation = 'invalid';
+        return equation;
+      }
+
       // Separate the left-hand and right-hand side of the equation
       var [lhs, rhs] = equation.split('=').map(side => side.trim());
+
+      var tempLHS = lhs.split('').sort();
+      var tempRHS = rhs.split('').sort();
+
+      var strLHS = tempLHS.toString();
+      var strRHS = tempRHS.toString();
+
+      if (strLHS == strRHS) {
+        equation = 'invalid';
+        return equation;
+      }
 
       var checkLHS = false;
       var checkRHS = false;

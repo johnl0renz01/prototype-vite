@@ -114,9 +114,9 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
 
   const onSubmit = async (values, actions) => {
     //console.log('SUBMITTED');
+    setShowLoading(true);
     var validForm = JSON.parse(window.sessionStorage.getItem('IS_VALID_FORM'));
     if (validForm) {
-      setShowLoading(true);
       axios
         .post(
           `http://localhost:80/Prototype-Vite/my-project/api/editAccount/${originalEmail}`,
@@ -230,6 +230,7 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
   const [validState, setValidState] = useState(false);
 
   const firstNameChange = event => {
+    window.sessionStorage.setItem('IS_VALID_FORM', false);
     const value = event.target.value;
     var emailValue = value.replace(/\s/g, '');
     emailValue = emailValue.toLowerCase();
@@ -267,7 +268,6 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
       window.sessionStorage.getItem('EDIT_ACCOUNT_NAME')
     );
     if (tempEmail != currentEmail) {
-      window.sessionStorage.setItem('IS_VALID_FORM', false);
       axios
         .get(
           `http://localhost:80/Prototype-Vite/my-project/api/verifyEmail/${tempEmail}`
@@ -286,6 +286,7 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
   };
 
   const lastNameChange = event => {
+    window.sessionStorage.setItem('IS_VALID_FORM', false);
     const value = event.target.value;
     var emailValue = value.replace(/\s/g, '');
     emailValue = emailValue.toLowerCase();
@@ -323,7 +324,6 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
       window.sessionStorage.getItem('EDIT_ACCOUNT_NAME')
     );
     if (tempEmail != currentEmail) {
-      window.sessionStorage.setItem('IS_VALID_FORM', false);
       axios
         .get(
           `http://localhost:80/Prototype-Vite/my-project/api/verifyEmail/${tempEmail}`

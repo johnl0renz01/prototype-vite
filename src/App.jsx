@@ -46,6 +46,8 @@ import HomePageAdmin from './components/HomePageAdmin';
 
 import ErrorPage from './components/ErrorPage';
 
+import LogoutWarning from './components/LogoutWarning';
+
 class App extends Component {
   componentWillUnmount() {
     localStorage.clear();
@@ -80,6 +82,7 @@ class App extends Component {
     console.log('App - Rendered');
     return (
       <BrowserRouter>
+        <LogoutWarning></LogoutWarning>
         <Navbar></Navbar>
         <TeacherNavbar></TeacherNavbar>
         <AdminNavbar></AdminNavbar>

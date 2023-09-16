@@ -2,23 +2,14 @@ import React, { Component } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
-import * as ReactDOM from 'react-dom';
-import $ from 'jquery';
-
-import { Formik, useFormik } from 'formik';
-import { editAccountSchema } from '../schemas';
-import { editSectionSchema } from '../schemas';
-import { contactAdminSchema } from '../schemas';
-
-import { VscCheckAll, VscPassFilled } from 'react-icons/vsc';
-
-import { BsSlashCircle } from 'react-icons/bs';
-import { BsFillSendFill } from 'react-icons/bs';
 
 import { MdClose } from 'react-icons/md';
-import { VscQuestion } from 'react-icons/vsc';
+
+import LoadingSpinner from './LoadingSpinner';
 
 const ViewDetailModal = ({ visible, onClose, onContinue }) => {
+  const [showLoading, setShowLoading] = useState(false);
+
   const navigate = useNavigate();
 
   const [subject, setSubject] = useState('');
@@ -45,6 +36,7 @@ const ViewDetailModal = ({ visible, onClose, onContinue }) => {
   });
 
   function getRequestDetails(requestID) {
+    setShowLoading(true);
     let id = requestID.replace(/"/g, ' ');
     axios
       .get(
@@ -60,6 +52,7 @@ const ViewDetailModal = ({ visible, onClose, onContinue }) => {
           'CURRENT_VIEW_DETAIL',
           JSON.stringify(keys[6])
         );
+        setShowLoading(false);
         loadValues();
         function loadValues() {
           setSubject(keys[1]);
@@ -85,7 +78,7 @@ const ViewDetailModal = ({ visible, onClose, onContinue }) => {
         id="mainContainer"
         onClick={handleOnClose}
         className={`fixed top-0 z-50 inset-0 bg-black bg-opacity-50 backdrop-blur-[1.5px] flex justify-center items-center "
-        `}
+                  ${showLoading ? 'invisible' : ''}`}
       >
         <div className="bg-white hdScreen:w-1/3 semihdScreen:w-[40%] laptopScreen:w-[45%] averageScreen:w-[45%] md:w-[50%] sm:w-[65%] xs:w-[70%] hdScreen:scale-100 semihdScreen:scale-90 laptopScreen:scale-85 averageScreen:scale-80 md:scale-80 sm:scale-80 xs:scale-75 rounded lg:text-lg md:text-base sm:text-sm xs:text-xs shadow-md ">
           <div
@@ -146,6 +139,7 @@ const ViewDetailModal = ({ visible, onClose, onContinue }) => {
           </div>
         </div>
       </div>
+      <LoadingSpinner visible={showLoading} />
     </>
   );
 };

@@ -9,10 +9,17 @@ import ViewDetailModal from './ViewDetailModal';
 
 import EquationSolver from './equationSolver';
 
-import { BsEye, BsDashCircle, BsCheckCircle } from 'react-icons/bs';
+import {
+  BsEye,
+  BsDashCircle,
+  BsCheckCircle,
+  BsClipboard2X,
+} from 'react-icons/bs';
 import { HiPencilSquare } from 'react-icons/hi2';
 
 import UserRequestSkeleton from './UserRequestSkeleton';
+
+import LoadingSpinner from './LoadingSpinner';
 
 export default function UserRequest() {
   const navigate = useNavigate();
@@ -29,7 +36,7 @@ export default function UserRequest() {
   useEffect(() => {
     var logged = JSON.parse(window.localStorage.getItem('LOGGED'));
     if (logged == 'FALSE') {
-      navigate('/LoginPage');
+      window.localStorage.setItem('LOGIN_STATUS', JSON.stringify('Terminated'));
     } else {
       var closed = JSON.parse(window.localStorage.getItem('IS_CLOSED'));
       if (closed) {
@@ -39,8 +46,10 @@ export default function UserRequest() {
             `http://localhost:80/Prototype-Vite/my-project/api/logout/${unique}`
           )
           .then(function (response) {
-            window.localStorage.setItem('LOGGED', JSON.stringify('FALSE'));
-            navigate('/LoginPage');
+            window.localStorage.setItem(
+              'LOGIN_STATUS',
+              JSON.stringify('Terminated')
+            );
           });
       }
     }
@@ -53,6 +62,10 @@ export default function UserRequest() {
     }
   });
 
+  const [showLoading, setShowLoading] = useState(false);
+  const [tableLoader, setTableLoader] = useState(false);
+  var highestTimeoutId = setTimeout(';');
+
   const [requests, setRequests] = useState([]);
   const [counter, setCounter] = useState(0);
 
@@ -64,10 +77,12 @@ export default function UserRequest() {
   }, []);
 
   function getRequests() {
+    setSkeletonState(true);
     axios
       .get(`http://localhost:80/Prototype-Vite/my-project/api/requestList/`)
       .then(function (response) {
         console.log(response.data);
+        setSkeletonState(false);
         setRequests(response.data);
       });
   }
@@ -80,6 +95,32 @@ export default function UserRequest() {
         total = parseInt(total);
         setCounter(total);
       });
+  }
+
+  function updateTable() {
+    setTableLoader(true);
+    getRequests2();
+    getRequestTotal2();
+
+    function getRequests2() {
+      axios
+        .get(`http://localhost:80/Prototype-Vite/my-project/api/requestList/`)
+        .then(function (response) {
+          console.log(response.data);
+          setRequests(response.data);
+          setTableLoader(false);
+        });
+    }
+
+    function getRequestTotal2() {
+      axios
+        .get(`http://localhost:80/Prototype-Vite/my-project/api/requestTotal/`)
+        .then(function (response) {
+          var total = response.data;
+          total = parseInt(total);
+          setCounter(total);
+        });
+    }
   }
 
   const viewMode = e => {
@@ -96,14 +137,20 @@ export default function UserRequest() {
   const [showModal, setShowModal] = useState(false);
   const handleOnCloseModal = () => setShowModal(false);
 
-  const [choiceModal, setChoiceModal] = useState(false);
-
   const handleOnContinueModal = () => {
-    setChoiceModal(true);
     setShowModal(false);
   };
 
+  // MODAL SOLVE CONFIRMATION
+  const [showModal2, setShowModal2] = useState(false);
+  const handleOnCloseModal2 = () => setShowModal2(false);
+
+  const handleOnContinueModal2 = () => {
+    setShowModal2(false);
+  };
+
   const solved = e => {
+    setShowLoading(true);
     let requestID = e.target.name;
     console.log(requestID);
     axios
@@ -112,26 +159,34 @@ export default function UserRequest() {
       )
       .then(function (response) {
         console.log(response.data);
-        getRequests();
-        getRequestTotal();
+        updateTable();
+        setShowLoading(false);
       });
   };
 
   const handleChange = event => {
+    setTableLoader(true);
     //console.log('HEYEHEY');
     const name = event.target.name;
     const value = event.target.value;
     inputText = { [name]: value };
 
-    axios
-      .post(
-        `http://localhost:80/Prototype-Vite/my-project/api/requestList/`,
-        inputText
-      )
-      .then(function (response) {
-        //console.log(response.data);
-        setRequests(response.data);
-      });
+    for (let i = 0; i < highestTimeoutId; i++) {
+      clearTimeout(i);
+    }
+
+    setTimeout(() => {
+      axios
+        .post(
+          `http://localhost:80/Prototype-Vite/my-project/api/requestList/`,
+          inputText
+        )
+        .then(function (response) {
+          //console.log(response.data);
+          setRequests(response.data);
+          setTableLoader(false);
+        });
+    }, 1000);
   };
 
   const [navbarWidth, setNavbarWidth] = useState(0);
@@ -169,22 +224,6 @@ export default function UserRequest() {
 
   //FOR SKELETON
   const [skeletonState, setSkeletonState] = useState(true);
-
-  useEffect(() => {
-    const onPageLoad = () => {
-      setTimeout(hideNavbar, 1000);
-
-      function hideNavbar() {
-        setSkeletonState(false);
-      }
-    };
-    if (document.readyState === 'complete') {
-      onPageLoad();
-    } else {
-      window.addEventListener('load', onPageLoad, false);
-      return () => window.removeEventListener('load', onPageLoad);
-    }
-  }, []);
 
   return (
     <>
@@ -314,102 +353,127 @@ export default function UserRequest() {
                             xs:min-h-[calc(100vh-47.5vh)] xs:max-h-[calc(100vh-47.5vh)]
                             bg-white relative overflow-y-scroll style-2 mx-auto w-full rounded-md"
             >
-              <div className="">
-                <div className="">
-                  <div className="inline-block min-w-full rounded-lg ">
-                    <table className="min-w-full leading-normal -mt-[28px] relative">
-                      <thead className="invisible text-left uppercase tracking-wider font-bold lg:text-base md:text-sm xs:text-xs">
-                        <tr>
-                          <th className="lg:pl-8 w-[20%]  lg:text-base md:text-sm sm:text-xs  ">
-                            Subject
-                          </th>
-                          <th className="w-[27.5%]   lg:text-base md:text-sm sm:text-xs ">
-                            From
-                          </th>
-                          <th className="w-[12.5%]  lg:text-base md:text-sm sm:text-xs ">
-                            Role
-                          </th>
-                          <th className="w-[20%] lg:text-base md:text-sm sm:text-xs ">
-                            Received on
-                          </th>
-                          <th className=""></th>
-                          <th className="w-[10%]"></th>
-                          <th className="w-[0.25%]"></th>
-                        </tr>
-                      </thead>
+              <div
+                className={`-mt-4 absolute flex-col items-center justify-center h-full w-full hdScreen:scale-100 semihdScreen:scale-90 laptopScreen:scale-85 averageScreen:scale-80 md:scale-75 sm:scale-70 xs:scale-60
+                 ${tableLoader ? 'flex' : 'hidden'}`}
+              >
+                <div className="loader border-8 border-[#e2c209]"></div>
+                <p className="pt-2 hdScreen:text-lg semihdScreen:text-lg laptopScreen:text-base averageScreen:text-base sm:text-sm xs:text-xs">
+                  Fetching Data...
+                </p>
+              </div>
 
-                      <tbody className="relative ">
-                        {requests.map((currentRequest, index) => (
-                          <tr
-                            key={index}
-                            className="odd:bg-white even:bg-slate-50/30 border-b border-gray-200 bg-white hover:bg-gray-100 text-gray-900 hover:text-indigo-600  "
-                          >
-                            <td className="hdScreen:w-[320px] semihdScreen:w-[240px] laptopScreen:w-[190px] averageScreen:w-[130px] sm:w-[90px] xs:w-[50px] relative overflow-hidden flex items-center lg:text-base md:text-sm xs:text-xs lg:px-5 py-[10px] whitespace-nowrap">
-                              <div className="flex-shrink-0  h-10 mr-3 break-all "></div>
-                              <p className="  lg:text-base md:text-sm xs:text-xs ">
-                                {`${currentRequest.Subject}`}
-                              </p>
-                            </td>
-                            <td className="lg:text-base md:text-sm xs:text-xs break-all">
-                              <div>
-                                <p>{currentRequest.Email}</p>
-                              </div>
-                            </td>
-                            <td className="lg:text-base md:text-sm xs:text-xs ">
-                              <p>{currentRequest.Role}</p>
-                            </td>
-                            <td className="lg:text-base md:text-sm xs:text-xs ">
-                              <p>{currentRequest.Timestamp}</p>
-                            </td>
-                            <td className="text-right lg:text-base md:text-sm xs:text-xs whitespace-no-wrap ">
-                              <div className="relative ">
-                                <input
-                                  onClick={viewMode}
-                                  name={currentRequest.RequestID}
-                                  type="button"
-                                  value="View Details"
-                                  className="cursor-pointer py-[0.2rem]  md:px-4 md:w-auto xs:w-20 text-gray-700 hover:text-white  shadow-md rounded-md font-semibold  transition duration-500 border-gray-400 border-2  hover:bg-gray-500 hover:border-gray-500 lg:text-base"
-                                ></input>
-                              </div>
-                            </td>
-                            <td className="text-right hdScreen:pr-6 semihdScreen:pr-1 laptopScreen:pr-0.5 averageScreen:pr-0 lg:text-base md:text-sm xs:text-xs">
-                              {currentRequest.Status == 'SOLVED' ? (
-                                <>
-                                  <button
-                                    disabled
-                                    className="relative py-[0.2rem]  md:px-3 md:w-auto xs:w-16 shadow-md rounded-md font-semibold  text-white bg-lime-600 drop-shadow-[0_2px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_2px_0px_rgba(0,0,0,0.6)]"
-                                  >
-                                    <span className="font-semibold md:pl-3 lg:text-base flex justify-center items-center">
-                                      Solved
-                                      <BsCheckCircle className="md:block xs:hidden md:ml-4  lg:text-base" />
-                                    </span>
-                                  </button>
-                                </>
-                              ) : (
-                                <>
-                                  <div className="relative ">
-                                    <input
-                                      onClick={solved}
-                                      name={currentRequest.RequestID}
-                                      type="submit"
-                                      value="Unsolved"
-                                      className=" cursor-pointer py-[0.2rem]  md:pl-4 md:pr-[2.15rem] md:w-auto xs:w-16 shadow-md rounded-md font-semibold  transition duration-500 text-white bg-red-500 hover:bg-red-700 drop-shadow-[0_2px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_2px_0px_rgba(0,0,0,0.6)]"
-                                    ></input>
-                                    <span className="md:block xs:hidden absolute top-[0.25rem] right-3 font-normal flex justify-center ">
-                                      <BsDashCircle className="ml-1 md:mt-[0.1rem] lg:text-base text-white" />
-                                    </span>
-                                  </div>
-                                </>
-                              )}
-                            </td>
-                            <td></td>
+              <div className={`${tableLoader ? 'hidden' : ''}`}>
+                {requests.length > 0 ? (
+                  <div className="">
+                    <div className="inline-block min-w-full rounded-lg ">
+                      <table className="min-w-full leading-normal -mt-[28px] relative">
+                        <thead className="invisible text-left uppercase tracking-wider font-bold lg:text-base md:text-sm xs:text-xs">
+                          <tr>
+                            <th className="lg:pl-8 w-[20%]  lg:text-base md:text-sm sm:text-xs  ">
+                              Subject
+                            </th>
+                            <th className="w-[27.5%]   lg:text-base md:text-sm sm:text-xs ">
+                              From
+                            </th>
+                            <th className="w-[12.5%]  lg:text-base md:text-sm sm:text-xs ">
+                              Role
+                            </th>
+                            <th className="w-[20%] lg:text-base md:text-sm sm:text-xs ">
+                              Received on
+                            </th>
+                            <th className=""></th>
+                            <th className="w-[10%]"></th>
+                            <th className="w-[0.25%]"></th>
                           </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                    <div className="w-full bg-white"></div>
+                        </thead>
+
+                        <tbody className="relative ">
+                          {requests.map((currentRequest, index) => (
+                            <tr
+                              key={index}
+                              className="odd:bg-white even:bg-slate-50/30 border-b border-gray-200 bg-white hover:bg-gray-100 text-gray-900 hover:text-indigo-600  "
+                            >
+                              <td className="hdScreen:w-[320px] semihdScreen:w-[240px] laptopScreen:w-[190px] averageScreen:w-[130px] sm:w-[90px] xs:w-[50px] relative overflow-hidden flex items-center lg:text-base md:text-sm xs:text-xs lg:px-5 py-[10px] whitespace-nowrap">
+                                <div className="flex-shrink-0  h-10 mr-3 break-all "></div>
+                                <p className="  lg:text-base md:text-sm xs:text-xs ">
+                                  {`${currentRequest.Subject}`}
+                                </p>
+                              </td>
+                              <td className="lg:text-base md:text-sm xs:text-xs break-all">
+                                <div>
+                                  <p>{currentRequest.Email}</p>
+                                </div>
+                              </td>
+                              <td className="lg:text-base md:text-sm xs:text-xs ">
+                                <p>{currentRequest.Role}</p>
+                              </td>
+                              <td className="lg:text-base md:text-sm xs:text-xs ">
+                                <p>{currentRequest.Timestamp}</p>
+                              </td>
+                              <td className="text-right lg:text-base md:text-sm xs:text-xs whitespace-no-wrap ">
+                                <div className="relative ">
+                                  <input
+                                    onClick={viewMode}
+                                    name={currentRequest.RequestID}
+                                    type="button"
+                                    value="View Details"
+                                    className="cursor-pointer py-[0.2rem]  md:px-4 md:w-auto xs:w-20 text-gray-700 hover:text-white  shadow-md rounded-md font-semibold  transition duration-500 border-gray-400 border-2  hover:bg-gray-500 hover:border-gray-500 lg:text-base"
+                                  ></input>
+                                </div>
+                              </td>
+                              <td className="text-right hdScreen:pr-6 semihdScreen:pr-1 laptopScreen:pr-0.5 averageScreen:pr-0 lg:text-base md:text-sm xs:text-xs">
+                                {currentRequest.Status == 'SOLVED' ? (
+                                  <>
+                                    <button
+                                      disabled
+                                      className="relative py-[0.2rem]  md:px-3 md:w-auto xs:w-16 shadow-md rounded-md font-semibold  text-white bg-lime-600 drop-shadow-[0_2px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_2px_0px_rgba(0,0,0,0.6)]"
+                                    >
+                                      <span className="font-semibold md:pl-3 lg:text-base flex justify-center items-center">
+                                        Solved
+                                        <BsCheckCircle className="md:block xs:hidden md:ml-4  lg:text-base" />
+                                      </span>
+                                    </button>
+                                  </>
+                                ) : (
+                                  <>
+                                    <div className="relative ">
+                                      <input
+                                        onClick={solved}
+                                        name={currentRequest.RequestID}
+                                        type="submit"
+                                        value="Unsolved"
+                                        className=" cursor-pointer py-[0.2rem]  md:pl-4 md:pr-[2.15rem] md:w-auto xs:w-16 shadow-md rounded-md font-semibold  transition duration-500 text-white bg-red-500 hover:bg-red-700 drop-shadow-[0_2px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_2px_0px_rgba(0,0,0,0.6)]"
+                                      ></input>
+                                      <span className="md:block xs:hidden absolute top-[0.25rem] right-3 font-normal flex justify-center ">
+                                        <BsDashCircle className="ml-1 md:mt-[0.1rem] lg:text-base text-white" />
+                                      </span>
+                                    </div>
+                                  </>
+                                )}
+                              </td>
+                              <td></td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                      <div className="w-full bg-white"></div>
+                    </div>
                   </div>
-                </div>
+                ) : (
+                  <>
+                    <div className="text-gray-700 text-center -mt-4 absolute flex flex-col items-center justify-center h-full w-full hdScreen:scale-100 semihdScreen:scale-90 laptopScreen:scale-85 averageScreen:scale-80 md:scale-75 sm:scale-70 xs:scale-60">
+                      <BsClipboard2X className="w-full text-[4rem]" />
+                      <p className="py-2 font-semibold semihdScreen:text-xl sm:text-lg xs:text-base">
+                        No matches found
+                      </p>
+                      <p className="sm:text-lg xs:text-sm">
+                        Try checking if there's a typographical error
+                        <br></br>in your query.{' '}
+                      </p>
+                    </div>
+                  </>
+                )}
               </div>
             </div>
           </div>
@@ -420,6 +484,7 @@ export default function UserRequest() {
         visible={showModal}
         onContinue={handleOnContinueModal}
       />
+      <LoadingSpinner visible={showLoading} />
     </>
   );
 }

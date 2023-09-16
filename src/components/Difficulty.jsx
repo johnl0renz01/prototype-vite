@@ -19,6 +19,8 @@ import ClearStorage from './ClearStorage';
 
 import LoadingStudent from './LoadingStudent';
 
+import LoadingSpinner from './LoadingSpinner';
+
 export default function DifficultyPage() {
   document.body.style.height = '100vh';
   const navigate = useNavigate();
@@ -49,6 +51,8 @@ export default function DifficultyPage() {
       navigate('/HomePageTeacher');
     }
   });
+
+  const [showLoading, setShowLoading] = useState(false);
 
   //FOR LINKS/NAVBAR/BREADCRUMBS
   const [pageList, setPageList] = useState([]);
@@ -109,9 +113,10 @@ export default function DifficultyPage() {
 
     window.localStorage.setItem('NAVBAR_PAGE', JSON.stringify(pageList));
     window.localStorage.setItem('NAVBAR_PAGE_LINK', JSON.stringify(pageLink));
-    setTimeout(proceed, 1000);
+    setTimeout(proceed, 1);
 
     function proceed() {
+      setShowLoading(false);
       navigate('/Whiteboard');
     }
   }
@@ -127,46 +132,6 @@ export default function DifficultyPage() {
     if (data !== null) setQuestions(JSON.parse(data));
   }, []);
 
-  /*
-  useEffect(() => {
-    window.localStorage.setItem("QUESTION_LIST", JSON.stringify(questionList));
-  }, [questionList]);
-*/
-
-  /*
-    const getData = () => {
-        fetch('http://localhost:80/Prototype-React/my-app/api/setVariables.php')
-        .then((response)=>response.json())
-        .then((responseJson)=>
-        {
-            console.log(responseJson);
-        })
-    };
-
-    
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        const form = $(e.target);
-        $.ajax({
-            type: "POST",
-            url: form.attr("action"),
-            data: form.serialize(),
-            success(data) {
-                setResult(data);
-            },
-        
-        });
-        /*
-        axios.post(`http://localhost:80/Prototype-React/my-app/api/setVariables.php`).then(function(response){
-            console.log("axios is: " + response.data);
-        });
-        axios.post(`http://localhost:80/Prototype-React/my-app/api/data.php`, rawList).then(function(response){
-            console.log("axios is: " + response.data);
-        });
-       
-    };
-   */
   const [option, setOption] = useState('');
   const [diffType, setDiffType] = useState('');
   const [picked, isPicked] = useState(false);
@@ -176,16 +141,6 @@ export default function DifficultyPage() {
   var option_1 = document.getElementById('option_1');
   var option_2 = document.getElementById('option_2');
   var option_3 = document.getElementById('option_3');
-
-  /* REMOVED
-    const easyType = () => {
-      difficultyType = "easy";
-      setOption("easy");
-      isPicked(true);
-      resetCheck();
-      ReactDOM.findDOMNode(option_1).style.visibility = "visible";
-    };
-  */
 
   const easyType = () => {
     equationList = EquationGeneratorEasy.getEquationList(20);
@@ -230,6 +185,7 @@ export default function DifficultyPage() {
   const [choiceModal, setChoiceModal] = useState(false);
 
   const handleOnContinueModal = () => {
+    setShowLoading(true);
     setChoiceModal(true);
     setShowModal(false);
 
@@ -255,26 +211,13 @@ export default function DifficultyPage() {
           'DIFFICULTY_TYPE',
           JSON.stringify(diffType)
         );
+
         WhiteboardPage();
       });
   };
 
   const pickDifficulty = () => {
     setChoiceModal(false);
-
-    /* REMOVED
-    var equationList = [];
-    console.log(difficultyType);
-    if (difficultyType == "easy") {
-      equationList = EquationGeneratorEasy.getEquationList();
-    } else if (difficultyType == "average") {
-      equationList = EquationGeneratorAverage.getEquationList();
-    } else if (difficultyType == "difficult") {
-      equationList = EquationGeneratorDifficult.getEquationList();
-    }
-
-    setQuestions(equationList);
-    */
     var sessionID = '';
     try {
       sessionID = window.localStorage.getItem('SESSION_ID');
@@ -283,6 +226,7 @@ export default function DifficultyPage() {
     }
 
     if (sessionID == '""' || sessionID == null || sessionID == undefined) {
+      setShowLoading(true);
       window.localStorage.setItem('SESSION_SCORE', 0);
       window.localStorage.setItem(
         'QUESTION_LIST',
@@ -314,112 +258,6 @@ export default function DifficultyPage() {
     }
   };
 
-  // CHATGPT GENERATED EQUATIONS
-  /*
-  function pickDifficulty() {
-    console.log(difficultyType);
-    var prompt = "";
-    if (difficultyType == "easy") {
-      prompt =
-        '{"text":" Generate 5 linear equation to solve for, only 1 variable, it must be very difficult level and distinct to each other. The equation should be similiar as this example: 9x + 13 = -4x, or much even complicated, randomize each equation, include multiplication symbol between expressions, values can range from 1 to 1000. Put each equation inside bracket []"}';
-    } else if (difficultyType == "average") {
-      prompt =
-        '{"text":" Generate 5 linear equation to solve for, only 1 variable, it must be very difficult level and distinct to each other. The equation should be similiar as this example: 23x + 2 = 13x - 26, or much even complicated, randomize each equation, include multiplication symbol between expressions, values can range from 1 to 1000. Put each equation inside bracket []"}';
-    } else if (difficultyType == "difficult") {
-      prompt =
-        '{"text":" Generate 5 linear equation to solve for, only 1 variable, it must be very difficult level and distinct to each other. The equation should be similiar as this example: 2(3x-5) = 3(4x+2), or much even complicated, randomize each equation, include multiplication symbol between expressions, values can range from 1 to 1000. Put each equation inside bracket []"}';
-    }
-
-    var equationString = "";
-    const options = {
-      method: "POST",
-      url: "https://chatgpt-ai-chat-bot.p.rapidapi.com/ask",
-      headers: {
-        "content-type": "application/json",
-        "X-RapidAPI-Key": MY_API_KEY.getGPT_KEY(),
-        "X-RapidAPI-Host": "chatgpt-ai-chat-bot.p.rapidapi.com",
-      },
-      data: prompt,
-    };
-
-    //Generate 5 linear equation to solve for, only 1 variable, it must be very difficult level and distinct to each other. The equation should be similiar as this example: 2(3x-5) = 3(4x+2), or much even complicated, randomize each equation, include multiplication symbol between expressions, values can range from 1-1000. Put each equation inside bracket []
-
-    axios
-      .request(options)
-      .then(function (response) {
-        var equationList = [];
-
-        console.log(response);
-        console.log(response.data);
-        console.log(response.data.split(""));
-
-        let dataSplit = response.data.split("");
-        setRawList(response.data);
-        let firstBracket = 0;
-        let secondBracket = 0;
-
-        for (let i = 0; i < dataSplit.length; i++) {
-          let closingBracket = false;
-          if (dataSplit[i].match(/[\[]/)) {
-            firstBracket = i;
-          } else if (dataSplit[i].match(/[\]]/)) {
-            secondBracket = i;
-            closingBracket = true;
-          }
-
-          if (closingBracket) {
-            let equation = [
-              dataSplit.slice(firstBracket + 1, secondBracket),
-            ].join("");
-            equation = equation.replaceAll(",", "");
-            equationString = equation;
-            console.log("this isequation: " + equationString);
-            equationList.push(equationString);
-            closingBracket = false;
-          }
-        }
-
-        setQuestions(equationList);
-        console.log(questionList);
-
-        console.log(equationList[0]);
-        //QuestionList.setQuestionString(equationString);
-
-        console.log("THE length: " + equationList.length);
-        if (equationList.length > 5) {
-          pickDifficulty();
-        } else {
-          computeEquation();
-        }
-
-        function computeEquation() {
-          var equationValid = false;
-          var checkEquation = "";
-          for (let i = 0; i < equationList.length; i++) {
-            EquationSolver.setEquation(equationList[i]);
-            checkEquation = EquationSolver.getEquationAnswer();
-            if (checkEquation == "invalid") {
-              equationValid = false;
-              break;
-            } else {
-              equationValid = true;
-            }
-          }
-          if (equationValid) {
-            //WhiteboardPage();
-            //setQuestionArray((oldArray) => [...oldArray, equationList]);
-            //console.log(questionArray);
-          } else {
-            pickDifficulty();
-          }
-        }
-      })
-      .catch(function (error) {
-        console.error(error);
-      });
-  }
-  */
-
   const [easyEquations, setEasyEquations] = useState([
     '2x - 2 = 1',
     '3x = -4',
@@ -448,7 +286,7 @@ export default function DifficultyPage() {
 
   useEffect(() => {
     const onPageLoad = () => {
-      setTimeout(hideNavbar, 1000);
+      setTimeout(hideNavbar, 500);
 
       function hideNavbar() {
         setSkeletonState(false);
@@ -818,6 +656,7 @@ export default function DifficultyPage() {
         visible={showModal}
         onContinue={handleOnContinueModal}
       />
+      <LoadingSpinner visible={showLoading} />
     </>
   );
 }

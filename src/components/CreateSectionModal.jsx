@@ -17,16 +17,21 @@ import { BsSlashCircle } from 'react-icons/bs';
 import { MdClose } from 'react-icons/md';
 import { VscQuestion } from 'react-icons/vsc';
 
+import LoadingSpinner from './LoadingSpinner';
+
 const CreateSectionModal = ({ visible, onClose, onContinue }) => {
+  const [showLoading, setShowLoading] = useState(false);
   const navigate = useNavigate();
 
   const [adviserData, setAdviserData] = useState([]);
 
   function getAdvisers() {
+    setShowLoading(true);
     axios
       .get('http://localhost:80/Prototype-Vite/my-project/api/adviserList/')
       .then(function (response) {
         console.log(response.data);
+        setShowLoading(false);
         setAdviserData(response.data);
       });
   }
@@ -39,7 +44,9 @@ const CreateSectionModal = ({ visible, onClose, onContinue }) => {
 
   const onSubmit = (values, actions) => {
     console.log('SUBMITTED');
-    if (!values.isDuplicate) {
+    var validForm = JSON.parse(window.sessionStorage.getItem('IS_VALID_FORM'));
+    if (validForm) {
+      setShowLoading(true);
       axios
         .post(
           `http://localhost:80/Prototype-Vite/my-project/api/addSection/save`,
@@ -47,6 +54,7 @@ const CreateSectionModal = ({ visible, onClose, onContinue }) => {
         )
         .then(function (response) {
           console.log(response.data);
+          setShowLoading(false);
           onContinue();
         });
       //await new Promise((resolve) => setTimeout(resolve, 1));
@@ -55,6 +63,7 @@ const CreateSectionModal = ({ visible, onClose, onContinue }) => {
   const [duplicateState, setDuplicateState] = useState(false);
 
   const sectionNameChange = event => {
+    window.sessionStorage.setItem('IS_VALID_FORM', false);
     const value = event.target.value;
     values.sectionName = value;
     handleChange.sectionName;
@@ -74,10 +83,10 @@ const CreateSectionModal = ({ visible, onClose, onContinue }) => {
         console.log(response.data);
         if (response.data === 'duplicate') {
           setDuplicateState(true);
-          values.isDuplicate = true;
+          window.sessionStorage.setItem('IS_VALID_FORM', false);
         } else {
           setDuplicateState(false);
-          values.isDuplicate = false;
+          window.sessionStorage.setItem('IS_VALID_FORM', true);
         }
       });
   };
@@ -96,7 +105,6 @@ const CreateSectionModal = ({ visible, onClose, onContinue }) => {
       gradeLevel: '7',
       sectionName: '',
       adviserName: '',
-      isDuplicate: false,
     },
     validationSchema: addSectionSchema,
     onSubmit,
@@ -125,7 +133,7 @@ const CreateSectionModal = ({ visible, onClose, onContinue }) => {
         id="mainContainer"
         onClick={handleOnClose}
         className={`fixed top-0 z-50 inset-0 bg-black bg-opacity-50 backdrop-blur-[1.5px] flex justify-center items-center "
-       `}
+                ${showLoading ? 'invisible' : ''}`}
       >
         <div className="bg-white hdScreen:w-1/3 semihdScreen:w-[40%] laptopScreen:w-[45%] averageScreen:w-[45%] hdScreen:scale-100 semihdScreen:scale-95 laptopScreen:scale-90 averageScreen:scale-90 rounded lg:text-lg md:text-base sm:text-sm xs:text-xs shadow-md ">
           <div className="grid grid-cols-2 bg-gray-300 ">
@@ -278,6 +286,7 @@ const CreateSectionModal = ({ visible, onClose, onContinue }) => {
           </div>
         </div>
       </div>
+      <LoadingSpinner visible={showLoading} />
     </>
   );
 };

@@ -11,6 +11,9 @@ import { VscEye } from 'react-icons/vsc';
 import ChangeSectionModal from './ChangeSectionModal';
 import ClassListSkeleton from './ClassListSkeleton';
 
+import { BsClipboard2X } from 'react-icons/bs';
+import LoadingSpinner from './LoadingSpinner';
+
 export default function ClassList() {
   const navigate = useNavigate();
 
@@ -50,6 +53,10 @@ export default function ClassList() {
     }
   });
 
+  const [showLoading, setShowLoading] = useState(false);
+  const [tableLoader, setTableLoader] = useState(false);
+  var highestTimeoutId = setTimeout(';');
+
   var currentSection = '';
 
   useEffect(() => {
@@ -64,13 +71,11 @@ export default function ClassList() {
         window.sessionStorage.setItem('CURRENT_SECTION', JSON.stringify(data));
         currentSection = data;
         currentSection = currentSection.replace(/ /g, '_');
-        getClassList();
         getCurrentSection();
       } else {
         data2 = data2.replace(/"/g, '');
         currentSection = data2;
         currentSection = currentSection.replace(/ /g, '_');
-        getClassList();
         getCurrentSection();
       }
     }
@@ -78,17 +83,6 @@ export default function ClassList() {
 
   const [classList, setClassList] = useState([]);
   const [sectionList, setCurrentSection] = useState([]);
-
-  function getClassList() {
-    axios
-      .get(
-        `http://localhost:80/Prototype-Vite/my-project/api/classList/${currentSection}`
-      )
-      .then(function (response) {
-        //console.log(response.data);
-        setClassList(response.data);
-      });
-  }
 
   function getCurrentSection() {
     axios
@@ -98,25 +92,48 @@ export default function ClassList() {
       .then(function (response) {
         //console.log(response.data);
         setCurrentSection(response.data);
+
+        getClassList();
+        function getClassList() {
+          setSkeletonState(true);
+          axios
+            .get(
+              `http://localhost:80/Prototype-Vite/my-project/api/classList/${currentSection}`
+            )
+            .then(function (response) {
+              //console.log(response.data);
+
+              setClassList(response.data);
+              setSkeletonState(false);
+            });
+        }
       });
   }
 
   var inputText = '';
 
   const handleChange = event => {
+    setTableLoader(true);
     const name = event.target.name;
     const value = event.target.value;
     inputText = { [name]: value };
 
-    axios
-      .post(
-        `http://localhost:80/Prototype-Vite/my-project/api/classList/${currentSection}`,
-        inputText
-      )
-      .then(function (response) {
-        //console.log(response.data);
-        setClassList(response.data);
-      });
+    for (let i = 0; i < highestTimeoutId; i++) {
+      clearTimeout(i);
+    }
+
+    setTimeout(() => {
+      axios
+        .post(
+          `http://localhost:80/Prototype-Vite/my-project/api/classList/${currentSection}`,
+          inputText
+        )
+        .then(function (response) {
+          //console.log(response.data);
+          setClassList(response.data);
+          setTableLoader(false);
+        });
+    }, 1000);
   };
 
   var currentAccount = '';
@@ -181,15 +198,6 @@ export default function ClassList() {
     setLogoHeight(height);
   }
 
-  //GO BACK FUNCTION
-  const SectionListPage = () => {
-    setTimeout(proceed, 1);
-
-    function proceed() {
-      navigate('/SectionList');
-    }
-  };
-
   // MODAL CHANGE SECTION
   const [showModal, setShowModal] = useState(false);
   const handleOnCloseModal = () => setShowModal(false);
@@ -199,8 +207,6 @@ export default function ClassList() {
     const data = window.sessionStorage.getItem('CURRENT_SECTION');
     if (data !== null) currentSection = JSON.parse(data);
     currentSection = currentSection.replace(/ /g, '_');
-
-    getClassList();
     getCurrentSection();
   };
 
@@ -211,9 +217,10 @@ export default function ClassList() {
   //FOR SKELETON
   const [skeletonState, setSkeletonState] = useState(true);
 
+  /*
   useEffect(() => {
     const onPageLoad = () => {
-      setTimeout(hideNavbar, 1000);
+      setTimeout(hideNavbar, 500);
 
       function hideNavbar() {
         setSkeletonState(false);
@@ -226,6 +233,8 @@ export default function ClassList() {
       return () => window.removeEventListener('load', onPageLoad);
     }
   }, []);
+
+  */
 
   return (
     <>
@@ -274,37 +283,6 @@ export default function ClassList() {
             </span>
           </div>
           <div className="mt-1.5">
-            {/*
-            <div className="float-left py-2 ">
-              <div className="w-full flex items-center justify-between px-5">
-                <div className="rounded-2xl  first-letter:rounded-2xl bg-gray-200 px-5 shadow-sm shadow-gray-600 flex items-center  font-bold">
-                  <div className="flex">
-                    <h2 className=" text-gray-500  lg:text-3xl font-semibold ">
-                      {sectionList.map((section) => (
-                        <>{`${section.GradeLevel} - ${section.SectionName}`}</>
-                      ))}
-                    </h2>
-                  </div>
-                </div>
-              </div>
-            </div>
-            */}
-
-            {/*
-            <div className="float-left py-2  ">
-              <div className="inline-flex items-center justify-between px-5">
-                <div className="w-full rounded-2xl first-letter:rounded-2xl bg-gray-200 px-5 shadow-sm shadow-gray-600 flex items-center font-bold">
-                  <div className="relative "></div>
-                  <h2 className=" text-gray-500 stroke-cyan-500 lg:text-3xl font-semibold ">
-                    {sectionList.map((section) => (
-                      <>{`${section.AdviserTitle}. ${section.AdviserName} ${section.AdviserSurname}`}</>
-                    ))}
-                  </h2>
-                </div>
-              </div>
-            </div>
-            */}
-
             <div className="overflow-hidden hdScreen:py-1 semihdScreen:py-1 laptopScreen:py-0 averageScreen:py-0 pr-2">
               <div className="inline-flex w-full m-1   rounded-2xl lg:text-lg xs:text-xs">
                 <div className="grow mr-5 flex bg-gray-200 shadow-sm shadow-gray-600 py-1 items-center text-left rounded-2xl">
@@ -366,73 +344,100 @@ export default function ClassList() {
                             xs:min-h-[calc(100vh-50vh)] xs:max-h-[calc(100vh-50vh)]
                             bg-white relative overflow-y-scroll style-2 mx-auto w-full rounded-md"
             >
-              <div className="">
-                <div className="">
-                  <div className="inline-block min-w-full shadow rounded-lg ">
-                    <table className="min-w-full leading-normal -mt-[28px]">
-                      <thead className="invisible lg:text-base md:text-sm xs:text-xs ">
-                        <tr>
-                          <th className="lg:pl-20 w-[32.75%]">Student Name</th>
+              <div
+                className={`-mt-4 absolute flex-col items-center justify-center h-full w-full hdScreen:scale-100 semihdScreen:scale-90 laptopScreen:scale-85 averageScreen:scale-80 md:scale-75 sm:scale-70 xs:scale-60
+                 ${tableLoader ? 'flex' : 'hidden'}`}
+              >
+                <div className="loader border-8 border-[#89ce1a]"></div>
+                <p className="pt-2 hdScreen:text-lg semihdScreen:text-lg laptopScreen:text-base averageScreen:text-base sm:text-sm xs:text-xs">
+                  Fetching Data...
+                </p>
+              </div>
 
-                          <th className="w-[22.2%] ">Gender</th>
-                          <th className="">Group Type</th>
-                          <th className="lg:pl-16 select-none "></th>
-                        </tr>
-                      </thead>
-                      <tbody className=" ">
-                        {classList.map((account, key) => (
-                          <tr
-                            key={key}
-                            className="odd:bg-white even:bg-slate-50/30 border-b border-gray-200 bg-white hover:bg-gray-100 text-gray-900 hover:text-indigo-600"
-                          >
-                            <td className="flex items-center lg:text-base md:text-sm xs:text-xs  pl-5 py-[10px]  whitespace-no-wrap">
-                              <div className="flex-shrink-0 w-10 h-10 mr-3">
-                                {account.Gender == 'Male' ? (
-                                  <img
-                                    className="border-2 border-gray-300 rounded-full"
-                                    src={require('../assets/avatar/avatar-male.png')}
-                                    alt=""
-                                  />
-                                ) : (
-                                  <img
-                                    className="border-2 border-gray-300 rounded-full"
-                                    src={require('../assets/avatar/avatar-female.png')}
-                                    alt=""
-                                  />
-                                )}
-                              </div>
-                              <p className="lg:pl-2 lg:text-base md:text-sm xs:text-xs ">
-                                {account.GivenName + ' ' + account.LastName}
-                              </p>
-                            </td>
+              <div className={`${tableLoader ? 'hidden' : ''}`}>
+                {classList.length > 0 ? (
+                  <div className="">
+                    <div className="inline-block min-w-full shadow rounded-lg ">
+                      <table className="min-w-full leading-normal -mt-[28px]">
+                        <thead className="invisible lg:text-base md:text-sm xs:text-xs ">
+                          <tr>
+                            <th className="lg:pl-20 w-[32.75%]">
+                              Student Name
+                            </th>
 
-                            <td className="lg:text-base md:text-sm xs:text-xs ">
-                              <p>{account.Gender}</p>
-                            </td>
-                            <td className="lg:text-base md:text-sm xs:text-xs ">
-                              <p>{account.GroupType}</p>
-                            </td>
-                            <td className="lg:pr-10  text-right lg:text-base md:text-sm xs:text-xs ">
-                              <a
-                                onClick={function () {
-                                  currentAccount = account.Email;
-                                  setCurrentAccount();
-                                  setTimeout(StudentDetailPage, 1);
-                                }}
-                              >
-                                <button className="relative lg:text-base md:text-sm xs:text-xs  md:w-36 sm:w-28 xs:w-20 text-gray-700 hover:text-white   font-semibold  transition duration-500 border-gray-400 border-2  hover:bg-gray-500 hover:border-gray-500 py-2 rounded-xl shadow-md">
-                                  <p className="md:pr-2">View details</p>
-                                  <VscEye className="md:block xs:hidden absolute md:right-3 xs:right-1 top-1/3" />
-                                </button>
-                              </a>
-                            </td>
+                            <th className="w-[22.2%] ">Gender</th>
+                            <th className="">Group Type</th>
+                            <th className="lg:pl-16 select-none "></th>
                           </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                    <div className="w-full bg-white"></div>
+                        </thead>
+                        <tbody className=" ">
+                          {classList.map((account, key) => (
+                            <tr
+                              key={key}
+                              className="odd:bg-white even:bg-slate-50/30 border-b border-gray-200 bg-white hover:bg-gray-100 text-gray-900 hover:text-indigo-600"
+                            >
+                              <td className="flex items-center lg:text-base md:text-sm xs:text-xs  pl-5 py-[10px]  whitespace-no-wrap">
+                                <div className="flex-shrink-0 w-10 h-10 mr-3">
+                                  {account.Gender == 'Male' ? (
+                                    <img
+                                      className="border-2 border-gray-300 rounded-full"
+                                      src={require('../assets/avatar/avatar-male.png')}
+                                      alt=""
+                                    />
+                                  ) : (
+                                    <img
+                                      className="border-2 border-gray-300 rounded-full"
+                                      src={require('../assets/avatar/avatar-female.png')}
+                                      alt=""
+                                    />
+                                  )}
+                                </div>
+                                <p className="lg:pl-2 lg:text-base md:text-sm xs:text-xs ">
+                                  {account.GivenName + ' ' + account.LastName}
+                                </p>
+                              </td>
+
+                              <td className="lg:text-base md:text-sm xs:text-xs ">
+                                <p>{account.Gender}</p>
+                              </td>
+                              <td className="lg:text-base md:text-sm xs:text-xs ">
+                                <p>{account.GroupType}</p>
+                              </td>
+                              <td className="lg:pr-10  text-right lg:text-base md:text-sm xs:text-xs ">
+                                <a
+                                  onClick={function () {
+                                    currentAccount = account.Email;
+                                    setCurrentAccount();
+                                    setTimeout(StudentDetailPage, 1);
+                                  }}
+                                >
+                                  <button className="relative lg:text-base md:text-sm xs:text-xs  md:w-36 sm:w-28 xs:w-20 text-gray-700 hover:text-white   font-semibold  transition duration-500 border-gray-400 border-2  hover:bg-gray-500 hover:border-gray-500 py-2 rounded-xl shadow-md">
+                                    <p className="md:pr-2">View details</p>
+                                    <VscEye className="md:block xs:hidden absolute md:right-3 xs:right-1 top-1/3" />
+                                  </button>
+                                </a>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                      <div className="w-full bg-white"></div>
+                    </div>
                   </div>
-                </div>
+                ) : (
+                  <>
+                    <div className="text-gray-700 text-center -mt-4 absolute flex flex-col items-center justify-center h-full w-full hdScreen:scale-100 semihdScreen:scale-90 laptopScreen:scale-85 averageScreen:scale-80 md:scale-75 sm:scale-70 xs:scale-60">
+                      <BsClipboard2X className="w-full text-[4rem]" />
+                      <p className="py-2 font-semibold semihdScreen:text-xl sm:text-lg xs:text-base">
+                        No matches found
+                      </p>
+                      <p className="sm:text-lg xs:text-sm">
+                        Try checking if there's a typographical error
+                        <br></br>in your query.{' '}
+                      </p>
+                    </div>
+                  </>
+                )}
               </div>
             </div>
           </div>
@@ -443,6 +448,7 @@ export default function ClassList() {
         visible={showModal}
         onContinue={handleOnContinueModal}
       />
+      <LoadingSpinner visible={showLoading} />
     </>
   );
 }

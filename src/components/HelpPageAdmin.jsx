@@ -1570,7 +1570,7 @@ export default function HelpPageAdmin() {
 
   useEffect(() => {
     const onPageLoad = () => {
-      setTimeout(hideNavbar, 1000);
+      setTimeout(hideNavbar, 500);
 
       function hideNavbar() {
         setSkeletonState(false);

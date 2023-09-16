@@ -9,6 +9,7 @@ module.exports = {
         laptopScreen: '1281px',
         averageScreen: '1024px',
         xs: '450px',
+        // => @media (min-height: 800px) { ... }
         // => @media (min-width: 500px) { ... }
 
         /* BUGGY CODE BELOW

@@ -15,12 +15,14 @@ import DeleteSectionModal from './DeleteSectionModal';
 import DeleteSectionMessageModal from './DeleteSectionMessageModal';
 
 import EquationSolver from './equationSolver';
-import { BsClipboardPlus } from 'react-icons/bs';
+import { BsClipboardPlus, BsClipboard2X } from 'react-icons/bs';
 
 import { BsTrash3 } from 'react-icons/bs';
 import { HiPencilSquare } from 'react-icons/hi2';
 
 import ManageSectionSkeleton from './ManageSectionSkeleton';
+
+import LoadingSpinner from './LoadingSpinner';
 
 export default function ManageSection() {
   const navigate = useNavigate();
@@ -80,6 +82,7 @@ export default function ManageSection() {
   }
 
   function getAccounts() {
+    setSkeletonState(true);
     axios
       .get(
         `http://localhost:80/Prototype-Vite/my-project/api/getAccountSection/`
@@ -107,8 +110,65 @@ export default function ManageSection() {
 
         //console.log(newArray);
         setAccounts(newArray);
+        setTimeout(hideNavbar, 500);
+
+        function hideNavbar() {
+          setSkeletonState(false);
+        }
       });
   }
+
+  function updateTable() {
+    setTableLoader(true);
+
+    getManageSection2();
+    getAccounts2();
+
+    function getManageSection2() {
+      axios
+        .get(`http://localhost:80/Prototype-Vite/my-project/api/sectionList/`)
+        .then(function (response) {
+          setSection(response.data);
+        });
+    }
+
+    function getAccounts2() {
+      setSkeletonState(true);
+      axios
+        .get(
+          `http://localhost:80/Prototype-Vite/my-project/api/getAccountSection/`
+        )
+        .then(function (response) {
+          let responseData = response.data;
+          var newArray = [];
+          for (let i = 0; i < responseData.length; i++) {
+            var tempArray = [];
+            var result = Object.keys(responseData[i]).map(key => [
+              key,
+              responseData[i][key],
+            ]);
+
+            for (let j = 0; j < result.length; j++) {
+              tempArray.push(result[j][1]);
+            }
+            //console.log(tempArray);
+
+            let data = JSON.stringify(tempArray[0]);
+            data = data.replace(/"/g, '');
+
+            newArray.push(data);
+          }
+
+          //console.log(newArray);
+          setAccounts(newArray);
+          setTableLoader(false);
+        });
+    }
+  }
+
+  const [showLoading, setShowLoading] = useState(false);
+  const [tableLoader, setTableLoader] = useState(false);
+  var highestTimeoutId = setTimeout(';');
 
   const editMode = e => {
     let sectionName = e.target.name;
@@ -117,10 +177,12 @@ export default function ManageSection() {
       JSON.stringify(sectionName)
     );
     window.sessionStorage.setItem('EDIT_SECTION_STATE', true);
+    window.sessionStorage.setItem('IS_VALID_FORM', true);
     setShowModal(true);
   };
 
   const deleteSection = e => {
+    setShowLoading(true);
     let sectionName = e.target.name;
     window.sessionStorage.setItem(
       'CURRENT_SECTION_DELETE',
@@ -139,23 +201,33 @@ export default function ManageSection() {
           JSON.stringify(statusStudent)
         );
 
+        setShowLoading(false);
         setShowDeleteModal(true);
       });
   };
 
   const handleChange = event => {
+    setTableLoader(true);
     const name = event.target.name;
     const value = event.target.value;
     inputText = { [name]: value };
 
-    axios
-      .post(
-        `http://localhost:80/Prototype-Vite/my-project/api/sectionList/`,
-        inputText
-      )
-      .then(function (response) {
-        setSection(response.data);
-      });
+    for (let i = 0; i < highestTimeoutId; i++) {
+      clearTimeout(i);
+    }
+
+    setTimeout(() => {
+      axios
+        .post(
+          `http://localhost:80/Prototype-Vite/my-project/api/sectionList/`,
+          inputText
+        )
+        .then(function (response) {
+          //console.log(response.data);
+          setSection(response.data);
+          setTableLoader(false);
+        });
+    }, 1000);
   };
 
   // MODAL CREATE SECTION
@@ -165,8 +237,7 @@ export default function ManageSection() {
   const [showSectionMessageModal, setSectionMessageModal] = useState(false);
   const handleOnCloseSectionMessageModal = () => {
     setSectionMessageModal(false);
-    getManageSection();
-    getAccounts();
+    updateTable();
   };
 
   const handleOnContinueSectionModal = () => {
@@ -182,8 +253,7 @@ export default function ManageSection() {
   const [showMessageModal, setMessageModal] = useState(false);
   const handleOnCloseMessageModal = () => {
     setMessageModal(false);
-    getManageSection();
-    getAccounts();
+    updateTable();
   };
 
   const handleOnContinueModal = () => {
@@ -204,11 +274,11 @@ export default function ManageSection() {
   const handleOnCloseDeleteMessageModal = () => {
     window.sessionStorage.removeItem('SECTION_DELETION_TYPE');
     setDeleteMessageModal(false);
-    getManageSection();
-    getAccounts();
+    updateTable();
   };
 
   const handleOnContinueDeleteModal = () => {
+    setShowLoading(true);
     var sectionName = JSON.parse(
       window.sessionStorage.getItem('CURRENT_SECTION_DELETE')
     );
@@ -228,6 +298,7 @@ export default function ManageSection() {
             `http://localhost:80/Prototype-Vite/my-project/api/removeSection/${sectionName}`
           )
           .then(function (response) {
+            setShowLoading(false);
             setDeleteMessageModal(true);
             setShowDeleteModal(false);
           });
@@ -237,17 +308,18 @@ export default function ManageSection() {
             `http://localhost:80/Prototype-Vite/my-project/api/removeSectionAccounts/${sectionName}`
           )
           .then(function (response) {
+            setShowLoading(false);
             setDeleteMessageModal(true);
             setShowDeleteModal(false);
           });
       }
     } else {
-      console.log('GAGO NANDITO AKO!');
       axios
         .post(
           `http://localhost:80/Prototype-Vite/my-project/api/removeSection/${sectionName}`
         )
         .then(function (response) {
+          setShowLoading(false);
           setShowDeleteModal(false);
           setDeleteMessageModal(true);
         });
@@ -289,22 +361,6 @@ export default function ManageSection() {
 
   //FOR SKELETON
   const [skeletonState, setSkeletonState] = useState(true);
-
-  useEffect(() => {
-    const onPageLoad = () => {
-      setTimeout(hideNavbar, 1000);
-
-      function hideNavbar() {
-        setSkeletonState(false);
-      }
-    };
-    if (document.readyState === 'complete') {
-      onPageLoad();
-    } else {
-      window.addEventListener('load', onPageLoad, false);
-      return () => window.removeEventListener('load', onPageLoad);
-    }
-  }, []);
 
   return (
     <>
@@ -374,7 +430,10 @@ export default function ManageSection() {
                   />
                 </div>
                 <button
-                  onClick={e => setShowSectionModal(true)}
+                  onClick={e => {
+                    setShowSectionModal(true);
+                    window.sessionStorage.setItem('IS_VALID_FORM', true);
+                  }}
                   type="button"
                   className="relative hdScreen:w-[19rem] semihdScreen:w-[16.5rem] laptopScreen:w-[15.5rem] averageScreen:w-[15rem]  md:w-[14rem] sm:w-[10rem] xs:w-[8rem] lg:py-3 lg:px-5 sm:py-1.5 sm:px-2.5 xs:px-1 xs:py-1 text-white font-semibold  shadow-md rounded-2xl bg-lime-600 hover:bg-lime-700  ease-in-out transition duration-300 transform drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)]"
                 >
@@ -437,88 +496,114 @@ export default function ManageSection() {
                             xs:min-h-[calc(100vh-55vh)] xs:max-h-[calc(100vh-55vh)]
                             bg-white relative overflow-y-scroll style-2 mx-auto w-full rounded-md"
             >
-              <div className="">
-                <div className="">
-                  <div className="inline-block min-w-full  rounded-lg ">
-                    <table className="min-w-full leading-normal -mt-[28px]">
-                      <thead className="invisible lg:text-base md:text-sm xs:text-xs">
-                        <tr>
-                          <th className="lg:pl-8 w-[25.25%]  lg:text-base md:text-sm sm:text-xs  ">
-                            Grade Level
-                          </th>
-                          <th className="w-[25%]   lg:text-base md:text-sm sm:text-xs ">
-                            Section Name
-                          </th>
-                          <th className="w-[32%]  lg:text-base md:text-sm sm:text-xs ">
-                            Assigned Teacher
-                          </th>
-                          <th className="hdScreen:w-[7.5%] lg:w-[5%] "></th>
-                          <th className="hdScreen:w-[9%] lg:w-[10%] "></th>
-                          <th className="hdScreen:w-[0.5%] lg:w-[1%]"></th>
-                        </tr>
-                      </thead>
-                      <tbody className=" ">
-                        {section.map((currentSection, index) => (
-                          <tr
-                            key={index}
-                            className="odd:bg-white even:bg-slate-50/30 border-b border-gray-200 bg-white hover:bg-gray-100 text-gray-900 hover:text-indigo-600"
-                          >
-                            <td className="flex items-center lg:text-base md:text-sm xs:text-xs lg:px-5 py-[10px]  whitespace-no-wrap">
-                              <div className="flex-shrink-0  h-10 mr-3"></div>
-                              <p className="  lg:text-base md:text-sm xs:text-xs">
-                                Grade {currentSection.GradeLevel}
-                              </p>
-                            </td>
-                            <td className="lg:text-base md:text-sm xs:text-xs">
-                              <p>{currentSection.SectionName}</p>
-                            </td>
-                            <td className="lg:text-base md:text-sm xs:text-xs">
-                              <p>
-                                {currentSection.AdviserName != '' ? (
-                                  <>{currentSection.AdviserName}</>
-                                ) : (
-                                  <>
-                                    <span className="text-red-600">[None]</span>
-                                  </>
-                                )}
-                              </p>
-                            </td>
-                            <td className="text-right lg:text-base md:text-sm xs:text-xs">
-                              <div className="relative">
-                                <input
-                                  onClick={editMode}
-                                  name={currentSection.SectionName}
-                                  type="submit"
-                                  value="Edit"
-                                  className="cursor-pointer py-[0.2rem] md:pl-4 md:pr-[2.15rem] md:w-24 xs:w-14   shadow-md rounded-md font-normal  transition duration-300 text-white bg-blue-500/90 hover:bg-blue-600 lg:text-base drop-shadow-[0_2px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_2px_0px_rgba(0,0,0,0.6)]"
-                                ></input>
-                                <span className="md:block xs:hidden absolute top-[0.25rem] right-5 font-normal text-base flex justify-center">
-                                  <HiPencilSquare className="ml-1 lg:mt-[0.2rem] lg:text-lg text-white" />
-                                </span>
-                              </div>
-                            </td>
-                            <td className="text-right hdScreen:pr-6 semihdScreen:pr-1 laptopScreen:pr-0.5 averageScreen:pr-0 lg:text-base md:text-sm xs:text-xs">
-                              <div className="relative ">
-                                <input
-                                  onClick={deleteSection}
-                                  name={currentSection.SectionName}
-                                  type="submit"
-                                  value="Delete"
-                                  className=" cursor-pointer py-[0.2rem]  md:pl-4 md:pr-[2.15rem] md:w-24 xs:w-14 shadow-md rounded-md font-semibold  transition duration-500 text-white bg-red-500 hover:bg-red-700 drop-shadow-[0_2px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_2px_0px_rgba(0,0,0,0.6)]"
-                                ></input>
-                                <span className="md:block xs:hidden absolute top-[0.25rem] right-3 font-normal flex justify-center">
-                                  <BsTrash3 className="ml-1 lg:mt-[0.2rem] lg:text-base text-white" />
-                                </span>
-                              </div>
-                            </td>
-                            <td></td>
+              <div
+                className={`-mt-4 absolute flex-col items-center justify-center h-full w-full hdScreen:scale-100 semihdScreen:scale-90 laptopScreen:scale-85 averageScreen:scale-80 md:scale-75 sm:scale-70 xs:scale-60
+                 ${tableLoader ? 'flex' : 'hidden'}`}
+              >
+                <div className="loader border-8 border-[#e2c209]"></div>
+                <p className="pt-2 hdScreen:text-lg semihdScreen:text-lg laptopScreen:text-base averageScreen:text-base sm:text-sm xs:text-xs">
+                  Fetching Data...
+                </p>
+              </div>
+              <div className={`${tableLoader ? 'hidden' : ''}`}>
+                {section.length > 0 ? (
+                  <div className="">
+                    <div className="inline-block min-w-full  rounded-lg ">
+                      <table className="min-w-full leading-normal -mt-[28px]">
+                        <thead className="invisible lg:text-base md:text-sm xs:text-xs">
+                          <tr>
+                            <th className="lg:pl-8 w-[25.25%]  lg:text-base md:text-sm sm:text-xs  ">
+                              Grade Level
+                            </th>
+                            <th className="w-[25%]   lg:text-base md:text-sm sm:text-xs ">
+                              Section Name
+                            </th>
+                            <th className="w-[32%]  lg:text-base md:text-sm sm:text-xs ">
+                              Assigned Teacher
+                            </th>
+                            <th className="hdScreen:w-[7.5%] lg:w-[5%] "></th>
+                            <th className="hdScreen:w-[9%] lg:w-[10%] "></th>
+                            <th className="hdScreen:w-[0.5%] lg:w-[1%]"></th>
                           </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                    <div className="w-full bg-white"></div>
+                        </thead>
+                        <tbody className=" ">
+                          {section.map((currentSection, index) => (
+                            <tr
+                              key={index}
+                              className="odd:bg-white even:bg-slate-50/30 border-b border-gray-200 bg-white hover:bg-gray-100 text-gray-900 hover:text-indigo-600"
+                            >
+                              <td className="flex items-center lg:text-base md:text-sm xs:text-xs lg:px-5 py-[10px]  whitespace-no-wrap">
+                                <div className="flex-shrink-0  h-10 mr-3"></div>
+                                <p className="  lg:text-base md:text-sm xs:text-xs">
+                                  Grade {currentSection.GradeLevel}
+                                </p>
+                              </td>
+                              <td className="lg:text-base md:text-sm xs:text-xs">
+                                <p>{currentSection.SectionName}</p>
+                              </td>
+                              <td className="lg:text-base md:text-sm xs:text-xs">
+                                <p>
+                                  {currentSection.AdviserName != '' ? (
+                                    <>{currentSection.AdviserName}</>
+                                  ) : (
+                                    <>
+                                      <span className="text-red-600">
+                                        [None]
+                                      </span>
+                                    </>
+                                  )}
+                                </p>
+                              </td>
+                              <td className="text-right lg:text-base md:text-sm xs:text-xs">
+                                <div className="relative">
+                                  <input
+                                    onClick={editMode}
+                                    name={currentSection.SectionName}
+                                    type="submit"
+                                    value="Edit"
+                                    className="cursor-pointer py-[0.2rem] md:pl-4 md:pr-[2.15rem] md:w-24 xs:w-14   shadow-md rounded-md font-normal  transition duration-300 text-white bg-blue-500/90 hover:bg-blue-600 lg:text-base drop-shadow-[0_2px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_2px_0px_rgba(0,0,0,0.6)]"
+                                  ></input>
+                                  <span className="md:block xs:hidden absolute top-[0.25rem] right-5 font-normal text-base flex justify-center">
+                                    <HiPencilSquare className="ml-1 lg:mt-[0.2rem] lg:text-lg text-white" />
+                                  </span>
+                                </div>
+                              </td>
+                              <td className="text-right hdScreen:pr-6 semihdScreen:pr-1 laptopScreen:pr-0.5 averageScreen:pr-0 lg:text-base md:text-sm xs:text-xs">
+                                <div className="relative ">
+                                  <input
+                                    onClick={deleteSection}
+                                    name={currentSection.SectionName}
+                                    type="submit"
+                                    value="Delete"
+                                    className=" cursor-pointer py-[0.2rem]  md:pl-4 md:pr-[2.15rem] md:w-24 xs:w-14 shadow-md rounded-md font-semibold  transition duration-500 text-white bg-red-500 hover:bg-red-700 drop-shadow-[0_2px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_2px_0px_rgba(0,0,0,0.6)]"
+                                  ></input>
+                                  <span className="md:block xs:hidden absolute top-[0.25rem] right-3 font-normal flex justify-center">
+                                    <BsTrash3 className="ml-1 lg:mt-[0.2rem] lg:text-base text-white" />
+                                  </span>
+                                </div>
+                              </td>
+                              <td></td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                      <div className="w-full bg-white"></div>
+                    </div>
                   </div>
-                </div>
+                ) : (
+                  <>
+                    <div className="text-gray-700 text-center -mt-4 absolute flex flex-col items-center justify-center h-full w-full hdScreen:scale-100 semihdScreen:scale-90 laptopScreen:scale-85 averageScreen:scale-80 md:scale-75 sm:scale-70 xs:scale-60">
+                      <BsClipboard2X className="w-full text-[4rem]" />
+                      <p className="py-2 font-semibold semihdScreen:text-xl sm:text-lg xs:text-base">
+                        No matches found
+                      </p>
+                      <p className="sm:text-lg xs:text-sm">
+                        Try checking if there's a typographical error
+                        <br></br>in your query.{' '}
+                      </p>
+                    </div>
+                  </>
+                )}
               </div>
             </div>
           </div>
@@ -554,6 +639,8 @@ export default function ManageSection() {
         onClose={handleOnCloseDeleteMessageModal}
         visible={showDeleteMessageModal}
       />
+
+      <LoadingSpinner visible={showLoading} />
     </>
   );
 }

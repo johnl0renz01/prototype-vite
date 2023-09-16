@@ -29,6 +29,7 @@ $middle_name = "";
 for ($i = strlen($first_name) - 1; $i > 0; $i--) {
     if ($first_name[$i] == "@") {
         $section_name = substr($first_name, ($i + 1));
+        $section_name = str_replace("_"," ", $section_name);
         $first_name = substr($first_name, 0, $i);
         break;
     }
@@ -65,6 +66,7 @@ for ($i = strlen($first_name) - 1; $i > 0; $i--) {
 for ($i = strlen($first_name) - 1; $i > 0; $i--) {
     if ($first_name[$i] == "@") {
         $last_name = substr($first_name, ($i + 1));
+        $last_name = str_replace("_"," ", $last_name);
         $first_name = substr($first_name, 0, $i);
         break;
     }
@@ -75,7 +77,9 @@ for ($i = strlen($first_name) - 1; $i > 0; $i--) {
 for ($i = strlen($first_name) - 1; $i > 0; $i--) {
     if ($first_name[$i] == "@") {
         $middle_name = substr($first_name, ($i + 1));
+        $middle_name = str_replace("_"," ", $middle_name);
         $first_name = substr($first_name, 0, $i);
+        $first_name = str_replace("_"," ", $first_name);
         break;
     }
 }
