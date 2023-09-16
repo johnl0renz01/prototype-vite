@@ -14,6 +14,9 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
 import EquationListSkeleton from './EquationListSkeleton';
 
+import { BsClipboard2X } from 'react-icons/bs';
+import LoadingSpinner from './LoadingSpinner';
+
 export default function EquationList() {
   const navigate = useNavigate();
 
@@ -53,6 +56,9 @@ export default function EquationList() {
       navigate('/Homepage');
     }
   });
+  const [showLoading, setShowLoading] = useState(false);
+  const [tableLoader, setTableLoader] = useState(false);
+  var highestTimeoutId = setTimeout(';');
 
   const [equationList, setEquationList] = useState([]);
   const [equationType, setEquationType] = useState([
@@ -61,14 +67,8 @@ export default function EquationList() {
     'Difficult',
   ]);
 
-  /*
-  <DragDropContext onDragEnd={handleOnDragEnd}>
-                <Droppable droppableId="characters">
-                {(provided) => (
-                  <ul className="characters" {...provided.droppableProps} ref={provided.innerRef}>
-                    {characters.map(({id, name, thumb}, index) => {
-  */
   function getEquations() {
+    setTableLoader(true);
     var DATA = [];
     var easyEquations = [];
     var averageEquations = [];
@@ -119,6 +119,7 @@ export default function EquationList() {
                 ];
 
                 setStores(DATA);
+                setTableLoader(false);
               });
           });
       });
@@ -129,11 +130,14 @@ export default function EquationList() {
   }, []);
 
   function removeEquation(equation) {
+    setShowLoading(true);
     let equationString = equation;
     equationString = equationString.replace(/ /g, '_');
     axios
       .post(`https://pia-sfe.online/api/removeEquation/${equationString}`)
       .then(function (response) {
+        setShowLoading(false);
+        getEquations();
         //window.location.reload(false);
       });
   }
@@ -288,7 +292,6 @@ export default function EquationList() {
   const [showDeleteMessageModal, setDeleteMessageModal] = useState(false);
   const handleOnCloseMessageModal = () => {
     setDeleteMessageModal(false);
-    getEquations();
   };
 
   //FOR SKELETON
@@ -296,7 +299,7 @@ export default function EquationList() {
 
   useEffect(() => {
     const onPageLoad = () => {
-      setTimeout(hideNavbar, 1);
+      setTimeout(hideNavbar, 500);
 
       function hideNavbar() {
         setSkeletonState(false);
@@ -366,16 +369,27 @@ export default function EquationList() {
                   averageScreen:min-h-[calc(100vh-45vh)] averageScreen:max-h-[calc(100vh-45vh)]
                   sm:min-h-[calc(100vh-45vh)] sm:max-h-[calc(100vh-45vh)]
                   xs:min-h-[calc(100vh-45vh)] xs:max-h-[calc(100vh-45vh)]
-                  bg-white mt-3.5 grid grid-cols-3 text-center lg:text-xl xs:text-base w-full border-t-1  border-gray-400 rounded-xl"
+                  bg-white mt-3.5 relative grid grid-cols-3 text-center lg:text-xl xs:text-base w-full border-t-1  border-gray-400 rounded-xl"
                     {...provided.droppableProps}
                     ref={provided.innerRef}
                   >
+                    <div
+                      className={`-mt-4 absolute flex-col items-center justify-center h-full w-full hdScreen:scale-100 semihdScreen:scale-90 laptopScreen:scale-85 averageScreen:scale-80 md:scale-75 sm:scale-70 xs:scale-60
+                 ${tableLoader ? 'flex' : 'hidden'}`}
+                    >
+                      <div className="loader border-8 border-[#89ce1a]"></div>
+                      <p className="pt-2 hdScreen:text-lg semihdScreen:text-lg laptopScreen:text-base averageScreen:text-base sm:text-sm xs:text-xs">
+                        Fetching Data...
+                      </p>
+                    </div>
+
                     {stores.map((store, index) => (
                       <Draggable
                         draggableId={store.id}
                         index={index}
                         key={store.id}
                         isDragDisabled={true}
+                        className={`${tableLoader ? 'hidden' : ''}`}
                       >
                         {provided => (
                           <div
@@ -405,6 +419,7 @@ export default function EquationList() {
         onClose={handleOnCloseMessageModal}
         visible={showDeleteMessageModal}
       />
+      <LoadingSpinner visible={showLoading} />
     </>
   );
 

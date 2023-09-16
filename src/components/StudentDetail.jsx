@@ -9,6 +9,9 @@ import { BsCaretUpFill } from 'react-icons/bs';
 
 import StudentDetailSkeleton from './StudentDetailSkeleton';
 
+import { BsClipboard2X } from 'react-icons/bs';
+import LoadingSpinner from './LoadingSpinner';
+
 export default function StudentDetail() {
   document.body.style.height = '100vh';
   const navigate = useNavigate();
@@ -59,6 +62,10 @@ export default function StudentDetail() {
     }
   });
 
+  const [showLoading, setShowLoading] = useState(false);
+  const [tableLoader, setTableLoader] = useState(false);
+  var highestTimeoutId = setTimeout(';');
+
   var currentAccount = '';
   var currentEmail = '';
 
@@ -71,27 +78,30 @@ export default function StudentDetail() {
 
   const [accountDetail, setAccountDetail] = useState([]);
   const [accountHistory, setAccountHistory] = useState([]);
-  const [tallyEasy, countEasy] = useState(0);
-  const [tallyAverage, countAverage] = useState(0);
-  const [tallyDifficult, countDifficult] = useState(0);
+  const [tallyEasy, countEasy] = useState();
+  const [tallyAverage, countAverage] = useState();
+  const [tallyDifficult, countDifficult] = useState();
 
-  const [totalUnanswered, setTotalUnanswered] = useState(0);
-  const [totalAnswered, setTotalAnswered] = useState(0);
-  const [accuracyRate, setAccuracy] = useState(0);
+  const [totalUnanswered, setTotalUnanswered] = useState();
+  const [totalAnswered, setTotalAnswered] = useState();
+  const [accuracyRate, setAccuracy] = useState();
 
   function getAccountDetail() {
+    setSkeletonState(true);
     axios
       .get(`https://pia-sfe.online/api/studentDetail/${currentEmail}`)
       .then(function (response) {
         console.log(response.data);
         setAccountDetail(response.data);
-      });
-
-    axios
-      .get(`https://pia-sfe.online/api/studentHistory/${currentAccount}`)
-      .then(function (response) {
-        console.log(response.data);
-        setAccountHistory(response.data);
+        setSkeletonState(false);
+        setTableLoader(true);
+        axios
+          .get(`https://pia-sfe.online/api/studentHistory/${currentAccount}`)
+          .then(function (response) {
+            console.log(response.data);
+            setAccountHistory(response.data);
+            setTableLoader(false);
+          });
       });
   }
 
@@ -181,22 +191,6 @@ export default function StudentDetail() {
 
   //FOR SKELETON
   const [skeletonState, setSkeletonState] = useState(true);
-
-  useEffect(() => {
-    const onPageLoad = () => {
-      setTimeout(hideNavbar, 1);
-
-      function hideNavbar() {
-        setSkeletonState(false);
-      }
-    };
-    if (document.readyState === 'complete') {
-      onPageLoad();
-    } else {
-      window.addEventListener('load', onPageLoad, false);
-      return () => window.removeEventListener('load', onPageLoad);
-    }
-  }, []);
 
   return (
     <>
@@ -328,46 +322,75 @@ export default function StudentDetail() {
             </p>
             <div
               id="history"
-              className="overflow-auto bg-gray-300/80 rounded-md mx-3 mt-2 hdScreen:min-h-[32rem] hdScreen:max-h-[32rem] semihdScreen:min-h-[24rem] semihdScreen:max-h-[24rem] laptopScreen:min-h-[15.7rem] laptopScreen:max-h-[15.7rem] averageScreen:min-h-[14rem] averageScreen:max-h-[14rem] xs:min-h-[14rem] xs:max-h-[14rem] style-2 "
+              className="overflow-auto relative bg-gray-300/50 rounded-md mx-3 mt-2 hdScreen:min-h-[32rem] hdScreen:max-h-[32rem] semihdScreen:min-h-[24rem] semihdScreen:max-h-[24rem] laptopScreen:min-h-[15.7rem] laptopScreen:max-h-[15.7rem] averageScreen:min-h-[14rem] averageScreen:max-h-[14rem] xs:min-h-[14rem] xs:max-h-[14rem] style-2 "
             >
-              {accountHistory.map(history => (
-                <>
-                  <div
-                    className={`grid lg:grid-cols-11 rounded-l-md xs:h-12 shadow relative  p-3  ${
-                      history.SessionType === 'Easy'
-                        ? 'bg-green-500'
-                        : history.SessionType === 'Average'
-                        ? 'bg-yellow-500'
-                        : 'bg-red-500'
-                    }`}
-                  >
-                    <div className="lg:col-span-3">
-                      <p className="lg:text-[1.75rem] text-gray-100 font-medium leading-4 mt-1">
-                        {history.SessionType}
-                        <span className="lg:text-sm sm:text-xs xs:text-xs text-white font-normal ">
-                          {'\u00A0\u00A0' + history.TimeStamp}
-                        </span>
+              <div
+                className={`-mt-4 absolute flex-col items-center justify-center h-full w-full hdScreen:scale-100 semihdScreen:scale-90 laptopScreen:scale-85 averageScreen:scale-80 md:scale-75 sm:scale-70 xs:scale-60
+                 ${tableLoader ? 'flex' : 'hidden'}`}
+              >
+                <div className="loader border-8 border-[#89ce1a]"></div>
+                <p className="pt-2 hdScreen:text-lg semihdScreen:text-lg laptopScreen:text-base averageScreen:text-base sm:text-sm xs:text-xs ">
+                  Fetching Data...
+                </p>
+              </div>
+
+              <div className={`${tableLoader ? 'hidden' : ''}`}>
+                {accountHistory.length > 0 ? (
+                  <div>
+                    {accountHistory.map(history => (
+                      <>
+                        <div
+                          className={`grid lg:grid-cols-11 rounded-l-md xs:h-12 shadow relative  p-3  ${
+                            history.SessionType === 'Easy'
+                              ? 'bg-green-500'
+                              : history.SessionType === 'Average'
+                              ? 'bg-yellow-500'
+                              : 'bg-red-500'
+                          }`}
+                        >
+                          <div className="lg:col-span-3">
+                            <p className="lg:text-[1.75rem] text-gray-100 font-medium leading-4 mt-1">
+                              {history.SessionType}
+                              <span className="lg:text-sm sm:text-xs xs:text-xs text-white font-normal ">
+                                {'\u00A0\u00A0' + history.TimeStamp}
+                              </span>
+                            </p>
+                          </div>
+                          <div className="lg:col-span-6 text-right lg:-mt-0 xs:-mt-8">
+                            <span className="lg:text-lg sm:text-sm xs:text-xs text-white font-normal">
+                              Score: {history.Score + '/20'}
+                            </span>
+                          </div>
+                          <div className="lg:col-span-2 text-right lg:-mt-0  xs:-mt-3">
+                            <span className="lg:text-lg sm:text-sm xs:text-xs text-white font-normal">
+                              Time: {history.TimeSpent}
+                            </span>
+                          </div>
+                        </div>
+                        <hr></hr>
+                        <hr></hr>
+                      </>
+                    ))}
+                  </div>
+                ) : (
+                  <>
+                    <div className="text-gray-700 text-center -mt-4 absolute flex flex-col items-center justify-center h-full w-full hdScreen:scale-100 semihdScreen:scale-90 laptopScreen:scale-85 averageScreen:scale-80 md:scale-75 sm:scale-70 xs:scale-60">
+                      <BsClipboard2X className="w-full text-[4rem]" />
+                      <p className="py-2 font-semibold semihdScreen:text-xl sm:text-lg xs:text-base">
+                        No session history
+                      </p>
+                      <p className="sm:text-lg xs:text-sm">
+                        This account haven't start any sessions.
                       </p>
                     </div>
-                    <div className="lg:col-span-6 text-right lg:-mt-0 xs:-mt-8">
-                      <span className="lg:text-lg sm:text-sm xs:text-xs text-white font-normal">
-                        Score: {history.Score + '/20'}
-                      </span>
-                    </div>
-                    <div className="lg:col-span-2 text-right lg:-mt-0  xs:-mt-3">
-                      <span className="lg:text-lg sm:text-sm xs:text-xs text-white font-normal">
-                        Time: {history.TimeSpent}
-                      </span>
-                    </div>
-                  </div>
-                  <hr></hr>
-                  <hr></hr>
-                </>
-              ))}
+                  </>
+                )}
+              </div>
             </div>
           </div>
         </section>
       </div>
+      <LoadingSpinner visible={showLoading} />
     </>
   );
 }

@@ -50,7 +50,11 @@ import Registration from './Registration';
 
 import AdminNavbarSkeleton from './AdminNavbarSkeleton';
 
+import LoadingSpinner from './LoadingSpinner';
+
 export default function AdminNavbar() {
+  const [showLoading, setShowLoading] = useState(false);
+
   const navigate = useNavigate();
 
   const [tabHighlight, setTabHighlight] = useState(0);
@@ -225,13 +229,15 @@ export default function AdminNavbar() {
   const [logoutState, setLogoutState] = useState(false);
 
   const logout = () => {
-    setLogoutState(true);
+    setShowLoading(true);
     window.localStorage.removeItem('CURRENT_TAB_INDEX');
     var unique = JSON.parse(window.localStorage.getItem('UNIQUE_ID'));
     if (unique === null) unique = '';
     axios
       .post(`https://pia-sfe.online/api/logout/${unique}`)
       .then(function (response) {
+        setShowLoading(false);
+        setLogoutState(true);
         localStorage.clear();
         window.localStorage.setItem('LOGGED', JSON.stringify('FALSE'));
         setTabHighlight(0);
@@ -274,6 +280,8 @@ export default function AdminNavbar() {
   }, []);
 
   // This will run one time after the component mounts
+
+  /*
   useEffect(() => {
     // callback function to call when event triggers
     const onPageLoad = () => {
@@ -294,12 +302,15 @@ export default function AdminNavbar() {
       return () => window.removeEventListener('load', onPageLoad);
     }
   }, []);
+  */
 
   return (
     <>
+      {/** 
       <div className={`${!skeletonState ? 'hidden' : ''}`}>
         <AdminNavbarSkeleton />
       </div>
+      */}
       <div
         className={`${accType == 'Admin' ? 'visible' : 'hidden'} ${
           logoutState == true ? 'hidden' : ''
@@ -523,6 +534,7 @@ export default function AdminNavbar() {
           </div>
         </div>
       </div>
+      <LoadingSpinner visible={showLoading} />
     </>
   );
 }

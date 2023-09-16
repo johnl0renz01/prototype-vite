@@ -79,9 +79,7 @@ export default function RegistrationSkeleton() {
               : 'max-h-[78.5px]'
           }`}
           >
-            <span className="bg-gray-200 text-gray-200 rounded-md relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_2s_infinite]">
-              Registration
-            </span>
+            Registration
           </div>
 
           <div className=" inline-flex lg:px-6 hdScreen:py-5 semihdScreen:py-3 laptopScreen:pb-3 averageScreen:pb-2 sm:pb-1 xs:pb-0.5">

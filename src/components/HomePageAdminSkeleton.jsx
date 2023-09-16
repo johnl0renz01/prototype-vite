@@ -74,9 +74,7 @@ export default function HomePageAdminSkeleton() {
               : 'max-h-[78.5px]'
           }`}
           >
-            <span className="bg-gray-200 text-gray-200 rounded-md relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_2s_infinite]">
-              Overview
-            </span>
+            Overview
           </div>
           <div className="py-1.5"></div>
           <div className="grid grid-cols-3 grid-rows-2 gap-6 text-center">

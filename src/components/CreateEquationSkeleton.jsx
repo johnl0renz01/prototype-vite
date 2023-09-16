@@ -88,9 +88,7 @@ export default function CreateEquationSkeleton() {
               : ''
           }`}
             >
-              <span className="bg-gray-200 text-gray-200 rounded-md">
-                Create Equation
-              </span>
+              Create Equation
             </div>
             <div
               className={`absolute invisible left-0 right-0 top-0 bottom-0 w-full flex flex-col justify-center items-center bg-gradient-to-t from-[#e2e2e2] via-[#f1f1f1] to-[#ffffff] h-screen z-50 

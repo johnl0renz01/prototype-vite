@@ -43,7 +43,7 @@ export default function EquationList() {
 
   function equation(string) {
     return (
-      <div className="border-b-2 flex justify-center  bg-gray-100/80 py-1 relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_1.5s_infinite]">
+      <div className="border-b-2 flex justify-center  bg-gray-100/80 py-1 relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_2s_infinite]">
         <p className="mx-4">
           <span className="bg-gray-200 text-gray-200 rounded-md">{string}</span>
         </p>
@@ -91,12 +91,10 @@ export default function EquationList() {
             : ''
         }`}
           >
-            <span className="bg-gray-200 text-gray-200 rounded-md relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_1.5s_infinite]">
-              Equation List
-            </span>
+            Equation List
           </div>
           <div className="mt-1.5 lg:text-lg sm:text-base xs:text-xs font-semibold tracking-wide pl-2 ">
-            <span className="bg-gray-200 text-gray-200 rounded-md relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_1.5s_infinite]">
+            <span className="bg-gray-200 text-gray-200 rounded-md relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_2s_infinite]">
               The following are current custom equations created. Drag the
               equation to change its difficulty.
             </span>
@@ -109,7 +107,7 @@ export default function EquationList() {
                   averageScreen:min-h-[calc(100vh-45vh)] averageScreen:max-h-[calc(100vh-45vh)]
                   sm:min-h-[calc(100vh-45vh)] sm:max-h-[calc(100vh-45vh)]
                   xs:min-h-[calc(100vh-45vh)] xs:max-h-[calc(100vh-45vh)]
-                  bg-gray-200 mt-4 py-1 grid grid-cols-3 text-center lg:text-xl md:text-base sm:text-sm xs:text-xs  w-full overflow-hidden relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_1.5s_infinite]"
+                  bg-gray-200 mt-4 py-1 grid grid-cols-3 text-center lg:text-xl md:text-base sm:text-sm xs:text-xs  w-full overflow-hidden relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_2s_infinite]"
           >
             <div className="">
               <div className="py-1  font-semibold rounded-tl-xl shadow-md">

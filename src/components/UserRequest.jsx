@@ -91,6 +91,32 @@ export default function UserRequest() {
       });
   }
 
+  function updateTable() {
+    setTableLoader(true);
+    getRequests2();
+    getRequestTotal2();
+
+    function getRequests2() {
+      axios
+        .get(`https://pia-sfe.online/api/requestList/`)
+        .then(function (response) {
+          console.log(response.data);
+          setRequests(response.data);
+          setTableLoader(false);
+        });
+    }
+
+    function getRequestTotal2() {
+      axios
+        .get(`https://pia-sfe.online/api/requestTotal/`)
+        .then(function (response) {
+          var total = response.data;
+          total = parseInt(total);
+          setCounter(total);
+        });
+    }
+  }
+
   const viewMode = e => {
     let requestID = e.target.name;
     window.sessionStorage.setItem(
@@ -125,8 +151,7 @@ export default function UserRequest() {
       .post(`https://pia-sfe.online/api/requestSolved/${requestID}`)
       .then(function (response) {
         console.log(response.data);
-        getRequests();
-        getRequestTotal();
+        updateTable();
         setShowLoading(false);
       });
   };

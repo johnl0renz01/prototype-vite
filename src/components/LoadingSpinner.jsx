@@ -19,6 +19,8 @@ const LoadingSpinner = ({ visible }) => {
       setAccType('Teacher');
     } else if (account == 'Admin') {
       setAccType('Admin');
+    } else {
+      setAccType('Student');
     }
   }
   return (
@@ -34,6 +36,8 @@ const LoadingSpinner = ({ visible }) => {
             ? 'border-8 border-[#e2c209]'
             : acc == 'Teacher'
             ? 'border-8 border-[#89ce1a]'
+            : acc == 'Student'
+            ? 'border-8 border-[#bef264]'
             : ''
         }`}
         ></div>

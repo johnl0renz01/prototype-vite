@@ -21,6 +21,8 @@ import ForgotPassword from './ForgotPassword';
 
 import LoginPageSkeleton from './LoginPageSkeleton';
 
+import LoadingSpinner from './LoadingSpinner';
+
 export default function LoginPage() {
   const navigate = useNavigate();
 
@@ -85,6 +87,8 @@ export default function LoginPage() {
 
   //END END END END END END END END END END END END
 
+  const [showLoading, setShowLoading] = useState(false);
+
   // FOR LOGIN
 
   const [accountValidation, setAccountValidation] = useState('');
@@ -125,7 +129,7 @@ export default function LoginPage() {
         console.log('COEDED');
       }
     } else {
-      console.log('else');
+      setShowLoading(true);
       let isStudent = false;
       let isAdmin = false;
 
@@ -133,7 +137,6 @@ export default function LoginPage() {
       axios
         .post(`https://pia-sfe.online/api/${accountType}/save`, values)
         .then(function (response) {
-          console.log('then');
           let message = response.data;
           if (typeof message === 'string') {
             message = message.replace(/"/g, '');
@@ -142,6 +145,7 @@ export default function LoginPage() {
           console.log(message);
           if (message == 'setPassword') {
             firstLogin = true;
+            setShowLoading(false);
             setNewPass(true);
           } else {
             console.log(response.data);
@@ -328,8 +332,11 @@ export default function LoginPage() {
                         );
 
                         if (data == 'Student') {
+                          window.localStorage.removeItem('LOGIN_STATUS');
+                          setShowLoading(false);
                           navigate('/Homepage');
                         } else if (data == 'Teacher') {
+                          window.localStorage.removeItem('LOGIN_STATUS');
                           var fullName = JSON.parse(
                             window.localStorage.getItem('SESSION_FULLNAME')
                           );
@@ -347,6 +354,7 @@ export default function LoginPage() {
                                 JSON.stringify(section)
                               );
                               window.localStorage.setItem('LINK_TAB', 0);
+                              setShowLoading(false);
                               navigate('/HomePageTeacher');
                             });
 
@@ -354,15 +362,19 @@ export default function LoginPage() {
                         }
                       });
                   } else if (isAdmin) {
+                    window.localStorage.removeItem('LOGIN_STATUS');
                     var data = 'Admin';
                     window.localStorage.setItem(
                       'ACCOUNT_TYPE',
                       JSON.stringify(data)
                     );
+                    setShowLoading(false);
                     navigate('/HomePageAdmin');
                     //reloadPage();
                   }
                 });
+            } else {
+              setShowLoading(false);
             }
           }
 
@@ -534,6 +546,7 @@ export default function LoginPage() {
   };
 
   const submitNewPassword = () => {
+    setShowLoading(true);
     let passwordNew = values.newPassword;
     let email = values.email;
     if (values.validNew && values.validConfirm) {
@@ -542,6 +555,7 @@ export default function LoginPage() {
           `https://pia-sfe.online/api/setNewPassword/${email}@${passwordNew}`
         )
         .then(function (response) {
+          setShowLoading(false);
           setShowModal(true);
         });
     }
@@ -574,39 +588,44 @@ export default function LoginPage() {
   }, []);
 
   //FOR SKELETON
+
   const [skeletonState, setSkeletonState] = useState(true);
 
-  useEffect(() => {
-    const onPageLoad = () => {
-      setTimeout(hideNavbar, 1);
+  /*
+ useEffect(() => {
+   const onPageLoad = () => {
+     setTimeout(hideNavbar, 1000);
 
-      function hideNavbar() {
-        setSkeletonState(false);
-      }
-    };
-    if (document.readyState === 'complete') {
-      onPageLoad();
-    } else {
-      window.addEventListener('load', onPageLoad, false);
-      return () => window.removeEventListener('load', onPageLoad);
-    }
-  }, []);
+     function hideNavbar() {
+       setSkeletonState(false);
+     }
+   };
+   if (document.readyState === 'complete') {
+     onPageLoad();
+   } else {
+     window.addEventListener('load', onPageLoad, false);
+     return () => window.removeEventListener('load', onPageLoad);
+   }
+ }, []);
+ */
 
   return (
     <>
-      <div className={`${!skeletonState ? 'hidden' : ''}`}>
-        <LoginPageSkeleton />
-      </div>
+      {/** 
+     <div className={`${!skeletonState ? '' : ''}`}>
+       <LoginPageSkeleton />
+     </div>
+     */}
       <div
         className={` flex items-center select-none
-                      ${skeletonState ? 'hidden' : ''}`}
+                     ${skeletonState ? '' : ''}`}
       >
         <div className="mx-auto w-full  grid place-items-center overflow-y-auto h-screen">
           <div
             className="
-            hdScreen:w-[30%] semihdScreen:w-[35%] laptopScreen:w-[40%] averageScreen:w-[42.5%] md:w-[45%] sm:w-[50%] xs:w-[60%] 
-            hdScreen:scale-100 semihdScreen:scale-95 laptopScreen:scale-85 averageScreen:scale-80 xs:scale-80
-          bg-white rounded-2xl shadow-md relative"
+           hdScreen:w-[30%] semihdScreen:w-[35%] laptopScreen:w-[40%] averageScreen:w-[42.5%] md:w-[45%] sm:w-[50%] xs:w-[60%] 
+           hdScreen:scale-100 semihdScreen:scale-95 laptopScreen:scale-85 averageScreen:scale-80 xs:scale-80
+         bg-white rounded-2xl shadow-md relative"
           >
             <div className="lg:pb-16 xs:pb-10  px-10 rounded-3xl">
               <div className="hdScreen:text-4xl semihdScreen:text-4xl laptopScreen:text-3xl  averageScreen:text-3xl  sm:text-2xl xs:text-xl text-gray-700 font-bold text-center">
@@ -1035,6 +1054,7 @@ export default function LoginPage() {
         onClose={handleOnCloseModal2}
         visible={showModal2}
       />
+      <LoadingSpinner visible={showLoading} />
     </>
   );
 }

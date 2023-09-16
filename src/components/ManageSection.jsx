@@ -117,6 +117,52 @@ export default function ManageSection() {
       });
   }
 
+  function updateTable() {
+    setTableLoader(true);
+
+    getManageSection2();
+    getAccounts2();
+
+    function getManageSection2() {
+      axios
+        .get(`https://pia-sfe.online/api/sectionList/`)
+        .then(function (response) {
+          setSection(response.data);
+        });
+    }
+
+    function getAccounts2() {
+      setSkeletonState(true);
+      axios
+        .get(`https://pia-sfe.online/api/getAccountSection/`)
+        .then(function (response) {
+          let responseData = response.data;
+          var newArray = [];
+          for (let i = 0; i < responseData.length; i++) {
+            var tempArray = [];
+            var result = Object.keys(responseData[i]).map(key => [
+              key,
+              responseData[i][key],
+            ]);
+
+            for (let j = 0; j < result.length; j++) {
+              tempArray.push(result[j][1]);
+            }
+            //console.log(tempArray);
+
+            let data = JSON.stringify(tempArray[0]);
+            data = data.replace(/"/g, '');
+
+            newArray.push(data);
+          }
+
+          //console.log(newArray);
+          setAccounts(newArray);
+          setTableLoader(false);
+        });
+    }
+  }
+
   const [showLoading, setShowLoading] = useState(false);
   const [tableLoader, setTableLoader] = useState(false);
   var highestTimeoutId = setTimeout(';');
@@ -183,8 +229,7 @@ export default function ManageSection() {
   const [showSectionMessageModal, setSectionMessageModal] = useState(false);
   const handleOnCloseSectionMessageModal = () => {
     setSectionMessageModal(false);
-    getManageSection();
-    getAccounts();
+    updateTable();
   };
 
   const handleOnContinueSectionModal = () => {
@@ -200,8 +245,7 @@ export default function ManageSection() {
   const [showMessageModal, setMessageModal] = useState(false);
   const handleOnCloseMessageModal = () => {
     setMessageModal(false);
-    getManageSection();
-    getAccounts();
+    updateTable();
   };
 
   const handleOnContinueModal = () => {
@@ -222,8 +266,7 @@ export default function ManageSection() {
   const handleOnCloseDeleteMessageModal = () => {
     window.sessionStorage.removeItem('SECTION_DELETION_TYPE');
     setDeleteMessageModal(false);
-    getManageSection();
-    getAccounts();
+    updateTable();
   };
 
   const handleOnContinueDeleteModal = () => {

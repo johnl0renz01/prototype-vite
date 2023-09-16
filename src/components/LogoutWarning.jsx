@@ -18,6 +18,9 @@ export default function LogoutWarning() {
       setAccType(status);
       checkLoginState();
       checkLoginStateDelay();
+
+      if (status != '') {
+      }
     }
   });
 
@@ -48,16 +51,27 @@ export default function LogoutWarning() {
       var status = JSON.parse(window.localStorage.getItem('LOGIN_STATUS'));
       if (status === null) {
         status = '';
+        setAccType(status);
       } else {
         status = status.replace(/"/g, '');
+        var account = JSON.parse(window.localStorage.getItem('ACCOUNT_TYPE'));
+        if (account == 'Student') {
+          EndSession.recordData();
+          window.localStorage.setItem('SESSION_USER', JSON.stringify(''));
+          window.localStorage.setItem('SESSION_EMAIL', JSON.stringify(''));
+          window.localStorage.setItem('SESSION_ID', JSON.stringify(''));
+          setAccType(status);
+        } else {
+          setAccType(status);
+        }
       }
-      setAccType(status);
     }, 1);
   }
 
   const closeLogoutWarning = () => {
     window.localStorage.removeItem('LOGIN_STATUS');
     window.localStorage.removeItem('UNIQUE_ID');
+    setAccType('');
     navigate('/LoginPage');
   };
 

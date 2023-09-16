@@ -18,17 +18,23 @@ import { BsFillSendFill } from 'react-icons/bs';
 import { MdClose } from 'react-icons/md';
 import { VscQuestion } from 'react-icons/vsc';
 
+import LoadingSpinner from './LoadingSpinner';
+
 const ContactAdminModal = ({ visible, onClose, onContinue }) => {
+  const [showLoading, setShowLoading] = useState(false);
+
   const navigate = useNavigate();
 
   //window.localStorage.setItem("");
 
   const onSubmit = async (values, actions) => {
+    setShowLoading(true);
     var email = JSON.parse(window.localStorage.getItem('SESSION_EMAIL'));
     var role = JSON.parse(window.localStorage.getItem('ACCOUNT_TYPE'));
     axios
       .post(`https://pia-sfe.online/api/requestSend/${email}@${role}`, values)
       .then(function (response) {
+        setShowLoading(false);
         handleReset();
         onContinue();
       });
@@ -166,6 +172,7 @@ const ContactAdminModal = ({ visible, onClose, onContinue }) => {
           </div>
         </div>
       </div>
+      <LoadingSpinner visible={showLoading} />
     </>
   );
 };

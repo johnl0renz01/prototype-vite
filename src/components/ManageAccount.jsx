@@ -90,6 +90,17 @@ export default function ManageAccount() {
       });
   }
 
+  function updateTable() {
+    setTableLoader(true);
+    axios
+      .get(`https://pia-sfe.online/api/accountList/`)
+      .then(function (response) {
+        //console.log(response.data);
+        setAccounts(response.data);
+        setTableLoader(false);
+      });
+  }
+
   const [showLoading, setShowLoading] = useState(false);
 
   const editMode = e => {
@@ -177,7 +188,7 @@ export default function ManageAccount() {
   const [showMessageModal, setShowMessageModal] = useState(false);
   const handleOnCloseMessageModal = () => {
     setShowMessageModal(false);
-    getAccounts();
+    updateTable();
   };
 
   // MODAL DELETE
@@ -203,7 +214,7 @@ export default function ManageAccount() {
   const [showDeleteMessageModal, setShowDeleteMessageModal] = useState(false);
   const handleOnCloseDeleteMessageModal = () => {
     setShowDeleteMessageModal(false);
-    getAccounts();
+    updateTable();
   };
 
   // MODAL RESET PASSWORD

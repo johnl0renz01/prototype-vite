@@ -46,7 +46,7 @@ export default function ClassListSkeleton() {
 
   function sampleRow(name, gender, grouptype) {
     return (
-      <tr className="odd:bg-gray-100/30 even:bg-gray-200/30 border-b border-gray-200  text-gray-200 relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_1.5s_infinite]">
+      <tr className="odd:bg-gray-100/30 even:bg-gray-200/30 border-b border-gray-200  text-gray-200 relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_2s_infinite]">
         <td className="flex items-center lg:text-base md:text-sm xs:text-xs  pl-5 py-[10px]  whitespace-no-wrap ">
           <div className="flex-shrink-0 w-10 h-10 mr-3">
             <div className="bg-gray-200 rounded-full">
@@ -76,7 +76,7 @@ export default function ClassListSkeleton() {
           <a>
             <button
               disabled
-              className="lg:text-base md:text-sm xs:text-xs  md:w-36 sm:w-28 xs:w-20 text-gray-300 bg-gray-300  py-2 rounded-xl shadow relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_1.5s_infinite]"
+              className="lg:text-base md:text-sm xs:text-xs  md:w-36 sm:w-28 xs:w-20 text-gray-300 bg-gray-300  py-2 rounded-xl shadow relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_2s_infinite]"
             >
               <p className="md:pr-2">See details</p>
               <VscEye className="md:block xs:hidden opacity-0 absolute md:right-3 xs:right-1 top-1/3" />
@@ -122,14 +122,14 @@ export default function ClassListSkeleton() {
                 : ''
             }`}
           >
-            <span className="bg-gray-200 text-gray-200 rounded-md relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_1.5s_infinite]">
+            <span className="bg-gray-200 text-gray-200 rounded-md relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_2s_infinite]">
               7 - Aguinaldo
             </span>
           </div>
           <div className="mt-1.5">
             <div className="overflow-hidden hdScreen:py-1 semihdScreen:py-1 laptopScreen:py-0 averageScreen:py-0 pr-2">
               <div className="inline-flex w-full m-1   rounded-2xl lg:text-lg xs:text-xs ">
-                <div className="grow mr-5 flex bg-gray-200 shadow py-1 items-center text-left rounded-2xl relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_1.5s_infinite]">
+                <div className="grow mr-5 flex bg-gray-200 shadow py-1 items-center text-left rounded-2xl relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_2s_infinite]">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="ml-4 lg:h-10 lg:w-10 xs:h-5 xs:w-10 lg:scale-100 md-scale:80 sm-scale:60 text-gray-300 bg-gray-300 rounded-full "
@@ -154,7 +154,7 @@ export default function ClassListSkeleton() {
                 <button
                   disabled
                   type="button"
-                  className="bg-gray-300  hdScreen:w-[14.5rem] semihdScreen:w-[14.5rem] laptopScreen:w-[14.5rem] averageScreen:w-[14.5rem] hdScreen:py-3 semihdScreen:py-2 laptopScreen:py-0 averageScreen:py-0 lg:px-5 sm:py-1.5 sm:px-2.5 xs:px-1 xs:py-1 text-white font-semibold  shadow rounded-2xl relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_1.5s_infinite] "
+                  className="bg-gray-300  hdScreen:w-[14.5rem] semihdScreen:w-[14.5rem] laptopScreen:w-[14.5rem] averageScreen:w-[14.5rem] hdScreen:py-3 semihdScreen:py-2 laptopScreen:py-0 averageScreen:py-0 lg:px-5 sm:py-1.5 sm:px-2.5 xs:px-1 xs:py-1 text-white font-semibold  shadow rounded-2xl relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_2s_infinite] "
                 >
                   <span className="md:pl-2 text-gray-300 hdScreen:text-xl semihdScreen:text-xl laptopScreen:text-lg averageScreen:text-lg sm:text-base xs:text-sm flex justify-center items-center">
                     Change Section
@@ -167,7 +167,7 @@ export default function ClassListSkeleton() {
 
           <div className="hdScreen:mt-6 semihdScreen:mt-5 laptopScreen:mt-3 averageScreen:mt-2 xs:mt-3 rounded-3xl overflow-hidden ">
             <table className="w-full leading-normal ">
-              <thead className=" top-0 z-40 shadow border-b-2 border-gray-200/0 bg-gray-200 text-left uppercase tracking-wider lg:text-base md:text-sm xs:text-xs  font-bold text-gray-200 relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_1.5s_infinite]">
+              <thead className=" top-0 z-40 shadow border-b-2 border-gray-200/0 bg-gray-200 text-left uppercase tracking-wider lg:text-base md:text-sm xs:text-xs  font-bold text-gray-200 relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_2s_infinite]">
                 <tr>
                   <th className="lg:pl-20 w-[32.5%] py-3 ">Student Name</th>
 

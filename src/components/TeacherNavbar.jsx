@@ -33,7 +33,13 @@ import ContactAdminMessageModal from './ContactAdminMessageModal';
 
 import TeacherNavbarSkeleton from './TeacherNavbarSkeleton';
 
+import LoadingSpinner from './LoadingSpinner';
+
 export default function TeacherNavbar() {
+  const [showLoading, setShowLoading] = useState(false);
+  const [tableLoader, setTableLoader] = useState(false);
+  var highestTimeoutId = setTimeout(';');
+
   const navigate = useNavigate();
 
   /*
@@ -198,7 +204,8 @@ export default function TeacherNavbar() {
   const [logoutState, setLogoutState] = useState(false);
 
   const logout = () => {
-    setLogoutState(true);
+    setShowLoading(true);
+
     window.localStorage.removeItem('CURRENT_TAB_INDEX');
 
     var unique = JSON.parse(window.localStorage.getItem('UNIQUE_ID'));
@@ -206,6 +213,8 @@ export default function TeacherNavbar() {
     axios
       .post(`https://pia-sfe.online/api/logout/${unique}`)
       .then(function (response) {
+        setShowLoading(false);
+        setLogoutState(true);
         localStorage.clear();
         window.localStorage.setItem('LOGGED', JSON.stringify('FALSE'));
         setTabHighlight(0);
@@ -275,6 +284,7 @@ export default function TeacherNavbar() {
     }
   }, []);
 
+  /*
   // This will run one time after the component mounts
   useEffect(() => {
     // callback function to call when event triggers
@@ -296,13 +306,15 @@ export default function TeacherNavbar() {
       return () => window.removeEventListener('load', onPageLoad);
     }
   }, []);
+  */
 
   return (
     <>
+      {/** 
       <div className={`${!skeletonState ? 'hidden' : ''}`}>
         <TeacherNavbarSkeleton />
       </div>
-
+*/}
       <div
         className={`${accType == 'Teacher' ? 'visible' : 'hidden'} ${
           logoutState == true ? 'hidden' : ''
@@ -508,6 +520,7 @@ export default function TeacherNavbar() {
         visible={showModal2}
         onContinue={handleOnContinueModal2}
       />
+      <LoadingSpinner visible={showLoading} />
     </>
   );
 }

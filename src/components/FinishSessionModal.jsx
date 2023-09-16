@@ -9,7 +9,10 @@ import EndSession from './EndSession';
 import FeedbackList from './FeedbackList';
 import ClearStorage from './ClearStorage';
 
+import LoadingSpinner from './LoadingSpinner';
+
 const FinishSessionModal = ({ visible, onClose, onContinue }) => {
+  const [showLoading, setShowLoading] = useState(false);
   const navigate = useNavigate();
   const handleOnClose = e => {
     if (e.target.id === 'mainContainer') onClose();
@@ -117,6 +120,7 @@ const FinishSessionModal = ({ visible, onClose, onContinue }) => {
   }
 
   function getTimeSpent() {
+    setShowLoading(true);
     let sessionID = window.localStorage.getItem('SESSION_ID');
     var userLogs = window.localStorage.getItem('SESSION_USER_LOGS');
     userLogs = userLogs + '@' + sessionID;
@@ -124,12 +128,14 @@ const FinishSessionModal = ({ visible, onClose, onContinue }) => {
     axios
       .get(`https://pia-sfe.online/api/getTimeSpent/${userLogs}`)
       .then(function (response) {
+        setShowLoading(false);
         console.log(response.data);
         setTimeSpent(response.data);
       });
   }
 
   const levelUp = () => {
+    setShowLoading(true);
     ClearStorage.clearData();
     setFeedback('');
 
@@ -165,6 +171,7 @@ const FinishSessionModal = ({ visible, onClose, onContinue }) => {
           JSON.stringify(difficultyType)
         );
         window.localStorage.removeItem('TIME_SPENT');
+        setShowLoading(false);
         window.location.reload(false);
       });
   };
@@ -301,6 +308,7 @@ const FinishSessionModal = ({ visible, onClose, onContinue }) => {
           </div>
         </div>
       </div>
+      <LoadingSpinner visible={showLoading} />
     </>
   );
 };

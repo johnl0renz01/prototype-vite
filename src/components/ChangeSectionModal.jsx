@@ -17,27 +17,15 @@ import { BsSlashCircle } from 'react-icons/bs';
 import { MdClose } from 'react-icons/md';
 import { VscQuestion } from 'react-icons/vsc';
 
+import LoadingSpinner from './LoadingSpinner';
+
 const ChangeSection = ({ visible, onClose, onContinue }) => {
+  const [showLoading, setShowLoading] = useState(false);
   const navigate = useNavigate();
 
   const [adviserData, setAdviserData] = useState([]);
 
   const [sections, setSections] = useState([]);
-
-  /*
-  function getSections() {
-    var fullName = JSON.parse(window.localStorage.getItem('SESSION_FULLNAME'));
-    fullName = fullName.replace(/ /g, '_');
-    console.log(fullName);
-    axios
-      .get(
-        `https://pia-sfe.online/api/sectionHandled/${fullName}`
-      )
-      .then(function (response) {
-        console.log(response.data);
-        setSections(response.data);
-      });
-  }*/
 
   const [section, setSectionData] = useState([]);
   const [studentsTotal, setStudentsTotal] = useState([]);
@@ -278,7 +266,7 @@ const ChangeSection = ({ visible, onClose, onContinue }) => {
                                     name={currentSection.SectionName}
                                     type="submit"
                                     value="Select Section"
-                                    className={` py-[0.5rem]  px-4  shadow-md rounded-full font-normal  transition duration-300   lg:text-base drop-shadow-[0_2px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_2px_0px_rgba(0,0,0,0.6)]
+                                    className={` py-[0.5rem]  px-4  shadow-md rounded-md font-normal  transition duration-300   lg:text-base drop-shadow-[0_2px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_2px_0px_rgba(0,0,0,0.6)]
                                   ${
                                     selectedSection ==
                                     currentSection.SectionName
@@ -310,6 +298,7 @@ const ChangeSection = ({ visible, onClose, onContinue }) => {
           </div>
         </div>
       </div>
+      <LoadingSpinner visible={showLoading} />
     </>
   );
 };

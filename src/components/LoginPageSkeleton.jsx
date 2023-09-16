@@ -63,7 +63,7 @@ export default function LoginPageSkeleton() {
             className=" 
             hdScreen:w-[30%] semihdScreen:w-[35%] laptopScreen:w-[40%] averageScreen:w-[42.5%] md:w-[45%] sm:w-[50%] xs:w-[60%] 
             hdScreen:scale-100 semihdScreen:scale-95 laptopScreen:scale-85 averageScreen:scale-80  xs:scale-80
-          bg-gray-100 rounded-2xl shadow-md relative  overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_1.5s_infinite]"
+          bg-gray-100 rounded-2xl shadow-md relative  overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_2s_infinite]"
           >
             <div className="lg:pb-16 xs:pb-10  px-10 rounded-3xl">
               <div className="hdScreen:text-4xl semihdScreen:text-4xl laptopScreen:text-3xl  averageScreen:text-3xl  sm:text-2xl xs:text-xl text-gray-700 font-bold text-center lg:pt-6 xs:pt-2 pb-4">
