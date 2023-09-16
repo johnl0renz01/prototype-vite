@@ -11,6 +11,9 @@ import { VscEye } from 'react-icons/vsc';
 import ChangeSectionModal from './ChangeSectionModal';
 import ClassListSkeleton from './ClassListSkeleton';
 
+import { BsClipboard2X } from 'react-icons/bs';
+import LoadingSpinner from './LoadingSpinner';
+
 export default function ClassList() {
   const navigate = useNavigate();
 
