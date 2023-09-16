@@ -1569,6 +1569,7 @@ export default function HelpPageAdmin() {
   //FOR SKELETON
   const [skeletonState, setSkeletonState] = useState(true);
 
+  /*
   useEffect(() => {
     const onPageLoad = () => {
       setTimeout(hideNavbar, 1);
@@ -1584,13 +1585,15 @@ export default function HelpPageAdmin() {
       return () => window.removeEventListener('load', onPageLoad);
     }
   }, []);
+*/
 
   return (
     <>
+      {/*
       <div className={`${!skeletonState ? 'hidden' : ''}`}>
         <HelpPageAdminSkeleton />
       </div>
-
+*/}
       <div
         className={`bg-gradient-to-t from-[#e2e2e2] via-[#f1f1f1] to-[#ffffff] h-full 
         ${
@@ -1611,7 +1614,7 @@ export default function HelpPageAdmin() {
             : navbarWidth == 39
             ? 'w-[calc(100%-39px)] ml-[39px]'
             : ''
-        } ${skeletonState ? 'hidden' : ''}`}
+        } ${skeletonState ? '' : ''}`}
       >
         <section className="relative mx-auto p-8 w-full">
           <div

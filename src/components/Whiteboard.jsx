@@ -1750,12 +1750,37 @@ export default function Whiteboard() {
     setAlbumState(true);
     setVideoState(false);
   };
-  //TUTORIAL LINKS
-  const video1 = () => {
-    setAlbumState(false);
-    setVideoState(true);
-    setTutorialLink('https://www.youtube.com/embed/crJI4iZ_DbI');
-  };
+
+  function albumItem(linkYT, linkIMG, linkTitle, linkAuthor) {
+    return (
+      <div className=" border-4 border-gray-700 hover:border-white  break-all overflow-hidden shadow drop-shadow-[0_3px_0px_rgba(0,0,0,0.3)]">
+        <div
+          onClick={() => {
+            setAlbumState(false);
+            setVideoState(true);
+            setTutorialLink(linkYT);
+          }}
+          className=" [&>*:nth-child(odd)]:hover:blur-[3px] [&>*:nth-child(even)]:hover:opacity-100 flex flex-col justify-center  items-center text-center "
+        >
+          <img
+            className=" hover:cursor-pointer border-4 border-slate-700 object-cover w-full h-full transition duration-100"
+            src={linkIMG}
+          />
+
+          <BsFillPlayFill
+            id="playButton"
+            className="opacity-0 cursor-pointer absolute top-[32.5%] bg-red-600 hover:bg-red-700 text-white hover:text-gray-100 rounded-full h-10 w-10 z-10 pl-1 transition duration-300 "
+          />
+        </div>
+
+        <div className="p-0.5 text-center hdScreen:text-sm averageScreen:text-xs  xs:text-xs absolute bottom-0 bg-slate-600 text-white border-t-3 border-slate-700 w-full">
+          {linkTitle}
+          <br></br>
+          {linkAuthor}
+        </div>
+      </div>
+    );
+  }
 
   //FOR SKELETON
   const [skeletonState, setSkeletonState] = useState(true);
@@ -1997,98 +2022,30 @@ export default function Whiteboard() {
                     className={`grid grid-cols-4 gap-4 grid-rows-3 bg-white h-full w-full
                     ${albumState ? '' : 'hidden'}`}
                   >
-                    <div className=" border-4 border-gray-700 hover:border-white  break-all overflow-hidden shadow drop-shadow-[0_3px_0px_rgba(0,0,0,0.3)]">
-                      <div
-                        onClick={video1}
-                        className=" [&>*:nth-child(odd)]:hover:blur-[3px] [&>*:nth-child(even)]:hover:opacity-100 flex flex-col justify-center  items-center text-center "
-                      >
-                        <img
-                          className=" hover:cursor-pointer border-4 border-slate-700 object-cover w-full h-full transition duration-100"
-                          src="https://i.ytimg.com/vi/crJI4iZ_DbI/hqdefault.jpg"
-                        />
-
-                        <BsFillPlayFill
-                          id="playButton"
-                          className="opacity-0 cursor-pointer absolute top-[32.5%] bg-red-600 hover:bg-red-700 text-white hover:text-gray-100 rounded-full h-10 w-10 z-10 pl-1 transition duration-300 "
-                        />
-                      </div>
-
-                      <div className="p-0.5 text-center hdScreen:text-sm averageScreen:text-xs  xs:text-xs absolute bottom-0 bg-slate-600 text-white border-t-3 border-slate-700 w-full">
-                        Linear Equations in One Variable
-                        <br></br>
-                        @MathTeacherGon
-                      </div>
-                    </div>
-
-                    <div className=" border-4 border-gray-700 hover:border-white  break-all overflow-hidden shadow drop-shadow-[0_3px_0px_rgba(0,0,0,0.3)]">
-                      <div
-                        onClick={video1}
-                        className=" [&>*:nth-child(odd)]:hover:blur-[3px] [&>*:nth-child(even)]:hover:opacity-100 flex flex-col justify-center  items-center text-center "
-                      >
-                        <img
-                          className=" hover:cursor-pointer border-4 border-slate-700 object-cover w-full h-full transition duration-100"
-                          src="https://i.ytimg.com/vi/crJI4iZ_DbI/hqdefault.jpg"
-                        />
-
-                        <BsFillPlayFill
-                          id="playButton"
-                          className="opacity-0 cursor-pointer absolute top-[32.5%] bg-red-600 hover:bg-red-700 text-white hover:text-gray-100 rounded-full h-10 w-10 z-10 pl-1 transition duration-300 "
-                        />
-                      </div>
-
-                      <div className="p-0.5 text-center hdScreen:text-sm averageScreen:text-xs xs:text-xs absolute bottom-0 bg-slate-600 text-white border-t-3 border-slate-700 w-full">
-                        Linear Equations in One Variable
-                        <br></br>
-                        @MathTeacherGon
-                      </div>
-                    </div>
-
-                    <div className=" border-4 border-gray-700 hover:border-white  break-all overflow-hidden shadow drop-shadow-[0_3px_0px_rgba(0,0,0,0.3)]">
-                      <div
-                        onClick={video1}
-                        className=" [&>*:nth-child(odd)]:hover:blur-[3px] [&>*:nth-child(even)]:hover:opacity-100 flex flex-col justify-center  items-center text-center "
-                      >
-                        <img
-                          className=" hover:cursor-pointer border-4 border-slate-700 object-cover w-full h-full transition duration-100"
-                          src="https://i.ytimg.com/vi/crJI4iZ_DbI/hqdefault.jpg"
-                        />
-
-                        <BsFillPlayFill
-                          id="playButton"
-                          className="opacity-0 cursor-pointer absolute top-[32.5%] bg-red-600 hover:bg-red-700 text-white hover:text-gray-100 rounded-full h-10 w-10 z-10 pl-1 transition duration-300 "
-                        />
-                      </div>
-
-                      <div className="p-0.5 text-center hdScreen:text-sm averageScreen:text-xs xs:text-xs absolute bottom-0 bg-slate-600 text-white border-t-3 border-slate-700 w-full">
-                        Linear Equations in One Variable
-                        <br></br>
-                        @MathTeacherGon
-                      </div>
-                    </div>
-
-                    <div className=" border-4 border-gray-700 hover:border-white  break-all overflow-hidden shadow drop-shadow-[0_3px_0px_rgba(0,0,0,0.3)]">
-                      <div
-                        onClick={video1}
-                        className=" [&>*:nth-child(odd)]:hover:blur-[3px] [&>*:nth-child(even)]:hover:opacity-100 flex flex-col justify-center  items-center text-center "
-                      >
-                        <img
-                          className=" hover:cursor-pointer border-4 border-slate-700 object-cover w-full h-full transition duration-100"
-                          src="https://i.ytimg.com/vi/crJI4iZ_DbI/hqdefault.jpg"
-                        />
-
-                        <BsFillPlayFill
-                          id="playButton"
-                          className="opacity-0 cursor-pointer absolute top-[32.5%] bg-red-600 hover:bg-red-700 text-white hover:text-gray-100 rounded-full h-10 w-10 z-10 pl-1 transition duration-300 "
-                        />
-                      </div>
-
-                      <div className="p-0.5 text-center hdScreen:text-sm averageScreen:text-xs xs:text-xs absolute bottom-0 bg-slate-600 text-white border-t-3 border-slate-700 w-full">
-                        Linear Equations in One Variable
-                        <br></br>
-                        @MathTeacherGon
-                      </div>
-                    </div>
-
+                    {albumItem(
+                      'https://www.youtube.com/embed/crJI4iZ_DbI',
+                      'https://i.ytimg.com/vi/crJI4iZ_DbI/hqdefault.jpg',
+                      'Linear Equations in One Variable',
+                      '@MathTeacherGon'
+                    )}
+                    {albumItem(
+                      'https://www.youtube.com/embed/crJI4iZ_DbI',
+                      'https://i.ytimg.com/vi/crJI4iZ_DbI/hqdefault.jpg',
+                      'Linear Equations in One Variable',
+                      '@MathTeacherGon'
+                    )}
+                    {albumItem(
+                      'https://www.youtube.com/embed/crJI4iZ_DbI',
+                      'https://i.ytimg.com/vi/crJI4iZ_DbI/hqdefault.jpg',
+                      'Linear Equations in One Variable',
+                      '@MathTeacherGon'
+                    )}
+                    {albumItem(
+                      'https://www.youtube.com/embed/crJI4iZ_DbI',
+                      'https://i.ytimg.com/vi/crJI4iZ_DbI/hqdefault.jpg',
+                      'Linear Equations in One Variable',
+                      '@MathTeacherGon'
+                    )}
                     {/** 
                     <div className="w-full h-full bg-white"></div>
                    

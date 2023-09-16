@@ -115,6 +115,7 @@ export default function HomePageAdmin() {
   //FOR SKELETON
   const [skeletonState, setSkeletonState] = useState(true);
 
+  /*
   useEffect(() => {
     const onPageLoad = () => {
       setTimeout(hideNavbar, 1);
@@ -130,12 +131,15 @@ export default function HomePageAdmin() {
       return () => window.removeEventListener('load', onPageLoad);
     }
   }, []);
+  */
 
   return (
     <>
+      {/*
       <div className={`${!skeletonState ? 'hidden' : ''}`}>
         <HomePageAdminSkeleton />
       </div>
+    */}
       <div
         className={`bg-gradient-to-t from-[#e2e2e2] via-[#f1f1f1] to-[#ffffff] h-screen overflow-y-auto 
         ${
@@ -156,7 +160,7 @@ export default function HomePageAdmin() {
             : navbarWidth == 39
             ? 'w-[calc(100%-39px)] ml-[39px]'
             : ''
-        } ${skeletonState ? 'hidden' : ''}`}
+        } ${skeletonState ? '' : ''}`}
       >
         <section className="relative mx-auto p-8 w-full">
           <div
