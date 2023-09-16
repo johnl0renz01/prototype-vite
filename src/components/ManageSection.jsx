@@ -109,7 +109,7 @@ export default function ManageSection() {
 
         //console.log(newArray);
         setAccounts(newArray);
-        setTimeout(hideNavbar, 500);
+        setTimeout(hideNavbar, 1);
 
         function hideNavbar() {
           setSkeletonState(false);

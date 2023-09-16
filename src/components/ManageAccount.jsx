@@ -82,7 +82,7 @@ export default function ManageAccount() {
       .then(function (response) {
         //console.log(response.data);
         setAccounts(response.data);
-        setTimeout(hideNavbar, 500);
+        setTimeout(hideNavbar, 1);
 
         function hideNavbar() {
           setSkeletonState(false);

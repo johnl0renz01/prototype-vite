@@ -334,7 +334,7 @@ export default function CreateEquation() {
 
   useEffect(() => {
     const onPageLoad = () => {
-      setTimeout(hideNavbar, 500);
+      setTimeout(hideNavbar, 1);
 
       function hideNavbar() {
         setSkeletonState(false);

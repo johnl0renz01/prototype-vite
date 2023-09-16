@@ -73,7 +73,7 @@ export default function UserRequest() {
       .then(function (response) {
         console.log(response.data);
         setRequests(response.data);
-        setTimeout(hideNavbar, 500);
+        setTimeout(hideNavbar, 1);
 
         function hideNavbar() {
           setSkeletonState(false);
