@@ -30,13 +30,6 @@ export default function Whiteboard() {
     var logged = JSON.parse(window.localStorage.getItem('LOGGED'));
     if (logged == 'FALSE') {
       window.localStorage.setItem('LOGIN_STATUS', JSON.stringify('Terminated'));
-
-      var email = JSON.parse(window.localStorage.getItem('SESSION_EMAIL'));
-      if (email === null) email = '';
-
-      if (email == '') {
-        navigate('/LoginPage');
-      }
     } else {
       var closed = JSON.parse(window.localStorage.getItem('IS_CLOSED'));
       if (closed) {
@@ -80,27 +73,27 @@ export default function Whiteboard() {
       window.localStorage.setItem('NAVBAR_PAGE_LINK', JSON.stringify(pageLink));
     }
 
-    var data1 = JSON.parse(window.localStorage.getItem('EXPRESSION_HAPPY'));
+    const data1 = window.localStorage.getItem('EXPRESSION_HAPPY');
     if (data1 === null) {
       window.localStorage.setItem('EXPRESSION_HAPPY', JSON.stringify(0));
     }
 
-    var data2 = JSON.parse(window.localStorage.getItem('EXPRESSION_SAD'));
+    const data2 = window.localStorage.getItem('EXPRESSION_SAD');
     if (data2 === null) {
       window.localStorage.setItem('EXPRESSION_SAD', JSON.stringify(0));
     }
 
-    var data3 = JSON.parse(window.localStorage.getItem('EXPRESSION_ANGRY'));
+    const data3 = window.localStorage.getItem('EXPRESSION_ANGRY');
     if (data3 === null) {
       window.localStorage.setItem('EXPRESSION_ANGRY', JSON.stringify(0));
     }
 
-    var data4 = JSON.parse(window.localStorage.getItem('EXPRESSION_SURPRISED'));
+    const data4 = window.localStorage.getItem('EXPRESSION_SURPRISED');
     if (data4 === null) {
       window.localStorage.setItem('EXPRESSION_SURPRISED', JSON.stringify(0));
     }
 
-    var data5 = JSON.parse(window.localStorage.getItem('SESSION_SCORE'));
+    const data5 = window.localStorage.getItem('SESSION_SCORE');
     if (data5 === null) {
       window.localStorage.setItem('SESSION_SCORE', JSON.stringify(0));
     }
@@ -270,10 +263,11 @@ export default function Whiteboard() {
     for (let i = 0; i < highestTimeoutId; i++) {
       clearTimeout(i);
     }
-    if (
-      !JSON.parse(window.localStorage.getItem('FINISHED_EQUATION')) ||
-      window.localStorage.getItem('FINISHED_EQUATION') == null
-    ) {
+    var isFinished = JSON.parse(
+      window.localStorage.getItem('FINISHED_EQUATION')
+    );
+    if (isFinished !== null) {
+    } else {
       setInterval(currentQuestionTimer, 1000);
     }
   }, []);
@@ -296,7 +290,7 @@ export default function Whiteboard() {
     getFraction();
 
     let logs = JSON.parse(window.localStorage.getItem('USER_LOGS'));
-    if (logs != null) {
+    if (logs !== null) {
       let logsArray = logs.split('‰');
       arrSetLog(logsArray);
       //console.log(logsArray);
@@ -409,9 +403,9 @@ export default function Whiteboard() {
   };
 
   function checkAnswered() {
-    let data1 = parseInt(window.localStorage.getItem('FINISHED_STEPS'));
-    let data2 = window.localStorage.getItem('FINISHED_EQUATION');
-    if (data1 != null && data1 != 0) {
+    let data1 = JSON.parse(window.localStorage.getItem('FINISHED_STEPS'));
+    let data2 = JSON.parse(window.localStorage.getItem('FINISHED_EQUATION'));
+    if (data1 !== null && data1 != 0) {
       console.log('yes');
       let currentIndex = data1;
       console.log('CURRINDEX: ' + currentIndex);
@@ -424,7 +418,7 @@ export default function Whiteboard() {
       }
     }
 
-    if (data2 != null && data2 != 'false') {
+    if (data2 !== null && data2 != false) {
       displaySolved();
     }
   }
@@ -571,7 +565,7 @@ export default function Whiteboard() {
 
     computeEquation();
     loadAnswers();
-    window.localStorage.setItem('FINISHED_EQUATION', false);
+    window.localStorage.setItem('FINISHED_EQUATION');
     window.localStorage.setItem('FINISHED_STEPS', 0);
     //window.localStorage.setItem("STREAK_CORRECT", 0);
     window.localStorage.setItem('QUESTION_INDEX', JSON.stringify(count));
@@ -584,7 +578,7 @@ export default function Whiteboard() {
 
   const skipQuestion = () => {
     var data = window.localStorage.getItem('QUESTION_ABANDONED');
-    if (data == null || data == undefined || data == '0') {
+    if (data === null || data == undefined || data == '0') {
       data = '0';
     }
 
@@ -658,7 +652,7 @@ export default function Whiteboard() {
 
       //KEEP DATA OF LOGS
       var logText = '';
-      if (window.localStorage.getItem('USER_LOGS') != null) {
+      if (window.localStorage.getItem('USER_LOGS') !== null) {
         console.log(window.localStorage.getItem('USER_LOGS'));
         logText =
           logText + JSON.parse(window.localStorage.getItem('USER_LOGS'));
@@ -712,7 +706,7 @@ export default function Whiteboard() {
 
             var currentScore = window.localStorage.getItem('SESSION_SCORE');
             if (
-              currentScore == null ||
+              currentScore === null ||
               currentScore == undefined ||
               currentScore == '0'
             ) {
@@ -750,7 +744,7 @@ export default function Whiteboard() {
 
           if (isProfanity) {
             displayAngry();
-          } else if (result != null) {
+          } else if (result !== null) {
             if (result.length > 0) {
               increaseIrrelevantStreak();
               displayMad();
@@ -782,7 +776,7 @@ export default function Whiteboard() {
 
   function increaseStepIndex() {
     let stepIndex = window.localStorage.getItem('FINISHED_STEPS');
-    if (stepIndex == null) {
+    if (stepIndex === null) {
       stepIndex = 0;
       stepIndex++;
     } else {
@@ -793,7 +787,7 @@ export default function Whiteboard() {
 
   function increaseCorrectStreak() {
     let streakCount = window.localStorage.getItem('STREAK_CORRECT');
-    if (streakCount == null) {
+    if (streakCount === null) {
       streakCount = 0;
       streakCount++;
     } else {
@@ -806,7 +800,7 @@ export default function Whiteboard() {
 
   function increaseWrongStreak() {
     let streakCount = window.localStorage.getItem('STREAK_WRONG');
-    if (streakCount == null) {
+    if (streakCount === null) {
       streakCount = 0;
       streakCount++;
     } else {
@@ -826,7 +820,7 @@ export default function Whiteboard() {
 
   function increaseIrrelevantStreak() {
     let streakCount = window.localStorage.getItem('STREAK_IRRELEVANT');
-    if (streakCount == null) {
+    if (streakCount === null) {
       streakCount = 0;
       streakCount++;
     } else {
@@ -840,7 +834,7 @@ export default function Whiteboard() {
   function increaseTally(expressionType) {
     // UPDATE DATA
     var data = window.localStorage.getItem(expressionType);
-    if (data == null || data == undefined || data == '0') {
+    if (data === null || data == undefined || data == '0') {
       data = '0';
     }
 
@@ -907,7 +901,7 @@ export default function Whiteboard() {
     }
 
     let currentTime = JSON.parse(window.localStorage.getItem('TIMER'));
-    if (currentTime <= 60 || currentTime == null) {
+    if (currentTime <= 60 || currentTime === null) {
       //ADD IF SHORTENED OR FULL
       if (
         JSON.parse(window.localStorage.getItem('SYSTEM_VERSION')) ==
@@ -1816,7 +1810,7 @@ export default function Whiteboard() {
       return () => window.removeEventListener('load', onPageLoad);
     }
   }, []);
-  */
+*/
 
   return (
     <>

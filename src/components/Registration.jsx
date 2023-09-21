@@ -57,6 +57,13 @@ function Registration() {
     var logged = JSON.parse(window.localStorage.getItem('LOGGED'));
     if (logged == 'FALSE') {
       window.localStorage.setItem('LOGIN_STATUS', JSON.stringify('Terminated'));
+
+      var email = JSON.parse(window.localStorage.getItem('SESSION_EMAIL'));
+      if (email === null) email = '';
+
+      if (email == '') {
+        navigate('/LoginPage');
+      }
     } else {
       var closed = JSON.parse(window.localStorage.getItem('IS_CLOSED'));
       if (closed) {
@@ -99,14 +106,14 @@ function Registration() {
   useEffect(() => {
     getSections();
     setEmail('@sf.edu.ph');
-    window.sessionStorage.setItem('IS_VALID_FORM', true);
+    window.sessionStorage.setItem('IS_VALID_FORM', false);
   }, []);
 
   const onSubmit = async (values, actions) => {
     console.log('SUBMITTED');
 
     var validForm = JSON.parse(window.sessionStorage.getItem('IS_VALID_FORM'));
-    if (validForm) {
+    if (validForm && validForm !== null) {
       setShowLoading(true);
       axios
         .post('https://pia-sfe.online/api/registerAccount/save', values)
@@ -115,25 +122,10 @@ function Registration() {
           setShowLoading(false);
           setShowModal(true);
           resetValues();
-
-          function resetValues() {
-            values.firstName = '';
-            values.middleName = '';
-            values.lastName = '';
-            values.email = '';
-            values.password = 'default';
-            setEmail('@sf.edu.ph');
-            setFirstName('');
-            setLastName('');
-
-            if (values.role == 'Student') {
-              values.sex = 'Male';
-              values.section = '';
-              values.groupType = 'Facial Group';
-              values.gradeLevel = 'Grade 7';
-            }
-          }
           //window.location.reload(false);
+        })
+        .catch(function (error) {
+          setShowLoading(false);
         });
 
       await new Promise(resolve => setTimeout(resolve, 1));
@@ -322,7 +314,7 @@ function Registration() {
       email: '',
       password: 'default',
       //confirmPassword: '',
-      role: '',
+      role: 'Student',
 
       //For bulk register
       bulkGradeLevel: '',
@@ -383,36 +375,64 @@ function Registration() {
     values.lastName = '';
 
     values.sex = 'Male';
-    values.section = '';
+    if (values.role == 'Student') {
+      values.section = '';
+    } else {
+      values.section = 'NA';
+    }
+
     values.groupType = 'Facial Group';
     values.gradeLevel = 'Grade 7';
     values.email = '';
-    values.role = '';
     values.password = 'default';
 
     setEmail('@sf.edu.ph');
     setFirstName('');
     setLastName('');
     setDuplicateState(false);
+
+    handleChange.firstName;
+    handleChange.middleName;
+    handleChange.lastName;
+    handleChange.section;
+    handleChange.email;
+
+    //UPDATE INSTANTLY
+    document.getElementById('firstName').focus();
+    document.getElementById('firstName').blur();
+    document.getElementById('middleName').focus();
+    document.getElementById('middleName').blur();
+    document.getElementById('lastName').focus();
+    document.getElementById('lastName').blur();
+    document.getElementById('firstName').focus();
+
+    touched.firstName = false;
+    touched.middleName = false;
+    touched.lastName = false;
+    touched.section = false;
   }
 
   const roleStudent = () => {
     handleReset();
-    resetValues();
+    setTimeout(() => {
+      resetValues();
 
-    setAccountRole('Student');
-    values.role = 'Student';
+      setAccountRole('Student');
+      values.role = 'Student';
+    }, 1);
   };
 
   const roleTeacher = () => {
     handleReset();
-    resetValues();
-    values.sex = '';
-    values.section = '';
-    values.groupType = '';
-    values.gradeLevel = '';
-    setAccountRole('Teacher');
-    values.role = 'Teacher';
+    setTimeout(() => {
+      resetValues();
+      values.sex = '';
+      values.section = 'NA';
+      values.groupType = '';
+      values.gradeLevel = '';
+      setAccountRole('Teacher');
+      values.role = 'Teacher';
+    }, 1);
   };
 
   const typeSingle = () => {
@@ -651,6 +671,9 @@ function Registration() {
                       values.totalErrors = values.totalErrors + 1;
                     }
                     console.log(values.isValidSection);
+                  })
+                  .catch(function (error) {
+                    setShowLoading(false);
                   });
               }
 
@@ -750,6 +773,9 @@ function Registration() {
                     );
                     setShowLoading(false);
                   }
+                })
+                .catch(function (error) {
+                  setShowLoading(false);
                 });
             }
           }
@@ -923,6 +949,9 @@ function Registration() {
             setShowLoading(false);
             setShowModal4(true);
             console.log(response.data);
+          })
+          .catch(function (error) {
+            setShowLoading(false);
           });
       }
     }
@@ -1190,7 +1219,7 @@ function Registration() {
                       <label
                         htmlFor="firstName"
                         className={` w-full text-right 
-                      ${accountRole == 'Teacher' ? 'md:mt-2  xs:mt-1.5' : ''} `}
+                      ${accountRole == 'Teacher' ? '' : ''} `}
                       >
                         Given Name:{' '}
                       </label>
@@ -1306,7 +1335,7 @@ function Registration() {
                       <label
                         htmlFor="middleName"
                         className={` w-full text-right  
-                      ${accountRole == 'Teacher' ? 'md:mt-2  xs:mt-1.5' : ''} `}
+                      ${accountRole == 'Teacher' ? '' : ''} `}
                       >
                         Middle Name:{' '}
                       </label>
@@ -1330,6 +1359,7 @@ function Registration() {
                       <div className="w-full ">
                         <div className="inline-flex w-full ">
                           <input
+                            id="middleName"
                             name="middleName"
                             type="text "
                             placeholder="Enter Middle Name"
@@ -1377,8 +1407,16 @@ function Registration() {
                             value={values.section}
                             onChange={handleChange}
                             name="section"
-                            className="py-2 lg:px-2 border-2 focus:border-none rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 shadow-sm shadow-[#808080] "
+                            className={`py-2 lg:px-2 border-2 focus:border-none rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 shadow-sm shadow-[#808080] 
+                            ${
+                              errors.section && touched.section
+                                ? ' shadow-red-500 border-red-500 focus:border-red-500 border-3 border-solid'
+                                : ''
+                            }`}
                           >
+                            <option selected value="">
+                              {' '}
+                            </option>
                             {sectionData.map((section, index) => (
                               <option key={index} className="">
                                 {section.SectionName}
@@ -1386,6 +1424,11 @@ function Registration() {
                             ))}
                           </select>
                         </div>
+                        {errors.section && touched.section && (
+                          <p className="text-red-500 absolute ">
+                            {errors.section}
+                          </p>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -1401,7 +1444,7 @@ function Registration() {
                     >
                       <label
                         htmlFor="lastName"
-                        className={` w-full text-right md:mt-2  xs:mt-1.5`}
+                        className={` w-full text-right`}
                       >
                         Last Name:{' '}
                       </label>
@@ -1416,7 +1459,12 @@ function Registration() {
                             type="text "
                             placeholder="Enter Last Name"
                             autoComplete="new-password"
-                            className={`grow w-full py-2 lg:px-2 border-2  rounded-md relative border-gray-500 focus:outline-teal-500 focus:ring-teal-500 shadow-sm  shadow-[#808080]`}
+                            className={`grow w-full py-2 lg:px-2 border-2  rounded-md relative border-gray-500 focus:outline-teal-500 focus:ring-teal-500 shadow-sm  shadow-[#808080]
+                            ${
+                              errors.lastName && touched.lastName
+                                ? ' shadow-red-500 border-red-500 focus:border-red-500 border-3 border-solid'
+                                : ''
+                            }`}
                             value={values.lastName}
                             onChange={lastNameChange}
                             onBlur={handleBlur}

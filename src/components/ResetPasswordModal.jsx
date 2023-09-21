@@ -26,6 +26,9 @@ const ResetPasswordModal = ({ visible, onClose, onContinue }) => {
         setShowLoading(false);
         console.log(response.data);
         setAccounts(response.data);
+      })
+      .catch(function (error) {
+        setShowLoading(false);
       });
   }
 
@@ -44,6 +47,9 @@ const ResetPasswordModal = ({ visible, onClose, onContinue }) => {
         setShowLoading(false);
         getAccounts();
         onContinue();
+      })
+      .catch(function (error) {
+        setShowLoading(false);
       });
   };
 
@@ -58,6 +64,9 @@ const ResetPasswordModal = ({ visible, onClose, onContinue }) => {
         setShowLoading(false);
         getAccounts();
         //onContinue();
+      })
+      .catch(function (error) {
+        setShowLoading(false);
       });
   };
 

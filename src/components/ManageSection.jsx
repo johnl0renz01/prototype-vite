@@ -40,6 +40,13 @@ export default function ManageSection() {
     var logged = JSON.parse(window.localStorage.getItem('LOGGED'));
     if (logged == 'FALSE') {
       window.localStorage.setItem('LOGIN_STATUS', JSON.stringify('Terminated'));
+
+      var email = JSON.parse(window.localStorage.getItem('SESSION_EMAIL'));
+      if (email === null) email = '';
+
+      if (email == '') {
+        navigate('/LoginPage');
+      }
     } else {
       var closed = JSON.parse(window.localStorage.getItem('IS_CLOSED'));
       if (closed) {
@@ -198,6 +205,9 @@ export default function ManageSection() {
 
         setShowLoading(false);
         setShowDeleteModal(true);
+      })
+      .catch(function (error) {
+        setShowLoading(false);
       });
   };
 
@@ -291,6 +301,9 @@ export default function ManageSection() {
             setShowLoading(false);
             setDeleteMessageModal(true);
             setShowDeleteModal(false);
+          })
+          .catch(function (error) {
+            setShowLoading(false);
           });
       } else {
         axios
@@ -301,6 +314,9 @@ export default function ManageSection() {
             setShowLoading(false);
             setDeleteMessageModal(true);
             setShowDeleteModal(false);
+          })
+          .catch(function (error) {
+            setShowLoading(false);
           });
       }
     } else {
@@ -310,6 +326,9 @@ export default function ManageSection() {
           setShowLoading(false);
           setShowDeleteModal(false);
           setDeleteMessageModal(true);
+        })
+        .catch(function (error) {
+          setShowLoading(false);
         });
     }
   };

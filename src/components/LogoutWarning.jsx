@@ -4,6 +4,9 @@ import { useNavigate } from 'react-router-dom';
 import { MdClose } from 'react-icons/md';
 import { VscInfo } from 'react-icons/vsc';
 
+import EndSession from './EndSession';
+import ClearStorage from './ClearStorage';
+
 export default function LogoutWarning() {
   const navigate = useNavigate();
   const [accType, setAccType] = useState('');
@@ -69,6 +72,13 @@ export default function LogoutWarning() {
   }
 
   const closeLogoutWarning = () => {
+    var account = JSON.parse(window.localStorage.getItem('ACCOUNT_TYPE'));
+    if (account == 'Student') {
+      ClearStorage.clearData();
+      window.localStorage.removeItem('SESSION_ID');
+      window.localStorage.removeItem('TIME_SPENT');
+    }
+
     window.localStorage.removeItem('LOGIN_STATUS');
     window.localStorage.removeItem('UNIQUE_ID');
     setAccType('');

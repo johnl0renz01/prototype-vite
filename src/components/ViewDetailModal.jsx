@@ -60,6 +60,9 @@ const ViewDetailModal = ({ visible, onClose, onContinue }) => {
           setStatus(keys[5]);
           setDate(keys[7]);
         }
+      })
+      .catch(function (error) {
+        setShowLoading(false);
       });
   }
 

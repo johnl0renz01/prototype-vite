@@ -33,6 +33,9 @@ const CreateSectionModal = ({ visible, onClose, onContinue }) => {
         console.log(response.data);
         setShowLoading(false);
         setAdviserData(response.data);
+      })
+      .catch(function (error) {
+        setShowLoading(false);
       });
   }
 
@@ -45,7 +48,7 @@ const CreateSectionModal = ({ visible, onClose, onContinue }) => {
   const onSubmit = (values, actions) => {
     console.log('SUBMITTED');
     var validForm = JSON.parse(window.sessionStorage.getItem('IS_VALID_FORM'));
-    if (validForm) {
+    if (validForm && validForm !== null) {
       setShowLoading(true);
       axios
         .post(`https://pia-sfe.online/api/addSection/save`, values)
@@ -53,6 +56,9 @@ const CreateSectionModal = ({ visible, onClose, onContinue }) => {
           console.log(response.data);
           setShowLoading(false);
           onContinue();
+        })
+        .catch(function (error) {
+          setShowLoading(false);
         });
       //await new Promise((resolve) => setTimeout(resolve, 1));
     }

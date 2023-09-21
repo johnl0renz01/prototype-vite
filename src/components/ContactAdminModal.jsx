@@ -37,6 +37,9 @@ const ContactAdminModal = ({ visible, onClose, onContinue }) => {
         setShowLoading(false);
         handleReset();
         onContinue();
+      })
+      .catch(function (error) {
+        setShowLoading(false);
       });
     await new Promise(resolve => setTimeout(resolve, 1));
   };

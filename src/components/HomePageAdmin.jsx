@@ -25,6 +25,13 @@ export default function HomePageAdmin() {
     var logged = JSON.parse(window.localStorage.getItem('LOGGED'));
     if (logged == 'FALSE') {
       window.localStorage.setItem('LOGIN_STATUS', JSON.stringify('Terminated'));
+
+      var email = JSON.parse(window.localStorage.getItem('SESSION_EMAIL'));
+      if (email === null) email = '';
+
+      if (email == '') {
+        navigate('/LoginPage');
+      }
     } else {
       var closed = JSON.parse(window.localStorage.getItem('IS_CLOSED'));
       if (closed) {

@@ -62,13 +62,16 @@ export default function AdminNavbar() {
   useEffect(() => {
     window.addEventListener('focus', setTabDelay);
 
-    window.localStorage.removeItem('SESSION_FEEDBACK');
-    window.localStorage.removeItem('EXPRESSION_HAPPY');
-    window.localStorage.removeItem('EXPRESSION_SAD');
-    window.localStorage.removeItem('EXPRESSION_ANGRY');
-    window.localStorage.removeItem('EXPRESSION_SURPRISED');
-    window.localStorage.removeItem('SESSION_SCORE');
-    window.localStorage.removeItem('TIMER');
+    var account = JSON.parse(window.localStorage.getItem('ACCOUNT_TYPE'));
+    if (account != 'Student') {
+      window.localStorage.removeItem('SESSION_FEEDBACK');
+      window.localStorage.removeItem('EXPRESSION_HAPPY');
+      window.localStorage.removeItem('EXPRESSION_SAD');
+      window.localStorage.removeItem('EXPRESSION_ANGRY');
+      window.localStorage.removeItem('EXPRESSION_SURPRISED');
+      window.localStorage.removeItem('SESSION_SCORE');
+      window.localStorage.removeItem('TIMER');
+    }
   }, []);
 
   useEffect(() => {
@@ -244,6 +247,9 @@ export default function AdminNavbar() {
         navigate('/LoginPage');
         document.body.style.backgroundImage =
           'linear-gradient(to top, #bef264, #d9f99d , #ccf779)';
+      })
+      .catch(function (error) {
+        setShowLoading(false);
       });
   };
 

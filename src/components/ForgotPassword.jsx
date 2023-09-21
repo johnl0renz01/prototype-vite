@@ -30,6 +30,9 @@ const ForgotPassword = ({ visible, onClose, onContinue }) => {
             console.log(response.data);
             setShowLoading(false);
             onContinue();
+          })
+          .catch(function (error) {
+            setShowLoading(false);
           });
       } else if (type == 'Code') {
         console.log('COEDED');

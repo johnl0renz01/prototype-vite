@@ -18,6 +18,10 @@ var ClearStorage = (function () {
     window.localStorage.removeItem('SESSION_FEEDBACK');
     window.localStorage.removeItem('SESSION_END');
     window.localStorage.removeItem('SESSION_RECORDED');
+
+    window.localStorage.removeItem('DIFFICULTY_TYPE');
+    window.localStorage.removeItem('QUESTION_LIST');
+    window.localStorage.removeItem('SESSION_FEEDBACK');
   };
 
   return {

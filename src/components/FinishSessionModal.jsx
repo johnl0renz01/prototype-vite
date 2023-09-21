@@ -131,6 +131,9 @@ const FinishSessionModal = ({ visible, onClose, onContinue }) => {
         setShowLoading(false);
         console.log(response.data);
         setTimeSpent(response.data);
+      })
+      .catch(function (error) {
+        setShowLoading(false);
       });
   }
 
@@ -173,6 +176,9 @@ const FinishSessionModal = ({ visible, onClose, onContinue }) => {
         window.localStorage.removeItem('TIME_SPENT');
         setShowLoading(false);
         window.location.reload(false);
+      })
+      .catch(function (error) {
+        setShowLoading(false);
       });
   };
 

@@ -356,10 +356,16 @@ export default function LoginPage() {
                               window.localStorage.setItem('LINK_TAB', 0);
                               setShowLoading(false);
                               navigate('/HomePageTeacher');
+                            })
+                            .catch(function (error) {
+                              setShowLoading(false);
                             });
 
                           //reloadPage();
                         }
+                      })
+                      .catch(function (error) {
+                        setShowLoading(false);
                       });
                   } else if (isAdmin) {
                     window.localStorage.removeItem('LOGIN_STATUS');
@@ -372,6 +378,9 @@ export default function LoginPage() {
                     navigate('/HomePageAdmin');
                     //reloadPage();
                   }
+                })
+                .catch(function (error) {
+                  setShowLoading(false);
                 });
             } else {
               setShowLoading(false);
@@ -381,6 +390,9 @@ export default function LoginPage() {
           if (!firstLogin) {
             actions.resetForm();
           }
+        })
+        .catch(function (error) {
+          setShowLoading(false);
         });
     }
 
@@ -557,6 +569,9 @@ export default function LoginPage() {
         .then(function (response) {
           setShowLoading(false);
           setShowModal(true);
+        })
+        .catch(function (error) {
+          setShowLoading(false);
         });
     }
   };
