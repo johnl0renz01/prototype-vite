@@ -192,23 +192,27 @@ export default function DifficultyPage() {
   const [choiceModal, setChoiceModal] = useState(false);
 
   const handleOnContinueModal = () => {
+    EndSession.recordData();
+    ClearStorage.clearData();
     setShowLoading(true);
     setChoiceModal(true);
     setShowModal(false);
-
     window.localStorage.setItem('QUESTION_LIST', JSON.stringify(questionList));
     window.localStorage.setItem('QUESTION_INDEX', '0');
     var userLogs = window.localStorage.getItem('SESSION_USER_LOGS');
     userLogs = userLogs + '@' + option;
     userLogs = userLogs.replace(/"/g, '');
-    EndSession.recordData();
-    ClearStorage.clearData();
+
     window.localStorage.setItem('SESSION_SCORE', 0);
     axios
       .post(`https://pia-sfe.online/api/selectDifficulty/${userLogs}`)
       .then(function (response) {
         window.localStorage.setItem(
           'SESSION_ID',
+          JSON.stringify(response.data)
+        );
+        window.sessionStorage.setItem(
+          'CURRENT_SESSION_ID',
           JSON.stringify(response.data)
         );
 
@@ -249,6 +253,10 @@ export default function DifficultyPage() {
         .then(function (response) {
           window.localStorage.setItem(
             'SESSION_ID',
+            JSON.stringify(response.data)
+          );
+          window.sessionStorage.setItem(
+            'CURRENT_SESSION_ID',
             JSON.stringify(response.data)
           );
 
