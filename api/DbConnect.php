@@ -5,8 +5,8 @@
 	class DbConnect {
 		private $server = 'localhost';
 		private $dbname = 'prototype_sfe';
-		private $user = 'PIA';
-		private $pass = "!PedagogicalSFE144";
+		private $user = 'root';
+		private $pass = "";
 
 		public function connect() {
 			try {
