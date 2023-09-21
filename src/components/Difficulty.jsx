@@ -40,7 +40,9 @@ export default function DifficultyPage() {
       if (closed) {
         var unique = JSON.parse(window.localStorage.getItem('UNIQUE_ID'));
         axios
-          .post(`https://pia-sfe.online/api/logout/${unique}`)
+          .post(
+            `http://localhost:80/Prototype-Vite/my-project/api/logout/${unique}`
+          )
           .then(function (response) {
             window.localStorage.setItem('LOGGED', JSON.stringify('FALSE'));
             window.localStorage.setItem(
@@ -205,7 +207,9 @@ export default function DifficultyPage() {
     ClearStorage.clearData();
     window.localStorage.setItem('SESSION_SCORE', 0);
     axios
-      .post(`https://pia-sfe.online/api/selectDifficulty/${userLogs}`)
+      .post(
+        `http://localhost:80/Prototype-Vite/my-project/api/selectDifficulty/${userLogs}`
+      )
       .then(function (response) {
         window.localStorage.setItem(
           'SESSION_ID',
@@ -245,7 +249,9 @@ export default function DifficultyPage() {
       userLogs = userLogs + '@' + option;
       userLogs = userLogs.replace(/"/g, '');
       axios
-        .post(`https://pia-sfe.online/api/selectDifficulty/${userLogs}`)
+        .post(
+          `http://localhost:80/Prototype-Vite/my-project/api/selectDifficulty/${userLogs}`
+        )
         .then(function (response) {
           window.localStorage.setItem(
             'SESSION_ID',

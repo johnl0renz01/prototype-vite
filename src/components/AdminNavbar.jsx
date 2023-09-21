@@ -237,7 +237,9 @@ export default function AdminNavbar() {
     var unique = JSON.parse(window.localStorage.getItem('UNIQUE_ID'));
     if (unique === null) unique = '';
     axios
-      .post(`https://pia-sfe.online/api/logout/${unique}`)
+      .post(
+        `http://localhost:80/Prototype-Vite/my-project/api/logout/${unique}`
+      )
       .then(function (response) {
         setShowLoading(false);
         setLogoutState(true);

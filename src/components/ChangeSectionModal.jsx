@@ -45,14 +45,18 @@ const ChangeSection = ({ visible, onClose, onContinue }) => {
     //console.log(fullName);
 
     axios
-      .get(`https://pia-sfe.online/api/sectionHandled/${fullName}`)
+      .get(
+        `http://localhost:80/Prototype-Vite/my-project/api/sectionHandled/${fullName}`
+      )
       .then(function (response) {
         //console.log(response.data);
         setSections(response.data);
       });
 
     axios
-      .get(`https://pia-sfe.online/api/sectionTotalv2/${fullName}`)
+      .get(
+        `http://localhost:80/Prototype-Vite/my-project/api/sectionTotalv2/${fullName}`
+      )
       .then(function (response) {
         //console.log(response.data);
         totalSections = response.data;
@@ -66,7 +70,7 @@ const ChangeSection = ({ visible, onClose, onContinue }) => {
         // FOR SECTION NAMES
         const promises = ids.map(id =>
           axios.get(
-            `https://pia-sfe.online/api/sectionNamev2/${id}@${fullName}`
+            `http://localhost:80/Prototype-Vite/my-project/api/sectionNamev2/${id}@${fullName}`
           )
         );
         Promise.all([...promises]).then(function (values) {
@@ -110,7 +114,9 @@ const ChangeSection = ({ visible, onClose, onContinue }) => {
     if (processData) {
       //console.log('Imh here');
       const promises2 = sectionNames.map(id =>
-        axios.get(`https://pia-sfe.online/api/sectionTotalStudents/${id}`)
+        axios.get(
+          `http://localhost:80/Prototype-Vite/my-project/api/sectionTotalStudents/${id}`
+        )
       );
       Promise.all([...promises2]).then(function (values) {
         tally.push(values);

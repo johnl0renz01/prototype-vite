@@ -46,7 +46,7 @@ function EditAccount() {
 
   function getSections() {
     axios
-      .get('https://pia-sfe.online/api/sectionList/')
+      .get('http://localhost:80/Prototype-Vite/my-project/api/sectionList/')
       .then(function (response) {
         console.log(response.data);
         setSectionData(response.data);
@@ -72,7 +72,9 @@ function EditAccount() {
   function getInformation() {
     console.log(currentEmail);
     axios
-      .get(`https://pia-sfe.online/api/editAccount/${currentEmail}`)
+      .get(
+        `http://localhost:80/Prototype-Vite/my-project/api/editAccount/${currentEmail}`
+      )
       .then(function (response) {
         console.log(response.data);
         var result = Object.values(response.data);
@@ -141,7 +143,10 @@ function EditAccount() {
   const onSubmit = async (values, actions) => {
     console.log('SUBMITTED');
     axios
-      .post(`https://pia-sfe.online/api/${editType}/${originalEmail}`, values)
+      .post(
+        `http://localhost:80/Prototype-Vite/my-project/api/${editType}/${originalEmail}`,
+        values
+      )
       .then(function (response) {
         console.log(response.data);
         //window.location.reload(false);

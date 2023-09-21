@@ -13,7 +13,9 @@ var EquationGeneratorEasy = (function () {
     getEquations();
     function getEquations() {
       axios
-        .get(`https://pia-sfe.online/api/getEquation/Easy`)
+        .get(
+          `http://localhost:80/Prototype-Vite/my-project/api/getEquation/Easy`
+        )
         .then(function (response) {
           console.log(response.data);
           let responseData = response.data;

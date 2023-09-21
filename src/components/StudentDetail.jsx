@@ -50,7 +50,9 @@ export default function StudentDetail() {
       if (closed) {
         var unique = JSON.parse(window.localStorage.getItem('UNIQUE_ID'));
         axios
-          .post(`https://pia-sfe.online/api/logout/${unique}`)
+          .post(
+            `http://localhost:80/Prototype-Vite/my-project/api/logout/${unique}`
+          )
           .then(function (response) {
             window.localStorage.setItem('LOGGED', JSON.stringify('FALSE'));
             window.localStorage.setItem(
@@ -96,14 +98,18 @@ export default function StudentDetail() {
   function getAccountDetail() {
     setSkeletonState(true);
     axios
-      .get(`https://pia-sfe.online/api/studentDetail/${currentEmail}`)
+      .get(
+        `http://localhost:80/Prototype-Vite/my-project/api/studentDetail/${currentEmail}`
+      )
       .then(function (response) {
         console.log(response.data);
         setAccountDetail(response.data);
         setSkeletonState(false);
         setTableLoader(true);
         axios
-          .get(`https://pia-sfe.online/api/studentHistory/${currentAccount}`)
+          .get(
+            `http://localhost:80/Prototype-Vite/my-project/api/studentHistory/${currentAccount}`
+          )
           .then(function (response) {
             console.log(response.data);
             setAccountHistory(response.data);

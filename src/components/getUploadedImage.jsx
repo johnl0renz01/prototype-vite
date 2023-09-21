@@ -30,7 +30,9 @@ var getUploadedImage = (function () {
     sessionData = sessionData.replace(/"/g, '');
 
     axios
-      .post(`https://pia-sfe.online/api/endSession/${sessionData}`)
+      .post(
+        `http://localhost:80/Prototype-Vite/my-project/api/endSession/${sessionData}`
+      )
       .then(function (response) {
         console.log(response.data);
       });

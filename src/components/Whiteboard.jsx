@@ -42,7 +42,9 @@ export default function Whiteboard() {
       if (closed) {
         var unique = JSON.parse(window.localStorage.getItem('UNIQUE_ID'));
         axios
-          .post(`https://pia-sfe.online/api/logout/${unique}`)
+          .post(
+            `http://localhost:80/Prototype-Vite/my-project/api/logout/${unique}`
+          )
           .then(function (response) {
             window.localStorage.setItem('LOGGED', JSON.stringify('FALSE'));
             window.localStorage.setItem(
@@ -511,7 +513,10 @@ export default function Whiteboard() {
     //If string is not empty
     if (textInput.trim() !== '') {
       axios
-        .post(`https://pia-sfe.online/api/whiteboardLog/${userLogs}`, inputs)
+        .post(
+          `http://localhost:80/Prototype-Vite/my-project/api/whiteboardLog/${userLogs}`,
+          inputs
+        )
         .then(function (response) {
           console.log(response.data);
         });
@@ -1348,7 +1353,9 @@ export default function Whiteboard() {
     let clickData = userLogs + '@' + input;
     //LOG DATA
     axios
-      .post(`https://pia-sfe.online/api/whiteboardClick/${clickData}`)
+      .post(
+        `http://localhost:80/Prototype-Vite/my-project/api/whiteboardClick/${clickData}`
+      )
       .then(function (response) {
         //console.log(response.data);
       });

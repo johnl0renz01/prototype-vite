@@ -52,7 +52,9 @@ export default function ManageSection() {
       if (closed) {
         var unique = JSON.parse(window.localStorage.getItem('UNIQUE_ID'));
         axios
-          .post(`https://pia-sfe.online/api/logout/${unique}`)
+          .post(
+            `http://localhost:80/Prototype-Vite/my-project/api/logout/${unique}`
+          )
           .then(function (response) {
             window.localStorage.setItem('LOGGED', JSON.stringify('FALSE'));
             window.localStorage.setItem(
@@ -83,7 +85,7 @@ export default function ManageSection() {
 
   function getManageSection() {
     axios
-      .get(`https://pia-sfe.online/api/sectionList/`)
+      .get(`http://localhost:80/Prototype-Vite/my-project/api/sectionList/`)
       .then(function (response) {
         setSection(response.data);
       });
@@ -92,7 +94,9 @@ export default function ManageSection() {
   function getAccounts() {
     setSkeletonState(true);
     axios
-      .get(`https://pia-sfe.online/api/getAccountSection/`)
+      .get(
+        `http://localhost:80/Prototype-Vite/my-project/api/getAccountSection/`
+      )
       .then(function (response) {
         let responseData = response.data;
         var newArray = [];
@@ -132,7 +136,7 @@ export default function ManageSection() {
 
     function getManageSection2() {
       axios
-        .get(`https://pia-sfe.online/api/sectionList/`)
+        .get(`http://localhost:80/Prototype-Vite/my-project/api/sectionList/`)
         .then(function (response) {
           setSection(response.data);
         });
@@ -141,7 +145,9 @@ export default function ManageSection() {
     function getAccounts2() {
       setSkeletonState(true);
       axios
-        .get(`https://pia-sfe.online/api/getAccountSection/`)
+        .get(
+          `http://localhost:80/Prototype-Vite/my-project/api/getAccountSection/`
+        )
         .then(function (response) {
           let responseData = response.data;
           var newArray = [];
@@ -195,7 +201,9 @@ export default function ManageSection() {
     sectionName = sectionName.replace(/ /g, '_');
 
     axios
-      .get(`https://pia-sfe.online/api/getAssignedStudent/${sectionName}`)
+      .get(
+        `http://localhost:80/Prototype-Vite/my-project/api/getAssignedStudent/${sectionName}`
+      )
       .then(function (response) {
         var statusStudent = response.data;
         window.sessionStorage.setItem(
@@ -223,7 +231,10 @@ export default function ManageSection() {
 
     setTimeout(() => {
       axios
-        .post(`https://pia-sfe.online/api/sectionList/`, inputText)
+        .post(
+          `http://localhost:80/Prototype-Vite/my-project/api/sectionList/`,
+          inputText
+        )
         .then(function (response) {
           //console.log(response.data);
           setSection(response.data);
@@ -296,7 +307,9 @@ export default function ManageSection() {
       deletionType = deletionType.replace(/"/g, '');
       if (deletionType == 'Section Only') {
         axios
-          .post(`https://pia-sfe.online/api/removeSection/${sectionName}`)
+          .post(
+            `http://localhost:80/Prototype-Vite/my-project/api/removeSection/${sectionName}`
+          )
           .then(function (response) {
             setShowLoading(false);
             setDeleteMessageModal(true);
@@ -308,7 +321,7 @@ export default function ManageSection() {
       } else {
         axios
           .post(
-            `https://pia-sfe.online/api/removeSectionAccounts/${sectionName}`
+            `http://localhost:80/Prototype-Vite/my-project/api/removeSectionAccounts/${sectionName}`
           )
           .then(function (response) {
             setShowLoading(false);
@@ -321,7 +334,9 @@ export default function ManageSection() {
       }
     } else {
       axios
-        .post(`https://pia-sfe.online/api/removeSection/${sectionName}`)
+        .post(
+          `http://localhost:80/Prototype-Vite/my-project/api/removeSection/${sectionName}`
+        )
         .then(function (response) {
           setShowLoading(false);
           setShowDeleteModal(false);

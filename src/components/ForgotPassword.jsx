@@ -25,7 +25,10 @@ const ForgotPassword = ({ visible, onClose, onContinue }) => {
       type = type.replace(/"/g, '');
       if (type == 'Email') {
         axios
-          .post(`https://pia-sfe.online/api/forgotPassEmail/save`, values)
+          .post(
+            `http://localhost:80/Prototype-Vite/my-project/api/forgotPassEmail/save`,
+            values
+          )
           .then(function (response) {
             console.log(response.data);
             setShowLoading(false);

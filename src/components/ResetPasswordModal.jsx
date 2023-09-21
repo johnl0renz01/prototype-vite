@@ -21,7 +21,9 @@ const ResetPasswordModal = ({ visible, onClose, onContinue }) => {
   function getAccounts() {
     setShowLoading(true);
     axios
-      .get(`https://pia-sfe.online/api/resetPasswordList/`)
+      .get(
+        `http://localhost:80/Prototype-Vite/my-project/api/resetPasswordList/`
+      )
       .then(function (response) {
         setShowLoading(false);
         console.log(response.data);
@@ -42,7 +44,9 @@ const ResetPasswordModal = ({ visible, onClose, onContinue }) => {
 
     let accountEmail = e.target.name;
     axios
-      .post(`https://pia-sfe.online/api/resetPassword/${accountEmail}`)
+      .post(
+        `http://localhost:80/Prototype-Vite/my-project/api/resetPassword/${accountEmail}`
+      )
       .then(function (response) {
         setShowLoading(false);
         getAccounts();
@@ -59,7 +63,9 @@ const ResetPasswordModal = ({ visible, onClose, onContinue }) => {
 
     let accountEmail = e.target.name;
     axios
-      .post(`https://pia-sfe.online/api/resetPassword/${accountEmail}`)
+      .post(
+        `http://localhost:80/Prototype-Vite/my-project/api/resetPassword/${accountEmail}`
+      )
       .then(function (response) {
         setShowLoading(false);
         getAccounts();

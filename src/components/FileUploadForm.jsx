@@ -2,7 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 class FileUploadForm extends React.Component {
-  UPLOAD_ENDPOINT = 'https://pia-sfe.online/api/upload/save';
+  UPLOAD_ENDPOINT =
+    'http://localhost:80/Prototype-Vite/my-project/api/upload/save';
 
   componentDidMount() {
     console.log('MOUNTED');

@@ -126,7 +126,9 @@ const FinishSessionModal = ({ visible, onClose, onContinue }) => {
     userLogs = userLogs + '@' + sessionID;
     userLogs = userLogs.replace(/"/g, '');
     axios
-      .get(`https://pia-sfe.online/api/getTimeSpent/${userLogs}`)
+      .get(
+        `http://localhost:80/Prototype-Vite/my-project/api/getTimeSpent/${userLogs}`
+      )
       .then(function (response) {
         setShowLoading(false);
         console.log(response.data);
@@ -163,7 +165,9 @@ const FinishSessionModal = ({ visible, onClose, onContinue }) => {
     userLogs = userLogs + '@' + option;
     userLogs = userLogs.replace(/"/g, '');
     axios
-      .post(`https://pia-sfe.online/api/selectDifficulty/${userLogs}`)
+      .post(
+        `http://localhost:80/Prototype-Vite/my-project/api/selectDifficulty/${userLogs}`
+      )
       .then(function (response) {
         window.localStorage.setItem(
           'SESSION_ID',
