@@ -1825,6 +1825,32 @@ export default function Whiteboard() {
   }, []);
   */
 
+  useEffect(() => {
+    var localSessionID = JSON.parse(window.localStorage.getItem('SESSION_ID'));
+    if (localSessionID === null) {
+      localSessionID = 0;
+      navigate('/Homepage');
+    }
+
+    var tempSessionID = JSON.parse(
+      window.sessionStorage.getItem('CURRENT_SESSION_ID')
+    );
+    if (tempSessionID === null) {
+      window.sessionStorage.setItem(
+        'CURRENT_SESSION_ID',
+        JSON.stringify(localSessionID)
+      );
+    }
+
+    if (localSessionID != tempSessionID) {
+      window.sessionStorage.setItem(
+        'CURRENT_SESSION_ID',
+        JSON.stringify(localSessionID)
+      );
+      window.location.reload(false);
+    }
+  });
+
   return (
     <>
       {/*<!--Container pang edit ng grids--> min-h-[calc(100vh-20rem)] grid-rows-11*/}

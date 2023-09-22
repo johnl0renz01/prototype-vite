@@ -22,7 +22,7 @@ const DifficultyModal = ({ visible, onClose, onContinue }) => {
             <div className="text-right">
               <button
                 onClick={onClose}
-                className="bg-red-500 p-2 inline-block hover:bg-red-600 hover:text-white"
+                className="transition duration-200 p-2 inline-block hover:bg-red-600 hover:text-white"
               >
                 <MdClose />
               </button>
@@ -43,13 +43,13 @@ const DifficultyModal = ({ visible, onClose, onContinue }) => {
             <div className="mx-auto text-center border-t-2 border-gray-300 py-3">
               <button
                 onClick={onClose}
-                className="mx-2 text-white bg-red-600/90 tracking-wide h-9 w-28 inline-block rounded-lg hover:bg-red-700 hover:text-gray-100"
+                className="transition duration-200 mx-2 text-white bg-red-600/90 tracking-wide h-9 w-28 inline-block rounded-lg hover:bg-red-700 hover:text-gray-100"
               >
                 No
               </button>
               <button
                 onClick={onContinue}
-                className="mx-2 text-white bg-lime-600 tracking-wide h-9 w-28 inline-block rounded-lg hover:bg-lime-700 hover:text-gray-200"
+                className="transition duration-200 mx-2 text-white bg-lime-600 tracking-wide h-9 w-28 inline-block rounded-lg hover:bg-lime-700 hover:text-gray-200"
               >
                 Yes
               </button>

@@ -1,19 +1,4 @@
 import React, { Component } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useEffect, useState, useCallback } from 'react';
-import axios from 'axios';
-import * as ReactDOM from 'react-dom';
-import $ from 'jquery';
-
-import { Formik, useFormik } from 'formik';
-import { editAccountSchema } from '../schemas';
-import { editSectionSchema } from '../schemas';
-import { contactAdminSchema } from '../schemas';
-
-import { VscCheckAll, VscPassFilled } from 'react-icons/vsc';
-
-import { BsSlashCircle } from 'react-icons/bs';
-import { BsFillSendFill } from 'react-icons/bs';
 
 import { MdClose } from 'react-icons/md';
 import { VscInfo } from 'react-icons/vsc';
@@ -35,11 +20,11 @@ const ContactAdminMessageModal = ({ visible, onClose, onContinue }) => {
       >
         <div className="bg-white  rounded text-lg hdScreen:scale-100 semihdScreen:scale-95 laptopScreen:scale-90 averageScreen:scale-90 md:scale-85 sm:scale-80 xs:scale-75 ">
           <div className="grid grid-cols-2 bg-gray-400 ">
-            <VscInfo className="text-[1.85rem] ml-1 mt-0.5 text-black/60" />
+            <VscInfo className="text-[1.85rem] ml-1 flex items-center text-black/60" />
             <div className="text-right">
               <button
                 onClick={onClose}
-                className="bg-red-500 p-2 inline-block hover:bg-red-600 hover:text-white"
+                className="p-2 inline-block transition duration-200 hover:bg-red-600 hover:text-white"
               >
                 <MdClose />
               </button>
@@ -50,7 +35,7 @@ const ContactAdminMessageModal = ({ visible, onClose, onContinue }) => {
             <div className="mx-auto text-center border-t-2 border-gray-300 py-3 ">
               <button
                 onClick={onClose}
-                className="bg-gray-400/60 h-8 w-20 tracking-wide inline-block rounded-lg hover:bg-gray-400 hover:text-gray-100"
+                className="bg-gray-400/60 transition duration-200 h-8 w-20 tracking-wide inline-block rounded-lg hover:bg-gray-400 hover:text-gray-100"
               >
                 Close
               </button>

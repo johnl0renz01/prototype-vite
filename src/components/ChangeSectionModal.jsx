@@ -2,20 +2,8 @@ import React, { Component } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
-import * as ReactDOM from 'react-dom';
-import $ from 'jquery';
-
-import { useFormik } from 'formik';
-import { editAccountSchema } from '../schemas';
-import { editSectionSchema } from '../schemas';
-import { addSectionSchema } from '../schemas';
-
-import { VscCheckAll, VscPassFilled } from 'react-icons/vsc';
-
-import { BsSlashCircle } from 'react-icons/bs';
 
 import { MdClose } from 'react-icons/md';
-import { VscQuestion } from 'react-icons/vsc';
 
 import LoadingSpinner from './LoadingSpinner';
 
@@ -218,7 +206,7 @@ const ChangeSection = ({ visible, onClose, onContinue }) => {
                   <th className="w-[0%]">
                     <button
                       onClick={onClose}
-                      className="bg-gray-400/70 p-2 inline-block hover:bg-red-600 transition duration-200 hover:text-white"
+                      className=" p-2 inline-block hover:bg-red-600 transition duration-200 hover:text-white"
                     >
                       <MdClose />
                     </button>

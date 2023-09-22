@@ -40,14 +40,14 @@ const DeleteAccountModal = ({ visible, onClose, onContinue }) => {
       >
         <div className="bg-white  rounded text-lg hdScreen:scale-100 semihdScreen:scale-95 laptopScreen:scale-90 averageScreen:scale-90 md:scale-85 sm:scale-80 xs:scale-75 ">
           <div className="flex bg-yellow-500 ">
-            <div className="grow flex">
-              <VscWarning className="text-[1.85rem] ml-1 mt-[0.18rem] text-black/60" />
-              <p className="px-1 pt-1 text-base">[{currentAccount}]</p>
+            <div className="grow flex items-center">
+              <VscWarning className="text-[1.85rem] ml-1  text-black/60" />
+              <p className="px-1 text-base">[{currentAccount}]</p>
             </div>
             <div className="text-right">
               <button
                 onClick={onClose}
-                className="bg-red-500 p-2 inline-block hover:bg-red-600 hover:text-white"
+                className="transition duration-200 p-2 inline-block hover:bg-red-600 hover:text-white"
               >
                 <MdClose />
               </button>
@@ -119,13 +119,13 @@ const DeleteAccountModal = ({ visible, onClose, onContinue }) => {
             <div className="mx-auto text-center  border-t-2 border-gray-300 py-3">
               <button
                 onClick={onClose}
-                className="mx-2 text-white tracking-wide bg-gray-500/90 h-9 w-28 inline-block rounded-lg hover:bg-gray-600 hover:text-gray-100"
+                className="transition duration-200 mx-2 text-white tracking-wide bg-gray-500/90 h-9 w-28 inline-block rounded-lg hover:bg-gray-600 hover:text-gray-100"
               >
                 Cancel
               </button>
               <button
                 onClick={onContinue}
-                className="mx-2 text-white tracking-wide bg-red-600/90 h-9 w-28 inline-block rounded-lg hover:bg-red-700 hover:text-gray-200"
+                className="transition duration-200 mx-2 text-white tracking-wide bg-red-600/90 h-9 w-28 inline-block rounded-lg hover:bg-red-700 hover:text-gray-200"
               >
                 Delete
               </button>

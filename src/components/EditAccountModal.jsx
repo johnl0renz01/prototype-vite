@@ -391,16 +391,16 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
       >
         <div className="bg-white hdScreen:scale-100 semihdScreen:scale-90 laptopScreen:scale-85 averageScreen:scale-80 md:scale-80 sm:scale-80 xs:scale-75 rounded lg:text-lg md:text-base sm:text-sm xs:text-xs shadow-md ">
           <div className="grid grid-cols-2 bg-gray-300">
-            <span className="lg:text-xl xs:text-lg ml-2 mt-0.5 text-black/60 font-semibold">
+            <span className="lg:text-xl xs:text-lg ml-2 flex items-center text-black/60 font-semibold">
               {' '}
               Edit Account{' '}
             </span>
             <div className="text-right">
               <button
                 onClick={onClose}
-                className="bg-gray-400/70 p-2 inline-block hover:bg-red-600 transition duration-200 hover:text-white"
+                className=" p-3 inline-block hover:bg-red-600 transition duration-200 hover:text-white"
               >
-                <MdClose />
+                <MdClose className="" />
               </button>
             </div>
           </div>

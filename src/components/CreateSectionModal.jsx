@@ -143,14 +143,14 @@ const CreateSectionModal = ({ visible, onClose, onContinue }) => {
       >
         <div className="bg-white hdScreen:w-1/3 semihdScreen:w-[40%] laptopScreen:w-[45%] averageScreen:w-[45%] hdScreen:scale-100 semihdScreen:scale-95 laptopScreen:scale-90 averageScreen:scale-90 rounded lg:text-lg md:text-base sm:text-sm xs:text-xs shadow-md ">
           <div className="grid grid-cols-2 bg-gray-300 ">
-            <span className="lg:text-xl xs:text-lg ml-2 mt-0.5 text-black/60 font-semibold">
+            <span className="lg:text-xl xs:text-lg ml-2 flex items-center text-black/60 font-semibold">
               {' '}
               Create Section{' '}
             </span>
             <div className="text-right">
               <button
                 onClick={onClose}
-                className="bg-gray-400/70 p-2 inline-block hover:bg-red-600 transition duration-200 hover:text-white"
+                className=" p-3 inline-block hover:bg-red-600 transition duration-200 hover:text-white"
               >
                 <MdClose />
               </button>

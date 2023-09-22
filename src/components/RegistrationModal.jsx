@@ -23,7 +23,7 @@ const RegistrationModal = ({ visible, onClose }) => {
             <div className="text-right">
               <button
                 onClick={onClose}
-                className="bg-red-500 p-2 inline-block hover:bg-red-600 hover:text-white"
+                className="transition duration-200 p-2 inline-block hover:bg-red-600 hover:text-white"
               >
                 <MdClose />
               </button>
@@ -36,7 +36,7 @@ const RegistrationModal = ({ visible, onClose }) => {
             <div className="mx-auto text-center border-t-2 border-gray-300 py-3 ">
               <button
                 onClick={onClose}
-                className="bg-gray-400/60 h-8 w-20 tracking-wide inline-block rounded-lg hover:bg-gray-400 hover:text-gray-100"
+                className="transition duration-200 bg-gray-400/60 h-8 w-20 tracking-wide inline-block rounded-lg hover:bg-gray-400 hover:text-gray-100"
               >
                 Close
               </button>

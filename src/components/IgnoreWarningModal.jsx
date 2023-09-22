@@ -164,7 +164,7 @@ const IgnoreWarningModal = ({ visible, onClose, onContinue }) => {
             <div className="text-right">
               <button
                 onClick={onClose}
-                className="bg-red-500 p-2 inline-block hover:bg-red-600 hover:text-white"
+                className="transition duration-200 p-2 inline-block hover:bg-red-600 hover:text-white"
               >
                 <MdClose />
               </button>
@@ -266,13 +266,13 @@ const IgnoreWarningModal = ({ visible, onClose, onContinue }) => {
             <div className="mx-auto text-center  border-t-2 border-gray-300 py-3">
               <button
                 onClick={onClose}
-                className="mx-2 text-white tracking-wide bg-gray-500/90 h-9 w-28 inline-block rounded-lg hover:bg-gray-600 hover:text-gray-100"
+                className="transition duration-200 mx-2 text-white tracking-wide bg-gray-500/90 h-9 w-28 inline-block rounded-lg hover:bg-gray-600 hover:text-gray-100"
               >
                 Cancel
               </button>
               <button
                 onClick={onContinue}
-                className="mx-2 text-white tracking-wide bg-red-600/90 h-9 w-28 inline-block rounded-lg hover:bg-red-700 hover:text-gray-200"
+                className="transition duration-200 mx-2 text-white tracking-wide bg-red-600/90 h-9 w-28 inline-block rounded-lg hover:bg-red-700 hover:text-gray-200"
               >
                 Yes
               </button>
