@@ -12,6 +12,8 @@ import UserRequestSkeleton from './UserRequestSkeleton';
 
 import LoadingSpinner from './LoadingSpinner';
 
+import ViewDetailMessageModal from './ViewDetailMessageModal';
+
 export default function UserRequest() {
   const navigate = useNavigate();
 
@@ -62,6 +64,7 @@ export default function UserRequest() {
   const [showLoading, setShowLoading] = useState(false);
   const [tableLoader, setTableLoader] = useState(false);
   var highestTimeoutId = setTimeout(';');
+  const [emptyState, setEmptyState] = useState(false);
 
   const [requests, setRequests] = useState([]);
   const [counter, setCounter] = useState(0);
@@ -78,6 +81,9 @@ export default function UserRequest() {
     axios
       .get(`https://pia-sfe.online/api/requestList/`)
       .then(function (response) {
+        if (response.data.length < 1) {
+          setEmptyState(true);
+        }
         console.log(response.data);
         setRequests(response.data);
         setTimeout(hideNavbar, 1);
@@ -85,6 +91,9 @@ export default function UserRequest() {
         function hideNavbar() {
           setSkeletonState(false);
         }
+      })
+      .catch(function (error) {
+        setSkeletonState(false);
       });
   }
 
@@ -110,6 +119,9 @@ export default function UserRequest() {
           console.log(response.data);
           setRequests(response.data);
           setTableLoader(false);
+        })
+        .catch(function (error) {
+          setTableLoader(false);
         });
     }
 
@@ -120,6 +132,9 @@ export default function UserRequest() {
           var total = response.data;
           total = parseInt(total);
           setCounter(total);
+        })
+        .catch(function (error) {
+          setTableLoader(false);
         });
     }
   }
@@ -140,7 +155,14 @@ export default function UserRequest() {
 
   const handleOnContinueModal = () => {
     setShowModal(false);
+    setShowMessageModal(true);
+    updateTable();
   };
+
+  // MODAL VIEW MESSAGE
+
+  const [showMessageModal, setShowMessageModal] = useState(false);
+  const handleOnCloseMessageModal = () => setShowMessageModal(false);
 
   // MODAL SOLVE CONFIRMATION
   const [showModal2, setShowModal2] = useState(false);
@@ -313,7 +335,7 @@ export default function UserRequest() {
                     Role
                   </th>
                   <th className="w-[19.85%] py-3 lg:text-base md:text-sm sm:text-xs ">
-                    Received on
+                    Updated on
                   </th>
                   <th className="">
                     <div className="invisible ">
@@ -379,7 +401,7 @@ export default function UserRequest() {
                               Role
                             </th>
                             <th className="w-[20%] lg:text-base md:text-sm sm:text-xs ">
-                              Received on
+                              Updated on
                             </th>
                             <th className=""></th>
                             <th className="w-[10%]"></th>
@@ -464,11 +486,21 @@ export default function UserRequest() {
                     <div className="text-gray-700 text-center -mt-4 absolute flex flex-col items-center justify-center h-full w-full hdScreen:scale-100 semihdScreen:scale-90 laptopScreen:scale-85 averageScreen:scale-80 md:scale-75 sm:scale-70 xs:scale-60">
                       <BsClipboard2X className="w-full text-[4rem]" />
                       <p className="py-2 font-semibold semihdScreen:text-xl sm:text-lg xs:text-base">
-                        No matches found
+                        {emptyState ? (
+                          <>No request(s) found.</>
+                        ) : (
+                          <>No matches found</>
+                        )}
                       </p>
                       <p className="sm:text-lg xs:text-sm">
-                        Try checking if there's a typographical error
-                        <br></br>in your query.{' '}
+                        {emptyState ? (
+                          <>The list is empty.</>
+                        ) : (
+                          <>
+                            Try checking if there's a typographical error
+                            <br></br>in your query.{' '}
+                          </>
+                        )}
                       </p>
                     </div>
                   </>
@@ -482,6 +514,10 @@ export default function UserRequest() {
         onClose={handleOnCloseModal}
         visible={showModal}
         onContinue={handleOnContinueModal}
+      />
+      <ViewDetailMessageModal
+        onClose={handleOnCloseMessageModal}
+        visible={showMessageModal}
       />
       <LoadingSpinner visible={showLoading} />
     </>

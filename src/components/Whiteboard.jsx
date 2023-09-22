@@ -11,6 +11,8 @@ import FeedbackList from './FeedbackList';
 
 import LoadingStudent from './LoadingStudent';
 
+import { MdOutlineKeyboardReturn } from 'react-icons/md';
+
 import { BsFillPlayFill } from 'react-icons/bs';
 import { IoArrowUndo } from 'react-icons/io5';
 
@@ -2432,7 +2434,7 @@ export default function Whiteboard() {
                     <button
                       onClick={textInput !== '' ? handleClick : undefined}
                       value={textInput}
-                      className={` select-none text-white text-xl font-light absolute  right-2.5 bottom-3  rounded-full px-4 py-2.5  ${
+                      className={` flex items-center select-none text-white text-xl font-light absolute  right-2.5 bottom-3  rounded-full px-4 py-2.5  ${
                         isTutorial
                           ? 'cursor-default bg-gray-400'
                           : 'bg-lime-700  cursor-pointer dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800  hover:bg-lime-800 focus:ring-2 focus:outline-none drop-shadow-[0_2px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_2px_0px_rgba(0,0,0,0.6)]'
@@ -2444,6 +2446,7 @@ export default function Whiteboard() {
                         : {})}
                     >
                       Submit
+                      <MdOutlineKeyboardReturn className="ml-1 text-2xl" />
                     </button>
                   </form>
                 </div>

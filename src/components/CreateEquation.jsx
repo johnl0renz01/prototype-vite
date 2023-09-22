@@ -425,7 +425,7 @@ export default function CreateEquation() {
                   value={equationString}
                   onChange={inputChange}
                   type="text"
-                  className="w-full grow  p-1 px-2 border-2 rounded-md border-gray-400 focus:outline-teal-500 relative focus:ring-teal-500 shadow-sm  shadow-[#808080]"
+                  className="w-full grow  p-1 px-2 border-2 rounded-md border-gray-400 focus:outline-teal-500 relative focus:ring-teal-500   shadow-[#808080]"
                 ></input>
                 <button
                   onClick={equationString != '' ? validateEquation : undefined}

@@ -281,6 +281,15 @@ switch($requestLink) {
         include('requestStatus.php');
     break;
 
+    case "/api/requestMessages":
+        include('requestMessages.php');
+    break;
+
+    case "/api/requestReply":
+        include('requestReply.php');
+    break;
+
+
     // SET NEW PASSWORD
     case "/api/setNewPassword":
         include('setNewPassword.php');

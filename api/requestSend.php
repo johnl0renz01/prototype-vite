@@ -28,6 +28,8 @@ for ($i = strlen($email) - 1; $i > 0; $i--) {
     }
 }
 
+
+
 function random_str(
     int $length = 64,
     string $keyspace = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
@@ -53,8 +55,33 @@ switch($_SESSION['method']) {
         break;
     case "POST":
         $user = json_decode( file_get_contents('php://input') );
+
+        //GET FULLNAME
+        $midname = "SELECT MiddleName FROM accounts WHERE Email = '$email'";
+        $mn = $conn->prepare($midname);
+        $mn->execute();
+
+        $output = $mn->fetchColumn();
+        $name = "";
+
+        if ($output != "") {
+            $fullname = "SELECT concat(GivenName, ' ', MiddleName, ' ', LastName) AS FullName FROM accounts WHERE Email = '$email'";
+            $fn = $conn->prepare($fullname);
+            $fn->execute();
+            $name = $fn->fetchColumn();
+        } else {
+            $fullname = "SELECT concat(GivenName, ' ', LastName) AS FullName FROM accounts WHERE Email = '$email'";
+            $fn = $conn->prepare($fullname);
+            $fn->execute();
+            $name = $fn->fetchColumn();
+        }
+        //END OF CODE^
+
         $status = "UNSOLVED";
         $id = $c;
+        $id[0] = "z";
+        $id[1] = "z";
+        $id[2] = "z";
 
         $sql = "INSERT INTO user_request(UserID, Subject, Message, Email, Role, Status, RequestID, Timestamp) 
                 VALUES(null, :subject, :message, '$email', '$role', '$status', '$id', :timestamp)";
@@ -67,8 +94,36 @@ switch($_SESSION['method']) {
         $timestamp = date('M d, Y - h:i A');
         $stmt->bindParam(':timestamp', $timestamp);
         
+        
         if($stmt->execute()) {
-            $response = ['status' => 1, 'message' => 'Record created successfully.'];
+            $create = "CREATE TABLE ".$id." (
+                MessageID INT UNSIGNED AUTO_INCREMENT PRIMARY KEY   , 
+                Name VARCHAR(255) NOT NULL , 
+                Date VARCHAR(255) NOT NULL , 
+                Timestamp VARCHAR(255) NOT NULL ,
+                Message TEXT NOT NULL
+                )";
+    
+            $conn->exec($create);
+            echo "\nTable created successfully";
+    
+            $sql2 = "INSERT INTO ".$id."(MessageID, Name, Date, Timestamp, Message) 
+                    VALUES(null, '$name', :date, :time, :message)";
+    
+            $stmt2 = $conn->prepare($sql2);
+    
+            date_default_timezone_set('Asia/Singapore');
+            $date = date('M d, Y - h:i A');
+            $stmt2->bindParam(':date', $date);
+            $time = date('d-m-Y H:i:s');
+            $stmt2->bindParam(':time', $time);
+    
+            $stmt2->bindParam(':message', $user->message);
+            if($stmt2->execute()) {
+                $response = ['status' => 1, 'message' => 'Record created successfully.'];
+            } else {
+                $response = ['status' => 0, 'message' => 'Failed to create record.'];
+            }
         } else {
             $response = ['status' => 0, 'message' => 'Failed to create record.'];
         }

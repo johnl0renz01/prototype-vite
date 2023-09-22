@@ -419,7 +419,7 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
                         type="text "
                         placeholder="Enter Given Name "
                         autoComplete="new-password"
-                        className={` grow py-2 lg:px-2 border-2 rounded-md border-gray-500 focus:outline-teal-500 relative focus:ring-teal-500 shadow-sm  shadow-[#808080] ${
+                        className={` grow py-2 lg:px-2 border-[1px] rounded-md border-gray-500 focus:outline-teal-500 relative focus:ring-teal-500   shadow-[#808080] ${
                           errors.firstName && touched.firstName
                             ? 'shadow-red-500  border-red-500 focus:border-red-500 border-3 border-solid'
                             : ''
@@ -450,7 +450,7 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
                         type="text "
                         placeholder="Enter Middle Name"
                         autoComplete="new-password"
-                        className={`grow py-2 lg:px-2 border-2  rounded-md relative border-gray-500 focus:outline-teal-500 focus:ring-teal-500 shadow-sm  shadow-[#808080]`}
+                        className={`grow py-2 lg:px-2 border-[1px]  rounded-md relative border-gray-500 focus:outline-teal-500 focus:ring-teal-500   shadow-[#808080]`}
                         value={values.middleName}
                         onChange={handleChange}
                         onBlur={handleBlur}
@@ -474,7 +474,7 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
                         type="text "
                         placeholder="Enter Last Name"
                         autoComplete="new-password"
-                        className={`grow py-2 lg:px-2 border-2 relative rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 w-52 shadow-sm shadow-[#808080] ${
+                        className={`grow py-2 lg:px-2 border-[1px] relative rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 w-52  shadow-[#808080] ${
                           errors.lastName && touched.lastName
                             ? ' shadow-red-500 border-red-500 focus:border-red-500 border-3 border-solid'
                             : ''
@@ -511,7 +511,7 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
                         name="birthDay"
                         type="date"
                         autoComplete="new-password"
-                        className="grow py-2 lg:px-2 border-2  focus:border-none rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 shadow-sm shadow-[#808080]"
+                        className="grow py-2 lg:px-2 border-[1px]  focus:border-none rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500  shadow-[#808080]"
                         onChange={dateChange}
                         onBlur={handleBlur}
                         value={birthday}
@@ -537,7 +537,7 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
                         type="text"
                         placeholder="Set birthday"
                         autoComplete="new-password"
-                        className={`py-2 lg:px-2 border-2 w-[9rem] rounded-md focus:border-none border-gray-500 focus:outline-teal-500 focus:ring-teal-500 relative shadow-sm shadow-[#808080] ${
+                        className={`py-2 lg:px-2 border-[1px] w-[9rem] rounded-md focus:border-none border-gray-500 focus:outline-teal-500 focus:ring-teal-500 relative  shadow-[#808080] ${
                           errors.age && touched.age
                             ? ' shadow-red-500 border-red-500 focus:border-red-500 border-3 border-solid'
                             : ''
@@ -643,7 +643,7 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
                         value={values.gradeLevel}
                         onChange={handleChange}
                         name="gradeLevel"
-                        className="py-2 lg:px-2 border-2 focus:border-none rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 shadow-sm shadow-[#808080]"
+                        className="py-2 lg:px-2 border-[1px] focus:border-none rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500  shadow-[#808080]"
                       >
                         <option className="hdScreen:text-lg semihdScreen:text-base laptopScreen:text-base averageScreen:text-base">
                           Grade 7
@@ -665,7 +665,7 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
                         value={values.section}
                         onChange={handleChange}
                         name="section"
-                        className="py-2 lg:px-2 border-2 focus:border-none rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 shadow-sm shadow-[#808080] "
+                        className="py-2 lg:px-2 border-[1px] focus:border-none rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500  shadow-[#808080] "
                       >
                         {sectionData.map((section, index) => (
                           <option
@@ -702,7 +702,7 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
                         type="email"
                         autoComplete="off"
                         placeholder="lastname.firstname@school.edu.ph"
-                        className={`grow py-2 lg:px-2 border-2 rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 shadow-sm shadow-[#808080] ${
+                        className={`grow py-2 lg:px-2 border-[1px] rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500  shadow-[#808080] ${
                           errors.email && touched.email
                             ? ' shadow-red-500 border-red-500 focus:border-red-500 border-3 border-solid'
                             : ''
@@ -747,7 +747,7 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
                         type="password"
                         autoComplete="new-password"
                         placeholder="Enter Password"
-                        className={`grow py-2 lg:px-2 py-[14.5px] border-2  rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 focus:border-none relative shadow-sm shadow-[#808080] ${
+                        className={`grow py-2 lg:px-2 py-[14.5px] border-[1px]  rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 focus:border-none relative  shadow-[#808080] ${
                           errors.password && touched.password
                             ? ' shadow-red-500 border-red-500 focus:border-red-500 border-3 border-solid'
                             : ''
@@ -778,7 +778,7 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
                         type="password"
                         autoComplete="new-password"
                         placeholder="Confirm Password"
-                        className={`grow py-2 lg:px-2 border-2  rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 focus:border-none shadow-sm shadow-[#808080] ${
+                        className={`grow py-2 lg:px-2 border-[1px]  rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 focus:border-none  shadow-[#808080] ${
                           errors.confirmPassword && touched.confirmPassword
                             ? ' shadow-red-500 border-red-500 focus:border-red-500 border-3 border-solid'
                             : ''

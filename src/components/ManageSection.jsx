@@ -76,95 +76,46 @@ export default function ManageSection() {
 
   var inputText = '';
 
+  const [emptyState, setEmptyState] = useState(false);
+
   useEffect(() => {
     getManageSection();
-    getAccounts();
+    //getAccounts();
   }, []);
 
   function getManageSection() {
+    setSkeletonState(true);
     axios
       .get(`https://pia-sfe.online/api/sectionList/`)
       .then(function (response) {
         setSection(response.data);
-      });
-  }
-
-  function getAccounts() {
-    setSkeletonState(true);
-    axios
-      .get(`https://pia-sfe.online/api/getAccountSection/`)
-      .then(function (response) {
-        let responseData = response.data;
-        var newArray = [];
-        for (let i = 0; i < responseData.length; i++) {
-          var tempArray = [];
-          var result = Object.keys(responseData[i]).map(key => [
-            key,
-            responseData[i][key],
-          ]);
-
-          for (let j = 0; j < result.length; j++) {
-            tempArray.push(result[j][1]);
-          }
-          //console.log(tempArray);
-
-          let data = JSON.stringify(tempArray[0]);
-          data = data.replace(/"/g, '');
-
-          newArray.push(data);
+        if (response.data.length < 1) {
+          setEmptyState(true);
         }
-
-        //console.log(newArray);
-        setAccounts(newArray);
         setTimeout(hideNavbar, 1);
 
         function hideNavbar() {
           setSkeletonState(false);
         }
+      })
+      .catch(function (error) {
+        setSkeletonState(false);
       });
   }
 
   function updateTable() {
     setTableLoader(true);
-
     getManageSection2();
-    getAccounts2();
 
     function getManageSection2() {
+      setSkeletonState(true);
       axios
         .get(`https://pia-sfe.online/api/sectionList/`)
         .then(function (response) {
           setSection(response.data);
-        });
-    }
-
-    function getAccounts2() {
-      setSkeletonState(true);
-      axios
-        .get(`https://pia-sfe.online/api/getAccountSection/`)
-        .then(function (response) {
-          let responseData = response.data;
-          var newArray = [];
-          for (let i = 0; i < responseData.length; i++) {
-            var tempArray = [];
-            var result = Object.keys(responseData[i]).map(key => [
-              key,
-              responseData[i][key],
-            ]);
-
-            for (let j = 0; j < result.length; j++) {
-              tempArray.push(result[j][1]);
-            }
-            //console.log(tempArray);
-
-            let data = JSON.stringify(tempArray[0]);
-            data = data.replace(/"/g, '');
-
-            newArray.push(data);
-          }
-
-          //console.log(newArray);
-          setAccounts(newArray);
+          setTableLoader(false);
+        })
+        .catch(function (error) {
           setTableLoader(false);
         });
     }
@@ -602,11 +553,21 @@ export default function ManageSection() {
                     <div className="text-gray-700 text-center -mt-4 absolute flex flex-col items-center justify-center h-full w-full hdScreen:scale-100 semihdScreen:scale-90 laptopScreen:scale-85 averageScreen:scale-80 md:scale-75 sm:scale-70 xs:scale-60">
                       <BsClipboard2X className="w-full text-[4rem]" />
                       <p className="py-2 font-semibold semihdScreen:text-xl sm:text-lg xs:text-base">
-                        No matches found.
+                        {emptyState ? (
+                          <>No sections found</>
+                        ) : (
+                          <>No matches found</>
+                        )}
                       </p>
                       <p className="sm:text-lg xs:text-sm">
-                        Try checking if there's a typographical error
-                        <br></br>in your query.{' '}
+                        {emptyState ? (
+                          <>The list is empty.</>
+                        ) : (
+                          <>
+                            Try checking if there's a typographical error
+                            <br></br>in your query.{' '}
+                          </>
+                        )}
                       </p>
                     </div>
                   </>

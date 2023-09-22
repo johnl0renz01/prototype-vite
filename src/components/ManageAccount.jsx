@@ -74,6 +74,8 @@ export default function ManageAccount() {
     }
   });
 
+  const [emptyState, setEmptyState] = useState(false);
+
   const [accounts, setAccounts] = useState([]);
 
   var inputText = '';
@@ -88,12 +90,18 @@ export default function ManageAccount() {
       .get(`https://pia-sfe.online/api/accountList/`)
       .then(function (response) {
         //console.log(response.data);
+        if (response.data.length < 1) {
+          setEmptyState(true);
+        }
         setAccounts(response.data);
         setTimeout(hideNavbar, 1);
 
         function hideNavbar() {
           setSkeletonState(false);
         }
+      })
+      .catch(function (error) {
+        setSkeletonState(false);
       });
   }
 
@@ -104,6 +112,9 @@ export default function ManageAccount() {
       .then(function (response) {
         //console.log(response.data);
         setAccounts(response.data);
+        setTableLoader(false);
+      })
+      .catch(function (error) {
         setTableLoader(false);
       });
   }
@@ -526,11 +537,21 @@ export default function ManageAccount() {
                     <div className="text-gray-700 text-center -mt-4 absolute flex flex-col items-center justify-center h-full w-full hdScreen:scale-100 semihdScreen:scale-90 laptopScreen:scale-85 averageScreen:scale-80 md:scale-75 sm:scale-70 xs:scale-60">
                       <BsClipboard2X className="w-full text-[4rem]" />
                       <p className="py-2 font-semibold semihdScreen:text-xl sm:text-lg xs:text-base">
-                        No matches found.
+                        {emptyState ? (
+                          <>No accounts found</>
+                        ) : (
+                          <>No matches found</>
+                        )}
                       </p>
                       <p className="sm:text-lg xs:text-sm">
-                        Try checking if there's a typographical error
-                        <br></br>in your query.{' '}
+                        {emptyState ? (
+                          <>The list is empty.</>
+                        ) : (
+                          <>
+                            Try checking if there's a typographical error
+                            <br></br>in your query.{' '}
+                          </>
+                        )}
                       </p>
                     </div>
                   </>
