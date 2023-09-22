@@ -16,8 +16,6 @@ import { BsSlashCircle } from 'react-icons/bs';
 import { BsFillSendFill } from 'react-icons/bs';
 
 import { MdClose } from 'react-icons/md';
-import { VscQuestion } from 'react-icons/vsc';
-
 import LoadingSpinner from './LoadingSpinner';
 
 const ContactAdminModal = ({ visible, onClose, onContinue }) => {
@@ -82,14 +80,14 @@ const ContactAdminModal = ({ visible, onClose, onContinue }) => {
       >
         <div className="bg-white hdScreen:w-1/3 rounded lg:text-lg xs:text-xs shadow-md ">
           <div className="grid grid-cols-2 bg-gray-300 ">
-            <span className="lg:text-xl xs:text-lg ml-2 mt-0.5 text-black/60 font-semibold">
+            <span className="lg:text-xl xs:text-lg ml-2 flex items-center text-black/60 font-semibold">
               {' '}
               Contact Admin{' '}
             </span>
             <div className="text-right">
               <button
                 onClick={onClose}
-                className="bg-gray-400/70 p-2 inline-block hover:bg-red-600 transition duration-200 hover:text-white"
+                className=" p-2 inline-block hover:bg-red-600 transition duration-200 hover:text-white"
               >
                 <MdClose />
               </button>

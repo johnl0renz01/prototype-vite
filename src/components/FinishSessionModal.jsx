@@ -306,7 +306,7 @@ const FinishSessionModal = ({ visible, onClose, onContinue }) => {
             >
               <button
                 onClick={levelOption ? levelUp : homePage}
-                className="mx-2 text-white bg-gray-600/60 h-10 px-4 inline-block rounded-3xl hover:bg-gray-600 hover:text-gray-100"
+                className="transition duration-200 mx-2 text-white bg-gray-600/60 h-10 px-4 inline-block rounded-3xl hover:bg-gray-600 hover:text-gray-100"
               >
                 Finish Session
               </button>
