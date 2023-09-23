@@ -108,7 +108,7 @@ const ContactAdminModal = ({ visible, onClose, onContinue }) => {
                     type="text"
                     maxLength="45"
                     placeholder="Subject"
-                    className={` placeholder:font-normal tracking-wide text-gray-600 grow p-1 font-bold px-2 mt-1 ml-3 border-[1px] lg:text-lg xs:text-xs rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 focus:border-none  shadow-[#808080] ${
+                    className={`lg:px-3 placeholder:font-normal tracking-wide text-gray-600 grow p-1 font-semibold px-2 mt-1 ml-3 border-[1px] lg:text-lg xs:text-xs rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 focus:border-none  shadow-[#808080] ${
                       errors.subject && touched.subject
                         ? ' shadow-red-500 border-red-500 focus:border-red-500 border-3 border-solid'
                         : ''
@@ -163,9 +163,9 @@ const ContactAdminModal = ({ visible, onClose, onContinue }) => {
                   onClick={onSubmit}
                   className="relative ml-6  pl-8 pr-6 mr-1.5 h-9 w-28 rounded-lg font-semibold  transition duration-300 text-white bg-lime-600 hover:bg-lime-700"
                 >
-                  <span className="font-normal  lg:text-lg xs:text-xs flex justify-center">
+                  <span className="font-normal  lg:text-lg xs:text-xs flex items-center justify-center">
                     Send
-                    <BsFillSendFill className="ml-1.5 mt-1.5 " />
+                    <BsFillSendFill className="ml-1 lg:text-xs xs:text-xs " />
                   </span>
                 </button>
               </div>

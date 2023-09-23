@@ -47,16 +47,39 @@ switch($_SESSION['method']) {
                 WHERE Email = '$original_email'";
 
         $stmt = $conn->prepare($sql);
-        
-
         //WITHOUT HASH SECURITY
         //$stmt->bindParam(':password', $user->password);
         
         if($stmt->execute()) {
             $response = ['status' => 1, 'message' => 'Record created successfully.'];
+            if ($gradeLevel != '') {
+                $userTable = $original_email;
+                echo "\n".$userTable;
+                $atSign = strpos($userTable, "@");
+                echo "\n".$atSign;
+                $userTable = substr($userTable, 0, $atSign);
+                echo "\n".$userTable;
+                $userTable = str_replace(".", "_", $userTable);
+                echo "\n".$userTable;
+    
+                $newTable = $user->email;
+                echo "\n".$newTable;
+                $atSign2 = strpos($newTable, "@");
+                echo "\n".$atSign2;
+                $newTable = substr($newTable, 0, $atSign2);
+                echo "\n".$newTable;
+                $newTable = str_replace(".", "_", $newTable);
+                echo "\n".$newTable;
+    
+                $sql2 = "ALTER TABLE ".$userTable." RENAME TO ".$newTable."";
+                $stmt2 = $conn->prepare($sql2);
+                $stmt2->execute();
+            }
         } else {
             $response = ['status' => 0, 'message' => 'Failed to create record.'];
         }
+
+        
 
         echo "\n".json_encode($response);
         break;

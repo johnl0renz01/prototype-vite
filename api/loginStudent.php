@@ -9,6 +9,8 @@ include 'DbConnect.php';
 $objDb = new DbConnect;
 $conn = $objDb->connect();
 
+$default = "default";
+
 switch($_SESSION['method']) {
     case "GET":
         break;
@@ -29,7 +31,7 @@ switch($_SESSION['method']) {
             $password = implode(",", $account[0]);
             $password = explode(",", $password);
             if(password_verify($passwordInput, $password[2]) || $passwordInput == $password[2]) { //Hashed Password and Not hashed
-                if ($passwordInput == "default") {
+                if ($passwordInput == $default) {
                     echo json_encode("setPassword");
                 } else {
                     echo json_encode($account);

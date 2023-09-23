@@ -11,7 +11,7 @@ $conn = $objDb->connect();
 
 switch($_SESSION['method']) {
     case "GET":
-        $sql = "SELECT * FROM user_request ORDER BY UserID DESC";
+        $sql = "SELECT * FROM user_request ORDER BY Time DESC";
         
         $stmt = $conn->prepare($sql);
         $stmt->execute();
@@ -48,10 +48,10 @@ switch($_SESSION['method']) {
                                         OR Timestamp LIKE '%$inputSearch'
                                         OR Timestamp LIKE '$inputSearch%'
                                         
-                                        ORDER BY UserID DESC";
+                                        ORDER BY Time DESC";
 
         } else {
-            $sql = "SELECT * FROM user_request ORDER BY UserID DESC";
+            $sql = "SELECT * FROM user_request ORDER BY Time DESC";
         }
         
         $stmt = $conn->prepare($sql);

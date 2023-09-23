@@ -6,8 +6,16 @@ const LoadingSpinner = ({ visible }) => {
   if (!visible) return null;
 
   const [acc, setAccType] = useState('');
+  const [loginPage, setLoginPage] = useState(false);
 
   useEffect(() => {
+    var logged = JSON.parse(window.localStorage.getItem('SESSION_USER'));
+    if (logged === null || logged == '') {
+      setLoginPage(true);
+    } else {
+      setLoginPage(false);
+    }
+
     var account = JSON.parse(window.localStorage.getItem('ACCOUNT_TYPE'));
     if (account !== null) {
       checkAccountType(account);
@@ -27,7 +35,12 @@ const LoadingSpinner = ({ visible }) => {
     <>
       <div
         id="mainContainer"
-        className="fixed top-0 inset-0 z-[10000] bg-black bg-opacity-50 backdrop-blur-[1.5px] flex justify-center items-center "
+        className={`fixed   top-0 inset-0 z-[10000] bg-black  flex justify-center items-center 
+                  ${
+                    loginPage
+                      ? 'bg-opacity-10 rounded-2xl backdrop-blur-[1.5px]'
+                      : 'bg-opacity-50 backdrop-blur-[1.5px]'
+                  }`}
       >
         <div
           className={`loader

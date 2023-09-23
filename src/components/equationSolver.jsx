@@ -1059,10 +1059,144 @@ var EquationSolver = (function () {
         }
       }
 
+      var simpleTranspose = false;
+      var stepsArray = [];
+
+      function containsMultiplyConstant(str) {
+        return /[0-9]\(/.test(str);
+      }
+
+      function containsMultiplyCoefficient(str) {
+        return /[a-zA-Z]\(/.test(str);
+      }
+
+      if (
+        !containsMultiplyConstant(equation) &&
+        !containsMultiplyCoefficient(equation)
+      ) {
+        simpleTranspose = true;
+        var [lhs, rhs] = equation.split('=').map(side => side.trim());
+        var tempLHS = '';
+        var tempRHS = '';
+
+        var tempConst = '';
+        var tempCoeff = '';
+
+        var prevIndex = 0;
+
+        var isCoefficient = false;
+
+        for (let i = 0; i < lhs.length; i++) {
+          if (lhs[i].match(/[\+\-]/) && i != 0) {
+            if (isCoefficient) {
+              tempLHS = tempLHS + lhs.substring(prevIndex, i);
+              prevIndex = i;
+
+              isCoefficient = false;
+              continue;
+            } else {
+              tempConst = tempConst + lhs.substring(prevIndex, i);
+              prevIndex = i;
+            }
+          } else if (lhs[i].match(/[a-z]/)) {
+            isCoefficient = true;
+          }
+
+          if (i == lhs.length - 1) {
+            if (!isCoefficient) {
+              tempConst = tempConst + lhs.substring(prevIndex, i + 1);
+            } else {
+              tempLHS = tempLHS + lhs.substring(prevIndex, i + 1);
+            }
+            break;
+          }
+        }
+
+        isCoefficient = false;
+        prevIndex = 0;
+
+        for (let i = 0; i < rhs.length; i++) {
+          if (rhs[i].match(/[\+\-]/) && i != 0) {
+            if (isCoefficient) {
+              tempCoeff = tempCoeff + rhs.substring(prevIndex, i);
+              prevIndex = i;
+              isCoefficient = false;
+            } else {
+              tempRHS = tempRHS + rhs.substring(prevIndex, i);
+              prevIndex = i;
+            }
+          } else if (rhs[i].match(/[a-z]/)) {
+            isCoefficient = true;
+          }
+
+          if (i == rhs.length - 1) {
+            if (isCoefficient) {
+              tempCoeff = tempCoeff + rhs.substring(prevIndex, i + 1);
+            } else {
+              tempRHS = tempRHS + rhs.substring(prevIndex, i + 1);
+            }
+            break;
+          }
+        }
+
+        function changeSign(str) {
+          let tempString = str;
+          tempString = tempString.replace(/\-/g, '@');
+          tempString = tempString.replace(/\+/g, '-');
+          tempString = tempString.replace(/\@/g, '+');
+          if (/^[A-Za-z0-9]*$/.test(tempString[0])) {
+            tempString = '-' + tempString;
+          }
+
+          var inside = false;
+          for (let i = 0; i < tempString.length; i++) {
+            if (inside) {
+              if (tempString[i].match(/[\+]/)) {
+                tempString =
+                  tempString.slice(0, i) + '-' + tempString.slice(i + 1);
+              } else if (tempString[i].match(/[\-]/)) {
+                tempString =
+                  tempString.slice(0, i) + '+' + tempString.slice(i + 1);
+              }
+            }
+
+            if (tempString[i].match(/[\(]/)) {
+              inside = true;
+            }
+            if (tempString[i].match(/[\)]/)) {
+              inside = false;
+            }
+          }
+          return tempString;
+        }
+
+        tempCoeff = changeSign(tempCoeff);
+        tempConst = changeSign(tempConst);
+
+        tempLHS = tempLHS + tempCoeff;
+        tempRHS = tempRHS + tempConst;
+
+        if (tempLHS[0].match(/[\+]/)) {
+          tempLHS = tempLHS.slice(1);
+        }
+
+        if (tempRHS[0].match(/[\+]/)) {
+          tempRHS = tempRHS.slice(1);
+        }
+
+        // FIRST STEP
+        stepsArray.push([tempLHS, '=', tempRHS].join(''));
+      }
+
       var lhsCoefficient = lhsFinalCoefficient.toString();
       var lhsConstant = lhsFinalConstant.toString();
       var rhsCoefficient = rhsFinalCoefficient.toString();
       var rhsConstant = rhsFinalConstant.toString();
+
+      console.log('lhsCoefficient: ' + lhsCoefficient);
+      console.log('lhsConstant: ' + lhsConstant);
+      console.log('rhsCoefficient: ' + rhsCoefficient);
+      console.log('rhsConstant: ' + rhsConstant);
 
       if (lhsCoefficient == '0' || lhsCoefficient === undefined) {
         lhsCoefficient = '';
@@ -1088,8 +1222,6 @@ var EquationSolver = (function () {
       if (rhsCoefficient != '' && rhsConstant != '') {
         rhsConstant = checkSymbol(rhsConstant);
       }
-
-      var stepsArray = [];
 
       function reverseOperation(currentString) {
         if (currentString != '' && currentString != undefined) {
@@ -1124,19 +1256,21 @@ var EquationSolver = (function () {
         rhsConstant,
       ].join('');
 
-      if (checkSimilarity != equation) {
-        //Push first step, simplify stuffs
-        stepsArray.push(
-          [
-            lhsCoefficient,
-            LHScoefficientSymbol,
-            lhsConstant,
-            '=',
-            rhsCoefficient,
-            RHScoefficientSymbol,
-            rhsConstant,
-          ].join('')
-        );
+      if (!simpleTranspose) {
+        if (checkSimilarity != equation) {
+          //Push first step, simplify stuffs
+          stepsArray.push(
+            [
+              lhsCoefficient,
+              LHScoefficientSymbol,
+              lhsConstant,
+              '=',
+              rhsCoefficient,
+              RHScoefficientSymbol,
+              rhsConstant,
+            ].join('')
+          );
+        }
       }
 
       if (rhsCoefficient != '') {
@@ -1173,19 +1307,21 @@ var EquationSolver = (function () {
         }
       }
 
-      if (checkSimilarity != equation) {
-        if (checkSimilarity != stepsArray[0]) {
-          stepsArray.push(
-            [
-              lhsCoefficient,
-              LHScoefficientSymbol,
-              rhsCoefficient,
-              RHScoefficientSymbol,
-              '=',
-              rhsConstant,
-              lhsConstant,
-            ].join('')
-          );
+      if (!simpleTranspose) {
+        if (checkSimilarity != equation) {
+          if (checkSimilarity != stepsArray[0]) {
+            stepsArray.push(
+              [
+                lhsCoefficient,
+                LHScoefficientSymbol,
+                rhsCoefficient,
+                RHScoefficientSymbol,
+                '=',
+                rhsConstant,
+                lhsConstant,
+              ].join('')
+            );
+          }
         }
       }
 

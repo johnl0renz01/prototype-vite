@@ -289,6 +289,9 @@ switch($requestLink) {
         include('requestReply.php');
     break;
 
+    case "/api/myRequestList":
+        include('myRequestList.php');
+    break;
 
     // SET NEW PASSWORD
     case "/api/setNewPassword":
@@ -302,6 +305,10 @@ switch($requestLink) {
 
     case "/api/forgotPassCode":
         include('forgotPassCode.php');
+    break;
+
+    case "/api/resetPasswordCode":
+        include('resetPasswordCode.php');
     break;
 }
 

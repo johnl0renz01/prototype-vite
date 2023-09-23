@@ -21,15 +21,13 @@ import { addSectionSchema } from '../schemas';
 import { MdClose } from 'react-icons/md';
 import { VscCheckAll, VscPassFilled } from 'react-icons/vsc';
 
-import { BsJournalText } from 'react-icons/bs';
+import { BsJournalText, BsEnvelope } from 'react-icons/bs';
 import { BsJournalPlus } from 'react-icons/bs';
 import { BsQuestionCircle } from 'react-icons/bs';
 import { BsDoorOpen, BsTelephone } from 'react-icons/bs';
 import { TfiShiftLeft } from 'react-icons/tfi';
 
 import Registration from './Registration';
-import ContactAdminModal from './ContactAdminModal';
-import ContactAdminMessageModal from './ContactAdminMessageModal';
 
 import TeacherNavbarSkeleton from './TeacherNavbarSkeleton';
 
@@ -101,6 +99,8 @@ export default function TeacherNavbar() {
     var data = JSON.parse(window.localStorage.getItem('CURRENT_SECTION'));
     if (data !== null && data !== false) {
       setAccessReportCard(true);
+    } else {
+      setAccessReportCard(false);
     }
   });
 
@@ -177,6 +177,13 @@ export default function TeacherNavbar() {
     window.localStorage.setItem('CURRENT_TAB_INDEX', 4);
 
     getCurrentTab();
+    navigate('/MyRequest');
+  };
+
+  const tab5 = () => {
+    window.localStorage.setItem('CURRENT_TAB_INDEX', 5);
+
+    getCurrentTab();
     navigate('/HelpPageTeacher');
   };
 
@@ -245,29 +252,6 @@ export default function TeacherNavbar() {
     window.localStorage.removeItem('CURRENT_TAB_INDEX');
     setTabHighlight(0);
     navigate('/HomePageTeacher');
-  };
-
-  const contactAdmin = () => {
-    setShowModal(true);
-  };
-
-  // MODAL CONTACT ADMIN
-  const [showModal, setShowModal] = useState(false);
-  const handleOnCloseModal = () => setShowModal(false);
-
-  const [choiceModal, setChoiceModal] = useState(false);
-
-  const handleOnContinueModal = () => {
-    setShowModal(false);
-    setShowModal2(true);
-  };
-
-  // MODAL CONTACT ADMIN MESSAGE
-  const [showModal2, setShowModal2] = useState(false);
-  const handleOnCloseModal2 = () => setShowModal2(false);
-
-  const handleOnContinueModal2 = () => {
-    setShowModal2(false);
   };
 
   //FOR SKELETON
@@ -438,6 +422,30 @@ export default function TeacherNavbar() {
                 }`}
               >
                 <div className="relative text-center  font-bold">
+                  <BsEnvelope className="hdScreen:text-[1.8rem] semihdScreen:text-[1.7rem] laptopScreen:text-[1.4rem] averageScreen:text-[1.3rem] mx-auto " />
+                  <span
+                    className={`lg:text-base xs:text-xs font-poppins font-semibold lg:px-2 ${
+                      sidebarMode == 'Minimized' ? 'hidden' : ''
+                    }`}
+                  >
+                    My Requests
+                  </span>
+                </div>
+              </li>
+              <li
+                onClick={tab5}
+                className={`cursor-pointer border-b-2 border-black/5 ${
+                  tabHighlight == 5
+                    ? 'bg-white/[75%] text-lime-700'
+                    : 'hover:bg-black/30 text-white transition duration-300'
+                }
+                ${
+                  sidebarMode == 'Minimized'
+                    ? 'pb-2.5 pt-2'
+                    : 'hdScreen:pb-1 hdScreen:pt-3 semihdScreen:pb-1 semihdScreen:pt-3 laptopScreen:pb-[0.2rem] laptopScreen:pt-1.5 averageScreen:pb-[0.18rem] averageScreen:pt-1.5 sm:pb-0.5 sm:pt-1 xs:pb-[0.1rem] xs:pt-0.5'
+                }`}
+              >
+                <div className="relative text-center  font-bold">
                   <BsQuestionCircle className="hdScreen:text-[2.2rem] semihdScreen:text-[2rem] laptopScreen:text-[1.6rem] averageScreen:text-[1.5rem] mx-auto " />
                   <span
                     className={`lg:text-base xs:text-xs font-poppins font-semibold lg:px-2 ${
@@ -448,26 +456,7 @@ export default function TeacherNavbar() {
                   </span>
                 </div>
               </li>
-              <li
-                onClick={contactAdmin}
-                className={`cursor-pointer border-b-2 border-black/5 hover:bg-black/30 text-white transition duration-300
-                ${
-                  sidebarMode == 'Minimized'
-                    ? 'pb-2.5 pt-2'
-                    : 'hdScreen:pb-1 hdScreen:pt-3 semihdScreen:pb-1 semihdScreen:pt-3 laptopScreen:pb-[0.2rem] laptopScreen:pt-1.5 averageScreen:pb-[0.18rem] averageScreen:pt-1.5 sm:pb-0.5 sm:pt-1 xs:pb-[0.1rem] xs:pt-0.5'
-                }`}
-              >
-                <div className="relative text-center  font-bold">
-                  <BsTelephone className="hdScreen:text-[1.8rem] semihdScreen:text-[1.7rem] laptopScreen:text-[1.4rem] averageScreen:text-[1.3rem] mx-auto " />
-                  <span
-                    className={`lg:text-base xs:text-xs font-poppins font-semibold lg:px-2 ${
-                      sidebarMode == 'Minimized' ? 'hidden' : ''
-                    }`}
-                  >
-                    Contact Admin
-                  </span>
-                </div>
-              </li>
+
               <li
                 onClick={logout}
                 className={`cursor-pointer border-b-2 border-black/5 hover:bg-black/30 text-white transition duration-300 ${
@@ -516,16 +505,7 @@ export default function TeacherNavbar() {
           </div>
         </div>
       </div>
-      <ContactAdminModal
-        onClose={handleOnCloseModal}
-        visible={showModal}
-        onContinue={handleOnContinueModal}
-      />
-      <ContactAdminMessageModal
-        onClose={handleOnCloseModal2}
-        visible={showModal2}
-        onContinue={handleOnContinueModal2}
-      />
+
       <LoadingSpinner visible={showLoading} />
     </>
   );

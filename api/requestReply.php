@@ -21,8 +21,10 @@ for ($i = strlen($requestID) - 1; $i > 0; $i--) {
 $role = "";
 $email = "";
 
+//USE ~ IF EMAIL EXIST (Because of '@')
+
 for ($i = strlen($requestID) - 1; $i > 0; $i--) {
-    if ($requestID[$i] == "@") {
+    if ($requestID[$i] == "~") {
         $email = substr($requestID, ($i + 1));
         $requestID = substr($requestID, 0, $i);
         break;
@@ -31,13 +33,12 @@ for ($i = strlen($requestID) - 1; $i > 0; $i--) {
 
 
 for ($i = strlen($requestID) - 1; $i > 0; $i--) {
-    if ($requestID[$i] == "@") {
+    if ($requestID[$i] == "~") {
         $role = substr($requestID, ($i + 1));
         $requestID = substr($requestID, 0, $i);
         break;
     }
 }
-
 
 
 switch($_SESSION['method']) {
@@ -54,8 +55,6 @@ switch($_SESSION['method']) {
             $mn->execute();
 
             $output = $mn->fetchColumn();
-            
-
             if ($output != "") {
                 $fullname = "SELECT concat(GivenName, ' ', MiddleName, ' ', LastName) AS FullName FROM accounts WHERE Email = '$email'";
                 $fn = $conn->prepare($fullname);
@@ -86,11 +85,12 @@ switch($_SESSION['method']) {
         $stmt->bindParam(':message', $user->message);
         if($stmt->execute()) {
 
-            $sql2 = "UPDATE user_request SET Timestamp = :timestamp
+            $sql2 = "UPDATE user_request SET Timestamp = :timestamp, Time = :time2
             WHERE RequestID = '$requestID'";
             $stmt2 = $conn->prepare($sql2);
             $timestamp = date('M d, Y - h:i A');
             $stmt2->bindParam(':timestamp', $timestamp);
+            $stmt2->bindParam(':time2', $time);
 
             if($stmt2->execute()) {
                 $response = ['status' => 1, 'message' => 'Record created successfully.'];

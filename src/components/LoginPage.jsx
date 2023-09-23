@@ -190,7 +190,7 @@ export default function LoginPage() {
               }
             }
 
-            console.log(currentData);
+            //console.log(currentData);
             if (currentData != '"Invalid"') {
               window.localStorage.setItem('LOGGED', JSON.stringify('TRUE'));
 
@@ -265,7 +265,7 @@ export default function LoginPage() {
               axios
                 .post(`https://pia-sfe.online/api/loginSession/save`, values)
                 .then(function (response) {
-                  console.log(response.data);
+                  //console.log(response.data);
                   let currentData = JSON.stringify(response.data);
                   setAccountValidation(currentData);
                   //console.log("CURRDATA:" + currentData);
@@ -314,7 +314,7 @@ export default function LoginPage() {
                       window.localStorage.getItem('SESSION_EMAIL')
                     );
                     if (email === null) email = '';
-                    console.log(email);
+                    //console.log(email);
                     axios
                       .post(
                         `https://pia-sfe.online/api/validateLogin/${email}`,
@@ -586,6 +586,12 @@ export default function LoginPage() {
     setShowModal2(true);
   };
 
+  const handleOnCloseForgotModal = () => {
+    setForgotPass(false);
+    setResetType('Email');
+    window.sessionStorage.setItem('FORGOT_PASSWORD', false);
+  };
+
   const handleOnCloseModal2 = () => {
     setShowModal2(false);
     setForgotPass(false);
@@ -635,7 +641,7 @@ export default function LoginPage() {
         className={` flex items-center select-none
                      ${skeletonState ? '' : ''}`}
       >
-        <div className="mx-auto w-full  grid place-items-center overflow-y-auto h-screen">
+        <div className="mx-auto w-full  grid place-items-center overflow-y-auto h-screen ">
           <div
             className="
            hdScreen:w-[30%] semihdScreen:w-[35%] laptopScreen:w-[40%] averageScreen:w-[42.5%] md:w-[45%] sm:w-[50%] xs:w-[60%] 
@@ -1001,7 +1007,10 @@ export default function LoginPage() {
 
                 {forgotPass ? (
                   <>
-                    <ForgotPassword onContinue={handleOnContinueModal} />
+                    <ForgotPassword
+                      onContinue={handleOnContinueModal}
+                      onClose={handleOnCloseForgotModal}
+                    />
                   </>
                 ) : (
                   <></>

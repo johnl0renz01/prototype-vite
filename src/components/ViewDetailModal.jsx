@@ -101,17 +101,20 @@ const ViewDetailModal = ({ visible, onClose, onContinue }) => {
       window.sessionStorage.getItem('CURRENT_VIEW_DETAIL')
     );
     let id = requestID.replace(/"/g, '');
-    console.log(id);
+    //console.log(id);
     var email = JSON.parse(window.localStorage.getItem('SESSION_EMAIL'));
     if (email === null) email = '';
+    console.log(email);
     var role = JSON.parse(window.localStorage.getItem('ACCOUNT_TYPE'));
+    console.log(role);
 
     axios
       .post(
-        `https://pia-sfe.online/api/requestReply/${id}@${role}@${email}`,
+        `https://pia-sfe.online/api/requestReply/${id}~${role}~${email}`,
         values
       )
       .then(function (response) {
+        console.log(response.data);
         setShowLoading(false);
         setReplyMode(false);
         handleReset();
@@ -294,7 +297,7 @@ const ViewDetailModal = ({ visible, onClose, onContinue }) => {
                   >
                     <span className=" hdScreen:text-lg semihdScreen:text-lg laptopScreen:text-base averageScreen:text-base sm:text-sm xs:text-xs flex items-center justify-center">
                       Send
-                      <BsFillSendFill className="ml-1 lg:text-xs xs:text-xs mt-1 " />
+                      <BsFillSendFill className="ml-1 lg:text-xs xs:text-xs " />
                     </span>
                   </button>
                 </div>
