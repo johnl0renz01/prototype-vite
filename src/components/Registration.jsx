@@ -795,6 +795,9 @@ function Registration() {
             setStudentList(parsedData);
           }
         }
+      } else {
+        setUploadFail(true);
+        setShowLoading(false);
       }
     };
     console.log(rowErrorMultiple);
@@ -1035,8 +1038,8 @@ function Registration() {
     document.getElementById('bulk').click();
   };
 
-  console.log(errorTally);
-  console.log(validationStatus);
+  //console.log(errorTally);
+  //console.log(validationStatus);
 
   useEffect(() => {
     //setValidationStatus(validation);
@@ -1259,7 +1262,7 @@ function Registration() {
                             type="text "
                             placeholder="Enter Given Name "
                             autoComplete="new-password"
-                            className={`grow  w-full py-2 lg:px-2 border-2 rounded-md border-gray-500 focus:outline-teal-500 relative focus:ring-teal-500 shadow-sm  shadow-[#808080] ${
+                            className={`grow  w-full py-2 lg:px-2 border-2 rounded-md border-gray-500 focus:outline-teal-500 relative focus:ring-teal-500   shadow-[#808080] ${
                               errors.firstName && touched.firstName
                                 ? 'shadow-red-500  border-red-500 focus:border-red-500 border-3 border-solid'
                                 : ''
@@ -1320,7 +1323,7 @@ function Registration() {
                             onChange={handleChange}
                             name="gradeLevel"
                             id="gradeLevel"
-                            className="py-2 lg:px-2 border- 2 focus:border-none rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 shadow-sm shadow-[#808080]"
+                            className="py-2 lg:px-2 border-2 focus:border-none rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500  shadow-[#808080]"
                           >
                             <option
                               className=""
@@ -1375,7 +1378,7 @@ function Registration() {
                             type="text "
                             placeholder="Enter Middle Name"
                             autoComplete="new-password"
-                            className={`grow w-full py-2 lg:px-2 border-2  rounded-md relative border-gray-500 focus:outline-teal-500 focus:ring-teal-500 shadow-sm  shadow-[#808080]`}
+                            className={`grow w-full py-2 lg:px-2 border-2  rounded-md relative border-gray-500 focus:outline-teal-500 focus:ring-teal-500   shadow-[#808080]`}
                             value={values.middleName}
                             onChange={handleChange}
                             onBlur={handleBlur}
@@ -1418,7 +1421,7 @@ function Registration() {
                             value={values.section}
                             onChange={handleChange}
                             name="section"
-                            className={`py-2 lg:px-2 border-2 focus:border-none rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 shadow-sm shadow-[#808080] 
+                            className={`py-2 lg:px-2 border-2 focus:border-none rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500  shadow-[#808080] 
                             ${
                               errors.section && touched.section
                                 ? ' shadow-red-500 border-red-500 focus:border-red-500 border-3 border-solid'
@@ -1470,7 +1473,7 @@ function Registration() {
                             type="text "
                             placeholder="Enter Last Name"
                             autoComplete="new-password"
-                            className={`grow w-full py-2 lg:px-2 border-2  rounded-md relative border-gray-500 focus:outline-teal-500 focus:ring-teal-500 shadow-sm  shadow-[#808080]
+                            className={`grow w-full py-2 lg:px-2 border-2  rounded-md relative border-gray-500 focus:outline-teal-500 focus:ring-teal-500   shadow-[#808080]
                             ${
                               errors.lastName && touched.lastName
                                 ? ' shadow-red-500 border-red-500 focus:border-red-500 border-3 border-solid'
@@ -1514,7 +1517,7 @@ function Registration() {
                           name="birthDay"
                           type="date"
                           autoComplete="new-password"
-                          className="grow py-2 lg:px-2 border-2  focus:border-none rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 shadow-sm shadow-[#808080]"
+                          className="grow py-2 lg:px-2 border-2  focus:border-none rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500  shadow-[#808080]"
                           onChange={dateChange}
                           onBlur={handleBlur}
                           value={birthday}
@@ -1540,7 +1543,7 @@ function Registration() {
                           type="text"
                           placeholder="Set birthday"
                           autoComplete="new-password"
-                          className={`py-2 lg:px-2 border-2 w-[9rem] rounded-md focus:border-none border-gray-500 focus:outline-teal-500 focus:ring-teal-500 relative shadow-sm shadow-[#808080] ${
+                          className={`py-2 lg:px-2 border-2 w-[9rem] rounded-md focus:border-none border-gray-500 focus:outline-teal-500 focus:ring-teal-500 relative  shadow-[#808080] ${
                             errors.age && touched.age
                               ? ' shadow-red-500 border-red-500 focus:border-red-500 border-3 border-solid'
                               : ''
@@ -1583,7 +1586,7 @@ function Registration() {
                           type="email"
                           autoComplete="off"
                           placeholder="lastname.firstname@school.edu.ph"
-                          className={`ml-3 grow py-2 lg:px-2 border-2 rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 shadow-sm shadow-[#808080] ${
+                          className={`ml-3 grow py-2 lg:px-2 border-2 rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500  shadow-[#808080] ${
                             errors.email && touched.email
                               ? ' shadow-red-500 border-red-500 focus:border-red-500 border-3 border-solid'
                               : ''
@@ -1627,7 +1630,7 @@ function Registration() {
                           type="password"
                           autoComplete="new-password"
                           placeholder="Enter Password"
-                          className={`grow py-2 lg:px-2 py-[14.5px] border-2  rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 focus:border-none relative shadow-sm shadow-[#808080] ${
+                          className={`grow py-2 lg:px-2 py-[14.5px] border-2  rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 focus:border-none relative  shadow-[#808080] ${
                             errors.password && touched.password
                               ? ' shadow-red-500 border-red-500 focus:border-red-500 border-3 border-solid'
                               : ''
@@ -1658,7 +1661,7 @@ function Registration() {
                           type="password"
                           autoComplete="new-password"
                           placeholder="Confirm Password"
-                          className={`grow py-2 lg:px-2 border-2  rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 focus:border-none shadow-sm shadow-[#808080] ${
+                          className={`grow py-2 lg:px-2 border-2  rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 focus:border-none  shadow-[#808080] ${
                             errors.confirmPassword && touched.confirmPassword
                               ? ' shadow-red-500 border-red-500 focus:border-red-500 border-3 border-solid'
                               : ''
@@ -1744,7 +1747,7 @@ function Registration() {
                   to="/files/Bulk_Registration-TEMPLATE.xlsx"
                   target="_blank"
                   download
-                  className=" grow flex text-center justify-center items-center hdScreen:text-base semihdScreen:text-sm laptopScreen:text-sm averageScreen:text-sm xs:text-xs rounded-xl bg-blue-500 hover:bg-blue-600 hdScreen:py-1 semihdScreen:py-1 laptopScreen:py-1 averageScreen:py-0.5 px-5  text-white relative  shadow-sm  drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)] "
+                  className=" grow flex text-center justify-center items-center hdScreen:text-base semihdScreen:text-sm laptopScreen:text-sm averageScreen:text-sm xs:text-xs rounded-xl bg-blue-500 hover:bg-blue-600 hdScreen:py-1 semihdScreen:py-1 laptopScreen:py-1 averageScreen:py-0.5 px-5  text-white relative    drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)] "
                 >
                   Template File
                   <span

@@ -107,7 +107,7 @@ export default function EquationList() {
                   averageScreen:min-h-[calc(100vh-45vh)] averageScreen:max-h-[calc(100vh-45vh)]
                   sm:min-h-[calc(100vh-45vh)] sm:max-h-[calc(100vh-45vh)]
                   xs:min-h-[calc(100vh-45vh)] xs:max-h-[calc(100vh-45vh)]
-                  bg-gray-200 mt-4 py-1 grid grid-cols-3 text-center lg:text-xl md:text-base sm:text-sm xs:text-xs  w-full overflow-hidden relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_2s_infinite]"
+                  bg-gray-200 mt-4 py-1 grid grid-cols-3 text-center lg:text-xl md:text-base sm:text-sm xs:text-xs  w-full  relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_2s_infinite]"
           >
             <div className="">
               <div className="py-1  font-semibold rounded-tl-xl shadow-md">

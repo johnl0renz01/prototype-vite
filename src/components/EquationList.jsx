@@ -133,8 +133,17 @@ export default function EquationList() {
 
                 setStores(DATA);
                 setTableLoader(false);
+              })
+              .catch(function (error) {
+                setTableLoader(false);
               });
+          })
+          .catch(function (error) {
+            setTableLoader(false);
           });
+      })
+      .catch(function (error) {
+        setTableLoader(false);
       });
   }
 
@@ -447,7 +456,7 @@ export default function EquationList() {
         {provided => (
           <div
             id={name}
-            className={`my-1 border-gray-400/80 border-t-2 border-t-gray-400 border-b-2 border-b-gray-400  h-full overflow-y-scroll style-3 font-semibold shadow-md ${
+            className={`my-1 border-gray-400/80 border-t-2 border-t-gray-400 border-b-2 border-b-gray-400  h-full style-3 font-semibold shadow-md  overflow-hidden ${
               name == 'EASY' ? 'border-l-[5px]' : ''
             }`}
             {...provided.droppableProps}
@@ -456,37 +465,51 @@ export default function EquationList() {
             <div className="bg-gray-200 py-1 border-b-[1px] border-gray-400 uppercase tracking-wide lg:text-xl md:text-base sm:text-sm xs:text-xs  font-bold text-gray-700">
               {name}
             </div>
-            <div className="items-container">
-              {items.map((item, index) => (
-                <Draggable
-                  draggableId={item.EquationString}
-                  index={index}
-                  key={item.EquationString}
-                >
-                  {provided => (
-                    <div
-                      {...provided.dragHandleProps}
-                      {...provided.draggableProps}
-                      ref={provided.innerRef}
+            <div className="items-container h-full relative  overflow-y-scroll style-3">
+              {items.length > 0 ? (
+                <>
+                  {items.map((item, index) => (
+                    <Draggable
+                      draggableId={item.EquationString}
+                      index={index}
+                      key={item.EquationString}
                     >
-                      <div className="font-normal bg-white pt-0.5 lg:text-base md:text-sm xs:text-xs  h-full    border-[1px] border-l-0 border-r-0  border-gray-400 shadow-md">
-                        <div className="border-b-2 flex justify-center items-center relative hover:bg-gray-200">
-                          <p className="mx-4">{item.EquationString}</p>
-                          <input
-                            type="submit"
-                            id={item.EquationString}
-                            onClick={deleteEquation}
-                            className=" cursor-pointer absolute right-0 text-black/60  hover:text-red-500 rounded-full w-6 h-6"
-                            title="Remove Equation"
-                            value="x"
-                          ></input>
+                      {provided => (
+                        <div
+                          {...provided.dragHandleProps}
+                          {...provided.draggableProps}
+                          ref={provided.innerRef}
+                        >
+                          <div className="font-normal bg-white pt-0.5 lg:text-base md:text-sm xs:text-xs  h-full    border-[1px] border-l-0 border-r-0  border-gray-400 shadow-md">
+                            <div className="border-b-2 flex justify-center items-center relative hover:bg-gray-200">
+                              <p className="mx-4">{item.EquationString}</p>
+                              <input
+                                type="submit"
+                                id={item.EquationString}
+                                onClick={deleteEquation}
+                                className=" cursor-pointer absolute right-0 text-black/60  hover:text-red-500 rounded-full w-6 h-6"
+                                title="Remove Equation"
+                                value="x"
+                              ></input>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </div>
-                  )}
-                </Draggable>
-              ))}
-              {provided.placeholder}
+                      )}
+                    </Draggable>
+                  ))}
+                  {provided.placeholder}
+                </>
+              ) : (
+                <>
+                  <div className="font-normal text-gray-700 -mt-6 text-center   flex flex-col items-center justify-center h-full w-full hdScreen:scale-100 semihdScreen:scale-90 laptopScreen:scale-85 averageScreen:scale-80 md:scale-75 sm:scale-70 xs:scale-60">
+                    <BsClipboard2X className="w-full text-[4rem]" />
+                    <p className="py-2 font-semibold semihdScreen:text-xl sm:text-lg xs:text-base">
+                      No equations found.
+                    </p>
+                    <p className="sm:text-lg xs:text-sm">The list is empty. </p>
+                  </div>
+                </>
+              )}
             </div>
           </div>
         )}

@@ -451,7 +451,7 @@ function EditAccount() {
                         type="text "
                         placeholder="Enter Given Name "
                         autoComplete="new-password"
-                        className={` grow p-2 border-2 rounded-md border-gray-500 focus:outline-teal-500 relative focus:ring-teal-500 shadow-sm  shadow-[#808080] ${
+                        className={` grow p-2 border-[1px] rounded-md border-gray-500 focus:outline-teal-500 relative focus:ring-teal-500   shadow-[#808080] ${
                           errors.firstName && touched.firstName
                             ? 'shadow-red-500  border-red-500 focus:border-red-500 border-3 border-solid'
                             : ''
@@ -482,7 +482,7 @@ function EditAccount() {
                         type="text "
                         placeholder="Enter Middle Name"
                         autoComplete="new-password"
-                        className={`grow p-2 border-2  rounded-md relative border-gray-500 focus:outline-teal-500 focus:ring-teal-500 shadow-sm  shadow-[#808080]`}
+                        className={`grow p-2 border-[1px]  rounded-md relative border-gray-500 focus:outline-teal-500 focus:ring-teal-500   shadow-[#808080]`}
                         value={values.middleName}
                         onChange={handleChange}
                         onBlur={handleBlur}
@@ -506,7 +506,7 @@ function EditAccount() {
                         type="text "
                         placeholder="Enter Last Name"
                         autoComplete="new-password"
-                        className={`grow p-2 border-2 relative rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 w-52 shadow-sm shadow-[#808080] ${
+                        className={`grow p-2 border-[1px] relative rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 w-52  shadow-[#808080] ${
                           errors.lastName && touched.lastName
                             ? ' shadow-red-500 border-red-500 focus:border-red-500 border-3 border-solid'
                             : ''
@@ -539,7 +539,7 @@ function EditAccount() {
                         name="birthDay"
                         type="date"
                         autoComplete="new-password"
-                        className="grow p-2 border-2  focus:border-none rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 shadow-sm shadow-[#808080]"
+                        className="grow p-2 border-[1px]  focus:border-none rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500  shadow-[#808080]"
                         onChange={dateChange}
                         onBlur={handleBlur}
                         value={birthday}
@@ -565,7 +565,7 @@ function EditAccount() {
                         type="text"
                         placeholder="Set birthday"
                         autoComplete="new-password"
-                        className={`p-2 border-2 w-[9rem] rounded-md focus:border-none border-gray-500 focus:outline-teal-500 focus:ring-teal-500 relative shadow-sm shadow-[#808080] ${
+                        className={`p-2 border-[1px] w-[9rem] rounded-md focus:border-none border-gray-500 focus:outline-teal-500 focus:ring-teal-500 relative  shadow-[#808080] ${
                           errors.age && touched.age
                             ? ' shadow-red-500 border-red-500 focus:border-red-500 border-3 border-solid'
                             : ''
@@ -636,7 +636,7 @@ function EditAccount() {
                         onChange={handleChange}
                         name="gradeLevel"
                         id="gradeLevel"
-                        className="p-2 border-2 w-32  focus:border-none rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 shadow-sm shadow-[#808080]"
+                        className="p-2 border-[1px] w-32  focus:border-none rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500  shadow-[#808080]"
                       >
                         <option className="font-semibold">Grade 7</option>
                       </select>
@@ -656,7 +656,7 @@ function EditAccount() {
                         value={values.section}
                         onChange={handleChange}
                         name="section"
-                        className="p-2 border-2 w-32 focus:border-none rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 shadow-sm shadow-[#808080] "
+                        className="p-2 border-[1px] w-32 focus:border-none rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500  shadow-[#808080] "
                       >
                         {sectionData.map(section => (
                           <option className="font-semibold">
@@ -680,7 +680,7 @@ function EditAccount() {
                         value={values.groupType}
                         onChange={handleChange}
                         name="groupType"
-                        className="p-2 border-2 w-52 rounded-md focus:border-none border-gray-500 focus:outline-teal-500 focus:ring-teal-500 shadow-sm shadow-[#808080]"
+                        className="p-2 border-[1px] w-52 rounded-md focus:border-none border-gray-500 focus:outline-teal-500 focus:ring-teal-500  shadow-[#808080]"
                       >
                         <option className="font-semibold">Facial Group</option>
                         <option className="font-semibold">
@@ -708,7 +708,7 @@ function EditAccount() {
                         type="email"
                         autoComplete="off"
                         placeholder="lastname.firstname@school.edu.ph"
-                        className={`grow p-2 border-2 rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 shadow-sm shadow-[#808080] ${
+                        className={`grow p-2 border-[1px] rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500  shadow-[#808080] ${
                           errors.email && touched.email
                             ? ' shadow-red-500 border-red-500 focus:border-red-500 border-3 border-solid'
                             : ''
@@ -745,7 +745,7 @@ function EditAccount() {
                         type="password"
                         autoComplete="new-password"
                         placeholder="Enter New Password"
-                        className={`grow p-2 py-[14.5px] border-2  rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 focus:border-none relative shadow-sm shadow-[#808080] ${
+                        className={`grow p-2 py-[14.5px] border-[1px]  rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 focus:border-none relative  shadow-[#808080] ${
                           errors.password && touched.password
                             ? ' shadow-red-500 border-red-500 focus:border-red-500 border-3 border-solid'
                             : ''
@@ -776,7 +776,7 @@ function EditAccount() {
                         type="password"
                         autoComplete="new-password"
                         placeholder="Confirm Password"
-                        className={`grow p-2 border-2  rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 focus:border-none shadow-sm shadow-[#808080] ${
+                        className={`grow p-2 border-[1px]  rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 focus:border-none  shadow-[#808080] ${
                           errors.confirmPassword && touched.confirmPassword
                             ? ' shadow-red-500 border-red-500 focus:border-red-500 border-3 border-solid'
                             : ''

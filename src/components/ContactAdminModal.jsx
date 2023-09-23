@@ -90,7 +90,7 @@ const ContactAdminModal = ({ visible, onClose, onContinue }) => {
             <div className="text-right">
               <button
                 onClick={onClose}
-                className=" p-2 inline-block hover:bg-red-600 transition duration-200 hover:text-white"
+                className=" p-3 inline-block hover:bg-red-600 transition duration-200 hover:text-white"
               >
                 <MdClose />
               </button>
@@ -111,7 +111,7 @@ const ContactAdminModal = ({ visible, onClose, onContinue }) => {
                     type="text"
                     maxLength="45"
                     placeholder="Subject"
-                    className={` placeholder:font-normal tracking-wide text-gray-600 grow p-1 font-bold px-2 mt-1 ml-3 border-2 lg:text-lg xs:text-xs rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 focus:border-none shadow-sm shadow-[#808080] ${
+                    className={` placeholder:font-normal tracking-wide text-gray-600 grow p-1 font-bold px-2 mt-1 ml-3 border-[1px] lg:text-lg xs:text-xs rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 focus:border-none  shadow-[#808080] ${
                       errors.subject && touched.subject
                         ? ' shadow-red-500 border-red-500 focus:border-red-500 border-3 border-solid'
                         : ''
@@ -134,7 +134,7 @@ const ContactAdminModal = ({ visible, onClose, onContinue }) => {
                     type="text"
                     placeholder="Write your concerns..."
                     rows="8"
-                    className={` grow lg:py-4  lg:px-3 mt-1 ml-3 border-2 lg:text-lg xs:text-xs rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 focus:border-none shadow-sm shadow-[#808080] ${
+                    className={` grow lg:py-4  lg:px-3 mt-1 ml-3 border-[1px] lg:text-lg xs:text-xs rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 focus:border-none  shadow-[#808080] ${
                       errors.message && touched.message
                         ? ' shadow-red-500 border-red-500 focus:border-red-500 border-3 border-solid'
                         : ''

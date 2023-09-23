@@ -281,6 +281,15 @@ switch($requestLink) {
         include('requestStatus.php');
     break;
 
+    case "/Prototype-Vite/my-project/api/requestMessages":
+        include('requestMessages.php');
+    break;
+
+    case "/Prototype-Vite/my-project/api/requestReply":
+        include('requestReply.php');
+    break;
+
+
     // SET NEW PASSWORD
     case "/Prototype-Vite/my-project/api/setNewPassword":
         include('setNewPassword.php');
