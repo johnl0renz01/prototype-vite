@@ -75,7 +75,11 @@ const ViewDetailModal = ({ visible, onClose, onContinue }) => {
           .get(`https://pia-sfe.online/api/requestMessages/${id}`)
           .then(function (response) {
             var result = response.data;
-            setMessageDetails(result);
+            if (result.length > 0 && typeof result !== 'string') {
+              setMessageDetails(result);
+            } else {
+              setMessageDetails([]);
+            }
           })
           .catch(function (error) {
             setShowLoading(false);
@@ -239,16 +243,22 @@ const ViewDetailModal = ({ visible, onClose, onContinue }) => {
                 className=" min-h-[calc(100vh-50vh)] max-h-[calc(100vh-50vh)] overflow-y-scroll lg:text-lg md:text-base sm:text-sm xs:text-xs relative lg:py-1 lg:pb-6 xs:pb-3 lg:px-8 xs:px-2 "
               >
                 <h1 className="text-2xl font-semibold py-2">{subject}</h1>
-                {messageDetails.map((content, index) => (
+                {messageDetails.length > 0 ? (
                   <>
-                    {headContent(
-                      content.Name,
-                      content.Date,
-                      content.Message,
-                      index
-                    )}
+                    {messageDetails.map((content, index) => (
+                      <>
+                        {headContent(
+                          content.Name,
+                          content.Date,
+                          content.Message,
+                          index
+                        )}
+                      </>
+                    ))}
                   </>
-                ))}
+                ) : (
+                  <>{headContent('System', date, message, 0)}</>
+                )}
 
                 <div className={`my-3 ${replyMode ? '' : 'hidden'}`}>
                   <hr />
@@ -308,6 +318,8 @@ const ViewDetailModal = ({ visible, onClose, onContinue }) => {
                       ? 'invisible'
                       : status == 'SOLVED'
                       ? 'absolute left-0 right-0'
+                      : messageDetails.length < 1
+                      ? 'absolute left-0 right-0'
                       : 'absolute right-4'
                   }`}
                 >
@@ -319,7 +331,7 @@ const ViewDetailModal = ({ visible, onClose, onContinue }) => {
                   >
                     Close
                   </button>
-                  {status == 'UNSOLVED' ? (
+                  {status == 'UNSOLVED' && messageDetails.length > 0 ? (
                     <button
                       type="button"
                       onClick={reply}

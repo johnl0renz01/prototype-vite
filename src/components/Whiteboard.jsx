@@ -44,7 +44,9 @@ export default function Whiteboard() {
       if (closed) {
         var unique = JSON.parse(window.localStorage.getItem('UNIQUE_ID'));
         axios
-          .post(`https://pia-sfe.online/api/logout/${unique}`)
+          .post(
+            `http://localhost:80/Prototype-Vite/my-project/api/logout/${unique}`
+          )
           .then(function (response) {
             window.localStorage.setItem('LOGGED', JSON.stringify('FALSE'));
             window.localStorage.setItem(
@@ -254,6 +256,7 @@ export default function Whiteboard() {
   ans = ans.concat(questionAnswers[currentQuestionIndex]);
   const [answer, correctAnswer] = useState([]);
   const [answerDisplay, setDisplay] = useState([]);
+  const [displaySpace, setDisplaySpace] = useState([]);
   const [hint, setHint] = useState([]);
   const [countTally, checkCount] = useState(0);
   const [length, setLength] = useState();
@@ -384,7 +387,120 @@ export default function Whiteboard() {
         fixedEquationSteps.push(fixedString);
       }
       //console.log("this is fixedEquationSteps: " + fixedEquationSteps);
+      //14
+      var displaySpacing = [];
+      var range1 = 0;
+      var range2 = 0;
+      var range3 = 0;
+      var range4 = 0;
+
+      if (fixedEquationSteps.length >= 1) {
+        range1 = rangeLimit(fixedEquationSteps[0]);
+      }
+
+      if (fixedEquationSteps.length >= 2) {
+        range2 = rangeLimit(fixedEquationSteps[1]);
+      }
+
+      if (fixedEquationSteps.length >= 3) {
+        range3 = rangeLimit(fixedEquationSteps[2]);
+      }
+
+      if (fixedEquationSteps.length >= 4) {
+        range4 = rangeLimit(fixedEquationSteps[3]);
+      }
+
+      function rangeLimit(equation) {
+        for (let i = 0; i < equation.length; i++) {
+          if (i <= 11) {
+            let equationString = equation;
+            if (equationString[i].match(/[=]/)) {
+              let range = i;
+              return range;
+            }
+          } else {
+            return equation.length;
+          }
+        }
+      }
+
+      var r1 = '';
+      var r2 = '';
+      var r3 = '';
+      var r4 = '';
+
+      if (range1 <= 14) {
+        r1 = fixedEquationSteps[0].substring(0, range1);
+      }
+
+      if (range2 <= 14) {
+        r2 = fixedEquationSteps[1].substring(0, range2);
+      }
+
+      if (range3 <= 14 && range3 != 0) {
+        r3 = fixedEquationSteps[2].substring(0, range3);
+      }
+
+      if (range4 <= 14 && range4 != 0) {
+        r4 = fixedEquationSteps[3].substring(0, range4);
+      }
+
+      ////ASSIGN TO ARRAY
+
+      displaySpacing.push('');
+
+      if (range1 < range2) {
+        displaySpacing.push('');
+      } else {
+        displaySpacing.push(r2);
+      }
+
+      //console.log(r2.length + ' && ' + r3.length);
+      if (range2 < range3) {
+        displaySpacing.push('');
+      } else {
+        if (r2.substring(0, range2 - range3 - 1).length < r3.length - 1) {
+          //console.log('THERE');
+          if ((displaySpacing[1] + r2).length > r3.length - 1) {
+            displaySpacing.push(
+              displaySpacing[1] + r2.substring(0, range2 - range3)
+            );
+          } else {
+            displaySpacing.push(r2 + r3);
+          }
+        } else {
+          //console.log('HERE');
+          displaySpacing.push(r2 + r3.substring(0, range2 - range3 - 1));
+        }
+      }
+
+      /*
+      console.log(r3.length + ' && ' + r4.length);
+      console.log(range3 + ' &asdsada& ' + range4);
+      console.log(range3 < range4);
+      */
+      if (range3 < range4) {
+        displaySpacing.push('');
+      } else {
+        if (r3.substring(0, range3 - range4 - 1).length < r4.length - 1) {
+          displaySpacing.push(r3 + r4);
+        } else {
+          if (displaySpacing[2].length < (r3 + r4).length) {
+            //console.log('ASDASD232');
+            displaySpacing.push(r3 + r3.substring(0, range3 - range4));
+          } else {
+            displaySpacing.push(
+              r2.substring(0, range2 - range3 - 1) +
+                r3.substring(0, range3 - range4)
+            );
+          }
+        }
+      }
+
+      setDisplaySpace(displaySpacing);
       setDisplay(fixedEquationSteps);
+
+      //ReactDOM.findDOMNode(firstAnswer).style.visibility = 'visible';
 
       var hintMessage = [];
       if (fixedEquationSteps.length === 1) {
@@ -513,7 +629,10 @@ export default function Whiteboard() {
     //If string is not empty
     if (textInput.trim() !== '') {
       axios
-        .post(`https://pia-sfe.online/api/whiteboardLog/${userLogs}`, inputs)
+        .post(
+          `http://localhost:80/Prototype-Vite/my-project/api/whiteboardLog/${userLogs}`,
+          inputs
+        )
         .then(function (response) {
           console.log(response.data);
         });
@@ -525,6 +644,7 @@ export default function Whiteboard() {
   //=========================
 
   // Message Area DIV
+  const firstAnswer = document.getElementById('answer0');
   const answerArea = document.getElementById('answer_area');
   const messageArea = document.getElementById('message_area');
   const messageAreaTail = document.getElementById('message_area_tail');
@@ -1350,7 +1470,9 @@ export default function Whiteboard() {
     let clickData = userLogs + '@' + input;
     //LOG DATA
     axios
-      .post(`https://pia-sfe.online/api/whiteboardClick/${clickData}`)
+      .post(
+        `http://localhost:80/Prototype-Vite/my-project/api/whiteboardClick/${clickData}`
+      )
       .then(function (response) {
         //console.log(response.data);
       });
@@ -2134,13 +2256,13 @@ export default function Whiteboard() {
                 </section>
               </div>
               <div
-                className={`flex relative flex-col ml-7 mt-7 ${
+                className={`flex relative flex-col hdScreen:ml-7 hdScreen:mt-7 semihdScreen:ml-5 semihdScreen:mt-4 laptopScreen:ml-4 laptopScreen:mt-4 averageScreen:ml-4 averageScreen:mt-4 xs:ml-2 xs:mt-2 ${
                   isPen ? 'select-none' : ''
                 } `}
               >
-                <div className="hdScreen:text-3.5xl semihdScreen:text-3xl laptopScreen:text-2.5xl averageScreen:text-2.5xl md:text-lg sm:text-base :xs:text-sm font-medium inline-flex ">
+                <div className=" hdScreen:text-3.5xl semihdScreen:text-3xl laptopScreen:text-2.5xl averageScreen:text-2.5xl md:text-lg sm:text-base :xs:text-sm font-medium inline-flex ">
                   <span className=" font-poppins font-bold">Given: &nbsp;</span>
-                  <span className="font-poppins">
+                  <span className="font-poppins leading-[3rem] -mt-2.5">
                     {questionList[currentQuestionIndex]}
                   </span>
                 </div>
@@ -2234,8 +2356,8 @@ export default function Whiteboard() {
                 </div>
 
                 {/*<!-- CONTINUE OR NO area-->*/}
-                <div className="bg-gray-500/20  relative px-8  text-white drop-shadow-[0_2px_1px_rgba(0,0,0,0.35)]">
-                  <div className="grid mt-1.5">
+                <div className="w-full bg-gray-500/20  relative px-8  text-white drop-shadow-[0_2px_1px_rgba(0,0,0,0.35)]">
+                  <div className="h-full flex items-center justify-center  ">
                     <div
                       id="choice"
                       className="invisible absolute flex items-center justify-center z-10 mx-auto left-0 right-0"
@@ -2249,7 +2371,10 @@ export default function Whiteboard() {
                         </span>
                       </button>
                     </div>
-                    <div id="choiceTwo" className="invisible grid grid-cols-2">
+                    <div
+                      id="choiceTwo"
+                      className="invisible grid grid-cols-2 hdScreen:gap-x-10 semihdScreen:gap-x-8 laptopScreen:gap-x-6 averageScreen:gap-x-6 sm:gap-x-4 xs:gap-x-2"
+                    >
                       <div className="mx-auto ">
                         <button
                           onClick={setLevel}
@@ -2292,17 +2417,33 @@ export default function Whiteboard() {
             >
               <div className="flex">
                 {
-                  <div className="ml-32 font-poppins hdScreen:text-3.5xl semihdScreen:text-3xl laptopScreen:text-2.5xl averageScreen:text-2.5xl md:text-xl sm:text-lg xs:text-base  font-medium">
-                    <div id="answer_area" className="invisible p-2 text-center">
+                  <div className="hdScreen:ml-[7.8rem] semihdScreen:ml-[6rem] laptopScreen:ml-[5rem] averageScreen:ml-[5rem] xs:ml-[3rem] font-poppins hdScreen:text-3.5xl semihdScreen:text-3xl laptopScreen:text-2.5xl averageScreen:text-2.5xl md:text-xl sm:text-lg xs:text-base  font-medium">
+                    <div
+                      id="answer_area"
+                      className="invisible p-2  leading-[3.1rem]"
+                    >
                       {answerDisplay.map((ans, index) =>
-                        length === index + 1 ? (
+                        index === 0 ? (
+                          <div
+                            key={index}
+                            id={'answer' + index}
+                            className="invisible"
+                          >
+                            {ans}
+                          </div>
+                        ) : length === index + 1 ? (
                           // last one
                           <div
                             key={index}
                             id={'answer' + index}
-                            className="invisible px-2 border-black border-2"
+                            className="invisible "
                           >
-                            {ans}
+                            <span className="invisible select-none">
+                              {displaySpace[index]}
+                            </span>
+                            <span className="px-2 border-black border-2">
+                              {ans}
+                            </span>
                           </div>
                         ) : (
                           <div
@@ -2310,6 +2451,10 @@ export default function Whiteboard() {
                             id={'answer' + index}
                             className="invisible"
                           >
+                            <span className="invisible select-none">
+                              {displaySpace[index]}
+                            </span>
+
                             {ans}
                           </div>
                         )
@@ -2331,8 +2476,8 @@ export default function Whiteboard() {
             {/*<!--userlogs TEXT divider section-->*/}
             <div className="col-span-6 ml-3 border-l-18 border-brTwo pt-1 bg-mainBGBrown ">
               <div className="flex justify-center text-center border-dotted border-b-4">
-                <p className="hdScreen:text-3.5xl semihdScreen:text-3.5xl laptopScreen:text-2.5xl averageScreen:text-2.5xl md:text-xl sm:text-lg xs:text-base  font-poppins font-bold text-white overflow-hidden">
-                  USER LOGS
+                <p className="my-1.5 hdScreen:text-3.5xl semihdScreen:text-3.5xl laptopScreen:text-2.5xl averageScreen:text-2.5xl md:text-xl sm:text-lg xs:text-base  font-poppins font-bold text-white overflow-hidden">
+                  HISTORY
                 </p>
               </div>
             </div>
@@ -2424,7 +2569,7 @@ export default function Whiteboard() {
                       className={` block rounded-5xl w-full p-5  text-2xl  ${
                         isTutorial ? 'bg-gray-300 placeholder-gray-500' : ''
                       }`}
-                      placeholder="Input your answer here."
+                      placeholder="Input your answer here..."
                       {...(isTutorial
                         ? {
                             disabled: true,

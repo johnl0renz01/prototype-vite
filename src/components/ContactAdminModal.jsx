@@ -32,6 +32,7 @@ const ContactAdminModal = ({ visible, onClose, onContinue }) => {
     axios
       .post(`https://pia-sfe.online/api/requestSend/${email}@${role}`, values)
       .then(function (response) {
+        console.log(response.data);
         setShowLoading(false);
         handleReset();
         onContinue();

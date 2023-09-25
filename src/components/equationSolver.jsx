@@ -1140,6 +1140,9 @@ var EquationSolver = (function () {
         }
 
         function changeSign(str) {
+          if (str == '') {
+            return '';
+          }
           let tempString = str;
           tempString = tempString.replace(/\-/g, '@');
           tempString = tempString.replace(/\+/g, '-');
