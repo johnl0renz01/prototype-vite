@@ -21,6 +21,15 @@ var UpdateSession = (function () {
     );
     if (expressionMotivation === null) expressionMotivation = 0;
 
+    let answered = window.localStorage.getItem('QUESTION_ANSWERED');
+    if (answered === null) answered = 0;
+
+    let abandoned = window.localStorage.getItem('QUESTION_ABANDONED');
+    if (abandoned === null) abandoned = 0;
+
+    let levelup = window.localStorage.getItem('SESSION_LEVELUP');
+    if (levelup === null) levelup = 'FALSE';
+
     var sessionData = window.localStorage.getItem('SESSION_USER_LOGS');
     sessionData =
       sessionData +
@@ -37,13 +46,45 @@ var UpdateSession = (function () {
       '@' +
       expressionSurprised +
       '@' +
-      expressionMotivation;
+      expressionMotivation +
+      '@' +
+      answered +
+      '@' +
+      abandoned +
+      '@' +
+      levelup;
     sessionData = sessionData.replace(/"/g, '');
 
+    var userDatabase = window.localStorage.getItem('SESSION_USER_LOGS');
+    var currentQuestion = window.localStorage.getItem('PREVIOUS_QUESTION');
+    var sequence = window.localStorage.getItem('EXPRESSION_SEQUENCE');
+    if (sequence === null) sequence = '';
+
+    var questionStatus = window.localStorage.getItem('QUESTION_STATUS');
+    if (questionStatus === null) questionStatus = '';
+
+    var updateData =
+      userDatabase +
+      '@' +
+      sessionId +
+      '@' +
+      currentQuestion +
+      '@' +
+      sequence +
+      '@' +
+      questionStatus;
+    updateData = updateData.replace(/"/g, '');
+    updateData = updateData.replace(/ /g, '_');
+
     axios
-      .post(`https://pia-sfe.online/api/endSession/${sessionData}`)
+      .post(`https://pia-sfe.online/api/studentSessionUpdate/${updateData}`)
       .then(function (response) {
         console.log(response.data);
+        axios
+          .post(`https://pia-sfe.online/api/endSession/${sessionData}`)
+          .then(function (response) {
+            console.log(response.data);
+          });
       });
   };
 

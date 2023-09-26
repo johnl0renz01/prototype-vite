@@ -1179,6 +1179,14 @@ var EquationSolver = (function () {
         tempLHS = tempLHS + tempCoeff;
         tempRHS = tempRHS + tempConst;
 
+        if (tempLHS.length < 1) {
+          tempLHS = '0';
+        }
+
+        if (tempRHS.length < 1) {
+          tempRHS = '0';
+        }
+
         if (tempLHS[0].match(/[\+]/)) {
           tempLHS = tempLHS.slice(1);
         }
@@ -1196,10 +1204,12 @@ var EquationSolver = (function () {
       var rhsCoefficient = rhsFinalCoefficient.toString();
       var rhsConstant = rhsFinalConstant.toString();
 
+      /*
       console.log('lhsCoefficient: ' + lhsCoefficient);
       console.log('lhsConstant: ' + lhsConstant);
       console.log('rhsCoefficient: ' + rhsCoefficient);
       console.log('rhsConstant: ' + rhsConstant);
+      */
 
       if (lhsCoefficient == '0' || lhsCoefficient === undefined) {
         lhsCoefficient = '';

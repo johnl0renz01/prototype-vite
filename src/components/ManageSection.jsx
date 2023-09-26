@@ -113,9 +113,11 @@ export default function ManageSection() {
         .get(`https://pia-sfe.online/api/sectionList/`)
         .then(function (response) {
           setSection(response.data);
+          setSkeletonState(false);
           setTableLoader(false);
         })
         .catch(function (error) {
+          setSkeletonState(false);
           setTableLoader(false);
         });
     }

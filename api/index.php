@@ -57,6 +57,13 @@ switch($requestLink) {
         include('getEquation.php');
     break;
 
+    case "/api/studentSessionCreate":
+        include('studentSessionCreate.php');
+    break;
+    case "/api/studentSessionUpdate":
+        include('studentSessionUpdate.php');
+    break;
+
     //FOR WHITEBOARD
     case "/api/whiteboardLog":
         include('whiteboardLog.php');
@@ -310,5 +317,6 @@ switch($requestLink) {
     case "/api/resetPasswordCode":
         include('resetPasswordCode.php');
     break;
+
 }
 

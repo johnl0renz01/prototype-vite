@@ -119,13 +119,15 @@ switch($_SESSION['method']) {
                 $message = "The reset password request for ".$name." has been sent to the administrator.";
 
                 //INSERT TO USER REQUEST
-                $sql = "INSERT INTO user_request(UserID, Subject, Message, Email, Role, Status, RequestID, Timestamp) 
-                                        VALUES(null, '$subject', '$message', :email, '$role', '$status', '$id', :timestamp)";
+                $sql = "INSERT INTO user_request(UserID, Subject, Message, Email, Role, Status, RequestID, Timestamp, Time) 
+                                        VALUES(null, '$subject', '$message', :email, '$role', '$status', '$id', :timestamp, :timestamp2)";
                 $stmt2 = $conn->prepare($sql);
                 $stmt2->bindParam(':email', $user->emailReset);
                 date_default_timezone_set('Asia/Singapore');
                 $timestamp = date('M d, Y - h:i A');
                 $stmt2->bindParam(':timestamp', $timestamp);
+                $timestamp2 = date('d-m-Y H:i:s');
+                $stmt2->bindParam(':timestamp2', $timestamp2);
                 $stmt2->execute();
 
 

@@ -61,6 +61,7 @@ const FinishSessionModal = ({ visible, onClose, onContinue }) => {
       if (
         JSON.parse(window.localStorage.getItem('SESSION_RECORDED') !== 'true')
       ) {
+        window.localStorage.setItem('SESSION_LEVELUP', JSON.stringify('TRUE'));
         EndSession.recordData();
         getTimeSpent();
       } else {
@@ -120,7 +121,6 @@ const FinishSessionModal = ({ visible, onClose, onContinue }) => {
   }
 
   function getTimeSpent() {
-    setShowLoading(true);
     let sessionID = window.localStorage.getItem('SESSION_ID');
     var userLogs = window.localStorage.getItem('SESSION_USER_LOGS');
     userLogs = userLogs + '@' + sessionID;
@@ -128,13 +128,11 @@ const FinishSessionModal = ({ visible, onClose, onContinue }) => {
     axios
       .get(`https://pia-sfe.online/api/getTimeSpent/${userLogs}`)
       .then(function (response) {
+        setTimeSpent(response.data);
         setShowLoading(false);
         console.log(response.data);
-        setTimeSpent(response.data);
       })
-      .catch(function (error) {
-        setShowLoading(false);
-      });
+      .catch(function (error) {});
   }
 
   const levelUp = () => {
@@ -169,13 +167,34 @@ const FinishSessionModal = ({ visible, onClose, onContinue }) => {
           'SESSION_ID',
           JSON.stringify(response.data)
         );
+        window.sessionStorage.setItem(
+          'CURRENT_SESSION_ID',
+          JSON.stringify(response.data)
+        );
+
         window.localStorage.setItem(
           'DIFFICULTY_TYPE',
           JSON.stringify(difficultyType)
         );
+
+        window.localStorage.removeItem('SESSION_FEEDBACK');
         window.localStorage.removeItem('TIME_SPENT');
-        setShowLoading(false);
-        window.location.reload(false);
+
+        //CREATE USER SESSION TABLE
+        var sessionID = response.data;
+        var userDatabase = window.localStorage.getItem('SESSION_USER_LOGS');
+        userDatabase = userDatabase.replace(/"/g, '');
+        axios
+          .post(
+            `https://pia-sfe.online/api/studentSessionCreate/${userDatabase}@${sessionID}`
+          )
+          .then(function (response) {
+            setShowLoading(false);
+            window.location.reload(false);
+          })
+          .catch(function (error) {
+            setShowLoading(false);
+          });
       })
       .catch(function (error) {
         setShowLoading(false);

@@ -26,6 +26,43 @@ $session_sad = "";
 $session_surprised = "";
 $session_motivation = "";
 
+$session_answered = "";
+$session_abandoned = "";
+$session_levelup = "";
+
+//SEPARATED
+
+$session_sequence = "";
+
+
+//FOR LEVELUP
+for ($i = strlen($user_key) - 1; $i > 0; $i--) {
+    if ($user_key[$i] == "@") {
+        $session_levelup = substr($user_key, ($i + 1));
+        $user_key = substr($user_key, 0, $i);
+        break;
+    }
+}
+
+
+//FOR ABANDONED
+for ($i = strlen($user_key) - 1; $i > 0; $i--) {
+    if ($user_key[$i] == "@") {
+        $session_abandoned = substr($user_key, ($i + 1));
+        $user_key = substr($user_key, 0, $i);
+        break;
+    }
+}
+
+//FOR ANSWERED
+for ($i = strlen($user_key) - 1; $i > 0; $i--) {
+    if ($user_key[$i] == "@") {
+        $session_answered = substr($user_key, ($i + 1));
+        $user_key = substr($user_key, 0, $i);
+        break;
+    }
+}
+
 //FOR MOTIVATION
 for ($i = strlen($user_key) - 1; $i > 0; $i--) {
     if ($user_key[$i] == "@") {
@@ -121,16 +158,43 @@ switch($_SESSION['method']) {
 
         $sql2 = "UPDATE $user_key SET Score = '$session_score', TimeSpent = '$time_spent',
                 ExpressionAngry = '$session_angry', ExpressionHappy = '$session_happy',
-                ExpressionSad = '$session_sad', ExpressionSurprised = '$session_surprised', ExpressionMotivation = '$session_motivation'
+                ExpressionSad = '$session_sad', ExpressionSurprised = '$session_surprised', ExpressionMotivation = '$session_motivation',
+                Answered = '$session_answered', Abandoned = '$session_abandoned', LevelUp = '$session_levelup'
                 WHERE SessionID = '$session_id'";
 
         $stmt2 = $conn->prepare($sql2);
+        $stmt2->execute();
 
-        if($stmt2->execute()) {
-            $response = ['status' => 1, 'message' => 'Record created successfully.'];
-        } else {
-            $response = ['status' => 0, 'message' => 'Failed to create record.'];
+        //SEQUENCE
+        $session_database = $user_key.$session_id;
+        $validate = "SELECT * FROM ".$session_database."";
+        $req = $conn->prepare($validate);
+        $req->execute();
+        $result = $req->fetchAll(PDO::FETCH_ASSOC);
+
+        if (count($result) > 0) {
+
+            $sequence = "SELECT GROUP_CONCAT(Expressions SEPARATOR ',') FROM ".$session_database." GROUP BY NULL";
+
+            $seq = $conn->prepare($sequence);
+            $seq->execute();
+
+            $session_sequence = $seq->fetchColumn();
+            echo json_encode($session_sequence);
+        
+            $sql3 = "UPDATE $user_key SET Sequence = '$session_sequence'
+                WHERE SessionID = '$session_id'";
+
+            $stmt3 = $conn->prepare($sql3);
+
+            if($stmt3->execute()) {
+                $response = ['status' => 1, 'message' => 'Record created successfully.'];
+            } else {
+                $response = ['status' => 0, 'message' => 'Failed to create record.'];
+            }
         }
+
+       
         
         echo json_encode($response);
         break;
