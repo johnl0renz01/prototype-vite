@@ -109,6 +109,23 @@ export default function Whiteboard() {
       window.localStorage.setItem('SESSION_SCORE', JSON.stringify(0));
     }
 
+    //////////
+
+    var data6 = JSON.parse(window.localStorage.getItem('QUESTION_ANSWERED'));
+    if (data6 === null) {
+      window.localStorage.setItem('QUESTION_ANSWERED', JSON.stringify(0));
+    }
+
+    var data7 = JSON.parse(window.localStorage.getItem('QUESTION_ABANDONED'));
+    if (data7 === null) {
+      window.localStorage.setItem('QUESTION_ABANDONED', JSON.stringify(0));
+    }
+
+    var data8 = JSON.parse(window.localStorage.getItem('SESSION_LEVELUP'));
+    if (data8 === null) {
+      window.localStorage.setItem('SESSION_LEVELUP', JSON.stringify('FALSE'));
+    }
+
     document.getElementById('whiteboard').click();
 
     document.body.style.backgroundImage =
@@ -386,7 +403,6 @@ export default function Whiteboard() {
         }
         fixedEquationSteps.push(fixedString);
       }
-      //console.log("this is fixedEquationSteps: " + fixedEquationSteps);
       //14
       var displaySpacing = [];
       var range1 = 0;
@@ -430,33 +446,45 @@ export default function Whiteboard() {
       var r4 = '';
 
       if (range1 <= 14) {
-        r1 = fixedEquationSteps[0].substring(0, range1);
+        if (fixedEquationSteps[0] !== undefined) {
+          r1 = fixedEquationSteps[0].substring(0, range1);
+        }
       }
 
-      if (range2 <= 14) {
-        r2 = fixedEquationSteps[1].substring(0, range2);
+      if (range2 <= 14 && range2 != 0) {
+        if (fixedEquationSteps[1] !== undefined) {
+          r2 = fixedEquationSteps[1].substring(0, range2);
+        }
       }
 
       if (range3 <= 14 && range3 != 0) {
-        r3 = fixedEquationSteps[2].substring(0, range3);
+        if (fixedEquationSteps[2] !== undefined) {
+          r3 = fixedEquationSteps[2].substring(0, range3);
+        }
       }
 
       if (range4 <= 14 && range4 != 0) {
-        r4 = fixedEquationSteps[3].substring(0, range4);
+        if (fixedEquationSteps[3] !== undefined) {
+          r4 = fixedEquationSteps[3].substring(0, range4);
+        }
       }
 
       ////ASSIGN TO ARRAY
 
       displaySpacing.push('');
 
-      if (range1 < range2) {
+      if (range1 <= range2) {
         displaySpacing.push('');
       } else {
-        displaySpacing.push(r2);
+        if (range1 <= 14 && range1 !== 0) {
+          displaySpacing.push(r2);
+        } else {
+          displaySpacing.push('');
+        }
       }
 
       //console.log(r2.length + ' && ' + r3.length);
-      if (range2 < range3) {
+      if (range2 <= range3) {
         displaySpacing.push('');
       } else {
         if (r2.substring(0, range2 - range3 - 1).length < r3.length - 1) {
@@ -466,11 +494,18 @@ export default function Whiteboard() {
               displaySpacing[1] + r2.substring(0, range2 - range3)
             );
           } else {
-            displaySpacing.push(r2 + r3);
+            if (displaySpacing[1].length <= 0) {
+              displaySpacing.push(r2.substring(0, range2 - range3));
+            } else {
+              displaySpacing.push(r2 + r3);
+            }
           }
         } else {
-          //console.log('HERE');
-          displaySpacing.push(r2 + r3.substring(0, range2 - range3 - 1));
+          if (displaySpacing[1].length <= 0) {
+            displaySpacing.push(r2.substring(0, range2 - range3));
+          } else {
+            displaySpacing.push(r2 + r3.substring(0, range2 - range3 - 1));
+          }
         }
       }
 
@@ -479,7 +514,7 @@ export default function Whiteboard() {
       console.log(range3 + ' &asdsada& ' + range4);
       console.log(range3 < range4);
       */
-      if (range3 < range4) {
+      if (range3 <= range4) {
         displaySpacing.push('');
       } else {
         if (r3.substring(0, range3 - range4 - 1).length < r4.length - 1) {
@@ -487,12 +522,21 @@ export default function Whiteboard() {
         } else {
           if (displaySpacing[2].length < (r3 + r4).length) {
             //console.log('ASDASD232');
-            displaySpacing.push(r3 + r3.substring(0, range3 - range4));
+
+            if (displaySpacing[2].length <= 0) {
+              displaySpacing.push(r3.substring(0, range3 - range4));
+            } else {
+              displaySpacing.push(r3 + r3.substring(0, range3 - range4));
+            }
           } else {
-            displaySpacing.push(
-              r2.substring(0, range2 - range3 - 1) +
-                r3.substring(0, range3 - range4)
-            );
+            if (displaySpacing[2].length <= 0) {
+              displaySpacing.push(r3.substring(0, range3 - range4));
+            } else {
+              displaySpacing.push(
+                r2.substring(0, range2 - range3 - 1) +
+                  r3.substring(0, range3 - range4)
+              );
+            }
           }
         }
       }
@@ -666,6 +710,17 @@ export default function Whiteboard() {
   const [levelUp, setLevelUp] = useState(false);
 
   const nextQuestion = e => {
+    var currentIndex = JSON.parse(
+      window.localStorage.getItem('QUESTION_INDEX')
+    );
+    if (currentIndex !== null)
+      window.localStorage.setItem(
+        'PREVIOUS_QUESTION',
+        JSON.stringify(questionList[currentIndex])
+      );
+
+    window.localStorage.setItem('QUESTION_STATUS', JSON.stringify('SOLVED'));
+
     UpdateSession.recordData();
     //SESSION SCORE
 
@@ -702,6 +757,7 @@ export default function Whiteboard() {
     setInterval(currentQuestionTimer, 1000);
 
     setQuestionResponse('');
+    window.localStorage.removeItem('EXPRESSION_SEQUENCE');
   };
 
   const skipQuestion = () => {
@@ -713,6 +769,19 @@ export default function Whiteboard() {
     data = parseInt(data);
     data++;
     window.localStorage.setItem('QUESTION_ABANDONED', data);
+
+    var currentIndex = JSON.parse(
+      window.localStorage.getItem('QUESTION_INDEX')
+    );
+    if (currentIndex !== null)
+      window.localStorage.setItem(
+        'PREVIOUS_QUESTION',
+        JSON.stringify(questionList[currentIndex])
+      );
+
+    window.localStorage.setItem('QUESTION_STATUS', JSON.stringify('ABANDONED'));
+
+    UpdateSession.recordData();
 
     ReactDOM.findDOMNode(answerArea).style.visibility = 'hidden';
     setDisplay([]);
@@ -735,6 +804,7 @@ export default function Whiteboard() {
     setInterval(currentQuestionTimer, 1000);
     ReactDOM.findDOMNode(skipArea).style.visibility = 'hidden';
     window.localStorage.setItem('STREAK_WRONG', 0);
+    window.localStorage.removeItem('EXPRESSION_SEQUENCE');
   };
 
   //=============================CLICK BUTTON=============================
@@ -828,7 +898,7 @@ export default function Whiteboard() {
             window.localStorage.setItem('FINISHED_STEPS', currentIndex + 1);
             window.localStorage.setItem('FINISHED_EQUATION', true);
             increaseCorrectStreak();
-
+            insertSequence('happy');
             increaseTally('EXPRESSION_HAPPY');
             increaseTally('QUESTION_ANSWERED');
 
@@ -1140,6 +1210,7 @@ export default function Whiteboard() {
       JSON.parse(window.localStorage.getItem('SYSTEM_VERSION')) ==
       'Facial Group'
     ) {
+      insertSequence('happy');
       increaseTally('EXPRESSION_HAPPY');
     }
     //
@@ -1215,6 +1286,7 @@ export default function Whiteboard() {
       JSON.parse(window.localStorage.getItem('SYSTEM_VERSION')) ==
       'Facial Group'
     ) {
+      insertSequence('sad');
       increaseTally('EXPRESSION_SAD');
     }
     //
@@ -1249,6 +1321,7 @@ export default function Whiteboard() {
         JSON.parse(window.localStorage.getItem('SYSTEM_VERSION')) ==
         'Facial Group'
       ) {
+        insertSequence('surprised');
         increaseTally('EXPRESSION_SURPRISED');
         setImageLink('PIA-Surprised');
       }
@@ -1277,6 +1350,7 @@ export default function Whiteboard() {
         JSON.parse(window.localStorage.getItem('SYSTEM_VERSION')) ==
         'Facial Group'
       ) {
+        insertSequence('motivation');
         setTimeout(displayMotivation, timerDelay);
       } else {
         setTimeout(timer, timerDelay);
@@ -1339,6 +1413,7 @@ export default function Whiteboard() {
         JSON.parse(window.localStorage.getItem('SYSTEM_VERSION')) ==
         'Facial Group'
       ) {
+        insertSequence('angry');
         increaseTally('EXPRESSION_ANGRY');
         setImageLink('PIA-Mad');
         changeResponseColor(wrongColor);
@@ -1385,6 +1460,29 @@ export default function Whiteboard() {
     setSubtext('');
 
     setTimeout(timer, timerDelay);
+  }
+
+  //SEQUENCE OF EXPRESSIONS
+
+  function insertSequence(value) {
+    var newValue = value;
+    var expression = '';
+    if (window.localStorage.getItem('EXPRESSION_SEQUENCE') != null) {
+      expression =
+        expression +
+        JSON.parse(window.localStorage.getItem('EXPRESSION_SEQUENCE'));
+
+      expression = expression + (',' + newValue);
+      window.localStorage.setItem(
+        'EXPRESSION_SEQUENCE',
+        JSON.stringify(expression)
+      );
+    } else {
+      window.localStorage.setItem(
+        'EXPRESSION_SEQUENCE',
+        JSON.stringify(newValue)
+      );
+    }
   }
 
   //Revert back text messages and color
@@ -1552,7 +1650,7 @@ export default function Whiteboard() {
   function setArea() {
     var divElement1 = document.getElementById('givenArea');
     var divElement2 = document.getElementById('solutionArea');
-    var divElement3 = document.getElementById('streakArea');
+    var divElement3 = document.getElementById('facialArea');
 
     var heightValue1 = ReactDOM.findDOMNode(divElement1).offsetHeight;
     var heightValue2 = ReactDOM.findDOMNode(divElement2).offsetHeight;
@@ -1573,6 +1671,9 @@ export default function Whiteboard() {
       penAreaHeightValue + 'px';
     document.getElementById('tutorialArea').style.width =
       penAreaWidthValue + 'px';
+
+    document.getElementById('piaArea').style.height = penAreaHeightValue + 'px';
+    document.getElementById('piaArea').style.width = penAreaWidthValue + 'px';
 
     document.getElementById('tutorialAlbum').style.height =
       penAreaHeightValue + 'px';
@@ -1860,6 +1961,7 @@ export default function Whiteboard() {
     for (let i = 0; i < highestTimeoutId; i++) {
       clearTimeout(i);
     }
+    window.localStorage.setItem('SESSION_LEVELUP', JSON.stringify('TRUE'));
     window.localStorage.setItem('SESSION_SCORE', 20);
     let diffType = window.localStorage.getItem('DIFFICULTY_TYPE');
     if (diffType == '"Easy"' || diffType == 'Easy') {
@@ -2169,7 +2271,7 @@ export default function Whiteboard() {
             {/*<!--Given Area-->*/}
             <div
               id="givenArea"
-              className={` col-span-9 bg-white row-span-2  border-l-12  border-l-brTwo border-t-12 border-t-yellow-700 ${
+              className={` col-span-9 bg-white row-span-2 border-l-12  border-l-brTwo border-t-12 border-t-yellow-700 ${
                 isHelp ? 'hover:border-4 hover:border-red-500 ' : ''
               }`}
               {...(isHelp
@@ -2245,7 +2347,7 @@ export default function Whiteboard() {
               </div>
               <div
                 id="penArea"
-                className={`absolute z-10" ${isPen ? '' : 'invisible'} `}
+                className={`absolute z-10 " ${isPen ? '' : 'invisible'} `}
               >
                 <section
                   className={`drawing-board h-full ${
@@ -2256,13 +2358,66 @@ export default function Whiteboard() {
                 </section>
               </div>
               <div
-                className={`flex relative flex-col hdScreen:ml-7 hdScreen:mt-7 semihdScreen:ml-5 semihdScreen:mt-4 laptopScreen:ml-4 laptopScreen:mt-4 averageScreen:ml-4 averageScreen:mt-4 xs:ml-2 xs:mt-2 ${
+                id="piaArea"
+                className={` absolute  z-50 overflow-hidden max-h-[calc(100vh-34.25vh)]" ${
+                  isTutorial ? 'hidden' : isPen ? 'hidden' : ''
+                } `}
+              >
+                <section id="pia">
+                  <div
+                    className=" flex justify-end items-center relative"
+                    {...(isHelp
+                      ? {
+                          dataTooltip:
+                            'This is the area for facial expression response of PIA.',
+                        }
+                      : {})}
+                    {...(isHelp ? { dataTooltipPosition: 'bottom' } : {})}
+                  >
+                    {/**NOTES: -right-[8.5rem] -mt-[7rem] scale-[80%]*/}
+                    <div
+                      id="image_bg"
+                      className={`absolute z-10  object-cover   hdScreen:right-0  hdScreen:top-0 semihdScreen:-right-4 semihdScreen:-top-4 laptopScreen:-right-6 laptopScreen:-top-10 averageScreen:-right-8 averageScreen:-top-12 xs:-right-24 xs:-top-24 hdScreen:scale-100 semihdScreen:scale-90 laptopScreen:scale-80 averageScreen:scale-75 xs:scale-45 ${
+                        isHelp
+                          ? 'hdScreen:ml-10 semihdScreen:ml-8 laptopScreen:ml-7 averageScreen:ml-6 hover:border-[5px] hover:border-red-500'
+                          : ''
+                      }`}
+                    >
+                      {/*qqqq*/}
+                      <img
+                        className="-mb-1 "
+                        src={require('../assets/facial_expressions/' +
+                          imageLink +
+                          '.png')}
+                        alt=""
+                      ></img>
+                    </div>
+
+                    <div
+                      className={`absolute top-0 right-0 z-50  ${
+                        isPen ? 'invisible' : isTutorial ? 'invisible' : ''
+                      }`}
+                    >
+                      <button
+                        title="Proceed to the next given."
+                        onClick={skipQuestion}
+                        id="skip_button"
+                        className="hidden text-gray-500 bg-gray-200/40 px-2 py-0.5 rounded-bl-xl hover:bg-gray-300 hover:text-gray-700"
+                      >
+                        Skip Question
+                      </button>
+                    </div>
+                  </div>
+                </section>
+              </div>
+              <div
+                className={`z-20 flex relative flex-col hdScreen:ml-7 hdScreen:mt-7 semihdScreen:ml-5 semihdScreen:mt-4 laptopScreen:ml-4 laptopScreen:mt-4 averageScreen:ml-4 averageScreen:mt-4 xs:ml-2 xs:mt-2 ${
                   isPen ? 'select-none' : ''
                 } `}
               >
                 <div className=" hdScreen:text-3.5xl semihdScreen:text-3xl laptopScreen:text-2.5xl averageScreen:text-2.5xl md:text-lg sm:text-base :xs:text-sm font-medium inline-flex ">
                   <span className=" font-poppins font-bold">Given: &nbsp;</span>
-                  <span className="font-poppins leading-[3rem] -mt-2.5">
+                  <span className="font-poppins leading-[3rem] -mt-2.5 break-all">
                     {questionList[currentQuestionIndex]}
                   </span>
                 </div>
@@ -2272,10 +2427,10 @@ export default function Whiteboard() {
             {/*<!--Synthetic Facial AREA-->*/}
             <div
               id="facialArea"
-              className="col-span-5 row-span-5 bg-white border-t-12 border-r-12  border-yellow-700  select-none overflow-hidden"
+              className="relative col-span-5 hdScreen:row-span-10 semihdScreen:row-span-14 laptopScreen:row-span-14 averageScreen:row-span-14 xs:row-span-14 bg-white border-t-12 border-r-12  border-yellow-700  select-none overflow-hidden"
             >
               <div
-                className="flex justify-center  overflow-hidden"
+                className="flex justify-center invisible "
                 {...(isHelp
                   ? {
                       dataTooltip:
@@ -2286,7 +2441,7 @@ export default function Whiteboard() {
               >
                 <div
                   id="image_bg"
-                  className={`z-10 scale-[150%] overflow-hidden object-cover mt-2 px-6 pt-10 hdScreen:w-[77.75%] semihdScreen:w-[79%] laptopScreen:w-[80%] averageScreen:w-[81%] ${
+                  className={`z-10 scale-[210%]  object-cover mt-[5.5rem] px-6 pt-10 w-[300px] h-[350px] ${
                     isHelp
                       ? 'hdScreen:ml-10 semihdScreen:ml-8 laptopScreen:ml-7 averageScreen:ml-6 hover:border-[5px] hover:border-red-500'
                       : ''
@@ -2300,16 +2455,15 @@ export default function Whiteboard() {
                     alt=""
                   ></img>
                 </div>
-                <img
-                  className="invisible absolute mt-52 object-scale-down w-52 h-52 ml-14"
-                  src=""
-                  alt=""
-                ></img>
-                <h3 className="invisible absolute mt-72 text-2xl font-bold  text-yellow-300 ml-14">
-                  <span>
-                    STREAK: <span>5</span>
-                  </span>
-                </h3>
+
+                <div className="invisible absolute bottom-0 right-0 z-20 ">
+                  <button
+                    title="Proceed to the next given."
+                    className="invisible text-gray-500 bg-gray-200/40 px-2 py-0.5 rounded-sm hover:bg-gray-300 hover:text-gray-700"
+                  >
+                    Skip Question
+                  </button>
+                </div>
               </div>
             </div>
 
@@ -2404,7 +2558,7 @@ export default function Whiteboard() {
             {/*<!-- main WHITE BOARD area-->*/}
             <div
               id="solutionArea"
-              className={`col-span-9 row-span-12 bg-white  border-l-12  border-l-brTwo ${
+              className={`col-span-9 row-span-12 bg-white   border-l-12  border-l-brTwo ${
                 isHelp ? 'hover:border-4 hover:border-red-500' : ''
               }`}
               {...(isHelp
@@ -2468,7 +2622,7 @@ export default function Whiteboard() {
             {/*<!--Streak etc. -->*/}
             <div
               id="streakArea"
-              className="col-span-5 row-span-5 bg-white border-r-12  border-yellow-700 "
+              className="col-span-5 row-span-1 hidden bg-white border-r-12  border-yellow-700 "
             >
               <div className="flex relative"></div>
             </div>
@@ -2498,7 +2652,7 @@ export default function Whiteboard() {
               <div
                 id="logs"
                 className="px-5 overflow-auto
-                'min-[1536px]:min-h-[19.25rem] 
+                min-[1536px]:min-h-[19.25rem] 
                 min-[1536px]:max-h-[19.25rem]
                 min-[1367px]:min-h-[12.5rem] max-[1535px]:min-h-[12.5rem]
                 min-[1367px]:max-h-[12.5rem] max-[1535px]:max-h-[12.5rem]
@@ -2520,7 +2674,7 @@ export default function Whiteboard() {
 
             {/*<!--White area in whiteboard under synthetic face-->*/}
             <div
-              className={`flex justify-end col-span-5 row-span-4 bg-white border-r-12  border-r-yellow-700 overflow-hidden
+              className={` justify-end col-span-5 row-span-4 hidden bg-gray-400 border-r-12  border-r-yellow-700 overflow-hidden
               }`}
             >
               <div
@@ -2528,11 +2682,7 @@ export default function Whiteboard() {
                   isPen ? 'invisible' : ''
                 }`}
               >
-                <button
-                  onClick={skipQuestion}
-                  id="skip_button"
-                  className="invisible absolute bottom-2 right-2 text-gray-400/60 bg-gray-200/50 px-2 py-0.5 rounded-full hover:bg-gray-300 hover:text-gray-600"
-                >
+                <button className="invisible absolute bottom-2 right-2 text-gray-400/60 bg-gray-200/50 px-2 py-0.5 rounded-full hover:bg-gray-300 hover:text-gray-600">
                   Skip
                 </button>
               </div>

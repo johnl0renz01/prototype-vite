@@ -22,6 +22,10 @@ var ClearStorage = (function () {
     window.localStorage.removeItem('DIFFICULTY_TYPE');
     window.localStorage.removeItem('QUESTION_LIST');
     window.localStorage.removeItem('SESSION_FEEDBACK');
+
+    //new
+    window.localStorage.removeItem('SESSION_SEQUENCE');
+    window.localStorage.removeItem('SESSION_LEVELUP');
   };
 
   return {

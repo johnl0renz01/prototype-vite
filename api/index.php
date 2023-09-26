@@ -57,6 +57,13 @@ switch($requestLink) {
         include('getEquation.php');
     break;
 
+    case "/Prototype-Vite/my-project/api/studentSessionCreate":
+        include('studentSessionCreate.php');
+    break;
+    case "/Prototype-Vite/my-project/api/studentSessionUpdate":
+        include('studentSessionUpdate.php');
+    break;
+
     //FOR WHITEBOARD
     case "/Prototype-Vite/my-project/api/whiteboardLog":
         include('whiteboardLog.php');

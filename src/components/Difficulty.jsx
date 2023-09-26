@@ -225,7 +225,21 @@ export default function DifficultyPage() {
           JSON.stringify(diffType)
         );
 
-        WhiteboardPage();
+        //CREATE USER SESSION TABLE
+        var sessionID = response.data;
+        var userDatabase = window.localStorage.getItem('SESSION_USER_LOGS');
+        userDatabase = userDatabase.replace(/"/g, '');
+        axios
+          .post(
+            `http://localhost:80/Prototype-Vite/my-project/api/studentSessionCreate/${userDatabase}@${sessionID}`
+          )
+          .then(function (response) {
+            console.log(response.data);
+            WhiteboardPage();
+          })
+          .catch(function (error) {
+            setShowLoading(false);
+          });
       })
       .catch(function (error) {
         setShowLoading(false);
@@ -271,7 +285,22 @@ export default function DifficultyPage() {
             JSON.stringify(diffType)
           );
           window.localStorage.removeItem('SESSION_FEEDBACK');
-          WhiteboardPage();
+
+          //CREATE USER SESSION TABLE
+          var sessionID = response.data;
+          var userDatabase = window.localStorage.getItem('SESSION_USER_LOGS');
+          userDatabase = userDatabase.replace(/"/g, '');
+          axios
+            .post(
+              `http://localhost:80/Prototype-Vite/my-project/api/studentSessionCreate/${userDatabase}@${sessionID}`
+            )
+            .then(function (response) {
+              console.log(response.data);
+              WhiteboardPage();
+            })
+            .catch(function (error) {
+              setShowLoading(false);
+            });
         })
         .catch(function (error) {
           setShowLoading(false);

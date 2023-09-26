@@ -1179,6 +1179,14 @@ var EquationSolver = (function () {
         tempLHS = tempLHS + tempCoeff;
         tempRHS = tempRHS + tempConst;
 
+        if (tempLHS.length < 1) {
+          tempLHS = '0';
+        }
+
+        if (tempRHS.length < 1) {
+          tempRHS = '0';
+        }
+
         if (tempLHS[0].match(/[\+]/)) {
           tempLHS = tempLHS.slice(1);
         }

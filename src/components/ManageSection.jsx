@@ -115,9 +115,11 @@ export default function ManageSection() {
         .get(`http://localhost:80/Prototype-Vite/my-project/api/sectionList/`)
         .then(function (response) {
           setSection(response.data);
+          setSkeletonState(false);
           setTableLoader(false);
         })
         .catch(function (error) {
+          setSkeletonState(false);
           setTableLoader(false);
         });
     }
