@@ -289,6 +289,9 @@ switch($requestLink) {
         include('requestReply.php');
     break;
 
+    case "/Prototype-Vite/my-project/api/myRequestList":
+        include('myRequestList.php');
+    break;
 
     // SET NEW PASSWORD
     case "/Prototype-Vite/my-project/api/setNewPassword":
@@ -302,6 +305,22 @@ switch($requestLink) {
 
     case "/Prototype-Vite/my-project/api/forgotPassCode":
         include('forgotPassCode.php');
+    break;
+
+    case "/Prototype-Vite/my-project/api/resetPasswordCode":
+        include('resetPasswordCode.php');
+    break;
+
+
+
+    //FOR DATA
+
+    case "/Prototype-Vite/my-project/api/0GenerateData":
+        include('0GenerateData.php');
+    break;
+
+    case "/Prototype-Vite/my-project/api/0GenerateTable":
+        include('0GenerateTable.php');
     break;
 }
 

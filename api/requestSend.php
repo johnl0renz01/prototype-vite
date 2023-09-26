@@ -83,8 +83,8 @@ switch($_SESSION['method']) {
         $id[1] = "z";
         $id[2] = "z";
 
-        $sql = "INSERT INTO user_request(UserID, Subject, Message, Email, Role, Status, RequestID, Timestamp) 
-                VALUES(null, :subject, :message, '$email', '$role', '$status', '$id', :timestamp)";
+        $sql = "INSERT INTO user_request(UserID, Subject, Message, Email, Role, Status, RequestID, Timestamp, Time) 
+                VALUES(null, :subject, :message, '$email', '$role', '$status', '$id', :timestamp, :timestamp2)";
 
         $stmt = $conn->prepare($sql);
         $stmt->bindParam(':subject', $user->subject);
@@ -93,7 +93,8 @@ switch($_SESSION['method']) {
         date_default_timezone_set('Asia/Singapore');
         $timestamp = date('M d, Y - h:i A');
         $stmt->bindParam(':timestamp', $timestamp);
-        
+        $timestamp2 = date('d-m-Y H:i:s');
+        $stmt->bindParam(':timestamp2', $timestamp2);
         
         if($stmt->execute()) {
             $create = "CREATE TABLE ".$id." (

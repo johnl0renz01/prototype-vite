@@ -419,14 +419,17 @@ export default function ManageSection() {
             <table className="w-full leading-normal ">
               <thead className="sticky top-0 z-40 shadow-md border-b-2 border-gray-200 bg-gray-200 text-left uppercase tracking-wider lg:text-base md:text-sm xs:text-xs font-bold text-gray-600">
                 <tr>
-                  <th className="lg:pl-8 w-[25.25%] py-3 lg:text-base md:text-sm sm:text-xs">
+                  <th className="lg:pl-8 w-[17.25%] py-3 lg:text-base md:text-sm sm:text-xs">
                     <div className="lg:pl-0 sm:pl-3  xs:pl-3">Grade Level</div>
                   </th>
-                  <th className="w-[25%] py-3 lg:text-base md:text-sm sm:text-xs ">
+                  <th className="w-[19.85%] py-3 lg:text-base md:text-sm sm:text-xs ">
                     Section Name
                   </th>
-                  <th className="w-[33%] py-3 lg:text-base md:text-sm sm:text-xs ">
+                  <th className="w-[25%] py-3 lg:text-base md:text-sm sm:text-xs ">
                     Assigned Teacher
+                  </th>
+                  <th className="w-[26%] py-3 lg:text-base md:text-sm sm:text-xs ">
+                    Reset Code
                   </th>
                   <th className="w-[5%]">
                     <div className="invisible">
@@ -481,14 +484,17 @@ export default function ManageSection() {
                       <table className="min-w-full leading-normal -mt-[28px]">
                         <thead className="invisible lg:text-base md:text-sm xs:text-xs">
                           <tr>
-                            <th className="lg:pl-8 w-[25.25%]  lg:text-base md:text-sm sm:text-xs  ">
+                            <th className="lg:pl-8 w-[17.25%]  lg:text-base md:text-sm sm:text-xs  ">
                               Grade Level
                             </th>
-                            <th className="w-[25%]   lg:text-base md:text-sm sm:text-xs ">
+                            <th className="w-[20%]   lg:text-base md:text-sm sm:text-xs ">
                               Section Name
                             </th>
-                            <th className="w-[32%]  lg:text-base md:text-sm sm:text-xs ">
+                            <th className="w-[25%] lg:text-base md:text-sm sm:text-xs ">
                               Assigned Teacher
+                            </th>
+                            <th className="w-[22%]  lg:text-base md:text-sm sm:text-xs ">
+                              Reset Code
                             </th>
                             <th className="hdScreen:w-[7.5%] lg:w-[5%] "></th>
                             <th className="hdScreen:w-[9%] lg:w-[10%] "></th>
@@ -510,6 +516,7 @@ export default function ManageSection() {
                               <td className="lg:text-base md:text-sm xs:text-xs">
                                 <p>{currentSection.SectionName}</p>
                               </td>
+
                               <td className="lg:text-base md:text-sm xs:text-xs">
                                 <p>
                                   {currentSection.AdviserName != '' ? (
@@ -522,6 +529,9 @@ export default function ManageSection() {
                                     </>
                                   )}
                                 </p>
+                              </td>
+                              <td className="lg:text-base md:text-sm xs:text-xs">
+                                <p>{currentSection.Code}</p>
                               </td>
                               <td className="text-right lg:text-base md:text-sm xs:text-xs">
                                 <div className="relative">

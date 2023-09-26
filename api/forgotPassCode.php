@@ -9,12 +9,13 @@ include 'DbConnect.php';
 $objDb = new DbConnect;
 $conn = $objDb->connect();
 
+$default = "default";
+
 switch($_SESSION['method']) {
     case "GET":
         break;
     case "POST":
         $user = json_decode( file_get_contents('php://input') );
-        $default = "default";
 
         $validate = "SELECT * FROM code_list WHERE Code = :code";
         $req->bindParam(':code', $user->code);

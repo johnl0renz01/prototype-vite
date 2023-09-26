@@ -183,13 +183,13 @@ export default function ManageAccountSkeleton() {
             <table className="w-full leading-normal ">
               <thead className=" top-0 z-40 shadow-md border-b-2 border-gray-200/0 bg-gray-200 text-gray-200 text-left uppercase tracking-wider lg:text-base md:text-sm xs:text-xs font-bold relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_2s_infinite]">
                 <tr>
-                  <th className="lg:pl-8 w-[32.6%] py-3 lg:text-base md:text-sm sm:text-sm ">
+                  <th className="lg:pl-8 w-[29.6%] py-3 lg:text-base md:text-sm sm:text-xs ">
                     <div className="lg:pl-0 sm:pl-3  xs:pl-3">Name</div>
                   </th>
-                  <th className=" w-[35.7%] py-3 lg:text-base md:text-sm sm:text-xs ">
+                  <th className=" w-[30.7%] py-3 lg:text-base md:text-sm sm:text-xs ">
                     Email
                   </th>
-                  <th className="w-[15%] py-3 lg:text-base md:text-sm sm:text-xs ">
+                  <th className="w-[19%] py-3 lg:text-base md:text-sm sm:text-xs ">
                     Role
                   </th>
                   <th className="w-[5%]">
@@ -235,13 +235,13 @@ export default function ManageAccountSkeleton() {
                     <table className="min-w-full leading-normal -mt-[28px]">
                       <thead className="invisible text-left uppercase tracking-wider font-bold lg:text-base md:text-sm xs:text-xs">
                         <tr>
-                          <th className="lg:pl-8 w-[32.5%] lg:text-base md:text-sm sm:text-sm   whitespace-no-wrap">
+                          <th className="lg:pl-8 w-[29.5%] lg:text-base md:text-sm sm:text-sm   whitespace-no-wrap">
                             Name
                           </th>
-                          <th className="w-[35.5%]    lg:text-base md:text-sm sm:text-sm ">
+                          <th className="w-[30.5%]    lg:text-base md:text-sm sm:text-sm ">
                             Email
                           </th>
-                          <th className="w-[14%]  lg:text-base md:text-sm sm:text-sm ">
+                          <th className="w-[19%]  lg:text-base md:text-sm sm:text-sm ">
                             Role
                           </th>
                           <th className="hdScreen:w-[7.5%] lg:w-[5%] "></th>

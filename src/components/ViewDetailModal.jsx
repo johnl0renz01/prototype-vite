@@ -79,7 +79,11 @@ const ViewDetailModal = ({ visible, onClose, onContinue }) => {
           )
           .then(function (response) {
             var result = response.data;
-            setMessageDetails(result);
+            if (result.length > 0 && typeof result !== 'string') {
+              setMessageDetails(result);
+            } else {
+              setMessageDetails([]);
+            }
           })
           .catch(function (error) {
             setShowLoading(false);
@@ -105,17 +109,20 @@ const ViewDetailModal = ({ visible, onClose, onContinue }) => {
       window.sessionStorage.getItem('CURRENT_VIEW_DETAIL')
     );
     let id = requestID.replace(/"/g, '');
-    console.log(id);
+    //console.log(id);
     var email = JSON.parse(window.localStorage.getItem('SESSION_EMAIL'));
     if (email === null) email = '';
+    console.log(email);
     var role = JSON.parse(window.localStorage.getItem('ACCOUNT_TYPE'));
+    console.log(role);
 
     axios
       .post(
-        `http://localhost:80/Prototype-Vite/my-project/api/requestReply/${id}@${role}@${email}`,
+        `http://localhost:80/Prototype-Vite/my-project/api/requestReply/${id}~${role}~${email}`,
         values
       )
       .then(function (response) {
+        console.log(response.data);
         setShowLoading(false);
         setReplyMode(false);
         handleReset();
@@ -240,16 +247,22 @@ const ViewDetailModal = ({ visible, onClose, onContinue }) => {
                 className=" min-h-[calc(100vh-50vh)] max-h-[calc(100vh-50vh)] overflow-y-scroll lg:text-lg md:text-base sm:text-sm xs:text-xs relative lg:py-1 lg:pb-6 xs:pb-3 lg:px-8 xs:px-2 "
               >
                 <h1 className="text-2xl font-semibold py-2">{subject}</h1>
-                {messageDetails.map((content, index) => (
+                {messageDetails.length > 0 ? (
                   <>
-                    {headContent(
-                      content.Name,
-                      content.Date,
-                      content.Message,
-                      index
-                    )}
+                    {messageDetails.map((content, index) => (
+                      <>
+                        {headContent(
+                          content.Name,
+                          content.Date,
+                          content.Message,
+                          index
+                        )}
+                      </>
+                    ))}
                   </>
-                ))}
+                ) : (
+                  <>{headContent('System', date, message, 0)}</>
+                )}
 
                 <div className={`my-3 ${replyMode ? '' : 'hidden'}`}>
                   <hr />
@@ -298,7 +311,7 @@ const ViewDetailModal = ({ visible, onClose, onContinue }) => {
                   >
                     <span className=" hdScreen:text-lg semihdScreen:text-lg laptopScreen:text-base averageScreen:text-base sm:text-sm xs:text-xs flex items-center justify-center">
                       Send
-                      <BsFillSendFill className="ml-1 lg:text-xs xs:text-xs mt-1 " />
+                      <BsFillSendFill className="ml-1 lg:text-xs xs:text-xs " />
                     </span>
                   </button>
                 </div>
@@ -308,6 +321,8 @@ const ViewDetailModal = ({ visible, onClose, onContinue }) => {
                     replyMode
                       ? 'invisible'
                       : status == 'SOLVED'
+                      ? 'absolute left-0 right-0'
+                      : messageDetails.length < 1
                       ? 'absolute left-0 right-0'
                       : 'absolute right-4'
                   }`}
@@ -320,7 +335,7 @@ const ViewDetailModal = ({ visible, onClose, onContinue }) => {
                   >
                     Close
                   </button>
-                  {status == 'UNSOLVED' ? (
+                  {status == 'UNSOLVED' && messageDetails.length > 0 ? (
                     <button
                       type="button"
                       onClick={reply}

@@ -391,7 +391,7 @@ export default function ManageAccount() {
                 <button
                   onClick={e => setShowResetModal(true)}
                   type="button"
-                  className="relative hdScreen:w-[19rem] semihdScreen:w-[16.5rem] laptopScreen:w-[15.5rem] averageScreen:w-[15rem] md:w-[14rem] sm:w-[10rem] xs:w-[8rem]  lg:py-3 lg:px-5 sm:py-1.5 sm:px-2.5 xs:px-1 xs:py-1 text-white font-semibold  shadow-md rounded-2xl bg-gray-500/70 hover:bg-gray-600/70  ease-in-out transition duration-300 transform drop-shadow-[0_3px_0px_rgba(0,0,0,0.2)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.35)]"
+                  className="relative hdScreen:w-[19rem] semihdScreen:w-[16.5rem] laptopScreen:w-[15.5rem] averageScreen:w-[15rem] md:w-[14rem] sm:w-[10rem] xs:w-[8rem]  lg:py-3 lg:px-5 sm:py-1.5 sm:px-2.5 xs:px-1 xs:py-1 text-white font-semibold  shadow-md rounded-2xl bg-gray-500/70 hover:bg-gray-600/70  ease-in-out transition duration-300 transform drop-shadow-[0_3px_0px_rgba(0,0,0,0.1)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.35)]"
                 >
                   <span className="md:pl-2 lg:text-xl sm:text-base xs:text-sm flex justify-center">
                     Reset Password
@@ -406,13 +406,13 @@ export default function ManageAccount() {
             <table className="w-full leading-normal ">
               <thead className="sticky top-0 z-40 shadow-md border-b-2 border-gray-200 bg-gray-200 text-left uppercase tracking-wider lg:text-base md:text-sm xs:text-xs font-bold text-gray-600">
                 <tr>
-                  <th className="lg:pl-8 w-[32.6%] py-3 lg:text-base md:text-sm sm:text-xs ">
+                  <th className="lg:pl-8 w-[29.6%] py-3 lg:text-base md:text-sm sm:text-xs ">
                     <div className="lg:pl-0 sm:pl-3  xs:pl-3">Name</div>
                   </th>
-                  <th className=" w-[35.7%] py-3 lg:text-base md:text-sm sm:text-xs ">
+                  <th className=" w-[30.7%] py-3 lg:text-base md:text-sm sm:text-xs ">
                     Email
                   </th>
-                  <th className="w-[14%] py-3 lg:text-base md:text-sm sm:text-xs ">
+                  <th className="w-[19%] py-3 lg:text-base md:text-sm sm:text-xs ">
                     Role
                   </th>
 
@@ -470,13 +470,13 @@ export default function ManageAccount() {
                       <table className="min-w-full leading-normal -mt-[28px]">
                         <thead className="invisible text-left uppercase tracking-wider font-bold lg:text-base md:text-sm xs:text-xs">
                           <tr>
-                            <th className="lg:pl-8 w-[32.5%] lg:text-base md:text-sm sm:text-sm   whitespace-no-wrap">
+                            <th className="lg:pl-8 w-[29.5%] lg:text-base md:text-sm sm:text-sm   whitespace-no-wrap">
                               Name
                             </th>
-                            <th className="w-[35.5%]    lg:text-base md:text-sm sm:text-sm ">
+                            <th className="w-[30.5%]    lg:text-base md:text-sm sm:text-sm ">
                               Email
                             </th>
-                            <th className="w-[14%]  lg:text-base md:text-sm sm:text-sm ">
+                            <th className="w-[19%]  lg:text-base md:text-sm sm:text-sm ">
                               Role
                             </th>
                             <th className="hdScreen:w-[7.5%] lg:w-[5%] "></th>

@@ -22,7 +22,7 @@ export default function HelpPageTeacher() {
 
     window.addEventListener('focus', setTabIndex);
     function setTabIndex() {
-      window.localStorage.setItem('CURRENT_TAB_INDEX', 4);
+      window.localStorage.setItem('CURRENT_TAB_INDEX', 5);
     }
     //document.getElementById('mainHeader').focus();
   }, []);

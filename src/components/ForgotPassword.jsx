@@ -11,6 +11,9 @@ import { forgotPasswordSchema } from '../schemas';
 
 import LoadingSpinner from './LoadingSpinner';
 
+import ForgotPasswordInvalidModal from './ForgotPasswordInvalidModal';
+import ForgotPasswordValidModal from './ForgotPasswordValidModal';
+
 const ForgotPassword = ({ visible, onClose, onContinue }) => {
   const [showLoading, setShowLoading] = useState(false);
 
@@ -38,7 +41,24 @@ const ForgotPassword = ({ visible, onClose, onContinue }) => {
             setShowLoading(false);
           });
       } else if (type == 'Code') {
-        console.log('COEDED');
+        axios
+          .post(
+            `http://localhost:80/Prototype-Vite/my-project/api/resetPasswordCode/save`,
+            values
+          )
+          .then(function (response) {
+            console.log(response.data);
+            setShowLoading(false);
+            var result = response.data;
+            if (result == 'Valid') {
+              setMessageModal2(true);
+            } else {
+              setMessageModal(true);
+            }
+          })
+          .catch(function (error) {
+            setShowLoading(false);
+          });
       }
     }
 
@@ -86,6 +106,19 @@ const ForgotPassword = ({ visible, onClose, onContinue }) => {
     window.sessionStorage.setItem('RESET_EMAIL', JSON.stringify(email));
   };
 
+  // MODAL INVALID
+  const [showMessageModal, setMessageModal] = useState(false);
+  const handleOnCloseMessageModal = () => {
+    setMessageModal(false);
+    onClose();
+  };
+
+  // MODAL VALID
+  const [showMessageModal2, setMessageModal2] = useState(false);
+  const handleOnCloseMessageModal2 = () => {
+    setMessageModal2(false);
+    onClose();
+  };
   return (
     <>
       <div className={`mt-2`}>
@@ -170,6 +203,14 @@ const ForgotPassword = ({ visible, onClose, onContinue }) => {
           </div>
         </form>
       </div>
+      <ForgotPasswordInvalidModal
+        onClose={handleOnCloseMessageModal}
+        visible={showMessageModal}
+      />
+      <ForgotPasswordValidModal
+        onClose={handleOnCloseMessageModal2}
+        visible={showMessageModal2}
+      />
       <LoadingSpinner visible={showLoading} />
     </>
   );

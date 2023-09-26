@@ -105,13 +105,15 @@ export default function CreateEquation() {
   var steps = [];
 
   const inputChange = event => {
+    var value = event.target.value;
+    value = value.toLowerCase();
     document.getElementById('validation_result').style.visibility = 'hidden';
     setValidState(false);
     setSolvedState(false);
     setStepsState(false);
     setDifficulty('');
     setChoice('');
-    setEquationString(event.target.value);
+    setEquationString(value);
     //const name = event.target.name;
     //const value = event.target.value;
     //setInputs((values) => ({ ...values, [name]: value }));
@@ -627,7 +629,7 @@ export default function CreateEquation() {
 
               <div
                 className={`flex  mt-auto justify-end pt-4
-              ${skeletonState ? 'hidden' : ''}`}
+              ${skeletonState ? '' : ''}`}
               >
                 <button
                   onClick={showSteps ? resetEquation : undefined}

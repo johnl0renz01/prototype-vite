@@ -249,27 +249,7 @@ export default function HomePageAdmin() {
                 </p>
               </div>
             </div>
-            <div
-              onClick={tab4}
-              className="overflow-hidden h-[calc(100vh-67.5vh)] grid grid-rows-2 shadow-sm border-3 rounded-lg bg-white hover:bg-gray-100 cursor-pointer transition duration-200"
-            >
-              <div className="relative flex text-[#dac238]">
-                <div className="flex mx-auto mt-auto hdScreen:-mb-8 semihdScreen:-mb-4 laptopScreen:-mb-2 averageScreen:-mb-0 xs:-mb-0">
-                  <img
-                    className="hdScreen:h-[105px] semihdScreen:h-[95px] laptopScreen:h-[85px] averageScreen:h-[80px] sm:h-[50px] xs:h-[40px] w-full"
-                    src={require('../assets/images/home_admin/ResetPassword.png')}
-                  ></img>
-                </div>
-              </div>
-              <div className="hdScreen:pt-16 semihdScreen:pt-10 laptopScreen:pt-8 averageScreen:pt-6 xs:pt-2">
-                <span className="font-semibold hdScreen:text-lg semihdScreen:text-lg laptopScreen:text-base averageScreen:text-base xs:text-sm text-gray-700">
-                  Reset Password
-                </span>
-                <p className="hdScreen:text-base semihdScreen:text-base laptopScreen:text-sm averageScreen:text-sm xs:text-xs">
-                  Reset account's password by request.
-                </p>
-              </div>
-            </div>
+
             <div
               onClick={tab5}
               className="overflow-hidden h-[calc(100vh-67.5vh)] grid grid-rows-2 shadow-sm border-3 rounded-lg bg-white hover:bg-gray-100 cursor-pointer transition duration-200"

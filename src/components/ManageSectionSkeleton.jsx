@@ -51,7 +51,7 @@ export default function ManageSectionSkeleton() {
     setLogoHeight(height);
   }
 
-  function sampleRow(gradelevel, sectionname, teacher) {
+  function sampleRow(gradelevel, sectionname, teacher, code) {
     return (
       <tr className="odd:bg-gray-100/30 even:bg-gray-200/30 border-b border-gray-200  text-gray-200 relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_2s_infinite]">
         <td className="flex items-center lg:text-base md:text-sm xs:text-xs lg:px-5 py-[10px]  whitespace-no-wrap ">
@@ -70,6 +70,11 @@ export default function ManageSectionSkeleton() {
         <td className="lg:text-base md:text-sm xs:text-xs">
           <p>
             <span className="bg-gray-200 rounded-md">{teacher}</span>
+          </p>
+        </td>
+        <td className="lg:text-base md:text-sm xs:text-xs">
+          <p>
+            <span className="bg-gray-200 rounded-md">{code}</span>
           </p>
         </td>
         <td className="text-right lg:text-base md:text-sm xs:text-xs">
@@ -137,7 +142,7 @@ export default function ManageSectionSkeleton() {
               : 'max-h-[78.5px]'
           }`}
           >
-            Accounts
+            Sections
           </div>
 
           <div className="mt-1.5">
@@ -183,14 +188,17 @@ export default function ManageSectionSkeleton() {
             <table className="w-full leading-normal ">
               <thead className=" top-0 z-40 shadow-md border-b-2 border-gray-200/0 bg-gray-200 text-gray-200 text-left uppercase tracking-wider lg:text-base md:text-sm xs:text-xs font-bold relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_2s_infinite]">
                 <tr>
-                  <th className="lg:pl-8 w-[25.25%] py-3 lg:text-base md:text-sm sm:text-sm">
+                  <th className="lg:pl-8 w-[17.25%] py-3 lg:text-base md:text-sm sm:text-xs">
                     <div className="lg:pl-0 sm:pl-3  xs:pl-3">Grade Level</div>
                   </th>
-                  <th className="w-[25%] py-3 lg:text-base md:text-sm sm:text-sm ">
+                  <th className="w-[19.85%] py-3 lg:text-base md:text-sm sm:text-xs ">
                     Section Name
                   </th>
-                  <th className="w-[33%] py-3 lg:text-base md:text-sm sm:text-sm ">
+                  <th className="w-[25%] py-3 lg:text-base md:text-sm sm:text-xs ">
                     Assigned Teacher
+                  </th>
+                  <th className="w-[26%] py-3 lg:text-base md:text-sm sm:text-xs ">
+                    Reset Code
                   </th>
                   <th className="w-[5%]">
                     <div className="invisible">
@@ -235,14 +243,17 @@ export default function ManageSectionSkeleton() {
                     <table className="min-w-full leading-normal -mt-[28px]">
                       <thead className="invisible text-left uppercase tracking-wider font-bold lg:text-base md:text-sm xs:text-xs">
                         <tr>
-                          <th className="lg:pl-8 w-[25.25%]  lg:text-base md:text-sm sm:text-sm  ">
+                          <th className="lg:pl-8 w-[17.25%]  lg:text-base md:text-sm sm:text-xs  ">
                             Grade Level
                           </th>
-                          <th className="w-[25%]   lg:text-base md:text-sm sm:text-sm ">
+                          <th className="w-[20%]   lg:text-base md:text-sm sm:text-xs ">
                             Section Name
                           </th>
-                          <th className="w-[32%]  lg:text-base md:text-sm sm:text-sm ">
+                          <th className="w-[25%] lg:text-base md:text-sm sm:text-xs ">
                             Assigned Teacher
+                          </th>
+                          <th className="w-[22%]  lg:text-base md:text-sm sm:text-xs ">
+                            Reset Code
                           </th>
                           <th className="hdScreen:w-[7.5%] lg:w-[5%] "></th>
                           <th className="hdScreen:w-[9%] lg:w-[10%] "></th>
@@ -254,62 +265,74 @@ export default function ManageSectionSkeleton() {
                         {sampleRow(
                           'Grade 7',
                           'Batumbakalan',
-                          'John Lorenz Dela Cruz'
+                          'John Lorenz Dela Cruz',
+                          'QQQQQQQQ'
                         )}
                         {sampleRow(
                           'Grade 7',
                           'Batumbakalan',
-                          'John Lorenz Dela Cruz'
+                          'John Lorenz Dela Cruz',
+                          'QQQQQQQQ'
                         )}
                         {sampleRow(
                           'Grade 7',
                           'Batumbakalan',
-                          'John Lorenz Dela Cruz'
+                          'John Lorenz Dela Cruz',
+                          'QQQQQQQQ'
                         )}
                         {sampleRow(
                           'Grade 7',
                           'Batumbakalan',
-                          'John Lorenz Dela Cruz'
+                          'John Lorenz Dela Cruz',
+                          'QQQQQQQQ'
                         )}
                         {sampleRow(
                           'Grade 7',
                           'Batumbakalan',
-                          'John Lorenz Dela Cruz'
+                          'John Lorenz Dela Cruz',
+                          'QQQQQQQQ'
                         )}
                         {sampleRow(
                           'Grade 7',
                           'Batumbakalan',
-                          'John Lorenz Dela Cruz'
+                          'John Lorenz Dela Cruz',
+                          'QQQQQQQQ'
                         )}
                         {sampleRow(
                           'Grade 7',
                           'Batumbakalan',
-                          'John Lorenz Dela Cruz'
+                          'John Lorenz Dela Cruz',
+                          'QQQQQQQQ'
                         )}
                         {sampleRow(
                           'Grade 7',
                           'Batumbakalan',
-                          'John Lorenz Dela Cruz'
+                          'John Lorenz Dela Cruz',
+                          'QQQQQQQQ'
                         )}
                         {sampleRow(
                           'Grade 7',
                           'Batumbakalan',
-                          'John Lorenz Dela Cruz'
+                          'John Lorenz Dela Cruz',
+                          'QQQQQQQQ'
                         )}
                         {sampleRow(
                           'Grade 7',
                           'Batumbakalan',
-                          'John Lorenz Dela Cruz'
+                          'John Lorenz Dela Cruz',
+                          'QQQQQQQQ'
                         )}
                         {sampleRow(
                           'Grade 7',
                           'Batumbakalan',
-                          'John Lorenz Dela Cruz'
+                          'John Lorenz Dela Cruz',
+                          'QQQQQQQQ'
                         )}
                         {sampleRow(
                           'Grade 7',
                           'Batumbakalan',
-                          'John Lorenz Dela Cruz'
+                          'John Lorenz Dela Cruz',
+                          'QQQQQQQQ'
                         )}
                       </tbody>
                     </table>

@@ -25,6 +25,7 @@ import ManageSection from './components/ManageSection';
 
 import ManageAccount from './components/ManageAccount';
 import UserRequest from './components/UserRequest';
+import MyRequest from './components/MyRequest';
 import HelpPageAdmin from './components/HelpPageAdmin';
 import HelpPageTeacher from './components/HelpPageTeacher';
 
@@ -93,6 +94,7 @@ class App extends Component {
 
           <Route path="ManageAccount" element={<ManageAccount />} />
           <Route path="UserRequest" element={<UserRequest />} />
+          <Route path="MyRequest" element={<MyRequest />} />
           <Route path="HelpPageAdmin" element={<HelpPageAdmin />} />
           <Route path="HelpPageTeacher" element={<HelpPageTeacher />} />
 

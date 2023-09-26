@@ -372,7 +372,7 @@ export default function ClassList() {
                 className={`-mt-4 absolute flex-col items-center justify-center h-full w-full hdScreen:scale-100 semihdScreen:scale-90 laptopScreen:scale-85 averageScreen:scale-80 md:scale-75 sm:scale-70 xs:scale-60
                  ${tableLoader ? 'flex' : 'hidden'}`}
               >
-                <div className="loader border-8 border-[#e2c209]"></div>
+                <div className="loader border-8 border-[#89ce1a]"></div>
                 <p className="pt-2 hdScreen:text-lg semihdScreen:text-lg laptopScreen:text-base averageScreen:text-base sm:text-sm xs:text-xs">
                   Fetching Data...
                 </p>

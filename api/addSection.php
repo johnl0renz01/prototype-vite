@@ -9,6 +9,23 @@ include 'DbConnect.php';
 $objDb = new DbConnect;
 $conn = $objDb->connect();
 
+function random_str(
+    int $length = 64,
+    string $keyspace = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+): string {
+    if ($length < 1) {
+        throw new \RangeException("Length must be a positive integer");
+    }
+    $pieces = [];
+    $max = mb_strlen($keyspace, '8bit') - 1;
+    for ($i = 0; $i < $length; ++$i) {
+        $pieces []= $keyspace[random_int(0, $max)];
+    }
+    return implode('', $pieces);
+}
+
+$code = random_str(8);
+$false = "FALSE";
 
 switch($_SESSION['method']) {
     case "GET":
@@ -17,8 +34,8 @@ switch($_SESSION['method']) {
         $user = json_decode( file_get_contents('php://input') );
     
         
-        $sql = "INSERT INTO section_list(SectionID, GradeLevel, SectionName, AdviserName) 
-        VALUES(null, :gradeLevel, :sectionName, :adviserName)";
+        $sql = "INSERT INTO section_list(SectionID, GradeLevel, SectionName, AdviserName, Code, Seen) 
+        VALUES(null, :gradeLevel, :sectionName, :adviserName, '$code', '$false')";
         $stmt = $conn->prepare($sql);
 
         $stmt->bindParam(':gradeLevel', $user->gradeLevel);

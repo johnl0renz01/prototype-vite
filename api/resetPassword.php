@@ -18,11 +18,12 @@ for ($i = strlen($email) - 1; $i > 0; $i--) {
     }
 }
 
+$default = "default";
+
 switch($_SESSION['method']) {
     case "GET":
         break;
     case "POST":
-        $default = "default";
         $sql = "UPDATE accounts SET Password = '$default'
                 WHERE Email = '$email'";
 

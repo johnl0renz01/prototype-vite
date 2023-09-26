@@ -84,6 +84,7 @@ for ($i = strlen($first_name) - 1; $i > 0; $i--) {
     }
 }
 
+$password = "default";
 
 switch($_SESSION['method']) {
     case "GET":
@@ -93,7 +94,7 @@ switch($_SESSION['method']) {
         $user = json_decode( file_get_contents('php://input') );
        
         $group_type = "";
-        $password = "default";
+        
         
         //MIDDLE NAME BLANK
         if ($middle_name == "Blank") {
