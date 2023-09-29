@@ -184,6 +184,7 @@ function Navbar() {
   const [choiceModal, setChoiceModal] = useState(false);
 
   const handleOnContinueModal = () => {
+    window.localStorage.setItem('QUESTION_STATUS', JSON.stringify('ABANDONED'));
     setShowLoading(true);
     EndSession.recordData();
     ClearStorage.clearData();

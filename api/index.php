@@ -93,6 +93,9 @@ switch($requestLink) {
 
 
     //FOR MANAGE SECTION
+    case "/api/sectionCode":
+        include('sectionCode.php');
+        break;
     case "/api/sectionTotal":
         include('sectionTotal.php');
         break;

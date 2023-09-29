@@ -17,6 +17,7 @@ const ChangeSection = ({ visible, onClose, onContinue }) => {
 
   const [section, setSectionData] = useState([]);
   const [studentsTotal, setStudentsTotal] = useState([]);
+  const [sectionCode, setSectionCode] = useState([]);
 
   const [sectionTotal, setSectionTotal] = useState(0);
   const [sectionNames, setSectionNames] = useState([]);
@@ -94,6 +95,7 @@ const ChangeSection = ({ visible, onClose, onContinue }) => {
     //console.log('SECTION NAMES:');
     //console.log(sectionNames);
     var tally = [];
+    var tally2 = [];
     // FOR TOTAL
     if (processData) {
       //console.log('Imh here');
@@ -124,7 +126,36 @@ const ChangeSection = ({ visible, onClose, onContinue }) => {
         //console.log(newArray);
 
         setStudentsTotal(newArray);
-        setProcessData(false);
+
+        const promises3 = sectionNames.map(id =>
+          axios.get(`https://pia-sfe.online/api/sectionCode/${id}`)
+        );
+        Promise.all([...promises3]).then(function (values) {
+          tally2.push(values);
+          tally2 = tally2[0];
+          console.log(values);
+
+          let newArray2 = [];
+          for (let i = 0; i < sectionTotal; i++) {
+            let tempArray2 = [];
+            let result2 = Object.keys(tally2[i]).map(key => [
+              key,
+              tally2[i][key],
+            ]);
+
+            for (let j = 0; j < result2.length; j++) {
+              tempArray2.push(result2[j][1]);
+            }
+
+            console.log(tempArray2);
+            let data2 = JSON.stringify(tempArray2[0]);
+            data2 = data2.replace(/"/g, '');
+            newArray2.push(data2);
+          }
+
+          setSectionCode(newArray2);
+          setProcessData(false);
+        });
       });
     }
   }
@@ -187,7 +218,7 @@ const ChangeSection = ({ visible, onClose, onContinue }) => {
         className={`fixed top-0 z-50 inset-0 bg-black bg-opacity-50 backdrop-blur-[1.5px] flex justify-center items-center "
        `}
       >
-        <div className="bg-white hdScreen:w-[27.5%] semihdScreen:w-[40%] laptopScreen:w-[45%] averageScreen:w-[45%] sm:w-[50%] xs:w-[60%] hdScreen:scale-100 semihdScreen:scale-95 laptopScreen:scale-90 averageScreen:scale-90 rounded lg:text-lg xs:text-xs shadow-md ">
+        <div className="bg-white hdScreen:w-[35%] semihdScreen:w-[48%] laptopScreen:w-[48%] averageScreen:w-[48%] sm:w-[58%] xs:w-[68%] hdScreen:scale-100 semihdScreen:scale-95 laptopScreen:scale-90 averageScreen:scale-90 rounded lg:text-lg xs:text-xs shadow-md ">
           <div className="overflow-hidden  ">
             <table className="w-full leading-normal ">
               <thead className="sticky top-0 z-40 shadow-md border-b-2 border-gray-200 bg-gray-200 text-left uppercase tracking-wider md:text-base xs:text-xs font-bold text-gray-600">
@@ -196,6 +227,9 @@ const ChangeSection = ({ visible, onClose, onContinue }) => {
                     <div className="lg:pl-0 sm:pl-3  xs:pl-3">Section</div>
                   </th>
                   <th className="w-[10%]  md:text-base sm:text-xs ">Total</th>
+                  <th className="w-[10%]  md:text-base sm:text-xs ">
+                    Reset Code
+                  </th>
                   <th className="w-[7%] "></th>
                   <th className="w-[0%]">
                     <button
@@ -222,6 +256,9 @@ const ChangeSection = ({ visible, onClose, onContinue }) => {
                           <th className="w-[11%]  md:text-base sm:text-sm ">
                             Total
                           </th>
+                          <th className="w-[10%]  md:text-base sm:text-sm ">
+                            Reset Code
+                          </th>
                           <th className="w-[0.5%] mr-4"></th>
                         </tr>
                       </thead>
@@ -241,6 +278,9 @@ const ChangeSection = ({ visible, onClose, onContinue }) => {
                               </td>
                               <td className="md:text-base xs:text-xs">
                                 <p>[{studentsTotal[index]}] Students</p>
+                              </td>
+                              <td className="md:text-base xs:text-xs">
+                                <p>{sectionCode[index]}</p>
                               </td>
                               <td className="text-right md:text-base xs:text-xs pr-2">
                                 <div className="relative">

@@ -33,7 +33,8 @@ switch($_SESSION['method']) {
         break;
     case "POST":
         $user = json_decode( file_get_contents('php://input') );
-        $sql = "INSERT INTO $user_key (SessionID, SessionType, Score, TimeSpent, TimeStamp, TimeStart) VALUES(null, '$difficulty_type', '0', '0', :timestamp, :start_time)";
+        $sql = "INSERT INTO $user_key (SessionID, SessionType, Score, TimeSpent, TimeStamp, TimeStart, ExpressionAngry, ExpressionHappy, ExpressionSad, ExpressionSurprised, ExpressionMotivation, Sequence, Answered, Abandoned, LevelUp) 
+                VALUES(null, '$difficulty_type', '0', '0', :timestamp, :start_time, '0', '0', '0', '0', '0', '', '0', '0', 'FALSE')";
         $stmt = $conn->prepare($sql);
         date_default_timezone_set('Asia/Singapore');
         $timestamp = date('M d, Y - h:i A');

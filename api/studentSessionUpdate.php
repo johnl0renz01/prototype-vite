@@ -63,22 +63,25 @@ switch($_SESSION['method']) {
     case "POST":
         $session_database = $account.$session_id;
 
+        $validate = "SELECT * FROM ".$session_database." WHERE Question = '$question'";
+        $stmtValidate = $conn->prepare($validate);
+        $stmtValidate->execute();
+        $unique = $stmtValidate->fetchAll(PDO::FETCH_ASSOC);
+        
 
-        $sql = "INSERT INTO ".$session_database."(QuestionID, Question, Expressions, Status) 
-        VALUES(null, '$question', '$expression_sequence', '$question_status')";
+        if (count($unique) == 0) {
+            $sql = "INSERT INTO ".$session_database."(QuestionID, Question, Expressions, Status) 
+            VALUES(null, '$question', '$expression_sequence', '$question_status')";
 
-        $stmt = $conn->prepare($sql);
+            $stmt = $conn->prepare($sql);
 
-        if($stmt->execute()) {
-            $response = ['status' => 1, 'message' => 'Record created successfully.'];
-        } else {
-            $response = ['status' => 0, 'message' => 'Failed to create record.'];
+            if($stmt->execute()) {
+                $response = ['status' => 1, 'message' => 'Record created successfully.'];
+            } else {
+                $response = ['status' => 0, 'message' => 'Failed to create record.'];
+            }
         }
-
         
-
-        
-
         break;
     case "PUT":
         break;
