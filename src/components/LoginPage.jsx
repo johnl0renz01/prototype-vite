@@ -46,6 +46,7 @@ export default function LoginPage() {
       }
     } else {
       sessionStorage.clear();
+      window.localStorage.removeItem('UPDATE_REQUEST_STATE');
       window.localStorage.setItem('ACCOUNT_TYPE', JSON.stringify(''));
       window.localStorage.setItem('SESSION_EMAIL', JSON.stringify(''));
       window.localStorage.setItem('SESSION_USER', JSON.stringify(''));

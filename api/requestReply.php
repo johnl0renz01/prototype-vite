@@ -45,7 +45,7 @@ switch($_SESSION['method']) {
     case "GET":
         break;
     case "POST":
-        $user = json_decode( file_get_contents('php://input') );
+        $user = json_decode( file_get_contents('php://input'));
 
         //GET FULLNAME
         $name = "";
@@ -85,7 +85,15 @@ switch($_SESSION['method']) {
         $stmt->bindParam(':message', $user->message);
         if($stmt->execute()) {
 
-            $sql2 = "UPDATE user_request SET Timestamp = :timestamp, Time = :time2
+            $read_admin = "TRUE";
+            $read_user = "TRUE";
+            if ($role == "Admin") {
+                $read_user = "FALSE";
+            } else if ($role == "Teacher") {
+                $read_admin = "FALSE";
+            }
+
+            $sql2 = "UPDATE user_request SET Timestamp = :timestamp, Time = :time2, ReadAdmin = '$read_admin', ReadUser = '$read_user' 
             WHERE RequestID = '$requestID'";
             $stmt2 = $conn->prepare($sql2);
             $timestamp = date('M d, Y - h:i A');

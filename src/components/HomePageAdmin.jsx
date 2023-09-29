@@ -13,6 +13,7 @@ export default function HomePageAdmin() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    window.localStorage.setItem('UPDATE_NOTIFICATION_STATE', true);
     setTabIndex();
 
     window.addEventListener('focus', setTabIndex);

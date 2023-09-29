@@ -19,9 +19,19 @@ for ($i = strlen($email) - 1; $i > 0; $i--) {
 }
 
 $role = "";
+$name = "";
 
 for ($i = strlen($email) - 1; $i > 0; $i--) {
-    if ($email[$i] == "@") {
+    if ($email[$i] == "~") {
+        $name = substr($email, ($i + 1));
+        $name = str_replace("_"," ", $name);
+        $email = substr($email, 0, $i);
+        break;
+    }
+}
+
+for ($i = strlen($email) - 1; $i > 0; $i--) {
+    if ($email[$i] == "~") {
         $role = substr($email, ($i + 1));
         $email = substr($email, 0, $i);
         break;
@@ -57,6 +67,7 @@ switch($_SESSION['method']) {
         $user = json_decode( file_get_contents('php://input') );
 
         //GET FULLNAME
+        /*
         $midname = "SELECT MiddleName FROM accounts WHERE Email = '$email'";
         $mn = $conn->prepare($midname);
         $mn->execute();
@@ -75,6 +86,7 @@ switch($_SESSION['method']) {
             $fn->execute();
             $name = $fn->fetchColumn();
         }
+        */
         //END OF CODE^
 
         $status = "UNSOLVED";
@@ -83,8 +95,18 @@ switch($_SESSION['method']) {
         $id[1] = "z";
         $id[2] = "z";
 
-        $sql = "INSERT INTO user_request(UserID, Subject, Message, Email, Role, Status, RequestID, Timestamp, Time) 
-                VALUES(null, :subject, :message, '$email', '$role', '$status', '$id', :timestamp, :timestamp2)";
+        $read_admin = "FALSE";
+        $read_user = "FALSE";
+        if ($role == "Admin") {
+            $read_admin = "TRUE";
+        } else if ($role == "Teacher") {
+            $read_user = "TRUE";
+        }
+
+        $new_state = "TRUE";
+
+        $sql = "INSERT INTO user_request(UserID, Subject, Message, Email, Role, Status, RequestID, Timestamp, Time, ReadAdmin, ReadUser, Name, New) 
+                VALUES(null, :subject, :message, '$email', '$role', '$status', '$id', :timestamp, :timestamp2, '$read_admin', '$read_user', '$name', '$new_state')";
 
         $stmt = $conn->prepare($sql);
         $stmt->bindParam(':subject', $user->subject);

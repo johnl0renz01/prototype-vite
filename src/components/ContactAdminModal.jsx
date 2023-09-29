@@ -29,10 +29,14 @@ const ContactAdminModal = ({ visible, onClose, onContinue }) => {
     setShowLoading(true);
     var email = JSON.parse(window.localStorage.getItem('SESSION_EMAIL'));
     var role = JSON.parse(window.localStorage.getItem('ACCOUNT_TYPE'));
+    var name = JSON.parse(window.localStorage.getItem('SESSION_FULLNAME'));
+    name = name.replace(/ /g, '_');
     axios
-      .post(`https://pia-sfe.online/api/requestSend/${email}@${role}`, values)
+      .post(
+        `https://pia-sfe.online/api/requestSend/${email}~${role}~${name}`,
+        values
+      )
       .then(function (response) {
-        console.log(response.data);
         setShowLoading(false);
         handleReset();
         onContinue();

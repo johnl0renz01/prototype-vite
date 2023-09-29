@@ -397,6 +397,15 @@
 
 /*FONT AWESOME CSS*/
 
+/*STEADY BELL*/
+.steady-bell {
+  display: block;
+  width: 15px;
+  height: 15px;
+  font-size: 20px;
+  color: #bbbbbb;
+}
+
 /*RINGING BELL*/
 
 .bell {

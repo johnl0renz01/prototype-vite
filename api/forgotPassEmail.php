@@ -113,14 +113,24 @@ switch($_SESSION['method']) {
                 }
             }
 
-            
+            $read_admin = "FALSE";
+            $read_user = "FALSE";
+            if ($role == "Admin") {
+                $read_admin = "TRUE";
+            } else if ($role == "Teacher") {
+                $read_user = "TRUE";
+            } else {
+                $read_user = "TRUE";
+            }
+
+            $new_state = "TRUE";
 
             if ($valid2) {
                 $message = "The reset password request for ".$name." has been sent to the administrator.";
 
                 //INSERT TO USER REQUEST
-                $sql = "INSERT INTO user_request(UserID, Subject, Message, Email, Role, Status, RequestID, Timestamp, Time) 
-                                        VALUES(null, '$subject', '$message', :email, '$role', '$status', '$id', :timestamp, :timestamp2)";
+                $sql = "INSERT INTO user_request(UserID, Subject, Message, Email, Role, Status, RequestID, Timestamp, Time, ReadAdmin, ReadUser, Name, New) 
+                                        VALUES(null, '$subject', '$message', :email, '$role', '$status', '$id', :timestamp, :timestamp2, '$read_admin', '$read_user', '$name', '$new_state')";
                 $stmt2 = $conn->prepare($sql);
                 $stmt2->bindParam(':email', $user->emailReset);
                 date_default_timezone_set('Asia/Singapore');

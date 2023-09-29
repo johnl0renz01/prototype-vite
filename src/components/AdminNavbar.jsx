@@ -5,6 +5,16 @@ import axios from 'axios';
 import * as ReactDOM from 'react-dom';
 import $ from 'jquery';
 
+import { Fragment } from 'react';
+import { Menu, Transition } from '@headlessui/react';
+import { ChevronDownIcon } from '@heroicons/react/20/solid';
+
+import { HiOutlineArrowLeftOnRectangle } from 'react-icons/hi2';
+import { HiChevronDoubleRight } from 'react-icons/hi2';
+import { HiArrowUturnRight } from 'react-icons/hi2';
+
+import { BsChevronBarRight } from 'react-icons/bs';
+
 import { BsFillPersonLinesFill } from 'react-icons/bs';
 import { BsPersonPlusFill } from 'react-icons/bs';
 import { BsPersonExclamation } from 'react-icons/bs';
@@ -50,7 +60,15 @@ import Registration from './Registration';
 
 import AdminNavbarSkeleton from './AdminNavbarSkeleton';
 
+import ViewDetailModal from './ViewDetailModal';
+import ViewDetailMessageModal from './ViewDetailMessageModal';
+
 import LoadingSpinner from './LoadingSpinner';
+
+/// FOR NOTIFICATIONS
+function classNames(...classes) {
+  return classes.filter(Boolean).join(' ');
+}
 
 export default function AdminNavbar() {
   const [showLoading, setShowLoading] = useState(false);
@@ -130,8 +148,8 @@ export default function AdminNavbar() {
     heightValue1 += 2.5;
     window.sessionStorage.setItem('NAVBAR_ADMIN_LOGO', heightValue1);
 
-    console.log(widthValue1);
-    console.log(heightValue1);
+    //console.log(widthValue1);
+    //console.log(heightValue1);
   }
 
   function getCurrentTab() {
@@ -310,6 +328,73 @@ export default function AdminNavbar() {
   }, []);
   */
 
+  /// FOR NOTIFICATIONS
+
+  const [requests, setRequests] = useState([]);
+
+  window.addEventListener('mouseover', updateNotifs);
+
+  function updateNotifs() {
+    var updateState = JSON.parse(
+      window.localStorage.getItem('UPDATE_NOTIFICATION_STATE')
+    );
+    if (updateState === null) updateState = false;
+
+    if (updateState == true) {
+      window.localStorage.setItem('UPDATE_NOTIFICATION_STATE', false);
+      getRequests();
+    }
+  }
+
+  useEffect(() => {
+    getRequests();
+  }, []);
+
+  function getRequests() {
+    axios
+      .get(`https://pia-sfe.online/api/requestNotificationAdmin/`)
+      .then(function (response) {
+        //console.log(response.data);
+        window.localStorage.setItem('UPDATE_REQUEST_STATE', true);
+        setRequests(response.data);
+      })
+      .catch(function (error) {});
+  }
+
+  const viewMode = e => {
+    let requestID = e.currentTarget.name;
+    window.sessionStorage.setItem(
+      'CURRENT_VIEW_DETAIL',
+      JSON.stringify(requestID)
+    );
+    window.sessionStorage.setItem('VIEW_DETAIL_STATE', true);
+    setShowModal(true);
+
+    let role = JSON.parse(window.localStorage.getItem('ACCOUNT_TYPE'));
+    axios
+      .post(`https://pia-sfe.online/api/requestSeen/${requestID}@${role}`)
+      .then(function (response) {
+        //console.log(response.data);
+        getRequests();
+      })
+      .catch(function (error) {});
+  };
+
+  // MODAL VIEW
+  const [showModal, setShowModal] = useState(false);
+  const handleOnCloseModal = () => setShowModal(false);
+
+  const handleOnContinueModal = () => {
+    setShowModal(false);
+    setShowMessageModal(true);
+    updateTable();
+  };
+
+  // MODAL VIEW MESSAGE
+
+  const [showMessageModal, setShowMessageModal] = useState(false);
+  const handleOnCloseMessageModal = () => setShowMessageModal(false);
+
   return (
     <>
       {/** 
@@ -322,7 +407,135 @@ export default function AdminNavbar() {
           logoutState == true ? 'hidden' : ''
         }`}
       >
+        <div className="absolute z-[50] averageScreen:right-0 sm:-right-3 xs:-right-3 averageScreen:mt-1 sm:-mt-4 xs:-mt-2 ">
+          <li className="flex items-center">
+            <ul className="p-8">
+              <Menu as="div" className="relative inline-block text-left">
+                <div>
+                  <Menu.Button className="averageScreen:scale-100 sm:scale-60 xs:scale-50 inline-flex w-full justify-center rounded-md  sm:p-6 xs:p-4 lg:mt-0 md:mt-0 sm:mt-0 xs:mt-0.5  bg-gray-200/40 hover:bg-gray-200  lg:text-xl md:text-xl sm:text-sm xs:text-xs font-normal text-gray-700   focus:outline-none  focus:ring-offset-gray-200">
+                    <p className="flex">
+                      <span
+                        title="Notifications"
+                        className={` fa fa-bell  w-7 h-7 lg:text-3xl md:text-2xl  xs:text-lg averageScreen:-ml-3 sm:-ml-2 -mt-3
+                                  ${
+                                    requests.length > 0 ? 'bell' : 'steady-bell'
+                                  }`}
+                      ></span>
+                      {requests.length > 0 ? (
+                        <span className="rounded-full w-5 h-5 bg-red-500 absolute -right-2 top-0 text-white font-leagueSpartan  text-sm leading-6 ">
+                          {requests.length}
+                        </span>
+                      ) : (
+                        <></>
+                      )}
+                    </p>
+                  </Menu.Button>
+                </div>
+
+                <Transition
+                  as={Fragment}
+                  enter="transition ease-out duration-100"
+                  enterFrom="transform opacity-0 scale-95"
+                  enterTo="transform opacity-100 scale-100"
+                  leave="transition ease-in duration-75"
+                  leaveFrom="transform opacity-100 scale-100"
+                  leaveTo="transform opacity-0 scale-95"
+                >
+                  <Menu.Items
+                    className={` absolute right-0 z-10 averageScreen:mt-2 sm:-mt-1.5 xs:-mt-1  origin-top-right rounded-md bg-white shadow-lg border-2 border-black/20 ring-1 ring-black ring-opacity-5 focus:outline-none 
+                     
+                    }`}
+                  >
+                    <div className="py-1 overflow-y-auto max-h-[70vh]">
+                      {requests.length > 0 ? (
+                        <>
+                          {requests.map((currentRequest, index) => (
+                            <>
+                              <Menu.Item>
+                                {({ active }) => (
+                                  <button
+                                    onClick={viewMode}
+                                    name={currentRequest.RequestID}
+                                    id={currentRequest.RequestID}
+                                    className={classNames(
+                                      active
+                                        ? 'bg-gray-100 text-gray-900 border-b-2 border-b-black/20'
+                                        : 'text-gray-700 border-b-2 border-b-black/20 ',
+                                      `block px-2 py-2 text-sm text-left bg-white hover:bg-gray-200
+                                      `
+                                    )}
+                                  >
+                                    <p className=" px-1 w-[14rem]  semihdScreen:text-base laptopScreen:text-sm averageScreen:text-sm xs:text-xs">
+                                      {currentRequest.New == 'TRUE' ? (
+                                        <>
+                                          There is a new request from{' '}
+                                          <span className="font-semibold">
+                                            {currentRequest.Name} (
+                                            {currentRequest.Role})
+                                          </span>
+                                          <br />
+                                          <span className="text-xs font-normal">
+                                            {currentRequest.Timestamp}
+                                          </span>
+                                        </>
+                                      ) : (
+                                        <>
+                                          <span className="font-semibold">
+                                            {currentRequest.Name} (
+                                            {currentRequest.Role})
+                                          </span>{' '}
+                                          has replied to the request "
+                                          <span className="font-semibold">
+                                            {currentRequest.Subject}
+                                          </span>
+                                          "
+                                          <br />
+                                          <span className="text-xs font-normal">
+                                            {currentRequest.Timestamp}
+                                          </span>
+                                        </>
+                                      )}
+                                    </p>
+                                  </button>
+                                )}
+                              </Menu.Item>
+                            </>
+                          ))}
+                        </>
+                      ) : (
+                        <>
+                          <Menu.Item>
+                            <button
+                              onClick={null}
+                              disabled
+                              className={
+                                'cursor-default block w-full px-4 py-2 text-left text-sm '
+                              }
+                            >
+                              <p className="whitespace-nowrap semihdScreen:text-base laptopScreen:text-sm averageScreen:text-sm xs:text-xs">
+                                There are no new notification(s).
+                              </p>
+                            </button>
+                          </Menu.Item>
+                        </>
+                      )}
+                    </div>
+                  </Menu.Items>
+                </Transition>
+              </Menu>
+            </ul>
+          </li>
+        </div>
+        {/**WILL CAUSE SPEED ISSUES */}
         <div
+          onMouseEnter={e => {
+            getRequests();
+            window.localStorage.setItem('UPDATE_REQUEST_STATE', true);
+          }}
+          onMouseLeave={e => {
+            getRequests;
+            window.localStorage.setItem('UPDATE_REQUEST_STATE', true);
+          }}
           id="adminNavbar"
           className="sm:flex xs:hidden md:flex lg:flex flex-col bg-gradient-to-b from-[#d6d135] via-[#cebc46] to-[#ddc236] text-center  h-screen fixed z-50 drop-shadow-[0_0px_5px_rgba(0,0,0,0.30)] overflow-y-auto"
         >
@@ -337,7 +550,7 @@ export default function AdminNavbar() {
                   className={`fas fa-graduation-cap  lg:text-6xl xs:text-3xl mb-4 ${
                     sidebarMode == 'Minimized'
                       ? ''
-                      : 'hover:Screen-115 transition duration-200'
+                      : 'hover:scale-115 transition duration-200'
                   }`}
                 ></i>
               </li>
@@ -416,34 +629,6 @@ export default function AdminNavbar() {
                   </span>
                 </div>
               </li>
-              {/*
-              <li
-                onClick={tab4}
-                className={`cursor-pointer border-b-2 border-black/5 ${
-                  tabHighlight == 4
-                    ? 'bg-white/[75%] text-yellow-700'
-                    : 'hover:bg-black/30 text-white transition duration-300'
-                }
-                
-                ${
-                  sidebarMode == 'Minimized'
-                    ? 'pb-2.5 pt-2'
-                    : 'hdScreen:pb-1 hdScreen:pt-3 semihdScreen:pb-1 semihdScreen:pt-3 laptopScreen:pb-[0.2rem] laptopScreen:pt-1.5 averageScreen:pb-[0.18rem] averageScreen:pt-1.5 sm:pb-0.5 sm:pt-1 xs:pb-[0.1rem] xs:pt-0.5'
-                }
-                `}
-              >
-                <div className="relative text-center  font-bold">
-                  <BsPersonGear className="hdScreen:text-[2.2rem] semihdScreen:text-[2rem] laptopScreen:text-[1.6rem] averageScreen:text-[1.5rem] mx-auto" />
-                  <span
-                    className={`lg:text-base xs:text-xs font-poppins font-semibold lg:px-2 ${
-                      sidebarMode == 'Minimized' ? 'hidden' : ''
-                    }`}
-                  >
-                    Reset Password
-                  </span>
-                </div>
-              </li>
-              */}
               <li
                 onClick={tab4}
                 className={`cursor-pointer border-b-2 border-black/5 ${
@@ -528,18 +713,19 @@ export default function AdminNavbar() {
               >
                 <TfiShiftLeft className="hdScreen:text-[2.2rem] semihdScreen:text-[2rem] laptopScreen:text-[1.6rem] averageScreen:text-[1.5rem] mx-auto " />
               </div>
-              {/* 
-              <div className="flex justify-center  font-bold">
-                <TfiShiftLeft className="lg:text-[2.2rem]" />
-                <span className="lg:text-base xs:text-xs font-poppins font-semibold lg:mt-1.5 lg:pl-0.5 lg:pr-3">
-                  Minimize
-                </span>
-              </div>
-              */}
             </div>
           </div>
         </div>
       </div>
+      <ViewDetailModal
+        onClose={handleOnCloseModal}
+        visible={showModal}
+        onContinue={handleOnContinueModal}
+      />
+      <ViewDetailMessageModal
+        onClose={handleOnCloseMessageModal}
+        visible={showMessageModal}
+      />
       <LoadingSpinner visible={showLoading} />
     </>
   );
