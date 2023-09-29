@@ -61,7 +61,7 @@ var EndSession = (function () {
     if (sequence === null) sequence = '';
 
     var questionStatus = window.localStorage.getItem('QUESTION_STATUS');
-    if (questionStatus === null) questionStatus = '';
+    if (questionStatus === null) questionStatus = 'ABANDONED';
 
     var updateData =
       userDatabase +

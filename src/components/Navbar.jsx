@@ -186,6 +186,7 @@ function Navbar() {
   const [choiceModal, setChoiceModal] = useState(false);
 
   const handleOnContinueModal = () => {
+    window.localStorage.setItem('QUESTION_STATUS', JSON.stringify('ABANDONED'));
     setShowLoading(true);
     EndSession.recordData();
     ClearStorage.clearData();
@@ -197,6 +198,7 @@ function Navbar() {
 
     var unique = JSON.parse(window.localStorage.getItem('UNIQUE_ID'));
     if (unique === null) unique = '';
+
     axios
       .post(
         `http://localhost:80/Prototype-Vite/my-project/api/logout/${unique}`

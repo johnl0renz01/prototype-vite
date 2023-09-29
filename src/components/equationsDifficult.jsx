@@ -167,7 +167,7 @@ var EquationGeneratorDifficult = (function () {
           `http://localhost:80/Prototype-Vite/my-project/api/getEquation/Difficult`
         )
         .then(function (response) {
-          console.log(response.data);
+          //console.log(response.data);
           let responseData = response.data;
           var newArray = [];
           for (let i = 0; i < responseData.length; i++) {
@@ -180,7 +180,7 @@ var EquationGeneratorDifficult = (function () {
             for (let j = 0; j < result.length; j++) {
               tempArray.push(result[j][1]);
             }
-            console.log(tempArray);
+            //console.log(tempArray);
 
             let data = JSON.stringify(tempArray[0]);
             data = data.replace(/"/g, '');
@@ -188,7 +188,7 @@ var EquationGeneratorDifficult = (function () {
             newArray.push(data);
           }
 
-          console.log(newArray);
+          //console.log(newArray);
           customEquations = newArray;
           equationProcess();
         });
@@ -215,7 +215,7 @@ var EquationGeneratorDifficult = (function () {
         } else {
           combinedSchema = ' ' + item2 + ' = ' + item1 + ' ';
         }
-        //console.log(combinedSchema)
+        ////console.log(combinedSchema)
         difficultEquationList.push(combinedSchema);
       }
       const availableOperations = ['+', '-']; //Double addition to increase chance
@@ -226,7 +226,7 @@ var EquationGeneratorDifficult = (function () {
       function addOperations() {
         for (let i = 0; i < difficultEquationList.length; i++) {
           let limit = Math.floor(difficultEquationList[i].length / 4); //Quantity of operation symbol
-          //console.log(limit);
+          ////console.log(limit);
 
           for (let j = 0; j < limit; j++) {
             const operation =
@@ -485,7 +485,7 @@ var EquationGeneratorDifficult = (function () {
         }
       }
 
-      console.log(difficultEquationList);
+      //console.log(difficultEquationList);
     }
   }
 

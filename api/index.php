@@ -93,6 +93,9 @@ switch($requestLink) {
 
 
     //FOR MANAGE SECTION
+    case "/Prototype-Vite/my-project/api/sectionCode":
+        include('sectionCode.php');
+        break;
     case "/Prototype-Vite/my-project/api/sectionTotal":
         include('sectionTotal.php');
         break;
@@ -328,6 +331,14 @@ switch($requestLink) {
 
     case "/Prototype-Vite/my-project/api/0GenerateTable":
         include('0GenerateTable.php');
+    break;
+
+    case "/Prototype-Vite/my-project/api/0GenerateSessionData":
+        include('0GenerateSessionData.php');
+    break;
+
+    case "/Prototype-Vite/my-project/api/0GenerateSessionTable":
+        include('0GenerateSessionTable.php');
     break;
 }
 

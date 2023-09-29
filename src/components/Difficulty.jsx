@@ -194,6 +194,7 @@ export default function DifficultyPage() {
   const [choiceModal, setChoiceModal] = useState(false);
 
   const handleOnContinueModal = () => {
+    window.localStorage.setItem('QUESTION_STATUS', JSON.stringify('ABANDONED'));
     EndSession.recordData();
     ClearStorage.clearData();
     setShowLoading(true);

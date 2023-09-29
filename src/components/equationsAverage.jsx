@@ -83,7 +83,7 @@ var EquationGeneratorAverage = (function () {
           `http://localhost:80/Prototype-Vite/my-project/api/getEquation/Average`
         )
         .then(function (response) {
-          console.log(response.data);
+          //console.log(response.data);
           let responseData = response.data;
           var newArray = [];
           for (let i = 0; i < responseData.length; i++) {
@@ -96,7 +96,7 @@ var EquationGeneratorAverage = (function () {
             for (let j = 0; j < result.length; j++) {
               tempArray.push(result[j][1]);
             }
-            console.log(tempArray);
+            //console.log(tempArray);
 
             let data = JSON.stringify(tempArray[0]);
             data = data.replace(/"/g, '');
@@ -104,7 +104,7 @@ var EquationGeneratorAverage = (function () {
             newArray.push(data);
           }
 
-          console.log(newArray);
+          //console.log(newArray);
           customEquations = newArray;
           equationProcess();
         });
@@ -131,7 +131,7 @@ var EquationGeneratorAverage = (function () {
         } else {
           combinedSchema = ' ' + item2 + ' = ' + item1 + ' ';
         }
-        //console.log(combinedSchema)
+        ////console.log(combinedSchema)
         averageEquationList.push(combinedSchema);
       }
       const availableOperations = ['+', '+', '-']; //Double operation to increase chance
@@ -143,7 +143,7 @@ var EquationGeneratorAverage = (function () {
       function addOperations() {
         for (let i = 0; i < averageEquationList.length; i++) {
           let limit = Math.floor(averageEquationList[i].length / 4); //Quantity of operation symbol
-          //console.log(limit);
+          ////console.log(limit);
 
           for (let j = 0; j < limit; j++) {
             const operation =
@@ -363,13 +363,13 @@ var EquationGeneratorAverage = (function () {
               // only splice array when item is found
               customEquations.splice(itemIndex, 1); // 2nd parameter means remove one item only
             }
-            console.log('equations');
-            console.log(customEquations);
+            //console.log('equations');
+            //console.log(customEquations);
           }
         }
       }
 
-      console.log(averageEquationList);
+      //console.log(averageEquationList);
     }
   }
 

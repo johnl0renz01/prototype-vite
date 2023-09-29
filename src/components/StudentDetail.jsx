@@ -131,31 +131,35 @@ export default function StudentDetail() {
     let average = 0;
     let difficult = 0;
     let totalScore = 0;
-    let totalSkip = 0;
+    let totalAnswered = 0;
+    let totalAbandoned = 0;
+    let totalQuestions = 0;
     let accuracy = 0;
 
     accountHistory.map(function (history) {
       if (history.SessionType === 'Easy') {
         easy++;
-        console.log('YAHOO!');
       } else if (history.SessionType === 'Average') {
         average++;
       } else if (history.SessionType === 'Difficult') {
         difficult++;
       }
-      // Each session have 10 questions or might change depends.
-      totalSkip += 20;
+      // Each session have 20 questions or might change depends.
+      totalAnswered += parseInt(history.Answered);
+      totalAbandoned += parseInt(history.Abandoned);
       totalScore += parseInt(history.Score);
     });
-    accuracy = (totalScore / totalSkip) * 100;
-    totalSkip = totalSkip - totalScore;
+    totalQuestions = totalAnswered + totalAbandoned;
+
+    accuracy = (totalAnswered / totalQuestions) * 100;
+    //totalAbandoned = totalAbandoned - totalScore;
     accuracy = Math.round(accuracy * 100 + Number.EPSILON) / 100;
     setAccuracy(accuracy);
     countEasy(easy);
     countAverage(average);
     countDifficult(difficult);
-    setTotalAnswered(totalScore);
-    setTotalUnanswered(totalSkip);
+    setTotalAnswered(totalAnswered);
+    setTotalUnanswered(totalAbandoned);
     //console.log(easy);
     //console.log(average);
     //console.log(difficult);

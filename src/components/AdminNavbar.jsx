@@ -5,6 +5,16 @@ import axios from 'axios';
 import * as ReactDOM from 'react-dom';
 import $ from 'jquery';
 
+import { Fragment } from 'react';
+import { Menu, Transition } from '@headlessui/react';
+import { ChevronDownIcon } from '@heroicons/react/20/solid';
+
+import { HiOutlineArrowLeftOnRectangle } from 'react-icons/hi2';
+import { HiChevronDoubleRight } from 'react-icons/hi2';
+import { HiArrowUturnRight } from 'react-icons/hi2';
+
+import { BsChevronBarRight } from 'react-icons/bs';
+
 import { BsFillPersonLinesFill } from 'react-icons/bs';
 import { BsPersonPlusFill } from 'react-icons/bs';
 import { BsPersonExclamation } from 'react-icons/bs';
@@ -312,6 +322,10 @@ export default function AdminNavbar() {
   }, []);
   */
 
+  function classNames(...classes) {
+    return classes.filter(Boolean).join(' ');
+  }
+
   return (
     <>
       {/** 
@@ -324,6 +338,91 @@ export default function AdminNavbar() {
           logoutState == true ? 'hidden' : ''
         }`}
       >
+        <div className="absolute z-[50] right-0 mt-1">
+          <li className="flex items-center">
+            <ul className="p-8">
+              <Menu as="div" className="relative inline-block text-left">
+                <div>
+                  <Menu.Button className="inline-flex w-full justify-center rounded-md  p-6 lg:mt-0 md:mt-0 sm:mt-0 xs:mt-0.5  bg-gray-200/40 hover:bg-gray-200  lg:text-xl md:text-xl sm:text-sm xs:text-xs font-normal text-gray-700   focus:outline-none  focus:ring-offset-gray-200">
+                    <p className="flex">
+                      <span
+                        title="Notifications"
+                        className=" bell fa fa-bell w-7 h-7 lg:text-3xl md:text-2xl  xs:text-sm -ml-3 -mt-3"
+                      ></span>
+                      <span className="rounded-full w-5 h-5 bg-red-500 absolute -right-2 top-0 text-white font-leagueSpartan  text-sm leading-6 ">
+                        1
+                      </span>
+                    </p>
+                  </Menu.Button>
+                </div>
+
+                <Transition
+                  as={Fragment}
+                  enter="transition ease-out duration-100"
+                  enterFrom="transform opacity-0 scale-95"
+                  enterTo="transform opacity-100 scale-100"
+                  leave="transition ease-in duration-75"
+                  leaveFrom="transform opacity-100 scale-100"
+                  leaveTo="transform opacity-0 scale-95"
+                >
+                  <Menu.Items
+                    className={` absolute right-0 z-10 mt-2 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none 
+                     
+                    }`}
+                  >
+                    <div className="py-1 ">
+                      <Menu.Item>
+                        {({ active }) => (
+                          <button
+                            onClick={function () {
+                              navigate('/Whiteboard');
+                            }}
+                            className={classNames(
+                              active
+                                ? 'bg-gray-100 text-gray-900'
+                                : 'text-gray-700 border-b-2 border-b-gray-200/80 ',
+                              'block px-4 py-2 text-sm'
+                            )}
+                          >
+                            <p className="flex px-1 min-w-[8.2rem]">
+                              {' '}
+                              <BsChevronBarRight className="lg:text-2xl md:text-2xl sm:text-sm  xs:text-xs -ml-3" />
+                              <span className="ml-1 mt-[0.1rem]">
+                                Continue Session
+                              </span>
+                            </p>
+                          </button>
+                        )}
+                      </Menu.Item>
+
+                      <Menu.Item>
+                        {({ active }) => (
+                          <button
+                            onClick={null}
+                            className={classNames(
+                              active
+                                ? 'bg-gray-100 text-gray-900 '
+                                : 'text-gray-700',
+                              'block w-full px-4 py-2 text-left text-sm'
+                            )}
+                          >
+                            <p className="flex px-1">
+                              {' '}
+                              <HiOutlineArrowLeftOnRectangle className="lg:text-2xl md:text-2xl sm:text-sm xs:text-xs -ml-3 rotate-180" />
+                              <span className="ml-1 mt-[0.1rem]  min-w-[3.5rem]">
+                                Sign out
+                              </span>
+                            </p>
+                          </button>
+                        )}
+                      </Menu.Item>
+                    </div>
+                  </Menu.Items>
+                </Transition>
+              </Menu>
+            </ul>
+          </li>
+        </div>
         <div
           id="adminNavbar"
           className="sm:flex xs:hidden md:flex lg:flex flex-col bg-gradient-to-b from-[#d6d135] via-[#cebc46] to-[#ddc236] text-center  h-screen fixed z-50 drop-shadow-[0_0px_5px_rgba(0,0,0,0.30)] overflow-y-auto"
@@ -339,7 +438,7 @@ export default function AdminNavbar() {
                   className={`fas fa-graduation-cap  lg:text-6xl xs:text-3xl mb-4 ${
                     sidebarMode == 'Minimized'
                       ? ''
-                      : 'hover:Screen-115 transition duration-200'
+                      : 'hover:scale-115 transition duration-200'
                   }`}
                 ></i>
               </li>

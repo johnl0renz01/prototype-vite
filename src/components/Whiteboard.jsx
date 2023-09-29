@@ -15,6 +15,7 @@ import { MdOutlineKeyboardReturn } from 'react-icons/md';
 
 import { BsFillPlayFill } from 'react-icons/bs';
 import { IoArrowUndo } from 'react-icons/io5';
+import { VscBook } from 'react-icons/vsc';
 
 import UpdateSession from './UpdateSession';
 
@@ -703,13 +704,17 @@ export default function Whiteboard() {
   //Skip Area
   const skipArea = document.getElementById('skip_button');
 
+  useEffect(() => {
+    document.getElementById('skip_button').style.visibility = 'hidden';
+  }, []);
+
   //Check if problem is solved
   const [isSolved, setFinish] = useState(false);
 
   //For suggestion level up
   const [levelUp, setLevelUp] = useState(false);
 
-  const nextQuestion = e => {
+  useEffect(() => {
     var currentIndex = JSON.parse(
       window.localStorage.getItem('QUESTION_INDEX')
     );
@@ -718,7 +723,9 @@ export default function Whiteboard() {
         'PREVIOUS_QUESTION',
         JSON.stringify(questionList[currentIndex])
       );
+  });
 
+  const nextQuestion = e => {
     window.localStorage.setItem('QUESTION_STATUS', JSON.stringify('SOLVED'));
 
     UpdateSession.recordData();
@@ -769,15 +776,6 @@ export default function Whiteboard() {
     data = parseInt(data);
     data++;
     window.localStorage.setItem('QUESTION_ABANDONED', data);
-
-    var currentIndex = JSON.parse(
-      window.localStorage.getItem('QUESTION_INDEX')
-    );
-    if (currentIndex !== null)
-      window.localStorage.setItem(
-        'PREVIOUS_QUESTION',
-        JSON.stringify(questionList[currentIndex])
-      );
 
     window.localStorage.setItem('QUESTION_STATUS', JSON.stringify('ABANDONED'));
 
@@ -1137,14 +1135,20 @@ export default function Whiteboard() {
 
     //10th question easy
     let diffType = window.localStorage.getItem('DIFFICULTY_TYPE');
+    var abandonedTally = JSON.parse(
+      window.localStorage.getItem('QUESTION_ABANDONED')
+    );
+    if (abandonedTally === null) abandonedTally = 0;
     if (
       JSON.parse(window.localStorage.getItem('QUESTION_ANSWERED')) >= 9 &&
-      (diffType == '"Easy"' || diffType == 'Easy')
+      (diffType == '"Easy"' || diffType == 'Easy') &&
+      abandonedTally == 0
     ) {
       setTimeout(displayLevelUp, 3500);
     } else if (
       JSON.parse(window.localStorage.getItem('QUESTION_ANSWERED')) >= 5 &&
-      (diffType == '"Average"' || diffType == 'Average')
+      (diffType == '"Average"' || diffType == 'Average') &&
+      abandonedTally == 0
     ) {
       setTimeout(displayLevelUp, 3500);
     } else {
@@ -1279,18 +1283,20 @@ export default function Whiteboard() {
     setTimeout(timer, timerDelay);
   }
 
-  function displayWrong() {
-    //ADD IF SHORTENED OR FULL
-    //INCREASE EXPRESSION TALLY
-    if (
-      JSON.parse(window.localStorage.getItem('SYSTEM_VERSION')) ==
-      'Facial Group'
-    ) {
-      insertSequence('sad');
-      increaseTally('EXPRESSION_SAD');
+  useEffect(() => {
+    let dataWrong = parseInt(
+      JSON.parse(window.localStorage.getItem('STREAK_WRONG'))
+    );
+    if (dataWrong === null) {
+      document.getElementById('skip_button').style.visibility = 'hidden';
+    } else {
+      if (dataWrong < 10) {
+        document.getElementById('skip_button').style.visibility = 'hidden';
+      }
     }
-    //
+  });
 
+  function displayWrong() {
     let dataCorrect = parseInt(
       JSON.parse(window.localStorage.getItem('STREAK_CORRECT'))
     );
@@ -1304,6 +1310,19 @@ export default function Whiteboard() {
     if (dataWrong === null) {
       dataWrong = 0;
     }
+
+    //ADD IF SHORTENED OR FULL
+    //INCREASE EXPRESSION TALLY
+    if (dataCorrect < 2) {
+      if (
+        JSON.parse(window.localStorage.getItem('SYSTEM_VERSION')) ==
+        'Facial Group'
+      ) {
+        insertSequence('sad');
+        increaseTally('EXPRESSION_SAD');
+      }
+    }
+    //
 
     /*
     if (dataCorrect == 1) {
@@ -1346,10 +1365,12 @@ export default function Whiteboard() {
       setSubtext('Please try again.');
 
       //ADD IF shortened or full
+
       if (
         JSON.parse(window.localStorage.getItem('SYSTEM_VERSION')) ==
         'Facial Group'
       ) {
+        increaseTally('EXPRESSION_MOTIVATION');
         insertSequence('motivation');
         setTimeout(displayMotivation, timerDelay);
       } else {
@@ -1386,7 +1407,6 @@ export default function Whiteboard() {
   }
 
   function displayMotivation() {
-    increaseTally('EXPRESSION_MOTIVATION');
     setImageLink('PIA-Talking1');
     let messageType = ['motivation1', 'motivation2', 'motivation3'];
     let message = messageType[Math.floor(Math.random() * messageType.length)];
@@ -1551,9 +1571,7 @@ export default function Whiteboard() {
   function penModeResponse() {
     setImageLink('PIA-Neutral');
 
-    setResponse(
-      'You are currently in pen mode. Click the pen button to change to default.'
-    );
+    setResponse('Pen mode. Click the pen button to change to default.');
     setSubtext('');
     changeResponseColor(defaultColor);
   }
@@ -1601,6 +1619,7 @@ export default function Whiteboard() {
     setHintState(false);
     setPenState(false);
     setTutorialState(false);
+    setGuideState(false);
     helpModeResponse();
 
     if (isSolved) {
@@ -1658,7 +1677,7 @@ export default function Whiteboard() {
     var widthValue1 = ReactDOM.findDOMNode(divElement1).offsetWidth;
     var widthValue2 = ReactDOM.findDOMNode(divElement3).offsetWidth;
 
-    penAreaHeightValue = heightValue1 + heightValue2 - 13;
+    penAreaHeightValue = heightValue1 + heightValue2 - 12;
     penAreaWidthValue = widthValue1 + widthValue2 - 24;
 
     // console.log(penAreaHeightValue);
@@ -1674,6 +1693,13 @@ export default function Whiteboard() {
 
     document.getElementById('piaArea').style.height = penAreaHeightValue + 'px';
     document.getElementById('piaArea').style.width = penAreaWidthValue + 'px';
+
+    document.getElementById('guideArea').style.height =
+      penAreaHeightValue + 'px';
+    document.getElementById('guideArea').style.width = penAreaWidthValue + 'px';
+
+    document.getElementById('guideContainer').style.width =
+      widthValue2 - 12 + 'px';
 
     document.getElementById('tutorialAlbum').style.height =
       penAreaHeightValue + 'px';
@@ -1694,6 +1720,7 @@ export default function Whiteboard() {
   const hintMode = () => {
     setTutorialState(false);
     setPenState(false);
+    setGuideState(false);
     if (isHint) {
       timer();
       setHintState(false);
@@ -1716,6 +1743,7 @@ export default function Whiteboard() {
   const tutorialMode = () => {
     setHintState(false);
     setPenState(false);
+    setGuideState(false);
     if (isTutorial) {
       if (isSolved) {
         setTimeout(displaySolved, 1);
@@ -1899,6 +1927,7 @@ export default function Whiteboard() {
   const penMode = () => {
     setHintState(false);
     setTutorialState(false);
+    setGuideState(false);
     if (isPen) {
       if (isSolved) {
         setTimeout(displaySolved, 1);
@@ -1931,6 +1960,44 @@ export default function Whiteboard() {
 
   const eraserMode = () => {
     setBrushState(false);
+  };
+
+  //GUIDE BUTTON
+  const [isGuide, setGuideState] = useState(false);
+
+  const guideMode = () => {
+    setHintState(false);
+    setTutorialState(false);
+    setPenState(false);
+    if (isGuide) {
+      if (isSolved) {
+        setTimeout(displaySolved, 1);
+      } else {
+        timer();
+      }
+      setGuideState(false);
+    } else {
+      clickLog('Guide_Button_Clicked');
+      for (let i = 0; i < highestTimeoutId; i++) {
+        clearTimeout(i);
+      }
+      if (!isSolved) {
+        setInterval(currentQuestionTimer, 1000);
+      }
+
+      let questionStatus = JSON.parse(
+        window.localStorage.getItem('FINISHED_EQUATION')
+      );
+      if (questionStatus === null) questionStatus = false;
+
+      if (questionStatus) {
+        setTimeout(displaySolved, 1);
+      } else {
+        setTimeout(timer, 1);
+      }
+
+      setGuideState(true);
+    }
   };
 
   //FOR MODAL
@@ -2081,7 +2148,7 @@ export default function Whiteboard() {
       */}
       <div
         id="whiteboard"
-        className={`hdScreen:scale-90 semihdScreen:scale-90 laptopScreen:scale-[82.5%] averageScreen:scale-80 hdScreen:-mt-8 semihdScreen:-mt-8 laptopScreen:-mt-12 averageScreen:-mt-16  mx-auto hdScreen:w-11/12 semihdScreen:w-11/12 laptopScreen:w-12/12 averageScreen:w-12/12 averageScreen:min-h-[calc(100vh-2rem)] flex items-center justify-center  h-screen averageScreen:overflow-y-hidden xs:overflow-y-auto
+        className={`hdScreen:scale-90 semihdScreen:scale-90 laptopScreen:scale-[82.5%] averageScreen:scale-80 hdScreen:-mt-8 semihdScreen:-mt-8 laptopScreen:-mt-12 averageScreen:-mt-16  averageScreen:pt-0 xs:pt-4 mx-auto hdScreen:w-11/12 semihdScreen:w-11/12 laptopScreen:w-12/12 averageScreen:w-12/12 averageScreen:min-h-[calc(100vh-2rem)] flex items-center justify-center  h-screen averageScreen:overflow-y-hidden xs:overflow-y-auto
                   ${skeletonState ? '' : ''}`}
         onMouseEnter={loadAnswers}
         onClick={loadAnswers}
@@ -2265,13 +2332,47 @@ export default function Whiteboard() {
                     <line x1="13.5" y1="6.5" x2="17.5" y2="10.5" />
                   </svg>
                 </div>
+
+                {/*<!--Guide-->*/}
+                <div
+                  className={`text-gray-500 hover:text-white focus:outline-none  ${
+                    isHelp ? 'ml-2 my-1' : 'px-3 py-2'
+                  }`}
+                  {...(isHelp
+                    ? {
+                        dataTooltip:
+                          'Button to show guide in writing the final answer.',
+                      }
+                    : {})}
+                  {...(isHelp ? { dataTooltipPosition: 'right' } : {})}
+                >
+                  <svg
+                    id="guide_button"
+                    onClick={guideMode}
+                    className={`cursor-pointer pl-[0.3rem] pt-2 p-1 hdScreen:h-11 semihdScreen:h-10 laptopScreen:h-9 averageScreen:h-8 xs:h-7  hdScreen:w-11 semihdScreen:w-10 laptopScreen:w-9 averageScreen:w-8  xs:w-7 rounded-full hover:fill-cyan-600/90 hover:bg-cyan-600/90 hover:text-white focus:text-white drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)] ${
+                      isGuide
+                        ? 'fill-cyan-600 bg-cyan-600/90 text-white '
+                        : isHelp
+                        ? 'hover:border-3 hover:border-white text-black/50 bg-cyan-700/90 fill-cyan-700/90'
+                        : 'text-black/50 bg-cyan-700/90 fill-cyan-700/90'
+                    }`}
+                    viewBox="0 0 21 21"
+                    strokeWidth="0.8"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    {!isHelp && <title>Guide</title>}
+                    <path d="M8.627,7.885C8.499,8.388,7.873,8.101,8.13,8.177L4.12,7.143c-0.218-0.057-0.351-0.28-0.293-0.498c0.057-0.218,0.279-0.351,0.497-0.294l4.011,1.037C8.552,7.444,8.685,7.667,8.627,7.885 M8.334,10.123L4.323,9.086C4.105,9.031,3.883,9.162,3.826,9.38C3.769,9.598,3.901,9.82,4.12,9.877l4.01,1.037c-0.262-0.062,0.373,0.192,0.497-0.294C8.685,10.401,8.552,10.18,8.334,10.123 M7.131,12.507L4.323,11.78c-0.218-0.057-0.44,0.076-0.497,0.295c-0.057,0.218,0.075,0.439,0.293,0.495l2.809,0.726c-0.265-0.062,0.37,0.193,0.495-0.293C7.48,12.784,7.35,12.562,7.131,12.507M18.159,3.677v10.701c0,0.186-0.126,0.348-0.306,0.393l-7.755,1.948c-0.07,0.016-0.134,0.016-0.204,0l-7.748-1.948c-0.179-0.045-0.306-0.207-0.306-0.393V3.677c0-0.267,0.249-0.461,0.509-0.396l7.646,1.921l7.654-1.921C17.91,3.216,18.159,3.41,18.159,3.677 M9.589,5.939L2.656,4.203v9.857l6.933,1.737V5.939z M17.344,4.203l-6.939,1.736v9.859l6.939-1.737V4.203z M16.168,6.645c-0.058-0.218-0.279-0.351-0.498-0.294l-4.011,1.037c-0.218,0.057-0.351,0.28-0.293,0.498c0.128,0.503,0.755,0.216,0.498,0.292l4.009-1.034C16.092,7.085,16.225,6.863,16.168,6.645 M16.168,9.38c-0.058-0.218-0.279-0.349-0.498-0.294l-4.011,1.036c-0.218,0.057-0.351,0.279-0.293,0.498c0.124,0.486,0.759,0.232,0.498,0.294l4.009-1.037C16.092,9.82,16.225,9.598,16.168,9.38 M14.963,12.385c-0.055-0.219-0.276-0.35-0.495-0.294l-2.809,0.726c-0.218,0.056-0.351,0.279-0.293,0.496c0.127,0.506,0.755,0.218,0.498,0.293l2.807-0.723C14.89,12.825,15.021,12.603,14.963,12.385"></path>
+                  </svg>
+                </div>
               </nav>
             </div>
 
             {/*<!--Given Area-->*/}
             <div
               id="givenArea"
-              className={` col-span-9 bg-white row-span-2 border-l-12  border-l-brTwo border-t-12 border-t-yellow-700 ${
+              className={`relative col-span-9 bg-white row-span-2 border-l-12  border-l-brTwo border-t-12 border-t-yellow-700 ${
                 isHelp ? 'hover:border-4 hover:border-red-500 ' : ''
               }`}
               {...(isHelp
@@ -2283,6 +2384,7 @@ export default function Whiteboard() {
               {...(isHelp ? { dataTooltipPosition: 'bottom' } : {})}
             >
               {/* PEN AREA, not modal */}
+              {/**FOR TUTORIAL */}
               <div
                 id="tutorialArea"
                 className={`bg-gray-800 absolute  z-50 overflow-hidden max-h-[calc(100vh-34.25vh)]" ${
@@ -2345,6 +2447,7 @@ export default function Whiteboard() {
                   </div>
                 </section>
               </div>
+              {/**FOR PEN */}
               <div
                 id="penArea"
                 className={`absolute z-10 " ${isPen ? '' : 'invisible'} `}
@@ -2357,6 +2460,67 @@ export default function Whiteboard() {
                   <canvas className=""></canvas>
                 </section>
               </div>
+
+              {/**FOR GUIDE */}
+              <div
+                id="guideArea"
+                className={`bg-gray-800/0 absolute  z-[100] overflow-hidden max-h-[calc(100vh-34.25vh)]" ${
+                  isGuide ? '' : 'invisible'
+                } `}
+              >
+                <section id="tutorialAlbum" className="relative  h-full w-full">
+                  <div
+                    id="guideContainer"
+                    className={` pl-4 pt-1 bg-white/60 absolute bottom-0 averageScreen:left-0 xs:right-0
+                    `}
+                  >
+                    <p className=" font-semibold hdScreen:text-xl semihdScreen:text-lg averageScreen:text-base xs:text-sm">
+                      Guide: Final Answer Format
+                    </p>
+                    <ul className="averageScreen:px-4 hdScreen:py-1.5 semihdScreen:py- hdScreen:text-lg averageScreen:text-sm semihdScreen:text-base xs:text-xs hdScreen:leading-[1.6rem] semihdScreen:leading-[1.4rem]">
+                      <li className="list-disc hdScreen:py-0.5 xs:py-[1px]">
+                        Final answer should be in{' '}
+                        <span className="">decimal format.</span> <br />
+                        Example: 26/7 ={' '}
+                        <span className="border-[1px] border-black py-0.5 px-1">
+                          3.71
+                        </span>
+                      </li>
+                      <li className="list-disc hdScreen:py-0.5 xs:py-[1px]">
+                        <span className="">Round off</span> up to 2 decimal
+                        places only. <br />
+                        Example: 2.127 ={' '}
+                        <span className="border-[1px] border-black py-0.5 px-1">
+                          2.13
+                        </span>{' '}
+                        <br />
+                        <div className="mt-1">
+                          Example: 0.008231 =
+                          <span className="border-[1px] border-black py-0.5 px-1">
+                            0.01
+                          </span>
+                        </div>
+                      </li>
+                      <li className="list-disc hdScreen:py-0.5 xs:py-[1px]">
+                        <span className="">Remove extra zeros</span> "0" in
+                        decimals. <br />
+                        Example: 2.10 ={' '}
+                        <span className="border-[1px] border-black py-0.5 px-1">
+                          2.1
+                        </span>
+                      </li>
+                      <li className="list-disc hdScreen:py-0.5 xs:py-[1px]">
+                        If the answer is like "0.000" write 0. <br />
+                        Example: 0.000 ={' '}
+                        <span className="border-[1px] border-black py-0.5 px-1">
+                          0
+                        </span>{' '}
+                      </li>
+                    </ul>
+                  </div>
+                </section>
+              </div>
+              {/**FOR FACIAL EXPRESSION */}
               <div
                 id="piaArea"
                 className={` absolute  z-50 overflow-hidden max-h-[calc(100vh-34.25vh)]" ${
@@ -2392,23 +2556,22 @@ export default function Whiteboard() {
                         alt=""
                       ></img>
                     </div>
-
-                    <div
-                      className={`absolute top-0 right-0 z-50  ${
-                        isPen ? 'invisible' : isTutorial ? 'invisible' : ''
-                      }`}
-                    >
-                      <button
-                        title="Proceed to the next given."
-                        onClick={skipQuestion}
-                        id="skip_button"
-                        className="hidden text-gray-500 bg-gray-200/40 px-2 py-0.5 rounded-bl-xl hover:bg-gray-300 hover:text-gray-700"
-                      >
-                        Skip Question
-                      </button>
-                    </div>
                   </div>
                 </section>
+              </div>
+              <div
+                className={`absolute bottom-0 right-0 z-50  ${
+                  isPen ? 'invisible' : isTutorial ? 'invisible' : ''
+                }`}
+              >
+                <button
+                  title="Proceed to the next given and mark this question as abandoned."
+                  onClick={skipQuestion}
+                  id="skip_button"
+                  className=" text-gray-400/50 px-2 py-0.5   hover:text-gray-400 hover:scale-105"
+                >
+                  Skip Question
+                </button>
               </div>
               <div
                 className={`z-20 flex relative flex-col hdScreen:ml-7 hdScreen:mt-7 semihdScreen:ml-5 semihdScreen:mt-4 laptopScreen:ml-4 laptopScreen:mt-4 averageScreen:ml-4 averageScreen:mt-4 xs:ml-2 xs:mt-2 ${
@@ -2492,11 +2655,11 @@ export default function Whiteboard() {
                 id="message_area"
                 className="border-l-brTwo border-l-18 relative grid grid-rows-6 h-full w-2/2  bg-slate-200 rounded-tr-4xl "
               >
-                <div className="row-span-5 flex justify-center text-center items-center  drop-shadow-[0_2px_1px_rgba(255,255,255,0.35)]">
-                  <div className=" hdScreen:text-3.5xl semihdScreen:text-2.5xl laptopScreen:text-2xl averageScreen:text-2xl  md:text-lg sm:text-base xs:text-sm hdScreen:leading-9 font-poppins font-semibold px-4">
+                <div className="row-span-5 flex justify-center text-center items-center  drop-shadow-[0_2px_1px_rgba(255,255,255,0.35)] ">
+                  <div className=" hdScreen:text-3.5xl semihdScreen:text-2.5xl laptopScreen:text-2xl averageScreen:text-2xl  md:text-lg sm:text-base xs:text-sm hdScreen:leading-9 font-poppins font-semibold px-4 ">
                     {textResponse}
 
-                    <p className="hdScreen:text-4.5xl semihdScreen:text-4.5xl laptopScreen:text-3.5xl averageScreen:text-3.5xl md:text-xl sm:text-lg xs:text-base  mt-3 font-extrabold ">
+                    <p className="hdScreen:text-4.5xl semihdScreen:text-4xl laptopScreen:text-3.25xl averageScreen:text-3.15xl md:text-xl sm:text-lg xs:text-base  mt-3 font-extrabold ">
                       {' '}
                       {subtextResponse}
                     </p>
@@ -2638,7 +2801,7 @@ export default function Whiteboard() {
 
             {/*<!--userLogs STORING area --> UPDATE: ADDED +1 ROWSPAN*/}
             <div
-              className={`col-span-5 row-span-8 ml-3 border-l-18  hdScreen:-mr-20 semihdScreen:-mr-16 laptopScreen:-mr-[3.75rem] averageScreen:-mr-14 border-brTwo ${
+              className={`col-span-5 row-span-8 ml-3 border-l-18  hdScreen:-mr-20 semihdScreen:-mr-16 laptopScreen:-mr-[3.75rem] averageScreen:-mr-14 xs:-mr-8 border-brTwo ${
                 isHelp ? ' hover:bg-red-500' : ''
               }`}
               {...(isHelp
@@ -2654,12 +2817,14 @@ export default function Whiteboard() {
                 className="px-5 overflow-auto
                 min-[1536px]:min-h-[19.25rem] 
                 min-[1536px]:max-h-[19.25rem]
-                min-[1367px]:min-h-[12.5rem] max-[1535px]:min-h-[12.5rem]
-                min-[1367px]:max-h-[12.5rem] max-[1535px]:max-h-[12.5rem]
-                min-[1281px]:min-h-[10.25rem] max-[1366px]:min-h-[10.25rem]
-                min-[1281px]:max-h-[10.25rem] max-[1366px]:max-h-[10.25rem]  
-                min-[480px]:min-h-[12.25rem] max-[1280px]:min-h-[12.25rem] 
-                min-[480px]:max-h-[12.25rem] max-[1280px]:max-h-[12.25rem]  
+                min-[1367px]:min-h-[16.5rem] max-[1535px]:min-h-[16.5rem] 
+                min-[1367px]:max-h-[16.5rem] max-[1535px]:max-h-[16.5rem]
+                min-[1281px]:min-h-[15.25rem] max-[1366px]:min-h-[15.25rem]
+                min-[1281px]:max-h-[15.25rem] max-[1366px]:max-h-[15.25rem]  
+                min-[801px]:min-h-[14.25rem] max-[1280px]:min-h-[14.25rem] 
+                min-[801px]:max-h-[14.25rem] max-[1280px]:max-h-[14.25rem]  
+                min-[480px]:min-h-[10.25rem] max-[800px]:min-h-[10.25rem] 
+                min-[480px]:max-h-[10.25rem] max-[800px]:max-h-[10.25rem]  
                 style-1 pb-11"
               >
                 {
@@ -2716,7 +2881,7 @@ export default function Whiteboard() {
                       maxLength="50"
                       type="text"
                       name="chat"
-                      className={` block rounded-5xl w-full p-5  text-2xl  ${
+                      className={` block rounded-5xl w-full p-5  averageScreen:text-2xl xs:text-base  ${
                         isTutorial ? 'bg-gray-300 placeholder-gray-500' : ''
                       }`}
                       placeholder="Input your answer here..."
@@ -2729,7 +2894,7 @@ export default function Whiteboard() {
                     <button
                       onClick={textInput !== '' ? handleClick : undefined}
                       value={textInput}
-                      className={` flex items-center select-none text-white text-xl font-light absolute  right-2.5 bottom-3  rounded-full px-4 py-2.5  ${
+                      className={`averageScreen:mb-0 xs:mb-[0.0.8rem] flex items-center select-none text-white averageScreen:text-xl xs:text-sm font-light absolute  right-2.5 bottom-3  rounded-full px-4 py-2.5  ${
                         isTutorial
                           ? 'cursor-default bg-gray-400'
                           : 'bg-lime-700  cursor-pointer dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800  hover:bg-lime-800 focus:ring-2 focus:outline-none drop-shadow-[0_2px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_2px_0px_rgba(0,0,0,0.6)]'
@@ -2741,7 +2906,7 @@ export default function Whiteboard() {
                         : {})}
                     >
                       Submit
-                      <MdOutlineKeyboardReturn className="ml-1 text-2xl" />
+                      <MdOutlineKeyboardReturn className="ml-1 averageScreen:text-2xl " />
                     </button>
                   </form>
                 </div>
@@ -2862,7 +3027,7 @@ export default function Whiteboard() {
 
             {/*<!--Trashcan area--> UPDATE: REMOVED 5 colspan*/}
             <div className="col-span-6 row-span-2 ml-3 border-l-18 border-brTwo ">
-              <div className="flex justify-end hdScreen:mt-8 semihdScreen:mt-9 laptopScreen:mt-11 averageScreen:mt-11 ">
+              <div className="flex justify-end hdScreen:mt-8 semihdScreen:mt-9 laptopScreen:mt-11 averageScreen:mt-11 xs:mt-12">
                 <button
                   className=""
                   onClick={clearLogs}
@@ -2875,7 +3040,7 @@ export default function Whiteboard() {
                   {...(isHelp ? { dataTooltipPosition: 'left' } : {})}
                 >
                   <svg
-                    className={`hdScreen:h-20 semihdScreen:h-[4.5rem] laptopScreen:h-16 averageScreen:h-16 xs:h-14 hdScreen:w-20 semihdScreen:w-[4.5rem] laptopScreen:w-16 averageScreen:w-16 xs:w-15 bg-white rounded-full p-3 hover:bg-gray-300 drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)] ${
+                    className={`hdScreen:h-20 semihdScreen:h-[4.5rem] laptopScreen:h-16 averageScreen:h-16 xs:h-12 hdScreen:w-20 semihdScreen:w-[4.5rem] laptopScreen:w-16 averageScreen:w-16 xs:w-12 bg-white rounded-full p-3 hover:bg-gray-300 drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)] ${
                       isHelp ? 'hover:border-6 hover:border-red-500' : ''
                     }`}
                     id="Layer_1"

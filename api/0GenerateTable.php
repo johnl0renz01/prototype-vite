@@ -18,17 +18,21 @@ switch($_SESSION['method']) {
         
         $create = "CREATE TABLE ".$tablename." (
             SessionID INT UNSIGNED AUTO_INCREMENT PRIMARY KEY   , 
-            SessionType VARCHAR(255) NOT NULL , 
-            Score INT NOT NULL , 
-            TimeSpent VARCHAR(255) NOT NULL , 
-            TimeStamp VARCHAR(255) NOT NULL ,
-            TimeStart VARCHAR(255) NOT NULL ,
-            ExpressionAngry VARCHAR(255) NOT NULL ,
-            ExpressionHappy VARCHAR(255) NOT NULL ,
-            ExpressionSad VARCHAR(255) NOT NULL ,
-            ExpressionSurprised VARCHAR(255) NOT NULL ,
-            ExpressionMotivation VARCHAR(255) NOT NULL
-            )";
+                SessionType VARCHAR(255) NOT NULL , 
+                Score INT NOT NULL , 
+                TimeSpent VARCHAR(255) NOT NULL , 
+                TimeStamp VARCHAR(255) NOT NULL ,
+                TimeStart VARCHAR(255) NOT NULL ,
+                ExpressionAngry VARCHAR(255) NOT NULL ,
+                ExpressionHappy VARCHAR(255) NOT NULL ,
+                ExpressionSad VARCHAR(255) NOT NULL ,
+                ExpressionSurprised VARCHAR(255) NOT NULL ,
+                ExpressionMotivation VARCHAR(255) NOT NULL ,
+                Sequence TEXT NOT NULL ,
+                Answered VARCHAR(255) NOT NULL ,
+                Abandoned VARCHAR(255) NOT NULL ,
+                LevelUp VARCHAR(255) NOT NULL
+                )";
 
         $conn->exec($create);
         echo "\nTable created successfully";
