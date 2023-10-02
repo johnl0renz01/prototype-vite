@@ -3,8 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
 
-import ViewDetailModal from './ViewDetailModal';
-
 import {
   BsEye,
   BsDashCircle,
@@ -17,6 +15,7 @@ import MyRequestSkeleton from './MyRequestSkeleton';
 
 import LoadingSpinner from './LoadingSpinner';
 
+import ViewDetailModal from './ViewDetailModal';
 import ViewDetailMessageModal from './ViewDetailMessageModal';
 
 import ContactAdminModal from './ContactAdminModal';
@@ -131,7 +130,47 @@ export default function MyRequest() {
     }
   }
 
+  function updateTableNotification() {
+    var email = JSON.parse(window.localStorage.getItem('SESSION_EMAIL'));
+    axios
+      .get(
+        `http://localhost:80/Prototype-Vite/my-project/api/myRequestList/${email}`
+      )
+      .then(function (response) {
+        setRequests(response.data);
+      })
+      .catch(function (error) {});
+  }
+
+  window.addEventListener('mouseover', updateRequests);
+
+  function updateRequests() {
+    var updateState = JSON.parse(
+      window.localStorage.getItem('UPDATE_REQUEST_STATE')
+    );
+    if (updateState === null) updateState = false;
+
+    if (updateState == true) {
+      window.localStorage.setItem('UPDATE_REQUEST_STATE', false);
+      updateTableNotification();
+    }
+  }
+
+  function updateNotification() {
+    var email = JSON.parse(window.localStorage.getItem('SESSION_EMAIL'));
+    axios
+      .get(
+        `http://localhost:80/Prototype-Vite/my-project/api/myRequestList/${email}`
+      )
+      .then(function (response) {
+        console.log(response.data);
+        setRequests(response.data);
+      })
+      .catch(function (error) {});
+  }
+
   const viewMode = e => {
+    window.localStorage.setItem('UPDATE_NOTIFICATION_STATE', true);
     let requestID = e.target.name;
     window.sessionStorage.setItem(
       'CURRENT_VIEW_DETAIL',
@@ -139,6 +178,17 @@ export default function MyRequest() {
     );
     window.sessionStorage.setItem('VIEW_DETAIL_STATE', true);
     setShowModal(true);
+
+    let role = JSON.parse(window.localStorage.getItem('ACCOUNT_TYPE'));
+    axios
+      .post(
+        `http://localhost:80/Prototype-Vite/my-project/api/requestSeen/${requestID}@${role}`
+      )
+      .then(function (response) {
+        console.log(response.data);
+        updateNotification();
+      })
+      .catch(function (error) {});
   };
 
   // MODAL VIEW
@@ -166,8 +216,8 @@ export default function MyRequest() {
 
   const handleOnContinueModal2 = () => {
     setShowModal2(false);
-    setShowModal3(true);
     updateTable();
+    setShowModal3(true);
   };
 
   // MODAL CONTACT ADMIN MESSAGE
@@ -407,7 +457,7 @@ export default function MyRequest() {
                           {requests.map((currentRequest, index) => (
                             <tr
                               key={index}
-                              className="odd:bg-white even:bg-slate-50/30 border-b border-gray-200 bg-white hover:bg-gray-100 text-gray-900 hover:text-indigo-600  "
+                              className="odd:bg-white even:bg-slate-50/30  border-b border-gray-200 bg-white hover:bg-gray-100 text-gray-900 hover:text-indigo-600  "
                             >
                               <td className="hdScreen:w-[320px] semihdScreen:w-[240px] laptopScreen:w-[190px] averageScreen:w-[130px] sm:w-[90px] xs:w-[50px] relative overflow-hidden flex items-center lg:text-base md:text-sm xs:text-xs lg:px-5 py-[10px] whitespace-nowrap">
                                 <div className="flex-shrink-0  h-10 mr-3 break-all "></div>
@@ -432,6 +482,17 @@ export default function MyRequest() {
                                     value="View Details"
                                     className="cursor-pointer py-[0.2rem]  md:px-4 md:w-auto xs:w-20 text-gray-700 hover:text-white  shadow-md rounded-md font-semibold  transition duration-500 border-gray-400 border-2  hover:bg-gray-500 hover:border-gray-500 lg:text-base"
                                   ></input>
+                                  <span
+                                    className={`select-none z-10 absolute sm:-right-2 xs:-right-2.5 averageScreen:top-1.5 sm:top-[0.2rem] xs:top-0.5 pr-2 pt-0.5 w-5 h-5 font-semibold rounded-full bg-black text-xs text-white averageScreen:scale-100 sm:scale-70 xs:scale-60
+                                              ${
+                                                currentRequest.ReadUser ==
+                                                'FALSE'
+                                                  ? ''
+                                                  : 'hidden'
+                                              }`}
+                                  >
+                                    !
+                                  </span>
                                 </div>
                               </td>
                               <td className="text-right hdScreen:pr-6 semihdScreen:pr-1 laptopScreen:pr-0.5 averageScreen:pr-0 lg:text-base md:text-sm xs:text-xs">

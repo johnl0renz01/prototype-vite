@@ -86,7 +86,7 @@ export default function UserRequest() {
         if (response.data.length < 1) {
           setEmptyState(true);
         }
-        console.log(response.data);
+        //console.log(response.data);
         setRequests(response.data);
         setTimeout(hideNavbar, 1);
 
@@ -141,7 +141,43 @@ export default function UserRequest() {
     }
   }
 
+  function updateTableNotification() {
+    var email = JSON.parse(window.localStorage.getItem('SESSION_EMAIL'));
+    axios
+      .get(
+        `http://localhost:80/Prototype-Vite/my-project/api/requestList/${email}`
+      )
+      .then(function (response) {
+        setRequests(response.data);
+      })
+      .catch(function (error) {});
+  }
+
+  window.addEventListener('mouseover', updateRequests);
+
+  function updateRequests() {
+    var updateState = JSON.parse(
+      window.localStorage.getItem('UPDATE_REQUEST_STATE')
+    );
+    if (updateState === null) updateState = false;
+
+    if (updateState == true) {
+      window.localStorage.setItem('UPDATE_REQUEST_STATE', false);
+      updateTableNotification();
+    }
+  }
+
+  function updateNotification() {
+    axios
+      .get(`http://localhost:80/Prototype-Vite/my-project/api/requestList/`)
+      .then(function (response) {
+        setRequests(response.data);
+      })
+      .catch(function (error) {});
+  }
+
   const viewMode = e => {
+    window.localStorage.setItem('UPDATE_NOTIFICATION_STATE', true);
     let requestID = e.target.name;
     window.sessionStorage.setItem(
       'CURRENT_VIEW_DETAIL',
@@ -149,6 +185,17 @@ export default function UserRequest() {
     );
     window.sessionStorage.setItem('VIEW_DETAIL_STATE', true);
     setShowModal(true);
+
+    let role = JSON.parse(window.localStorage.getItem('ACCOUNT_TYPE'));
+    axios
+      .post(
+        `http://localhost:80/Prototype-Vite/my-project/api/requestSeen/${requestID}@${role}`
+      )
+      .then(function (response) {
+        //console.log(response.data);
+        updateNotification();
+      })
+      .catch(function (error) {});
   };
 
   // MODAL VIEW
@@ -177,13 +224,13 @@ export default function UserRequest() {
   const solved = e => {
     setShowLoading(true);
     let requestID = e.target.name;
-    console.log(requestID);
+    //console.log(requestID);
     axios
       .post(
         `http://localhost:80/Prototype-Vite/my-project/api/requestSolved/${requestID}`
       )
       .then(function (response) {
-        console.log(response.data);
+        //console.log(response.data);
         updateTable();
         setShowLoading(false);
       })
@@ -430,7 +477,7 @@ export default function UserRequest() {
                               </td>
                               <td className="lg:text-base md:text-sm xs:text-xs break-all">
                                 <div>
-                                  <p>{currentRequest.Email}</p>
+                                  <p>{currentRequest.Name}</p>
                                 </div>
                               </td>
                               <td className="lg:text-base md:text-sm xs:text-xs ">
@@ -448,6 +495,17 @@ export default function UserRequest() {
                                     value="View Details"
                                     className="cursor-pointer py-[0.2rem]  md:px-4 md:w-auto xs:w-20 text-gray-700 hover:text-white  shadow-md rounded-md font-semibold  transition duration-500 border-gray-400 border-2  hover:bg-gray-500 hover:border-gray-500 lg:text-base"
                                   ></input>
+                                  <span
+                                    className={`select-none z-10 absolute sm:-right-2 xs:-right-2.5 averageScreen:top-1.5 sm:top-[0.2rem] xs:top-0.5 pr-2 pt-0.5 w-5 h-5 font-semibold rounded-full bg-black text-xs text-white averageScreen:scale-100 sm:scale-70 xs:scale-60
+                                              ${
+                                                currentRequest.ReadAdmin ==
+                                                'FALSE'
+                                                  ? ''
+                                                  : 'hidden'
+                                              }`}
+                                  >
+                                    !
+                                  </span>
                                 </div>
                               </td>
                               <td className="text-right hdScreen:pr-6 semihdScreen:pr-1 laptopScreen:pr-0.5 averageScreen:pr-0 lg:text-base md:text-sm xs:text-xs">

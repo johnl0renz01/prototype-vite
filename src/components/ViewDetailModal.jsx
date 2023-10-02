@@ -294,7 +294,8 @@ const ViewDetailModal = ({ visible, onClose, onContinue }) => {
                   <button
                     type="button"
                     onClick={cancelButton}
-                    className="transition duration-200  text-gray-800   lg:py-0.5 lg:px-3 sm:py-1.5 sm:px-2.5 xs:px-1 xs:py-1 tracking-normal inline-block rounded-md border-gray-300 border-2 hover:border-gray-500 "
+                    className="transition duration-200  text-gray-800   lg:py-0.5 lg:px-3 sm:py-1.5 sm:px-2.5 xs:px-1 xs:py-1 tracking-normal inline-block rounded-md border-gray-300 border-2 hover:border-gray-500 
+                    hdScreen:text-lg semihdScreen:text-lg laptopScreen:text-base averageScreen:text-base sm:text-sm xs:text-xs"
                   >
                     Cancel
                   </button>
@@ -305,8 +306,8 @@ const ViewDetailModal = ({ visible, onClose, onContinue }) => {
                     className={` ml-4 relative lg:py-0.5 lg:px-3 sm:py-1.5 sm:px-2.5 xs:px-1 xs:py-1  rounded-md   ease-in-out transition duration-300 
                                 ${
                                   values.message != ''
-                                    ? 'cursor-pointer text-white  bg-lime-600 hover:bg-lime-700'
-                                    : 'cursor-default text-gray-300 bg-gray-400'
+                                    ? 'cursor-pointer text-white  bg-lime-600 hover:bg-lime-700 border-2 border-lime-600 hover:border-lime-700'
+                                    : 'cursor-default text-gray-300 bg-gray-400 border-2 border-gray-400'
                                 }`}
                   >
                     <span className=" hdScreen:text-lg semihdScreen:text-lg laptopScreen:text-base averageScreen:text-base sm:text-sm xs:text-xs flex items-center justify-center">
@@ -331,7 +332,7 @@ const ViewDetailModal = ({ visible, onClose, onContinue }) => {
                     type="button"
                     onClick={closeButton}
                     className={`transition duration-200  text-gray-800  lg:py-0.5 lg:px-3 sm:py-1.5 sm:px-2.5 xs:px-1 xs:py-1 tracking-normal inline-block rounded-md border-2 border-gray-300 hover:border-gray-500 "
-                  `}
+                    hdScreen:text-lg semihdScreen:text-lg laptopScreen:text-base averageScreen:text-base sm:text-sm xs:text-xs`}
                   >
                     Close
                   </button>

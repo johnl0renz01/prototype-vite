@@ -29,9 +29,11 @@ const ContactAdminModal = ({ visible, onClose, onContinue }) => {
     setShowLoading(true);
     var email = JSON.parse(window.localStorage.getItem('SESSION_EMAIL'));
     var role = JSON.parse(window.localStorage.getItem('ACCOUNT_TYPE'));
+    var name = JSON.parse(window.localStorage.getItem('SESSION_FULLNAME'));
+    name = name.replace(/ /g, '_');
     axios
       .post(
-        `http://localhost:80/Prototype-Vite/my-project/api/requestSend/${email}@${role}`,
+        `http://localhost:80/Prototype-Vite/my-project/api/requestSend/${email}~${role}~${name}`,
         values
       )
       .then(function (response) {

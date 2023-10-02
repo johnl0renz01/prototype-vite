@@ -1103,7 +1103,10 @@ export default function Whiteboard() {
         JSON.parse(window.localStorage.getItem('SYSTEM_VERSION')) ==
         'Facial Group'
       ) {
-        setImageLink('PIA-Smiling');
+        let imageArray = ['PIA-Smiling', 'PIA-Smiling2'];
+        let imageLink =
+          imageArray[Math.floor(Math.random() * imageArray.length)];
+        setImageLink(imageLink);
         //setImageLink("PIA-Surprised");
         changeResponseColor(correctColor);
       }
@@ -1124,7 +1127,10 @@ export default function Whiteboard() {
         JSON.parse(window.localStorage.getItem('SYSTEM_VERSION')) ==
         'Facial Group'
       ) {
-        setImageLink('PIA-Smiling');
+        let imageArray = ['PIA-Smiling', 'PIA-Smiling2'];
+        let imageLink =
+          imageArray[Math.floor(Math.random() * imageArray.length)];
+        setImageLink(imageLink);
         changeResponseColor(correctColor);
       }
       //
@@ -1177,7 +1183,9 @@ export default function Whiteboard() {
       JSON.parse(window.localStorage.getItem('SYSTEM_VERSION')) ==
       'Facial Group'
     ) {
-      setImageLink('PIA-Smiling2');
+      let imageArray = ['PIA-Smiling3', 'PIA-Smiling4'];
+      let imageLink = imageArray[Math.floor(Math.random() * imageArray.length)];
+      setImageLink(imageLink);
       changeResponseColor(correctColor);
     }
     //
@@ -1195,7 +1203,9 @@ export default function Whiteboard() {
       JSON.parse(window.localStorage.getItem('SYSTEM_VERSION')) ==
       'Facial Group'
     ) {
-      setImageLink('PIA-Confused2');
+      let imageArray = ['PIA-Confused', 'PIA-Confused2'];
+      let imageLink = imageArray[Math.floor(Math.random() * imageArray.length)];
+      setImageLink(imageLink);
       changeResponseColor(invalidColor);
     }
     //
@@ -1383,7 +1393,10 @@ export default function Whiteboard() {
         JSON.parse(window.localStorage.getItem('SYSTEM_VERSION')) ==
         'Facial Group'
       ) {
-        setImageLink('PIA-Sad');
+        let imageArray = ['PIA-Sad', 'PIA-Sad2', 'PIA-Sad3'];
+        let imageLink =
+          imageArray[Math.floor(Math.random() * imageArray.length)];
+        setImageLink(imageLink);
       }
       //
       setResponse(FeedbackList.GenerateMessage('wrong1'));
@@ -1407,7 +1420,7 @@ export default function Whiteboard() {
   }
 
   function displayMotivation() {
-    setImageLink('PIA-Talking1');
+    setImageLink('PIA-Talking2');
     let messageType = ['motivation1', 'motivation2', 'motivation3'];
     let message = messageType[Math.floor(Math.random() * messageType.length)];
     setResponse(FeedbackList.GenerateMessage(message));
@@ -1418,7 +1431,9 @@ export default function Whiteboard() {
   }
 
   function displayInspiration() {
-    setImageLink('PIA-Wink');
+    let imageArray = ['PIA-Wink', 'PIA-Wink2'];
+    let imageLink = imageArray[Math.floor(Math.random() * imageArray.length)];
+    setImageLink(imageLink);
     setResponse(FeedbackList.GenerateMessage('motivation4'));
     setSubtext('');
     changeResponseColor(motivationColor2);
@@ -1470,7 +1485,9 @@ export default function Whiteboard() {
       'Facial Group'
     ) {
       increaseTally('EXPRESSION_ANGRY');
-      setImageLink('PIA-Angry');
+      let imageArray = ['PIA-Angry', 'PIA-Angry2', 'PIA-Angry3'];
+      let imageLink = imageArray[Math.floor(Math.random() * imageArray.length)];
+      setImageLink(imageLink);
       changeResponseColor(angryColor);
     }
     //
@@ -1508,7 +1525,9 @@ export default function Whiteboard() {
   //Revert back text messages and color
   //const a = () => {
   function timer() {
-    setImageLink('PIA-Neutral');
+    let imageArray = ['PIA-Neutral', 'PIA-Neutral2'];
+    let imageLink = imageArray[Math.floor(Math.random() * imageArray.length)];
+    setImageLink(imageLink);
 
     setResponse('Please input your solution or answer for this problem.');
     setSubtext('');
@@ -1517,7 +1536,9 @@ export default function Whiteboard() {
   }
 
   function newQuestion() {
-    setImageLink('PIA-Neutral');
+    let imageArray = ['PIA-Neutral', 'PIA-Neutral2'];
+    let imageLink = imageArray[Math.floor(Math.random() * imageArray.length)];
+    setImageLink(imageLink);
 
     setResponse("This is the next question I've got for you.");
     setSubtext('');
@@ -1526,7 +1547,9 @@ export default function Whiteboard() {
   }
 
   function helpModeResponse() {
-    setImageLink('PIA-Neutral');
+    let imageArray = ['PIA-Neutral', 'PIA-Neutral2'];
+    let imageLink = imageArray[Math.floor(Math.random() * imageArray.length)];
+    setImageLink(imageLink);
 
     setResponse(
       'You are currently in help mode. Click anywhere to change to default.'
@@ -1559,7 +1582,9 @@ export default function Whiteboard() {
   }
 
   function tutorialModeResponse() {
-    setImageLink('PIA-Neutral');
+    let imageArray = ['PIA-Neutral', 'PIA-Neutral2'];
+    let imageLink = imageArray[Math.floor(Math.random() * imageArray.length)];
+    setImageLink(imageLink);
 
     setResponse(
       'Tutorial video mode. Click the tutorial video button to change to default.'
@@ -1569,7 +1594,9 @@ export default function Whiteboard() {
   }
 
   function penModeResponse() {
-    setImageLink('PIA-Neutral');
+    let imageArray = ['PIA-Neutral', 'PIA-Neutral2'];
+    let imageLink = imageArray[Math.floor(Math.random() * imageArray.length)];
+    setImageLink(imageLink);
 
     setResponse('Pen mode. Click the pen button to change to default.');
     setSubtext('');

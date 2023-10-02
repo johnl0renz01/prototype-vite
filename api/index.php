@@ -303,6 +303,17 @@ switch($requestLink) {
         include('myRequestList.php');
     break;
 
+    case "/Prototype-Vite/my-project/api/requestNotificationAdmin":
+        include('requestNotificationAdmin.php');
+    break;
+    case "/Prototype-Vite/my-project/api/requestNotificationUser":
+        include('requestNotificationUser.php');
+    break;
+
+    case "/Prototype-Vite/my-project/api/requestSeen":
+        include('requestSeen.php');
+    break;
+
     // SET NEW PASSWORD
     case "/Prototype-Vite/my-project/api/setNewPassword":
         include('setNewPassword.php');
