@@ -31,7 +31,7 @@ const ContactAdminMessageModal = ({ visible, onClose, onContinue }) => {
             </div>
           </div>
           <div className="">
-            <div className="p-4 ">The message has been sent successfully.</div>
+            <div className="p-4 ">The request has been sent successfully.</div>
             <div className="mx-auto text-center border-t-2 border-gray-300 py-3 ">
               <button
                 onClick={onClose}

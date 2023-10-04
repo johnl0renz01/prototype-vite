@@ -65,11 +65,6 @@ import ViewDetailMessageModal from './ViewDetailMessageModal';
 
 import LoadingSpinner from './LoadingSpinner';
 
-/// FOR NOTIFICATIONS
-function classNames(...classes) {
-  return classes.filter(Boolean).join(' ');
-}
-
 export default function AdminNavbar() {
   const [showLoading, setShowLoading] = useState(false);
 
@@ -329,8 +324,9 @@ export default function AdminNavbar() {
   */
 
   /// FOR NOTIFICATIONS
-
-  const [requests, setRequests] = useState([]);
+  function classNames(...classes) {
+    return classes.filter(Boolean).join(' ');
+  }
 
   window.addEventListener('mouseover', updateNotifs);
 
@@ -350,11 +346,12 @@ export default function AdminNavbar() {
     getRequests();
   }, []);
 
+  const [requests, setRequests] = useState([]);
+
   function getRequests() {
     axios
       .get(`https://pia-sfe.online/api/requestNotificationAdmin/`)
       .then(function (response) {
-        //console.log(response.data);
         window.localStorage.setItem('UPDATE_REQUEST_STATE', true);
         setRequests(response.data);
       })
@@ -363,6 +360,7 @@ export default function AdminNavbar() {
 
   const viewMode = e => {
     let requestID = e.currentTarget.name;
+
     window.sessionStorage.setItem(
       'CURRENT_VIEW_DETAIL',
       JSON.stringify(requestID)
@@ -374,7 +372,6 @@ export default function AdminNavbar() {
     axios
       .post(`https://pia-sfe.online/api/requestSeen/${requestID}@${role}`)
       .then(function (response) {
-        //console.log(response.data);
         getRequests();
       })
       .catch(function (error) {});
@@ -542,6 +539,7 @@ export default function AdminNavbar() {
           <div className="">
             <ul className="text-xs">
               <li
+                title="Overview"
                 onClick={homePage}
                 id="logo"
                 className="cursor-pointer border-b-2 pt-4 text-white border-black/5 mx-auto"
@@ -555,6 +553,7 @@ export default function AdminNavbar() {
                 ></i>
               </li>
               <li
+                title="Manage Accounts"
                 onClick={tab1}
                 className={`cursor-pointer  border-b-2 border-black/5 ${
                   tabHighlight == 1
@@ -580,6 +579,7 @@ export default function AdminNavbar() {
                 </div>
               </li>
               <li
+                title="Manage Sections"
                 onClick={tab2}
                 className={`cursor-pointer border-b-2 border-black/5 ${
                   tabHighlight == 2
@@ -605,6 +605,7 @@ export default function AdminNavbar() {
                 </div>
               </li>
               <li
+                title="Register Account"
                 onClick={tab3}
                 className={`cursor-pointer border-b-2 border-black/5 ${
                   tabHighlight == 3
@@ -630,6 +631,7 @@ export default function AdminNavbar() {
                 </div>
               </li>
               <li
+                title="User Requests"
                 onClick={tab4}
                 className={`cursor-pointer border-b-2 border-black/5 ${
                   tabHighlight == 4
@@ -654,6 +656,7 @@ export default function AdminNavbar() {
                 </div>
               </li>
               <li
+                title="Help"
                 onClick={tab5}
                 className={`cursor-pointer border-b-2 border-black/5 ${
                   tabHighlight == 5
@@ -678,6 +681,7 @@ export default function AdminNavbar() {
                 </div>
               </li>
               <li
+                title="Log-out"
                 onClick={logout}
                 className={`cursor-pointer border-b-2 border-black/5 hover:bg-black/30 text-white transition duration-300 ${
                   sidebarMode == 'Minimized'
@@ -702,7 +706,11 @@ export default function AdminNavbar() {
           <div className="flex mt-auto justify-center">
             <div
               onClick={adjustSidebar}
-              title="Minimize the sidebar"
+              {...(sidebarMode == 'Minimized'
+                ? {
+                    title: 'Expand the sidebar.',
+                  }
+                : { title: 'Collapse the sidebar' })}
               className={`w-full cursor-pointer border-black/5 py-3 hover:bg-black/30 text-white transition duration-300
                 `}
             >

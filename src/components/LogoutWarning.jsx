@@ -10,6 +10,26 @@ import ClearStorage from './ClearStorage';
 export default function LogoutWarning() {
   const navigate = useNavigate();
   const [accType, setAccType] = useState('');
+
+  document.addEventListener('mouseover', checkLoginStatus);
+
+  function checkLoginStatus() {
+    var status = JSON.parse(window.localStorage.getItem('LOGIN_STATUS'));
+    if (status === null) status = '';
+
+    var email = JSON.parse(window.localStorage.getItem('SESSION_EMAIL'));
+    if (email === null) email = '';
+
+    if (email != '') {
+      setAccType(status);
+      checkLoginState();
+      checkLoginStateDelay();
+
+      if (status != '') {
+      }
+    }
+  }
+
   useEffect(() => {
     var status = JSON.parse(window.localStorage.getItem('LOGIN_STATUS'));
     if (status === null) status = '';
@@ -60,9 +80,7 @@ export default function LogoutWarning() {
         var account = JSON.parse(window.localStorage.getItem('ACCOUNT_TYPE'));
         if (account == 'Student') {
           EndSession.recordData();
-          window.localStorage.setItem('SESSION_USER', JSON.stringify(''));
-          window.localStorage.setItem('SESSION_EMAIL', JSON.stringify(''));
-          window.localStorage.setItem('SESSION_ID', JSON.stringify(''));
+
           setAccType(status);
         } else {
           setAccType(status);
@@ -71,14 +89,21 @@ export default function LogoutWarning() {
     }, 1);
   }
 
-  const closeLogoutWarning = () => {
+  const clearData = () => {
     var account = JSON.parse(window.localStorage.getItem('ACCOUNT_TYPE'));
     if (account == 'Student') {
       ClearStorage.clearData();
+      window.localStorage.setItem('SESSION_USER', JSON.stringify(''));
+      window.localStorage.setItem('SESSION_EMAIL', JSON.stringify(''));
+      window.localStorage.setItem('SESSION_ID', JSON.stringify(''));
       window.localStorage.removeItem('SESSION_ID');
       window.localStorage.removeItem('TIME_SPENT');
     }
+  };
 
+  const closeLogoutWarning = () => {
+    window.localStorage.removeItem('SESSION_USER_LOGS');
+    window.localStorage.removeItem('DIFFICULTY_TYPE');
     window.localStorage.removeItem('LOGIN_STATUS');
     window.localStorage.removeItem('UNIQUE_ID');
     setAccType('');
@@ -114,6 +139,7 @@ export default function LogoutWarning() {
             </div>
             <div className="mx-auto text-center border-t-2 border-gray-300 py-3 ">
               <button
+                onMouseEnter={clearData}
                 onClick={closeLogoutWarning}
                 className="bg-gray-400/60 h-8 w-20 tracking-wide inline-block rounded-lg hover:bg-gray-400 hover:text-gray-100"
               >

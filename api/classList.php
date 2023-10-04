@@ -14,6 +14,7 @@ $section = $_SERVER['REQUEST_URI'];
 for ($i = strlen($section) - 1; $i > 0; $i--) {
     if ($section[$i] == "/") {
         $section = substr($section, ($i + 1));
+        $section = str_replace("_"," ", $section);
         break;
     }
 }

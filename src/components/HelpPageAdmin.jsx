@@ -464,7 +464,7 @@ export default function HelpPageAdmin() {
             >
               Account list{' '}
             </a>
-            <div className="">
+            <div className="pl-3">
               <p className="hdScreen:py-2 semihdScreen:py-2 laptopScreen:py-1.5 averageScreen:py-1 sm:py-1 xs:py-0.5">
                 The first page admin will see after clicking the manage accounts
                 tab.
@@ -515,7 +515,7 @@ export default function HelpPageAdmin() {
             >
               Search account{' '}
             </a>
-            <div className="">
+            <div className="pl-3">
               <p className="hdScreen:py-2 semihdScreen:py-2 laptopScreen:py-1.5 averageScreen:py-1 sm:py-1 xs:py-0.5">
                 The search bar provides different approaches for locating
                 accounts and fetching information, equipping users with multiple
@@ -590,32 +590,44 @@ export default function HelpPageAdmin() {
             </a>
             <div className="pl-3">
               <p className="hdScreen:py-2 semihdScreen:py-2 laptopScreen:py-1.5 averageScreen:py-1 sm:py-1 xs:py-0.5">
-                Assists administrators in viewing password reset requests for
-                accounts. Clicking the "Reset Password" option triggers the
-                display of a corresponding list in different page.
+                Password resets are initiated by user requests, and this process
+                unfolds in two stages. Initially, these requests surface in the
+                "User Requests" section. Subsequently, they become visible
+                within the "Manage Accounts" area, specifically under "Reset
+                Password."
               </p>
               <img
                 onClick={function () {
                   setShowModal(true),
                     window.sessionStorage.setItem(
                       'IMAGE_LINK_ADMIN',
-                      JSON.stringify('manage-accounts-home')
+                      JSON.stringify('reset-password-1')
                     );
                 }}
                 className="cursor-pointer border-2 border-gray-300 my-3"
-                src={require('../assets/admin_guide/manage-accounts-home.png')}
+                src={require('../assets/admin_guide/reset-password-1.png')}
                 alt=""
               />
               <p className="hdScreen:py-2 semihdScreen:py-2 laptopScreen:py-1.5 averageScreen:py-1 sm:py-1 xs:py-0.5">
-                In this example, there are two (2) sections that the teacher
-                handle. The grayed out button is the current section selected.
-                Clicking the "Select Section" would immediately update section
-                and the class list.
+                In this example, the request is made by the user.
                 <br></br>
                 <br></br>
-                Below is the result, it consist of three (3) students which is
-                also indicated in the list before.
+                Below is the overview of all reset password request, it consist
+                of two buttons which area "Reset" and "Remove". There
+                administrator can choose which action to perform.
               </p>
+              <img
+                onClick={function () {
+                  setShowModal(true),
+                    window.sessionStorage.setItem(
+                      'IMAGE_LINK_ADMIN',
+                      JSON.stringify('reset-password-2')
+                    );
+                }}
+                className="cursor-pointer border-2 border-gray-300 my-3"
+                src={require('../assets/admin_guide/reset-password-2.png')}
+                alt=""
+              />
             </div>
           </div>
           {/*BREAK*/}
@@ -818,7 +830,7 @@ export default function HelpPageAdmin() {
             >
               Section list{' '}
             </a>
-            <div className="">
+            <div className="pl-3">
               <p className="hdScreen:py-2 semihdScreen:py-2 laptopScreen:py-1.5 averageScreen:py-1 sm:py-1 xs:py-0.5">
                 The first page admin will see after clicking the manage sections
                 tab.
@@ -874,7 +886,7 @@ export default function HelpPageAdmin() {
             >
               Search section{' '}
             </a>
-            <div className="">
+            <div className="pl-3">
               <p className="hdScreen:py-2 semihdScreen:py-2 laptopScreen:py-1.5 averageScreen:py-1 sm:py-1 xs:py-0.5">
                 The search bar provides flexibility in finding sections and
                 getting details, giving users choices to quickly locate specific
@@ -1141,7 +1153,7 @@ export default function HelpPageAdmin() {
             >
               Assigning role{' '}
             </a>
-            <div className="">
+            <div className="pl-3">
               <p className="hdScreen:py-2 semihdScreen:py-2 laptopScreen:py-1.5 averageScreen:py-1 sm:py-1 xs:py-0.5">
                 The first page admin will see after clicking the register
                 account tab.
@@ -1186,7 +1198,7 @@ export default function HelpPageAdmin() {
             >
               Registration type{' '}
             </a>
-            <div className="">
+            <div className="pl-3">
               <p className="hdScreen:py-2 semihdScreen:py-2 laptopScreen:py-1.5 averageScreen:py-1 sm:py-1 xs:py-0.5">
                 Upon selecting the role, administrators then have the option to
                 choose between two types of account registration: single type or
@@ -1341,7 +1353,7 @@ export default function HelpPageAdmin() {
             >
               Request list{' '}
             </a>
-            <div className="">
+            <div className="pl-3">
               <p className="hdScreen:py-2 semihdScreen:py-2 laptopScreen:py-1.5 averageScreen:py-1 sm:py-1 xs:py-0.5">
                 The first page admin will see after clicking the user requests
                 tab.
@@ -1393,7 +1405,7 @@ export default function HelpPageAdmin() {
             >
               Search request{' '}
             </a>
-            <div className="">
+            <div className="pl-3">
               <p className="hdScreen:py-2 semihdScreen:py-2 laptopScreen:py-1.5 averageScreen:py-1 sm:py-1 xs:py-0.5">
                 The search bar offers various ways to look for requests and get
                 information, giving administrator different options to find
@@ -1460,7 +1472,7 @@ export default function HelpPageAdmin() {
             >
               Viewing details{' '}
             </a>
-            <div className="">
+            <div className="pl-3">
               <p className="hdScreen:py-2 semihdScreen:py-2 laptopScreen:py-1.5 averageScreen:py-1 sm:py-1 xs:py-0.5">
                 Opting for "View Details" allows administrators to access
                 in-depth information about the request. This thorough
@@ -1483,13 +1495,12 @@ export default function HelpPageAdmin() {
               />
               <p className="hdScreen:py-2 semihdScreen:py-2 laptopScreen:py-1.5 averageScreen:py-1 sm:py-1 xs:py-0.5">
                 In this instance, the illustration presents a modal window of
-                color red which means unsolved, comprising the user's role
-                positioned at the top, adjacent to the sender's email. Below
-                this, the modal showcases the content, including the subject and
-                the complete message. <br></br>
-                <br></br> The date is situated in the lower right corner of the
-                modal, offering a comprehensive view of the request's key
-                details and facilitating effective communication.
+                color red which means unsolved. Below this, the modal showcases
+                the content, including the subject and the complete message of
+                the request. <br></br>
+                <br></br> The date is situated along the name of the sender,
+                offering a comprehensive view of the request's key details and
+                facilitating effective communication.
               </p>
             </div>
           </div>

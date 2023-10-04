@@ -76,16 +76,18 @@ var UpdateSession = (function () {
     updateData = updateData.replace(/"/g, '');
     updateData = updateData.replace(/ /g, '_');
 
-    axios
-      .post(`https://pia-sfe.online/api/studentSessionUpdate/${updateData}`)
-      .then(function (response) {
-        console.log(response.data);
-        axios
-          .post(`https://pia-sfe.online/api/endSession/${sessionData}`)
-          .then(function (response) {
-            console.log(response.data);
-          });
-      });
+    if (sessionId !== null && sessionId != '') {
+      axios
+        .post(`https://pia-sfe.online/api/studentSessionUpdate/${updateData}`)
+        .then(function (response) {
+          console.log(response.data);
+          axios
+            .post(`https://pia-sfe.online/api/endSession/${sessionData}`)
+            .then(function (response) {
+              console.log(response.data);
+            });
+        });
+    }
   };
 
   return {

@@ -95,6 +95,9 @@ export default function ClassList() {
   const [emptyState, setEmptyState] = useState(false);
 
   function getCurrentSection() {
+    const data = window.sessionStorage.getItem('CURRENT_SECTION');
+    if (data !== null) currentSection = JSON.parse(data);
+    currentSection = currentSection.replace(/ /g, '_');
     axios
       .get(`https://pia-sfe.online/api/sectionAdviser/${currentSection}`)
       .then(function (response) {
@@ -128,6 +131,9 @@ export default function ClassList() {
   var inputText = '';
 
   const handleChange = event => {
+    const data = window.sessionStorage.getItem('CURRENT_SECTION');
+    if (data !== null) currentSection = JSON.parse(data);
+    currentSection = currentSection.replace(/ /g, '_');
     setTableLoader(true);
     const name = event.target.name;
     const value = event.target.value;
