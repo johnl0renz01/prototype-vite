@@ -810,6 +810,8 @@ export default function Whiteboard() {
     getCoefficient();
     getFraction();
 
+    console.log('ANSWER: ' + answerFraction);
+
     //Focus inputbox
     let inputID = document.getElementById('input_box');
     ReactDOM.findDOMNode(inputID).focus();
@@ -1525,7 +1527,7 @@ export default function Whiteboard() {
   //Revert back text messages and color
   //const a = () => {
   function timer() {
-    let imageArray = ['PIA-Neutral', 'PIA-Neutral2'];
+    let imageArray = ['PIA-Neutral'];
     let imageLink = imageArray[Math.floor(Math.random() * imageArray.length)];
     setImageLink(imageLink);
 
@@ -1536,7 +1538,7 @@ export default function Whiteboard() {
   }
 
   function newQuestion() {
-    let imageArray = ['PIA-Neutral', 'PIA-Neutral2'];
+    let imageArray = ['PIA-Neutral'];
     let imageLink = imageArray[Math.floor(Math.random() * imageArray.length)];
     setImageLink(imageLink);
 
@@ -1547,7 +1549,7 @@ export default function Whiteboard() {
   }
 
   function helpModeResponse() {
-    let imageArray = ['PIA-Neutral', 'PIA-Neutral2'];
+    let imageArray = ['PIA-Neutral'];
     let imageLink = imageArray[Math.floor(Math.random() * imageArray.length)];
     setImageLink(imageLink);
 
@@ -1582,7 +1584,7 @@ export default function Whiteboard() {
   }
 
   function tutorialModeResponse() {
-    let imageArray = ['PIA-Neutral', 'PIA-Neutral2'];
+    let imageArray = ['PIA-Neutral'];
     let imageLink = imageArray[Math.floor(Math.random() * imageArray.length)];
     setImageLink(imageLink);
 
@@ -1594,7 +1596,7 @@ export default function Whiteboard() {
   }
 
   function penModeResponse() {
-    let imageArray = ['PIA-Neutral', 'PIA-Neutral2'];
+    let imageArray = ['PIA-Neutral'];
     let imageLink = imageArray[Math.floor(Math.random() * imageArray.length)];
     setImageLink(imageLink);
 
@@ -2554,25 +2556,29 @@ export default function Whiteboard() {
                   isTutorial ? 'hidden' : isPen ? 'hidden' : ''
                 } `}
               >
-                <section id="pia">
+                <section id="pia" className={``}>
                   <div
-                    className=" flex justify-end items-center relative"
-                    {...(isHelp
-                      ? {
-                          dataTooltip:
-                            'This is the area for facial expression response of PIA.',
-                        }
-                      : {})}
-                    {...(isHelp ? { dataTooltipPosition: 'bottom' } : {})}
+                    className={` flex justify-end items-center relative
+                              `}
                   >
                     {/**NOTES: -right-[8.5rem] -mt-[7rem] scale-[80%]*/}
                     <div
+                      {...(isHelp
+                        ? {
+                            dataTooltip:
+                              'This is the area for facial expression response of PIA.',
+                          }
+                        : {})}
+                      {...(isHelp ? { dataTooltipPosition: 'bottom' } : {})}
                       id="image_bg"
-                      className={`absolute z-10  object-cover   hdScreen:right-0  hdScreen:top-0 semihdScreen:-right-4 semihdScreen:-top-4 laptopScreen:-right-6 laptopScreen:-top-10 averageScreen:-right-8 averageScreen:-top-12 xs:-right-24 xs:-top-24 hdScreen:scale-100 semihdScreen:scale-90 laptopScreen:scale-80 averageScreen:scale-75 xs:scale-45 ${
-                        isHelp
-                          ? 'hdScreen:ml-10 semihdScreen:ml-8 laptopScreen:ml-7 averageScreen:ml-6 hover:border-[5px] hover:border-red-500'
-                          : ''
-                      }`}
+                      className={`absolute z-10  object-cover hdScreen:h-[29rem] hdScreen:w-[29rem] semihdScreen:h-[25rem] semihdScreen:w-[25rem] laptopScreen:h-[25rem] laptopScreen:w-[25rem]  averageScreen:h-[25rem] averageScreen:w-[25rem] xs:h-[40rem] xs:w-[30rem]
+                                 hdScreen:scale-100 semihdScreen:scale-90 laptopScreen:scale-80 averageScreen:scale-75 xs:scale-55 
+                                ${
+                                  isHelp
+                                    ? 'hdScreen:-right-10  hdScreen:top-0 semihdScreen:-right-10 semihdScreen:-top-4 laptopScreen:-right-14 laptopScreen:-top-10 averageScreen:-right-16 averageScreen:-top-12 xs:-right-40 xs:-top-32 '
+                                    : 'hdScreen:-right-10  hdScreen:top-0 semihdScreen:-right-10 semihdScreen:-top-4 laptopScreen:-right-14 laptopScreen:-top-10 averageScreen:-right-16 averageScreen:-top-12 xs:-right-40 xs:-top-32'
+                                }
+                                `}
                     >
                       {/*qqqq*/}
                       <img

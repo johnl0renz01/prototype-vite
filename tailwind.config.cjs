@@ -18,8 +18,8 @@ module.exports = {
       },
 
       cursor: {
-        brush: 'url(./src/assets/icons/brush.svg), default',
-        eraser: 'url(./src/assets/icons/eraser.svg), default',
+        brush: 'url(./src/assets/icons/brush.png), default',
+        eraser: 'url(./src/assets/icons/eraser.png), default',
       },
 
       boxShadow: {
