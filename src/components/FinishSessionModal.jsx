@@ -225,7 +225,7 @@ const FinishSessionModal = ({ visible, onClose, onContinue }) => {
         onClick={handleOnClose}
         className="fixed top-0 inset-0 z-50 bg-black bg-opacity-80 backdrop-blur-[10px] flex justify-center items-center"
       >
-        <div className="bg-white w-1/3 rounded text-lg  ">
+        <div className="bg-white hdScreen:w-1/3 laptopScreen:w-[50%] averageScreen:w-[50%] xs:w-3/4 hdScreen:scale-100 laptopScreen:scale-90 averageScreen:scale-85 xs:scale-75 rounded text-lg  ">
           <div className="pt-1 text-center text-xl font-semibold bg-gray-400 border-b-2 border-gray-300 h-9">
             <p className="text-gray-800">Session Summary</p>
           </div>
@@ -238,12 +238,12 @@ const FinishSessionModal = ({ visible, onClose, onContinue }) => {
                 >
                   {groupType == 'Facial Group' ? (
                     <img
-                      className="absolute bottom-0  pt-2 -mb-4"
+                      className="absolute bottom-0  pt-2 -mb-[4.5rem]"
                       src={require('../assets/facial_expressions/PIA-Smiling2.png')}
                     ></img>
                   ) : (
                     <img
-                      className="absolute bottom-0  pt-2 -mb-4"
+                      className="absolute bottom-0  pt-2 -mb-[4.5rem]"
                       src={require('../assets/facial_expressions/PIA-Neutral.png')}
                     ></img>
                   )}

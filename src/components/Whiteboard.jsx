@@ -805,6 +805,8 @@ export default function Whiteboard() {
     getCoefficient();
     getFraction();
 
+    console.log('ANSWER: ' + answerFraction);
+
     //Focus inputbox
     let inputID = document.getElementById('input_box');
     ReactDOM.findDOMNode(inputID).focus();
@@ -1098,7 +1100,10 @@ export default function Whiteboard() {
         JSON.parse(window.localStorage.getItem('SYSTEM_VERSION')) ==
         'Facial Group'
       ) {
-        setImageLink('PIA-Smiling');
+        let imageArray = ['PIA-Smiling', 'PIA-Smiling2'];
+        let imageLink =
+          imageArray[Math.floor(Math.random() * imageArray.length)];
+        setImageLink(imageLink);
         //setImageLink("PIA-Surprised");
         changeResponseColor(correctColor);
       }
@@ -1119,7 +1124,10 @@ export default function Whiteboard() {
         JSON.parse(window.localStorage.getItem('SYSTEM_VERSION')) ==
         'Facial Group'
       ) {
-        setImageLink('PIA-Smiling');
+        let imageArray = ['PIA-Smiling', 'PIA-Smiling2'];
+        let imageLink =
+          imageArray[Math.floor(Math.random() * imageArray.length)];
+        setImageLink(imageLink);
         changeResponseColor(correctColor);
       }
       //
@@ -1172,7 +1180,9 @@ export default function Whiteboard() {
       JSON.parse(window.localStorage.getItem('SYSTEM_VERSION')) ==
       'Facial Group'
     ) {
-      setImageLink('PIA-Smiling2');
+      let imageArray = ['PIA-Smiling3', 'PIA-Smiling4'];
+      let imageLink = imageArray[Math.floor(Math.random() * imageArray.length)];
+      setImageLink(imageLink);
       changeResponseColor(correctColor);
     }
     //
@@ -1190,7 +1200,9 @@ export default function Whiteboard() {
       JSON.parse(window.localStorage.getItem('SYSTEM_VERSION')) ==
       'Facial Group'
     ) {
-      setImageLink('PIA-Confused2');
+      let imageArray = ['PIA-Confused', 'PIA-Confused2'];
+      let imageLink = imageArray[Math.floor(Math.random() * imageArray.length)];
+      setImageLink(imageLink);
       changeResponseColor(invalidColor);
     }
     //
@@ -1378,7 +1390,10 @@ export default function Whiteboard() {
         JSON.parse(window.localStorage.getItem('SYSTEM_VERSION')) ==
         'Facial Group'
       ) {
-        setImageLink('PIA-Sad');
+        let imageArray = ['PIA-Sad', 'PIA-Sad2', 'PIA-Sad3'];
+        let imageLink =
+          imageArray[Math.floor(Math.random() * imageArray.length)];
+        setImageLink(imageLink);
       }
       //
       setResponse(FeedbackList.GenerateMessage('wrong1'));
@@ -1402,7 +1417,7 @@ export default function Whiteboard() {
   }
 
   function displayMotivation() {
-    setImageLink('PIA-Talking1');
+    setImageLink('PIA-Talking2');
     let messageType = ['motivation1', 'motivation2', 'motivation3'];
     let message = messageType[Math.floor(Math.random() * messageType.length)];
     setResponse(FeedbackList.GenerateMessage(message));
@@ -1413,7 +1428,9 @@ export default function Whiteboard() {
   }
 
   function displayInspiration() {
-    setImageLink('PIA-Wink');
+    let imageArray = ['PIA-Wink', 'PIA-Wink2'];
+    let imageLink = imageArray[Math.floor(Math.random() * imageArray.length)];
+    setImageLink(imageLink);
     setResponse(FeedbackList.GenerateMessage('motivation4'));
     setSubtext('');
     changeResponseColor(motivationColor2);
@@ -1465,7 +1482,9 @@ export default function Whiteboard() {
       'Facial Group'
     ) {
       increaseTally('EXPRESSION_ANGRY');
-      setImageLink('PIA-Angry');
+      let imageArray = ['PIA-Angry', 'PIA-Angry2', 'PIA-Angry3'];
+      let imageLink = imageArray[Math.floor(Math.random() * imageArray.length)];
+      setImageLink(imageLink);
       changeResponseColor(angryColor);
     }
     //
@@ -1503,7 +1522,9 @@ export default function Whiteboard() {
   //Revert back text messages and color
   //const a = () => {
   function timer() {
-    setImageLink('PIA-Neutral');
+    let imageArray = ['PIA-Neutral'];
+    let imageLink = imageArray[Math.floor(Math.random() * imageArray.length)];
+    setImageLink(imageLink);
 
     setResponse('Please input your solution or answer for this problem.');
     setSubtext('');
@@ -1512,7 +1533,9 @@ export default function Whiteboard() {
   }
 
   function newQuestion() {
-    setImageLink('PIA-Neutral');
+    let imageArray = ['PIA-Neutral'];
+    let imageLink = imageArray[Math.floor(Math.random() * imageArray.length)];
+    setImageLink(imageLink);
 
     setResponse("This is the next question I've got for you.");
     setSubtext('');
@@ -1521,7 +1544,9 @@ export default function Whiteboard() {
   }
 
   function helpModeResponse() {
-    setImageLink('PIA-Neutral');
+    let imageArray = ['PIA-Neutral'];
+    let imageLink = imageArray[Math.floor(Math.random() * imageArray.length)];
+    setImageLink(imageLink);
 
     setResponse(
       'You are currently in help mode. Click anywhere to change to default.'
@@ -1554,7 +1579,9 @@ export default function Whiteboard() {
   }
 
   function tutorialModeResponse() {
-    setImageLink('PIA-Neutral');
+    let imageArray = ['PIA-Neutral'];
+    let imageLink = imageArray[Math.floor(Math.random() * imageArray.length)];
+    setImageLink(imageLink);
 
     setResponse(
       'Tutorial video mode. Click the tutorial video button to change to default.'
@@ -1564,7 +1591,9 @@ export default function Whiteboard() {
   }
 
   function penModeResponse() {
-    setImageLink('PIA-Neutral');
+    let imageArray = ['PIA-Neutral'];
+    let imageLink = imageArray[Math.floor(Math.random() * imageArray.length)];
+    setImageLink(imageLink);
 
     setResponse('Pen mode. Click the pen button to change to default.');
     setSubtext('');
@@ -2520,25 +2549,29 @@ export default function Whiteboard() {
                   isTutorial ? 'hidden' : isPen ? 'hidden' : ''
                 } `}
               >
-                <section id="pia">
+                <section id="pia" className={``}>
                   <div
-                    className=" flex justify-end items-center relative"
-                    {...(isHelp
-                      ? {
-                          dataTooltip:
-                            'This is the area for facial expression response of PIA.',
-                        }
-                      : {})}
-                    {...(isHelp ? { dataTooltipPosition: 'bottom' } : {})}
+                    className={` flex justify-end items-center relative
+                              `}
                   >
                     {/**NOTES: -right-[8.5rem] -mt-[7rem] scale-[80%]*/}
                     <div
+                      {...(isHelp
+                        ? {
+                            dataTooltip:
+                              'This is the area for facial expression response of PIA.',
+                          }
+                        : {})}
+                      {...(isHelp ? { dataTooltipPosition: 'bottom' } : {})}
                       id="image_bg"
-                      className={`absolute z-10  object-cover   hdScreen:right-0  hdScreen:top-0 semihdScreen:-right-4 semihdScreen:-top-4 laptopScreen:-right-6 laptopScreen:-top-10 averageScreen:-right-8 averageScreen:-top-12 xs:-right-24 xs:-top-24 hdScreen:scale-100 semihdScreen:scale-90 laptopScreen:scale-80 averageScreen:scale-75 xs:scale-45 ${
-                        isHelp
-                          ? 'hdScreen:ml-10 semihdScreen:ml-8 laptopScreen:ml-7 averageScreen:ml-6 hover:border-[5px] hover:border-red-500'
-                          : ''
-                      }`}
+                      className={`absolute z-10  object-cover hdScreen:h-[29rem] hdScreen:w-[29rem] semihdScreen:h-[25rem] semihdScreen:w-[25rem] laptopScreen:h-[25rem] laptopScreen:w-[25rem]  averageScreen:h-[25rem] averageScreen:w-[25rem] xs:h-[40rem] xs:w-[30rem]
+                                 hdScreen:scale-100 semihdScreen:scale-90 laptopScreen:scale-80 averageScreen:scale-75 xs:scale-55 
+                                ${
+                                  isHelp
+                                    ? 'hdScreen:-right-10  hdScreen:top-0 semihdScreen:-right-10 semihdScreen:-top-4 laptopScreen:-right-14 laptopScreen:-top-10 averageScreen:-right-16 averageScreen:-top-12 xs:-right-40 xs:-top-32 '
+                                    : 'hdScreen:-right-10  hdScreen:top-0 semihdScreen:-right-10 semihdScreen:-top-4 laptopScreen:-right-14 laptopScreen:-top-10 averageScreen:-right-16 averageScreen:-top-12 xs:-right-40 xs:-top-32'
+                                }
+                                `}
                     >
                       {/*qqqq*/}
                       <img
