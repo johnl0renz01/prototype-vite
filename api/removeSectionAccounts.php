@@ -23,6 +23,34 @@ switch($_SESSION['method']) {
     case "GET":
         break;
     case "POST":
+        // LOG OUT ALL ACTIVE SESSIONS OF STUDENTS' ACCOUNTS
+        $sql3 = "SELECT Email FROM accounts WHERE SectionName = '$section'";
+        $stmt3 = $conn->prepare($sql3);
+        $stmt3->execute();
+        $emailID = $stmt3->fetchAll(PDO::FETCH_ASSOC);
+
+        // PUT EMAILS IN ARRAY 
+        $emails = array();
+        for ($i = 0; $i < count($emailID); $i++) {
+            $emailNumber = strpos(implode($emailID[$i]), ":");
+            $emailItem = substr(implode($emailID[$i]), $emailNumber);
+            $emails[] = $emailItem; 
+        }
+
+        // LOG OUT 
+        for ($i = 0; $i < count($emails); $i++) {
+            $currentEmail = $emails[$i];
+
+            //LOGOUT OTHER SESSIONS
+            $logged = "FALSE";
+            $sql0 = "UPDATE sessions SET Logged = '$logged'
+            WHERE UserEmail = '$currentEmail'
+            AND Logged = 'TRUE'";
+            $stmt0 = $conn->prepare($sql0);
+            $stmt0->execute();
+        }
+
+
         $sql = "DELETE FROM section_list WHERE SectionName = '$section'";
 
         $stmt = $conn->prepare($sql);

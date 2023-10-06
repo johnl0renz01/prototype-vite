@@ -107,6 +107,9 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
 
         setValues();
         setShowLoading(false);
+      })
+      .catch(function (error) {
+        setShowLoading(false);
       });
   }
 
@@ -118,7 +121,7 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
       axios
         .post(`https://pia-sfe.online/api/editAccount/${originalEmail}`, values)
         .then(function (response) {
-          //console.log(response.data);
+          console.log(response.data);
           //window.location.reload(false);
           //window.localStorage.setItem('SESSION_EMAIL',JSON.stringify(values.email));
           setShowLoading(false);

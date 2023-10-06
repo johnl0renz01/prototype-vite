@@ -69,6 +69,19 @@ var EquationSolver = (function () {
       }
 
       function checkParenthesis(currentString) {
+        for (let i = 1; i < currentString.length; i++) {
+          if (currentString[i].match(/[a-z]/)) {
+            let coeffLetter = currentString[i];
+            if (currentString[i - 1].match(/[\+\-\*\/\(]/)) {
+              currentString =
+                currentString.substring(0, i) +
+                '1' +
+                coeffLetter +
+                currentString.substring(i + 1);
+            }
+          }
+        }
+
         let coefficientSymbol = '';
         for (let i = 1; i < currentString.length; i++) {
           if (currentString[i].match(/[a-z]/)) {
@@ -98,16 +111,6 @@ var EquationSolver = (function () {
               currentString =
                 currentString.substring(0, i) +
                 ')*' +
-                currentString.substring(i + 1);
-            }
-          }
-
-          if (currentString[i] == coefficientSymbol) {
-            if (currentString[i - 1].match(/[\+\-\*\/\(]/)) {
-              currentString =
-                currentString.substring(0, i) +
-                '1' +
-                coefficientSymbol +
                 currentString.substring(i + 1);
             }
           }
@@ -1298,7 +1301,10 @@ var EquationSolver = (function () {
 
       //console.log(checkSimilarity);
       if (!simpleTranspose) {
-        if (checkSimilarity != equation) {
+        if (
+          checkSimilarity != equation &&
+          !stepsArray.includes(checkSimilarity)
+        ) {
           //Push first step, simplify stuffs
           stepsArray.push(
             [
@@ -1350,7 +1356,10 @@ var EquationSolver = (function () {
 
       if (!simpleTranspose) {
         if (checkSimilarity != equation) {
-          if (checkSimilarity != stepsArray[0]) {
+          if (
+            checkSimilarity != stepsArray[0] &&
+            !stepsArray.includes(checkSimilarity)
+          ) {
             stepsArray.push(
               [
                 lhsCoefficient,
@@ -1391,11 +1400,16 @@ var EquationSolver = (function () {
       if (checkSimilarity != equation) {
         if (
           checkSimilarity != stepsArray[0] &&
-          checkSimilarity != stepsArray[1]
+          checkSimilarity != stepsArray[1] &&
+          !stepsArray.includes(checkSimilarity)
         ) {
-          stepsArray.push(
-            [finalCoefficient, coefficientSymbol, '=', finalConstant].join('')
-          );
+          if (finalCoefficient == '1') {
+            stepsArray.push([coefficientSymbol, '=', finalConstant].join(''));
+          } else {
+            stepsArray.push(
+              [finalCoefficient, coefficientSymbol, '=', finalConstant].join('')
+            );
+          }
         }
       }
       var x = constantDifference / coefficientDifference;
@@ -1421,7 +1435,10 @@ var EquationSolver = (function () {
       }
 
       //Push fourth step, final answer
-      stepsArray.push([coefficientSymbol, '=', x].join(''));
+
+      if (!stepsArray.includes([coefficientSymbol, '=', x].join(''))) {
+        stepsArray.push([coefficientSymbol, '=', x].join(''));
+      }
 
       let search1 = '1' + coefficientLetter;
       let search2 = '-1' + coefficientLetter;

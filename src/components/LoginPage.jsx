@@ -23,6 +23,8 @@ import LoginPageSkeleton from './LoginPageSkeleton';
 
 import LoadingSpinner from './LoadingSpinner';
 
+import DataGenerator from './DataGenerator';
+
 export default function LoginPage() {
   const navigate = useNavigate();
 
@@ -152,7 +154,7 @@ export default function LoginPage() {
             console.log(response.data);
             var currentData = JSON.stringify(response.data);
             setAccountValidation(currentData);
-            //console.log("CURRDATA:" + currentData);
+            //console.log('CURRDATA:' + currentData);
             currentData = currentData.replace('{', '');
             currentData = currentData.replace('}', '');
             currentData = currentData.replace('"GivenName":', '');
@@ -161,6 +163,7 @@ export default function LoginPage() {
             currentData = currentData.replace('"GroupType":', '');
             currentData = currentData.replace('"MiddleName":', '');
             currentData = currentData.replace('"LastName":', '');
+            currentData = currentData.replace('"Section":', '');
 
             var userData = [];
             convertStringToArray();
@@ -204,11 +207,20 @@ export default function LoginPage() {
                   'SESSION_EMAIL',
                   JSON.stringify(userData[1])
                 );
-
+                /*
+                window.localStorage.setItem(
+                  'SESSION_SECTION_NAME',
+                  JSON.stringify(userData[6])
+                );
+                */
                 window.localStorage.setItem(
                   'SYSTEM_VERSION',
                   JSON.stringify(userData[3])
                 );
+
+                var sectionName = userData[6];
+                sectionName = sectionName.replace(/"/g, '');
+                sectionName = sectionName.replace(/ /g, '_');
 
                 var firstName = JSON.stringify(userData[0]);
                 firstName = firstName.replace(/"/g, '');
@@ -333,9 +345,31 @@ export default function LoginPage() {
                         );
 
                         if (data == 'Student') {
-                          window.localStorage.removeItem('LOGIN_STATUS');
-                          setShowLoading(false);
-                          navigate('/Homepage');
+                          axios
+                            .post(
+                              `https://pia-sfe.online/api/getAdviserTable/${sectionName}`
+                            )
+                            .then(function (response) {
+                              //console.log(response.data);
+                              if (response.data == 'No-Section') {
+                                window.localStorage.setItem(
+                                  'SESSION_TEACHER_TABLE',
+                                  JSON.stringify('Not-Enrolled')
+                                );
+                              } else {
+                                window.localStorage.setItem(
+                                  'SESSION_TEACHER_TABLE',
+                                  JSON.stringify(response.data)
+                                );
+                              }
+                              window.localStorage.removeItem('LOGIN_STATUS');
+                              setShowLoading(false);
+                              navigate('/Homepage');
+                            })
+                            .catch(function (error) {
+                              window.localStorage.removeItem('LOGIN_STATUS');
+                              setShowLoading(false);
+                            });
                         } else if (data == 'Teacher') {
                           window.localStorage.removeItem('LOGIN_STATUS');
                           var fullName = JSON.parse(

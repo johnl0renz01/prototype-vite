@@ -29,6 +29,9 @@ var ClearStorage = (function () {
 
     window.localStorage.removeItem('QUESTION_STATUS');
     window.localStorage.removeItem('PREVIOUS_QUESTION');
+
+    window.localStorage.removeItem('SESSION_TEACHER_TABLE');
+    window.localStorage.removeItem('SESSION_ACCEPT_FRACTION');
   };
 
   return {

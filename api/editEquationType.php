@@ -12,8 +12,6 @@ $conn = $objDb->connect();
 $type = $_SERVER['REQUEST_URI'];
 
 //echo $type;
-
-
 for ($i = strlen($type) - 1; $i > 0; $i--) {
     if ($type[$i] == "/") {
         $type = substr($type, ($i + 1));
@@ -23,6 +21,16 @@ for ($i = strlen($type) - 1; $i > 0; $i--) {
 
 
 $equation = "";
+$table_name = "";
+
+//FOR TABLE NAME
+for ($i = strlen($type) - 1; $i > 0; $i--) {
+    if ($type[$i] == "@") {
+        $table_name = substr($type, ($i + 1));
+        $type = substr($type, 0, $i);
+        break;
+    }
+}
 
 for ($i = strlen($type) - 1; $i > 0; $i--) {
     if ($type[$i] == "@") {
@@ -34,14 +42,13 @@ for ($i = strlen($type) - 1; $i > 0; $i--) {
 }
 
 
-
 switch($_SESSION['method']) {
     case "GET":
         break;
     case "POST":
         $user = json_decode( file_get_contents('php://input') );
         
-        $sql = "UPDATE equation_list SET EquationType = '$type'
+        $sql = "UPDATE ".$table_name." SET EquationType = '$type'
                 WHERE EquationString = '$equation'";
 
         $stmt = $conn->prepare($sql);

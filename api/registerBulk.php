@@ -169,18 +169,16 @@ switch($_SESSION['method']) {
             $registered = false;
         }
 
+        $userTable = $email;
+        echo "\n".$userTable;
+        $atSign = strpos($userTable, "@");
+        echo "\n".$atSign;
+        $userTable = substr($userTable, 0, $atSign);
+        echo "\n".$userTable;
+        $userTable = str_replace(".", "_", $userTable);
+        echo "\n".$userTable;
+
         if($role == "Student") {
-            $userTable = $email;
-            echo "\n".$userTable;
-            $atSign = strpos($userTable, "@");
-            echo "\n".$atSign;
-            $userTable = substr($userTable, 0, $atSign);
-            echo "\n".$userTable;
-            $userTable = str_replace(".", "_", $userTable);
-            echo "\n".$userTable;
-
-            $connect = new mysqli('localhost','root','','prototype_sfe');
-
             $create = "CREATE TABLE ".$userTable." (
                 SessionID INT UNSIGNED AUTO_INCREMENT PRIMARY KEY   , 
                 SessionType VARCHAR(255) NOT NULL , 
@@ -201,6 +199,34 @@ switch($_SESSION['method']) {
 
             $conn->exec($create);
             echo "\nTable created successfully";
+        } else {
+            $teacherTable = $userTable."_equation_list";
+            $create = "CREATE TABLE ".$teacherTable." (
+                EquationID INT UNSIGNED AUTO_INCREMENT PRIMARY KEY   , 
+                EquationType VARCHAR(255) NOT NULL , 
+                EquationString VARCHAR(255) NOT NULL
+                )";
+
+            $conn->exec($create);
+
+            $teacherTable2 = $userTable."_equation_settings";
+            $create2 = "CREATE TABLE ".$teacherTable2." (
+                SettingID INT UNSIGNED AUTO_INCREMENT PRIMARY KEY   , 
+                OccurrenceValue VARCHAR(255) NOT NULL , 
+                PrioritizeEquation VARCHAR(255) NOT NULL ,
+                FractionEquation VARCHAR(255) NOT NULL ,
+                MinimumValue VARCHAR(255) NOT NULL ,
+                MaximumValue VARCHAR(255) NOT NULL ,
+                DifferentVariables VARCHAR(255) NOT NULL
+                )";
+
+            $conn->exec($create2);
+            echo "\nTable created successfully";
+
+            $settings = "INSERT INTO ".$teacherTable2."(SettingID, OccurrenceValue, PrioritizeEquation, FractionEquation, MinimumValue, MaximumValue, DifferentVariables) 
+                    VALUES(null, '50', 'FALSE', 'FALSE', '1', '10', 'FALSE')";
+            $stmtSettings = $conn->prepare($settings);
+            $stmtSettings->execute();
         }
 
         echo "\n".json_encode($response);

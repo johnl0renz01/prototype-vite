@@ -14,16 +14,29 @@ $equation = $_SERVER['REQUEST_URI'];
 for ($i = strlen($equation) - 1; $i > 0; $i--) {
     if ($equation[$i] == "/") {
         $equation = substr($equation, ($i + 1));
+        break;
+    }
+}
+
+$table_name = "";
+
+//FOR TABLE NAME
+for ($i = strlen($equation) - 1; $i > 0; $i--) {
+    if ($equation[$i] == "@") {
+        $table_name = substr($equation, ($i + 1));
+        $equation = substr($equation, 0, $i);
         $equation = str_replace("_"," ", $equation);
         break;
     }
 }
 
+
+
 switch($_SESSION['method']) {
     case "GET":
         break;
     case "POST":
-        $sql = "DELETE FROM equation_list WHERE EquationString = '$equation'";
+        $sql = "DELETE FROM ".$table_name." WHERE EquationString = '$equation'";
         //$path = explode('/', $_SERVER['REQUEST_URI']);
         
         $stmt = $conn->prepare($sql);

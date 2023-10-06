@@ -47,6 +47,7 @@ const EditSectionModal = ({ visible, onClose, onContinue }) => {
     if (editState == true) {
       window.sessionStorage.setItem('EDIT_SECTION_STATE', false);
       getSectionDetails(sectionName);
+      setShowLoading(true);
     }
   });
 
@@ -76,6 +77,10 @@ const EditSectionModal = ({ visible, onClose, onContinue }) => {
           document.getElementById('sectionName').focus();
           setTimeout(document.getElementById('sectionName').blur(), 1);
         }
+        setShowLoading(false);
+      })
+      .catch(function (error) {
+        setShowLoading(false);
       });
   }
 
@@ -83,6 +88,7 @@ const EditSectionModal = ({ visible, onClose, onContinue }) => {
 
   const onSubmit = (values, actions) => {
     console.log('SUBMITTED');
+    setShowLoading(true);
     var section = JSON.parse(
       window.sessionStorage.getItem('CURRENT_SECTION_EDIT')
     );
@@ -92,7 +98,11 @@ const EditSectionModal = ({ visible, onClose, onContinue }) => {
         .post(`https://pia-sfe.online/api/editSection/${section}`, values)
         .then(function (response) {
           console.log(response.data);
+          setShowLoading(false);
           onContinue();
+        })
+        .catch(function (error) {
+          setShowLoading(false);
         });
     }
     //await new Promise((resolve) => setTimeout(resolve, 1));

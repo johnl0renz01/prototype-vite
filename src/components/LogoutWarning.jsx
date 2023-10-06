@@ -131,7 +131,9 @@ export default function LogoutWarning() {
           </div>
           <div className="">
             <div className="p-4 text-center">
-              Account has been logged-in to a different device or browser.
+              Account has been logged-in to a different device or browser
+              <br />
+              or this account has been modified by the administrator.
               <br></br>
               <span className="text-gray-500">
                 (The active session will be terminated.)

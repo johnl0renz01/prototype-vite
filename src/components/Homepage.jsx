@@ -104,6 +104,23 @@ export default function Homepage() {
     }
   };
 
+  const [enrolledState, setEnrolledState] = useState(false);
+
+  useEffect(() => {
+    var status = JSON.parse(
+      window.localStorage.getItem('SESSION_TEACHER_TABLE')
+    );
+    if (status !== null) {
+      if (status == 'Not-Enrolled') {
+        setEnrolledState(false);
+      } else {
+        setEnrolledState(true);
+      }
+    } else {
+      setEnrolledState(false);
+    }
+  }, []);
+
   //FOR SKELETON
   const [skeletonState, setSkeletonState] = useState(true);
 
@@ -162,14 +179,27 @@ export default function Homepage() {
                   </div>
                   <div className="flex mx-auto  ">
                     <button
-                      onClick={currentUser ? DifficultyPage : undefined}
+                      onClick={
+                        !enrolledState
+                          ? undefined
+                          : currentUser
+                          ? DifficultyPage
+                          : undefined
+                      }
                       className={`sm:mt-4 xs:mt-4 inline-flex items-center justify-center lg:text-xl sm:text-base xs:text-sm rounded-full lg:h-12 sm:h-10 xs:h-8 lg:px-28 sm:px-10 xs:px-8 font-medium tracking-wide shadow-md    
                       ${
-                        !currentUser
+                        !enrolledState
+                          ? 'aria-disabled: text-gray-100 bg-gray-500/50 cursor-help '
+                          : !currentUser
                           ? 'aria-disabled: text-gray-100 bg-gray-500/50 cursor-help '
                           : 'text-white bg-yellow-600 hover:bg-yellow-700 focus:shadow-outline focus:outline-none hover:-translate-y-0.5 ease-in-out transition duration-200 transform drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)]'
                       }`}
-                      {...(!currentUser
+                      {...(!enrolledState
+                        ? {
+                            title:
+                              'Unavailable to start: Your account is currently not enrolled to any sections.',
+                          }
+                        : !currentUser
                         ? {
                             title: 'Log-in to your account to start.',
                           }

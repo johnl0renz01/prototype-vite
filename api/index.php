@@ -205,6 +205,10 @@ switch($requestLink) {
         include('editEquationType.php');
     break;
 
+    case "/api/equationSettingsDetails":
+        include('equationSettingsDetails.php');
+    break;
+
 
     //// 
 
@@ -230,6 +234,10 @@ switch($requestLink) {
 
     case "/api/teacherLoginSection":
         include('teacherLoginSection.php');
+    break;
+
+    case "/api/getAdviserTable":
+        include('getAdviserTable.php');
     break;
 
     //FOR MANAGE ACCOUNTS

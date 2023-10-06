@@ -40,7 +40,8 @@ switch($_SESSION['method']) {
         //LOGOUT OTHER SESSIONS
         $logged = "FALSE";
         $sql0 = "UPDATE sessions SET Logged = 'FALSE'
-        WHERE UserEmail = '$email'";
+        WHERE UserEmail = '$email'
+        AND Logged = 'TRUE'";
 
         $stmt0 = $conn->prepare($sql0);
         $stmt0->execute();

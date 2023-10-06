@@ -9,6 +9,7 @@ include 'DbConnect.php';
 $objDb = new DbConnect;
 $conn = $objDb->connect();
 
+
 $equation_type = $_SERVER['REQUEST_URI'];
 
 
@@ -20,6 +21,15 @@ for ($i = strlen($equation_type) - 1; $i > 0; $i--) {
 }
 
 $equation_string = ""; 
+$table_name = "";
+
+for ($i = strlen($equation_type) - 1; $i > 0; $i--) {
+    if ($equation_type[$i] == "@") {
+        $table_name = substr($equation_type, ($i + 1));
+        $equation_type = substr($equation_type, 0, $i);
+        break;
+    }
+}
 
 for ($i = strlen($equation_type) - 1; $i > 0; $i--) {
     if ($equation_type[$i] == "@") {
@@ -30,12 +40,14 @@ for ($i = strlen($equation_type) - 1; $i > 0; $i--) {
     }
 }
 
+
+
 switch($_SESSION['method']) {
     case "GET":
         break;
     case "POST":
         $user = json_decode( file_get_contents('php://input') );
-        $sql = "INSERT INTO equation_list(equationID, EquationType, EquationString) VALUES(null, '$equation_type', '$equation_string')";
+        $sql = "INSERT INTO ".$table_name."(equationID, EquationType, EquationString) VALUES(null, '$equation_type', '$equation_string')";
         $stmt = $conn->prepare($sql);
 
         
