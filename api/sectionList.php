@@ -47,35 +47,10 @@ switch($_SESSION['method']) {
                                         OR AdviserName LIKE '%$inputSearch'
                                         OR AdviserName LIKE '$inputSearch%'
 
-                                        OR AdviserSurname LIKE '$inputSearch'
-                                        OR AdviserSurname LIKE '%$inputSearch%'
-                                        OR AdviserSurname LIKE '%$inputSearch'
-                                        OR AdviserSurname LIKE '$inputSearch%'
-
-                                        OR AdviserTitle LIKE '$inputSearch'
-                                        OR AdviserTitle LIKE '%$inputSearch%'
-                                        OR AdviserTitle LIKE '%$inputSearch'
-                                        OR AdviserTitle LIKE '$inputSearch%'
-
-                                        OR CONCAT(AdviserTitle, '. ', AdviserName, ' ', AdviserSurname) LIKE '$inputSearch'
-                                        OR CONCAT(AdviserName, ' ', AdviserSurname) LIKE '$inputSearch'
-                                        OR CONCAT(AdviserTitle, '. ', AdviserName) LIKE '$inputSearch'
-                                        OR CONCAT(AdviserTitle, '. ', AdviserSurname) LIKE '$inputSearch'
-
-                                        OR CONCAT(AdviserTitle, '. ', AdviserName, ' ', AdviserSurname) LIKE '%$inputSearch%'
-                                        OR CONCAT(AdviserName, ' ', AdviserSurname) LIKE '%$inputSearch%'
-                                        OR CONCAT(AdviserTitle, '. ', AdviserName) LIKE '%$inputSearch%'
-                                        OR CONCAT(AdviserTitle, '. ', AdviserSurname) LIKE '%$inputSearch%'
-
-                                        OR CONCAT(AdviserTitle, '. ', AdviserName, ' ', AdviserSurname) LIKE '%$inputSearch'
-                                        OR CONCAT(AdviserName, ' ', AdviserSurname) LIKE '%$inputSearch'
-                                        OR CONCAT(AdviserTitle, '. ', AdviserName) LIKE '%$inputSearch'
-                                        OR CONCAT(AdviserTitle, '. ', AdviserSurname) LIKE '%$inputSearch'
-
-                                        OR CONCAT(AdviserTitle, '. ', AdviserName, ' ', AdviserSurname) LIKE '$inputSearch%'
-                                        OR CONCAT(AdviserName, ' ', AdviserSurname) LIKE '$inputSearch%'
-                                        OR CONCAT(AdviserTitle, '. ', AdviserName) LIKE '$inputSearch%'
-                                        OR CONCAT(AdviserTitle, '. ', AdviserSurname) LIKE '$inputSearch%'
+                                        OR Code LIKE '$inputSearch'
+                                        OR Code LIKE '%$inputSearch%'
+                                        OR Code LIKE '%$inputSearch'
+                                        OR Code LIKE '$inputSearch%'
 
                                         ORDER BY GradeLevel ASC, SectionName ASC";
 

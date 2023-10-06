@@ -194,7 +194,9 @@ const ViewDetailModal = ({ visible, onClose, onContinue }) => {
           <p className="text-left text-sm">({timestamp})</p>
         </div>
 
-        <div className="inline-flex w-full mb-3">{content}</div>
+        <div className="inline-flex w-full mb-3 whitespace-pre-line">
+          {content}
+        </div>
       </div>
     );
   }

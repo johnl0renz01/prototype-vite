@@ -26,6 +26,9 @@ var ClearStorage = (function () {
     //new
     window.localStorage.removeItem('SESSION_SEQUENCE');
     window.localStorage.removeItem('SESSION_LEVELUP');
+
+    window.localStorage.removeItem('QUESTION_STATUS');
+    window.localStorage.removeItem('PREVIOUS_QUESTION');
   };
 
   return {

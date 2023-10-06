@@ -119,9 +119,27 @@ export default function HelpPageTeacher() {
     var ce_2 = ReactDOM.findDOMNode(create_equation_2).offsetHeight;
     var ce_2 = ce_1 + ce_2;
 
-    var create_equation_3 = document.getElementById('create-equation-2');
-    var ce_3 = ReactDOM.findDOMNode(create_equation_2).offsetHeight;
+    var create_equation_3 = document.getElementById('create-equation-3');
+    var ce_3 = ReactDOM.findDOMNode(create_equation_3).offsetHeight;
     var ce_3 = ce_2 + ce_3;
+
+    ////////////////////////////////////////////////////////////
+
+    //MY REQUESTS
+    var my_requests_1 = document.getElementById('my-requests-1');
+    var mr_1 = ReactDOM.findDOMNode(my_requests_1).offsetHeight;
+
+    var my_requests_2 = document.getElementById('my-requests-2');
+    var mr_2 = ReactDOM.findDOMNode(my_requests_2).offsetHeight;
+    var mr_2 = mr_1 + mr_2;
+
+    var my_requests_3 = document.getElementById('my-requests-3');
+    var mr_3 = ReactDOM.findDOMNode(my_requests_3).offsetHeight;
+    var mr_3 = mr_2 + mr_3;
+
+    var my_requests_4 = document.getElementById('my-requests-4');
+    var mr_4 = ReactDOM.findDOMNode(my_requests_4).offsetHeight;
+    var mr_4 = mr_3 + mr_4;
 
     ////////////////////////////////////////////////////////////
 
@@ -137,6 +155,11 @@ export default function HelpPageTeacher() {
       if (scrollPos <= ce_1) setCurrentId('ce_1');
       else if (scrollPos > ce_1 && scrollPos <= ce_2) setCurrentId('ce_2');
       else if (scrollPos > ce_2 && scrollPos <= ce_3) setCurrentId('ce_3');
+    } else if (linkTab == 4) {
+      if (scrollPos <= mr_1) setCurrentId('mr_1');
+      else if (scrollPos > mr_1 && scrollPos <= mr_2) setCurrentId('mr_2');
+      else if (scrollPos > mr_2 && scrollPos <= mr_3) setCurrentId('mr_3');
+      else if (scrollPos > mr_3 && scrollPos <= mr_4) setCurrentId('mr_4');
     } else {
       setCurrentId('');
     }
@@ -324,6 +347,45 @@ export default function HelpPageTeacher() {
                 assigned, the equation is added to the equation list. Teachers
                 should receive confirmation of successful addition and be able
                 to view the equation in the appropriate difficulty category.
+              </p>
+            </div>
+          </div>
+          {/*BREAK*/}
+          <div className="hdScreen:my-10 semihdScreen:my-8 laptopScreen:my-7 averageScreen:my-6 sm:my-4 xs:my-2"></div>
+          <hr></hr>
+          <div className="hdScreen:my-10 semihdScreen:my-8 laptopScreen:my-7 averageScreen:my-6 sm:my-4 xs:my-2"></div>
+          {/*BREAK*/}
+          <div className="hdScreen:leading-[1.9rem] semihdScreen:leading-[1.6rem] laptopScreen:leading-[1.5rem] averageScreen:leading-[1.5rem]">
+            <a className="hdScreen:text-xl semihdScreen:text-lg laptopScreen:text-lg averageScreen:text-base sm:text-sm xs:text-xs font-bold pb-3">
+              My Requests{' '}
+            </a>
+            <div className="pl-3">
+              <p className="hdScreen:py-2 semihdScreen:py-2 laptopScreen:py-1.5 averageScreen:py-1 sm:py-1 xs:py-0.5">
+                <span className="font-semibold">Request list: </span>
+                Explore the request list to gain a comprehensive overview of
+                user-generated support requests. Obtain information about the
+                nature of inquiries, the status of request, the requester, and
+                any important messages.
+              </p>
+              <p className="hdScreen:py-2 semihdScreen:py-2 laptopScreen:py-1.5 averageScreen:py-1 sm:py-1 xs:py-0.5">
+                <span className="font-semibold">Search request: </span>
+                To find specific user requests quickly, use the search request
+                feature. Enter keywords, pick certain dates, request subjects to
+                quickly get the relevant inquiries.
+              </p>
+              <p className="hdScreen:py-2 semihdScreen:py-2 laptopScreen:py-1.5 averageScreen:py-1 sm:py-1 xs:py-0.5">
+                <span className="font-semibold">Creating request: </span>
+                Creating a new request is a crucial process for communicating
+                needs or issues to system administrators. It involves providing
+                a clear subject and detailed message, enabling efficient
+                problem-solving and maintaining a record of interactions for
+                future reference.
+              </p>
+              <p className="hdScreen:py-2 semihdScreen:py-2 laptopScreen:py-1.5 averageScreen:py-1 sm:py-1 xs:py-0.5">
+                <span className="font-semibold">Viewing details: </span>
+                Explore detailed requests by clicking on individual entries.
+                Examine the subject, content, and other details of each request
+                to gain a comprehensive understanding.
               </p>
             </div>
           </div>
@@ -992,6 +1054,257 @@ export default function HelpPageTeacher() {
     );
   }
 
+  function MyRequests() {
+    return (
+      <div className={linkTab == 4 ? '' : 'hidden'}>
+        <div id="my-requests">
+          <h1 className="inline-block hdScreen:text-3xl semihdScreen:text-2xl laptopScreen:text-xl averageScreen:text-lg sm:text-base xs:text-sm font-[800] text-slate-800/90 tracking-normal">
+            My Requests
+          </h1>
+          <p className="hdScreen:text-xl semihdScreen:text-lg laptopScreen:text-lg averageScreen:text-sm sm:text-sm xs:text-xs text-gray-600 pb-4">
+            Manage your inquiries, create and examine request specifics, and
+            check the request status.
+          </p>
+        </div>
+        <hr></hr>
+        <div className="hdScreen:text-[1.1rem] semihdScreen:text-[1rem] laptopScreen:text-[0.95rem] averageScreen:text-[0.9rem] sm:text-sm xs:text-xs  text-gray-600 text-justify">
+          <p className="hdScreen:py-2 semihdScreen:py-2 laptopScreen:py-1.5 averageScreen:py-1 sm:py-1 xs:py-0.5">
+            This topic outlines the functionalities to handle your requests.
+          </p>
+          <hr></hr>
+          <br></br>
+          <div
+            id="my-requests-1"
+            className="hdScreen:leading-[1.9rem] semihdScreen:leading-[1.6rem] laptopScreen:leading-[1.5rem] averageScreen:leading-[1.5rem]"
+          >
+            <a
+              id="request-list"
+              className="scroll-element hdScreen:text-xl semihdScreen:text-lg laptopScreen:text-lg averageScreen:text-base sm:text-sm xs:text-xs  font-bold pb-3"
+            >
+              Request list{' '}
+            </a>
+            <div className="pl-3">
+              <p className="hdScreen:py-2 semihdScreen:py-2 laptopScreen:py-1.5 averageScreen:py-1 sm:py-1 xs:py-0.5">
+                The first page teacher will see after clicking the my requests
+                tab.
+                <span className="text-gray-400">
+                  {'\u00A0'}(The following information serves as an illustrative
+                  example.)
+                </span>
+              </p>
+              <img
+                onClick={function () {
+                  setShowModal(true),
+                    window.sessionStorage.setItem(
+                      'IMAGE_LINK_TEACHER',
+                      JSON.stringify('my-requests-home')
+                    );
+                }}
+                className=" cursor-pointer border-2 border-gray-300 my-3"
+                src={require('../assets/teacher_guide/my-requests-home.png')}
+                alt=""
+              />
+
+              <p className="hdScreen:py-2 semihdScreen:py-2 laptopScreen:py-1.5 averageScreen:py-1 sm:py-1 xs:py-0.5">
+                The interface displays the count of ongoing requests, and search
+                bar accompanied by distinct buttons such as view details and to
+                mark it as solved. Positioned beneath is the request list, it
+                contains request subjects, recipient, followed by the dates
+                indicating when the requests were received or sent by the users.
+                <br></br>
+                <br></br>
+                This comprehensive arrangement ensures a comprehensive overview
+                of the active inquiries and facilitates efficient management of
+                requests.
+              </p>
+            </div>
+          </div>
+          {/*BREAK*/}
+          <div className="hdScreen:my-10 semihdScreen:my-8 laptopScreen:my-7 averageScreen:my-6 sm:my-4 xs:my-2"></div>
+          <hr></hr>
+          <div className="hdScreen:my-10 semihdScreen:my-8 laptopScreen:my-7 averageScreen:my-6 sm:my-4 xs:my-2"></div>
+          {/*BREAK*/}
+          <div
+            id="my-requests-2"
+            className="hdScreen:leading-[1.9rem] semihdScreen:leading-[1.6rem] laptopScreen:leading-[1.5rem] averageScreen:leading-[1.5rem]"
+          >
+            <a
+              id="search-request"
+              className="scroll-element hdScreen:text-xl semihdScreen:text-lg laptopScreen:text-lg averageScreen:text-base sm:text-sm xs:text-xs font-bold pb-3"
+            >
+              Search request{' '}
+            </a>
+            <div className="pl-3">
+              <p className="hdScreen:py-2 semihdScreen:py-2 laptopScreen:py-1.5 averageScreen:py-1 sm:py-1 xs:py-0.5">
+                The search bar offers various ways to look for requests and get
+                information, giving administrator different options to find
+                specific details and easily access important data.
+              </p>
+              <img
+                onClick={function () {
+                  setShowModal(true),
+                    window.sessionStorage.setItem(
+                      'IMAGE_LINK_TEACHER',
+                      JSON.stringify('search-bar3')
+                    );
+                }}
+                className="cursor-pointer border-2 border-gray-300 my-3"
+                src={require('../assets/teacher_guide/search-bar3.png')}
+                alt=""
+              />
+              <p className="hdScreen:py-2 semihdScreen:py-2 laptopScreen:py-1.5 averageScreen:py-1 sm:py-1 xs:py-0.5">
+                Teachers have the option to search for specific details like the
+                request subject and when it was updated. The search begins
+                automatically as administrators start typing, eliminating the
+                need to press the "Enter" key separately.
+                <br></br>
+                <br></br>
+                As an example below, filtering date with "Oct 04" will filter
+                all in each category. The search bar is not case sensitive.{' '}
+                <br></br>
+                <span className="text-gray-400">
+                  (It can be typed as "Oct", "OCt", "OCT", and still get the
+                  desired result.)
+                </span>
+              </p>
+              <img
+                onClick={function () {
+                  setShowModal(true),
+                    window.sessionStorage.setItem(
+                      'IMAGE_LINK_TEACHER',
+                      JSON.stringify('search-bar3-result1')
+                    );
+                }}
+                className="cursor-pointer border-2 border-gray-300 my-3"
+                src={require('../assets/teacher_guide/search-bar3-result1.png')}
+                alt=""
+              />
+              <p className="hdScreen:py-2 semihdScreen:py-2 laptopScreen:py-1.5 averageScreen:py-1 sm:py-1 xs:py-0.5">
+                The search provides just one outcome for October 4th, 2023,
+                showing the subject, recipient, and date updated.
+              </p>
+            </div>
+          </div>
+          {/*BREAK*/}
+          <div className="hdScreen:my-10 semihdScreen:my-8 laptopScreen:my-7 averageScreen:my-6 sm:my-4 xs:my-2"></div>
+          <hr></hr>
+          <div className="hdScreen:my-10 semihdScreen:my-8 laptopScreen:my-7 averageScreen:my-6 sm:my-4 xs:my-2"></div>
+          {/*BREAK*/}
+          <div
+            id="my-requests-3"
+            className="hdScreen:leading-[1.9rem] semihdScreen:leading-[1.6rem] laptopScreen:leading-[1.5rem] averageScreen:leading-[1.5rem]"
+          >
+            <a
+              id="mark-request"
+              className="scroll-element hdScreen:text-xl semihdScreen:text-lg laptopScreen:text-lg averageScreen:text-base sm:text-sm xs:text-xs font-bold pb-3"
+            >
+              Creating request{' '}
+            </a>
+            <div className="pl-3">
+              <p className="hdScreen:py-2 semihdScreen:py-2 laptopScreen:py-1.5 averageScreen:py-1 sm:py-1 xs:py-0.5">
+                To create a new request, it can be found in the upper right
+                corner of the screen, close to the search bar. Within this area,
+                users are prompted to provide information regarding the subject
+                and their concerns (message). It is crucial to complete all
+                these fields, and teachers should be accurate and specific when
+                composing the subject of their requests.
+                <br></br>
+                <br></br>
+                <span className="text-gray-400">
+                  {'\u00A0'}(Filling up request form.)
+                </span>
+              </p>
+              <img
+                onClick={function () {
+                  setShowModal(true),
+                    window.sessionStorage.setItem(
+                      'IMAGE_LINK_TEACHER',
+                      JSON.stringify('new-request-1')
+                    );
+                }}
+                className="cursor-pointer border-2 border-gray-300 my-3 "
+                src={require('../assets/teacher_guide/new-request-1.png')}
+                alt=""
+              />
+              <p className="hdScreen:py-2 semihdScreen:py-2 laptopScreen:py-1.5 averageScreen:py-1 sm:py-1 xs:py-0.5">
+                <span className="text-gray-400">
+                  {'\u00A0'}(After marking sending the request.)
+                </span>
+              </p>
+              <img
+                onClick={function () {
+                  setShowModal(true),
+                    window.sessionStorage.setItem(
+                      'IMAGE_LINK_TEACHER',
+                      JSON.stringify('new-request-2')
+                    );
+                }}
+                className="cursor-pointer border-2 border-gray-300 my-3 "
+                src={require('../assets/teacher_guide/new-request-2.png')}
+                alt=""
+              />
+              <p className="hdScreen:py-2 semihdScreen:py-2 laptopScreen:py-1.5 averageScreen:py-1 sm:py-1 xs:py-0.5">
+                Once sent, the administrator can now your request in their end.
+              </p>
+            </div>
+          </div>
+          {/*BREAK*/}
+          <div className="hdScreen:my-10 semihdScreen:my-8 laptopScreen:my-7 averageScreen:my-6 sm:my-4 xs:my-2"></div>
+          <hr></hr>
+          <div className="hdScreen:my-10 semihdScreen:my-8 laptopScreen:my-7 averageScreen:my-6 sm:my-4 xs:my-2"></div>
+          {/*BREAK*/}
+          <div
+            id="my-requests-4"
+            className="hdScreen:leading-[1.9rem] semihdScreen:leading-[1.6rem] laptopScreen:leading-[1.5rem] averageScreen:leading-[1.5rem]"
+          >
+            <a
+              id="view-details"
+              className="scroll-element hdScreen:text-xl semihdScreen:text-lg laptopScreen:text-lg averageScreen:text-base sm:text-sm xs:text-xs font-bold pb-3"
+            >
+              Viewing details{' '}
+            </a>
+            <div className="pl-3">
+              <p className="hdScreen:py-2 semihdScreen:py-2 laptopScreen:py-1.5 averageScreen:py-1 sm:py-1 xs:py-0.5">
+                Opting for "View Details" allows teachers to access in-depth
+                information about the request. This thorough perspective enables
+                them to look for various details.
+                <br></br>
+                <br></br>
+                After clicking the button, it shows following details.
+              </p>
+              <img
+                onClick={function () {
+                  setShowModal(true),
+                    window.sessionStorage.setItem(
+                      'IMAGE_LINK_TEACHER',
+                      JSON.stringify('view-details-1')
+                    );
+                }}
+                className="cursor-pointer border-2 border-gray-300 my-3 w-[40%]"
+                src={require('../assets/teacher_guide/view-details-1.png')}
+                alt=""
+              />
+              <p className="hdScreen:py-2 semihdScreen:py-2 laptopScreen:py-1.5 averageScreen:py-1 sm:py-1 xs:py-0.5">
+                In this instance, the illustration presents a modal window of
+                color red which means unsolved. Below this, the modal showcases
+                the content, including the subject and the complete message of
+                the request. <br></br>
+                <br></br> The date is situated along the name of the sender,
+                offering a comprehensive view of the request's key details and
+                facilitating effective communication.
+              </p>
+            </div>
+          </div>
+          <br></br>
+          <br></br>
+          <br></br>
+          <br></br>
+          <br></br>
+        </div>
+      </div>
+    );
+  }
+
   //FOR SKELETON
   const [skeletonState, setSkeletonState] = useState(true);
 
@@ -1068,6 +1381,7 @@ export default function HelpPageTeacher() {
                 {ReportCards()}
                 {EquationList()}
                 {CreateEquation()}
+                {MyRequests()}
               </div>
 
               <div className="hdScreen:w-[17.5%] semihdScreen:w-[20.5%] laptopScreen:w-[22.5%] averageScreen:w-[26%] ">
@@ -1292,6 +1606,90 @@ export default function HelpPageTeacher() {
                           }`}
                         >
                           Adding equation
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          onClick={e => {
+                            setLinkTab(4),
+                              window.sessionStorage.setItem('LINK_TAB', 4);
+                          }}
+                          href="#my-requests"
+                          className={`block py-1 font-bold   ${
+                            linkTab == 4
+                              ? 'text-lime-600 '
+                              : 'text-slate-500 hover:text-slate-400'
+                          }`}
+                        >
+                          My Requests
+                        </a>
+                      </li>
+                      <li className="lg:ml-8 xs:ml-4 list-disc">
+                        <a
+                          onClick={e => {
+                            setLinkTab(4),
+                              window.sessionStorage.setItem('LINK_TAB', 4);
+                          }}
+                          href="#request-list"
+                          className={`group flex items-start py-1 
+                        ${
+                          currentId == 'mr_1'
+                            ? 'text-lime-600'
+                            : 'text-slate-500 hover:text-slate-400'
+                        }`}
+                        >
+                          Request list
+                        </a>
+                      </li>
+                      <li className="lg:ml-8 xs:ml-4 list-disc">
+                        <a
+                          onClick={e => {
+                            setLinkTab(4),
+                              window.sessionStorage.setItem('LINK_TAB', 4);
+                          }}
+                          href="#search-request"
+                          className={`group flex items-start py-1 
+                          ${
+                            currentId == 'mr_2'
+                              ? 'text-lime-600'
+                              : 'text-slate-500 hover:text-slate-400'
+                          }`}
+                        >
+                          Search request
+                        </a>
+                      </li>
+                      <li className="lg:ml-8 xs:ml-4 list-disc">
+                        <a
+                          onClick={e => {
+                            setLinkTab(4),
+                              window.sessionStorage.setItem('LINK_TAB', 4);
+                          }}
+                          href="#mark-request"
+                          className={`group flex items-start py-1 
+                          ${
+                            currentId == 'mr_3'
+                              ? 'text-lime-600'
+                              : 'text-slate-500 hover:text-slate-400'
+                          }`}
+                        >
+                          Creating request
+                        </a>
+                      </li>
+                      <li className="lg:ml-8 xs:ml-4 list-disc">
+                        <a
+                          onClick={e => {
+                            setLinkTab(4),
+                              window.sessionStorage.setItem('LINK_TAB', 4);
+                          }}
+                          href="#view-details"
+                          className={`group flex items-start py-1 
+                          ${
+                            currentId == 'mr_4'
+                              ? 'text-lime-600'
+                              : 'text-slate-500 hover:text-slate-400'
+                          }`}
+                        >
+                          Viewing details
                         </a>
                       </li>
                     </ul>

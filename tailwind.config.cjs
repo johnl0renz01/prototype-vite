@@ -18,8 +18,10 @@ module.exports = {
       },
 
       cursor: {
-        brush: 'url(./src/assets/icons/brush.png), default',
-        eraser: 'url(./src/assets/icons/eraser.png), default',
+        brush:
+          'url(https://github.com/johnl0renz01/codepen-images/blob/main/draw_icons/brush.png?raw=true), default',
+        eraser:
+          'url(https://github.com/johnl0renz01/codepen-images/blob/main/draw_icons/eraser.png?raw=true), default',
       },
 
       boxShadow: {

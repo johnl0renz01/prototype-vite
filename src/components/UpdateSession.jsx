@@ -76,20 +76,22 @@ var UpdateSession = (function () {
     updateData = updateData.replace(/"/g, '');
     updateData = updateData.replace(/ /g, '_');
 
-    axios
-      .post(
-        `http://localhost:80/Prototype-Vite/my-project/api/studentSessionUpdate/${updateData}`
-      )
-      .then(function (response) {
-        console.log(response.data);
-        axios
-          .post(
-            `http://localhost:80/Prototype-Vite/my-project/api/endSession/${sessionData}`
-          )
-          .then(function (response) {
-            console.log(response.data);
-          });
-      });
+    if (sessionId !== null && sessionId != '') {
+      axios
+        .post(
+          `http://localhost:80/Prototype-Vite/my-project/api/studentSessionUpdate/${updateData}`
+        )
+        .then(function (response) {
+          console.log(response.data);
+          axios
+            .post(
+              `http://localhost:80/Prototype-Vite/my-project/api/endSession/${sessionData}`
+            )
+            .then(function (response) {
+              console.log(response.data);
+            });
+        });
+    }
   };
 
   return {

@@ -512,6 +512,7 @@ export default function TeacherNavbar() {
           <div className="">
             <ul className="text-xs">
               <li
+                title="Overview"
                 id="logo"
                 className=" border-b-2 pt-4 text-white border-black/5 mx-auto"
               >
@@ -525,6 +526,7 @@ export default function TeacherNavbar() {
                 ></i>
               </li>
               <li
+                title="Report Cards"
                 onClick={tab1}
                 className={`cursor-pointer  border-b-2 border-black/5 ${
                   tabHighlight == 1
@@ -552,6 +554,7 @@ export default function TeacherNavbar() {
                 </div>
               </li>
               <li
+                title="Equation List"
                 onClick={tab2}
                 className={`cursor-pointer border-b-2 border-black/5 ${
                   tabHighlight == 2
@@ -577,6 +580,7 @@ export default function TeacherNavbar() {
                 </div>
               </li>
               <li
+                title="Create Equation"
                 onClick={tab3}
                 className={`cursor-pointer border-b-2 border-black/5 ${
                   tabHighlight == 3
@@ -602,6 +606,7 @@ export default function TeacherNavbar() {
                 </div>
               </li>
               <li
+                title="My Requests"
                 onClick={tab4}
                 className={`cursor-pointer border-b-2 border-black/5 ${
                   tabHighlight == 4
@@ -626,6 +631,7 @@ export default function TeacherNavbar() {
                 </div>
               </li>
               <li
+                title="Help"
                 onClick={tab5}
                 className={`cursor-pointer border-b-2 border-black/5 ${
                   tabHighlight == 5
@@ -651,6 +657,7 @@ export default function TeacherNavbar() {
               </li>
 
               <li
+                title="Log-out"
                 onClick={logout}
                 className={`cursor-pointer border-b-2 border-black/5 hover:bg-black/30 text-white transition duration-300 ${
                   sidebarMode == 'Minimized'
@@ -674,8 +681,12 @@ export default function TeacherNavbar() {
           </div>
           <div className="flex mt-auto justify-center">
             <div
+              {...(sidebarMode == 'Minimized'
+                ? {
+                    title: 'Expand the sidebar.',
+                  }
+                : { title: 'Collapse the sidebar' })}
               onClick={adjustSidebar}
-              title="Minimize the sidebar"
               className={`w-full cursor-pointer border-black/5 py-3 hover:bg-black/30 text-white transition duration-300
                 `}
             >
