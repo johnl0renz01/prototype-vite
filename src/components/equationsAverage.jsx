@@ -178,6 +178,14 @@ var EquationGeneratorAverage = (function () {
       }
 
       function changeValues() {
+        let minimumRange = minimumValue;
+        let maximumRange = maximumValue;
+        let rndInt = 0;
+
+        function randomPercentage() {
+          rndInt = randomIntFromInterval(minimumRange, maximumRange);
+        }
+
         for (let i = 0; i < averageEquationList.length; i++) {
           if (averageEquationList[i].includes('1x')) {
             averageEquationList[i] = averageEquationList[i].replace(/1x/g, 'x');
@@ -189,21 +197,21 @@ var EquationGeneratorAverage = (function () {
             );
           }
 
-          let rndInt = 0;
-          let minimumRange = minimumValue;
-          let maximumRange = maximumValue;
-          function randomPercentage() {
-            rndInt = randomIntFromInterval(minimumRange, maximumRange);
-          }
-
           let limit = Math.floor(averageEquationList[i].length / 2);
 
           var tempEquation = averageEquationList[i];
 
           for (let j = 1; j < limit; j++) {
+            //console.log(tempEquation);
             let hashSymbols = '';
             let constant = tempEquation.lastIndexOf('3');
             let coefficient = tempEquation.lastIndexOf('2');
+
+            if (constant > coefficient) {
+              coefficient = -1;
+            } else {
+              constant = -1;
+            }
 
             randomPercentage();
             for (let z = 0; z < rndInt.toString().length; z++) {
@@ -234,7 +242,34 @@ var EquationGeneratorAverage = (function () {
           }
 
           if (averageEquationList[i].includes('1x')) {
-            averageEquationList[i] = averageEquationList[i].replace(/1x/g, 'x');
+            var count = (averageEquationList[i].match(/1x/g) || []).length;
+            averageEquationList[i] = averageEquationList[i].replace(
+              /1x/g,
+              '@@'
+            );
+            for (let counter = 0; counter < count; counter++) {
+              let indexChar = averageEquationList[i].indexOf('@@');
+              try {
+                if (
+                  averageEquationList[i][indexChar - 1].match(/[\+\-\*\/\(]/)
+                ) {
+                  averageEquationList[i] = averageEquationList[i].replace(
+                    '@@',
+                    'x'
+                  );
+                } else {
+                  averageEquationList[i] = averageEquationList[i].replace(
+                    '@@',
+                    '1x'
+                  );
+                }
+              } catch (err) {
+                averageEquationList[i] = averageEquationList[i].replace(
+                  '@@',
+                  'x'
+                );
+              }
+            }
           }
         }
       }

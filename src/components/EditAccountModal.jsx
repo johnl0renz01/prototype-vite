@@ -51,12 +51,13 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
     if (editState == true) {
       window.sessionStorage.setItem('EDIT_ACCOUNT_STATE', false);
       getAccountDetails(accountName);
-      setShowLoading(true);
+
       //loadValues();
     }
   });
 
   function getAccountDetails(accountName) {
+    setShowLoading(true);
     let accountLink = accountName.replace(/ /g, '_');
     accountLink = accountName.replace(/"/g, ' ');
     //console.log('ACCOUNT LINK', accountLink);

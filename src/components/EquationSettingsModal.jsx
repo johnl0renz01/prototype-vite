@@ -42,7 +42,7 @@ const EquationSettingsModal = ({ visible, onClose, onContinue }) => {
 
     axios
       .post(
-        `http://localhost:80/Prototype-Vite/my-project/api/equationSettingsDetails/${tableLink}`,
+        `https://pia-sfe.online/api/equationSettingsDetails/${tableLink}`,
         values
       )
       .then(function (response) {
@@ -88,18 +88,17 @@ const EquationSettingsModal = ({ visible, onClose, onContinue }) => {
 
     if (settingsState == true) {
       window.sessionStorage.setItem('EQUATION_SETTINGS_STATE', false);
-      setShowLoading(true);
+
       getSettingsDetails(tableName);
     }
   });
 
   function getSettingsDetails(tableName) {
+    setShowLoading(true);
     let tableLink = tableName + '_equation_settings';
 
     axios
-      .get(
-        `http://localhost:80/Prototype-Vite/my-project/api/equationSettingsDetails/${tableLink}`
-      )
+      .get(`https://pia-sfe.online/api/equationSettingsDetails/${tableLink}`)
       .then(function (response) {
         var result = Object.values(response.data);
 

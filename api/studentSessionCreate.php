@@ -32,6 +32,8 @@ switch($_SESSION['method']) {
     case "GET":
         break;
     case "POST":
+        $connect = new mysqli('localhost','root','','prototype_sfe');
+        
         $session_database = $account.$session_id;
 
         $create = "CREATE TABLE ".$session_database." (

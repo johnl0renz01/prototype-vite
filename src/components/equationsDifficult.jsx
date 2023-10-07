@@ -253,6 +253,14 @@ var EquationGeneratorDifficult = (function () {
       }
 
       function changeValues() {
+        let minimumRange = minimumValue;
+        let maximumRange = maximumValue;
+        let rndInt = 0;
+
+        function randomPercentage() {
+          rndInt = randomIntFromInterval(minimumRange, maximumRange);
+        }
+
         for (let i = 0; i < difficultEquationList.length; i++) {
           if (difficultEquationList[i].includes('1x')) {
             difficultEquationList[i] = difficultEquationList[i].replace(
@@ -267,21 +275,21 @@ var EquationGeneratorDifficult = (function () {
             );
           }
 
-          let rndInt = 0;
-          let minimumRange = minimumValue;
-          let maximumRange = maximumValue;
-          function randomPercentage() {
-            rndInt = randomIntFromInterval(minimumRange, maximumRange);
-          }
-
           let limit = Math.floor(difficultEquationList[i].length / 2);
 
           var tempEquation = difficultEquationList[i];
 
           for (let j = 1; j < limit; j++) {
+            //console.log(tempEquation);
             let hashSymbols = '';
             let constant = tempEquation.lastIndexOf('3');
             let coefficient = tempEquation.lastIndexOf('2');
+
+            if (constant > coefficient) {
+              coefficient = -1;
+            } else {
+              constant = -1;
+            }
 
             randomPercentage();
             for (let z = 0; z < rndInt.toString().length; z++) {
@@ -312,10 +320,34 @@ var EquationGeneratorDifficult = (function () {
           }
 
           if (difficultEquationList[i].includes('1x')) {
+            var count = (difficultEquationList[i].match(/1x/g) || []).length;
             difficultEquationList[i] = difficultEquationList[i].replace(
               /1x/g,
-              'x'
+              '@@'
             );
+            for (let counter = 0; counter < count; counter++) {
+              let indexChar = difficultEquationList[i].indexOf('@@');
+              try {
+                if (
+                  difficultEquationList[i][indexChar - 1].match(/[\+\-\*\/\(]/)
+                ) {
+                  difficultEquationList[i] = difficultEquationList[i].replace(
+                    '@@',
+                    'x'
+                  );
+                } else {
+                  difficultEquationList[i] = difficultEquationList[i].replace(
+                    '@@',
+                    '1x'
+                  );
+                }
+              } catch (err) {
+                difficultEquationList[i] = difficultEquationList[i].replace(
+                  '@@',
+                  'x'
+                );
+              }
+            }
           }
         }
       }

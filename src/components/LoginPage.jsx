@@ -23,20 +23,18 @@ import LoginPageSkeleton from './LoginPageSkeleton';
 
 import LoadingSpinner from './LoadingSpinner';
 
-import DataGenerator from './DataGenerator';
-
 export default function LoginPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
     var logged = JSON.parse(window.localStorage.getItem('LOGGED'));
     if (logged === null) logged = '';
-    console.log(logged);
+    //console.log(logged);
 
     if (logged == 'TRUE') {
       var accountType = JSON.parse(window.localStorage.getItem('ACCOUNT_TYPE'));
       if (accountType === null) accountType = '';
-      console.log('asdad');
+      //console.log('asdad');
       if (accountType !== null) {
         if (accountType == 'Teacher') {
           navigate('/HomePageTeacher');
@@ -103,8 +101,8 @@ export default function LoginPage() {
     const data = window.localStorage.getItem('LOGIN_TYPE');
     if (data !== null) setAccType(JSON.parse(data));
     accountType = 'login' + JSON.parse(data);
-    //console.log("acctype: " + accountType);
-    //console.log(accountType == "loginStudent");
+    ////console.log("acctype: " + accountType);
+    ////console.log(accountType == "loginStudent");
 
     checkData();
     function checkData() {
@@ -117,19 +115,19 @@ export default function LoginPage() {
   });
 
   const onSubmit = async (values, actions) => {
-    console.log(accountType);
+    //console.log(accountType);
     var isForgot = JSON.parse(window.sessionStorage.getItem('FORGOT_PASSWORD'));
-    console.log(isForgot);
+    //console.log(isForgot);
 
     if (isForgot) {
-      console.log('TESTING IM HERE');
+      //console.log('TESTING IM HERE');
       var type = JSON.parse(window.sessionStorage.getItem('RESET_TYPE'));
       type = type.replace(/"/g, '');
       if (type == 'Email') {
-        console.log('EMIALSADAS');
+        //console.log('EMIALSADAS');
         setShowModal2(true);
       } else if (type == 'Code') {
-        console.log('COEDED');
+        //console.log('COEDED');
       }
     } else {
       setShowLoading(true);
@@ -145,16 +143,16 @@ export default function LoginPage() {
             message = message.replace(/"/g, '');
           }
 
-          console.log(message);
+          //console.log(message);
           if (message == 'setPassword') {
             firstLogin = true;
             setShowLoading(false);
             setNewPass(true);
           } else {
-            console.log(response.data);
+            //console.log(response.data);
             var currentData = JSON.stringify(response.data);
             setAccountValidation(currentData);
-            //console.log('CURRDATA:' + currentData);
+            ////console.log('CURRDATA:' + currentData);
             currentData = currentData.replace('{', '');
             currentData = currentData.replace('}', '');
             currentData = currentData.replace('"GivenName":', '');
@@ -187,14 +185,14 @@ export default function LoginPage() {
                   }
                 }
                 if (isEnd) {
-                  //console.log(currentData.substring(firstIndex, endIndex));
+                  ////console.log(currentData.substring(firstIndex, endIndex));
                   userData.push(currentData.substring(firstIndex, endIndex));
                   isEnd = false;
                 }
               }
             }
 
-            //console.log(currentData);
+            ////console.log(currentData);
             if (currentData != '"Invalid"') {
               window.localStorage.setItem('LOGGED', JSON.stringify('TRUE'));
 
@@ -278,10 +276,10 @@ export default function LoginPage() {
               axios
                 .post(`https://pia-sfe.online/api/loginSession/save`, values)
                 .then(function (response) {
-                  //console.log(response.data);
+                  ////console.log(response.data);
                   let currentData = JSON.stringify(response.data);
                   setAccountValidation(currentData);
-                  //console.log("CURRDATA:" + currentData);
+                  ////console.log("CURRDATA:" + currentData);
                   currentData = currentData.replace('{', '');
                   currentData = currentData.replace('}', '');
                   currentData = currentData.replace('"UniqueID":', '');
@@ -308,7 +306,7 @@ export default function LoginPage() {
                         }
                       }
                       if (isEnd) {
-                        //console.log(currentData.substring(firstIndex, endIndex));
+                        ////console.log(currentData.substring(firstIndex, endIndex));
                         userData.push(
                           currentData.substring(firstIndex, endIndex)
                         );
@@ -327,18 +325,18 @@ export default function LoginPage() {
                       window.localStorage.getItem('SESSION_EMAIL')
                     );
                     if (email === null) email = '';
-                    //console.log(email);
+                    ////console.log(email);
                     axios
                       .post(
                         `https://pia-sfe.online/api/validateLogin/${email}`,
                         values
                       )
                       .then(function (response) {
-                        console.log(response.data);
+                        //console.log(response.data);
                         data = JSON.stringify(response.data);
                         data = data.replace(/"/g, '');
                         data = data.replace(/\\/g, '');
-                        console.log(data);
+                        //console.log(data);
                         window.localStorage.setItem(
                           'ACCOUNT_TYPE',
                           JSON.stringify(data)
@@ -350,7 +348,7 @@ export default function LoginPage() {
                               `https://pia-sfe.online/api/getAdviserTable/${sectionName}`
                             )
                             .then(function (response) {
-                              //console.log(response.data);
+                              ////console.log(response.data);
                               if (response.data == 'No-Section') {
                                 window.localStorage.setItem(
                                   'SESSION_TEACHER_TABLE',
@@ -382,7 +380,7 @@ export default function LoginPage() {
                               `https://pia-sfe.online/api/teacherLoginSection/${fullName}`
                             )
                             .then(function (response) {
-                              console.log(response.data);
+                              //console.log(response.data);
                               var section = response.data;
                               window.localStorage.setItem(
                                 'CURRENT_SECTION',
@@ -469,7 +467,7 @@ export default function LoginPage() {
     onSubmit,
   });
 
-  //console.log(errors);
+  ////console.log(errors);
 
   const changeAccountType = () => {
     handleReset();
@@ -1071,11 +1069,7 @@ export default function LoginPage() {
                               'FORGOT_PASSWORD',
                               true
                             );
-                            console.log(
-                              JSON.parse(
-                                window.sessionStorage.getItem('FORGOT_PASSWORD')
-                              )
-                            );
+                            //console.log(JSON.parse(window.sessionStorage.getItem('FORGOT_PASSWORD')));
                           }
                     }
                     className={`no-underline cursor-pointer lg:text-lg sm:text-base xs:text-xs text-lime-800 hover:underline ${

@@ -119,6 +119,8 @@ switch($_SESSION['method']) {
         $stmt->bindParam(':timestamp2', $timestamp2);
         
         if($stmt->execute()) {
+            $connect = new mysqli('localhost','root','','prototype_sfe');
+            
             $create = "CREATE TABLE ".$id." (
                 MessageID INT UNSIGNED AUTO_INCREMENT PRIMARY KEY   , 
                 Name VARCHAR(255) NOT NULL , 

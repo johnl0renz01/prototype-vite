@@ -109,20 +109,20 @@ var EquationGeneratorEasy = (function () {
       }
 
       function changeValues() {
+        let minimumRange = minimumValue;
+        let maximumRange = maximumValue;
+        let rndInt = 0;
+
+        function randomPercentage() {
+          rndInt = randomIntFromInterval(minimumRange, maximumRange);
+        }
+
         for (let i = 0; i < easyEquationList.length; i++) {
           if (easyEquationList[i].includes('1x')) {
             easyEquationList[i] = easyEquationList[i].replace(/1x/g, 'x');
           }
-
           if (easyEquationList[i].includes('-1x')) {
             easyEquationList[i] = easyEquationList[i].replace(/-1x/g, '-x');
-          }
-
-          let rndInt = 0;
-          let minimumRange = minimumValue;
-          let maximumRange = maximumValue;
-          function randomPercentage() {
-            rndInt = randomIntFromInterval(minimumRange, maximumRange);
           }
 
           let limit = Math.floor(easyEquationList[i].length / 2);
@@ -130,9 +130,16 @@ var EquationGeneratorEasy = (function () {
           var tempEquation = easyEquationList[i];
 
           for (let j = 1; j < limit; j++) {
+            //console.log(tempEquation);
             let hashSymbols = '';
             let constant = tempEquation.lastIndexOf('3');
             let coefficient = tempEquation.lastIndexOf('2');
+
+            if (constant > coefficient) {
+              coefficient = -1;
+            } else {
+              constant = -1;
+            }
 
             randomPercentage();
             for (let z = 0; z < rndInt.toString().length; z++) {
@@ -163,7 +170,20 @@ var EquationGeneratorEasy = (function () {
           }
 
           if (easyEquationList[i].includes('1x')) {
-            easyEquationList[i] = easyEquationList[i].replace(/1x/g, 'x');
+            var count = (easyEquationList[i].match(/1x/g) || []).length;
+            easyEquationList[i] = easyEquationList[i].replace(/1x/g, '@@');
+            for (let counter = 0; counter < count; counter++) {
+              let indexChar = easyEquationList[i].indexOf('@@');
+              try {
+                if (easyEquationList[i][indexChar - 1].match(/[\+\-\*\/\(]/)) {
+                  easyEquationList[i] = easyEquationList[i].replace('@@', 'x');
+                } else {
+                  easyEquationList[i] = easyEquationList[i].replace('@@', '1x');
+                }
+              } catch (err) {
+                easyEquationList[i] = easyEquationList[i].replace('@@', 'x');
+              }
+            }
           }
         }
       }

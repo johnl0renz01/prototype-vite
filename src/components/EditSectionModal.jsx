@@ -17,7 +17,10 @@ import { BsSlashCircle } from 'react-icons/bs';
 import { MdClose } from 'react-icons/md';
 import { VscQuestion } from 'react-icons/vsc';
 
+import LoadingSpinner from './LoadingSpinner';
+
 const EditSectionModal = ({ visible, onClose, onContinue }) => {
+  const [showLoading, setShowLoading] = useState(false);
   const navigate = useNavigate();
 
   const [adviserData, setAdviserData] = useState([]);
@@ -47,11 +50,11 @@ const EditSectionModal = ({ visible, onClose, onContinue }) => {
     if (editState == true) {
       window.sessionStorage.setItem('EDIT_SECTION_STATE', false);
       getSectionDetails(sectionName);
-      setShowLoading(true);
     }
   });
 
   function getSectionDetails(sectionName) {
+    setShowLoading(true);
     let sectionLink = sectionName.replace(/ /g, '_');
     sectionLink = sectionLink.replace(/"/g, ' ');
 
@@ -353,6 +356,7 @@ const EditSectionModal = ({ visible, onClose, onContinue }) => {
           </div>
         </div>
       </div>
+      <LoadingSpinner visible={showLoading} />
     </>
   );
 };
