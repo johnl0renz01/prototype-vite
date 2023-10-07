@@ -100,7 +100,7 @@ function Registration() {
     axios
       .get('http://localhost:80/Prototype-Vite/my-project/api/sectionList/')
       .then(function (response) {
-        //console.log(response.data);
+        ////console.log(response.data);
         setSectionData(response.data);
       });
   }
@@ -112,7 +112,7 @@ function Registration() {
   }, []);
 
   const onSubmit = async (values, actions) => {
-    console.log('SUBMITTED');
+    //console.log('SUBMITTED');
 
     var validForm = JSON.parse(window.sessionStorage.getItem('IS_VALID_FORM'));
     if (validForm && validForm !== null) {
@@ -123,7 +123,7 @@ function Registration() {
           values
         )
         .then(function (response) {
-          console.log(response.data);
+          //console.log(response.data);
           setShowLoading(false);
           setShowModal(true);
           resetValues();
@@ -171,7 +171,7 @@ function Registration() {
       setTimeout(document.getElementById('age').blur(), 1);
     }
 
-    console.log(values.age);
+    //console.log(values.age);
   }
 
   const [birthday, setBirthday] = useState('');
@@ -236,7 +236,7 @@ function Registration() {
         `http://localhost:80/Prototype-Vite/my-project/api/verifyEmail/${tempEmail}`
       )
       .then(function (response) {
-        console.log(response.data);
+        //console.log(response.data);
         if (response.data === 'duplicate') {
           setDuplicateState(true);
           window.sessionStorage.setItem('IS_VALID_FORM', false);
@@ -288,7 +288,7 @@ function Registration() {
         `http://localhost:80/Prototype-Vite/my-project/api/verifyEmail/${tempEmail}`
       )
       .then(function (response) {
-        console.log(response.data);
+        //console.log(response.data);
         if (response.data === 'duplicate') {
           setDuplicateState(true);
           window.sessionStorage.setItem('IS_VALID_FORM', false);
@@ -535,15 +535,15 @@ function Registration() {
       const sheetName = workbook.SheetNames[0];
       const sheet = workbook.Sheets[sheetName];
       const parsedData = XLSX.utils.sheet_to_json(sheet);
-      console.log(parsedData);
+      //console.log(parsedData);
       temporary = parsedData;
-      console.log(temporary.length);
+      //console.log(temporary.length);
 
       if (temporary.length == requiredLengthArray) {
         for (let i = 0; i < temporary.length; i++) {
-          console.log(i);
+          //console.log(i);
           var currentData = JSON.stringify(temporary[i]);
-          //console.log(currentData);
+          ////console.log(currentData);
           if (currentData !== null && currentData !== undefined) {
             currentData = currentData.replace('{', '');
             currentData = currentData.replace('}', '');
@@ -603,10 +603,10 @@ function Registration() {
                   }
                 }
 
-                //console.log('eI: ' + endIndex);
+                ////console.log('eI: ' + endIndex);
 
                 if (isEnd) {
-                  //console.log(currentData.substring(firstIndex, endIndex));
+                  ////console.log(currentData.substring(firstIndex, endIndex));
 
                   userData.push(currentData.substring(firstIndex, endIndex));
                   isEnd = false;
@@ -622,7 +622,7 @@ function Registration() {
 
             /////////////////
 
-            console.log(userData);
+            //console.log(userData);
             if (userData.length < 7) {
               //setValidationStatus(validation);
               if (values.totalRows != 0) {
@@ -652,15 +652,15 @@ function Registration() {
                 values.bulkGradeLevel = gradeLvl;
                 values.bulkSection = sect;
 
-                console.log('ASDASDASDAS');
+                //console.log('ASDASDASDAS');
                 var sectionValidate = sect.replace(/ /g, '_');
-                console.log(sectionValidate);
+                //console.log(sectionValidate);
                 axios
                   .get(
                     `http://localhost:80/Prototype-Vite/my-project/api/verifySection/${sectionValidate}`
                   )
                   .then(function (response) {
-                    console.log(response.data);
+                    //console.log(response.data);
 
                     var result = response.data;
                     if (result == 'unique') {
@@ -679,7 +679,7 @@ function Registration() {
                       setErrorTally(errorsCount);
                       values.totalErrors = values.totalErrors + 1;
                     }
-                    console.log(values.isValidSection);
+                    //console.log(values.isValidSection);
                   })
                   .catch(function (error) {
                     setShowLoading(false);
@@ -693,8 +693,8 @@ function Registration() {
 
               //for duplication within excel file
               for (let j = 0; j < emails.length; j++) {
-                console.log(emails[j]);
-                console.log(email);
+                //console.log(emails[j]);
+                //console.log(email);
                 if (emails[j] == email) {
                   if (duplicates.includes(email)) {
                     errorsCount++;
@@ -729,8 +729,8 @@ function Registration() {
 
                   var row = 'Row #' + (i + 1).toString();
                   rowErrorMultiple.push(row.toString());
-                  console.log('ROW MUL: ');
-                  console.log(rowErrorMultiple);
+                  //console.log('ROW MUL: ');
+                  //console.log(rowErrorMultiple);
 
                   let array = JSON.stringify(rowErrorMultiple);
                   window.sessionStorage.setItem('IS_ERROR_MULTIPLE_ROW', array);
@@ -738,9 +738,9 @@ function Registration() {
                 }
               }
 
-              console.log('set the email!!');
+              //console.log('set the email!!');
               emails.push(email);
-              console.log(emails);
+              //console.log(emails);
               //for duplication in accounts database
 
               axios
@@ -748,7 +748,7 @@ function Registration() {
                   `http://localhost:80/Prototype-Vite/my-project/api/verifyEmailBulk/${email}@row${i}`
                 )
                 .then(function (response) {
-                  console.log(response.data);
+                  //console.log(response.data);
 
                   var result = response.data;
                   //setValidationStatus(oldArray => [...oldArray, result]);
@@ -765,7 +765,7 @@ function Registration() {
                     let number = parseInt(row.substring(3));
                     row = row.substring(0, 3) + ' #' + (number + 1);
                     rowErrorDuplicate.push(row.toString());
-                    console.log('ROW DUP: ' + rowErrorDuplicate);
+                    //console.log('ROW DUP: ' + rowErrorDuplicate);
                     let array = JSON.stringify(rowErrorDuplicate);
                     window.sessionStorage.setItem(
                       'IS_ERROR_DUPLICATE_ROW',
@@ -789,9 +789,9 @@ function Registration() {
             }
           }
 
-          console.log(i + 1);
+          //console.log(i + 1);
           if (i + 1 == temporary.length) {
-            console.log(i);
+            //console.log(i);
             setStudentList(parsedData);
           }
         }
@@ -800,13 +800,13 @@ function Registration() {
         setShowLoading(false);
       }
     };
-    console.log(rowErrorMultiple);
-    console.log(rowErrorDuplicate);
+    //console.log(rowErrorMultiple);
+    //console.log(rowErrorDuplicate);
 
     /*
     function convertArray(index) {
       var currentData = JSON.stringify(temporary[index]);
-      console.log(currentData);
+      //console.log(currentData);
       if (currentData !== null && currentData !== undefined) {
         currentData = currentData.replace('{', '');
         currentData = currentData.replace('}', '');
@@ -829,7 +829,7 @@ function Registration() {
           for (let i = 0; i < currentData.length; i++) {
             let isEnd = false;
 
-            //console.log(currentData[i]);
+            ////console.log(currentData[i]);
 
             if (i == 0) {
               if (currentData[i] !== '"') {
@@ -867,7 +867,7 @@ function Registration() {
               }
             }
             if (isEnd) {
-              //console.log(currentData.substring(firstIndex, endIndex));
+              ////console.log(currentData.substring(firstIndex, endIndex));
 
               userData.push(currentData.substring(firstIndex, endIndex));
               isEnd = false;
@@ -877,7 +877,7 @@ function Registration() {
           }
         }
 
-        console.log(userData);
+        //console.log(userData);
         if (userData.length < 7) {
           return;
         }
@@ -896,13 +896,13 @@ function Registration() {
           userData[1].toLowerCase() +
           '@sf.edu.ph';
 
-        console.log(email);
+        //console.log(email);
         axios
           .get(
             `http://localhost:80/Prototype-Vite/my-project/api/verifyEmail/${email}`
           )
           .then(function (response) {
-            console.log(response.data);
+            //console.log(response.data);
           });
       }
     }
@@ -916,7 +916,7 @@ function Registration() {
     var section_name = values.bulkSection;
 
     //var child = document.getElementById('row1').childNodes[3];
-    //console.log(child.nodeName);
+    ////console.log(child.nodeName);
 
     var table = document.getElementById('main_table');
     var tbodyRowCount = table.tBodies[0].rows.length;
@@ -953,7 +953,7 @@ function Registration() {
       if (link != '') {
         link = link + '@' + grade_level + '@' + section_name;
         link = link.replace(/ /g, '_');
-        console.log(link);
+        //console.log(link);
 
         axios
           .post(
@@ -962,7 +962,7 @@ function Registration() {
           .then(function (response) {
             setShowLoading(false);
             setShowModal4(true);
-            console.log(response.data);
+            //console.log(response.data);
           })
           .catch(function (error) {
             setShowLoading(false);
@@ -1038,19 +1038,19 @@ function Registration() {
     document.getElementById('bulk').click();
   };
 
-  //console.log(errorTally);
-  //console.log(validationStatus);
+  ////console.log(errorTally);
+  ////console.log(validationStatus);
 
   useEffect(() => {
     //setValidationStatus(validation);
   }, [studentList]);
 
   /*
-  console.log(studentList);
-  console.log('SL::1');
-  console.log(studentList[1]);
-  console.log('SL::4');
-  console.log(studentList[4]);
+  //console.log(studentList);
+  //console.log('SL::1');
+  //console.log(studentList[1]);
+  //console.log('SL::4');
+  //console.log(studentList[4]);
 */
 
   //FOR SKELETON

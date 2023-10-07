@@ -72,6 +72,12 @@ switch($_SESSION['method']) {
         $stmt2 = $conn->prepare($sql2);
         $stmt2->execute();
 
+
+        $logged = "FALSE";
+        $sql0 = "UPDATE sessions SET Logged = '$logged'
+                WHERE UserEmail = '$email'";
+        $stmt0 = $conn->prepare($sql0);
+        $stmt0->execute();
         
 
         break;

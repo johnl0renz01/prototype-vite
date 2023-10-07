@@ -14,7 +14,10 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
 import EquationListSkeleton from './EquationListSkeleton';
 
-import { BsClipboard2X } from 'react-icons/bs';
+import { BsClipboard2X, BsGearFill } from 'react-icons/bs';
+
+import EquationSettingsModal from './EquationSettingsModal';
+import EquationSettingsMessageModal from './EquationSettingsMessageModal';
 import LoadingSpinner from './LoadingSpinner';
 
 export default function EquationList() {
@@ -77,6 +80,10 @@ export default function EquationList() {
   ]);
 
   function getEquations() {
+    var tableName = JSON.parse(
+      window.localStorage.getItem('SESSION_USER_LOGS')
+    );
+    tableName = tableName + '_equation_list';
     setTableLoader(true);
     var DATA = [];
     var easyEquations = [];
@@ -84,7 +91,9 @@ export default function EquationList() {
     var difficultEquations = [];
 
     axios
-      .get(`http://localhost:80/Prototype-Vite/my-project/api/equationsEasy/`)
+      .get(
+        `http://localhost:80/Prototype-Vite/my-project/api/equationsEasy/${tableName}`
+      )
       .then(function (response) {
         for (let i = 0; i < response.data.length; i++) {
           //console.log(response.data[i]);
@@ -93,7 +102,7 @@ export default function EquationList() {
 
         axios
           .get(
-            `http://localhost:80/Prototype-Vite/my-project/api/equationsAverage/`
+            `http://localhost:80/Prototype-Vite/my-project/api/equationsAverage/${tableName}`
           )
           .then(function (response) {
             for (let i = 0; i < response.data.length; i++) {
@@ -102,7 +111,7 @@ export default function EquationList() {
             }
             axios
               .get(
-                `http://localhost:80/Prototype-Vite/my-project/api/equationsDifficult/`
+                `http://localhost:80/Prototype-Vite/my-project/api/equationsDifficult/${tableName}`
               )
               .then(function (response) {
                 for (let i = 0; i < response.data.length; i++) {
@@ -152,12 +161,17 @@ export default function EquationList() {
   }, []);
 
   function removeEquation(equation) {
+    var tableName = JSON.parse(
+      window.localStorage.getItem('SESSION_USER_LOGS')
+    );
+    tableName = tableName + '_equation_list';
+
     setShowLoading(true);
     let equationString = equation;
     equationString = equationString.replace(/ /g, '_');
     axios
       .post(
-        `http://localhost:80/Prototype-Vite/my-project/api/removeEquation/${equationString}`
+        `http://localhost:80/Prototype-Vite/my-project/api/removeEquation/${equationString}@${tableName}`
       )
       .then(function (response) {
         setShowLoading(false);
@@ -206,6 +220,11 @@ export default function EquationList() {
   const [stores, setStores] = useState([]);
 
   const handleDragAndDrop = results => {
+    var tableName = JSON.parse(
+      window.localStorage.getItem('SESSION_USER_LOGS')
+    );
+    tableName = tableName + '_equation_list';
+
     const { source, destination, type } = results;
 
     if (!destination) return;
@@ -255,7 +274,7 @@ export default function EquationList() {
 
     axios
       .post(
-        `http://localhost:80/Prototype-Vite/my-project/api/editEquationType/${equationType}@${stringRequest}`
+        `http://localhost:80/Prototype-Vite/my-project/api/editEquationType/${equationType}@${stringRequest}@${tableName}`
       )
       .then(function (response) {
         console.log(response.data);
@@ -321,6 +340,25 @@ export default function EquationList() {
     setDeleteMessageModal(false);
   };
 
+  // MODAL EQUATION SETTINGS
+  const [showModal2, setShowModal2] = useState(false);
+  const handleOnCloseModal2 = () => setShowModal2(false);
+  const handleOnContinueModal2 = e => {
+    setShowModal2(false);
+    setMessageModal(true);
+  };
+
+  //MODAL MESSAGE
+  const [showMessageModal, setMessageModal] = useState(false);
+  const handleOnCloseMessageModal2 = () => {
+    setMessageModal(false);
+  };
+
+  const settings = () => {
+    window.sessionStorage.setItem('EQUATION_SETTINGS_STATE', true);
+    setShowModal2(true);
+  };
+
   //FOR SKELETON
   const [skeletonState, setSkeletonState] = useState(true);
 
@@ -380,9 +418,19 @@ export default function EquationList() {
           >
             Equation List
           </div>
-          <div className="text-gray-700 mt-1.5 lg:text-lg sm:text-base xs:text-xs font-semibold tracking-wide pl-2 ">
+          <div className="flex items-center justify-between text-gray-700 mt-1.5 lg:text-lg sm:text-base xs:text-xs font-semibold tracking-wide pl-2 ">
             The following are current custom equations created. Drag and drop
             the equation to change its difficulty.
+            <button
+              onClick={settings}
+              type="button"
+              className="relative hdScreen:w-[17rem] semihdScreen:w-[16.5rem] laptopScreen:w-[16rem] averageScreen:w-[20rem] md:w-[20rem] sm:w-[20rem] xs:w-[16rem]  lg:py-2 lg:px-5 sm:py-1.5 sm:px-2.5 xs:px-1 xs:py-1 text-white font-semibold  shadow-md rounded-2xl bg-gray-500/70 hover:bg-gray-600/70  ease-in-out transition duration-300 transform drop-shadow-[0_3px_0px_rgba(0,0,0,0.1)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.35)]"
+            >
+              <span className="md:pl-2 lg:text-xl sm:text-base xs:text-sm flex justify-center">
+                Equation Settings
+                <BsGearFill className="md:block xs:hidden  lg:ml-2 sm:ml-1 xs:ml-0.5 lg:mt-0.5 sm:mt-1 xs:mt-1 lg:text-2xl" />
+              </span>
+            </button>
           </div>
 
           <div>
@@ -447,6 +495,17 @@ export default function EquationList() {
         visible={showDeleteMessageModal}
       />
       <LoadingSpinner visible={showLoading} />
+
+      <EquationSettingsModal
+        onClose={handleOnCloseModal2}
+        visible={showModal2}
+        onContinue={handleOnContinueModal2}
+      />
+
+      <EquationSettingsMessageModal
+        onClose={handleOnCloseMessageModal2}
+        visible={showMessageModal}
+      />
     </>
   );
 

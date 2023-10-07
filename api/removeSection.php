@@ -23,6 +23,7 @@ switch($_SESSION['method']) {
     case "GET":
         break;
     case "POST":
+        
         $sql = "DELETE FROM section_list WHERE SectionName = '$section'";
         $stmt = $conn->prepare($sql);
 

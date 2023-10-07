@@ -9,9 +9,18 @@ include 'DbConnect.php';
 $objDb = new DbConnect;
 $conn = $objDb->connect();
 
+$table_name = $_SERVER['REQUEST_URI'];
+
+for ($i = strlen($table_name) - 1; $i > 0; $i--) {
+    if ($table_name[$i] == "/") {
+        $table_name = substr($table_name, ($i + 1));
+        break;
+    }
+}
+
 switch($_SESSION['method']) {
     case "GET":
-        $sql = "SELECT * FROM equation_list WHERE EquationType = 'Average' ORDER BY LENGTH(EquationString) ASC";
+        $sql = "SELECT * FROM ".$table_name." WHERE EquationType = 'Average' ORDER BY LENGTH(EquationString) ASC";
         
         $stmt = $conn->prepare($sql);
         $stmt->execute();

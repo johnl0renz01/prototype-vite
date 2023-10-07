@@ -27,8 +27,14 @@ export default function CreateEquation() {
   const [equationList, setEquationList] = useState([]);
 
   function getEquations() {
+    var tableName = JSON.parse(
+      window.localStorage.getItem('SESSION_USER_LOGS')
+    );
+    tableName = tableName + '_equation_list';
     axios
-      .get(`http://localhost:80/Prototype-Vite/my-project/api/getEquationList/`)
+      .get(
+        `http://localhost:80/Prototype-Vite/my-project/api/getEquationList/${tableName}`
+      )
       .then(function (response) {
         setEquationList(response.data);
       });
@@ -283,12 +289,15 @@ export default function CreateEquation() {
   };
 
   const addEquation = () => {
+    var tableName = JSON.parse(
+      window.localStorage.getItem('SESSION_USER_LOGS')
+    );
+    tableName = tableName + '_equation_list';
     setShowLoading(true);
     var equationDetails = difficulty + '@' + equationLink;
-    console.log(equationDetails);
     axios
       .post(
-        `http://localhost:80/Prototype-Vite/my-project/api/addEquation/${equationDetails}`
+        `http://localhost:80/Prototype-Vite/my-project/api/addEquation/${equationDetails}@${tableName}`
       )
       .then(function (response) {
         setShowLoading(false);

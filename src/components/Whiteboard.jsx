@@ -66,6 +66,17 @@ export default function Whiteboard() {
       navigate('/HomePageTeacher');
       window.location.reload(false);
     }
+
+    var status = JSON.parse(
+      window.localStorage.getItem('SESSION_TEACHER_TABLE')
+    );
+    if (status !== null) {
+      if (status == 'Not-Enrolled') {
+        navigate('/Homepage');
+      }
+    } else {
+      navigate('/Homepage');
+    }
   });
 
   //FOR LINKS/NAVBAR/BREADCRUMBS
@@ -150,6 +161,8 @@ export default function Whiteboard() {
 
   const [coefficientLetter, setCoeffLetter] = useState('');
   const [answerFraction, setFraction] = useState('');
+  const [answerFractionDisplay, setFractionDisplay] = useState('');
+  const [fractionState, setFractionState] = useState(false);
 
   useEffect(() => {
     const data = window.localStorage.getItem('QUESTION_LIST');
@@ -168,6 +181,11 @@ export default function Whiteboard() {
 
   //////////////////
   function getFraction() {
+    var fractionAnswerMode = JSON.parse(
+      window.localStorage.getItem('SESSION_ACCEPT_FRACTION')
+    );
+    if (fractionAnswerMode !== null) setFractionState(true);
+
     let data = parseInt(
       JSON.parse(window.localStorage.getItem('QUESTION_INDEX'))
     );
@@ -175,6 +193,7 @@ export default function Whiteboard() {
     EquationSolver.setEquation(questionList[data]);
     EquationSolver.getEquationAnswer();
     let fraction = EquationSolver.getEquationFraction();
+    setFractionDisplay(fraction);
     fraction = coefficientLetter + '=' + fraction;
     setFraction(fraction);
   }
@@ -927,7 +946,54 @@ export default function Whiteboard() {
             }
           }
         } else if (answerFraction == trimmedText) {
-          displayFraction();
+          var fractionAnswerMode = JSON.parse(
+            window.localStorage.getItem('SESSION_ACCEPT_FRACTION')
+          );
+
+          if (fractionAnswerMode === null) {
+            displayFraction();
+          } else {
+            let isRepeat = false;
+
+            let currentIndex = answer.length - 1;
+            ReactDOM.findDOMNode(answerArea).style.visibility = 'visible';
+            //Display from n to current
+            for (let i = 0; i <= currentIndex; i++) {
+              let element = document.getElementById('answer' + i);
+              if (
+                ReactDOM.findDOMNode(element).style.visibility === 'visible'
+              ) {
+                isRepeat = true;
+              } else {
+                isRepeat = false;
+              }
+
+              //console.log(element);
+              ReactDOM.findDOMNode(element).style.visibility = 'visible';
+            }
+            displaySolved();
+            window.localStorage.setItem('FINISHED_STEPS', currentIndex + 1);
+            window.localStorage.setItem('FINISHED_EQUATION', true);
+            increaseCorrectStreak();
+            insertSequence('happy');
+            increaseTally('EXPRESSION_HAPPY');
+            increaseTally('QUESTION_ANSWERED');
+
+            var currentScore = window.localStorage.getItem('SESSION_SCORE');
+            if (
+              currentScore == null ||
+              currentScore == undefined ||
+              currentScore == '0'
+            ) {
+              currentScore = '0';
+            }
+
+            currentScore = parseInt(currentScore);
+            currentScore++;
+            window.localStorage.setItem('SESSION_SCORE', currentScore);
+
+            return;
+          }
         }
 
         // WRONG ANSWER or IRRELEVANT
@@ -1690,7 +1756,7 @@ export default function Whiteboard() {
   function getHeightGivenArea() {
     var divElement = document.getElementById('givenArea');
     whiteboardHeightValue = ReactDOM.findDOMNode(divElement).offsetHeight;
-    console.log('given height: ' + whiteboardHeightValue);
+    //console.log('given height: ' + whiteboardHeightValue);
 
     //123px and //147px
   }
@@ -1737,12 +1803,14 @@ export default function Whiteboard() {
   }
 
   useEffect(() => {
-    getHeightGivenArea();
-    setArea();
+    updateWhiteboardArea();
   });
 
-  {
+  function updateWhiteboardArea() {
+    getHeightGivenArea();
+    setArea();
   }
+
   //HINT BUTTON
   const [isHint, setHintState] = useState(false);
 
@@ -2090,17 +2158,17 @@ export default function Whiteboard() {
 
   function albumItem(linkYT, linkIMG, linkTitle, linkAuthor) {
     return (
-      <div className=" border-4 border-gray-700 hover:border-white  break-all overflow-hidden shadow drop-shadow-[0_3px_0px_rgba(0,0,0,0.3)]">
+      <div className=" border-4 border-gray-700 hover:border-white   break-all overflow-hidden shadow drop-shadow-[0_3px_0px_rgba(0,0,0,0.3)]">
         <div
           onClick={() => {
             setAlbumState(false);
             setVideoState(true);
             setTutorialLink(linkYT);
           }}
-          className=" [&>*:nth-child(odd)]:hover:blur-[3px] [&>*:nth-child(even)]:hover:opacity-100 flex flex-col justify-center  items-center text-center "
+          className="h-full min-h-full  [&>*:nth-child(odd)]:hover:blur-[3px] [&>*:nth-child(even)]:hover:opacity-100 flex flex-col justify-center  items-center text-center "
         >
           <img
-            className=" hover:cursor-pointer border-4 border-slate-700 object-cover w-full h-full transition duration-100"
+            className=" hover:cursor-pointer border-4 border-slate-700 object-cover w-full h-full min-w-full min-h-full transition duration-100"
             src={linkIMG}
           />
 
@@ -2110,8 +2178,8 @@ export default function Whiteboard() {
           />
         </div>
 
-        <div className="p-0.5 text-center hdScreen:text-sm averageScreen:text-xs  xs:text-xs absolute bottom-0 bg-slate-600 text-white border-t-3 border-slate-700 w-full">
-          {linkTitle}
+        <div className=" whitespace-nowrap overflow-hidden text-ellipsis p-0.5 text-center hdScreen:text-sm averageScreen:text-xs  xs:text-xs absolute bottom-0 bg-slate-600 text-white border-t-3 border-slate-700 w-full">
+          <span className="">{linkTitle}</span>
           <br></br>
           {linkAuthor}
         </div>
@@ -2400,6 +2468,8 @@ export default function Whiteboard() {
 
             {/*<!--Given Area-->*/}
             <div
+              onMouseEnter={updateWhiteboardArea}
+              onMouseLeave={updateWhiteboardArea}
               id="givenArea"
               className={`relative col-span-9 bg-white row-span-2 border-l-12  border-l-brTwo border-t-12 border-t-yellow-700 ${
                 isHelp ? 'hover:border-4 hover:border-red-500 ' : ''
@@ -2432,28 +2502,75 @@ export default function Whiteboard() {
                       '@MathTeacherGon'
                     )}
                     {albumItem(
-                      'https://www.youtube.com/embed/crJI4iZ_DbI',
-                      'https://i.ytimg.com/vi/crJI4iZ_DbI/hqdefault.jpg',
-                      'Linear Equations in One Variable',
-                      '@MathTeacherGon'
+                      'https://www.youtube.com/embed/FUSVTZp-m6Q?si=O512T2n_yz6Gl_sx',
+                      'https://i.ytimg.com/vi/FUSVTZp-m6Q/sddefault.jpg',
+                      'Introduction to Linear Equations',
+                      '@WOW MATH'
                     )}
                     {albumItem(
-                      'https://www.youtube.com/embed/crJI4iZ_DbI',
-                      'https://i.ytimg.com/vi/crJI4iZ_DbI/hqdefault.jpg',
-                      'Linear Equations in One Variable',
-                      '@MathTeacherGon'
+                      'https://www.youtube.com/embed/iL8yL6Cb3cM?si=aWWrTdvI1-Uh1ci6',
+                      'https://i.ytimg.com/vi/iL8yL6Cb3cM/maxresdefault.jpg',
+                      'Solving Linear Equations | Easy Method ',
+                      '@Najam Academy'
                     )}
                     {albumItem(
-                      'https://www.youtube.com/embed/crJI4iZ_DbI',
-                      'https://i.ytimg.com/vi/crJI4iZ_DbI/hqdefault.jpg',
-                      'Linear Equations in One Variable',
-                      '@MathTeacherGon'
+                      'https://www.youtube.com/embed/q8qGr2iyni0?si=-MhLUv4-xe7NZ671',
+                      'https://i.ytimg.com/vi/q8qGr2iyni0/sddefault.jpg',
+                      'solving linear equation brackets - GCSE Maths',
+                      '@JED Maths'
                     )}
-                    {/** 
-                    <div className="w-full h-full bg-white"></div>
-                   
-                    
-                    */}
+
+                    {/** ROW */}
+                    {albumItem(
+                      'https://www.youtube.com/embed/Zn-GbH2S0Dk?si=GNSAoWJ3ZzQCiFA7',
+                      'https://i.ytimg.com/vi/Zn-GbH2S0Dk/maxresdefault.jpg',
+                      'Algebra: Linear equations 3 | Linear equations | Algebra I | Khan Academy',
+                      '@Khan Academy'
+                    )}
+                    {albumItem(
+                      'https://www.youtube.com/embed/fDMxOiS5g7k?si=HHepvxMu-1YSAaua',
+                      'https://i.ytimg.com/vi/fDMxOiS5g7k/maxresdefault.jpg',
+                      'Solving Equation with variables on both sides of the equation',
+                      '@Mike DeVor'
+                    )}
+                    {albumItem(
+                      'https://www.youtube.com/embed/q3g68vcMXxM?si=ksbFSCX_UHklDD9T',
+                      'https://i.ytimg.com/vi/TmKfGW9zvC4/sddefault.jpg',
+                      'Solving Two-Step Equations | Expressions & Equations | Grade 7',
+                      '@Math is Simple!'
+                    )}
+                    {albumItem(
+                      'https://www.youtube.com/embed/Kzj0B8VUXC8?si=2017mJSeH5Mq0Qff',
+                      'https://i.ytimg.com/vi/Kzj0B8VUXC8/maxresdefault.jpg',
+                      'Math lesson for Grade 7 - What are Algebraic Expressions?',
+                      '@Lido Learning'
+                    )}
+                    {/** ROW */}
+
+                    {albumItem(
+                      'https://www.youtube.com/embed/GiiuZ8sfw00?si=5Z4GmLItOSVeJp4m',
+                      'https://i.ytimg.com/vi/GiiuZ8sfw00/maxresdefault.jpg',
+                      'Long Division Made Easy - Examples With Large Numbers',
+                      '@The Organic Chemistry Tutor'
+                    )}
+                    {albumItem(
+                      'https://www.youtube.com/embed/HdU_rf7eMTI?si=koCxb6j38hlDPdO1',
+                      'https://i.ytimg.com/vi/HdU_rf7eMTI/maxresdefault.jpg',
+                      'Math Antics - Long Division with 2-Digit Divisors',
+                      '@mathantics'
+                    )}
+                    {albumItem(
+                      'https://www.youtube.com/embed/aR6phzMLuKM?si=zsOaj-bhPnKtN5hC',
+                      'https://i.ytimg.com/vi/aR6phzMLuKM/sddefault.jpg',
+                      'Simplifying Algebraic Expressions With Parentheses & Variables - Combining Like Terms - Algebra',
+                      '@The Organic Chemistry Tutor'
+                    )}
+                    {albumItem(
+                      'https://www.youtube.com/embed/oYNpQPX-vvk?si=JQ08IGChWXtDeJjy',
+                      'https://i.ytimg.com/vi/oYNpQPX-vvk/sddefault.jpg',
+                      'UNLIKE SIGNS: Multiply Divide Add Subtract NEGATIVE and POSITIVE Integers',
+                      '@SolvingMath with Leonalyn'
+                    )}
                   </div>
                   <div
                     className={`absolute w-full h-full 
@@ -2793,6 +2910,11 @@ export default function Whiteboard() {
                             </span>
                             <span className="px-2 border-black border-2">
                               {ans}
+                              {fractionState ? (
+                                <> or {answerFractionDisplay}</>
+                              ) : (
+                                <></>
+                              )}
                             </span>
                           </div>
                         ) : (
@@ -2804,7 +2926,6 @@ export default function Whiteboard() {
                             <span className="invisible select-none">
                               {displaySpace[index]}
                             </span>
-
                             {ans}
                           </div>
                         )

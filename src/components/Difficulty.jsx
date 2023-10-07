@@ -59,6 +59,17 @@ export default function DifficultyPage() {
     } else if (account == 'Teacher') {
       navigate('/HomePageTeacher');
     }
+
+    var status = JSON.parse(
+      window.localStorage.getItem('SESSION_TEACHER_TABLE')
+    );
+    if (status !== null) {
+      if (status == 'Not-Enrolled') {
+        navigate('/Homepage');
+      }
+    } else {
+      navigate('/Homepage');
+    }
   });
 
   const [showLoading, setShowLoading] = useState(false);
@@ -152,33 +163,144 @@ export default function DifficultyPage() {
   var option_3 = document.getElementById('option_3');
 
   const easyType = () => {
-    equationList = EquationGeneratorEasy.getEquationList(20);
-    setQuestions(equationList);
-    setOption('easy');
-    setDiffType('Easy');
-    isPicked(true);
-    resetCheck();
-    ReactDOM.findDOMNode(option_1).style.visibility = 'visible';
+    setShowLoading(true);
+    var tableSettings = JSON.parse(
+      window.localStorage.getItem('SESSION_TEACHER_TABLE')
+    );
+    var tableEquations = tableSettings + '_equation_list';
+    tableSettings = tableSettings + '_equation_settings';
+
+    axios
+      .get(
+        `http://localhost:80/Prototype-Vite/my-project/api/equationSettingsDetails/${tableSettings}`
+      )
+      .then(function (response) {
+        var result = Object.values(response.data);
+        var keys = [];
+        for (var k in result[0]) keys.push(result[0][k]);
+
+        equationList = EquationGeneratorEasy.getEquationList(
+          20,
+          tableEquations,
+          parseInt(keys[1]),
+          keys[2],
+          parseInt(keys[4]),
+          parseInt(keys[5]),
+          keys[6]
+        );
+
+        if (keys[3] == 'TRUE') {
+          window.localStorage.setItem('SESSION_ACCEPT_FRACTION', true);
+        } else {
+          window.localStorage.removeItem('SESSION_ACCEPT_FRACTION');
+        }
+
+        setQuestions(equationList);
+        setOption('easy');
+        setDiffType('Easy');
+        isPicked(true);
+        resetCheck();
+        ReactDOM.findDOMNode(option_1).style.visibility = 'visible';
+
+        setShowLoading(false);
+      })
+      .catch(function (error) {
+        setShowLoading(false);
+      });
   };
 
   const averageType = () => {
-    equationList = EquationGeneratorAverage.getEquationList(20);
-    setQuestions(equationList);
-    setOption('average');
-    setDiffType('Average');
-    isPicked(true);
-    resetCheck();
-    ReactDOM.findDOMNode(option_2).style.visibility = 'visible';
+    setShowLoading(true);
+    var tableSettings = JSON.parse(
+      window.localStorage.getItem('SESSION_TEACHER_TABLE')
+    );
+    var tableEquations = tableSettings + '_equation_list';
+    tableSettings = tableSettings + '_equation_settings';
+
+    axios
+      .get(
+        `http://localhost:80/Prototype-Vite/my-project/api/equationSettingsDetails/${tableSettings}`
+      )
+      .then(function (response) {
+        var result = Object.values(response.data);
+        var keys = [];
+        for (var k in result[0]) keys.push(result[0][k]);
+
+        equationList = EquationGeneratorAverage.getEquationList(
+          20,
+          tableEquations,
+          parseInt(keys[1]),
+          keys[2],
+          parseInt(keys[4]),
+          parseInt(keys[5]),
+          keys[6]
+        );
+
+        if (keys[3] == 'TRUE') {
+          window.localStorage.setItem('SESSION_ACCEPT_FRACTION', true);
+        } else {
+          window.localStorage.removeItem('SESSION_ACCEPT_FRACTION');
+        }
+
+        setQuestions(equationList);
+        setOption('average');
+        setDiffType('Average');
+        isPicked(true);
+        resetCheck();
+        ReactDOM.findDOMNode(option_2).style.visibility = 'visible';
+
+        setShowLoading(false);
+      })
+      .catch(function (error) {
+        setShowLoading(false);
+      });
   };
 
   const difficultType = () => {
-    equationList = EquationGeneratorDifficult.getEquationList(20);
-    setQuestions(equationList);
-    setOption('difficult');
-    setDiffType('Difficult');
-    isPicked(true);
-    resetCheck();
-    ReactDOM.findDOMNode(option_3).style.visibility = 'visible';
+    setShowLoading(true);
+    var tableSettings = JSON.parse(
+      window.localStorage.getItem('SESSION_TEACHER_TABLE')
+    );
+    var tableEquations = tableSettings + '_equation_list';
+    tableSettings = tableSettings + '_equation_settings';
+
+    axios
+      .get(
+        `http://localhost:80/Prototype-Vite/my-project/api/equationSettingsDetails/${tableSettings}`
+      )
+      .then(function (response) {
+        var result = Object.values(response.data);
+        var keys = [];
+        for (var k in result[0]) keys.push(result[0][k]);
+
+        equationList = EquationGeneratorDifficult.getEquationList(
+          20,
+          tableEquations,
+          parseInt(keys[1]),
+          keys[2],
+          parseInt(keys[4]),
+          parseInt(keys[5]),
+          keys[6]
+        );
+
+        if (keys[3] == 'TRUE') {
+          window.localStorage.setItem('SESSION_ACCEPT_FRACTION', true);
+        } else {
+          window.localStorage.removeItem('SESSION_ACCEPT_FRACTION');
+        }
+
+        setQuestions(equationList);
+        setOption('difficult');
+        setDiffType('Difficult');
+        isPicked(true);
+        resetCheck();
+        ReactDOM.findDOMNode(option_3).style.visibility = 'visible';
+
+        setShowLoading(false);
+      })
+      .catch(function (error) {
+        setShowLoading(false);
+      });
   };
 
   function resetCheck() {

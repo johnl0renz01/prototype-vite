@@ -1,11 +1,28 @@
 import axios from 'axios';
+import { replace } from 'formik';
 
 var EquationGeneratorEasy = (function () {
   const lhsSchemas = ['2x', '2x @ 3', '2x @ 3 @ 3', '3 @ 2x', '3 @ 2x @ 3'];
   const rhsSchemas = ['2x', '3 ', '3 @ 3 ', '3 @ 3 @ 3'];
   var easyEquationList = [];
 
-  function generateEquations(quantity) {
+  function generateEquations(
+    quantity,
+    teacherTable,
+    occurrenceValue,
+    prioritize,
+    minimumValue,
+    maximumValue,
+    differentVariables
+  ) {
+    console.log(quantity);
+    console.log(teacherTable);
+    console.log(occurrenceValue);
+    console.log(prioritize);
+    console.log(minimumValue);
+    console.log(maximumValue);
+    console.log(differentVariables);
+
     //Equation storage
     easyEquationList = [];
     var customEquations = [];
@@ -14,7 +31,7 @@ var EquationGeneratorEasy = (function () {
     function getEquations() {
       axios
         .get(
-          `http://localhost:80/Prototype-Vite/my-project/api/getEquation/Easy`
+          `http://localhost:80/Prototype-Vite/my-project/api/getEquation/Easy@${teacherTable}`
         )
         .then(function (response) {
           //console.log(response.data);
@@ -90,134 +107,85 @@ var EquationGeneratorEasy = (function () {
 
       function randomIntFromInterval(min, max) {
         // min and max included
-        return Math.floor(Math.random() * (max - min + 1) + min);
+        return Math.floor(Math.random() * (max - min + 1)) + min;
       }
 
       function changeValues() {
+        let minimumRange = minimumValue;
+        let maximumRange = maximumValue;
+        let rndInt = 0;
+
+        function randomPercentage() {
+          rndInt = randomIntFromInterval(minimumRange, maximumRange);
+        }
+
         for (let i = 0; i < easyEquationList.length; i++) {
           if (easyEquationList[i].includes('1x')) {
             easyEquationList[i] = easyEquationList[i].replace(/1x/g, 'x');
           }
-
           if (easyEquationList[i].includes('-1x')) {
             easyEquationList[i] = easyEquationList[i].replace(/-1x/g, '-x');
           }
 
-          let rndInt = 0;
-          let percentage = 0;
-          let minimumRange = 0;
-          let maximumRange = 0;
-          function randomPercentage() {
-            percentage = Math.random() * 100;
-            if (percentage <= 85) {
-              // 0-85
-              minimumRange = 10;
-              maximumRange = 99;
-            } else if (percentage <= 95) {
-              // 86-95
-              minimumRange = 1;
-              maximumRange = 99;
-            } else {
-              // 96-100
-              minimumRange = 11;
-              maximumRange = 99;
-            }
-            rndInt = randomIntFromInterval(minimumRange, maximumRange);
-          }
-
           let limit = Math.floor(easyEquationList[i].length / 2);
 
+          var tempEquation = easyEquationList[i];
+
           for (let j = 1; j < limit; j++) {
-            for (let k = 1; k < 10; k++) {
-              replaceDigit(k);
-              replaceDigit('-' + k);
-              replaceDigitCoefficient(k);
-              replaceDigitCoefficient('-' + k);
+            //console.log(tempEquation);
+            let hashSymbols = '';
+            let constant = tempEquation.lastIndexOf('3');
+            let coefficient = tempEquation.lastIndexOf('2');
+
+            if (constant > coefficient) {
+              coefficient = -1;
+            } else {
+              constant = -1;
             }
-          }
 
-          function replaceDigit(digit) {
-            let negativeSymbol = '';
-
-            if (parseInt(digit) < 0) {
-              negativeSymbol = '-';
+            randomPercentage();
+            for (let z = 0; z < rndInt.toString().length; z++) {
+              hashSymbols = hashSymbols + '#';
             }
-            if (easyEquationList[i].includes(digit)) {
-              let search1 = ' ' + digit + ' ';
-              let search2 = '\\(' + digit + ' ';
-              let search3 = ' ' + digit + '\\)';
-              let search4 = '\\(' + digit + '\\)';
 
-              let find1 = new RegExp(search1, '');
-              let find2 = new RegExp(search2, '');
-              let find3 = new RegExp(search3, '');
-              let find4 = new RegExp(search4, '');
-
-              randomPercentage();
-              easyEquationList[i] = easyEquationList[i].replace(
-                find1,
-                ' ' + negativeSymbol + rndInt.toString() + ' '
-              );
-              randomPercentage();
-              easyEquationList[i] = easyEquationList[i].replace(
-                find2,
-                '(' + negativeSymbol + rndInt.toString() + ' '
-              );
-              randomPercentage();
-              easyEquationList[i] = easyEquationList[i].replace(
-                find3,
-                ' ' + negativeSymbol + rndInt.toString() + ')'
-              );
-              randomPercentage();
-              easyEquationList[i] = easyEquationList[i].replace(
-                find4,
-                '(' + negativeSymbol + rndInt.toString() + ')'
-              );
-            }
-          }
-
-          function replaceDigitCoefficient(digit) {
-            let negativeSymbol = '';
-
-            if (parseInt(digit) < 0) {
-              negativeSymbol = '-';
-            }
-            if (easyEquationList[i].includes(digit)) {
-              let search1 = ' ' + digit + 'x ';
-              let search2 = '\\(' + digit + 'x ';
-              let search3 = ' ' + digit + 'x\\)';
-              let search4 = '\\(' + digit + 'x\\)';
-
-              let find1 = new RegExp(search1, '');
-              let find2 = new RegExp(search2, '');
-              let find3 = new RegExp(search3, '');
-              let find4 = new RegExp(search4, '');
-
-              randomPercentage();
-              easyEquationList[i] = easyEquationList[i].replace(
-                find1,
-                ' ' + negativeSymbol + rndInt.toString() + 'x '
-              );
-              randomPercentage();
-              easyEquationList[i] = easyEquationList[i].replace(
-                find2,
-                '(' + negativeSymbol + rndInt.toString() + 'x'
-              );
-              randomPercentage();
-              easyEquationList[i] = easyEquationList[i].replace(
-                find3,
-                ' ' + negativeSymbol + rndInt.toString() + 'x)'
-              );
-              randomPercentage();
-              easyEquationList[i] = easyEquationList[i].replace(
-                find4,
-                '(' + negativeSymbol + rndInt.toString() + 'x)'
-              );
+            if (constant >= 0) {
+              easyEquationList[i] =
+                easyEquationList[i].substring(0, constant) +
+                rndInt.toString() +
+                easyEquationList[i].substring(constant + 1);
+              tempEquation =
+                tempEquation.substring(0, constant) +
+                hashSymbols +
+                tempEquation.substring(constant + 1);
+            } else if (coefficient >= 0) {
+              easyEquationList[i] =
+                easyEquationList[i].substring(0, coefficient) +
+                rndInt.toString() +
+                easyEquationList[i].substring(coefficient + 1);
+              tempEquation =
+                tempEquation.substring(0, coefficient) +
+                hashSymbols +
+                tempEquation.substring(coefficient + 1);
+            } else {
+              break;
             }
           }
 
           if (easyEquationList[i].includes('1x')) {
-            easyEquationList[i] = easyEquationList[i].replace(/1x/g, 'x');
+            var count = (easyEquationList[i].match(/1x/g) || []).length;
+            easyEquationList[i] = easyEquationList[i].replace(/1x/g, '@@');
+            for (let counter = 0; counter < count; counter++) {
+              let indexChar = easyEquationList[i].indexOf('@@');
+              try {
+                if (easyEquationList[i][indexChar - 1].match(/[\+\-\*\/\(]/)) {
+                  easyEquationList[i] = easyEquationList[i].replace('@@', 'x');
+                } else {
+                  easyEquationList[i] = easyEquationList[i].replace('@@', '1x');
+                }
+              } catch (err) {
+                easyEquationList[i] = easyEquationList[i].replace('@@', 'x');
+              }
+            }
           }
         }
       }
@@ -246,7 +214,11 @@ var EquationGeneratorEasy = (function () {
         'y',
         'z',
       ];
-      changeVariables();
+
+      if (differentVariables == 'TRUE') {
+        changeVariables();
+      }
+
       function changeVariables() {
         for (let i = 0; i < easyEquationList.length; i++) {
           const variable =
@@ -268,11 +240,16 @@ var EquationGeneratorEasy = (function () {
         let equation =
           customEquations[Math.floor(Math.random() * customEquations.length)];
         let percentage = Math.random() * 100;
-        //65% chance custom equation
-        if (percentage <= 65) {
+        //chance of custom equation
+        if (percentage <= occurrenceValue) {
           if (equation !== undefined) {
             //ADD ITEM TO STORAGE ARRAY
-            easyEquationList[index] = equation;
+            //IF PRIORITIZED OR NOT
+            if (prioritize == 'TRUE') {
+              easyEquationList[i] = equation;
+            } else {
+              easyEquationList[index] = equation;
+            }
 
             //REMOVE ITEM FROM ARRAY
             const itemIndex = customEquations.indexOf(equation);
@@ -287,8 +264,24 @@ var EquationGeneratorEasy = (function () {
       //console.log(easyEquationList);
     }
   }
-  var getEquationList = function (quantity) {
-    generateEquations(quantity);
+  var getEquationList = function (
+    quantity,
+    teacherTable,
+    occurrenceValue,
+    prioritize,
+    minimumValue,
+    maximumValue,
+    differentVariables
+  ) {
+    generateEquations(
+      quantity,
+      teacherTable,
+      occurrenceValue,
+      prioritize,
+      minimumValue,
+      maximumValue,
+      differentVariables
+    );
     return easyEquationList;
   };
 

@@ -155,7 +155,15 @@ var EquationGeneratorDifficult = (function () {
     */
 
   var difficultEquationList = [];
-  function generateEquations(quantity) {
+  function generateEquations(
+    quantity,
+    teacherTable,
+    occurrenceValue,
+    prioritize,
+    minimumValue,
+    maximumValue,
+    differentVariables
+  ) {
     //Equation storage
     difficultEquationList = [];
     var customEquations = [];
@@ -164,7 +172,7 @@ var EquationGeneratorDifficult = (function () {
     function getEquations() {
       axios
         .get(
-          `http://localhost:80/Prototype-Vite/my-project/api/getEquation/Difficult`
+          `http://localhost:80/Prototype-Vite/my-project/api/getEquation/Difficult@${teacherTable}`
         )
         .then(function (response) {
           //console.log(response.data);
@@ -247,6 +255,14 @@ var EquationGeneratorDifficult = (function () {
       }
 
       function changeValues() {
+        let minimumRange = minimumValue;
+        let maximumRange = maximumValue;
+        let rndInt = 0;
+
+        function randomPercentage() {
+          rndInt = randomIntFromInterval(minimumRange, maximumRange);
+        }
+
         for (let i = 0; i < difficultEquationList.length; i++) {
           if (difficultEquationList[i].includes('1x')) {
             difficultEquationList[i] = difficultEquationList[i].replace(
@@ -261,161 +277,79 @@ var EquationGeneratorDifficult = (function () {
             );
           }
 
-          let rndInt = 0;
-          let percentage = 0;
-          let minimumRange = 0;
-          let maximumRange = 0;
-          function randomPercentage() {
-            percentage = Math.random() * 100;
-            if (percentage <= 85) {
-              // 0-85
-              minimumRange = 10;
-              maximumRange = 99;
-            } else if (percentage <= 95) {
-              // 86-95
-              minimumRange = 1;
-              maximumRange = 99;
-            } else {
-              // 96-100
-              minimumRange = 11;
-              maximumRange = 99;
-            }
-            rndInt = randomIntFromInterval(minimumRange, maximumRange);
-          }
-
           let limit = Math.floor(difficultEquationList[i].length / 2);
 
+          var tempEquation = difficultEquationList[i];
+
           for (let j = 1; j < limit; j++) {
-            for (let k = 1; k < 10; k++) {
-              replaceDigit(k);
-              replaceDigit('-' + k);
-              replaceDigitCoefficient(k);
-              replaceDigitCoefficient('-' + k);
+            //console.log(tempEquation);
+            let hashSymbols = '';
+            let constant = tempEquation.lastIndexOf('3');
+            let coefficient = tempEquation.lastIndexOf('2');
+
+            if (constant > coefficient) {
+              coefficient = -1;
+            } else {
+              constant = -1;
             }
-          }
 
-          function replaceDigit(digit) {
-            let negativeSymbol = '';
-
-            if (parseInt(digit) < 0) {
-              negativeSymbol = '-';
+            randomPercentage();
+            for (let z = 0; z < rndInt.toString().length; z++) {
+              hashSymbols = hashSymbols + '#';
             }
-            if (difficultEquationList[i].includes(digit)) {
-              let search1 = ' ' + digit + ' ';
-              let search2 = '\\(' + digit + ' ';
-              let search3 = ' ' + digit + '\\)';
-              let search4 = '\\(' + digit + '\\)';
-              let search5 = ' ' + digit + '\\(';
-              let search6 = '\\)' + digit + ' ';
-              let search7 = '\\(' + digit + '\\(';
 
-              let find1 = new RegExp(search1, '');
-              let find2 = new RegExp(search2, '');
-              let find3 = new RegExp(search3, '');
-              let find4 = new RegExp(search4, '');
-              let find5 = new RegExp(search5, '');
-              let find6 = new RegExp(search6, '');
-              let find7 = new RegExp(search7, '');
-
-              randomPercentage();
-              difficultEquationList[i] = difficultEquationList[i].replace(
-                find1,
-                ' ' + negativeSymbol + rndInt.toString() + ' '
-              );
-              randomPercentage();
-              difficultEquationList[i] = difficultEquationList[i].replace(
-                find2,
-                '(' + negativeSymbol + rndInt.toString() + ' '
-              );
-              randomPercentage();
-              difficultEquationList[i] = difficultEquationList[i].replace(
-                find3,
-                ' ' + negativeSymbol + rndInt.toString() + ')'
-              );
-              randomPercentage();
-              difficultEquationList[i] = difficultEquationList[i].replace(
-                find4,
-                '(' + negativeSymbol + rndInt.toString() + ')'
-              );
-              randomPercentage();
-              difficultEquationList[i] = difficultEquationList[i].replace(
-                find5,
-                ' ' + negativeSymbol + rndInt.toString() + '('
-              );
-              randomPercentage();
-              difficultEquationList[i] = difficultEquationList[i].replace(
-                find6,
-                ')' + negativeSymbol + rndInt.toString()
-              );
-              randomPercentage();
-              difficultEquationList[i] = difficultEquationList[i].replace(
-                find7,
-                '(' + negativeSymbol + rndInt.toString() + '('
-              );
-            }
-          }
-
-          function replaceDigitCoefficient(digit) {
-            let negativeSymbol = '';
-
-            if (parseInt(digit) < 0) {
-              negativeSymbol = '-';
-            }
-            if (difficultEquationList[i].includes(digit)) {
-              let search1 = ' ' + digit + 'x ';
-              let search2 = '\\(' + digit + 'x ';
-              let search3 = ' ' + digit + 'x\\)';
-              let search4 = '\\(' + digit + 'x\\)';
-              let search5 = ' ' + digit + 'x\\(';
-              let search6 = '\\)' + digit + 'x ';
-              let search7 = '\\(' + digit + 'x\\(';
-
-              let find1 = new RegExp(search1, '');
-              let find2 = new RegExp(search2, '');
-              let find3 = new RegExp(search3, '');
-              let find4 = new RegExp(search4, '');
-              let find5 = new RegExp(search5, '');
-              let find6 = new RegExp(search6, '');
-              let find7 = new RegExp(search7, '');
-
-              randomPercentage();
-              difficultEquationList[i] = difficultEquationList[i].replace(
-                find1,
-                ' ' + negativeSymbol + rndInt.toString() + 'x '
-              );
-              randomPercentage();
-              difficultEquationList[i] = difficultEquationList[i].replace(
-                find2,
-                '(' + negativeSymbol + rndInt.toString() + 'x'
-              );
-              randomPercentage();
-              difficultEquationList[i] = difficultEquationList[i].replace(
-                find3,
-                ' ' + negativeSymbol + rndInt.toString() + 'x)'
-              );
-              randomPercentage();
-              difficultEquationList[i] = difficultEquationList[i].replace(
-                find4,
-                '(' + negativeSymbol + rndInt.toString() + 'x)'
-              );
-              randomPercentage();
-              difficultEquationList[i] = difficultEquationList[i].replace(
-                find5,
-                ' ' + negativeSymbol + rndInt.toString() + 'x('
-              );
-              randomPercentage();
-              difficultEquationList[i] = difficultEquationList[i].replace(
-                find7,
-                '(' + negativeSymbol + rndInt.toString() + 'x('
-              );
+            if (constant >= 0) {
+              difficultEquationList[i] =
+                difficultEquationList[i].substring(0, constant) +
+                rndInt.toString() +
+                difficultEquationList[i].substring(constant + 1);
+              tempEquation =
+                tempEquation.substring(0, constant) +
+                hashSymbols +
+                tempEquation.substring(constant + 1);
+            } else if (coefficient >= 0) {
+              difficultEquationList[i] =
+                difficultEquationList[i].substring(0, coefficient) +
+                rndInt.toString() +
+                difficultEquationList[i].substring(coefficient + 1);
+              tempEquation =
+                tempEquation.substring(0, coefficient) +
+                hashSymbols +
+                tempEquation.substring(coefficient + 1);
+            } else {
+              break;
             }
           }
 
           if (difficultEquationList[i].includes('1x')) {
+            var count = (difficultEquationList[i].match(/1x/g) || []).length;
             difficultEquationList[i] = difficultEquationList[i].replace(
               /1x/g,
-              'x'
+              '@@'
             );
+            for (let counter = 0; counter < count; counter++) {
+              let indexChar = difficultEquationList[i].indexOf('@@');
+              try {
+                if (
+                  difficultEquationList[i][indexChar - 1].match(/[\+\-\*\/\(]/)
+                ) {
+                  difficultEquationList[i] = difficultEquationList[i].replace(
+                    '@@',
+                    'x'
+                  );
+                } else {
+                  difficultEquationList[i] = difficultEquationList[i].replace(
+                    '@@',
+                    '1x'
+                  );
+                }
+              } catch (err) {
+                difficultEquationList[i] = difficultEquationList[i].replace(
+                  '@@',
+                  'x'
+                );
+              }
+            }
           }
         }
       }
@@ -444,7 +378,11 @@ var EquationGeneratorDifficult = (function () {
         'y',
         'z',
       ];
-      changeVariables();
+
+      if (differentVariables == 'TRUE') {
+        changeVariables();
+      }
+
       function changeVariables() {
         for (let i = 0; i < difficultEquationList.length; i++) {
           const variable =
@@ -469,11 +407,16 @@ var EquationGeneratorDifficult = (function () {
         let equation =
           customEquations[Math.floor(Math.random() * customEquations.length)];
         let percentage = Math.random() * 100;
-        //65% chance custom equation
-        if (percentage <= 65) {
+        //chance of custom equation
+        if (percentage <= occurrenceValue) {
           if (equation !== undefined) {
             //ADD ITEM TO STORAGE ARRAY
-            difficultEquationList[index] = equation;
+            //IF PRIORITIZED OR NOT
+            if (prioritize == 'TRUE') {
+              difficultEquationList[i] = equation;
+            } else {
+              difficultEquationList[index] = equation;
+            }
 
             //REMOVE ITEM FROM ARRAY
             const itemIndex = customEquations.indexOf(equation);
@@ -489,8 +432,24 @@ var EquationGeneratorDifficult = (function () {
     }
   }
 
-  var getEquationList = function (quantity) {
-    generateEquations(quantity);
+  var getEquationList = function (
+    quantity,
+    teacherTable,
+    occurrenceValue,
+    prioritize,
+    minimumValue,
+    maximumValue,
+    differentVariables
+  ) {
+    generateEquations(
+      quantity,
+      teacherTable,
+      occurrenceValue,
+      prioritize,
+      minimumValue,
+      maximumValue,
+      differentVariables
+    );
     return difficultEquationList;
   };
 

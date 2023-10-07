@@ -17,7 +17,10 @@ import { BsSlashCircle } from 'react-icons/bs';
 import { MdClose } from 'react-icons/md';
 import { VscQuestion } from 'react-icons/vsc';
 
+import LoadingSpinner from './LoadingSpinner';
+
 const EditSectionModal = ({ visible, onClose, onContinue }) => {
+  const [showLoading, setShowLoading] = useState(false);
   const navigate = useNavigate();
 
   const [adviserData, setAdviserData] = useState([]);
@@ -47,6 +50,7 @@ const EditSectionModal = ({ visible, onClose, onContinue }) => {
     if (editState == true) {
       window.sessionStorage.setItem('EDIT_SECTION_STATE', false);
       getSectionDetails(sectionName);
+      setShowLoading(true);
     }
   });
 
@@ -78,6 +82,10 @@ const EditSectionModal = ({ visible, onClose, onContinue }) => {
           document.getElementById('sectionName').focus();
           setTimeout(document.getElementById('sectionName').blur(), 1);
         }
+        setShowLoading(false);
+      })
+      .catch(function (error) {
+        setShowLoading(false);
       });
   }
 
@@ -85,6 +93,7 @@ const EditSectionModal = ({ visible, onClose, onContinue }) => {
 
   const onSubmit = (values, actions) => {
     console.log('SUBMITTED');
+    setShowLoading(true);
     var section = JSON.parse(
       window.sessionStorage.getItem('CURRENT_SECTION_EDIT')
     );
@@ -97,7 +106,11 @@ const EditSectionModal = ({ visible, onClose, onContinue }) => {
         )
         .then(function (response) {
           console.log(response.data);
+          setShowLoading(false);
           onContinue();
+        })
+        .catch(function (error) {
+          setShowLoading(false);
         });
     }
     //await new Promise((resolve) => setTimeout(resolve, 1));
@@ -350,6 +363,7 @@ const EditSectionModal = ({ visible, onClose, onContinue }) => {
           </div>
         </div>
       </div>
+      <LoadingSpinner visible={showLoading} />
     </>
   );
 };

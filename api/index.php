@@ -205,6 +205,10 @@ switch($requestLink) {
         include('editEquationType.php');
     break;
 
+    case "/Prototype-Vite/my-project/api/equationSettingsDetails":
+        include('equationSettingsDetails.php');
+    break;
+
 
     //// 
 
@@ -230,6 +234,10 @@ switch($requestLink) {
 
     case "/Prototype-Vite/my-project/api/teacherLoginSection":
         include('teacherLoginSection.php');
+    break;
+
+    case "/Prototype-Vite/my-project/api/getAdviserTable":
+        include('getAdviserTable.php');
     break;
 
     //FOR MANAGE ACCOUNTS

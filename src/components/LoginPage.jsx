@@ -31,12 +31,12 @@ export default function LoginPage() {
   useEffect(() => {
     var logged = JSON.parse(window.localStorage.getItem('LOGGED'));
     if (logged === null) logged = '';
-    console.log(logged);
+    //console.log(logged);
 
     if (logged == 'TRUE') {
       var accountType = JSON.parse(window.localStorage.getItem('ACCOUNT_TYPE'));
       if (accountType === null) accountType = '';
-      console.log('asdad');
+      //console.log('asdad');
       if (accountType !== null) {
         if (accountType == 'Teacher') {
           navigate('/HomePageTeacher');
@@ -103,8 +103,8 @@ export default function LoginPage() {
     const data = window.localStorage.getItem('LOGIN_TYPE');
     if (data !== null) setAccType(JSON.parse(data));
     accountType = 'login' + JSON.parse(data);
-    //console.log("acctype: " + accountType);
-    //console.log(accountType == "loginStudent");
+    ////console.log("acctype: " + accountType);
+    ////console.log(accountType == "loginStudent");
 
     checkData();
     function checkData() {
@@ -117,19 +117,19 @@ export default function LoginPage() {
   });
 
   const onSubmit = async (values, actions) => {
-    console.log(accountType);
+    //console.log(accountType);
     var isForgot = JSON.parse(window.sessionStorage.getItem('FORGOT_PASSWORD'));
-    console.log(isForgot);
+    //console.log(isForgot);
 
     if (isForgot) {
-      console.log('TESTING IM HERE');
+      //console.log('TESTING IM HERE');
       var type = JSON.parse(window.sessionStorage.getItem('RESET_TYPE'));
       type = type.replace(/"/g, '');
       if (type == 'Email') {
-        console.log('EMIALSADAS');
+        //console.log('EMIALSADAS');
         setShowModal2(true);
       } else if (type == 'Code') {
-        console.log('COEDED');
+        //console.log('COEDED');
       }
     } else {
       setShowLoading(true);
@@ -148,16 +148,16 @@ export default function LoginPage() {
             message = message.replace(/"/g, '');
           }
 
-          console.log(message);
+          //console.log(message);
           if (message == 'setPassword') {
             firstLogin = true;
             setShowLoading(false);
             setNewPass(true);
           } else {
-            console.log(response.data);
+            //console.log(response.data);
             var currentData = JSON.stringify(response.data);
             setAccountValidation(currentData);
-            //console.log("CURRDATA:" + currentData);
+            ////console.log('CURRDATA:' + currentData);
             currentData = currentData.replace('{', '');
             currentData = currentData.replace('}', '');
             currentData = currentData.replace('"GivenName":', '');
@@ -166,6 +166,7 @@ export default function LoginPage() {
             currentData = currentData.replace('"GroupType":', '');
             currentData = currentData.replace('"MiddleName":', '');
             currentData = currentData.replace('"LastName":', '');
+            currentData = currentData.replace('"Section":', '');
 
             var userData = [];
             convertStringToArray();
@@ -189,14 +190,14 @@ export default function LoginPage() {
                   }
                 }
                 if (isEnd) {
-                  //console.log(currentData.substring(firstIndex, endIndex));
+                  ////console.log(currentData.substring(firstIndex, endIndex));
                   userData.push(currentData.substring(firstIndex, endIndex));
                   isEnd = false;
                 }
               }
             }
 
-            //console.log(currentData);
+            ////console.log(currentData);
             if (currentData != '"Invalid"') {
               window.localStorage.setItem('LOGGED', JSON.stringify('TRUE'));
 
@@ -209,11 +210,20 @@ export default function LoginPage() {
                   'SESSION_EMAIL',
                   JSON.stringify(userData[1])
                 );
-
+                /*
+                window.localStorage.setItem(
+                  'SESSION_SECTION_NAME',
+                  JSON.stringify(userData[6])
+                );
+                */
                 window.localStorage.setItem(
                   'SYSTEM_VERSION',
                   JSON.stringify(userData[3])
                 );
+
+                var sectionName = userData[6];
+                sectionName = sectionName.replace(/"/g, '');
+                sectionName = sectionName.replace(/ /g, '_');
 
                 var firstName = JSON.stringify(userData[0]);
                 firstName = firstName.replace(/"/g, '');
@@ -274,10 +284,10 @@ export default function LoginPage() {
                   values
                 )
                 .then(function (response) {
-                  //console.log(response.data);
+                  ////console.log(response.data);
                   let currentData = JSON.stringify(response.data);
                   setAccountValidation(currentData);
-                  //console.log("CURRDATA:" + currentData);
+                  ////console.log("CURRDATA:" + currentData);
                   currentData = currentData.replace('{', '');
                   currentData = currentData.replace('}', '');
                   currentData = currentData.replace('"UniqueID":', '');
@@ -304,7 +314,7 @@ export default function LoginPage() {
                         }
                       }
                       if (isEnd) {
-                        //console.log(currentData.substring(firstIndex, endIndex));
+                        ////console.log(currentData.substring(firstIndex, endIndex));
                         userData.push(
                           currentData.substring(firstIndex, endIndex)
                         );
@@ -323,27 +333,49 @@ export default function LoginPage() {
                       window.localStorage.getItem('SESSION_EMAIL')
                     );
                     if (email === null) email = '';
-                    //console.log(email);
+                    ////console.log(email);
                     axios
                       .post(
                         `http://localhost:80/Prototype-Vite/my-project/api/validateLogin/${email}`,
                         values
                       )
                       .then(function (response) {
-                        console.log(response.data);
+                        //console.log(response.data);
                         data = JSON.stringify(response.data);
                         data = data.replace(/"/g, '');
                         data = data.replace(/\\/g, '');
-                        console.log(data);
+                        //console.log(data);
                         window.localStorage.setItem(
                           'ACCOUNT_TYPE',
                           JSON.stringify(data)
                         );
 
                         if (data == 'Student') {
-                          window.localStorage.removeItem('LOGIN_STATUS');
-                          setShowLoading(false);
-                          navigate('/Homepage');
+                          axios
+                            .post(
+                              `http://localhost:80/Prototype-Vite/my-project/api/getAdviserTable/${sectionName}`
+                            )
+                            .then(function (response) {
+                              ////console.log(response.data);
+                              if (response.data == 'No-Section') {
+                                window.localStorage.setItem(
+                                  'SESSION_TEACHER_TABLE',
+                                  JSON.stringify('Not-Enrolled')
+                                );
+                              } else {
+                                window.localStorage.setItem(
+                                  'SESSION_TEACHER_TABLE',
+                                  JSON.stringify(response.data)
+                                );
+                              }
+                              window.localStorage.removeItem('LOGIN_STATUS');
+                              setShowLoading(false);
+                              navigate('/Homepage');
+                            })
+                            .catch(function (error) {
+                              window.localStorage.removeItem('LOGIN_STATUS');
+                              setShowLoading(false);
+                            });
                         } else if (data == 'Teacher') {
                           window.localStorage.removeItem('LOGIN_STATUS');
                           var fullName = JSON.parse(
@@ -356,7 +388,7 @@ export default function LoginPage() {
                               `http://localhost:80/Prototype-Vite/my-project/api/teacherLoginSection/${fullName}`
                             )
                             .then(function (response) {
-                              console.log(response.data);
+                              //console.log(response.data);
                               var section = response.data;
                               window.localStorage.setItem(
                                 'CURRENT_SECTION',
@@ -443,7 +475,7 @@ export default function LoginPage() {
     onSubmit,
   });
 
-  //console.log(errors);
+  ////console.log(errors);
 
   const changeAccountType = () => {
     handleReset();
@@ -648,7 +680,7 @@ export default function LoginPage() {
      </div>
      */}
       <div
-        className={` flex items-center select-none
+        className={`hidden flex items-center select-none
                      ${skeletonState ? '' : ''}`}
       >
         <div className="mx-auto w-full  grid place-items-center overflow-y-auto h-screen ">
@@ -1046,11 +1078,7 @@ export default function LoginPage() {
                               'FORGOT_PASSWORD',
                               true
                             );
-                            console.log(
-                              JSON.parse(
-                                window.sessionStorage.getItem('FORGOT_PASSWORD')
-                              )
-                            );
+                            //console.log(JSON.parse(window.sessionStorage.getItem('FORGOT_PASSWORD')));
                           }
                     }
                     className={`no-underline cursor-pointer lg:text-lg sm:text-base xs:text-xs text-lime-800 hover:underline ${

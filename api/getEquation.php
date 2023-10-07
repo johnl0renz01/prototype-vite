@@ -20,9 +20,23 @@ for ($i = strlen($equation_type) - 1; $i > 0; $i--) {
 }
 
 
+$table_name = "";
+
+for ($i = strlen($equation_type) - 1; $i > 0; $i--) {
+    if ($equation_type[$i] == "@") {
+        $table_name = substr($equation_type, ($i + 1));
+        $equation_type = substr($equation_type, 0, $i);
+        break;
+    }
+}
+
+
+
+
+
 switch($_SESSION['method']) {
     case "GET":
-        $sql = "SELECT EquationString FROM equation_list WHERE EquationType = '$equation_type'";
+        $sql = "SELECT EquationString FROM ".$table_name." WHERE EquationType = '$equation_type'";
         $stmt = $conn->prepare($sql);
         $stmt->execute();
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);

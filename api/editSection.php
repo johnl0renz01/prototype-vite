@@ -42,6 +42,42 @@ switch($_SESSION['method']) {
     case "GET":
         break;
     case "POST":
+        //GET FULL NAME OF TEACHER
+        $teacherName = "SELECT AdviserName FROM section_list WHERE SectionName = '$section'";
+        $tn = $conn->prepare($teacherName);
+        $tn->execute();
+        $t_name = $tn->fetchColumn();
+
+    
+        $teacher_email = "";
+        //GET EMAIL
+        $t_email = "SELECT Email FROM accounts WHERE concat(GivenName, ' ', MiddleName, ' ', LastName) = '$t_name'";
+        $t_e = $conn->prepare($t_email);
+        $t_e->execute();
+        $teacher_email = $t_e->fetchColumn();
+
+        //LOGOUT TEACHER
+        if ($teacher_email != '' && $teacher_email != false) {
+            $logged = "FALSE";
+            $sql0 = "UPDATE sessions SET Logged = '$logged'
+                    WHERE UserEmail = '$teacher_email'
+                    AND Logged = 'TRUE'";
+            $stmt0 = $conn->prepare($sql0);
+            $stmt0->execute();
+        } else {
+            $t_email2 = "SELECT Email FROM accounts WHERE concat(GivenName, ' ', LastName) = '$t_name'";
+            $t_e2 = $conn->prepare($t_email2);
+            $t_e2->execute();
+            $teacher_email = $t_e2->fetchColumn();
+
+            $logged = "FALSE";
+            $sql0 = "UPDATE sessions SET Logged = '$logged'
+                    WHERE UserEmail = '$teacher_email'
+                    AND Logged = 'TRUE'";
+            $stmt0 = $conn->prepare($sql0);
+            $stmt0->execute();
+        }
+
         $user = json_decode( file_get_contents('php://input') );
         $adviserName = $user->adviserName;
         $gradeLevel = $user->gradeLevel;
