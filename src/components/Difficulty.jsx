@@ -316,6 +316,7 @@ export default function DifficultyPage() {
   const [choiceModal, setChoiceModal] = useState(false);
 
   const handleOnContinueModal = () => {
+    window.localStorage.removeItem('EXPRESSION_SEQUENCE');
     window.localStorage.setItem('QUESTION_STATUS', JSON.stringify('ABANDONED'));
     EndSession.recordData();
     ClearStorage.clearData();
@@ -370,6 +371,7 @@ export default function DifficultyPage() {
   };
 
   const pickDifficulty = () => {
+    window.localStorage.removeItem('EXPRESSION_SEQUENCE');
     setChoiceModal(false);
     var sessionID = '';
     try {

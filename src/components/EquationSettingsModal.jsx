@@ -275,6 +275,7 @@ const EquationSettingsModal = ({ visible, onClose, onContinue }) => {
                       type="range"
                       min="0"
                       max="100"
+                      className="input-range"
                       value={occurrenceVal}
                       onChange={occurrenceValueChange}
                     />
@@ -369,6 +370,7 @@ const EquationSettingsModal = ({ visible, onClose, onContinue }) => {
                       type="range"
                       min="1"
                       max="998"
+                      className="input-range"
                       value={minimumVal}
                       onChange={minimumValueChange}
                     />
@@ -379,6 +381,7 @@ const EquationSettingsModal = ({ visible, onClose, onContinue }) => {
                       type="range"
                       min="1"
                       max="999"
+                      className="input-range"
                       value={maximumVal}
                       onChange={maximumValueChange}
                     />

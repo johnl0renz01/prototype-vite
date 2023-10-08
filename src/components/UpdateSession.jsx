@@ -30,6 +30,9 @@ var UpdateSession = (function () {
     let levelup = window.localStorage.getItem('SESSION_LEVELUP');
     if (levelup === null) levelup = 'FALSE';
 
+    let leveldown = window.localStorage.getItem('SESSION_LEVELDOWN');
+    if (leveldown === null) leveldown = 'FALSE';
+
     var sessionData = window.localStorage.getItem('SESSION_USER_LOGS');
     sessionData =
       sessionData +
@@ -52,7 +55,9 @@ var UpdateSession = (function () {
       '@' +
       abandoned +
       '@' +
-      levelup;
+      levelup +
+      '@' +
+      leveldown;
     sessionData = sessionData.replace(/"/g, '');
 
     var userDatabase = window.localStorage.getItem('SESSION_USER_LOGS');
@@ -82,13 +87,13 @@ var UpdateSession = (function () {
           `http://localhost:80/Prototype-Vite/my-project/api/studentSessionUpdate/${updateData}`
         )
         .then(function (response) {
-          console.log(response.data);
+          //console.log(response.data);
           axios
             .post(
               `http://localhost:80/Prototype-Vite/my-project/api/endSession/${sessionData}`
             )
             .then(function (response) {
-              console.log(response.data);
+              //console.log(response.data);
             });
         });
     }

@@ -5,7 +5,11 @@ import axios from 'axios';
 import * as ReactDOM from 'react-dom';
 import $ from 'jquery';
 
-import { BsCaretUpFill } from 'react-icons/bs';
+import {
+  BsCaretUpFill,
+  BsArrowDownSquareFill,
+  BsFileEarmarkArrowDownFill,
+} from 'react-icons/bs';
 
 import StudentDetailSkeleton from './StudentDetailSkeleton';
 
@@ -357,7 +361,7 @@ export default function StudentDetail() {
                     {accountHistory.map(history => (
                       <>
                         <div
-                          className={`grid lg:grid-cols-11 rounded-l-md xs:h-12 shadow relative  p-3  ${
+                          className={`grid lg:grid-cols-12 xs:grid-cols-4 rounded-l-md xs:h-12 averageScreen:-mt-0 xs:-mt-0 shadow relative  p-3  ${
                             history.SessionType === 'Easy'
                               ? 'bg-green-500'
                               : history.SessionType === 'Average'
@@ -373,15 +377,27 @@ export default function StudentDetail() {
                               </span>
                             </p>
                           </div>
-                          <div className="lg:col-span-6 text-right lg:-mt-0 xs:-mt-8">
+                          <div className="lg:col-span-6 text-right lg:-mt-0 xs:-mt-0">
                             <span className="lg:text-lg sm:text-sm xs:text-xs text-white font-normal">
                               Score: {history.Score + '/20'}
                             </span>
                           </div>
-                          <div className="lg:col-span-2 text-right lg:-mt-0  xs:-mt-3">
+                          <div className="lg:col-span-2 averageScreen:text-center xs:text-right lg:-mt-0  xs:-mt-0">
                             <span className="lg:text-lg sm:text-sm xs:text-xs text-white font-normal">
                               Time: {history.TimeSpent}
                             </span>
+                          </div>
+                          <div className="lg:block text-right averageScreen:ml-0 sm:ml-8 xs:ml-4">
+                            <div className="pt-0.5 pb-1 sm:mt-0 xs:mt-1 cursor-pointer flex items-center justify-center bg-blue-500/90 hover:bg-blue-600 rounded-md whitespace-nowrap overflow-hidden lg:text-base sm:text-sm xs:text-xs text-gray-200 hover:text-white font-semibold">
+                              <span className="hdScreen:block xs:hidden">
+                                Activity{'\u00A0'}
+                              </span>
+                              <span className="averageScreen:block xs:block">
+                                Log
+                              </span>
+
+                              <BsFileEarmarkArrowDownFill className="averageScreen:ml-2 xs:ml-1   " />
+                            </div>
                           </div>
                         </div>
                         <hr></hr>

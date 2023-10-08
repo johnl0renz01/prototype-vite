@@ -94,7 +94,8 @@ switch($_SESSION['method']) {
                 Sequence TEXT NOT NULL ,
                 Answered VARCHAR(255) NOT NULL ,
                 Abandoned VARCHAR(255) NOT NULL ,
-                LevelUp VARCHAR(255) NOT NULL
+                LevelUp VARCHAR(255) NOT NULL ,
+                LevelDown VARCHAR(255) NOT NULL
                 )";
 
             $conn->exec($create);

@@ -114,41 +114,41 @@ var FeedbackList = (function () {
       message = messageArray[Math.floor(Math.random() * messageArray.length)];
     } else if (condition == 'stepArrange') {
       var messageArray = [
-        'Consider rearranging the equation so that all variables are on one side and all constants are on the other.',
-        'Try to move all the variables to one side of the equation and all the constants to the other side.',
-        'Reorder the equation so that the variables are isolated on one side and the constants are isolated on the other.',
-        'Try to isolate the variables by moving all the constants to the other side of the equation.',
+        'Consider rearranging the equation so that all variables are on left side and all constants are on the right.',
+        'Try to move all the variables to left side of the equation and all the constants to the right side.',
+        'Reorder the equation so that the variables are isolated on left side and the constants are isolated on the right.',
+        'Try to isolate the variables by moving all the constants to the right side of the equation.',
         'Consider switching the sides of the equation so that all variables are on the left and all constants are on the right.',
         'Arrange the equation so that all variables appear on the left-hand side and all constants appear on the right-hand side.',
         'Move all the constants to the right side of the equation and all the variables to the left.',
-        'Put all the variables on one side of the equation and all the constants on the other side.',
-        'Try to group all the variables together on one side of the equation and all the constants together on the other side.',
-        'Reorganize the equation so that all variables are grouped on one side and all constants are grouped on the other.',
-        'Shift all the constants to one side of the equation and all the variables to the other side.',
-        'Arrange the equation so that all variables are on one side and all constants are on the other side.',
-        'Isolate the variables by moving all the constants to the other side of the equation.',
+        'Put all the variables on left side of the equation and all the constants on the right side.',
+        'Try to group all the variables together on left side of the equation and all the constants together on the right side.',
+        'Reorganize the equation so that all variables are grouped on left side and all constants are grouped on the right.',
+        'Shift all the constants to right side of the equation and all the variables to the left side.',
+        'Arrange the equation so that all variables are on left side and all constants are on the right side.',
+        'Isolate the variables by moving all the constants to the right side of the equation.',
         'Rearrange the equation so that all the variables are together and all the constants are together.',
-        'Put all the variables together on one side of the equation and all the constants together on the other side.',
+        'Put all the variables together on left side of the equation and all the constants together on the right side.',
         'Try to separate the variables from the constants by arranging them on opposite sides of the equation.',
         'Organize the equation so that all variables are on the left side and all constants are on the right side.',
         'Consider switching the order of the equation so that variables come before constants.',
-        'Move all the constants to one side and all the variables to the other side of the equation.',
+        'Move all the constants to right side and all the variables to the left side of the equation.',
         'Try to rearrange the equation so that all variables are on the left-hand side and all constants are on the right-hand side.',
 
-        'Move all of the variables to one side of the equation, and all of the constants to the other side.',
+        'Move all of the variables to left side of the equation, and all of the constants to the right side.',
         'Isolate the variables by relocating all of the constants to the opposite side of the equation.',
         'Organize the equation so that all the variables are on the left side, and all the constants are on the right side.',
         'Relocate all of the constants to the right side of the equation, and all of the variables to the left side.',
-        'Group all of the variables together on one side of the equation, and all of the constants together on the other side.',
-        'Move all of the constants to one side of the equation, and all of the variables to the other side to isolate the variables.',
-        'Rearrange the equation so that all of the variables are on one side, and all of the constants are on the other side.',
-        'Isolate the variables by transferring all of the constants to the other side of the equation.',
+        'Group all of the variables together on left side of the equation, and all of the constants together on the right side.',
+        'Move all of the constants to right side of the equation, and all of the variables to the left side to isolate the variables.',
+        'Rearrange the equation so that all of the variables are on left side, and all of the constants are on the right side.',
+        'Isolate the variables by transferring all of the constants to the right side of the equation.',
         'Modify the equation so that all the variables are together and all the constants are together.',
-        'Put all the variables together on one side of the equation, and all the constants together on the other side.',
+        'Put all the variables together on left side of the equation, and all the constants together on the right side.',
         'Attempt to separate the variables and the constants by placing them on opposite sides of the equation.',
         'Arrange the equation such that all the variables are on the left side, and all the constants are on the right side.',
         'Consider swapping the order of the equation so that the variables come before the constants.',
-        'Move all the constants to one side and all the variables to the other side to isolate the variables.',
+        'Move all the constants to right side and all the variables to the left side to isolate the variables.',
       ];
       message = messageArray[Math.floor(Math.random() * messageArray.length)];
     }
@@ -328,6 +328,32 @@ var FeedbackList = (function () {
         "It seems like there's a mistake in your response.",
         'Unfortunately, your answer is incorrect.',
         'Unfortunately, that is not the correct solution.',
+      ];
+      message = messageArray[Math.floor(Math.random() * messageArray.length)];
+    }
+
+    // SHOW CORRECT ANSWER
+    // SHOW CORRECT ANSWER // SHOW CORRECT ANSWER // SHOW CORRECT ANSWER // SHOW CORRECT ANSWER
+    else if (condition == 'showCorrect1') {
+      var messageArray = [
+        'Keep your spirits high, for I share the next step in solving this equation.',
+        "Don't lose hope; I'm here to guide you through the next part of solving this equation.",
+        'Stay determined because I disclose the next move to assist you to solve.',
+        'Hang in there, as I reveal the next step to solve this equation.',
+        'Keep the momentum going, as I shed light on the next step towards solving this equation.',
+        'Your perseverance is paying off, as I provide with the next step in solving this equation.',
+        "Stay committed; I'm here to show you the next important move in solving this equation.",
+        "Stay focused and don't give up hope, as I uncover the next piece of the puzzle to solve.",
+        'Keep the faith, because I share the next vital step to help you with this equation.',
+        'Persevere, as I lay out the next step that will lead you closer to solving this equation.',
+        'Maintain your determination, as I uncover the next step in solving this equation.',
+        'Stay motivated, for the next key step in solving this equation is just ahead.',
+        'Keep your confidence up, as I provide guidance on the next step in solving this equation.',
+        "Don't despair, for I assist you with the next important step in solving this equation.",
+        'Stay engaged, because I show the next step to help you progress with this equation.',
+        'Stay on course, as I reveal the next step in your quest to solve this equation.',
+        'Keep your eye on the prize, as I share the next step to tackle this equation.',
+        'Stay focused, for I unravel the next step towards solving this equation.',
       ];
       message = messageArray[Math.floor(Math.random() * messageArray.length)];
     }

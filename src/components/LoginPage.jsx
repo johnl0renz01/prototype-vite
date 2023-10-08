@@ -48,6 +48,8 @@ export default function LoginPage() {
       }
     } else {
       sessionStorage.clear();
+      window.localStorage.removeItem('SESSION_TEACHER_TABLE');
+      window.localStorage.removeItem('SESSION_ACCEPT_FRACTION');
       window.localStorage.removeItem('UPDATE_REQUEST_STATE');
       window.localStorage.setItem('ACCOUNT_TYPE', JSON.stringify(''));
       window.localStorage.setItem('SESSION_EMAIL', JSON.stringify(''));
@@ -680,7 +682,7 @@ export default function LoginPage() {
      </div>
      */}
       <div
-        className={`hidden flex items-center select-none
+        className={` flex items-center select-none
                      ${skeletonState ? '' : ''}`}
       >
         <div className="mx-auto w-full  grid place-items-center overflow-y-auto h-screen ">

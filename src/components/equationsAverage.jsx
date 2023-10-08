@@ -252,8 +252,16 @@ var EquationGeneratorAverage = (function () {
             for (let counter = 0; counter < count; counter++) {
               let indexChar = averageEquationList[i].indexOf('@@');
               try {
+                if (averageEquationList[i][indexChar - 1].match(/[\(]/)) {
+                  averageEquationList[i] = averageEquationList[i].replace(
+                    '@@',
+                    'x'
+                  );
+                  continue;
+                }
+
                 if (
-                  averageEquationList[i][indexChar - 1].match(/[\+\-\*\/\(]/)
+                  averageEquationList[i][indexChar - 2].match(/[\+\-\*\/\=]/)
                 ) {
                   averageEquationList[i] = averageEquationList[i].replace(
                     '@@',
