@@ -136,6 +136,11 @@ export default function Whiteboard() {
       window.localStorage.setItem('SESSION_LEVELUP', JSON.stringify('FALSE'));
     }
 
+    var data9 = JSON.parse(window.localStorage.getItem('STREAK_CORRECT'));
+    if (data9 === null) {
+      window.localStorage.setItem('STREAK_CORRECT', 0);
+    }
+
     document.getElementById('whiteboard').click();
 
     document.body.style.backgroundImage =

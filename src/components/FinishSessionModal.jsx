@@ -335,9 +335,6 @@ const FinishSessionModal = ({ visible, onClose, onContinue }) => {
             JSON.stringify(difficultyType)
           );
 
-          window.localStorage.removeItem('SESSION_FEEDBACK');
-          window.localStorage.removeItem('TIME_SPENT');
-
           //CREATE USER SESSION TABLE
           var sessionID = response.data;
           var userDatabase = window.localStorage.getItem('SESSION_USER_LOGS');
@@ -347,6 +344,9 @@ const FinishSessionModal = ({ visible, onClose, onContinue }) => {
               `https://pia-sfe.online/api/studentSessionCreate/${userDatabase}@${sessionID}`
             )
             .then(function (response) {
+              window.localStorage.removeItem('EXPRESSION_SEQUENCE');
+              window.localStorage.removeItem('SESSION_FEEDBACK');
+              window.localStorage.removeItem('TIME_SPENT');
               setShowLoading(false);
               window.location.reload(false);
             })
