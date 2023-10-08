@@ -40,7 +40,9 @@ switch($_SESSION['method']) {
             QuestionID INT UNSIGNED AUTO_INCREMENT PRIMARY KEY   , 
             Question VARCHAR(255) NOT NULL , 
             Expressions TEXT NOT NULL , 
-            Status VARCHAR(255) NOT NULL
+            Status VARCHAR(255) NOT NULL , 
+            TimeSpent VARCHAR(255) NOT NULL , 
+            TimeStart VARCHAR(255) NOT NULL 
             )";
 
         $conn->exec($create);

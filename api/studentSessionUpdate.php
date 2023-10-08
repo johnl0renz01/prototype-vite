@@ -69,10 +69,48 @@ switch($_SESSION['method']) {
         $unique = $stmtValidate->fetchAll(PDO::FETCH_ASSOC);
         
 
+        if (count($unique) >= 2) {
+            $sqlRemove = "DELETE FROM ".$session_database." WHERE Question = '$question' ORDER BY QuestionID ASC LIMIT 1";
+            //$path = explode('/', $_SERVER['REQUEST_URI']);
+            
+            $stmtRemove = $conn->prepare($sqlRemove);
+            $stmtRemove->execute();
+        }
+        
         if (count($unique) == 0) {
-            $sql = "INSERT INTO ".$session_database."(QuestionID, Question, Expressions, Status) 
-            VALUES(null, '$question', '$expression_sequence', '$question_status')";
+            date_default_timezone_set('Asia/Singapore');
+            $sql = "INSERT INTO ".$session_database."(QuestionID, Question, Expressions, Status, TimeSpent, TimeStart) 
+            VALUES(null, '$question', '$expression_sequence', '$question_status', '0', :start_time)";
 
+            $stmt = $conn->prepare($sql);
+
+            
+            $start_time = date('d-m-Y H:i:s');
+            $stmt->bindParam(':start_time', $start_time);
+
+            if($stmt->execute()) {
+                $response = ['status' => 1, 'message' => 'Record created successfully.'];
+            } else {
+                $response = ['status' => 0, 'message' => 'Failed to create record.'];
+            }
+        } else {
+            date_default_timezone_set('Asia/Singapore');
+            $sql1 = "SELECT TimeStart FROM ".$session_database." WHERE Question = '$question'";
+            $stmt1 = $conn->prepare($sql1);
+            $stmt1->execute();
+            $time_start = $stmt1->fetchColumn();
+
+            $time_start = strtotime($time_start);
+
+            //GET CURRENT TIME
+            $current_time = date('d-m-Y H:i:s');
+            $current_time = strtotime($current_time);
+
+            //DEDUCT TIME
+            $time_spent = $current_time - $time_start;
+            $time_spent = gmdate("H:i:s", $time_spent);
+
+            $sql = "UPDATE ".$session_database." SET Expressions = '$expression_sequence', Status = '$question_status', TimeSpent = '$time_spent' WHERE Question = '$question'";
             $stmt = $conn->prepare($sql);
 
             if($stmt->execute()) {

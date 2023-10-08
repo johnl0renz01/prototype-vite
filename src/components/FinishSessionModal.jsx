@@ -3,6 +3,7 @@ import { useEffect, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
+import EquationGeneratorEasy from './equationsEasy';
 import EquationGeneratorAverage from './equationsAverage';
 import EquationGeneratorDifficult from './equationsDifficult';
 import EndSession from './EndSession';
@@ -38,7 +39,7 @@ const FinishSessionModal = ({ visible, onClose, onContinue }) => {
     } else {
       setGroupType('Non Facial Group');
     }
-    console.log(groupType);
+    //console.log(groupType);
 
     let data1 = JSON.parse(window.localStorage.getItem('DIFFICULTY_TYPE'));
     if (data1 !== null) {
@@ -56,12 +57,13 @@ const FinishSessionModal = ({ visible, onClose, onContinue }) => {
       data3 = 0;
     }
 
+    //console.log(data3);
+
     let session = JSON.parse(window.localStorage.getItem('SESSION_END'));
     if (session == true) {
       if (
         JSON.parse(window.localStorage.getItem('SESSION_RECORDED') !== 'true')
       ) {
-        window.localStorage.setItem('SESSION_LEVELUP', JSON.stringify('TRUE'));
         EndSession.recordData();
         getTimeSpent();
       } else {
@@ -79,8 +81,39 @@ const FinishSessionModal = ({ visible, onClose, onContinue }) => {
       window.localStorage.getItem('SESSION_FEEDBACK')
     );
 
-    if (feedbackMessage !== null && feedbackMessage !== undefined) {
-      setFeedback(feedbackMessage);
+    if (
+      feedbackMessage !== null &&
+      feedbackMessage !== undefined &&
+      feedbackMessage !== ''
+    ) {
+      let session = JSON.parse(window.localStorage.getItem('SESSION_END'));
+      if (session == true) {
+        setFeedback(feedbackMessage);
+      } else {
+        if (data3 == 0) {
+          if (isLevelUp !== null && isLevelUp !== undefined) {
+            feedbackMessage = FeedbackList.GenerateMessage('advanceLevel');
+          } else {
+            feedbackMessage = FeedbackList.GenerateMessage('abandonNone');
+          }
+        } else if (data3 >= 15) {
+          feedbackMessage = FeedbackList.GenerateMessage('abandonHighest');
+        } else if (data3 >= 10) {
+          feedbackMessage = FeedbackList.GenerateMessage('abandonHigh');
+        } else if (data3 >= 4) {
+          feedbackMessage = FeedbackList.GenerateMessage('abandonNormal');
+        } else if (data3 >= 2) {
+          feedbackMessage = FeedbackList.GenerateMessage('abandonLow');
+        } else if (data3 == 1) {
+          feedbackMessage = FeedbackList.GenerateMessage('abandonLowest');
+        }
+
+        window.localStorage.setItem(
+          'SESSION_FEEDBACK',
+          JSON.stringify(feedbackMessage)
+        );
+        setFeedback(feedbackMessage);
+      }
     } else {
       if (data3 == 0) {
         if (isLevelUp !== null && isLevelUp !== undefined) {
@@ -109,15 +142,133 @@ const FinishSessionModal = ({ visible, onClose, onContinue }) => {
   });
 
   var equationList = [];
+
+  function generateEasy() {
+    var tableSettings = JSON.parse(
+      window.localStorage.getItem('SESSION_TEACHER_TABLE')
+    );
+    var tableEquations = tableSettings + '_equation_list';
+    tableSettings = tableSettings + '_equation_settings';
+    setShowLoading(true);
+    axios
+      .get(
+        `https://pia-sfe.online/api/equationSettingsDetails/${tableSettings}`
+      )
+      .then(function (response) {
+        var result = Object.values(response.data);
+        var keys = [];
+        for (var k in result[0]) keys.push(result[0][k]);
+        setEquations(
+          EquationGeneratorEasy.getEquationList(
+            20,
+            tableEquations,
+            parseInt(keys[1]),
+            keys[2],
+            parseInt(keys[4]),
+            parseInt(keys[5]),
+            keys[6]
+          )
+        );
+        if (keys[3] == 'TRUE') {
+          window.localStorage.setItem('SESSION_ACCEPT_FRACTION', true);
+        } else {
+          window.localStorage.removeItem('SESSION_ACCEPT_FRACTION');
+        }
+        setShowLoading(false);
+      })
+      .catch(function (error) {
+        setShowLoading(false);
+      });
+  }
+
+  function generateAverage() {
+    var tableSettings = JSON.parse(
+      window.localStorage.getItem('SESSION_TEACHER_TABLE')
+    );
+    var tableEquations = tableSettings + '_equation_list';
+    tableSettings = tableSettings + '_equation_settings';
+    setShowLoading(true);
+    axios
+      .get(
+        `https://pia-sfe.online/api/equationSettingsDetails/${tableSettings}`
+      )
+      .then(function (response) {
+        var result = Object.values(response.data);
+        var keys = [];
+        for (var k in result[0]) keys.push(result[0][k]);
+        setEquations(
+          EquationGeneratorAverage.getEquationList(
+            20,
+            tableEquations,
+            parseInt(keys[1]),
+            keys[2],
+            parseInt(keys[4]),
+            parseInt(keys[5]),
+            keys[6]
+          )
+        );
+        if (keys[3] == 'TRUE') {
+          window.localStorage.setItem('SESSION_ACCEPT_FRACTION', true);
+        } else {
+          window.localStorage.removeItem('SESSION_ACCEPT_FRACTION');
+        }
+        setShowLoading(false);
+      })
+      .catch(function (error) {
+        setShowLoading(false);
+      });
+  }
+
+  function generateDifficult() {
+    var tableSettings = JSON.parse(
+      window.localStorage.getItem('SESSION_TEACHER_TABLE')
+    );
+    var tableEquations = tableSettings + '_equation_list';
+    tableSettings = tableSettings + '_equation_settings';
+    setShowLoading(true);
+    axios
+      .get(
+        `https://pia-sfe.online/api/equationSettingsDetails/${tableSettings}`
+      )
+      .then(function (response) {
+        var result = Object.values(response.data);
+        var keys = [];
+        for (var k in result[0]) keys.push(result[0][k]);
+        setEquations(
+          EquationGeneratorDifficult.getEquationList(
+            20,
+            tableEquations,
+            parseInt(keys[1]),
+            keys[2],
+            parseInt(keys[4]),
+            parseInt(keys[5]),
+            keys[6]
+          )
+        );
+        if (keys[3] == 'TRUE') {
+          window.localStorage.setItem('SESSION_ACCEPT_FRACTION', true);
+        } else {
+          window.localStorage.removeItem('SESSION_ACCEPT_FRACTION');
+        }
+        setShowLoading(false);
+      })
+      .catch(function (error) {
+        setShowLoading(false);
+      });
+  }
+
   function generateQuestion() {
     let isLevelUp = JSON.parse(window.localStorage.getItem('SESSION_LEVEL_UP'));
+    if (isLevelUp == 'easy') {
+      generateEasy();
+    }
+
     if (isLevelUp == 'average') {
-      equationList = EquationGeneratorAverage.getEquationList(20);
+      generateAverage();
     }
     if (isLevelUp == 'difficult') {
-      equationList = EquationGeneratorDifficult.getEquationList(20);
+      generateDifficult();
     }
-    setEquations(equationList);
   }
 
   function getTimeSpent() {
@@ -130,75 +281,85 @@ const FinishSessionModal = ({ visible, onClose, onContinue }) => {
       .then(function (response) {
         setTimeSpent(response.data);
         setShowLoading(false);
-        console.log(response.data);
+        //console.log(response.data);
       })
       .catch(function (error) {});
   }
 
   const levelUp = () => {
-    setShowLoading(true);
-    ClearStorage.clearData();
-    setFeedback('');
+    if (equations.length > 0) {
+      setShowLoading(true);
+      ClearStorage.clearData();
+      setFeedback('');
 
-    var option = '';
-    var difficultyType = '';
-    let isLevelUp = JSON.parse(window.localStorage.getItem('SESSION_LEVEL_UP'));
-    if (isLevelUp == 'average') {
-      option = 'average';
-      difficultyType = 'Average';
+      var option = '';
+      var difficultyType = '';
+      let isLevelUp = JSON.parse(
+        window.localStorage.getItem('SESSION_LEVEL_UP')
+      );
+      if (isLevelUp == 'easy') {
+        option = 'easy';
+        difficultyType = 'Easy';
+      }
+      if (isLevelUp == 'average') {
+        option = 'average';
+        difficultyType = 'Average';
+      }
+      if (isLevelUp == 'difficult') {
+        option = 'difficult';
+        difficultyType = 'Difficult';
+      }
+
+      window.localStorage.removeItem('SESSION_LEVEL_UP');
+
+      window.localStorage.setItem('SESSION_SCORE', 0);
+      window.localStorage.setItem('QUESTION_LIST', JSON.stringify(equations));
+      window.localStorage.setItem('QUESTION_INDEX', '0');
+      var userLogs = window.localStorage.getItem('SESSION_USER_LOGS');
+      userLogs = userLogs + '@' + option;
+      userLogs = userLogs.replace(/"/g, '');
+      axios
+        .post(`https://pia-sfe.online/api/selectDifficulty/${userLogs}`)
+        .then(function (response) {
+          window.localStorage.setItem(
+            'SESSION_ID',
+            JSON.stringify(response.data)
+          );
+          window.sessionStorage.setItem(
+            'CURRENT_SESSION_ID',
+            JSON.stringify(response.data)
+          );
+
+          window.localStorage.setItem(
+            'DIFFICULTY_TYPE',
+            JSON.stringify(difficultyType)
+          );
+
+          window.localStorage.removeItem('SESSION_FEEDBACK');
+          window.localStorage.removeItem('TIME_SPENT');
+
+          //CREATE USER SESSION TABLE
+          var sessionID = response.data;
+          var userDatabase = window.localStorage.getItem('SESSION_USER_LOGS');
+          userDatabase = userDatabase.replace(/"/g, '');
+          axios
+            .post(
+              `https://pia-sfe.online/api/studentSessionCreate/${userDatabase}@${sessionID}`
+            )
+            .then(function (response) {
+              setShowLoading(false);
+              window.location.reload(false);
+            })
+            .catch(function (error) {
+              setShowLoading(false);
+            });
+        })
+        .catch(function (error) {
+          setShowLoading(false);
+        });
+    } else {
+      generateQuestion();
     }
-    if (isLevelUp == 'difficult') {
-      option = 'difficult';
-      difficultyType = 'Difficult';
-    }
-
-    window.localStorage.removeItem('SESSION_LEVEL_UP');
-
-    window.localStorage.setItem('SESSION_SCORE', 0);
-    window.localStorage.setItem('QUESTION_LIST', JSON.stringify(equations));
-    window.localStorage.setItem('QUESTION_INDEX', '0');
-    var userLogs = window.localStorage.getItem('SESSION_USER_LOGS');
-    userLogs = userLogs + '@' + option;
-    userLogs = userLogs.replace(/"/g, '');
-    axios
-      .post(`https://pia-sfe.online/api/selectDifficulty/${userLogs}`)
-      .then(function (response) {
-        window.localStorage.setItem(
-          'SESSION_ID',
-          JSON.stringify(response.data)
-        );
-        window.sessionStorage.setItem(
-          'CURRENT_SESSION_ID',
-          JSON.stringify(response.data)
-        );
-
-        window.localStorage.setItem(
-          'DIFFICULTY_TYPE',
-          JSON.stringify(difficultyType)
-        );
-
-        window.localStorage.removeItem('SESSION_FEEDBACK');
-        window.localStorage.removeItem('TIME_SPENT');
-
-        //CREATE USER SESSION TABLE
-        var sessionID = response.data;
-        var userDatabase = window.localStorage.getItem('SESSION_USER_LOGS');
-        userDatabase = userDatabase.replace(/"/g, '');
-        axios
-          .post(
-            `https://pia-sfe.online/api/studentSessionCreate/${userDatabase}@${sessionID}`
-          )
-          .then(function (response) {
-            setShowLoading(false);
-            window.location.reload(false);
-          })
-          .catch(function (error) {
-            setShowLoading(false);
-          });
-      })
-      .catch(function (error) {
-        setShowLoading(false);
-      });
   };
 
   const homePage = () => {
@@ -292,7 +453,7 @@ const FinishSessionModal = ({ visible, onClose, onContinue }) => {
                         {abandoned == '' ? <>0</> : <>{abandoned}</>}
                       </span>
                     </p>
-                    <p>Unanswered</p>
+                    <p>Abandoned</p>
                   </div>
 
                   <img

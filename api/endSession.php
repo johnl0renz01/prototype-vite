@@ -29,10 +29,20 @@ $session_motivation = "";
 $session_answered = "";
 $session_abandoned = "";
 $session_levelup = "";
+$session_leveldown = "";
 
 //SEPARATED
 
 $session_sequence = "";
+
+//FOR LEVELDOWN
+for ($i = strlen($user_key) - 1; $i > 0; $i--) {
+    if ($user_key[$i] == "@") {
+        $session_leveldown = substr($user_key, ($i + 1));
+        $user_key = substr($user_key, 0, $i);
+        break;
+    }
+}
 
 
 //FOR LEVELUP
@@ -159,7 +169,7 @@ switch($_SESSION['method']) {
         $sql2 = "UPDATE $user_key SET Score = '$session_score', TimeSpent = '$time_spent',
                 ExpressionAngry = '$session_angry', ExpressionHappy = '$session_happy',
                 ExpressionSad = '$session_sad', ExpressionSurprised = '$session_surprised', ExpressionMotivation = '$session_motivation',
-                Answered = '$session_answered', Abandoned = '$session_abandoned', LevelUp = '$session_levelup'
+                Answered = '$session_answered', Abandoned = '$session_abandoned', LevelUp = '$session_levelup', LevelDown = '$session_leveldown'
                 WHERE SessionID = '$session_id'";
 
         $stmt2 = $conn->prepare($sql2);

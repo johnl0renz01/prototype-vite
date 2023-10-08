@@ -254,23 +254,6 @@ export default function Whiteboard() {
     if (data !== null) setQuestionIndex(JSON.parse(data));
   }, []);
 
-  /* TEST CASE
-
-  "3(2x-14)+4x-7=1"
-1
-: 
-"7(5x-20)-3x+8=5"
-2
-: 
-"9(3x+3)+2x-10=2"
-3
-: 
-"2(5x+2)+7x-14=10"
-4
-: 
-"4(6x-13)+5x+15=8"
-  */
-
   const [textInput, setAnswer] = useState('');
   const [textLog, setLog] = useState('');
   const [updatedLog, updateLog] = useState('');
@@ -586,6 +569,25 @@ export default function Whiteboard() {
       document.getElementById('whiteboard').click();
       setTimeout(checkAnswered, 1);
     }
+
+    var isFinished = JSON.parse(
+      window.localStorage.getItem('FINISHED_EQUATION')
+    );
+
+    if (!isFinished) {
+      var currentIndex = JSON.parse(
+        window.localStorage.getItem('QUESTION_INDEX')
+      );
+      if (currentIndex !== null) {
+        if (questionList[currentIndex] !== undefined) {
+          window.localStorage.setItem(
+            'PREVIOUS_QUESTION',
+            JSON.stringify(questionList[currentIndex])
+          );
+          UpdateSession.recordData();
+        }
+      }
+    }
   };
 
   function checkAnswered() {
@@ -596,11 +598,28 @@ export default function Whiteboard() {
       let currentIndex = data1;
       console.log('CURRINDEX: ' + currentIndex);
       ReactDOM.findDOMNode(answerArea).style.visibility = 'visible';
+
+      let hintArray = [];
+      let hintIndex = 0;
+      let hint = JSON.parse(window.localStorage.getItem('HINT_STEP'));
+      if (hint != null) {
+        hintArray = hint.split(',');
+      }
+
+      ReactDOM.findDOMNode(answerArea).style.visibility = 'visible';
+
       //Display from n to current
       for (let i = 0; i < currentIndex; i++) {
         let element = document.getElementById('answer' + i);
-        console.log('ELEMENT: ' + element);
         ReactDOM.findDOMNode(element).style.visibility = 'visible';
+
+        if (hintArray.length > 0) {
+          if (i == parseInt(hintArray[hintIndex])) {
+            ReactDOM.findDOMNode(element).style.color = '#ebb82e';
+            ReactDOM.findDOMNode(element).style.fontWeight = '600';
+            hintIndex++;
+          }
+        }
       }
     }
 
@@ -624,32 +643,6 @@ export default function Whiteboard() {
   const hintColor = '#fff700';
   const motivationColor1 = '#ff9900';
   const motivationColor2 = '#ff7700';
-
-  /*
-
-  EXTRA CODE
-    window.addEventListener("popstate", (event) => {
-    if (
-      confirm("Are you sure you want to save this thing into the database?")
-    ) {
-      // Save it!
-      console.log("Thing was saved to the database.");
-    } else {
-      // Do nothing!
-      console.log("Thing was not saved to the database.");
-    }
-  });
-*/
-
-  // BEFORE UNLOAD CODE
-  /*
-  window.addEventListener("beforeunload", function (e) {
-    // Cancel the event
-    e.preventDefault(); // If you prevent default behavior in Mozilla Firefox prompt will always be shown
-    // Chrome requires returnValue to be set
-    e.returnValue = "";
-  });
-*/
 
   var userLogs = '';
   var userNameLogs = '';
@@ -740,6 +733,10 @@ export default function Whiteboard() {
   });
 
   const nextQuestion = e => {
+    for (let i = 0; i < highestTimeoutId; i++) {
+      clearTimeout(i);
+    }
+
     window.localStorage.setItem('QUESTION_STATUS', JSON.stringify('SOLVED'));
 
     UpdateSession.recordData();
@@ -762,62 +759,163 @@ export default function Whiteboard() {
     checkCount();
     setLength();
     */
+
     let count = currentQuestionIndex;
     count++;
     setQuestionIndex(count);
     checkCount(0);
+    window.localStorage.removeItem('EXPRESSION_SEQUENCE');
+    window.localStorage.setItem('QUESTION_INDEX', JSON.stringify(count));
+
+    //RESET STATUS
+    window.localStorage.setItem('QUESTION_STATUS', JSON.stringify('ABANDONED'));
 
     computeEquation();
     loadAnswers();
     window.localStorage.setItem('FINISHED_EQUATION', false);
     window.localStorage.setItem('FINISHED_STEPS', 0);
+    window.localStorage.removeItem('HINT_STEP');
+    window.localStorage.removeItem('QUESTION_SKIP');
     //window.localStorage.setItem("STREAK_CORRECT", 0);
-    window.localStorage.setItem('QUESTION_INDEX', JSON.stringify(count));
 
     window.localStorage.setItem('TIMER', 0);
     setInterval(currentQuestionTimer, 1000);
 
     setQuestionResponse('');
-    window.localStorage.removeItem('EXPRESSION_SEQUENCE');
   };
 
   const skipQuestion = () => {
-    var data = window.localStorage.getItem('QUESTION_ABANDONED');
-    if (data == null || data == undefined || data == '0') {
-      data = '0';
+    for (let i = 0; i < highestTimeoutId; i++) {
+      clearTimeout(i);
     }
 
-    data = parseInt(data);
-    data++;
-    window.localStorage.setItem('QUESTION_ABANDONED', data);
+    let showHint = false;
+    let stepIndex = window.localStorage.getItem('FINISHED_STEPS');
+    if (stepIndex === null) {
+      stepIndex = 0;
+    }
 
-    window.localStorage.setItem('QUESTION_STATUS', JSON.stringify('ABANDONED'));
+    if (stepIndex < answer.length - 1) {
+      showHint = true;
+    }
 
-    UpdateSession.recordData();
+    //var isSkipped = JSON.parse(window.localStorage.getItem('QUESTION_SKIP'));
+    if (showHint == false) {
+      var data = window.localStorage.getItem('QUESTION_ABANDONED');
+      if (data == null || data == undefined || data == '0') {
+        data = '0';
+      }
 
-    ReactDOM.findDOMNode(answerArea).style.visibility = 'hidden';
-    setDisplay([]);
+      data = parseInt(data);
+      data++;
+      window.localStorage.setItem('QUESTION_ABANDONED', data);
 
-    setFinish(false);
-    setLevelUp(false);
-    newQuestion();
-    let count = currentQuestionIndex;
-    count++;
-    setQuestionIndex(count);
-    checkCount(0);
+      window.localStorage.setItem(
+        'QUESTION_STATUS',
+        JSON.stringify('ABANDONED')
+      );
 
-    computeEquation();
-    loadAnswers();
-    window.localStorage.setItem('FINISHED_EQUATION', false);
-    window.localStorage.setItem('FINISHED_STEPS', 0);
-    window.localStorage.setItem('QUESTION_INDEX', JSON.stringify(count));
+      UpdateSession.recordData();
 
-    window.localStorage.setItem('TIMER', 0);
-    setInterval(currentQuestionTimer, 1000);
-    ReactDOM.findDOMNode(skipArea).style.visibility = 'hidden';
-    window.localStorage.setItem('STREAK_WRONG', 0);
-    window.localStorage.removeItem('EXPRESSION_SEQUENCE');
+      ReactDOM.findDOMNode(answerArea).style.visibility = 'hidden';
+      setDisplay([]);
+
+      setFinish(false);
+      setLevelUp(false);
+      newQuestion();
+      let count = currentQuestionIndex;
+      count++;
+      setQuestionIndex(count);
+      checkCount(0);
+
+      window.localStorage.removeItem('EXPRESSION_SEQUENCE');
+      window.localStorage.setItem('QUESTION_INDEX', JSON.stringify(count));
+
+      //RESET STATUS
+      window.localStorage.setItem(
+        'QUESTION_STATUS',
+        JSON.stringify('ABANDONED')
+      );
+      computeEquation();
+      loadAnswers();
+      window.localStorage.setItem('FINISHED_EQUATION', false);
+      window.localStorage.setItem('FINISHED_STEPS', 0);
+      window.localStorage.removeItem('HINT_STEP');
+
+      window.localStorage.setItem('TIMER', 0);
+      setInterval(currentQuestionTimer, 1000);
+      ReactDOM.findDOMNode(skipArea).style.visibility = 'hidden';
+      window.localStorage.setItem('STREAK_WRONG', 0);
+
+      window.localStorage.removeItem('QUESTION_SKIP');
+
+      //5th abandoned question
+      var abandonedTally = JSON.parse(
+        window.localStorage.getItem('QUESTION_ABANDONED')
+      );
+      if (abandonedTally === null) abandonedTally = 0;
+      if (abandonedTally >= 5) {
+        displayLevelDown();
+      } else {
+      }
+    } else {
+      window.localStorage.setItem('STREAK_WRONG', 0);
+
+      let stepIndex = window.localStorage.getItem('FINISHED_STEPS');
+      if (stepIndex === null) {
+        stepIndex = 0;
+      } else if (stepIndex < answer.length - 1) {
+        stepIndex = stepIndex;
+      }
+
+      let currentIndex = stepIndex;
+
+      var steps = '';
+      if (window.localStorage.getItem('HINT_STEP') != null) {
+        //console.log(window.localStorage.getItem('USER_LOGS'));
+        steps = steps + JSON.parse(window.localStorage.getItem('HINT_STEP'));
+
+        steps = steps + (',' + currentIndex.toString());
+        window.localStorage.setItem('HINT_STEP', JSON.stringify(steps));
+      } else {
+        window.localStorage.setItem(
+          'HINT_STEP',
+          JSON.stringify(currentIndex.toString())
+        );
+      }
+
+      ReactDOM.findDOMNode(answerArea).style.visibility = 'visible';
+
+      //Display from n to current
+      for (let i = 0; i <= currentIndex; i++) {
+        let element = document.getElementById('answer' + i);
+        ReactDOM.findDOMNode(element).style.visibility = 'visible';
+
+        if (i == currentIndex) {
+          ReactDOM.findDOMNode(element).style.color = '#ebb82e';
+          ReactDOM.findDOMNode(element).style.fontWeight = '600';
+        }
+      }
+
+      stepIndex++;
+      window.localStorage.setItem('FINISHED_STEPS', stepIndex);
+
+      //window.localStorage.setItem('QUESTION_SKIP', true);
+      displayCorrectAnswer();
+    }
   };
+
+  function displayCorrectAnswer() {
+    setImageLink('PIA-Talking2');
+    let messageType = ['showCorrect1'];
+    let message = messageType[Math.floor(Math.random() * messageType.length)];
+    setResponse(FeedbackList.GenerateMessage(message));
+    setSubtext('');
+    changeResponseColor(motivationColor1);
+
+    const delay = 7500;
+    setTimeout(displayInspiration, delay);
+  }
 
   //=============================CLICK BUTTON=============================
   const handleClick = event => {
@@ -865,7 +963,7 @@ export default function Whiteboard() {
       //KEEP DATA OF LOGS
       var logText = '';
       if (window.localStorage.getItem('USER_LOGS') != null) {
-        console.log(window.localStorage.getItem('USER_LOGS'));
+        //console.log(window.localStorage.getItem('USER_LOGS'));
         logText =
           logText + JSON.parse(window.localStorage.getItem('USER_LOGS'));
 
@@ -928,6 +1026,7 @@ export default function Whiteboard() {
             currentScore = parseInt(currentScore);
             currentScore++;
             window.localStorage.setItem('SESSION_SCORE', currentScore);
+            UpdateSession.recordData();
 
             return;
           } else {
@@ -986,6 +1085,7 @@ export default function Whiteboard() {
             currentScore = parseInt(currentScore);
             currentScore++;
             window.localStorage.setItem('SESSION_SCORE', currentScore);
+            UpdateSession.recordData();
 
             return;
           }
@@ -1152,6 +1252,7 @@ export default function Whiteboard() {
   }
 
   function displaySolved() {
+    window.localStorage.setItem('QUESTION_STATUS', JSON.stringify('SOLVED'));
     ReactDOM.findDOMNode(confirmationArea).style.visibility = 'visible';
 
     if (levelUp) {
@@ -1231,6 +1332,7 @@ export default function Whiteboard() {
   //window.localStorage.setItem("DIFFICULTY_TYPE", JSON.stringify("Easy"));
 
   function displayLevelUp() {
+    setLevelDownState(false);
     let diffType = window.localStorage.getItem('DIFFICULTY_TYPE');
     if (diffType == '"Easy"' || diffType == 'Easy') {
       setResponse(
@@ -1255,6 +1357,39 @@ export default function Whiteboard() {
 
     setSubtext('');
     setQuestionResponse('Level up difficulty type?');
+
+    ReactDOM.findDOMNode(choiceArea2).style.visibility = 'visible';
+    setLevelUp(true);
+  }
+
+  const [levelDownState, setLevelDownState] = useState(false);
+
+  function displayLevelDown() {
+    setLevelDownState(true);
+    let diffType = window.localStorage.getItem('DIFFICULTY_TYPE');
+    if (diffType == '"Average"' || diffType == 'Average') {
+      setResponse(
+        'Since you abandoned questions frequently. I suggest that you level down to easy level equations.'
+      );
+    } else if (diffType == '"Difficult"' || diffType == 'Difficult') {
+      setResponse(
+        'Since you abandoned questions frequently. I suggest that you level down average level equations.'
+      );
+    }
+    //ADD IF SHORTENED OR FULL
+    if (
+      JSON.parse(window.localStorage.getItem('SYSTEM_VERSION')) ==
+      'Facial Group'
+    ) {
+      let imageArray = ['PIA-Talking2', 'PIA-Sad3'];
+      let imageLink = imageArray[Math.floor(Math.random() * imageArray.length)];
+      setImageLink(imageLink);
+      changeResponseColor(wrongColor);
+    }
+    //
+
+    setSubtext('');
+    setQuestionResponse('Level down difficulty type?');
 
     ReactDOM.findDOMNode(choiceArea2).style.visibility = 'visible';
     setLevelUp(true);
@@ -1490,7 +1625,8 @@ export default function Whiteboard() {
     setSubtext('');
     changeResponseColor(motivationColor1);
 
-    setTimeout(displayInspiration, timerDelay);
+    const delay = 7500;
+    setTimeout(displayInspiration, delay);
   }
 
   function displayInspiration() {
@@ -2119,6 +2255,7 @@ export default function Whiteboard() {
       clearTimeout(i);
     }
     window.localStorage.setItem('SESSION_LEVELUP', JSON.stringify('TRUE'));
+    window.localStorage.setItem('SESSION_LEVELDOWN', JSON.stringify('FALSE'));
     window.localStorage.setItem('SESSION_SCORE', 20);
     let diffType = window.localStorage.getItem('DIFFICULTY_TYPE');
     if (diffType == '"Easy"' || diffType == 'Easy') {
@@ -2130,6 +2267,25 @@ export default function Whiteboard() {
       window.localStorage.setItem(
         'SESSION_LEVEL_UP',
         JSON.stringify('difficult')
+      );
+    }
+    window.localStorage.setItem('SESSION_END', true);
+    setShowModal(true);
+  };
+
+  const setLevelDown = () => {
+    for (let i = 0; i < highestTimeoutId; i++) {
+      clearTimeout(i);
+    }
+    window.localStorage.setItem('SESSION_LEVELUP', JSON.stringify('FALSE'));
+    window.localStorage.setItem('SESSION_LEVELDOWN', JSON.stringify('TRUE'));
+    let diffType = window.localStorage.getItem('DIFFICULTY_TYPE');
+    if (diffType == '"Average"' || diffType == 'Average') {
+      window.localStorage.setItem('SESSION_LEVEL_UP', JSON.stringify('easy'));
+    } else if (diffType == '"Difficult"' || diffType == 'Difficult') {
+      window.localStorage.setItem(
+        'SESSION_LEVEL_UP',
+        JSON.stringify('average')
       );
     }
     window.localStorage.setItem('SESSION_END', true);
@@ -2713,7 +2869,7 @@ export default function Whiteboard() {
                   id="skip_button"
                   className=" text-gray-400/50 px-2 py-0.5   hover:text-gray-400 hover:scale-105"
                 >
-                  Skip Question
+                  Abandon Question
                 </button>
               </div>
               <div
@@ -2824,7 +2980,7 @@ export default function Whiteboard() {
                     >
                       <button
                         onClick={nextQuestion}
-                        className="bg-yes hover:bg-lime-500 text-xl font-bold py-1 w-32 rounded-full border border-black font-leagueSpartan text-center"
+                        className="bg-lime-500 hover:bg-lime-600 text-xl font-bold py-1 w-32 rounded-full border border-black font-leagueSpartan text-center"
                       >
                         <span className="drop-shadow-[0_2px_1px_rgba(0,0,0,0.35)]">
                           SURE!
@@ -2835,23 +2991,32 @@ export default function Whiteboard() {
                       id="choiceTwo"
                       className="invisible grid grid-cols-2 hdScreen:gap-x-10 semihdScreen:gap-x-8 laptopScreen:gap-x-6 averageScreen:gap-x-6 sm:gap-x-4 xs:gap-x-2"
                     >
-                      <div className="mx-auto ">
-                        <button
-                          onClick={setLevel}
-                          className="bg-yes hover:bg-lime-500 text-xl font-bold py-1 w-32 rounded-full border border-black font-leagueSpartan text-center"
-                        >
-                          <span className="drop-shadow-[0_2px_1px_rgba(0,0,0,0.35)]">
-                            SURE!
-                          </span>
-                        </button>
-                      </div>
                       <div className="mx-auto">
                         <button
-                          onClick={nextQuestion}
+                          onClick={
+                            levelDownState
+                              ? e => {
+                                  timer();
+                                  ReactDOM.findDOMNode(
+                                    choiceArea2
+                                  ).style.visibility = 'hidden';
+                                }
+                              : nextQuestion
+                          }
                           className="bg-no hover:bg-red-600 text-xl font-bold py-1 w-32 rounded-full border border-black font-leagueSpartan text-center"
                         >
                           <span className="drop-shadow-[0_2px_1px_rgba(0,0,0,0.35)]">
-                            NOT YET
+                            {levelDownState ? <>DECLINE</> : <>NOT YET</>}
+                          </span>
+                        </button>
+                      </div>
+                      <div className="mx-auto ">
+                        <button
+                          onClick={levelDownState ? setLevelDown : setLevel}
+                          className="bg-lime-500 hover:bg-lime-600 text-xl font-bold py-1 w-32 rounded-full border border-black font-leagueSpartan text-center"
+                        >
+                          <span className="drop-shadow-[0_2px_1px_rgba(0,0,0,0.35)]">
+                            {levelDownState ? <>OKAY</> : <>SURE!</>}
                           </span>
                         </button>
                       </div>
@@ -3209,7 +3374,7 @@ export default function Whiteboard() {
                         <stop offset="1" stopColor="#58595b" />
                       </linearGradient>
                     </defs>
-                    {!isHelp && <title>Clear Logs</title>}
+                    {!isHelp && <title>Clear History</title>}
                     <path
                       d="M84.47,16.86,231.05,37.92l1.87-13.33a28.45,28.45,0,0,1,32-24.31h0a28.65,28.65,0,0,1,24,32.35L287,46,433.62,67A21.88,21.88,0,0,1,452,91.74v0a21.69,21.69,0,0,1-24.43,18.56L78.38,60.15A21.88,21.88,0,0,1,60,35.43v0A21.72,21.72,0,0,1,84.47,16.86Zm328,92H88.56c-12.17,0-20.67,10-18.86,22.14l52.93,358.9C124.44,502.05,135.85,512,148,512H352.55c12.15,0,23.58-9.95,25.4-22.08L431.31,131C433.12,118.81,424.64,108.85,412.49,108.85ZM179.79,432.73l-.69.07a13.34,13.34,0,0,1-14.48-12.07L141.8,182.35a13.42,13.42,0,0,1,11.91-14.66l.69-.07a13.37,13.37,0,0,1,14.48,12.07l22.84,238.4A13.4,13.4,0,0,1,179.79,432.73ZM264.09,420a13.37,13.37,0,0,1-13.27,13.44h-.67A13.41,13.41,0,0,1,236.87,420V180.48A13.41,13.41,0,0,1,250.15,167h.67a13.37,13.37,0,0,1,13.27,13.44Zm71.6.78A13.35,13.35,0,0,1,321.2,432.8l-.72-.07a13.44,13.44,0,0,1-11.89-14.68l23.09-238.37a13.36,13.36,0,0,1,14.52-12l.65.07a13.44,13.44,0,0,1,11.94,14.66Z"
                       fillRule="evenodd"

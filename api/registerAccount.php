@@ -94,15 +94,16 @@ switch($_SESSION['method']) {
                 Sequence TEXT NOT NULL ,
                 Answered VARCHAR(255) NOT NULL ,
                 Abandoned VARCHAR(255) NOT NULL ,
-                LevelUp VARCHAR(255) NOT NULL
+                LevelUp VARCHAR(255) NOT NULL ,
+                LevelDown VARCHAR(255) NOT NULL
                 )";
 
             $conn->exec($create);
             echo "\nTable created successfully";
         } else {
+            $teacherTable = $userTable."_equation_list";
             $connect = new mysqli('localhost','root','','prototype_sfe');
 
-            $teacherTable = $userTable."_equation_list";
             $create = "CREATE TABLE ".$teacherTable." (
                 EquationID INT UNSIGNED AUTO_INCREMENT PRIMARY KEY   , 
                 EquationType VARCHAR(255) NOT NULL , 
@@ -111,7 +112,8 @@ switch($_SESSION['method']) {
 
             $conn->exec($create);
 
-            $connect = new mysqli('localhost','root','','prototype_sfe');
+            $connect2 = new mysqli('localhost','root','','prototype_sfe');
+
             $teacherTable2 = $userTable."_equation_settings";
             $create2 = "CREATE TABLE ".$teacherTable2." (
                 SettingID INT UNSIGNED AUTO_INCREMENT PRIMARY KEY   , 

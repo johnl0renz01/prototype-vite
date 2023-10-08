@@ -46,6 +46,8 @@ export default function LoginPage() {
       }
     } else {
       sessionStorage.clear();
+      window.localStorage.removeItem('SESSION_TEACHER_TABLE');
+      window.localStorage.removeItem('SESSION_ACCEPT_FRACTION');
       window.localStorage.removeItem('UPDATE_REQUEST_STATE');
       window.localStorage.setItem('ACCOUNT_TYPE', JSON.stringify(''));
       window.localStorage.setItem('SESSION_EMAIL', JSON.stringify(''));
