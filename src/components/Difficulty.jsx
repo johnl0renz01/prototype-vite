@@ -345,18 +345,13 @@ export default function DifficultyPage() {
           JSON.stringify(diffType)
         );
 
-        var difficultyType = JSON.parse(
-          window.localStorage.getItem('DIFFICULTY_TYPE')
-        );
-        difficultyType = difficultyType.replace(/"/g, '');
-
         //CREATE USER SESSION TABLE
         var sessionID = response.data;
         var userDatabase = window.localStorage.getItem('SESSION_USER_LOGS');
         userDatabase = userDatabase.replace(/"/g, '');
         axios
           .post(
-            `https://pia-sfe.online/api/studentSessionCreate/${userDatabase}@${sessionID}@${difficultyType}`
+            `https://pia-sfe.online/api/studentSessionCreate/${userDatabase}@${sessionID}`
           )
           .then(function (response) {
             console.log(response.data);
@@ -408,12 +403,6 @@ export default function DifficultyPage() {
             'DIFFICULTY_TYPE',
             JSON.stringify(diffType)
           );
-
-          var difficultyType = JSON.parse(
-            window.localStorage.getItem('DIFFICULTY_TYPE')
-          );
-          difficultyType = difficultyType.replace(/"/g, '');
-
           window.localStorage.removeItem('SESSION_FEEDBACK');
 
           //CREATE USER SESSION TABLE
@@ -422,7 +411,7 @@ export default function DifficultyPage() {
           userDatabase = userDatabase.replace(/"/g, '');
           axios
             .post(
-              `https://pia-sfe.online/api/studentSessionCreate/${userDatabase}@${sessionID}@${difficultyType}`
+              `https://pia-sfe.online/api/studentSessionCreate/${userDatabase}@${sessionID}`
             )
             .then(function (response) {
               console.log(response.data);

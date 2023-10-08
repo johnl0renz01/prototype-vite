@@ -68,6 +68,9 @@ var UpdateSession = (function () {
     var questionStatus = window.localStorage.getItem('QUESTION_STATUS');
     if (questionStatus === null) questionStatus = 'ABANDONED';
 
+    var difficultyType = window.localStorage.getItem('DIFFICULTY_TYPE');
+    if (difficultyType === null) difficultyType = '';
+
     var updateData =
       userDatabase +
       '@' +
@@ -77,7 +80,9 @@ var UpdateSession = (function () {
       '@' +
       sequence +
       '@' +
-      questionStatus;
+      questionStatus +
+      '@' +
+      difficultyType;
     updateData = updateData.replace(/"/g, '');
     updateData = updateData.replace(/ /g, '_');
 
