@@ -22,6 +22,16 @@ $session_id = "";
 $question = "";
 $expression_sequence = "";
 $question_status = "";
+$difficulty = "";
+
+
+for ($i = strlen($account) - 1; $i > 0; $i--) {
+    if ($account[$i] == "@") {
+        $difficulty = substr($account, ($i + 1));
+        $account = substr($account, 0, $i);
+        break;
+    }
+}
 
 for ($i = strlen($account) - 1; $i > 0; $i--) {
     if ($account[$i] == "@") {
@@ -79,8 +89,8 @@ switch($_SESSION['method']) {
         
         if (count($unique) == 0) {
             date_default_timezone_set('Asia/Singapore');
-            $sql = "INSERT INTO ".$session_database."(QuestionID, Question, Expressions, Status, TimeSpent, TimeStart) 
-            VALUES(null, '$question', '$expression_sequence', '$question_status', '0', :start_time)";
+            $sql = "INSERT INTO ".$session_database."(QuestionID, Question, Expressions, Status, TimeSpent, TimeStart, Difficulty) 
+            VALUES(null, '$question', '$expression_sequence', '$question_status', '0', :start_time, '$difficulty')";
 
             $stmt = $conn->prepare($sql);
 

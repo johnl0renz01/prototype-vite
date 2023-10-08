@@ -175,7 +175,12 @@ var EquationGeneratorEasy = (function () {
             for (let counter = 0; counter < count; counter++) {
               let indexChar = easyEquationList[i].indexOf('@@');
               try {
-                if (easyEquationList[i][indexChar - 1].match(/[\+\-\*\/\(]/)) {
+                if (easyEquationList[i][indexChar - 1].match(/[\(]/)) {
+                  easyEquationList[i] = easyEquationList[i].replace('@@', 'x');
+                  continue;
+                }
+
+                if (easyEquationList[i][indexChar - 2].match(/[\+\-\*\/\=]/)) {
                   easyEquationList[i] = easyEquationList[i].replace('@@', 'x');
                 } else {
                   easyEquationList[i] = easyEquationList[i].replace('@@', '1x');

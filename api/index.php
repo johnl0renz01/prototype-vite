@@ -169,6 +169,14 @@ switch($requestLink) {
     case "/api/studentHistory":
         include('studentHistory.php');
     break;
+
+    case "/api/exportRow":
+        include('exportRow.php');
+    break;
+
+    case "/api/exportAll":
+        include('exportAll.php');
+    break;
    
     //FOR CUSTOMIZATION
     case "/api/editAccount":

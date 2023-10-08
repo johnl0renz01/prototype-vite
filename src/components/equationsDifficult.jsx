@@ -328,8 +328,16 @@ var EquationGeneratorDifficult = (function () {
             for (let counter = 0; counter < count; counter++) {
               let indexChar = difficultEquationList[i].indexOf('@@');
               try {
+                if (difficultEquationList[i][indexChar - 1].match(/[\(]/)) {
+                  difficultEquationList[i] = difficultEquationList[i].replace(
+                    '@@',
+                    'x'
+                  );
+                  continue;
+                }
+
                 if (
-                  difficultEquationList[i][indexChar - 1].match(/[\+\-\*\/\(]/)
+                  difficultEquationList[i][indexChar - 2].match(/[\+\-\*\/\=]/)
                 ) {
                   difficultEquationList[i] = difficultEquationList[i].replace(
                     '@@',

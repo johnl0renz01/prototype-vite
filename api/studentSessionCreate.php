@@ -42,7 +42,8 @@ switch($_SESSION['method']) {
             Expressions TEXT NOT NULL , 
             Status VARCHAR(255) NOT NULL , 
             TimeSpent VARCHAR(255) NOT NULL , 
-            TimeStart VARCHAR(255) NOT NULL 
+            TimeStart VARCHAR(255) NOT NULL ,
+            Difficulty VARCHAR(255) NOT NULL
             )";
 
         $conn->exec($create);

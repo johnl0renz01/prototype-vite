@@ -341,7 +341,7 @@ const FinishSessionModal = ({ visible, onClose, onContinue }) => {
           userDatabase = userDatabase.replace(/"/g, '');
           axios
             .post(
-              `https://pia-sfe.online/api/studentSessionCreate/${userDatabase}@${sessionID}`
+              `https://pia-sfe.online/api/studentSessionCreate/${userDatabase}@${sessionID}@${difficultyType}`
             )
             .then(function (response) {
               window.localStorage.removeItem('EXPRESSION_SEQUENCE');
