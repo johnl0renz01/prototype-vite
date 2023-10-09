@@ -6,6 +6,7 @@ import * as ReactDOM from 'react-dom';
 import $ from 'jquery';
 
 import { VscEye } from 'react-icons/vsc';
+import { BsClipboard2X, BsGearFill } from 'react-icons/bs';
 
 export default function EquationList() {
   const [navbarWidth, setNavbarWidth] = useState(0);
@@ -93,11 +94,20 @@ export default function EquationList() {
           >
             Equation List
           </div>
-          <div className="mt-1.5 lg:text-lg sm:text-base xs:text-xs font-semibold tracking-wide pl-2 ">
+          <div className="flex items-center justify-between text-gray-700 mt-1.5 lg:text-lg sm:text-base xs:text-xs font-semibold tracking-wide pl-2 ">
             <span className="bg-gray-200 text-gray-200 rounded-md relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_2s_infinite]">
-              The following are current custom equations created. Drag the
-              equation to change its difficulty.
+              The following are current custom equations created. Drag and drop
+              the equation to change its difficulty.
             </span>
+            <button
+              type="button"
+              className="relative hdScreen:w-[17rem] semihdScreen:w-[16.5rem] laptopScreen:w-[16rem] averageScreen:w-[20rem] md:w-[20rem] sm:w-[20rem] xs:w-[16rem]  lg:py-2 lg:px-5 sm:py-1.5 sm:px-2.5 xs:px-1 xs:py-1  font-semibold  shadow-md rounded-2xl   bg-gray-300 text-gray-300   overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_2s_infinite]"
+            >
+              <span className="text-gray-300 md:pl-2 lg:text-xl sm:text-base xs:text-sm flex justify-center">
+                Equation Settings
+                <BsGearFill className="md:block xs:hidden  lg:ml-2 sm:ml-1 xs:ml-0.5 lg:mt-0.5 sm:mt-1 xs:mt-1 lg:text-2xl" />
+              </span>
+            </button>
           </div>
 
           <div

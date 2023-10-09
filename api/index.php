@@ -169,6 +169,16 @@ switch($requestLink) {
     case "/Prototype-Vite/my-project/api/studentHistory":
         include('studentHistory.php');
     break;
+
+    case "/Prototype-Vite/my-project/api/exportRow":
+        include('exportRow.php');
+    break;
+
+    case "/Prototype-Vite/my-project/api/exportAll":
+        include('exportAll.php');
+    break;
+
+
    
     //FOR CUSTOMIZATION
     case "/Prototype-Vite/my-project/api/editAccount":

@@ -5,6 +5,10 @@ import axios from 'axios';
 import * as ReactDOM from 'react-dom';
 import $ from 'jquery';
 
+import { FaArrowRightToBracket } from 'react-icons/fa6';
+
+import { mkConfig, generateCsv, download } from 'export-to-csv';
+
 import {
   BsCaretUpFill,
   BsArrowDownSquareFill,
@@ -118,6 +122,9 @@ export default function StudentDetail() {
             console.log(response.data);
             setAccountHistory(response.data);
             setTableLoader(false);
+          })
+          .catch(function (error) {
+            setTableLoader(false);
           });
       });
   }
@@ -210,6 +217,63 @@ export default function StudentDetail() {
     setLogoHeight(height);
   }
 
+  // Converts your Array<Object> to a CsvOutput string based on the configs
+
+  const exportAll = e => {
+    //var sessionID = e.currentTarget.id;
+    var account = JSON.parse(window.sessionStorage.getItem('CURRENT_ACCOUNT'));
+    var sessionDatabase = account;
+
+    var csvConfig = mkConfig({
+      useKeysAsHeaders: true,
+      filename: account + ' - (ALL LOGS)',
+    });
+
+    setShowLoading(true);
+    axios
+      .post(
+        `http://localhost:80/Prototype-Vite/my-project/api/exportAll/${sessionDatabase}`
+      )
+      .then(function (response) {
+        console.log(response.data);
+        const csv = generateCsv(csvConfig)(response.data);
+        download(csvConfig)(csv);
+
+        setShowLoading(false);
+      })
+      .catch(function (error) {
+        setShowLoading(false);
+      });
+  };
+
+  const exportRow = e => {
+    var sessionID = e.currentTarget.id;
+    var account = JSON.parse(window.sessionStorage.getItem('CURRENT_ACCOUNT'));
+    var sessionDatabase = account + sessionID;
+
+    var equationType = document.getElementById('type' + sessionID).textContent;
+    equationType = equationType.replace(/:/g, ';');
+    var csvConfig = mkConfig({
+      useKeysAsHeaders: true,
+      filename: account + ' - (' + equationType + ')',
+    });
+
+    setShowLoading(true);
+    axios
+      .post(
+        `http://localhost:80/Prototype-Vite/my-project/api/exportRow/${sessionDatabase}`
+      )
+      .then(function (response) {
+        const csv = generateCsv(csvConfig)(response.data);
+        download(csvConfig)(csv);
+
+        setShowLoading(false);
+      })
+      .catch(function (error) {
+        setShowLoading(false);
+      });
+  };
+
   //FOR SKELETON
   const [skeletonState, setSkeletonState] = useState(true);
 
@@ -261,8 +325,8 @@ export default function StudentDetail() {
           <div className="p-4 overflow-hidden w-full ">
             <div className="grid xs:grid-cols-2">
               <div className="">
-                {accountDetail.map(account => (
-                  <>
+                {accountDetail.map((account, index) => (
+                  <div key={index}>
                     <p className="hdScreen:text-3xl semihdScreen:text-3xl laptopScreen:text-3xl averageScreen:text-2.5xl xs:text-base text-gray-700  font-bold leading-4 mb-1">
                       {account.MiddleName != '' ? (
                         <>
@@ -280,7 +344,7 @@ export default function StudentDetail() {
                     <p className="hdScreen:text-base semihdScreen:text-base laptopScreen:text-base averageScreen:text-base xs:text-xs text-gray-700 leading-4 averageScreen:pb-4 xs:pb-1">
                       {account.Email}
                     </p>
-                  </>
+                  </div>
                 ))}
 
                 <p className="hdScreen:text-lg semihdScreen:text-base laptopScreen:text-base averageScreen:text-base xs:text-xs text-gray-700 font-medium leading-4 hdScreen:mb-3 semihdScreen:mb-2 laptopScreen:mb-1 averageScreen:mb-0.5">
@@ -338,9 +402,18 @@ export default function StudentDetail() {
 
             <hr></hr>
 
-            <p className="mt-2 hdScreen:text-4xl semihdScreen:text-3xl laptopScreen:text-2xl averageScreen:text-2xl sm:text-2xl text-gray-700 font-semibold leading-4 hdScreen:mb-7 semihdScreen:mb-5 laptopScreen:mb-3 averageScreen:mb-2">
-              History
-            </p>
+            <div className="flex items-center justify-between">
+              <p className="mt-2  hdScreen:text-4xl semihdScreen:text-3xl laptopScreen:text-2xl averageScreen:text-2xl sm:text-2xl text-gray-700 font-semibold leading-4 hdScreen:mb-7 semihdScreen:mb-5 laptopScreen:mb-3 averageScreen:mb-2">
+                History
+              </p>
+              <button
+                onClick={exportAll}
+                className="mr-3 lg:px-6 semihdScreen:py-2 lg:py-1 xs:px-3 xs:py-1 lg:mt-0 xs:mt-1  flex items-center bg-blue-500/90 hover:bg-blue-600 rounded-md whitespace-nowrap overflow-hidden lg:text-lg md:text-base sm:text-sm xs:text-xs text-white hover:text-white font-semibold"
+              >
+                Export All
+                <FaArrowRightToBracket className="rotate-90 ml-2" />
+              </button>
+            </div>
             <div
               id="history"
               className="overflow-auto relative bg-gray-300/50 rounded-md mx-3 mt-2 hdScreen:min-h-[32rem] hdScreen:max-h-[32rem] semihdScreen:min-h-[24rem] semihdScreen:max-h-[24rem] laptopScreen:min-h-[15.7rem] laptopScreen:max-h-[15.7rem] averageScreen:min-h-[14rem] averageScreen:max-h-[14rem] xs:min-h-[14rem] xs:max-h-[14rem] style-2 "
@@ -358,8 +431,8 @@ export default function StudentDetail() {
               <div className={`${tableLoader ? 'hidden' : ''}`}>
                 {accountHistory.length > 0 ? (
                   <div>
-                    {accountHistory.map(history => (
-                      <>
+                    {accountHistory.map((history, index) => (
+                      <div key={index}>
                         <div
                           className={`grid lg:grid-cols-12 xs:grid-cols-4 rounded-l-md xs:h-12 averageScreen:-mt-0 xs:-mt-0 shadow relative  p-3  ${
                             history.SessionType === 'Easy'
@@ -370,14 +443,17 @@ export default function StudentDetail() {
                           }`}
                         >
                           <div className="lg:col-span-3">
-                            <p className="lg:text-[1.75rem] text-gray-100 font-medium leading-4 mt-1">
+                            <p
+                              id={'type' + history.SessionID}
+                              className="lg:text-[1.75rem] text-gray-100 font-medium leading-4 mt-1"
+                            >
                               {history.SessionType}
                               <span className="lg:text-sm sm:text-xs xs:text-xs text-white font-normal ">
                                 {'\u00A0\u00A0' + history.TimeStamp}
                               </span>
                             </p>
                           </div>
-                          <div className="lg:col-span-6 text-right lg:-mt-0 xs:-mt-0">
+                          <div className="laptopScreen:col-span-6 averageScreen:col-span-5 text-right lg:-mt-0 xs:-mt-0">
                             <span className="lg:text-lg sm:text-sm xs:text-xs text-white font-normal">
                               Score: {history.Score + '/20'}
                             </span>
@@ -387,22 +463,20 @@ export default function StudentDetail() {
                               Time: {history.TimeSpent}
                             </span>
                           </div>
-                          <div className="lg:block text-right averageScreen:ml-0 sm:ml-8 xs:ml-4">
-                            <div className="pt-0.5 pb-1 sm:mt-0 xs:mt-1 cursor-pointer flex items-center justify-center bg-blue-500/90 hover:bg-blue-600 rounded-md whitespace-nowrap overflow-hidden lg:text-base sm:text-sm xs:text-xs text-gray-200 hover:text-white font-semibold">
-                              <span className="hdScreen:block xs:hidden">
-                                Activity{'\u00A0'}
-                              </span>
-                              <span className="averageScreen:block xs:block">
-                                Log
-                              </span>
-
+                          <div className="laptopScreen:col-span-1 averageScreen:col-span-2 lg:block text-right averageScreen:ml-0 sm:ml-8 xs:ml-4">
+                            <div
+                              id={history.SessionID}
+                              onClick={exportRow}
+                              className="pt-0.5 pb-1 sm:mt-0 xs:mt-1 cursor-pointer flex items-center justify-center bg-blue-500/90 hover:bg-blue-600 rounded-md whitespace-nowrap overflow-hidden lg:text-base sm:text-sm xs:text-xs text-gray-200 hover:text-white font-semibold"
+                            >
+                              <span className="">Export</span>
                               <BsFileEarmarkArrowDownFill className="averageScreen:ml-2 xs:ml-1   " />
                             </div>
                           </div>
                         </div>
                         <hr></hr>
                         <hr></hr>
-                      </>
+                      </div>
                     ))}
                   </div>
                 ) : (

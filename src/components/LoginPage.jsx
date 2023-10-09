@@ -25,12 +25,28 @@ import LoadingSpinner from './LoadingSpinner';
 
 import DataGenerator from './DataGenerator';
 
+import SecureStorageData from './secureStorageData';
+
 export default function LoginPage() {
+  var a = SecureStorageData.dataEncryption('testing');
+  var b = SecureStorageData.dataDecryption(a);
+
   const navigate = useNavigate();
+
+  function checkLogged() {
+    var logged = JSON.parse(window.localStorage.getItem('LOGGED'));
+    if (logged === null) logged = '';
+
+    if (logged == 'TRUE') {
+      window.removeEventListener('focus', checkLogged);
+      window.location.reload(false);
+    }
+  }
 
   useEffect(() => {
     var logged = JSON.parse(window.localStorage.getItem('LOGGED'));
     if (logged === null) logged = '';
+
     //console.log(logged);
 
     if (logged == 'TRUE') {
@@ -47,6 +63,7 @@ export default function LoginPage() {
         }
       }
     } else {
+      window.addEventListener('focus', checkLogged);
       sessionStorage.clear();
       window.localStorage.removeItem('SESSION_TEACHER_TABLE');
       window.localStorage.removeItem('SESSION_ACCEPT_FRACTION');

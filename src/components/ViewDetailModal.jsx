@@ -252,14 +252,14 @@ const ViewDetailModal = ({ visible, onClose, onContinue }) => {
                 {messageDetails.length > 0 ? (
                   <>
                     {messageDetails.map((content, index) => (
-                      <>
+                      <div key={index}>
                         {headContent(
                           content.Name,
                           content.Date,
                           content.Message,
                           index
                         )}
-                      </>
+                      </div>
                     ))}
                   </>
                 ) : (

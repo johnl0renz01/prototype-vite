@@ -5,7 +5,13 @@ import axios from 'axios';
 import * as ReactDOM from 'react-dom';
 import $ from 'jquery';
 
-import { BsCaretUpFill } from 'react-icons/bs';
+import {
+  BsCaretUpFill,
+  BsArrowDownSquareFill,
+  BsFileEarmarkArrowDownFill,
+} from 'react-icons/bs';
+
+import { BsClipboard2X } from 'react-icons/bs';
 
 export default function StudentDetailSkeleton() {
   document.body.style.height = '100vh';

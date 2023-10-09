@@ -2439,11 +2439,11 @@ export default function Whiteboard() {
                   }`}
                   {...(isHelp
                     ? {
-                        dataTooltip:
+                        datatooltip:
                           'Button to gather information by hovering around the system.',
                       }
                     : {})}
-                  {...(isHelp ? { dataTooltipPosition: 'right' } : {})}
+                  {...(isHelp ? { datatooltipposition: 'right' } : {})}
                 >
                   <svg
                     id="help"
@@ -2475,11 +2475,11 @@ export default function Whiteboard() {
                   }`}
                   {...(isHelp
                     ? {
-                        dataTooltip:
+                        datatooltip:
                           'Button to call for the assistance of PIA, like what step should be done.',
                       }
                     : {})}
-                  {...(isHelp ? { dataTooltipPosition: 'right' } : {})}
+                  {...(isHelp ? { datatooltipposition: 'right' } : {})}
                 >
                   <svg
                     id="help_button"
@@ -2521,11 +2521,11 @@ export default function Whiteboard() {
                   }`}
                   {...(isHelp
                     ? {
-                        dataTooltip:
+                        datatooltip:
                           'Button to switch to tutorial video mode, where linear equation is the lesson.',
                       }
                     : {})}
-                  {...(isHelp ? { dataTooltipPosition: 'right' } : {})}
+                  {...(isHelp ? { datatooltipposition: 'right' } : {})}
                 >
                   <svg
                     onClick={tutorialMode}
@@ -2562,11 +2562,11 @@ export default function Whiteboard() {
                   }`}
                   {...(isHelp
                     ? {
-                        dataTooltip:
+                        datatooltip:
                           'Button to enable drawing mode in the whiteboard.',
                       }
                     : {})}
-                  {...(isHelp ? { dataTooltipPosition: 'right' } : {})}
+                  {...(isHelp ? { datatooltipposition: 'right' } : {})}
                 >
                   <svg
                     id="pen_button"
@@ -2598,11 +2598,11 @@ export default function Whiteboard() {
                   }`}
                   {...(isHelp
                     ? {
-                        dataTooltip:
+                        datatooltip:
                           'Button to show guide in writing the final answer.',
                       }
                     : {})}
-                  {...(isHelp ? { dataTooltipPosition: 'right' } : {})}
+                  {...(isHelp ? { datatooltipposition: 'right' } : {})}
                 >
                   <svg
                     id="guide_button"
@@ -2637,11 +2637,11 @@ export default function Whiteboard() {
               }`}
               {...(isHelp
                 ? {
-                    dataTooltip:
+                    datatooltip:
                       'The area for the given question and the equation you need to solve.',
                   }
                 : {})}
-              {...(isHelp ? { dataTooltipPosition: 'bottom' } : {})}
+              {...(isHelp ? { datatooltipposition: 'bottom' } : {})}
             >
               {/* PEN AREA, not modal */}
               {/**FOR TUTORIAL */}
@@ -2843,11 +2843,11 @@ export default function Whiteboard() {
                     <div
                       {...(isHelp
                         ? {
-                            dataTooltip:
+                            datatooltip:
                               'This is the area for facial expression response of PIA.',
                           }
                         : {})}
-                      {...(isHelp ? { dataTooltipPosition: 'bottom' } : {})}
+                      {...(isHelp ? { datatooltipposition: 'bottom' } : {})}
                       id="image_bg"
                       className={`absolute z-10  object-cover hdScreen:h-[29rem] hdScreen:w-[29rem] semihdScreen:h-[25rem] semihdScreen:w-[25rem] laptopScreen:h-[25rem] laptopScreen:w-[25rem]  averageScreen:h-[25rem] averageScreen:w-[25rem] xs:h-[40rem] xs:w-[30rem]
                                  hdScreen:scale-100 semihdScreen:scale-90 laptopScreen:scale-80 averageScreen:scale-75 xs:scale-55 
@@ -2907,11 +2907,11 @@ export default function Whiteboard() {
                 className="flex justify-center invisible "
                 {...(isHelp
                   ? {
-                      dataTooltip:
+                      datatooltip:
                         'This is the area for facial expression response of PIA.',
                     }
                   : {})}
-                {...(isHelp ? { dataTooltipPosition: 'bottom' } : {})}
+                {...(isHelp ? { datatooltipposition: 'bottom' } : {})}
               >
                 <div
                   id="image_bg"
@@ -2950,11 +2950,11 @@ export default function Whiteboard() {
               }`}
               {...(isHelp
                 ? {
-                    dataTooltip:
+                    datatooltip:
                       'The feedback area of PIA. Some feedback need your response and there will be options underneath it.',
                   }
                 : {})}
-              {...(isHelp ? { dataTooltipPosition: 'bottom' } : {})}
+              {...(isHelp ? { datatooltipposition: 'bottom' } : {})}
             >
               <div
                 id="message_area_tail"
@@ -3046,11 +3046,11 @@ export default function Whiteboard() {
               }`}
               {...(isHelp
                 ? {
-                    dataTooltip:
+                    datatooltip:
                       'The area for correct step or answers you must input.',
                   }
                 : {})}
-              {...(isHelp ? { dataTooltipPosition: 'right' } : {})}
+              {...(isHelp ? { datatooltipposition: 'right' } : {})}
             >
               <div className="flex">
                 {
@@ -3130,11 +3130,11 @@ export default function Whiteboard() {
               }`}
               {...(isHelp
                 ? {
-                    dataTooltip:
+                    datatooltip:
                       'This is the area to show your input logs, You could copy and paste text from here to input box.',
                   }
                 : {})}
-              {...(isHelp ? { dataTooltipPosition: 'bottom' } : {})}
+              {...(isHelp ? { datatooltipposition: 'bottom' } : {})}
             >
               <div
                 id="logs"
@@ -3185,11 +3185,11 @@ export default function Whiteboard() {
               }`}
               {...(isHelp
                 ? {
-                    dataTooltip:
+                    datatooltip:
                       'The area to put your answers, and submit it. Please write relevant answers only.',
                   }
                 : {})}
-              {...(isHelp ? { dataTooltipPosition: 'top' } : {})}
+              {...(isHelp ? { datatooltipposition: 'top' } : {})}
             >
               <div className="flex flex-col  border-borderBr rounded-5xl border-12 mt-3.5 m-3.5 mx-4 ">
                 <div
@@ -3357,11 +3357,11 @@ export default function Whiteboard() {
                   onClick={clearLogs}
                   {...(isHelp
                     ? {
-                        dataTooltip:
+                        datatooltip:
                           'The trash bin button. It removes all text from the current user logs.',
                       }
                     : {})}
-                  {...(isHelp ? { dataTooltipPosition: 'left' } : {})}
+                  {...(isHelp ? { datatooltipposition: 'left' } : {})}
                 >
                   <svg
                     className={`hdScreen:h-20 semihdScreen:h-[4.5rem] laptopScreen:h-16 averageScreen:h-16 xs:h-12 hdScreen:w-20 semihdScreen:w-[4.5rem] laptopScreen:w-16 averageScreen:w-16 xs:w-12 bg-white rounded-full p-3 hover:bg-gray-300 drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)] ${
