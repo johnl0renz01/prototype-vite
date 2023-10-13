@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { MdClose } from 'react-icons/md';
 import { VscInfo } from 'react-icons/vsc';
 
+import StorageData from './StorageData';
+import SecureStorageData from './SecureStorageData';
+
 const LoadingSpinner = ({ visible }) => {
   if (!visible) return null;
 
@@ -9,14 +12,14 @@ const LoadingSpinner = ({ visible }) => {
   const [loginPage, setLoginPage] = useState(false);
 
   useEffect(() => {
-    var logged = JSON.parse(window.localStorage.getItem('SESSION_USER'));
+    var logged = StorageData.localStorageJSON('SESSION_USER');
     if (logged === null || logged == '') {
       setLoginPage(true);
     } else {
       setLoginPage(false);
     }
 
-    var account = JSON.parse(window.localStorage.getItem('ACCOUNT_TYPE'));
+    var account = StorageData.localStorageJSON('ACCOUNT_TYPE');
     if (account !== null) {
       checkAccountType(account);
     }

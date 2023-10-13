@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { MdClose } from 'react-icons/md';
 import { VscWarning } from 'react-icons/vsc';
 
+import StorageData from './StorageData';
+import SecureStorageData from './SecureStorageData';
+
 const DeleteEquationModal = ({ visible, onClose, onContinue }) => {
   const handleOnClose = e => {
     if (e.target.id === 'mainContainer') onClose();
@@ -12,7 +15,7 @@ const DeleteEquationModal = ({ visible, onClose, onContinue }) => {
   const [equation, setEquation] = useState('');
 
   useEffect(() => {
-    var equation = JSON.parse(window.localStorage.getItem('EQUATION_STRING'));
+    var equation = StorageData.localStorageJSON('EQUATION_STRING');
     if (equation !== null) setEquation(equation);
   });
   return (

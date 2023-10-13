@@ -20,6 +20,9 @@ import StudentDetailSkeleton from './StudentDetailSkeleton';
 import { BsClipboard2X } from 'react-icons/bs';
 import LoadingSpinner from './LoadingSpinner';
 
+import StorageData from './StorageData';
+import SecureStorageData from './SecureStorageData';
+
 export default function StudentDetail() {
   document.body.style.height = '100vh';
   const navigate = useNavigate();
@@ -34,20 +37,20 @@ export default function StudentDetail() {
   }, []);
 
   useEffect(() => {
-    var data1 = window.localStorage.getItem('CURRENT_SECTION');
+    var data1 = StorageData.localStorageRAW('CURRENT_SECTION');
     if (data1 === null) navigate('/HomePageTeacher');
 
-    var data2 = window.sessionStorage.getItem('CURRENT_ACCOUNT');
+    var data2 = StorageData.sessionStorageRAW('CURRENT_ACCOUNT');
     if (data2 === null) navigate('/ClassList');
 
-    var data3 = window.sessionStorage.getItem('CURRENT_EMAIL');
+    var data3 = StorageData.sessionStorageRAW('CURRENT_EMAIL');
     if (data3 === null) navigate('/ClassList');
 
     var logged = JSON.parse(window.localStorage.getItem('LOGGED'));
     if (logged == 'FALSE') {
       window.localStorage.setItem('LOGIN_STATUS', JSON.stringify('Terminated'));
 
-      var email = JSON.parse(window.localStorage.getItem('SESSION_EMAIL'));
+      var email = StorageData.localStorageJSON('SESSION_EMAIL');
       if (email === null) email = '';
 
       if (email == '') {
@@ -71,11 +74,13 @@ export default function StudentDetail() {
       }
     }
 
-    var account = JSON.parse(window.localStorage.getItem('ACCOUNT_TYPE'));
+    var account = StorageData.localStorageJSON('ACCOUNT_TYPE');
     if (account == 'Admin') {
       navigate('/HomePageAdmin');
     } else if (account == 'Student') {
       navigate('/Homepage');
+    } else if (account == '' || account === null || account === undefined) {
+      navigate('/LoginPage');
     }
   });
 
@@ -87,8 +92,8 @@ export default function StudentDetail() {
   var currentEmail = '';
 
   useEffect(() => {
-    const data1 = window.sessionStorage.getItem('CURRENT_EMAIL');
-    const data2 = window.sessionStorage.getItem('CURRENT_ACCOUNT');
+    const data1 = StorageData.sessionStorageRAW('CURRENT_EMAIL');
+    const data2 = StorageData.sessionStorageRAW('CURRENT_ACCOUNT');
     if (data1 !== null) currentEmail = JSON.parse(data1);
     if (data2 !== null) currentAccount = JSON.parse(data2);
   }, []);
@@ -221,7 +226,7 @@ export default function StudentDetail() {
 
   const exportAll = e => {
     //var sessionID = e.currentTarget.id;
-    var account = JSON.parse(window.sessionStorage.getItem('CURRENT_ACCOUNT'));
+    var account = StorageData.sessionStorageJSON('CURRENT_ACCOUNT');
     var sessionDatabase = account;
 
     var csvConfig = mkConfig({
@@ -248,7 +253,7 @@ export default function StudentDetail() {
 
   const exportRow = e => {
     var sessionID = e.currentTarget.id;
-    var account = JSON.parse(window.sessionStorage.getItem('CURRENT_ACCOUNT'));
+    var account = StorageData.sessionStorageJSON('CURRENT_ACCOUNT');
     var sessionDatabase = account + sessionID;
 
     var equationType = document.getElementById('type' + sessionID).textContent;

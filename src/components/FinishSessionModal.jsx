@@ -12,6 +12,9 @@ import ClearStorage from './ClearStorage';
 
 import LoadingSpinner from './LoadingSpinner';
 
+import StorageData from './StorageData';
+import SecureStorageData from './SecureStorageData';
+
 const FinishSessionModal = ({ visible, onClose, onContinue }) => {
   const [showLoading, setShowLoading] = useState(false);
   const navigate = useNavigate();
@@ -33,7 +36,7 @@ const FinishSessionModal = ({ visible, onClose, onContinue }) => {
   const [groupType, setGroupType] = useState('');
 
   useEffect(() => {
-    let group = JSON.parse(window.localStorage.getItem('SYSTEM_VERSION'));
+    let group = StorageData.localStorageJSON('SYSTEM_VERSION');
     if (group == 'Facial Group') {
       setGroupType('Facial Group');
     } else {
@@ -41,16 +44,16 @@ const FinishSessionModal = ({ visible, onClose, onContinue }) => {
     }
     //console.log(groupType);
 
-    let data1 = JSON.parse(window.localStorage.getItem('DIFFICULTY_TYPE'));
+    let data1 = StorageData.localStorageJSON('DIFFICULTY_TYPE');
     if (data1 !== null) {
       setDifficulty(data1);
     }
-    let data2 = JSON.parse(window.localStorage.getItem('QUESTION_ANSWERED'));
+    let data2 = StorageData.localStorageJSON('QUESTION_ANSWERED');
     if (data2 !== null) {
       setAnswered(data2);
     }
 
-    let data3 = JSON.parse(window.localStorage.getItem('QUESTION_ABANDONED'));
+    let data3 = StorageData.localStorageJSON('QUESTION_ABANDONED');
     if (data3 !== null) {
       setAbandoned(data3);
     } else {
@@ -59,34 +62,33 @@ const FinishSessionModal = ({ visible, onClose, onContinue }) => {
 
     //console.log(data3);
 
-    let session = JSON.parse(window.localStorage.getItem('SESSION_END'));
+    let session = StorageData.localStorageJSON('SESSION_END');
     if (session == true) {
-      if (
-        JSON.parse(window.localStorage.getItem('SESSION_RECORDED') !== 'true')
-      ) {
+      if (StorageData.localStorageJSON('SESSION_RECORDED') !== 'true') {
         EndSession.recordData();
         getTimeSpent();
       } else {
         getTimeSpent();
       }
-      window.localStorage.setItem('SESSION_RECORDED', true);
+      window.localStorage.setItem(
+        'SESSION_RECORDED',
+        SecureStorageData.dataEncryption(true)
+      );
     }
 
-    let isLevelUp = JSON.parse(window.localStorage.getItem('SESSION_LEVEL_UP'));
+    let isLevelUp = StorageData.localStorageJSON('SESSION_LEVEL_UP');
     if (isLevelUp !== null && isLevelUp !== undefined) {
       setLevelUp(true);
     }
 
-    let feedbackMessage = JSON.parse(
-      window.localStorage.getItem('SESSION_FEEDBACK')
-    );
+    let feedbackMessage = StorageData.localStorageJSON('SESSION_FEEDBACK');
 
     if (
       feedbackMessage !== null &&
       feedbackMessage !== undefined &&
       feedbackMessage !== ''
     ) {
-      let session = JSON.parse(window.localStorage.getItem('SESSION_END'));
+      let session = StorageData.localStorageJSON('SESSION_END');
       if (session == true) {
         setFeedback(feedbackMessage);
       } else {
@@ -110,7 +112,7 @@ const FinishSessionModal = ({ visible, onClose, onContinue }) => {
 
         window.localStorage.setItem(
           'SESSION_FEEDBACK',
-          JSON.stringify(feedbackMessage)
+          JSON.stringify(SecureStorageData.dataEncryption(feedbackMessage))
         );
         setFeedback(feedbackMessage);
       }
@@ -135,7 +137,7 @@ const FinishSessionModal = ({ visible, onClose, onContinue }) => {
 
       window.localStorage.setItem(
         'SESSION_FEEDBACK',
-        JSON.stringify(feedbackMessage)
+        JSON.stringify(SecureStorageData.dataEncryption(feedbackMessage))
       );
       setFeedback(feedbackMessage);
     }
@@ -144,9 +146,8 @@ const FinishSessionModal = ({ visible, onClose, onContinue }) => {
   var equationList = [];
 
   function generateEasy() {
-    var tableSettings = JSON.parse(
-      window.localStorage.getItem('SESSION_TEACHER_TABLE')
-    );
+    var tableSettings = StorageData.localStorageJSON('SESSION_TEACHER_TABLE');
+
     var tableEquations = tableSettings + '_equation_list';
     tableSettings = tableSettings + '_equation_settings';
     setShowLoading(true);
@@ -170,7 +171,10 @@ const FinishSessionModal = ({ visible, onClose, onContinue }) => {
           )
         );
         if (keys[3] == 'TRUE') {
-          window.localStorage.setItem('SESSION_ACCEPT_FRACTION', true);
+          window.localStorage.setItem(
+            'SESSION_ACCEPT_FRACTION',
+            SecureStorageData.dataEncryption(true)
+          );
         } else {
           window.localStorage.removeItem('SESSION_ACCEPT_FRACTION');
         }
@@ -182,9 +186,7 @@ const FinishSessionModal = ({ visible, onClose, onContinue }) => {
   }
 
   function generateAverage() {
-    var tableSettings = JSON.parse(
-      window.localStorage.getItem('SESSION_TEACHER_TABLE')
-    );
+    var tableSettings = StorageData.localStorageJSON('SESSION_TEACHER_TABLE');
     var tableEquations = tableSettings + '_equation_list';
     tableSettings = tableSettings + '_equation_settings';
     setShowLoading(true);
@@ -208,7 +210,10 @@ const FinishSessionModal = ({ visible, onClose, onContinue }) => {
           )
         );
         if (keys[3] == 'TRUE') {
-          window.localStorage.setItem('SESSION_ACCEPT_FRACTION', true);
+          window.localStorage.setItem(
+            'SESSION_ACCEPT_FRACTION',
+            SecureStorageData.dataEncryption(true)
+          );
         } else {
           window.localStorage.removeItem('SESSION_ACCEPT_FRACTION');
         }
@@ -220,9 +225,8 @@ const FinishSessionModal = ({ visible, onClose, onContinue }) => {
   }
 
   function generateDifficult() {
-    var tableSettings = JSON.parse(
-      window.localStorage.getItem('SESSION_TEACHER_TABLE')
-    );
+    var tableSettings = StorageData.localStorageJSON('SESSION_TEACHER_TABLE');
+
     var tableEquations = tableSettings + '_equation_list';
     tableSettings = tableSettings + '_equation_settings';
     setShowLoading(true);
@@ -246,7 +250,10 @@ const FinishSessionModal = ({ visible, onClose, onContinue }) => {
           )
         );
         if (keys[3] == 'TRUE') {
-          window.localStorage.setItem('SESSION_ACCEPT_FRACTION', true);
+          window.localStorage.setItem(
+            'SESSION_ACCEPT_FRACTION',
+            SecureStorageData.dataEncryption(true)
+          );
         } else {
           window.localStorage.removeItem('SESSION_ACCEPT_FRACTION');
         }
@@ -258,7 +265,7 @@ const FinishSessionModal = ({ visible, onClose, onContinue }) => {
   }
 
   function generateQuestion() {
-    let isLevelUp = JSON.parse(window.localStorage.getItem('SESSION_LEVEL_UP'));
+    let isLevelUp = StorageData.localStorageJSON('SESSION_LEVEL_UP');
     if (isLevelUp == 'easy') {
       generateEasy();
     }
@@ -272,8 +279,8 @@ const FinishSessionModal = ({ visible, onClose, onContinue }) => {
   }
 
   function getTimeSpent() {
-    let sessionID = window.localStorage.getItem('SESSION_ID');
-    var userLogs = window.localStorage.getItem('SESSION_USER_LOGS');
+    let sessionID = StorageData.localStorageRAW('SESSION_ID');
+    var userLogs = StorageData.localStorageRAW('SESSION_USER_LOGS');
     userLogs = userLogs + '@' + sessionID;
     userLogs = userLogs.replace(/"/g, '');
     axios
@@ -296,9 +303,8 @@ const FinishSessionModal = ({ visible, onClose, onContinue }) => {
 
       var option = '';
       var difficultyType = '';
-      let isLevelUp = JSON.parse(
-        window.localStorage.getItem('SESSION_LEVEL_UP')
-      );
+      let isLevelUp = StorageData.localStorageJSON('SESSION_LEVEL_UP');
+
       if (isLevelUp == 'easy') {
         option = 'easy';
         difficultyType = 'Easy';
@@ -314,10 +320,19 @@ const FinishSessionModal = ({ visible, onClose, onContinue }) => {
 
       window.localStorage.removeItem('SESSION_LEVEL_UP');
 
-      window.localStorage.setItem('SESSION_SCORE', 0);
-      window.localStorage.setItem('QUESTION_LIST', JSON.stringify(equations));
-      window.localStorage.setItem('QUESTION_INDEX', '0');
-      var userLogs = window.localStorage.getItem('SESSION_USER_LOGS');
+      window.localStorage.setItem(
+        'SESSION_SCORE',
+        SecureStorageData.dataEncryption(0)
+      );
+      window.localStorage.setItem(
+        'QUESTION_LIST',
+        JSON.stringify(SecureStorageData.dataEncryption(equations))
+      );
+      window.localStorage.setItem(
+        'QUESTION_INDEX',
+        SecureStorageData.dataEncryption('0')
+      );
+      var userLogs = StorageData.localStorageRAW('SESSION_USER_LOGS');
       userLogs = userLogs + '@' + option;
       userLogs = userLogs.replace(/"/g, '');
       axios
@@ -327,21 +342,21 @@ const FinishSessionModal = ({ visible, onClose, onContinue }) => {
         .then(function (response) {
           window.localStorage.setItem(
             'SESSION_ID',
-            JSON.stringify(response.data)
+            JSON.stringify(SecureStorageData.dataEncryption(response.data))
           );
           window.sessionStorage.setItem(
             'CURRENT_SESSION_ID',
-            JSON.stringify(response.data)
+            JSON.stringify(SecureStorageData.dataEncryption(response.data))
           );
 
           window.localStorage.setItem(
             'DIFFICULTY_TYPE',
-            JSON.stringify(difficultyType)
+            JSON.stringify(SecureStorageData.dataEncryption(difficultyType))
           );
 
           //CREATE USER SESSION TABLE
           var sessionID = response.data;
-          var userDatabase = window.localStorage.getItem('SESSION_USER_LOGS');
+          var userDatabase = StorageData.localStorageRAW('SESSION_USER_LOGS');
           userDatabase = userDatabase.replace(/"/g, '');
           axios
             .post(

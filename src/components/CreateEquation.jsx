@@ -21,15 +21,16 @@ import CreateEquationMessageModal from './CreateEquationMessageModal';
 import { BsClipboard2X } from 'react-icons/bs';
 import LoadingSpinner from './LoadingSpinner';
 
+import StorageData from './StorageData';
+import SecureStorageData from './SecureStorageData';
+
 export default function CreateEquation() {
   const navigate = useNavigate();
 
   const [equationList, setEquationList] = useState([]);
 
   function getEquations() {
-    var tableName = JSON.parse(
-      window.localStorage.getItem('SESSION_USER_LOGS')
-    );
+    var tableName = StorageData.localStorageJSON('SESSION_USER_LOGS');
     tableName = tableName + '_equation_list';
     axios
       .get(
@@ -56,7 +57,7 @@ export default function CreateEquation() {
     if (logged == 'FALSE') {
       window.localStorage.setItem('LOGIN_STATUS', JSON.stringify('Terminated'));
 
-      var email = JSON.parse(window.localStorage.getItem('SESSION_EMAIL'));
+      var email = StorageData.localStorageJSON('SESSION_EMAIL');
       if (email === null) email = '';
 
       if (email == '') {
@@ -80,11 +81,13 @@ export default function CreateEquation() {
       }
     }
 
-    var account = JSON.parse(window.localStorage.getItem('ACCOUNT_TYPE'));
+    var account = StorageData.localStorageJSON('ACCOUNT_TYPE');
     if (account == 'Admin') {
       navigate('/HomePageAdmin');
     } else if (account == 'Student') {
       navigate('/Homepage');
+    } else if (account == '' || account === null || account === undefined) {
+      navigate('/LoginPage');
     }
   });
 
@@ -289,9 +292,8 @@ export default function CreateEquation() {
   };
 
   const addEquation = () => {
-    var tableName = JSON.parse(
-      window.localStorage.getItem('SESSION_USER_LOGS')
-    );
+    var tableName = StorageData.localStorageJSON('SESSION_USER_LOGS');
+
     tableName = tableName + '_equation_list';
     setShowLoading(true);
     var equationDetails = difficulty + '@' + equationLink;

@@ -27,6 +27,9 @@ import ManageAccountSkeleton from './ManageAccountSkeleton';
 
 import LoadingSpinner from './LoadingSpinner';
 
+import StorageData from './StorageData';
+import SecureStorageData from './SecureStorageData';
+
 export default function ManageAccount() {
   const navigate = useNavigate();
 
@@ -44,7 +47,7 @@ export default function ManageAccount() {
     if (logged == 'FALSE') {
       window.localStorage.setItem('LOGIN_STATUS', JSON.stringify('Terminated'));
 
-      var email = JSON.parse(window.localStorage.getItem('SESSION_EMAIL'));
+      var email = StorageData.localStorageJSON('SESSION_EMAIL');
       if (email === null) email = '';
 
       if (email == '') {
@@ -68,11 +71,13 @@ export default function ManageAccount() {
       }
     }
 
-    var account = JSON.parse(window.localStorage.getItem('ACCOUNT_TYPE'));
+    var account = StorageData.localStorageJSON('ACCOUNT_TYPE');
     if (account == 'Teacher') {
       navigate('/HomePageTeacher');
     } else if (account == 'Student') {
       navigate('/Homepage');
+    } else if (account == '' || account === null || account === undefined) {
+      navigate('/LoginPage');
     }
   });
 
@@ -127,10 +132,13 @@ export default function ManageAccount() {
     let accountEmail = e.target.name;
     window.sessionStorage.setItem(
       'CURRENT_ACCOUNT_EDIT',
-      JSON.stringify(accountEmail)
+      JSON.stringify(SecureStorageData.dataEncryption(accountEmail))
     );
     window.sessionStorage.setItem('EDIT_ACCOUNT_STATE', true);
-    window.sessionStorage.setItem('IS_VALID_FORM', true);
+    window.sessionStorage.setItem(
+      'IS_VALID_FORM',
+      SecureStorageData.dataEncryption(true)
+    );
     setShowModal(true);
   };
 
@@ -139,7 +147,7 @@ export default function ManageAccount() {
     let accountEmail = e.target.name;
     window.sessionStorage.setItem(
       'CURRENT_ACCOUNT_DELETE',
-      JSON.stringify(accountEmail)
+      JSON.stringify(SecureStorageData.dataEncryption(accountEmail))
     );
     axios
       .get(
@@ -150,7 +158,7 @@ export default function ManageAccount() {
         var result = response.data;
         window.sessionStorage.setItem(
           'DELETE_ACCOUNT_TYPE',
-          JSON.stringify(result)
+          JSON.stringify(SecureStorageData.dataEncryption(result))
         );
         if (result == 'Teacher') {
           axios
@@ -162,7 +170,7 @@ export default function ManageAccount() {
               var assignStatus = response.data;
               window.sessionStorage.setItem(
                 'TEACHER_ASSIGN_STATUS',
-                JSON.stringify(assignStatus)
+                JSON.stringify(SecureStorageData.dataEncryption(assignStatus))
               );
               setShowDeleteModal(true);
             })
@@ -228,9 +236,8 @@ export default function ManageAccount() {
 
   const handleOnContinueDeleteModal = () => {
     setShowLoading(true);
-    let accountEmail = JSON.parse(
-      window.sessionStorage.getItem('CURRENT_ACCOUNT_DELETE')
-    );
+    let accountEmail = StorageData.localStorageJSON('CURRENT_ACCOUNT_DELETE');
+
     axios
       .post(
         `http://localhost:80/Prototype-Vite/my-project/api/removeAccount/${accountEmail}`
@@ -258,7 +265,7 @@ export default function ManageAccount() {
   const handleOnCloseResetModal = () => setShowResetModal(false);
 
   const handleOnContinueResetModal = () => {
-    var option = JSON.parse(window.sessionStorage.getItem('REQUEST_OPTION'));
+    var option = StorageData.localStorageJSON('REQUEST_OPTION');
     if (option !== null) option = option.replace(/"/g, '');
 
     console.log(option);

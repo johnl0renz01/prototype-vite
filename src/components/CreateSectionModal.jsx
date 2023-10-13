@@ -19,6 +19,9 @@ import { VscQuestion } from 'react-icons/vsc';
 
 import LoadingSpinner from './LoadingSpinner';
 
+import StorageData from './StorageData';
+import SecureStorageData from './SecureStorageData';
+
 const CreateSectionModal = ({ visible, onClose, onContinue }) => {
   const [showLoading, setShowLoading] = useState(false);
   const navigate = useNavigate();
@@ -47,7 +50,7 @@ const CreateSectionModal = ({ visible, onClose, onContinue }) => {
 
   const onSubmit = (values, actions) => {
     console.log('SUBMITTED');
-    var validForm = JSON.parse(window.sessionStorage.getItem('IS_VALID_FORM'));
+    var validForm = StorageData.sessionStorageJSON('IS_VALID_FORM');
     if (validForm && validForm !== null) {
       setShowLoading(true);
       axios
@@ -69,7 +72,10 @@ const CreateSectionModal = ({ visible, onClose, onContinue }) => {
   const [duplicateState, setDuplicateState] = useState(false);
 
   const sectionNameChange = event => {
-    window.sessionStorage.setItem('IS_VALID_FORM', false);
+    window.sessionStorage.setItem(
+      'IS_VALID_FORM',
+      SecureStorageData.dataEncryption(false)
+    );
     const value = event.target.value;
     values.sectionName = value;
     handleChange.sectionName;
@@ -89,10 +95,16 @@ const CreateSectionModal = ({ visible, onClose, onContinue }) => {
         console.log(response.data);
         if (response.data === 'duplicate') {
           setDuplicateState(true);
-          window.sessionStorage.setItem('IS_VALID_FORM', false);
+          window.sessionStorage.setItem(
+            'IS_VALID_FORM',
+            SecureStorageData.dataEncryption(false)
+          );
         } else {
           setDuplicateState(false);
-          window.sessionStorage.setItem('IS_VALID_FORM', true);
+          window.sessionStorage.setItem(
+            'IS_VALID_FORM',
+            SecureStorageData.dataEncryption(true)
+          );
         }
       });
   };

@@ -65,6 +65,9 @@ import ViewDetailMessageModal from './ViewDetailMessageModal';
 
 import LoadingSpinner from './LoadingSpinner';
 
+import StorageData from './StorageData';
+import SecureStorageData from './SecureStorageData';
+
 export default function AdminNavbar() {
   const [showLoading, setShowLoading] = useState(false);
 
@@ -75,7 +78,7 @@ export default function AdminNavbar() {
   useEffect(() => {
     window.addEventListener('focus', setTabDelay);
 
-    var account = JSON.parse(window.localStorage.getItem('ACCOUNT_TYPE'));
+    var account = StorageData.localStorageJSON('ACCOUNT_TYPE');
     if (account != 'Student') {
       window.localStorage.removeItem('SESSION_FEEDBACK');
       window.localStorage.removeItem('EXPRESSION_HAPPY');
@@ -220,7 +223,7 @@ export default function AdminNavbar() {
 
   const [accType, setAccType] = useState('');
   useEffect(() => {
-    var account = JSON.parse(window.localStorage.getItem('ACCOUNT_TYPE'));
+    var account = StorageData.localStorageJSON('ACCOUNT_TYPE');
     if (account === null) account = '';
     setAccType(account);
 
@@ -288,7 +291,7 @@ export default function AdminNavbar() {
     var logged = JSON.parse(window.localStorage.getItem('LOGGED'));
     if (logged === null) logged = '';
 
-    var account = JSON.parse(window.localStorage.getItem('ACCOUNT_TYPE'));
+    var account = StorageData.localStorageJSON('ACCOUNT_TYPE');
     if (account === null) account = '';
 
     if (logged == 'TRUE') {
@@ -367,12 +370,12 @@ export default function AdminNavbar() {
 
     window.sessionStorage.setItem(
       'CURRENT_VIEW_DETAIL',
-      JSON.stringify(requestID)
+      JSON.stringify(SecureStorageData.dataEncryption(requestID))
     );
     window.sessionStorage.setItem('VIEW_DETAIL_STATE', true);
     setShowModal(true);
 
-    let role = JSON.parse(window.localStorage.getItem('ACCOUNT_TYPE'));
+    let role = StorageData.localStorageJSON('ACCOUNT_TYPE');
     axios
       .post(
         `http://localhost:80/Prototype-Vite/my-project/api/requestSeen/${requestID}@${role}`

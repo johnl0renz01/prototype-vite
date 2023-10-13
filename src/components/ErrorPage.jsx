@@ -4,6 +4,9 @@ import { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
 import * as ReactDOM from 'react-dom';
 
+import StorageData from './StorageData';
+import SecureStorageData from './SecureStorageData';
+
 export default function ErrorPage() {
   const [imageLink, setImageLink] = useState('error-1');
   const [currentAccount, setCurrentAccount] = useState('Teacher');
@@ -27,7 +30,7 @@ export default function ErrorPage() {
     if (logged == 'FALSE') {
       window.localStorage.setItem('LOGIN_STATUS', JSON.stringify('Terminated'));
 
-      var email = JSON.parse(window.localStorage.getItem('SESSION_EMAIL'));
+      var email = StorageData.localStorageJSON('SESSION_EMAIL');
       if (email === null) email = '';
 
       if (email == '') {
@@ -51,7 +54,7 @@ export default function ErrorPage() {
       }
     }
 
-    var account = JSON.parse(window.localStorage.getItem('ACCOUNT_TYPE'));
+    var account = StorageData.localStorageJSON('ACCOUNT_TYPE');
     if (account == 'Student') {
       navigate('/Homepage');
     } else if (account == 'Teacher') {
@@ -69,7 +72,7 @@ export default function ErrorPage() {
   const [logoHeight, setLogoHeight] = useState(0);
 
   useEffect(() => {
-    const data = window.localStorage.getItem('CURRENT_SECTION');
+    const data = StorageData.localStorageRAW('CURRENT_SECTION');
     if (data !== null) setAccessReportCard(true);
 
     document.body.style.backgroundImage =

@@ -21,6 +21,9 @@ import { BsChevronBarRight } from 'react-icons/bs';
 
 import LoadingSpinner from './LoadingSpinner';
 
+import StorageData from './StorageData';
+import SecureStorageData from './SecureStorageData';
+
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
@@ -65,7 +68,8 @@ function Navbar() {
   }, []);
 
   useEffect(() => {
-    const data = window.localStorage.getItem('SESSION_USER');
+    const data = StorageData.localStorageRAW('SESSION_USER');
+
     if (data !== null) setCurrentUser(JSON.parse(data));
   }, []);
 
@@ -75,7 +79,7 @@ function Navbar() {
     if (page !== null) setPageList(JSON.parse(page));
     const link = window.localStorage.getItem('NAVBAR_PAGE_LINK');
     if (link !== null) setPageLink(JSON.parse(link));
-    var user = window.localStorage.getItem('SESSION_USER');
+    var user = StorageData.localStorageRAW('SESSION_USER');
 
     if (user !== null) setCurrentUser(JSON.parse(user));
   }
@@ -123,7 +127,8 @@ function Navbar() {
 
   const [accType, setAccType] = useState('');
   useEffect(() => {
-    var account = JSON.parse(window.localStorage.getItem('ACCOUNT_TYPE'));
+    var account = StorageData.localStorageJSON('ACCOUNT_TYPE');
+
     if (account === null) account = '';
     setAccType(account);
 
@@ -150,8 +155,8 @@ function Navbar() {
   const signOut = () => {
     setShowLoading(true);
     if (
-      window.localStorage.getItem('SESSION_ID') != '""' &&
-      window.localStorage.getItem('SESSION_ID') != null
+      StorageData.localStorageRAW('SESSION_ID') != '""' &&
+      StorageData.localStorageRAW('SESSION_ID') != null
     ) {
       setShowLoading(false);
       setShowModal(true);
@@ -287,8 +292,8 @@ function Navbar() {
                     className="inline-flex w-full justify-center rounded-md  lg:mt-0 md:mt-0 sm:mt-0 xs:mt-0.5 bg-white px-3 py-1.5 lg:text-xl md:text-xl sm:text-sm xs:text-xs font-normal text-gray-700  hover:bg-gray-100 focus:outline-none  focus:ring-offset-gray-200"
                   >
                     {currentUser != '' && currentUser !== null ? (
-                      window.localStorage.getItem('SESSION_ID') != '""' &&
-                      window.localStorage.getItem('SESSION_ID') != null ? (
+                      StorageData.localStorageRAW('SESSION_ID') != '""' &&
+                      StorageData.localStorageRAW('SESSION_ID') != null ? (
                         pageList.includes('Whiteboard') == false ? (
                           <>
                             <span className="bell fa fa-bell w-7 h-7 lg:text-xl md:text-xl  xs:text-xs mr-3 hdScreen:mt-1 semihdScreen:mt-1 laptopScreen:mt-[0.50rem] averageScreen:mt-[0.40rem]"></span>
@@ -336,8 +341,8 @@ function Navbar() {
                     }`}
                   >
                     <div className="py-1 ">
-                      {window.localStorage.getItem('SESSION_ID') != '""' &&
-                      window.localStorage.getItem('SESSION_ID') != null ? (
+                      {StorageData.localStorageRAW('SESSION_ID') != '""' &&
+                      StorageData.localStorageRAW('SESSION_ID') != null ? (
                         pageList.includes('Whiteboard') == false ? (
                           <Menu.Item>
                             {({ active }) => (

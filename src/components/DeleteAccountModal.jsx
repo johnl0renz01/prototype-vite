@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { MdClose } from 'react-icons/md';
 import { VscWarning } from 'react-icons/vsc';
 
+import StorageData from './StorageData';
+import SecureStorageData from './SecureStorageData';
+
 const DeleteAccountModal = ({ visible, onClose, onContinue }) => {
   const handleOnClose = e => {
     if (e.target.id === 'mainContainer') onClose();
@@ -14,20 +17,16 @@ const DeleteAccountModal = ({ visible, onClose, onContinue }) => {
   const [assignStatus, setAssignStatus] = useState('Unassigned');
 
   useEffect(() => {
-    var accType = JSON.parse(
-      window.sessionStorage.getItem('DELETE_ACCOUNT_TYPE')
-    );
+    var accType = StorageData.sessionStorageJSON('DELETE_ACCOUNT_TYPE');
+
     console.log(accType);
     if (accType !== null) setAccountType(accType);
 
-    var account = JSON.parse(
-      window.sessionStorage.getItem('CURRENT_ACCOUNT_DELETE')
-    );
+    var account = StorageData.sessionStorageJSON('CURRENT_ACCOUNT_DELETE');
+
     if (account !== null) setCurrentAccount(account);
 
-    var assign = JSON.parse(
-      window.sessionStorage.getItem('TEACHER_ASSIGN_STATUS')
-    );
+    var assign = StorageData.sessionStorageJSON('TEACHER_ASSIGN_STATUS');
     if (assign !== null) setAssignStatus(assign);
   });
 

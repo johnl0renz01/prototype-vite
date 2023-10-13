@@ -14,6 +14,9 @@ import CreateEquation from './CreateEquation';
 
 import HelpPageTeacherSkeleton from './HelpPageTeacherSkeleton';
 
+import StorageData from './StorageData';
+import SecureStorageData from './SecureStorageData';
+
 export default function HelpPageTeacher() {
   document.body.style.overflow = 'visible';
 
@@ -32,7 +35,7 @@ export default function HelpPageTeacher() {
     if (logged == 'FALSE') {
       window.localStorage.setItem('LOGIN_STATUS', JSON.stringify('Terminated'));
 
-      var email = JSON.parse(window.localStorage.getItem('SESSION_EMAIL'));
+      var email = StorageData.localStorageJSON('SESSION_EMAIL');
       if (email === null) email = '';
 
       if (email == '') {
@@ -56,11 +59,13 @@ export default function HelpPageTeacher() {
       }
     }
 
-    var account = JSON.parse(window.localStorage.getItem('ACCOUNT_TYPE'));
+    var account = StorageData.localStorageJSON('ACCOUNT_TYPE');
     if (account == 'Admin') {
       navigate('/HomePageAdmin');
     } else if (account == 'Student') {
       navigate('/Homepage');
+    } else if (account == '' || account === null || account === undefined) {
+      navigate('/LoginPage');
     }
   });
 

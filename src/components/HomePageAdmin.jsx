@@ -7,6 +7,9 @@ import $ from 'jquery';
 
 import HomePageAdminSkeleton from './HomePageAdminSkeleton';
 
+import StorageData from './StorageData';
+import SecureStorageData from './SecureStorageData';
+
 export default function HomePageAdmin() {
   document.body.style.backgroundImage =
     'linear-gradient(to top, #e2e2e2, #f1f1f1 , #ffffff)';
@@ -27,7 +30,7 @@ export default function HomePageAdmin() {
     if (logged == 'FALSE') {
       window.localStorage.setItem('LOGIN_STATUS', JSON.stringify('Terminated'));
 
-      var email = JSON.parse(window.localStorage.getItem('SESSION_EMAIL'));
+      var email = StorageData.localStorageJSON('SESSION_EMAIL');
       if (email === null) email = '';
 
       if (email == '') {
@@ -51,11 +54,13 @@ export default function HomePageAdmin() {
       }
     }
 
-    var account = JSON.parse(window.localStorage.getItem('ACCOUNT_TYPE'));
+    var account = StorageData.localStorageJSON('ACCOUNT_TYPE');
     if (account == 'Teacher') {
       navigate('/HomePageTeacher');
     } else if (account == 'Student') {
       navigate('/Homepage');
+    } else if (account == '' || account === null || account === undefined) {
+      navigate('/LoginPage');
     }
   });
 

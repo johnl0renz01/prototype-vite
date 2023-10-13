@@ -6,27 +6,49 @@ var SecureStorageData = (function () {
   let decryptedValue = '';
 
   var dataEncryption = function (value) {
-    const dataValue = value;
-    let string = JSON.stringify(dataValue);
+    if (value === null || value === undefined) {
+      return null;
+    }
+    try {
+      const dataValue = value;
+      let string = JSON.stringify(dataValue);
 
-    const secret = 'k4WQ,]+.C/dJ6z9a';
+      const secret = 'k4WQ,]+.C/dJ6z9a';
 
-    let encrypted = CryptoJS.AES.encrypt(string, secret).toString();
-    //let bytes = CryptoJS.AES.decrypt(encrypted, secret);
-    //let decrypted = bytes.toString(CryptoJS.enc.Utf8);
-
-    console.log(encrypted);
-    return encrypted;
+      let encrypted = CryptoJS.AES.encrypt(string, secret).toString();
+      //let bytes = CryptoJS.AES.decrypt(encrypted, secret);
+      //let decrypted = bytes.toString(CryptoJS.enc.Utf8);
+      //
+      //console.log(encrypted);
+      return encrypted;
+    } catch {
+      return null;
+    }
   };
 
   var dataDecryption = function (value) {
-    const secret = 'k4WQ,]+.C/dJ6z9a';
-    let encrypted = value;
-    let bytes = CryptoJS.AES.decrypt(encrypted, secret);
-    let decrypted = bytes.toString(CryptoJS.enc.Utf8);
+    if (value === null || value === undefined) {
+      //console.log('asdasd');
+      return null;
+    }
+    try {
+      //console.log(value);
+      const secret = 'k4WQ,]+.C/dJ6z9a';
 
-    console.log(JSON.parse(decrypted));
-    return decrypted;
+      let encrypted = value;
+      encrypted = encrypted.replace(/"/g, '');
+      let bytes = CryptoJS.AES.decrypt(encrypted, secret);
+      let decrypted = bytes.toString(CryptoJS.enc.Utf8);
+      //
+      //console.log(decrypted);
+      if (decrypted == '') {
+        return null;
+      } else {
+        return decrypted;
+      }
+    } catch {
+      return null;
+    }
   };
 
   return {

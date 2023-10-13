@@ -1,39 +1,42 @@
 import axios from 'axios';
 
+import StorageData from './StorageData';
+import SecureStorageData from './SecureStorageData';
+
 var UpdateSession = (function () {
   var recordData = function () {
     //RECORD DATA
-    let sessionId = window.localStorage.getItem('SESSION_ID');
-    let sessionScore = window.localStorage.getItem('SESSION_SCORE');
+    let sessionId = StorageData.localStorageRAW('SESSION_ID');
+    let sessionScore = StorageData.localStorageRAW('SESSION_SCORE');
     if (sessionScore === null) sessionScore = 0;
-    let expressionAngry = window.localStorage.getItem('EXPRESSION_ANGRY');
+    let expressionAngry = StorageData.localStorageRAW('EXPRESSION_ANGRY');
     if (expressionAngry === null) expressionAngry = 0;
-    let expressionHappy = window.localStorage.getItem('EXPRESSION_HAPPY');
+    let expressionHappy = StorageData.localStorageRAW('EXPRESSION_HAPPY');
     if (expressionHappy === null) expressionHappy = 0;
-    let expressionSad = window.localStorage.getItem('EXPRESSION_SAD');
+    let expressionSad = StorageData.localStorageRAW('EXPRESSION_SAD');
     if (expressionSad === null) expressionSad = 0;
-    let expressionSurprised = window.localStorage.getItem(
+    let expressionSurprised = StorageData.localStorageRAW(
       'EXPRESSION_SURPRISED'
     );
     if (expressionSurprised === null) expressionSurprised = 0;
-    let expressionMotivation = window.localStorage.getItem(
+    let expressionMotivation = StorageData.localStorageRAW(
       'EXPRESSION_MOTIVATION'
     );
     if (expressionMotivation === null) expressionMotivation = 0;
 
-    let answered = window.localStorage.getItem('QUESTION_ANSWERED');
+    let answered = StorageData.localStorageRAW('QUESTION_ANSWERED');
     if (answered === null) answered = 0;
 
-    let abandoned = window.localStorage.getItem('QUESTION_ABANDONED');
+    let abandoned = StorageData.localStorageRAW('QUESTION_ABANDONED');
     if (abandoned === null) abandoned = 0;
 
-    let levelup = window.localStorage.getItem('SESSION_LEVELUP');
+    let levelup = StorageData.localStorageRAW('SESSION_LEVELUP');
     if (levelup === null) levelup = 'FALSE';
 
-    let leveldown = window.localStorage.getItem('SESSION_LEVELDOWN');
+    let leveldown = StorageData.localStorageRAW('SESSION_LEVELDOWN');
     if (leveldown === null) leveldown = 'FALSE';
 
-    var sessionData = window.localStorage.getItem('SESSION_USER_LOGS');
+    var sessionData = StorageData.localStorageRAW('SESSION_USER_LOGS');
     sessionData =
       sessionData +
       '@' +
@@ -60,15 +63,15 @@ var UpdateSession = (function () {
       leveldown;
     sessionData = sessionData.replace(/"/g, '');
 
-    var userDatabase = window.localStorage.getItem('SESSION_USER_LOGS');
-    var currentQuestion = window.localStorage.getItem('PREVIOUS_QUESTION');
-    var sequence = window.localStorage.getItem('EXPRESSION_SEQUENCE');
+    var userDatabase = StorageData.localStorageRAW('SESSION_USER_LOGS');
+    var currentQuestion = StorageData.localStorageRAW('PREVIOUS_QUESTION');
+    var sequence = StorageData.localStorageRAW('EXPRESSION_SEQUENCE');
     if (sequence === null) sequence = '';
 
-    var questionStatus = window.localStorage.getItem('QUESTION_STATUS');
+    var questionStatus = StorageData.localStorageRAW('QUESTION_STATUS');
     if (questionStatus === null) questionStatus = 'ABANDONED';
 
-    var difficultyType = window.localStorage.getItem('DIFFICULTY_TYPE');
+    var difficultyType = StorageData.localStorageRAW('DIFFICULTY_TYPE');
     if (difficultyType === null) difficultyType = '';
 
     var updateData =

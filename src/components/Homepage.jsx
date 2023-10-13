@@ -9,6 +9,9 @@ import EquationSolver from './equationSolver';
 
 import LoadingStudent from './LoadingStudent';
 
+import StorageData from './StorageData';
+import SecureStorageData from './SecureStorageData';
+
 export default function Homepage() {
   document.body.style.backgroundImage =
     'linear-gradient(to top, #bef264, #d9f99d , #ccf779)';
@@ -20,7 +23,8 @@ export default function Homepage() {
     if (logged == 'FALSE') {
       window.localStorage.setItem('LOGIN_STATUS', JSON.stringify('Terminated'));
 
-      var email = JSON.parse(window.localStorage.getItem('SESSION_EMAIL'));
+      var email = StorageData.localStorageJSON('SESSION_EMAIL');
+
       if (email === null) email = '';
 
       if (email == '') {
@@ -44,11 +48,14 @@ export default function Homepage() {
       }
     }
 
-    var account = JSON.parse(window.localStorage.getItem('ACCOUNT_TYPE'));
+    var account = StorageData.localStorageJSON('ACCOUNT_TYPE');
+
     if (account == 'Admin') {
       navigate('/HomePageAdmin');
     } else if (account == 'Teacher') {
       navigate('/HomePageTeacher');
+    } else if (account == '' || account === null || account === undefined) {
+      navigate('/LoginPage');
     }
   });
   //FOR LINKS/NAVBAR/BREADCRUMBS
@@ -81,7 +88,8 @@ export default function Homepage() {
   }, [pageLink]);
 
   useEffect(() => {
-    const data = window.localStorage.getItem('SESSION_USER');
+    const data = StorageData.localStorageRAW('SESSION_USER');
+
     if (data != '' && data != '""' && data != undefined) {
       setCurrentUser(true);
     } else {
@@ -109,9 +117,7 @@ export default function Homepage() {
   const [enrolledState, setEnrolledState] = useState(false);
 
   useEffect(() => {
-    var status = JSON.parse(
-      window.localStorage.getItem('SESSION_TEACHER_TABLE')
-    );
+    var status = StorageData.localStorageJSON('SESSION_TEACHER_TABLE');
     if (status !== null) {
       if (status == 'Not-Enrolled') {
         setEnrolledState(false);

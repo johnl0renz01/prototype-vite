@@ -7,6 +7,9 @@ import { VscInfo } from 'react-icons/vsc';
 import EndSession from './EndSession';
 import ClearStorage from './ClearStorage';
 
+import StorageData from './StorageData';
+import SecureStorageData from './SecureStorageData';
+
 export default function LogoutWarning() {
   const navigate = useNavigate();
   const [accType, setAccType] = useState('');
@@ -17,7 +20,7 @@ export default function LogoutWarning() {
     var status = JSON.parse(window.localStorage.getItem('LOGIN_STATUS'));
     if (status === null) status = '';
 
-    var email = JSON.parse(window.localStorage.getItem('SESSION_EMAIL'));
+    var email = StorageData.localStorageJSON('SESSION_EMAIL');
     if (email === null) email = '';
 
     if (email != '') {
@@ -34,7 +37,7 @@ export default function LogoutWarning() {
     var status = JSON.parse(window.localStorage.getItem('LOGIN_STATUS'));
     if (status === null) status = '';
 
-    var email = JSON.parse(window.localStorage.getItem('SESSION_EMAIL'));
+    var email = StorageData.localStorageJSON('SESSION_EMAIL');
     if (email === null) email = '';
 
     if (email != '') {
@@ -51,7 +54,7 @@ export default function LogoutWarning() {
     var status = JSON.parse(window.localStorage.getItem('LOGIN_STATUS'));
     if (status === null) status = '';
 
-    var email = JSON.parse(window.localStorage.getItem('SESSION_EMAIL'));
+    var email = StorageData.localStorageJSON('SESSION_EMAIL');
     if (email === null) email = '';
 
     if (email != '') {
@@ -77,7 +80,7 @@ export default function LogoutWarning() {
         setAccType(status);
       } else {
         status = status.replace(/"/g, '');
-        var account = JSON.parse(window.localStorage.getItem('ACCOUNT_TYPE'));
+        var account = StorageData.localStorageJSON('ACCOUNT_TYPE');
         if (account == 'Student') {
           EndSession.recordData();
 
@@ -90,7 +93,7 @@ export default function LogoutWarning() {
   }
 
   const clearData = () => {
-    var account = JSON.parse(window.localStorage.getItem('ACCOUNT_TYPE'));
+    var account = StorageData.localStorageJSON('ACCOUNT_TYPE');
     if (account == 'Student') {
       ClearStorage.clearData();
       window.localStorage.setItem('SESSION_USER', JSON.stringify(''));

@@ -18,6 +18,9 @@ import { BsFillSendFill } from 'react-icons/bs';
 import { MdClose } from 'react-icons/md';
 import LoadingSpinner from './LoadingSpinner';
 
+import StorageData from './StorageData';
+import SecureStorageData from './SecureStorageData';
+
 const ContactAdminModal = ({ visible, onClose, onContinue }) => {
   const [showLoading, setShowLoading] = useState(false);
 
@@ -27,9 +30,9 @@ const ContactAdminModal = ({ visible, onClose, onContinue }) => {
 
   const onSubmit = async (values, actions) => {
     setShowLoading(true);
-    var email = JSON.parse(window.localStorage.getItem('SESSION_EMAIL'));
-    var role = JSON.parse(window.localStorage.getItem('ACCOUNT_TYPE'));
-    var name = JSON.parse(window.localStorage.getItem('SESSION_FULLNAME'));
+    var email = StorageData.localStorageJSON('SESSION_EMAIL');
+    var role = StorageData.localStorageJSON('ACCOUNT_TYPE');
+    var name = StorageData.localStorageJSON('SESSION_FULLNAME');
     name = name.replace(/ /g, '_');
     axios
       .post(
@@ -72,7 +75,7 @@ const ContactAdminModal = ({ visible, onClose, onContinue }) => {
   if (!visible) return null;
 
   const sendMessage = () => {
-    var email = JSON.parse(window.localStorage.getItem('SESSION_EMAIL'));
+    var email = StorageData.localStorageJSON('SESSION_EMAIL');
   };
 
   return (

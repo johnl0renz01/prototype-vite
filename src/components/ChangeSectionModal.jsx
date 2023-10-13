@@ -7,6 +7,9 @@ import { MdClose } from 'react-icons/md';
 
 import LoadingSpinner from './LoadingSpinner';
 
+import StorageData from './StorageData';
+import SecureStorageData from './SecureStorageData';
+
 const ChangeSection = ({ visible, onClose, onContinue }) => {
   const [showLoading, setShowLoading] = useState(false);
   const navigate = useNavigate();
@@ -29,7 +32,7 @@ const ChangeSection = ({ visible, onClose, onContinue }) => {
     var ids = [];
     var sectionNames = [];
 
-    var fullName = JSON.parse(window.localStorage.getItem('SESSION_FULLNAME'));
+    var fullName = StorageData.localStorageJSON('SESSION_FULLNAME');
     fullName = fullName.replace(/ /g, '_');
     //console.log(fullName);
 
@@ -171,10 +174,10 @@ const ChangeSection = ({ visible, onClose, onContinue }) => {
   const [selectedSection, setSelectedSection] = useState('');
 
   useEffect(() => {
-    var data = window.localStorage.getItem('CURRENT_SECTION');
+    var data = StorageData.localStorageRAW('CURRENT_SECTION');
     if (data === null) {
     } else {
-      var data2 = window.sessionStorage.getItem('CURRENT_SECTION');
+      var data2 = StorageData.sessionStorageRAW('CURRENT_SECTION');
       console.log(data2);
       if (data2 === null) {
         data = data.replace(/"/g, '');
@@ -189,10 +192,10 @@ const ChangeSection = ({ visible, onClose, onContinue }) => {
   });
 
   useEffect(() => {
-    var data = window.localStorage.getItem('CURRENT_SECTION');
+    var data = StorageData.localStorageRAW('CURRENT_SECTION');
     if (data === null) {
     } else {
-      var data2 = window.sessionStorage.getItem('CURRENT_SECTION');
+      var data2 = StorageData.sessionStorageRAW('CURRENT_SECTION');
       console.log(data2);
       if (data2 === null) {
         getSections();
@@ -211,7 +214,7 @@ const ChangeSection = ({ visible, onClose, onContinue }) => {
     var currentSectionName = event.target.name;
     window.sessionStorage.setItem(
       'CURRENT_SECTION',
-      JSON.stringify(currentSectionName)
+      JSON.stringify(SecureStorageData.dataEncryption(currentSectionName))
     );
     onContinue();
   };

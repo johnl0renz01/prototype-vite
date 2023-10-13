@@ -24,6 +24,9 @@ import ManageSectionSkeleton from './ManageSectionSkeleton';
 
 import LoadingSpinner from './LoadingSpinner';
 
+import StorageData from './StorageData';
+import SecureStorageData from './SecureStorageData';
+
 export default function ManageSection() {
   const navigate = useNavigate();
 
@@ -41,7 +44,7 @@ export default function ManageSection() {
     if (logged == 'FALSE') {
       window.localStorage.setItem('LOGIN_STATUS', JSON.stringify('Terminated'));
 
-      var email = JSON.parse(window.localStorage.getItem('SESSION_EMAIL'));
+      var email = StorageData.localStorageJSON('SESSION_EMAIL');
       if (email === null) email = '';
 
       if (email == '') {
@@ -65,11 +68,13 @@ export default function ManageSection() {
       }
     }
 
-    var account = JSON.parse(window.localStorage.getItem('ACCOUNT_TYPE'));
+    var account = StorageData.localStorageJSON('ACCOUNT_TYPE');
     if (account == 'Teacher') {
       navigate('/HomePageTeacher');
     } else if (account == 'Student') {
       navigate('/Homepage');
+    } else if (account == '' || account === null || account === undefined) {
+      navigate('/LoginPage');
     }
   });
 
@@ -133,10 +138,13 @@ export default function ManageSection() {
     let sectionName = e.target.name;
     window.sessionStorage.setItem(
       'CURRENT_SECTION_EDIT',
-      JSON.stringify(sectionName)
+      JSON.stringify(SecureStorageData.dataEncryption(sectionName))
     );
     window.sessionStorage.setItem('EDIT_SECTION_STATE', true);
-    window.sessionStorage.setItem('IS_VALID_FORM', true);
+    window.sessionStorage.setItem(
+      'IS_VALID_FORM',
+      SecureStorageData.dataEncryption(true)
+    );
     setShowModal(true);
   };
 
@@ -145,7 +153,7 @@ export default function ManageSection() {
     let sectionName = e.target.name;
     window.sessionStorage.setItem(
       'CURRENT_SECTION_DELETE',
-      JSON.stringify(sectionName)
+      JSON.stringify(SecureStorageData.dataEncryption(sectionName))
     );
     sectionName = sectionName.replace(/ /g, '_');
 
@@ -157,7 +165,7 @@ export default function ManageSection() {
         var statusStudent = response.data;
         window.sessionStorage.setItem(
           'DELETE_SECTION_STATUS',
-          JSON.stringify(statusStudent)
+          JSON.stringify(SecureStorageData.dataEncryption(statusStudent))
         );
 
         setShowLoading(false);
@@ -241,16 +249,12 @@ export default function ManageSection() {
 
   const handleOnContinueDeleteModal = () => {
     setShowLoading(true);
-    var sectionName = JSON.parse(
-      window.sessionStorage.getItem('CURRENT_SECTION_DELETE')
-    );
+    var sectionName = StorageData.sessionStorageJSON('CURRENT_SECTION_DELETE');
 
     sectionName = sectionName.replace(/"/g, '');
     sectionName = sectionName.replace(/ /g, '_');
 
-    var deletionType = JSON.parse(
-      window.sessionStorage.getItem('SECTION_DELETION_TYPE')
-    );
+    var deletionType = StorageData.sessionStorageJSON('SECTION_DELETION_TYPE');
 
     if (deletionType !== null) {
       deletionType = deletionType.replace(/"/g, '');
@@ -403,7 +407,10 @@ export default function ManageSection() {
                 <button
                   onClick={e => {
                     setShowSectionModal(true);
-                    window.sessionStorage.setItem('IS_VALID_FORM', true);
+                    window.sessionStorage.setItem(
+                      'IS_VALID_FORM',
+                      SecureStorageData.dataEncryption(true)
+                    );
                   }}
                   type="button"
                   className="relative hdScreen:w-[19rem] semihdScreen:w-[16.5rem] laptopScreen:w-[15.5rem] averageScreen:w-[15rem]  md:w-[14rem] sm:w-[10rem] xs:w-[8rem] lg:py-3 lg:px-5 sm:py-1.5 sm:px-2.5 xs:px-1 xs:py-1 text-white font-semibold  shadow-md rounded-2xl bg-lime-600 hover:bg-lime-700  ease-in-out transition duration-300 transform drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)]"
