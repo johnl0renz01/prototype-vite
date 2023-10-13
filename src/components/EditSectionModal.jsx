@@ -95,7 +95,7 @@ const EditSectionModal = ({ visible, onClose, onContinue }) => {
   const onSubmit = (values, actions) => {
     console.log('SUBMITTED');
     setShowLoading(true);
-    var section = StorageData.sessionStorageJSONm('CURRENT_SECTION_EDIT');
+    var section = StorageData.sessionStorageJSON('CURRENT_SECTION_EDIT');
 
     section = section.replace(/ /g, '_');
     if (!values.isDuplicate) {

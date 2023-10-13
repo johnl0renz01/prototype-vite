@@ -54,13 +54,13 @@ const ViewErrorModal = ({ visible, onClose, onContinue }) => {
     var sectName = StorageData.sessionStorageJSON('IS_ERROR_SECTION_NAME');
     if (sectName !== null) setSectionName(sectName);
 
-    var accDuplicateRows = StorageData.sessionStorageRAW(
+    var accDuplicateRows = StorageData.sessionStorageJSON(
       'IS_ERROR_DUPLICATE_ROW'
     );
 
     console.log(accDuplicateRows);
 
-    var accMultipleRows = StorageData.sessionStorageRAW(
+    var accMultipleRows = StorageData.sessionStorageJSON(
       'IS_ERROR_MULTIPLE_ROW'
     );
 

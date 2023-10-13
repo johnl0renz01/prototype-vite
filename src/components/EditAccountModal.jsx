@@ -40,6 +40,7 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
   const [groupType, setGroupType] = useState('');
   const [section, setSection] = useState('');
   const [originalEmail, setOriginalEmail] = useState('');
+  const [newEmail, setNewEmail] = useState('');
 
   useEffect(() => {
     var accountName = StorageData.sessionStorageJSON('CURRENT_ACCOUNT_EDIT');
@@ -96,6 +97,7 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
           setGroupType(keys[9]);
           setEmail(keys[10]);
           setOriginalEmail(keys[10]);
+          setNewEmail(keys[10]);
           setAccountRole(keys[12]);
 
           values.firstName = keys[1];
@@ -130,6 +132,10 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
           console.log(response.data);
           //window.location.reload(false);
           //window.localStorage.setItem('SESSION_EMAIL',JSON.stringify(values.email));
+          window.sessionStorage.setItem(
+            'CURRENT_ACCOUNT_EDIT',
+            JSON.stringify(SecureStorageData.dataEncryption(newEmail))
+          );
           setShowLoading(false);
           onContinue();
         })
@@ -261,6 +267,7 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
     }
 
     values.email = tempEmail;
+    setNewEmail(tempEmail);
     handleChange.email;
 
     //UPDATE INSTANTLY
@@ -325,6 +332,7 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
     }
 
     values.email = tempEmail;
+    setNewEmail(tempEmail);
     handleChange.email;
 
     //UPDATE INSTANTLY

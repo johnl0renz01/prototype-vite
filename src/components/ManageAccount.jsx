@@ -43,6 +43,8 @@ export default function ManageAccount() {
   }, []);
 
   useEffect(() => {
+    document.title = 'Manage Accounts';
+
     var logged = JSON.parse(window.localStorage.getItem('LOGGED'));
     if (logged == 'FALSE') {
       window.localStorage.setItem('LOGIN_STATUS', JSON.stringify('Terminated'));
@@ -125,6 +127,35 @@ export default function ManageAccount() {
         setTableLoader(false);
       });
   }
+
+  useEffect(() => {
+    var accountName = StorageData.sessionStorageJSON('CURRENT_ACCOUNT_EDIT');
+
+    if (accountName !== null) {
+      try {
+        var objDiv = document.getElementById(accountName);
+        setTimeout(objDiv.scrollIntoView(), 1);
+
+        highlightRow();
+        setTimeout(removeHighlight, 2500);
+
+        function highlightRow() {
+          document.getElementById(accountName).style.fontWeight = '600';
+          document.getElementById(accountName).style.backgroundColor =
+            '#dedede';
+          document.getElementById(accountName).style.color = '#2563eb';
+        }
+
+        function removeHighlight() {
+          document.getElementById(accountName).style.fontWeight = '400';
+          document.getElementById(accountName).style.color = '#111827';
+          document.getElementById(accountName).style.backgroundColor = '';
+          document.getElementById(accountName).style.opacity = '';
+        }
+        sessionStorage.removeItem('CURRENT_ACCOUNT_EDIT');
+      } catch {}
+    }
+  }, [accounts]);
 
   const [showLoading, setShowLoading] = useState(false);
 
@@ -495,6 +526,10 @@ export default function ManageAccount() {
                         <tbody className=" ">
                           {accounts.map((currentAccount, index) => (
                             <tr
+                              onMouseEnter={e => {
+                                console.log(currentAccount.Email);
+                              }}
+                              id={currentAccount.Email}
                               key={index}
                               className="odd:bg-white even:bg-slate-50/30 border-b border-gray-200 bg-white hover:bg-gray-100 text-gray-900 hover:text-indigo-600"
                             >

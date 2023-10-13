@@ -117,6 +117,15 @@ export default function StudentDetail() {
       .then(function (response) {
         console.log(response.data);
         setAccountDetail(response.data);
+
+        var result = Object.values(response.data);
+
+        var keys = [];
+        for (var k in result[0]) keys.push(result[0][k]);
+
+        var firstName = keys[1];
+        document.title = keys[3] + '-' + firstName[0] + ' : Report Card';
+
         setSkeletonState(false);
         setTableLoader(true);
         axios
@@ -323,7 +332,7 @@ export default function StudentDetail() {
             <BsCaretUpFill
               onClick={ClassListPage}
               title="Go back"
-              className="cursor-pointer text-gray-100 bg-gray-400 averageScreen:border-4 xs:border-2 border-gray-400 averageScreen:mr-3 xs:mr-1 hover:text-white hover:bg-gray-600 hover:border-gray-600 rounded-full averageScreen:pb-1 xs:pb-0.5 rotate-[270deg] averageScreen:mt-3.5 averageScreen:text-[2.25rem] xs:mt-0.5 xs:text-[1.25rem]"
+              className="hidden cursor-pointer text-gray-100 bg-gray-400 averageScreen:border-4 xs:border-2 border-gray-400 averageScreen:mr-3 xs:mr-1 hover:text-white hover:bg-gray-600 hover:border-gray-600 rounded-full averageScreen:pb-1 xs:pb-0.5 rotate-[270deg] averageScreen:mt-3.5 averageScreen:text-[2.25rem] xs:mt-0.5 xs:text-[1.25rem]"
             />
             <span className="">Report Details</span>
           </div>
@@ -411,13 +420,17 @@ export default function StudentDetail() {
               <p className="mt-2  hdScreen:text-4xl semihdScreen:text-3xl laptopScreen:text-2xl averageScreen:text-2xl sm:text-2xl text-gray-700 font-semibold leading-4 hdScreen:mb-7 semihdScreen:mb-5 laptopScreen:mb-3 averageScreen:mb-2">
                 History
               </p>
-              <button
-                onClick={exportAll}
-                className="mr-3 lg:px-6 semihdScreen:py-2 lg:py-1 xs:px-3 xs:py-1 lg:mt-0 xs:mt-1  flex items-center bg-blue-500/90 hover:bg-blue-600 rounded-md whitespace-nowrap overflow-hidden lg:text-lg md:text-base sm:text-sm xs:text-xs text-white hover:text-white font-semibold"
-              >
-                Export All
-                <FaArrowRightToBracket className="rotate-90 ml-2" />
-              </button>
+              {accountHistory.length > 0 ? (
+                <button
+                  onClick={exportAll}
+                  className="mr-3 lg:px-7 semihdScreen:py-2 lg:py-1 xs:px-3 xs:py-1 lg:mt-0 xs:mt-1  flex items-center bg-blue-500/90 hover:bg-blue-600 rounded-md whitespace-nowrap overflow-hidden lg:text-lg md:text-base sm:text-sm xs:text-xs text-white hover:text-white font-semibold"
+                >
+                  Export All
+                  <FaArrowRightToBracket className="rotate-90 ml-2" />
+                </button>
+              ) : (
+                <></>
+              )}
             </div>
             <div
               id="history"
