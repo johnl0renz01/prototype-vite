@@ -81,6 +81,8 @@ import {
 import Registration from './Registration';
 
 import HomePageTeacherSkeleton from './HomePageTeacherSkeleton';
+import StorageData from './StorageData';
+import SecureStorageData from './SecureStorageData';
 
 export default function HomePageTeacher() {
   document.body.style.backgroundImage =
@@ -103,7 +105,7 @@ export default function HomePageTeacher() {
     if (logged == 'FALSE') {
       window.localStorage.setItem('LOGIN_STATUS', JSON.stringify('Terminated'));
 
-      var email = JSON.parse(window.localStorage.getItem('SESSION_EMAIL'));
+      var email = StorageData.localStorageJSON('SESSION_EMAIL');
       if (email === null) email = '';
 
       if (email == '') {
@@ -125,11 +127,13 @@ export default function HomePageTeacher() {
       }
     }
 
-    var account = JSON.parse(window.localStorage.getItem('ACCOUNT_TYPE'));
+    var account = StorageData.localStorageJSON('ACCOUNT_TYPE');
     if (account == 'Admin') {
       navigate('/HomePageAdmin');
     } else if (account == 'Student') {
       navigate('/Homepage');
+    } else if (account == '' || account === null || account === undefined) {
+      navigate('/LoginPage');
     }
   });
 
@@ -139,7 +143,7 @@ export default function HomePageTeacher() {
   const [logoHeight, setLogoHeight] = useState(0);
 
   useEffect(() => {
-    const data = JSON.parse(window.localStorage.getItem('CURRENT_SECTION'));
+    const data = StorageData.localStorageJSON('CURRENT_SECTION');
     if (data !== null && data !== false) setAccessReportCard(true);
 
     document.body.style.backgroundImage =

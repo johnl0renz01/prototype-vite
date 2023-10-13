@@ -19,6 +19,9 @@ import { VscQuestion } from 'react-icons/vsc';
 
 import LoadingSpinner from './LoadingSpinner';
 
+import StorageData from './StorageData';
+import SecureStorageData from './SecureStorageData';
+
 const EditSectionModal = ({ visible, onClose, onContinue }) => {
   const [showLoading, setShowLoading] = useState(false);
   const navigate = useNavigate();
@@ -39,9 +42,7 @@ const EditSectionModal = ({ visible, onClose, onContinue }) => {
   }, []);
 
   useEffect(() => {
-    var sectionName = JSON.parse(
-      window.sessionStorage.getItem('CURRENT_SECTION_EDIT')
-    );
+    var sectionName = StorageData.sessionStorageJSON('CURRENT_SECTION_EDIT');
 
     var editState = JSON.parse(
       window.sessionStorage.getItem('EDIT_SECTION_STATE')
@@ -50,11 +51,11 @@ const EditSectionModal = ({ visible, onClose, onContinue }) => {
     if (editState == true) {
       window.sessionStorage.setItem('EDIT_SECTION_STATE', false);
       getSectionDetails(sectionName);
+      setShowLoading(true);
     }
   });
 
   function getSectionDetails(sectionName) {
-    setShowLoading(true);
     let sectionLink = sectionName.replace(/ /g, '_');
     sectionLink = sectionLink.replace(/"/g, ' ');
 
@@ -68,7 +69,7 @@ const EditSectionModal = ({ visible, onClose, onContinue }) => {
 
         window.sessionStorage.setItem(
           'EDIT_SECTION_NAME',
-          JSON.stringify(keys[2])
+          JSON.stringify(SecureStorageData.dataEncryption(keys[2]))
         );
         loadValues();
         function loadValues() {
@@ -92,9 +93,8 @@ const EditSectionModal = ({ visible, onClose, onContinue }) => {
   const onSubmit = (values, actions) => {
     console.log('SUBMITTED');
     setShowLoading(true);
-    var section = JSON.parse(
-      window.sessionStorage.getItem('CURRENT_SECTION_EDIT')
-    );
+    var section = StorageData.sessionStorageJSONm('CURRENT_SECTION_EDIT');
+
     section = section.replace(/ /g, '_');
     if (!values.isDuplicate) {
       axios
@@ -147,9 +147,7 @@ const EditSectionModal = ({ visible, onClose, onContinue }) => {
     document.getElementById('sectionName').blur();
     document.getElementById('sectionName').focus();
 
-    var currentSection = JSON.parse(
-      window.sessionStorage.getItem('EDIT_SECTION_NAME')
-    );
+    var currentSection = StorageData.sessionStorageJSON('EDIT_SECTION_NAME');
 
     if (values.sectionName.toLowerCase() != currentSection.toLowerCase()) {
       axios

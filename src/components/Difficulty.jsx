@@ -20,6 +20,9 @@ import LoadingStudent from './LoadingStudent';
 
 import LoadingSpinner from './LoadingSpinner';
 
+import StorageData from './StorageData';
+import SecureStorageData from './SecureStorageData';
+
 export default function DifficultyPage() {
   document.body.style.height = '100vh';
   const navigate = useNavigate();
@@ -29,7 +32,7 @@ export default function DifficultyPage() {
     if (logged == 'FALSE') {
       window.localStorage.setItem('LOGIN_STATUS', JSON.stringify('Terminated'));
 
-      var email = JSON.parse(window.localStorage.getItem('SESSION_EMAIL'));
+      var email = StorageData.localStorageJSON('SESSION_EMAIL');
       if (email === null) email = '';
 
       if (email == '') {
@@ -51,16 +54,17 @@ export default function DifficultyPage() {
       }
     }
 
-    var account = JSON.parse(window.localStorage.getItem('ACCOUNT_TYPE'));
+    var account = StorageData.localStorageJSON('ACCOUNT_TYPE');
+
     if (account == 'Admin') {
       navigate('/HomePageAdmin');
     } else if (account == 'Teacher') {
       navigate('/HomePageTeacher');
+    } else if (account == '' || account === null || account === undefined) {
+      navigate('/LoginPage');
     }
 
-    var status = JSON.parse(
-      window.localStorage.getItem('SESSION_TEACHER_TABLE')
-    );
+    var status = StorageData.localStorageJSON('SESSION_TEACHER_TABLE');
     if (status !== null) {
       if (status == 'Not-Enrolled') {
         navigate('/Homepage');
@@ -146,7 +150,8 @@ export default function DifficultyPage() {
   const [result, setResult] = useState([]);
 
   useEffect(() => {
-    const data = window.localStorage.getItem('QUESTION_LIST');
+    const data = StorageData.localStorageRAW('QUESTION_LIST');
+
     if (data !== null) setQuestions(JSON.parse(data));
   }, []);
 
@@ -162,9 +167,8 @@ export default function DifficultyPage() {
 
   const easyType = () => {
     setShowLoading(true);
-    var tableSettings = JSON.parse(
-      window.localStorage.getItem('SESSION_TEACHER_TABLE')
-    );
+    var tableSettings = StorageData.localStorageJSON('SESSION_TEACHER_TABLE');
+
     var tableEquations = tableSettings + '_equation_list';
     tableSettings = tableSettings + '_equation_settings';
 
@@ -188,7 +192,10 @@ export default function DifficultyPage() {
         );
 
         if (keys[3] == 'TRUE') {
-          window.localStorage.setItem('SESSION_ACCEPT_FRACTION', true);
+          window.localStorage.setItem(
+            'SESSION_ACCEPT_FRACTION',
+            SecureStorageData.dataEncryption(true)
+          );
         } else {
           window.localStorage.removeItem('SESSION_ACCEPT_FRACTION');
         }
@@ -209,9 +216,8 @@ export default function DifficultyPage() {
 
   const averageType = () => {
     setShowLoading(true);
-    var tableSettings = JSON.parse(
-      window.localStorage.getItem('SESSION_TEACHER_TABLE')
-    );
+    var tableSettings = StorageData.localStorageJSON('SESSION_TEACHER_TABLE');
+
     var tableEquations = tableSettings + '_equation_list';
     tableSettings = tableSettings + '_equation_settings';
 
@@ -235,7 +241,10 @@ export default function DifficultyPage() {
         );
 
         if (keys[3] == 'TRUE') {
-          window.localStorage.setItem('SESSION_ACCEPT_FRACTION', true);
+          window.localStorage.setItem(
+            'SESSION_ACCEPT_FRACTION',
+            SecureStorageData.dataEncryption(true)
+          );
         } else {
           window.localStorage.removeItem('SESSION_ACCEPT_FRACTION');
         }
@@ -256,9 +265,8 @@ export default function DifficultyPage() {
 
   const difficultType = () => {
     setShowLoading(true);
-    var tableSettings = JSON.parse(
-      window.localStorage.getItem('SESSION_TEACHER_TABLE')
-    );
+    var tableSettings = StorageData.localStorageJSON('SESSION_TEACHER_TABLE');
+
     var tableEquations = tableSettings + '_equation_list';
     tableSettings = tableSettings + '_equation_settings';
 
@@ -282,7 +290,10 @@ export default function DifficultyPage() {
         );
 
         if (keys[3] == 'TRUE') {
-          window.localStorage.setItem('SESSION_ACCEPT_FRACTION', true);
+          window.localStorage.setItem(
+            'SESSION_ACCEPT_FRACTION',
+            SecureStorageData.dataEncryption(true)
+          );
         } else {
           window.localStorage.removeItem('SESSION_ACCEPT_FRACTION');
         }
@@ -321,33 +332,44 @@ export default function DifficultyPage() {
     setShowLoading(true);
     setChoiceModal(true);
     setShowModal(false);
-    window.localStorage.setItem('QUESTION_LIST', JSON.stringify(questionList));
-    window.localStorage.setItem('QUESTION_INDEX', '0');
-    var userLogs = window.localStorage.getItem('SESSION_USER_LOGS');
+    window.localStorage.setItem(
+      'QUESTION_LIST',
+      JSON.stringify(SecureStorageData.dataEncryption(questionList))
+    );
+    window.localStorage.setItem(
+      'QUESTION_INDEX',
+      SecureStorageData.dataEncryption('0')
+    );
+    var userLogs = StorageData.localStorageRAW('SESSION_USER_LOGS');
+
     userLogs = userLogs + '@' + option;
     userLogs = userLogs.replace(/"/g, '');
 
-    window.localStorage.setItem('SESSION_SCORE', 0);
+    window.localStorage.setItem(
+      'SESSION_SCORE',
+      SecureStorageData.dataEncryption(0)
+    );
     axios
       .post(`https://pia-sfe.online/api/selectDifficulty/${userLogs}`)
       .then(function (response) {
         window.localStorage.setItem(
           'SESSION_ID',
-          JSON.stringify(response.data)
+          JSON.stringify(SecureStorageData.dataEncryption(response.data))
         );
         window.sessionStorage.setItem(
           'CURRENT_SESSION_ID',
-          JSON.stringify(response.data)
+          JSON.stringify(SecureStorageData.dataEncryption(response.data))
         );
 
         window.localStorage.setItem(
           'DIFFICULTY_TYPE',
-          JSON.stringify(diffType)
+          JSON.stringify(SecureStorageData.dataEncryption(diffType))
         );
 
         //CREATE USER SESSION TABLE
         var sessionID = response.data;
-        var userDatabase = window.localStorage.getItem('SESSION_USER_LOGS');
+        var userDatabase = StorageData.localStorageRAW('SESSION_USER_LOGS');
+
         userDatabase = userDatabase.replace(/"/g, '');
         axios
           .post(
@@ -371,20 +393,27 @@ export default function DifficultyPage() {
     setChoiceModal(false);
     var sessionID = '';
     try {
-      sessionID = window.localStorage.getItem('SESSION_ID');
+      sessionID = StorageData.localStorageRAW('SESSION_ID');
     } catch {
       window.localStorage.setItem('SESSION_ID', '');
     }
 
     if (sessionID == '""' || sessionID == null || sessionID == undefined) {
       setShowLoading(true);
-      window.localStorage.setItem('SESSION_SCORE', 0);
+      window.localStorage.setItem(
+        'SESSION_SCORE',
+        SecureStorageData.dataEncryption(0)
+      );
       window.localStorage.setItem(
         'QUESTION_LIST',
-        JSON.stringify(questionList)
+        JSON.stringify(SecureStorageData.dataEncryption(questionList))
       );
-      window.localStorage.setItem('QUESTION_INDEX', '0');
-      var userLogs = window.localStorage.getItem('SESSION_USER_LOGS');
+      window.localStorage.setItem(
+        'QUESTION_INDEX',
+        SecureStorageData.dataEncryption('0')
+      );
+      var userLogs = StorageData.localStorageRAW('SESSION_USER_LOGS');
+
       userLogs = userLogs + '@' + option;
       userLogs = userLogs.replace(/"/g, '');
       axios
@@ -392,22 +421,23 @@ export default function DifficultyPage() {
         .then(function (response) {
           window.localStorage.setItem(
             'SESSION_ID',
-            JSON.stringify(response.data)
+            JSON.stringify(SecureStorageData.dataEncryption(response.data))
           );
           window.sessionStorage.setItem(
             'CURRENT_SESSION_ID',
-            JSON.stringify(response.data)
+            JSON.stringify(SecureStorageData.dataEncryption(response.data))
           );
 
           window.localStorage.setItem(
             'DIFFICULTY_TYPE',
-            JSON.stringify(diffType)
+            JSON.stringify(SecureStorageData.dataEncryption(diffType))
           );
           window.localStorage.removeItem('SESSION_FEEDBACK');
 
           //CREATE USER SESSION TABLE
           var sessionID = response.data;
-          var userDatabase = window.localStorage.getItem('SESSION_USER_LOGS');
+          var userDatabase = StorageData.localStorageRAW('SESSION_USER_LOGS');
+
           userDatabase = userDatabase.replace(/"/g, '');
           axios
             .post(

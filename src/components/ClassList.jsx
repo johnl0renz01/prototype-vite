@@ -14,6 +14,9 @@ import ClassListSkeleton from './ClassListSkeleton';
 import { BsClipboard2X } from 'react-icons/bs';
 import LoadingSpinner from './LoadingSpinner';
 
+import StorageData from './StorageData';
+import SecureStorageData from './SecureStorageData';
+
 export default function ClassList() {
   const navigate = useNavigate();
 
@@ -31,7 +34,7 @@ export default function ClassList() {
     if (logged == 'FALSE') {
       window.localStorage.setItem('LOGIN_STATUS', JSON.stringify('Terminated'));
 
-      var email = JSON.parse(window.localStorage.getItem('SESSION_EMAIL'));
+      var email = StorageData.localStorageJSON('SESSION_EMAIL');
       if (email === null) email = '';
 
       if (email == '') {
@@ -53,11 +56,13 @@ export default function ClassList() {
       }
     }
 
-    var account = JSON.parse(window.localStorage.getItem('ACCOUNT_TYPE'));
+    var account = StorageData.localStorageJSON('ACCOUNT_TYPE');
     if (account == 'Admin') {
       navigate('/HomePageAdmin');
     } else if (account == 'Student') {
       navigate('/Homepage');
+    } else if (account == '' || account === null || account === undefined) {
+      navigate('/LoginPage');
     }
   });
 
@@ -68,15 +73,18 @@ export default function ClassList() {
   var currentSection = '';
 
   useEffect(() => {
-    var data = JSON.parse(window.localStorage.getItem('CURRENT_SECTION'));
+    var data = StorageData.localStorageJSON('CURRENT_SECTION');
     if (data === null || data === false) {
       navigate('/HomePageTeacher');
     } else {
-      var data2 = window.sessionStorage.getItem('CURRENT_SECTION');
+      var data2 = StorageData.sessionStorageRAW('CURRENT_SECTION');
       console.log(data2);
       if (data2 === null) {
         data = data.replace(/"/g, '');
-        window.sessionStorage.setItem('CURRENT_SECTION', JSON.stringify(data));
+        window.sessionStorage.setItem(
+          'CURRENT_SECTION',
+          JSON.stringify(SecureStorageData.dataEncryption(data))
+        );
         currentSection = data;
         currentSection = currentSection.replace(/ /g, '_');
         getCurrentSection();
@@ -95,7 +103,7 @@ export default function ClassList() {
   const [emptyState, setEmptyState] = useState(false);
 
   function getCurrentSection() {
-    const data = window.sessionStorage.getItem('CURRENT_SECTION');
+    const data = StorageData.sessionStorageRAW('CURRENT_SECTION');
     if (data !== null) currentSection = JSON.parse(data);
     currentSection = currentSection.replace(/ /g, '_');
     axios
@@ -131,7 +139,7 @@ export default function ClassList() {
   var inputText = '';
 
   const handleChange = event => {
-    const data = window.sessionStorage.getItem('CURRENT_SECTION');
+    const data = StorageData.sessionStorageRAW('CURRENT_SECTION');
     if (data !== null) currentSection = JSON.parse(data);
     currentSection = currentSection.replace(/ /g, '_');
     setTableLoader(true);
@@ -165,7 +173,7 @@ export default function ClassList() {
   const setCurrentAccount = () => {
     window.sessionStorage.setItem(
       'CURRENT_EMAIL',
-      JSON.stringify(currentAccount)
+      JSON.stringify(SecureStorageData.dataEncryption(currentAccount))
     );
     for (let i = 0; i < currentAccount.length; i++) {
       if (currentAccount[i].match(/[\@]/)) {
@@ -177,7 +185,7 @@ export default function ClassList() {
     //console.log(currentAccount);
     window.sessionStorage.setItem(
       'CURRENT_ACCOUNT',
-      JSON.stringify(currentAccount)
+      JSON.stringify(SecureStorageData.dataEncryption(currentAccount))
     );
   };
 
@@ -228,7 +236,7 @@ export default function ClassList() {
 
   const handleOnContinueModal = () => {
     setShowModal(false);
-    const data = window.sessionStorage.getItem('CURRENT_SECTION');
+    const data = StorageData.sessionStorageRAW('CURRENT_SECTION');
     if (data !== null) currentSection = JSON.parse(data);
     currentSection = currentSection.replace(/ /g, '_');
     getCurrentSection();

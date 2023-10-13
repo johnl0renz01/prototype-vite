@@ -18,6 +18,9 @@ import { BsFillSendFill } from 'react-icons/bs';
 import { MdClose } from 'react-icons/md';
 import { VscQuestion } from 'react-icons/vsc';
 
+import StorageData from './StorageData';
+import SecureStorageData from './SecureStorageData';
+
 const ViewErrorModal = ({ visible, onClose, onContinue }) => {
   const navigate = useNavigate();
 
@@ -32,7 +35,7 @@ const ViewErrorModal = ({ visible, onClose, onContinue }) => {
   const [length, setLength] = useState(0);
 
   useEffect(() => {
-    var resetStates = window.sessionStorage.getItem('IS_ERROR_RESET_STATES');
+    var resetStates = StorageData.sessionStorageRAW('IS_ERROR_RESET_STATES');
     if (resetStates !== null) {
       setSectionDuplicate(false);
       setSectionName('');
@@ -44,34 +47,35 @@ const ViewErrorModal = ({ visible, onClose, onContinue }) => {
       window.sessionStorage.removeItem('IS_ERROR_RESET_STATES');
     }
 
-    var sectDuplicate = JSON.parse(
-      window.sessionStorage.getItem('IS_ERROR_SECTION')
-    );
+    var sectDuplicate = StorageData.sessionStorageJSON('IS_ERROR_SECTION');
+
     if (sectDuplicate !== null) setSectionDuplicate(sectDuplicate);
 
-    var sectName = JSON.parse(
-      window.sessionStorage.getItem('IS_ERROR_SECTION_NAME')
-    );
+    var sectName = StorageData.sessionStorageJSON('IS_ERROR_SECTION_NAME');
     if (sectName !== null) setSectionName(sectName);
 
-    var accDuplicateRows = window.sessionStorage.getItem(
+    var accDuplicateRows = StorageData.sessionStorageRAW(
       'IS_ERROR_DUPLICATE_ROW'
     );
 
     console.log(accDuplicateRows);
 
-    var accMultipleRows = window.sessionStorage.getItem(
+    var accMultipleRows = StorageData.sessionStorageRAW(
       'IS_ERROR_MULTIPLE_ROW'
     );
 
     console.log(accMultipleRows);
 
-    var accDuplicate = JSON.parse(
-      window.sessionStorage.getItem('IS_ERROR_ACCOUNT_DUPLICATE')
+    var accDuplicate = StorageData.sessionStorageJSON(
+      'IS_ERROR_ACCOUNT_DUPLICATE'
     );
+
     if (accDuplicate !== null && accDuplicate == true) {
       setAccountDuplicate(accDuplicate);
-      window.sessionStorage.setItem('IS_ERROR_ACCOUNT_DUPLICATE', false);
+      window.sessionStorage.setItem(
+        'IS_ERROR_ACCOUNT_DUPLICATE',
+        SecureStorageData.dataEncryption(false)
+      );
 
       if (accDuplicateRows !== null) {
         var data1 = [];
@@ -111,12 +115,15 @@ const ViewErrorModal = ({ visible, onClose, onContinue }) => {
       }
     }
 
-    var accMultiple = JSON.parse(
-      window.sessionStorage.getItem('IS_ERROR_ACCOUNT_MULTIPLE')
+    var accMultiple = StorageData.sessionStorageJSON(
+      'IS_ERROR_ACCOUNT_MULTIPLE'
     );
 
     if (accMultiple !== null && accMultiple == true) {
-      window.sessionStorage.setItem('IS_ERROR_ACCOUNT_MULTIPLE', false);
+      window.sessionStorage.setItem(
+        'IS_ERROR_ACCOUNT_MULTIPLE',
+        SecureStorageData.dataEncryption(false)
+      );
       setAccountMultiple(accMultiple);
       if (accMultipleRows !== null) {
         var data2 = [];

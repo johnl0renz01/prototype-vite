@@ -20,6 +20,9 @@ import EquationSettingsModal from './EquationSettingsModal';
 import EquationSettingsMessageModal from './EquationSettingsMessageModal';
 import LoadingSpinner from './LoadingSpinner';
 
+import StorageData from './StorageData';
+import SecureStorageData from './SecureStorageData';
+
 export default function EquationList() {
   const navigate = useNavigate();
 
@@ -37,7 +40,7 @@ export default function EquationList() {
     if (logged == 'FALSE') {
       window.localStorage.setItem('LOGIN_STATUS', JSON.stringify('Terminated'));
 
-      var email = JSON.parse(window.localStorage.getItem('SESSION_EMAIL'));
+      var email = StorageData.localStorageJSON('SESSION_EMAIL');
       if (email === null) email = '';
 
       if (email == '') {
@@ -59,11 +62,13 @@ export default function EquationList() {
       }
     }
 
-    var account = JSON.parse(window.localStorage.getItem('ACCOUNT_TYPE'));
+    var account = StorageData.localStorageJSON('ACCOUNT_TYPE');
     if (account == 'Admin') {
       navigate('/HomePageAdmin');
     } else if (account == 'Student') {
       navigate('/Homepage');
+    } else if (account == '' || account === null || account === undefined) {
+      navigate('/LoginPage');
     }
   });
   const [showLoading, setShowLoading] = useState(false);
@@ -78,9 +83,8 @@ export default function EquationList() {
   ]);
 
   function getEquations() {
-    var tableName = JSON.parse(
-      window.localStorage.getItem('SESSION_USER_LOGS')
-    );
+    var tableName = StorageData.localStorageJSON('SESSION_USER_LOGS');
+
     tableName = tableName + '_equation_list';
     setTableLoader(true);
     var DATA = [];
@@ -153,9 +157,8 @@ export default function EquationList() {
   }, []);
 
   function removeEquation(equation) {
-    var tableName = JSON.parse(
-      window.localStorage.getItem('SESSION_USER_LOGS')
-    );
+    var tableName = StorageData.localStorageJSON('SESSION_USER_LOGS');
+
     tableName = tableName + '_equation_list';
 
     setShowLoading(true);
@@ -212,9 +215,8 @@ export default function EquationList() {
   const [stores, setStores] = useState([]);
 
   const handleDragAndDrop = results => {
-    var tableName = JSON.parse(
-      window.localStorage.getItem('SESSION_USER_LOGS')
-    );
+    var tableName = StorageData.localStorageJSON('SESSION_USER_LOGS');
+
     tableName = tableName + '_equation_list';
 
     const { source, destination, type } = results;
@@ -309,9 +311,8 @@ export default function EquationList() {
   const [choiceModal, setChoiceModal] = useState(false);
 
   const handleOnContinueModal = e => {
-    let equationString = JSON.parse(
-      window.localStorage.getItem('EQUATION_STRING')
-    );
+    let equationString = StorageData.localStorageJSON('EQUATION_STRING');
+
     removeEquation(equationString);
     setShowModal(false);
     setDeleteMessageModal(true);
@@ -322,7 +323,7 @@ export default function EquationList() {
     let equationString = e.target.id;
     window.localStorage.setItem(
       'EQUATION_STRING',
-      JSON.stringify(equationString)
+      JSON.stringify(SecureStorageData.dataEncryption(equationString))
     );
   };
 
@@ -347,7 +348,10 @@ export default function EquationList() {
   };
 
   const settings = () => {
-    window.sessionStorage.setItem('EQUATION_SETTINGS_STATE', true);
+    window.sessionStorage.setItem(
+      'EQUATION_SETTINGS_STATE',
+      SecureStorageData.dataEncryption(true)
+    );
     setShowModal2(true);
   };
 

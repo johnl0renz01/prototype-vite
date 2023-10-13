@@ -40,6 +40,9 @@ import RegistrationSkeleton from './RegistrationSkeleton';
 
 import LoadingSpinner from './LoadingSpinner';
 
+import StorageData from './StorageData';
+import SecureStorageData from './SecureStorageData';
+
 function Registration() {
   document.body.style.height = '100vh';
   const navigate = useNavigate();
@@ -58,7 +61,7 @@ function Registration() {
     if (logged == 'FALSE') {
       window.localStorage.setItem('LOGIN_STATUS', JSON.stringify('Terminated'));
 
-      var email = JSON.parse(window.localStorage.getItem('SESSION_EMAIL'));
+      var email = StorageData.localStorageJSON('SESSION_EMAIL');
       if (email === null) email = '';
 
       if (email == '') {
@@ -80,11 +83,13 @@ function Registration() {
       }
     }
 
-    var account = JSON.parse(window.localStorage.getItem('ACCOUNT_TYPE'));
+    var account = StorageData.localStorageJSON('ACCOUNT_TYPE');
     if (account == 'Teacher') {
       navigate('/HomePageTeacher');
     } else if (account == 'Student') {
       navigate('/Homepage');
+    } else if (account == '' || account === null || account === undefined) {
+      navigate('/LoginPage');
     }
   });
 
@@ -106,13 +111,16 @@ function Registration() {
   useEffect(() => {
     getSections();
     setEmail('@sf.edu.ph');
-    window.sessionStorage.setItem('IS_VALID_FORM', false);
+    window.sessionStorage.setItem(
+      'IS_VALID_FORM',
+      SecureStorageData.dataEncryption(false)
+    );
   }, []);
 
   const onSubmit = async (values, actions) => {
     //console.log('SUBMITTED');
 
-    var validForm = JSON.parse(window.sessionStorage.getItem('IS_VALID_FORM'));
+    var validForm = StorageData.sessionStorageJSON('IS_VALID_FORM');
     if (validForm && validForm !== null) {
       setShowLoading(true);
       axios
@@ -224,7 +232,10 @@ function Registration() {
     document.getElementById('email').blur();
     document.getElementById('firstName').focus();
 
-    window.sessionStorage.setItem('IS_VALID_FORM', false);
+    window.sessionStorage.setItem(
+      'IS_VALID_FORM',
+      SecureStorageData.dataEncryption(false)
+    );
 
     axios
       .get(`https://pia-sfe.online/api/verifyEmail/${tempEmail}`)
@@ -232,10 +243,16 @@ function Registration() {
         //console.log(response.data);
         if (response.data === 'duplicate') {
           setDuplicateState(true);
-          window.sessionStorage.setItem('IS_VALID_FORM', false);
+          window.sessionStorage.setItem(
+            'IS_VALID_FORM',
+            SecureStorageData.dataEncryption(false)
+          );
         } else {
           setDuplicateState(false);
-          window.sessionStorage.setItem('IS_VALID_FORM', true);
+          window.sessionStorage.setItem(
+            'IS_VALID_FORM',
+            SecureStorageData.dataEncryption(true)
+          );
         }
       });
   };
@@ -274,7 +291,10 @@ function Registration() {
     document.getElementById('email').blur();
     document.getElementById('lastName').focus();
 
-    window.sessionStorage.setItem('IS_VALID_FORM', false);
+    window.sessionStorage.setItem(
+      'IS_VALID_FORM',
+      SecureStorageData.dataEncryption(false)
+    );
 
     axios
       .get(`https://pia-sfe.online/api/verifyEmail/${tempEmail}`)
@@ -282,10 +302,16 @@ function Registration() {
         //console.log(response.data);
         if (response.data === 'duplicate') {
           setDuplicateState(true);
-          window.sessionStorage.setItem('IS_VALID_FORM', false);
+          window.sessionStorage.setItem(
+            'IS_VALID_FORM',
+            SecureStorageData.dataEncryption(false)
+          );
         } else {
           setDuplicateState(false);
-          window.sessionStorage.setItem('IS_VALID_FORM', true);
+          window.sessionStorage.setItem(
+            'IS_VALID_FORM',
+            SecureStorageData.dataEncryption(true)
+          );
         }
       });
   };
@@ -471,8 +497,14 @@ function Registration() {
 
   const handleFileUpload = e => {
     //RESET VALUES
-    window.sessionStorage.setItem('IS_ERROR_RESET_STATES', true);
-    window.sessionStorage.setItem('IS_ERROR_RESET_STATES_IGNORE', true);
+    window.sessionStorage.setItem(
+      'IS_ERROR_RESET_STATES',
+      SecureStorageData.dataEncryption(true)
+    );
+    window.sessionStorage.setItem(
+      'IS_ERROR_RESET_STATES_IGNORE',
+      SecureStorageData.dataEncryption(true)
+    );
     setTimeout(setErrorTally(0), 1);
     setTimeout(setErrorAccount([]), 1);
     //setTimeout(setValidationStatus([]), 1);
@@ -656,15 +688,21 @@ function Registration() {
                     var result = response.data;
                     if (result == 'unique') {
                       values.isValidSection = true;
-                      window.sessionStorage.setItem('IS_ERROR_SECTION', false);
+                      window.sessionStorage.setItem(
+                        'IS_ERROR_SECTION',
+                        SecureStorageData.dataEncryption(false)
+                      );
                       window.sessionStorage.removeItem('IS_ERROR_SECTION_NAME');
                       setValidSection(true);
                     } else {
                       values.isValidSection = false;
-                      window.sessionStorage.setItem('IS_ERROR_SECTION', true);
+                      window.sessionStorage.setItem(
+                        'IS_ERROR_SECTION',
+                        SecureStorageData.dataEncryption(true)
+                      );
                       window.sessionStorage.setItem(
                         'IS_ERROR_SECTION_NAME',
-                        JSON.stringify(sect)
+                        JSON.stringify(SecureStorageData.dataEncryption(sect))
                       );
                       errorsCount++;
                       setErrorTally(errorsCount);
@@ -696,11 +734,11 @@ function Registration() {
                     duplicates.push(email);
                     window.sessionStorage.setItem(
                       'IS_ERROR_ACCOUNT_MULTIPLE',
-                      true
+                      SecureStorageData.dataEncryption(true)
                     );
                     window.sessionStorage.setItem(
                       'IS_ERROR_ACCOUNT_MULTIPLE_IGNORE',
-                      true
+                      SecureStorageData.dataEncryption(true)
                     );
 
                     var row = 'Row #' + (j + 1).toString();
@@ -724,7 +762,10 @@ function Registration() {
                   //console.log(rowErrorMultiple);
 
                   let array = JSON.stringify(rowErrorMultiple);
-                  window.sessionStorage.setItem('IS_ERROR_MULTIPLE_ROW', array);
+                  window.sessionStorage.setItem(
+                    'IS_ERROR_MULTIPLE_ROW',
+                    SecureStorageData.dataEncryption(array)
+                  );
                   break;
                 }
               }
@@ -760,16 +801,16 @@ function Registration() {
                     let array = JSON.stringify(rowErrorDuplicate);
                     window.sessionStorage.setItem(
                       'IS_ERROR_DUPLICATE_ROW',
-                      array
+                      SecureStorageData.dataEncryption(array)
                     );
 
                     window.sessionStorage.setItem(
                       'IS_ERROR_ACCOUNT_DUPLICATE',
-                      true
+                      SecureStorageData.dataEncryption(true)
                     );
                     window.sessionStorage.setItem(
                       'IS_ERROR_ACCOUNT_DUPLICATE_IGNORE',
-                      true
+                      SecureStorageData.dataEncryption(true)
                     );
                     setShowLoading(false);
                   }
@@ -989,8 +1030,14 @@ function Registration() {
   const [showModal4, setShowModal4] = useState(false);
   const handleOnCloseModal4 = () => {
     //RESET
-    window.sessionStorage.setItem('IS_ERROR_RESET_STATES', true);
-    window.sessionStorage.setItem('IS_ERROR_RESET_STATES_IGNORE', true);
+    window.sessionStorage.setItem(
+      'IS_ERROR_RESET_STATES',
+      SecureStorageData.dataEncryption(true)
+    );
+    window.sessionStorage.setItem(
+      'IS_ERROR_RESET_STATES_IGNORE',
+      SecureStorageData.dataEncryption(true)
+    );
     setTimeout(setErrorTally(0), 1);
     setTimeout(setErrorAccount([]), 1);
 

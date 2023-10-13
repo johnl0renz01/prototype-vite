@@ -21,6 +21,9 @@ import ViewDetailMessageModal from './ViewDetailMessageModal';
 import ContactAdminModal from './ContactAdminModal';
 import ContactAdminMessageModal from './ContactAdminMessageModal';
 
+import StorageData from './StorageData';
+import SecureStorageData from './SecureStorageData';
+
 export default function MyRequest() {
   const navigate = useNavigate();
 
@@ -38,7 +41,7 @@ export default function MyRequest() {
     if (logged == 'FALSE') {
       window.localStorage.setItem('LOGIN_STATUS', JSON.stringify('Terminated'));
 
-      var email = JSON.parse(window.localStorage.getItem('SESSION_EMAIL'));
+      var email = StorageData.localStorageJSON('SESSION_EMAIL');
       if (email === null) email = '';
 
       if (email == '') {
@@ -60,11 +63,13 @@ export default function MyRequest() {
       }
     }
 
-    var account = JSON.parse(window.localStorage.getItem('ACCOUNT_TYPE'));
+    var account = StorageData.localStorageJSON('ACCOUNT_TYPE');
     if (account == 'Admin') {
       navigate('/HomePageAdmin');
     } else if (account == 'Student') {
       navigate('/Homepage');
+    } else if (account == '' || account === null || account === undefined) {
+      navigate('/LoginPage');
     }
   });
 
@@ -83,7 +88,7 @@ export default function MyRequest() {
   }, []);
 
   function getRequests() {
-    var email = JSON.parse(window.localStorage.getItem('SESSION_EMAIL'));
+    var email = StorageData.localStorageJSON('SESSION_EMAIL');
 
     setSkeletonState(true);
     axios
@@ -107,7 +112,7 @@ export default function MyRequest() {
 
   function updateTable() {
     setTableLoader(true);
-    var email = JSON.parse(window.localStorage.getItem('SESSION_EMAIL'));
+    var email = StorageData.localStorageJSON('SESSION_EMAIL');
     getRequests2();
 
     function getRequests2() {
@@ -125,7 +130,7 @@ export default function MyRequest() {
   }
 
   function updateTableNotification() {
-    var email = JSON.parse(window.localStorage.getItem('SESSION_EMAIL'));
+    var email = StorageData.localStorageJSON('SESSION_EMAIL');
     axios
       .get(`https://pia-sfe.online/api/myRequestList/${email}`)
       .then(function (response) {
@@ -149,7 +154,7 @@ export default function MyRequest() {
   }
 
   function updateNotification() {
-    var email = JSON.parse(window.localStorage.getItem('SESSION_EMAIL'));
+    var email = StorageData.localStorageJSON('SESSION_EMAIL');
     axios
       .get(`https://pia-sfe.online/api/myRequestList/${email}`)
       .then(function (response) {
@@ -164,12 +169,12 @@ export default function MyRequest() {
     let requestID = e.target.name;
     window.sessionStorage.setItem(
       'CURRENT_VIEW_DETAIL',
-      JSON.stringify(requestID)
+      JSON.stringify(SecureStorageData.dataEncryption(requestID))
     );
     window.sessionStorage.setItem('VIEW_DETAIL_STATE', true);
     setShowModal(true);
 
-    let role = JSON.parse(window.localStorage.getItem('ACCOUNT_TYPE'));
+    let role = StorageData.localStorageJSON('ACCOUNT_TYPE');
     axios
       .post(`https://pia-sfe.online/api/requestSeen/${requestID}@${role}`)
       .then(function (response) {
@@ -226,7 +231,7 @@ export default function MyRequest() {
     for (let i = 0; i < highestTimeoutId; i++) {
       clearTimeout(i);
     }
-    var email = JSON.parse(window.localStorage.getItem('SESSION_EMAIL'));
+    var email = StorageData.localStorageJSON('SESSION_EMAIL');
 
     setTimeout(() => {
       axios

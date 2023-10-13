@@ -38,6 +38,9 @@ import ViewDetailModal from './ViewDetailModal';
 import ViewDetailMessageModal from './ViewDetailMessageModal';
 import LoadingSpinner from './LoadingSpinner';
 
+import StorageData from './StorageData';
+import SecureStorageData from './SecureStorageData';
+
 export default function TeacherNavbar() {
   const [showLoading, setShowLoading] = useState(false);
   const [tableLoader, setTableLoader] = useState(false);
@@ -59,7 +62,7 @@ export default function TeacherNavbar() {
   useEffect(() => {
     window.addEventListener('focus', setTabDelay);
 
-    var account = JSON.parse(window.localStorage.getItem('ACCOUNT_TYPE'));
+    var account = StorageData.localStorageJSON('ACCOUNT_TYPE');
     if (account != 'Student') {
       window.localStorage.removeItem('SESSION_FEEDBACK');
       window.localStorage.removeItem('EXPRESSION_HAPPY');
@@ -101,7 +104,7 @@ export default function TeacherNavbar() {
     window.addEventListener('resize', calculateWidth);
     calculateWidth();
 
-    var data = JSON.parse(window.localStorage.getItem('CURRENT_SECTION'));
+    var data = StorageData.localStorageJSON('CURRENT_SECTION');
     if (data !== null && data !== false) {
       setAccessReportCard(true);
     } else {
@@ -194,7 +197,7 @@ export default function TeacherNavbar() {
 
   const [accType, setAccType] = useState('');
   useEffect(() => {
-    var account = JSON.parse(window.localStorage.getItem('ACCOUNT_TYPE'));
+    var account = StorageData.localStorageJSON('ACCOUNT_TYPE');
     if (account === null) account = '';
     setAccType(account);
 
@@ -267,7 +270,7 @@ export default function TeacherNavbar() {
     var logged = JSON.parse(window.localStorage.getItem('LOGGED'));
     if (logged === null) logged = '';
 
-    var account = JSON.parse(window.localStorage.getItem('ACCOUNT_TYPE'));
+    var account = StorageData.localStorageJSON('ACCOUNT_TYPE');
     if (account === null) account = '';
 
     if (logged == 'TRUE') {
@@ -331,7 +334,7 @@ export default function TeacherNavbar() {
   const [requests, setRequests] = useState([]);
 
   function getRequests() {
-    let email = JSON.parse(window.localStorage.getItem('SESSION_EMAIL'));
+    let email = StorageData.localStorageJSON('SESSION_EMAIL');
     axios
       .get(`https://pia-sfe.online/api/requestNotificationUser/${email}`)
       .then(function (response) {
@@ -345,12 +348,12 @@ export default function TeacherNavbar() {
 
     window.sessionStorage.setItem(
       'CURRENT_VIEW_DETAIL',
-      JSON.stringify(requestID)
+      JSON.stringify(SecureStorageData.dataEncryption(requestID))
     );
     window.sessionStorage.setItem('VIEW_DETAIL_STATE', true);
     setShowModal(true);
 
-    let role = JSON.parse(window.localStorage.getItem('ACCOUNT_TYPE'));
+    let role = StorageData.localStorageJSON('ACCOUNT_TYPE');
     axios
       .post(`https://pia-sfe.online/api/requestSeen/${requestID}@${role}`)
       .then(function (response) {

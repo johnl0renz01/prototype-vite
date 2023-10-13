@@ -6,6 +6,9 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
 
+import SecureParseData from './components/SecureParseData';
+import SecureStorageData from './components/SecureStorageData';
+
 import App from './App';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -73,7 +76,9 @@ function checkLogged() {
 document.addEventListener('mouseenter', checkChange);
 
 function checkChange() {
-  var verify = JSON.parse(window.localStorage.getItem('UPDATE_WHITEBOARD'));
+  var verify = SecureParseData.parseJSON(
+    window.localStorage.getItem('UPDATE_WHITEBOARD')
+  );
   if (verify !== null) {
     window.localStorage.removeItem('UPDATE_WHITEBOARD');
     window.location.reload(false);
@@ -89,7 +94,7 @@ function removeEmail() {
 
 document.addEventListener('mouseenter', addEmail);
 function addEmail() {
-  var unique = JSON.parse(window.localStorage.getItem('UNIQUE_ID'));
+  var unique = SecureParseData.parseJSON(window.localStorage.getItem('UNIQUE_ID'));
 
   axios
     .get(

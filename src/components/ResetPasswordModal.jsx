@@ -8,6 +8,9 @@ import { VscInfo } from 'react-icons/vsc';
 
 import LoadingSpinner from './LoadingSpinner';
 
+import StorageData from './StorageData';
+import SecureStorageData from './SecureStorageData';
+
 const ResetPasswordModal = ({ visible, onClose, onContinue }) => {
   const [showLoading, setShowLoading] = useState(false);
   const navigate = useNavigate();
@@ -38,7 +41,10 @@ const ResetPasswordModal = ({ visible, onClose, onContinue }) => {
 
   const resetPass = e => {
     setShowLoading(true);
-    window.sessionStorage.setItem('REQUEST_OPTION', JSON.stringify('Reset'));
+    window.sessionStorage.setItem(
+      'REQUEST_OPTION',
+      JSON.stringify(SecureStorageData.dataEncryption('Reset'))
+    );
 
     let accountEmail = e.target.name;
     axios
@@ -55,7 +61,10 @@ const ResetPasswordModal = ({ visible, onClose, onContinue }) => {
 
   const removeRequest = e => {
     setShowLoading(true);
-    window.sessionStorage.setItem('REQUEST_OPTION', JSON.stringify('Remove'));
+    window.sessionStorage.setItem(
+      'REQUEST_OPTION',
+      JSON.stringify(SecureStorageData.dataEncryption('Remove'))
+    );
 
     let accountEmail = e.target.name;
     axios

@@ -9,6 +9,9 @@ import { MdClose } from 'react-icons/md';
 
 import LoadingSpinner from './LoadingSpinner';
 
+import StorageData from './StorageData';
+import SecureStorageData from './SecureStorageData';
+
 const EditAccountModal = ({ visible, onClose, onContinue }) => {
   const [showLoading, setShowLoading] = useState(false);
 
@@ -39,9 +42,7 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
   const [originalEmail, setOriginalEmail] = useState('');
 
   useEffect(() => {
-    var accountName = JSON.parse(
-      window.sessionStorage.getItem('CURRENT_ACCOUNT_EDIT')
-    );
+    var accountName = StorageData.sessionStorageJSON('CURRENT_ACCOUNT_EDIT');
 
     var editState = JSON.parse(
       window.sessionStorage.getItem('EDIT_ACCOUNT_STATE')
@@ -51,13 +52,12 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
     if (editState == true) {
       window.sessionStorage.setItem('EDIT_ACCOUNT_STATE', false);
       getAccountDetails(accountName);
-
+      setShowLoading(true);
       //loadValues();
     }
   });
 
   function getAccountDetails(accountName) {
-    setShowLoading(true);
     let accountLink = accountName.replace(/ /g, '_');
     accountLink = accountName.replace(/"/g, ' ');
     //console.log('ACCOUNT LINK', accountLink);
@@ -73,7 +73,7 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
 
         window.sessionStorage.setItem(
           'EDIT_ACCOUNT_NAME',
-          JSON.stringify(keys[10])
+          JSON.stringify(SecureStorageData.dataEncryption(keys[10]))
         );
 
         function setValues() {
@@ -116,7 +116,7 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
 
   const onSubmit = async (values, actions) => {
     //console.log('SUBMITTED');
-    var validForm = JSON.parse(window.sessionStorage.getItem('IS_VALID_FORM'));
+    var validForm = StorageData.sessionStorageJSON('IS_VALID_FORM');
     if (validForm && validForm !== null) {
       setShowLoading(true);
       axios
@@ -265,21 +265,29 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
     document.getElementById('email').blur();
     document.getElementById('firstName').focus();
 
-    var currentEmail = JSON.parse(
-      window.sessionStorage.getItem('EDIT_ACCOUNT_NAME')
-    );
+    var currentEmail = StorageData.sessionStorageJSON('EDIT_ACCOUNT_NAME');
+
     if (tempEmail != currentEmail) {
-      window.sessionStorage.setItem('IS_VALID_FORM', false);
+      window.sessionStorage.setItem(
+        'IS_VALID_FORM',
+        SecureStorageData.dataEncryption(false)
+      );
       axios
         .get(`https://pia-sfe.online/api/verifyEmail/${tempEmail}`)
         .then(function (response) {
           //console.log(response.data);
           if (response.data === 'duplicate') {
             setDuplicateState(true);
-            window.sessionStorage.setItem('IS_VALID_FORM', false);
+            window.sessionStorage.setItem(
+              'IS_VALID_FORM',
+              SecureStorageData.dataEncryption(false)
+            );
           } else {
             setDuplicateState(false);
-            window.sessionStorage.setItem('IS_VALID_FORM', true);
+            window.sessionStorage.setItem(
+              'IS_VALID_FORM',
+              SecureStorageData.dataEncryption(true)
+            );
           }
         });
     }
@@ -319,21 +327,29 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
     document.getElementById('email').blur();
     document.getElementById('lastName').focus();
 
-    var currentEmail = JSON.parse(
-      window.sessionStorage.getItem('EDIT_ACCOUNT_NAME')
-    );
+    var currentEmail = StorageData.sessionStorageJSON('EDIT_ACCOUNT_NAME');
+
     if (tempEmail != currentEmail) {
-      window.sessionStorage.setItem('IS_VALID_FORM', false);
+      window.sessionStorage.setItem(
+        'IS_VALID_FORM',
+        SecureStorageData.dataEncryption(false)
+      );
       axios
         .get(`https://pia-sfe.online/api/verifyEmail/${tempEmail}`)
         .then(function (response) {
           //console.log(response.data);
           if (response.data === 'duplicate') {
             setDuplicateState(true);
-            window.sessionStorage.setItem('IS_VALID_FORM', false);
+            window.sessionStorage.setItem(
+              'IS_VALID_FORM',
+              SecureStorageData.dataEncryption(false)
+            );
           } else {
             setDuplicateState(false);
-            window.sessionStorage.setItem('IS_VALID_FORM', true);
+            window.sessionStorage.setItem(
+              'IS_VALID_FORM',
+              SecureStorageData.dataEncryption(true)
+            );
           }
         });
     }

@@ -23,16 +23,36 @@ import LoginPageSkeleton from './LoginPageSkeleton';
 
 import LoadingSpinner from './LoadingSpinner';
 
+import StorageData from './StorageData';
+import SecureStorageData from './SecureStorageData';
+
 export default function LoginPage() {
   const navigate = useNavigate();
+
+  function checkLogged() {
+    var logged = JSON.parse(window.localStorage.getItem('LOGGED'));
+
+    if (logged === null) logged = '';
+
+    if (
+      window.location.pathname == '/LoginPage' ||
+      window.location.pathname == '/'
+    ) {
+      if (logged == 'TRUE') {
+        window.removeEventListener('focus', checkLogged);
+        window.location.reload(false);
+      }
+    }
+  }
 
   useEffect(() => {
     var logged = JSON.parse(window.localStorage.getItem('LOGGED'));
     if (logged === null) logged = '';
+
     //console.log(logged);
 
     if (logged == 'TRUE') {
-      var accountType = JSON.parse(window.localStorage.getItem('ACCOUNT_TYPE'));
+      var accountType = StorageData.localStorageJSON('ACCOUNT_TYPE');
       if (accountType === null) accountType = '';
       //console.log('asdad');
       if (accountType !== null) {
@@ -45,6 +65,7 @@ export default function LoginPage() {
         }
       }
     } else {
+      window.addEventListener('focus', checkLogged);
       sessionStorage.clear();
       window.localStorage.removeItem('SESSION_TEACHER_TABLE');
       window.localStorage.removeItem('SESSION_ACCEPT_FRACTION');
@@ -100,9 +121,11 @@ export default function LoginPage() {
   var accountType = 'loginStudent';
 
   useEffect(() => {
-    const data = window.localStorage.getItem('LOGIN_TYPE');
-    if (data !== null) setAccType(JSON.parse(data));
-    accountType = 'login' + JSON.parse(data);
+    const data = JSON.parse(window.localStorage.getItem('LOGIN_TYPE'));
+    if (data !== null) {
+      setAccType(data);
+    }
+    accountType = 'login' + data;
     ////console.log("acctype: " + accountType);
     ////console.log(accountType == "loginStudent");
 
@@ -119,11 +142,12 @@ export default function LoginPage() {
   const onSubmit = async (values, actions) => {
     //console.log(accountType);
     var isForgot = JSON.parse(window.sessionStorage.getItem('FORGOT_PASSWORD'));
-    //console.log(isForgot);
+    console.log(isForgot);
 
     if (isForgot) {
       //console.log('TESTING IM HERE');
       var type = JSON.parse(window.sessionStorage.getItem('RESET_TYPE'));
+      console.log(type);
       type = type.replace(/"/g, '');
       if (type == 'Email') {
         //console.log('EMIALSADAS');
@@ -137,9 +161,12 @@ export default function LoginPage() {
       let isAdmin = false;
 
       let firstLogin = false;
+      //console.log(accountType);
+      ///STOPPED HERE COTINUE CONTINUE
       axios
         .post(`https://pia-sfe.online/api/${accountType}/save`, values)
         .then(function (response) {
+          console.log(response.data);
           let message = response.data;
           if (typeof message === 'string') {
             message = message.replace(/"/g, '');
@@ -201,11 +228,11 @@ export default function LoginPage() {
               if (currentData.includes(',')) {
                 window.localStorage.setItem(
                   'SESSION_USER',
-                  JSON.stringify(userData[0])
+                  JSON.stringify(SecureStorageData.dataEncryption(userData[0]))
                 );
                 window.localStorage.setItem(
                   'SESSION_EMAIL',
-                  JSON.stringify(userData[1])
+                  JSON.stringify(SecureStorageData.dataEncryption(userData[1]))
                 );
                 /*
                 window.localStorage.setItem(
@@ -215,7 +242,7 @@ export default function LoginPage() {
                 */
                 window.localStorage.setItem(
                   'SYSTEM_VERSION',
-                  JSON.stringify(userData[3])
+                  JSON.stringify(SecureStorageData.dataEncryption(userData[3]))
                 );
 
                 var sectionName = userData[6];
@@ -240,7 +267,7 @@ export default function LoginPage() {
 
                 window.localStorage.setItem(
                   'SESSION_FULLNAME',
-                  JSON.stringify(fullName)
+                  JSON.stringify(SecureStorageData.dataEncryption(fullName))
                 );
 
                 //window.alert(fullName);
@@ -255,7 +282,7 @@ export default function LoginPage() {
                 }
                 window.localStorage.setItem(
                   'SESSION_USER_LOGS',
-                  JSON.stringify(emailString)
+                  JSON.stringify(SecureStorageData.dataEncryption(emailString))
                 );
 
                 isStudent = true;
@@ -263,7 +290,7 @@ export default function LoginPage() {
                 currentData = currentData.replace(/"/g, '');
                 window.localStorage.setItem(
                   'SESSION_USER',
-                  JSON.stringify(currentData)
+                  JSON.stringify(SecureStorageData.dataEncryption(currentData))
                 );
                 window.localStorage.setItem(
                   'SESSION_EMAIL',
@@ -323,9 +350,8 @@ export default function LoginPage() {
 
                   if (isStudent) {
                     var data = '';
-                    var email = JSON.parse(
-                      window.localStorage.getItem('SESSION_EMAIL')
-                    );
+                    var email = StorageData.localStorageJSON('SESSION_EMAIL');
+
                     if (email === null) email = '';
                     ////console.log(email);
                     axios
@@ -341,7 +367,7 @@ export default function LoginPage() {
                         //console.log(data);
                         window.localStorage.setItem(
                           'ACCOUNT_TYPE',
-                          JSON.stringify(data)
+                          JSON.stringify(SecureStorageData.dataEncryption(data))
                         );
 
                         if (data == 'Student') {
@@ -354,12 +380,20 @@ export default function LoginPage() {
                               if (response.data == 'No-Section') {
                                 window.localStorage.setItem(
                                   'SESSION_TEACHER_TABLE',
-                                  JSON.stringify('Not-Enrolled')
+                                  JSON.stringify(
+                                    SecureStorageData.dataEncryption(
+                                      'Not-Enrolled'
+                                    )
+                                  )
                                 );
                               } else {
                                 window.localStorage.setItem(
                                   'SESSION_TEACHER_TABLE',
-                                  JSON.stringify(response.data)
+                                  JSON.stringify(
+                                    SecureStorageData.dataEncryption(
+                                      response.data
+                                    )
+                                  )
                                 );
                               }
                               window.localStorage.removeItem('LOGIN_STATUS');
@@ -372,9 +406,9 @@ export default function LoginPage() {
                             });
                         } else if (data == 'Teacher') {
                           window.localStorage.removeItem('LOGIN_STATUS');
-                          var fullName = JSON.parse(
-                            window.localStorage.getItem('SESSION_FULLNAME')
-                          );
+                          var fullName =
+                            StorageData.localStorageJSON('SESSION_FULLNAME');
+
                           if (fullName === null) fullName = '';
                           fullName = fullName.replace(/ /g, '_');
                           axios
@@ -384,12 +418,17 @@ export default function LoginPage() {
                             .then(function (response) {
                               //console.log(response.data);
                               var section = response.data;
+
                               window.localStorage.setItem(
                                 'CURRENT_SECTION',
-                                JSON.stringify(section)
+                                JSON.stringify(
+                                  SecureStorageData.dataEncryption(section)
+                                )
                               );
+
                               window.localStorage.setItem('LINK_TAB', 0);
                               setShowLoading(false);
+
                               navigate('/HomePageTeacher');
                             })
                             .catch(function (error) {
@@ -407,7 +446,7 @@ export default function LoginPage() {
                     var data = 'Admin';
                     window.localStorage.setItem(
                       'ACCOUNT_TYPE',
-                      JSON.stringify(data)
+                      JSON.stringify(SecureStorageData.dataEncryption(data))
                     );
                     setShowLoading(false);
                     navigate('/HomePageAdmin');
@@ -728,7 +767,9 @@ export default function LoginPage() {
                           setResetType('Email');
                           window.sessionStorage.setItem(
                             'RESET_TYPE',
-                            JSON.stringify('Email')
+                            JSON.stringify(
+                              SecureStorageData.dataEncryption('Email')
+                            )
                           );
                         }}
                         className={`grow text-base lg:px-4 xs:px-1 py-1 rounded-lg  border-2   transition duration-200 ${
@@ -744,7 +785,9 @@ export default function LoginPage() {
                           setResetType('Code');
                           window.sessionStorage.setItem(
                             'RESET_TYPE',
-                            JSON.stringify('Code')
+                            JSON.stringify(
+                              SecureStorageData.dataEncryption('Code')
+                            )
                           );
                         }}
                         className={`grow text-base ml-4 lg:px-4 xs:px-1 rounded-lg border-2  transition duration-200 ${
@@ -1071,7 +1114,7 @@ export default function LoginPage() {
                               'FORGOT_PASSWORD',
                               true
                             );
-                            //console.log(JSON.parse(window.sessionStorage.getItem('FORGOT_PASSWORD')));
+                            //console.log(SecureParseData.parseJSON(window.sessionStorage.getItem('FORGOT_PASSWORD')));
                           }
                     }
                     className={`no-underline cursor-pointer lg:text-lg sm:text-base xs:text-xs text-lime-800 hover:underline ${

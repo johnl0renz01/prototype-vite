@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { MdClose } from 'react-icons/md';
 import { VscWarning } from 'react-icons/vsc';
 
+import StorageData from './StorageData';
+import SecureStorageData from './SecureStorageData';
+
 const DeleteSectionModal = ({ visible, onClose, onContinue }) => {
   const handleOnClose = e => {
     if (e.target.id === 'mainContainer') {
@@ -18,23 +21,19 @@ const DeleteSectionModal = ({ visible, onClose, onContinue }) => {
   const [sectionStatus, setSectionStatus] = useState('Empty');
 
   useEffect(() => {
-    var section = JSON.parse(
-      window.sessionStorage.getItem('CURRENT_SECTION_DELETE')
-    );
+    var section = StorageData.sessionStorageJSON('CURRENT_SECTION_DELETE');
+
     if (section !== null) setCurrentSection(section);
 
-    var status = JSON.parse(
-      window.sessionStorage.getItem('DELETE_SECTION_STATUS')
-    );
+    var status = StorageData.sessionStorageJSON('DELETE_SECTION_STATUS');
 
     if (status !== null) {
       status = status.replace(/"/g);
       setSectionStatus(status);
     }
 
-    var data = JSON.parse(
-      window.sessionStorage.getItem('SECTION_DELETION_TYPE')
-    );
+    var data = StorageData.sessionStorageJSON('SECTION_DELETION_TYPE');
+
     if (data !== null) {
       setValidDeletion(true);
     } else {
@@ -46,7 +45,7 @@ const DeleteSectionModal = ({ visible, onClose, onContinue }) => {
     setDeleteType('Section');
     window.sessionStorage.setItem(
       'SECTION_DELETION_TYPE',
-      JSON.stringify('Section Only')
+      JSON.stringify(SecureStorageData.dataEncryption('Section Only'))
     );
   };
 
@@ -54,7 +53,7 @@ const DeleteSectionModal = ({ visible, onClose, onContinue }) => {
     setDeleteType('SectionStudents');
     window.sessionStorage.setItem(
       'SECTION_DELETION_TYPE',
-      JSON.stringify('Section Students')
+      JSON.stringify(SecureStorageData.dataEncryption('Section Students'))
     );
   };
 

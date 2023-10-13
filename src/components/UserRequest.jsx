@@ -14,6 +14,9 @@ import LoadingSpinner from './LoadingSpinner';
 
 import ViewDetailMessageModal from './ViewDetailMessageModal';
 
+import StorageData from './StorageData';
+import SecureStorageData from './SecureStorageData';
+
 export default function UserRequest() {
   const navigate = useNavigate();
 
@@ -31,7 +34,7 @@ export default function UserRequest() {
     if (logged == 'FALSE') {
       window.localStorage.setItem('LOGIN_STATUS', JSON.stringify('Terminated'));
 
-      var email = JSON.parse(window.localStorage.getItem('SESSION_EMAIL'));
+      var email = StorageData.localStorageJSON('SESSION_EMAIL');
       if (email === null) email = '';
 
       if (email == '') {
@@ -53,11 +56,13 @@ export default function UserRequest() {
       }
     }
 
-    var account = JSON.parse(window.localStorage.getItem('ACCOUNT_TYPE'));
+    var account = StorageData.localStorageJSON('ACCOUNT_TYPE');
     if (account == 'Teacher') {
       navigate('/HomePageTeacher');
     } else if (account == 'Student') {
       navigate('/Homepage');
+    } else if (account == '' || account === null || account === undefined) {
+      navigate('/LoginPage');
     }
   });
 
@@ -140,7 +145,7 @@ export default function UserRequest() {
   }
 
   function updateTableNotification() {
-    var email = JSON.parse(window.localStorage.getItem('SESSION_EMAIL'));
+    var email = StorageData.localStorageJSON('SESSION_EMAIL');
     axios
       .get(`https://pia-sfe.online/api/requestList/${email}`)
       .then(function (response) {
@@ -177,12 +182,12 @@ export default function UserRequest() {
     let requestID = e.target.name;
     window.sessionStorage.setItem(
       'CURRENT_VIEW_DETAIL',
-      JSON.stringify(requestID)
+      JSON.stringify(SecureStorageData.dataEncryption(requestID))
     );
     window.sessionStorage.setItem('VIEW_DETAIL_STATE', true);
     setShowModal(true);
 
-    let role = JSON.parse(window.localStorage.getItem('ACCOUNT_TYPE'));
+    let role = StorageData.localStorageJSON('ACCOUNT_TYPE');
     axios
       .post(`https://pia-sfe.online/api/requestSeen/${requestID}@${role}`)
       .then(function (response) {

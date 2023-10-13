@@ -16,6 +16,9 @@ import ImageModalAdmin from './ImageModalAdmin';
 
 import HelpPageAdminSkeleton from './HelpPageAdminSkeleton';
 
+import StorageData from './StorageData';
+import SecureStorageData from './SecureStorageData';
+
 export default function HelpPageAdmin() {
   document.body.style.overflow = 'visible';
   const navigate = useNavigate();
@@ -49,11 +52,14 @@ export default function HelpPageAdmin() {
       }
     }
 
-    var account = JSON.parse(window.localStorage.getItem('ACCOUNT_TYPE'));
+    var account = StorageData.localStorageJSON('ACCOUNT_TYPE');
+    console.log(account);
     if (account == 'Teacher') {
       navigate('/HomePageTeacher');
     } else if (account == 'Student') {
       navigate('/Homepage');
+    } else if (account == '' || account === null || account === undefined) {
+      navigate('/LoginPage');
     }
   });
 

@@ -18,6 +18,9 @@ import { BsFillSendFill } from 'react-icons/bs';
 import { MdClose } from 'react-icons/md';
 import { VscQuestion } from 'react-icons/vsc';
 
+import StorageData from './StorageData';
+import SecureStorageData from './SecureStorageData';
+
 const IgnoreWarningModal = ({ visible, onClose, onContinue }) => {
   const navigate = useNavigate();
 
@@ -27,7 +30,7 @@ const IgnoreWarningModal = ({ visible, onClose, onContinue }) => {
   const [length, setLength] = useState(0);
 
   useEffect(() => {
-    var resetStates = window.sessionStorage.getItem(
+    var resetStates = StorageData.sessionStorageRAW(
       'IS_ERROR_RESET_STATES_IGNORE'
     );
     if (resetStates !== null) {
@@ -37,24 +40,27 @@ const IgnoreWarningModal = ({ visible, onClose, onContinue }) => {
       window.sessionStorage.removeItem('IS_ERROR_RESET_STATES_IGNORE');
     }
 
-    var accDuplicateRows = window.sessionStorage.getItem(
+    var accDuplicateRows = StorageData.sessionStorageRAW(
       'IS_ERROR_DUPLICATE_ROW'
     );
 
     console.log(accDuplicateRows);
 
-    var accMultipleRows = window.sessionStorage.getItem(
+    var accMultipleRows = StorageData.sessionStorageRAW(
       'IS_ERROR_MULTIPLE_ROW'
     );
 
     console.log(accMultipleRows);
 
-    var accDuplicate = JSON.parse(
-      window.sessionStorage.getItem('IS_ERROR_ACCOUNT_DUPLICATE_IGNORE')
+    var accDuplicate = StorageData.sessionStorageJSON(
+      'IS_ERROR_ACCOUNT_DUPLICATE_IGNORE'
     );
 
     if (accDuplicate !== null && accDuplicate == true) {
-      window.sessionStorage.setItem('IS_ERROR_ACCOUNT_DUPLICATE_IGNORE', false);
+      window.sessionStorage.setItem(
+        'IS_ERROR_ACCOUNT_DUPLICATE_IGNORE',
+        SecureStorageData.dataEncryption(false)
+      );
 
       if (accDuplicateRows !== null) {
         var data1 = [];
@@ -94,12 +100,15 @@ const IgnoreWarningModal = ({ visible, onClose, onContinue }) => {
       }
     }
 
-    var accMultiple = JSON.parse(
-      window.sessionStorage.getItem('IS_ERROR_ACCOUNT_MULTIPLE_IGNORE')
+    var accMultiple = StorageData.sessionStorageJSON(
+      'IS_ERROR_ACCOUNT_MULTIPLE_IGNORE'
     );
 
     if (accMultiple !== null && accMultiple == true) {
-      window.sessionStorage.setItem('IS_ERROR_ACCOUNT_MULTIPLE_IGNORE', false);
+      window.sessionStorage.setItem(
+        'IS_ERROR_ACCOUNT_MULTIPLE_IGNORE',
+        SecureStorageData.dataEncryption(false)
+      );
 
       if (accMultipleRows !== null) {
         var data2 = [];

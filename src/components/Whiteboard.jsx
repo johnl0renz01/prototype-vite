@@ -19,6 +19,9 @@ import { VscBook } from 'react-icons/vsc';
 
 import UpdateSession from './UpdateSession';
 
+import StorageData from './StorageData';
+import SecureStorageData from './SecureStorageData';
+
 import '../board.css';
 //import Board from "./Board.jsx";
 
@@ -34,7 +37,8 @@ export default function Whiteboard() {
     if (logged == 'FALSE') {
       window.localStorage.setItem('LOGIN_STATUS', JSON.stringify('Terminated'));
 
-      var email = JSON.parse(window.localStorage.getItem('SESSION_EMAIL'));
+      var email = StorageData.localStorageJSON('SESSION_EMAIL');
+
       if (email === null) email = '';
 
       if (email == '') {
@@ -56,18 +60,20 @@ export default function Whiteboard() {
       }
     }
 
-    var account = JSON.parse(window.localStorage.getItem('ACCOUNT_TYPE'));
+    var account = StorageData.localStorageJSON('ACCOUNT_TYPE');
+
     if (account == 'Admin') {
       navigate('/HomePageAdmin');
       window.location.reload(false);
     } else if (account == 'Teacher') {
       navigate('/HomePageTeacher');
       window.location.reload(false);
+    } else if (account == '' || account === null || account === undefined) {
+      navigate('/LoginPage');
     }
 
-    var status = JSON.parse(
-      window.localStorage.getItem('SESSION_TEACHER_TABLE')
-    );
+    var status = StorageData.localStorageJSON('SESSION_TEACHER_TABLE');
+
     if (status !== null) {
       if (status == 'Not-Enrolled') {
         navigate('/Homepage');
@@ -94,51 +100,87 @@ export default function Whiteboard() {
       window.localStorage.setItem('NAVBAR_PAGE_LINK', JSON.stringify(pageLink));
     }
 
-    var data1 = JSON.parse(window.localStorage.getItem('EXPRESSION_HAPPY'));
+    var data1 = StorageData.localStorageJSON('EXPRESSION_HAPPY');
+
     if (data1 === null) {
-      window.localStorage.setItem('EXPRESSION_HAPPY', JSON.stringify(0));
+      window.localStorage.setItem(
+        'EXPRESSION_HAPPY',
+        JSON.stringify(SecureStorageData.dataEncryption(0))
+      );
     }
 
-    var data2 = JSON.parse(window.localStorage.getItem('EXPRESSION_SAD'));
+    var data2 = StorageData.localStorageJSON('EXPRESSION_SAD');
+
     if (data2 === null) {
-      window.localStorage.setItem('EXPRESSION_SAD', JSON.stringify(0));
+      window.localStorage.setItem(
+        'EXPRESSION_SAD',
+        JSON.stringify(SecureStorageData.dataEncryption(0))
+      );
     }
 
-    var data3 = JSON.parse(window.localStorage.getItem('EXPRESSION_ANGRY'));
+    var data3 = StorageData.localStorageJSON('EXPRESSION_ANGRY');
+
     if (data3 === null) {
-      window.localStorage.setItem('EXPRESSION_ANGRY', JSON.stringify(0));
+      window.localStorage.setItem(
+        'EXPRESSION_ANGRY',
+        JSON.stringify(SecureStorageData.dataEncryption(0))
+      );
     }
 
-    var data4 = JSON.parse(window.localStorage.getItem('EXPRESSION_SURPRISED'));
+    var data4 = StorageData.localStorageJSON('EXPRESSION_SURPRISED');
+
     if (data4 === null) {
-      window.localStorage.setItem('EXPRESSION_SURPRISED', JSON.stringify(0));
+      window.localStorage.setItem(
+        'EXPRESSION_SURPRISED',
+        JSON.stringify(SecureStorageData.dataEncryption(0))
+      );
     }
 
-    var data5 = JSON.parse(window.localStorage.getItem('SESSION_SCORE'));
+    var data5 = StorageData.localStorageJSON('SESSION_SCORE');
+
     if (data5 === null) {
-      window.localStorage.setItem('SESSION_SCORE', JSON.stringify(0));
+      window.localStorage.setItem(
+        'SESSION_SCORE',
+        JSON.stringify(SecureStorageData.dataEncryption(0))
+      );
     }
 
     //////////
 
-    var data6 = JSON.parse(window.localStorage.getItem('QUESTION_ANSWERED'));
+    var data6 = StorageData.localStorageJSON('QUESTION_ANSWERED');
+
     if (data6 === null) {
-      window.localStorage.setItem('QUESTION_ANSWERED', JSON.stringify(0));
+      window.localStorage.setItem(
+        'QUESTION_ANSWERED',
+        JSON.stringify(SecureStorageData.dataEncryption(0))
+      );
     }
 
-    var data7 = JSON.parse(window.localStorage.getItem('QUESTION_ABANDONED'));
+    var data7 = StorageData.localStorageJSON('QUESTION_ABANDONED');
+
     if (data7 === null) {
-      window.localStorage.setItem('QUESTION_ABANDONED', JSON.stringify(0));
+      window.localStorage.setItem(
+        'QUESTION_ABANDONED',
+        JSON.stringify(SecureStorageData.dataEncryption(0))
+      );
     }
 
-    var data8 = JSON.parse(window.localStorage.getItem('SESSION_LEVELUP'));
+    var data8 = StorageData.localStorageJSON('SESSION_LEVELUP');
+
     if (data8 === null) {
-      window.localStorage.setItem('SESSION_LEVELUP', JSON.stringify('FALSE'));
+      window.localStorage.setItem(
+        'SESSION_LEVELUP',
+        JSON.stringify(SecureStorageData.dataEncryption('FALSE'))
+      );
     }
 
-    var data9 = JSON.parse(window.localStorage.getItem('STREAK_CORRECT'));
+    var data9 = StorageData.localStorageJSON('STREAK_CORRECT');
+
     if (data9 === null) {
-      window.localStorage.setItem('STREAK_CORRECT', 0);
+      window.localStorage.setItem(
+        'STREAK_CORRECT',
+        SecureStorageData.dataEncryption(0)
+      );
     }
 
     document.getElementById('whiteboard').click();
@@ -168,14 +210,13 @@ export default function Whiteboard() {
   const [fractionState, setFractionState] = useState(false);
 
   useEffect(() => {
-    const data = window.localStorage.getItem('QUESTION_LIST');
+    const data = StorageData.localStorageRAW('QUESTION_LIST');
+
     if (data !== null) setQuestions(JSON.parse(data));
   }, []);
 
   function getCoefficient() {
-    let data = parseInt(
-      JSON.parse(window.localStorage.getItem('QUESTION_INDEX'))
-    );
+    let data = parseInt(StorageData.localStorageJSON('QUESTION_INDEX'));
     EquationSolver.setEquation(questionList[data]);
     EquationSolver.getEquationAnswer();
     let coefficient = EquationSolver.getCoefficientLetter();
@@ -184,14 +225,13 @@ export default function Whiteboard() {
 
   //////////////////
   function getFraction() {
-    var fractionAnswerMode = JSON.parse(
-      window.localStorage.getItem('SESSION_ACCEPT_FRACTION')
+    var fractionAnswerMode = StorageData.localStorageJSON(
+      'SESSION_ACCEPT_FRACTION'
     );
+
     if (fractionAnswerMode !== null) setFractionState(true);
 
-    let data = parseInt(
-      JSON.parse(window.localStorage.getItem('QUESTION_INDEX'))
-    );
+    let data = parseInt(StorageData.localStorageJSON('QUESTION_INDEX'));
 
     EquationSolver.setEquation(questionList[data]);
     EquationSolver.getEquationAnswer();
@@ -255,7 +295,8 @@ export default function Whiteboard() {
   const [currentQuestionIndex, setQuestionIndex] = useState(0);
 
   useEffect(() => {
-    const data = window.localStorage.getItem('QUESTION_INDEX');
+    const data = StorageData.localStorageRAW('QUESTION_INDEX');
+
     if (data !== null) setQuestionIndex(JSON.parse(data));
   }, []);
 
@@ -299,8 +340,8 @@ export default function Whiteboard() {
       clearTimeout(i);
     }
     if (
-      !JSON.parse(window.localStorage.getItem('FINISHED_EQUATION')) ||
-      window.localStorage.getItem('FINISHED_EQUATION') == null
+      !StorageData.localStorageJSON('FINISHED_EQUATION') ||
+      StorageData.localStorageRAW('FINISHED_EQUATION') == null
     ) {
       setInterval(currentQuestionTimer, 1000);
     }
@@ -575,19 +616,18 @@ export default function Whiteboard() {
       setTimeout(checkAnswered, 1);
     }
 
-    var isFinished = JSON.parse(
-      window.localStorage.getItem('FINISHED_EQUATION')
-    );
+    var isFinished = StorageData.localStorageJSON('FINISHED_EQUATION');
 
     if (!isFinished) {
-      var currentIndex = JSON.parse(
-        window.localStorage.getItem('QUESTION_INDEX')
-      );
+      var currentIndex = StorageData.localStorageJSON('QUESTION_INDEX');
+
       if (currentIndex !== null) {
         if (questionList[currentIndex] !== undefined) {
           window.localStorage.setItem(
             'PREVIOUS_QUESTION',
-            JSON.stringify(questionList[currentIndex])
+            JSON.stringify(
+              SecureStorageData.dataEncryption(questionList[currentIndex])
+            )
           );
           UpdateSession.recordData();
         }
@@ -596,8 +636,9 @@ export default function Whiteboard() {
   };
 
   function checkAnswered() {
-    let data1 = parseInt(window.localStorage.getItem('FINISHED_STEPS'));
-    let data2 = window.localStorage.getItem('FINISHED_EQUATION');
+    let data1 = parseInt(StorageData.localStorageRAW('FINISHED_STEPS'));
+    let data2 = StorageData.localStorageRAW('FINISHED_EQUATION');
+
     if (data1 != null && data1 != 0) {
       console.log('yes');
       let currentIndex = data1;
@@ -606,7 +647,8 @@ export default function Whiteboard() {
 
       let hintArray = [];
       let hintIndex = 0;
-      let hint = JSON.parse(window.localStorage.getItem('HINT_STEP'));
+      let hint = StorageData.localStorageJSON('HINT_STEP');
+
       if (hint != null) {
         hintArray = hint.split(',');
       }
@@ -657,13 +699,14 @@ export default function Whiteboard() {
   });
 
   function setUserData() {
-    userName = window.localStorage.getItem('SESSION_USER');
+    userName = StorageData.localStorageJSON('SESSION_USER');
+
     userName = userName.replace(/"/g, '');
     userNameLogs = userName;
     userName = userName.replace(/ /g, '_');
 
-    userLogs = window.localStorage.getItem('SESSION_USER_LOGS');
-    userLogs = userLogs + '@' + window.localStorage.getItem('SESSION_ID');
+    userLogs = StorageData.localStorageRAW('SESSION_USER_LOGS');
+    userLogs = userLogs + '@' + StorageData.localStorageRAW('SESSION_ID');
     userLogs = userLogs + '@' + userName;
     userLogs = userLogs.replace(/"/g, '');
   }
@@ -727,13 +770,14 @@ export default function Whiteboard() {
   const [levelUp, setLevelUp] = useState(false);
 
   useEffect(() => {
-    var currentIndex = JSON.parse(
-      window.localStorage.getItem('QUESTION_INDEX')
-    );
+    var currentIndex = StorageData.localStorageJSON('QUESTION_INDEX');
+
     if (currentIndex !== null)
       window.localStorage.setItem(
         'PREVIOUS_QUESTION',
-        JSON.stringify(questionList[currentIndex])
+        JSON.stringify(
+          SecureStorageData.dataEncryption(questionList[currentIndex])
+        )
       );
   });
 
@@ -742,7 +786,10 @@ export default function Whiteboard() {
       clearTimeout(i);
     }
 
-    window.localStorage.setItem('QUESTION_STATUS', JSON.stringify('SOLVED'));
+    window.localStorage.setItem(
+      'QUESTION_STATUS',
+      JSON.stringify(SecureStorageData.dataEncryption('SOLVED'))
+    );
 
     UpdateSession.recordData();
     //SESSION SCORE
@@ -770,15 +817,27 @@ export default function Whiteboard() {
     setQuestionIndex(count);
     checkCount(0);
     window.localStorage.removeItem('EXPRESSION_SEQUENCE');
-    window.localStorage.setItem('QUESTION_INDEX', JSON.stringify(count));
+    window.localStorage.setItem(
+      'QUESTION_INDEX',
+      JSON.stringify(SecureStorageData.dataEncryption(count))
+    );
 
     //RESET STATUS
-    window.localStorage.setItem('QUESTION_STATUS', JSON.stringify('ABANDONED'));
+    window.localStorage.setItem(
+      'QUESTION_STATUS',
+      JSON.stringify(SecureStorageData.dataEncryption('ABANDONED'))
+    );
 
     computeEquation();
     loadAnswers();
-    window.localStorage.setItem('FINISHED_EQUATION', false);
-    window.localStorage.setItem('FINISHED_STEPS', 0);
+    window.localStorage.setItem(
+      'FINISHED_EQUATION',
+      SecureStorageData.dataEncryption(false)
+    );
+    window.localStorage.setItem(
+      'FINISHED_STEPS',
+      SecureStorageData.dataEncryption(0)
+    );
     window.localStorage.removeItem('HINT_STEP');
     window.localStorage.removeItem('QUESTION_SKIP');
     //window.localStorage.setItem("STREAK_CORRECT", 0);
@@ -795,7 +854,7 @@ export default function Whiteboard() {
     }
 
     let showHint = false;
-    let stepIndex = window.localStorage.getItem('FINISHED_STEPS');
+    let stepIndex = StorageData.localStorageRAW('FINISHED_STEPS');
     if (stepIndex === null) {
       stepIndex = 0;
     }
@@ -806,18 +865,21 @@ export default function Whiteboard() {
 
     //var isSkipped = JSON.parse(window.localStorage.getItem('QUESTION_SKIP'));
     if (showHint == false) {
-      var data = window.localStorage.getItem('QUESTION_ABANDONED');
+      var data = StorageData.localStorageRAW('QUESTION_ABANDONED');
       if (data == null || data == undefined || data == '0') {
         data = '0';
       }
 
       data = parseInt(data);
       data++;
-      window.localStorage.setItem('QUESTION_ABANDONED', data);
+      window.localStorage.setItem(
+        'QUESTION_ABANDONED',
+        SecureStorageData.dataEncryption(data)
+      );
 
       window.localStorage.setItem(
         'QUESTION_STATUS',
-        JSON.stringify('ABANDONED')
+        JSON.stringify(SecureStorageData.dataEncryption('ABANDONED'))
       );
 
       UpdateSession.recordData();
@@ -834,39 +896,52 @@ export default function Whiteboard() {
       checkCount(0);
 
       window.localStorage.removeItem('EXPRESSION_SEQUENCE');
-      window.localStorage.setItem('QUESTION_INDEX', JSON.stringify(count));
+      window.localStorage.setItem(
+        'QUESTION_INDEX',
+        JSON.stringify(SecureStorageData.dataEncryption(count))
+      );
 
       //RESET STATUS
       window.localStorage.setItem(
         'QUESTION_STATUS',
-        JSON.stringify('ABANDONED')
+        JSON.stringify(SecureStorageData.dataEncryption('ABANDONED'))
       );
       computeEquation();
       loadAnswers();
-      window.localStorage.setItem('FINISHED_EQUATION', false);
-      window.localStorage.setItem('FINISHED_STEPS', 0);
+      window.localStorage.setItem(
+        'FINISHED_EQUATION',
+        SecureStorageData.dataEncryption(false)
+      );
+      window.localStorage.setItem(
+        'FINISHED_STEPS',
+        SecureStorageData.dataEncryption(0)
+      );
       window.localStorage.removeItem('HINT_STEP');
 
       window.localStorage.setItem('TIMER', 0);
       setInterval(currentQuestionTimer, 1000);
       ReactDOM.findDOMNode(skipArea).style.visibility = 'hidden';
-      window.localStorage.setItem('STREAK_WRONG', 0);
+      window.localStorage.setItem(
+        'STREAK_WRONG',
+        SecureStorageData.dataEncryption(0)
+      );
 
       window.localStorage.removeItem('QUESTION_SKIP');
 
       //5th abandoned question
-      var abandonedTally = JSON.parse(
-        window.localStorage.getItem('QUESTION_ABANDONED')
-      );
+      var abandonedTally = StorageData.localStorageJSON('QUESTION_ABANDONED');
       if (abandonedTally === null) abandonedTally = 0;
       if (abandonedTally >= 5) {
         displayLevelDown();
       } else {
       }
     } else {
-      window.localStorage.setItem('STREAK_WRONG', 0);
+      window.localStorage.setItem(
+        'STREAK_WRONG',
+        SecureStorageData.dataEncryption(0)
+      );
 
-      let stepIndex = window.localStorage.getItem('FINISHED_STEPS');
+      let stepIndex = StorageData.localStorageRAW('FINISHED_STEPS');
       if (stepIndex === null) {
         stepIndex = 0;
       } else if (stepIndex < answer.length - 1) {
@@ -876,16 +951,21 @@ export default function Whiteboard() {
       let currentIndex = stepIndex;
 
       var steps = '';
-      if (window.localStorage.getItem('HINT_STEP') != null) {
+      if (StorageData.localStorageRAW('HINT_STEP') != null) {
         //console.log(window.localStorage.getItem('USER_LOGS'));
-        steps = steps + JSON.parse(window.localStorage.getItem('HINT_STEP'));
+        steps = steps + StorageData.localStorageJSON('HINT_STEP');
 
         steps = steps + (',' + currentIndex.toString());
-        window.localStorage.setItem('HINT_STEP', JSON.stringify(steps));
+        window.localStorage.setItem(
+          'HINT_STEP',
+          JSON.stringify(SecureStorageData.dataEncryption(steps))
+        );
       } else {
         window.localStorage.setItem(
           'HINT_STEP',
-          JSON.stringify(currentIndex.toString())
+          JSON.stringify(
+            SecureStorageData.dataEncryption(currentIndex.toString())
+          )
         );
       }
 
@@ -903,7 +983,10 @@ export default function Whiteboard() {
       }
 
       stepIndex++;
-      window.localStorage.setItem('FINISHED_STEPS', stepIndex);
+      window.localStorage.setItem(
+        'FINISHED_STEPS',
+        SecureStorageData.dataEncryption(stepIndex)
+      );
 
       //window.localStorage.setItem('QUESTION_SKIP', true);
       displayCorrectAnswer();
@@ -1012,14 +1095,20 @@ export default function Whiteboard() {
 
           if (answer[answer.length - 1] === trimmedText) {
             displaySolved();
-            window.localStorage.setItem('FINISHED_STEPS', currentIndex + 1);
-            window.localStorage.setItem('FINISHED_EQUATION', true);
+            window.localStorage.setItem(
+              'FINISHED_STEPS',
+              SecureStorageData.dataEncryption(currentIndex + 1)
+            );
+            window.localStorage.setItem(
+              'FINISHED_EQUATION',
+              SecureStorageData.dataEncryption(true)
+            );
             increaseCorrectStreak();
             insertSequence('happy');
             increaseTally('EXPRESSION_HAPPY');
             increaseTally('QUESTION_ANSWERED');
 
-            var currentScore = window.localStorage.getItem('SESSION_SCORE');
+            var currentScore = StorageData.localStorageRAW('SESSION_SCORE');
             if (
               currentScore == null ||
               currentScore == undefined ||
@@ -1030,7 +1119,10 @@ export default function Whiteboard() {
 
             currentScore = parseInt(currentScore);
             currentScore++;
-            window.localStorage.setItem('SESSION_SCORE', currentScore);
+            window.localStorage.setItem(
+              'SESSION_SCORE',
+              SecureStorageData.dataEncryption(currentScore)
+            );
             UpdateSession.recordData();
 
             return;
@@ -1045,8 +1137,8 @@ export default function Whiteboard() {
             }
           }
         } else if (answerFraction == trimmedText) {
-          var fractionAnswerMode = JSON.parse(
-            window.localStorage.getItem('SESSION_ACCEPT_FRACTION')
+          var fractionAnswerMode = StorageData.localStorageJSON(
+            'SESSION_ACCEPT_FRACTION'
           );
 
           if (fractionAnswerMode === null) {
@@ -1071,14 +1163,20 @@ export default function Whiteboard() {
               ReactDOM.findDOMNode(element).style.visibility = 'visible';
             }
             displaySolved();
-            window.localStorage.setItem('FINISHED_STEPS', currentIndex + 1);
-            window.localStorage.setItem('FINISHED_EQUATION', true);
+            window.localStorage.setItem(
+              'FINISHED_STEPS',
+              SecureStorageData.dataEncryption(currentIndex + 1)
+            );
+            window.localStorage.setItem(
+              'FINISHED_EQUATION',
+              SecureStorageData.dataEncryption(true)
+            );
             increaseCorrectStreak();
             insertSequence('happy');
             increaseTally('EXPRESSION_HAPPY');
             increaseTally('QUESTION_ANSWERED');
 
-            var currentScore = window.localStorage.getItem('SESSION_SCORE');
+            var currentScore = StorageData.localStorageRAW('SESSION_SCORE');
             if (
               currentScore == null ||
               currentScore == undefined ||
@@ -1089,7 +1187,10 @@ export default function Whiteboard() {
 
             currentScore = parseInt(currentScore);
             currentScore++;
-            window.localStorage.setItem('SESSION_SCORE', currentScore);
+            window.localStorage.setItem(
+              'SESSION_SCORE',
+              SecureStorageData.dataEncryption(currentScore)
+            );
             UpdateSession.recordData();
 
             return;
@@ -1139,72 +1240,97 @@ export default function Whiteboard() {
   const timerDelay = 5000;
 
   function increaseStepIndex() {
-    let stepIndex = window.localStorage.getItem('FINISHED_STEPS');
+    let stepIndex = StorageData.localStorageRAW('FINISHED_STEPS');
     if (stepIndex == null) {
       stepIndex = 0;
       stepIndex++;
     } else {
       stepIndex++;
     }
-    window.localStorage.setItem('FINISHED_STEPS', stepIndex);
+    window.localStorage.setItem(
+      'FINISHED_STEPS',
+      SecureStorageData.dataEncryption(stepIndex)
+    );
   }
 
   function increaseCorrectStreak() {
-    let streakCount = window.localStorage.getItem('STREAK_CORRECT');
+    let streakCount = StorageData.localStorageRAW('STREAK_CORRECT');
     if (streakCount == null) {
       streakCount = 0;
       streakCount++;
     } else {
       streakCount++;
     }
-    window.localStorage.setItem('STREAK_CORRECT', streakCount);
-    window.localStorage.setItem('STREAK_WRONG', 0);
-    window.localStorage.setItem('STREAK_IRRELEVANT', 0);
+    window.localStorage.setItem(
+      'STREAK_CORRECT',
+      SecureStorageData.dataEncryption(streakCount)
+    );
+    window.localStorage.setItem(
+      'STREAK_WRONG',
+      SecureStorageData.dataEncryption(0)
+    );
+    window.localStorage.setItem(
+      'STREAK_IRRELEVANT',
+      SecureStorageData.dataEncryption(0)
+    );
   }
 
   function increaseWrongStreak() {
-    let streakCount = window.localStorage.getItem('STREAK_WRONG');
+    let streakCount = StorageData.localStorageRAW('STREAK_WRONG');
     if (streakCount == null) {
       streakCount = 0;
       streakCount++;
     } else {
       streakCount++;
     }
-    window.localStorage.setItem('STREAK_WRONG', streakCount);
-
-    let dataCorrect = parseInt(
-      JSON.parse(window.localStorage.getItem('STREAK_CORRECT'))
+    window.localStorage.setItem(
+      'STREAK_WRONG',
+      SecureStorageData.dataEncryption(streakCount)
     );
+
+    let dataCorrect = parseInt(StorageData.localStorageJSON('STREAK_CORRECT'));
     if (dataCorrect <= 1) {
-      window.localStorage.setItem('STREAK_CORRECT', 0);
+      window.localStorage.setItem(
+        'STREAK_CORRECT',
+        SecureStorageData.dataEncryption(0)
+      );
     }
 
-    window.localStorage.setItem('STREAK_IRRELEVANT', 0);
+    window.localStorage.setItem(
+      'STREAK_IRRELEVANT',
+      SecureStorageData.dataEncryption(0)
+    );
   }
 
   function increaseIrrelevantStreak() {
-    let streakCount = window.localStorage.getItem('STREAK_IRRELEVANT');
+    let streakCount = StorageData.localStorageRAW('STREAK_IRRELEVANT');
     if (streakCount == null) {
       streakCount = 0;
       streakCount++;
     } else {
       streakCount++;
     }
-    window.localStorage.setItem('STREAK_IRRELEVANT', streakCount);
+    window.localStorage.setItem(
+      'STREAK_IRRELEVANT',
+      SecureStorageData.dataEncryption(streakCount)
+    );
   }
 
   // INCREASE TALLY FUNCTION
 
   function increaseTally(expressionType) {
     // UPDATE DATA
-    var data = window.localStorage.getItem(expressionType);
+    var data = StorageData.localStorageRAW(expressionType);
     if (data == null || data == undefined || data == '0') {
       data = '0';
     }
 
     data = parseInt(data);
     data++;
-    window.localStorage.setItem(expressionType, JSON.stringify(data));
+    window.localStorage.setItem(
+      expressionType,
+      JSON.stringify(SecureStorageData.dataEncryption(data))
+    );
     //END OF LINE
   }
 
@@ -1219,10 +1345,7 @@ export default function Whiteboard() {
 
   function displayFraction() {
     //ADD IF SHORTENED OR FULL
-    if (
-      JSON.parse(window.localStorage.getItem('SYSTEM_VERSION')) ==
-      'Facial Group'
-    ) {
+    if (StorageData.localStorageJSON('SYSTEM_VERSION') == 'Facial Group') {
       setImageLink('PIA-Talking1');
       changeResponseColor(defaultColor);
     }
@@ -1237,10 +1360,7 @@ export default function Whiteboard() {
 
   function displayAngrySolved() {
     //ADD IF SHORTENED OR FULL
-    if (
-      JSON.parse(window.localStorage.getItem('SYSTEM_VERSION')) ==
-      'Facial Group'
-    ) {
+    if (StorageData.localStorageJSON('SYSTEM_VERSION') == 'Facial Group') {
       increaseTally('EXPRESSION_ANGRY');
       setImageLink('PIA-Mad');
       changeResponseColor(angryColor);
@@ -1257,7 +1377,10 @@ export default function Whiteboard() {
   }
 
   function displaySolved() {
-    window.localStorage.setItem('QUESTION_STATUS', JSON.stringify('SOLVED'));
+    window.localStorage.setItem(
+      'QUESTION_STATUS',
+      JSON.stringify(SecureStorageData.dataEncryption('SOLVED'))
+    );
     ReactDOM.findDOMNode(confirmationArea).style.visibility = 'visible';
 
     if (levelUp) {
@@ -1268,10 +1391,7 @@ export default function Whiteboard() {
     let currentTime = JSON.parse(window.localStorage.getItem('TIMER'));
     if (currentTime <= 60 || currentTime == null) {
       //ADD IF SHORTENED OR FULL
-      if (
-        JSON.parse(window.localStorage.getItem('SYSTEM_VERSION')) ==
-        'Facial Group'
-      ) {
+      if (StorageData.localStorageJSON('SYSTEM_VERSION') == 'Facial Group') {
         let imageArray = ['PIA-Smiling', 'PIA-Smiling2'];
         let imageLink =
           imageArray[Math.floor(Math.random() * imageArray.length)];
@@ -1292,10 +1412,7 @@ export default function Whiteboard() {
       setTimeout(resetTimeout(), 1);
     } else {
       //ADD IF SHORTENED OR FULL
-      if (
-        JSON.parse(window.localStorage.getItem('SYSTEM_VERSION')) ==
-        'Facial Group'
-      ) {
+      if (StorageData.localStorageJSON('SYSTEM_VERSION') == 'Facial Group') {
         let imageArray = ['PIA-Smiling', 'PIA-Smiling2'];
         let imageLink =
           imageArray[Math.floor(Math.random() * imageArray.length)];
@@ -1309,19 +1426,18 @@ export default function Whiteboard() {
     }
 
     //10th question easy
-    let diffType = window.localStorage.getItem('DIFFICULTY_TYPE');
-    var abandonedTally = JSON.parse(
-      window.localStorage.getItem('QUESTION_ABANDONED')
-    );
+    let diffType = StorageData.localStorageRAW('DIFFICULTY_TYPE');
+    var abandonedTally = StorageData.localStorageJSON('QUESTION_ABANDONED');
+
     if (abandonedTally === null) abandonedTally = 0;
     if (
-      JSON.parse(window.localStorage.getItem('QUESTION_ANSWERED')) >= 9 &&
+      StorageData.localStorageJSON('QUESTION_ANSWERED') >= 9 &&
       (diffType == '"Easy"' || diffType == 'Easy') &&
       abandonedTally == 0
     ) {
       setTimeout(displayLevelUp, 3500);
     } else if (
-      JSON.parse(window.localStorage.getItem('QUESTION_ANSWERED')) >= 5 &&
+      StorageData.localStorageJSON('QUESTION_ANSWERED') >= 5 &&
       (diffType == '"Average"' || diffType == 'Average') &&
       abandonedTally == 0
     ) {
@@ -1338,7 +1454,7 @@ export default function Whiteboard() {
 
   function displayLevelUp() {
     setLevelDownState(false);
-    let diffType = window.localStorage.getItem('DIFFICULTY_TYPE');
+    let diffType = StorageData.localStorageRAW('DIFFICULTY_TYPE');
     if (diffType == '"Easy"' || diffType == 'Easy') {
       setResponse(
         'Since you solved more than 10 equations. I suggest that you try the average level equations.'
@@ -1349,10 +1465,7 @@ export default function Whiteboard() {
       );
     }
     //ADD IF SHORTENED OR FULL
-    if (
-      JSON.parse(window.localStorage.getItem('SYSTEM_VERSION')) ==
-      'Facial Group'
-    ) {
+    if (StorageData.localStorageJSON('SYSTEM_VERSION') == 'Facial Group') {
       let imageArray = ['PIA-Smiling3', 'PIA-Smiling4'];
       let imageLink = imageArray[Math.floor(Math.random() * imageArray.length)];
       setImageLink(imageLink);
@@ -1371,7 +1484,7 @@ export default function Whiteboard() {
 
   function displayLevelDown() {
     setLevelDownState(true);
-    let diffType = window.localStorage.getItem('DIFFICULTY_TYPE');
+    let diffType = StorageData.localStorageRAW('DIFFICULTY_TYPE');
     if (diffType == '"Average"' || diffType == 'Average') {
       setResponse(
         'Since you abandoned questions frequently. I suggest that you level down to easy level equations.'
@@ -1382,10 +1495,7 @@ export default function Whiteboard() {
       );
     }
     //ADD IF SHORTENED OR FULL
-    if (
-      JSON.parse(window.localStorage.getItem('SYSTEM_VERSION')) ==
-      'Facial Group'
-    ) {
+    if (StorageData.localStorageJSON('SYSTEM_VERSION') == 'Facial Group') {
       let imageArray = ['PIA-Talking2', 'PIA-Sad3'];
       let imageLink = imageArray[Math.floor(Math.random() * imageArray.length)];
       setImageLink(imageLink);
@@ -1402,10 +1512,7 @@ export default function Whiteboard() {
 
   function displayRepeated() {
     //ADD IF SHORTENED OR FULL
-    if (
-      JSON.parse(window.localStorage.getItem('SYSTEM_VERSION')) ==
-      'Facial Group'
-    ) {
+    if (StorageData.localStorageJSON('SYSTEM_VERSION') == 'Facial Group') {
       let imageArray = ['PIA-Confused', 'PIA-Confused2'];
       let imageLink = imageArray[Math.floor(Math.random() * imageArray.length)];
       setImageLink(imageLink);
@@ -1423,28 +1530,20 @@ export default function Whiteboard() {
     ReactDOM.findDOMNode(skipArea).style.visibility = 'hidden';
     //ADD IF SHORTENED OR FULL
     //INCREASE EXPRESSION TALLY
-    if (
-      JSON.parse(window.localStorage.getItem('SYSTEM_VERSION')) ==
-      'Facial Group'
-    ) {
+    if (StorageData.localStorageJSON('SYSTEM_VERSION') == 'Facial Group') {
       insertSequence('happy');
       increaseTally('EXPRESSION_HAPPY');
     }
     //
 
-    let data = parseInt(
-      JSON.parse(window.localStorage.getItem('STREAK_CORRECT'))
-    );
+    let data = parseInt(StorageData.localStorageJSON('STREAK_CORRECT'));
     if (data === null) {
       data = 0;
     }
 
     if (data >= 6) {
       //ADD IF SHORTENED OR FULL
-      if (
-        JSON.parse(window.localStorage.getItem('SYSTEM_VERSION')) ==
-        'Facial Group'
-      ) {
+      if (StorageData.localStorageJSON('SYSTEM_VERSION') == 'Facial Group') {
         setImageLink('PIA-Happy4');
       }
       //
@@ -1452,10 +1551,7 @@ export default function Whiteboard() {
       setSubtext(FeedbackList.GenerateMessage('subCorrect1'));
     } else if (data >= 4) {
       //ADD IF SHORTENED OR FULL
-      if (
-        JSON.parse(window.localStorage.getItem('SYSTEM_VERSION')) ==
-        'Facial Group'
-      ) {
+      if (StorageData.localStorageJSON('SYSTEM_VERSION') == 'Facial Group') {
         setImageLink('PIA-Happy3');
       }
       //
@@ -1463,10 +1559,7 @@ export default function Whiteboard() {
       setSubtext(FeedbackList.GenerateMessage('subCorrect1'));
     } else if (data >= 2) {
       //ADD IF SHORTENED OR FULL
-      if (
-        JSON.parse(window.localStorage.getItem('SYSTEM_VERSION')) ==
-        'Facial Group'
-      ) {
+      if (StorageData.localStorageJSON('SYSTEM_VERSION') == 'Facial Group') {
         setImageLink('PIA-Happy2');
       }
       //
@@ -1474,10 +1567,7 @@ export default function Whiteboard() {
       setSubtext(FeedbackList.GenerateMessage('subCorrect2'));
     } else {
       //ADD IF SHORTENED OR FULL
-      if (
-        JSON.parse(window.localStorage.getItem('SYSTEM_VERSION')) ==
-        'Facial Group'
-      ) {
+      if (StorageData.localStorageJSON('SYSTEM_VERSION') == 'Facial Group') {
         setImageLink('PIA-Happy');
       }
       //
@@ -1486,10 +1576,7 @@ export default function Whiteboard() {
     }
 
     //ADD IF SHORTENED OR FULL
-    if (
-      JSON.parse(window.localStorage.getItem('SYSTEM_VERSION')) ==
-      'Facial Group'
-    ) {
+    if (StorageData.localStorageJSON('SYSTEM_VERSION') == 'Facial Group') {
       changeResponseColor(correctColor);
     }
     //
@@ -1497,9 +1584,7 @@ export default function Whiteboard() {
   }
 
   useEffect(() => {
-    let dataWrong = parseInt(
-      JSON.parse(window.localStorage.getItem('STREAK_WRONG'))
-    );
+    let dataWrong = parseInt(StorageData.localStorageJSON('STREAK_WRONG'));
     if (dataWrong === null) {
       document.getElementById('skip_button').style.visibility = 'hidden';
     } else {
@@ -1510,16 +1595,12 @@ export default function Whiteboard() {
   });
 
   function displayWrong() {
-    let dataCorrect = parseInt(
-      JSON.parse(window.localStorage.getItem('STREAK_CORRECT'))
-    );
+    let dataCorrect = parseInt(StorageData.localStorageJSON('STREAK_CORRECT'));
     if (dataCorrect === null) {
       dataCorrect = 0;
     }
 
-    let dataWrong = parseInt(
-      JSON.parse(window.localStorage.getItem('STREAK_WRONG'))
-    );
+    let dataWrong = parseInt(StorageData.localStorageJSON('STREAK_WRONG'));
     if (dataWrong === null) {
       dataWrong = 0;
     }
@@ -1527,10 +1608,7 @@ export default function Whiteboard() {
     //ADD IF SHORTENED OR FULL
     //INCREASE EXPRESSION TALLY
     if (dataCorrect < 2) {
-      if (
-        JSON.parse(window.localStorage.getItem('SYSTEM_VERSION')) ==
-        'Facial Group'
-      ) {
+      if (StorageData.localStorageJSON('SYSTEM_VERSION') == 'Facial Group') {
         insertSequence('sad');
         increaseTally('EXPRESSION_SAD');
       }
@@ -1549,10 +1627,7 @@ export default function Whiteboard() {
     */
     if (dataCorrect >= 2) {
       //ADD IF SHORTENED OR FULL
-      if (
-        JSON.parse(window.localStorage.getItem('SYSTEM_VERSION')) ==
-        'Facial Group'
-      ) {
+      if (StorageData.localStorageJSON('SYSTEM_VERSION') == 'Facial Group') {
         insertSequence('surprised');
         increaseTally('EXPRESSION_SURPRISED');
         setImageLink('PIA-Surprised');
@@ -1560,16 +1635,19 @@ export default function Whiteboard() {
       //
       setResponse('Oh my! It seems like your solution is not correct.');
       setSubtext('');
-      window.localStorage.setItem('STREAK_CORRECT', 0);
-      window.localStorage.setItem('STREAK_WRONG', 0);
+      window.localStorage.setItem(
+        'STREAK_CORRECT',
+        SecureStorageData.dataEncryption(0)
+      );
+      window.localStorage.setItem(
+        'STREAK_WRONG',
+        SecureStorageData.dataEncryption(0)
+      );
     } else if (dataWrong != 0 && dataWrong % 2 == 0) {
       let links = ['PIA-Crying', 'PIA-Crying2', 'PIA-Crying3'];
       let currentLink = links[Math.floor(Math.random() * links.length)];
       //ADD IF SHORTENED OR FULL
-      if (
-        JSON.parse(window.localStorage.getItem('SYSTEM_VERSION')) ==
-        'Facial Group'
-      ) {
+      if (StorageData.localStorageJSON('SYSTEM_VERSION') == 'Facial Group') {
         setImageLink(currentLink);
         changeResponseColor(wrongColor);
       }
@@ -1579,10 +1657,7 @@ export default function Whiteboard() {
 
       //ADD IF shortened or full
 
-      if (
-        JSON.parse(window.localStorage.getItem('SYSTEM_VERSION')) ==
-        'Facial Group'
-      ) {
+      if (StorageData.localStorageJSON('SYSTEM_VERSION') == 'Facial Group') {
         increaseTally('EXPRESSION_MOTIVATION');
         insertSequence('motivation');
         setTimeout(displayMotivation, timerDelay);
@@ -1592,10 +1667,7 @@ export default function Whiteboard() {
       return;
     } else {
       //ADD IF SHORTENED OR FULL
-      if (
-        JSON.parse(window.localStorage.getItem('SYSTEM_VERSION')) ==
-        'Facial Group'
-      ) {
+      if (StorageData.localStorageJSON('SYSTEM_VERSION') == 'Facial Group') {
         let imageArray = ['PIA-Sad', 'PIA-Sad2', 'PIA-Sad3'];
         let imageLink =
           imageArray[Math.floor(Math.random() * imageArray.length)];
@@ -1612,10 +1684,7 @@ export default function Whiteboard() {
     setSubtext('Please try again.');
 
     //ADD IF SHORTENED OR FULL
-    if (
-      JSON.parse(window.localStorage.getItem('SYSTEM_VERSION')) ==
-      'Facial Group'
-    ) {
+    if (StorageData.localStorageJSON('SYSTEM_VERSION') == 'Facial Group') {
       changeResponseColor(wrongColor);
     }
     //
@@ -1645,13 +1714,10 @@ export default function Whiteboard() {
 
   function displayMad() {
     //INCREASE EXPRESSION TALLY
-    let streakCount = window.localStorage.getItem('STREAK_IRRELEVANT');
+    let streakCount = StorageData.localStorageRAW('STREAK_IRRELEVANT');
     if (streakCount >= 2) {
       //ADD IF SHORTENED OR FULL
-      if (
-        JSON.parse(window.localStorage.getItem('SYSTEM_VERSION')) ==
-        'Facial Group'
-      ) {
+      if (StorageData.localStorageJSON('SYSTEM_VERSION') == 'Facial Group') {
         insertSequence('angry');
         increaseTally('EXPRESSION_ANGRY');
         setImageLink('PIA-Mad');
@@ -1665,10 +1731,7 @@ export default function Whiteboard() {
       setSubtext('');
       setTimeout(timer, 6500);
     } else {
-      if (
-        JSON.parse(window.localStorage.getItem('SYSTEM_VERSION')) ==
-        'Facial Group'
-      ) {
+      if (StorageData.localStorageJSON('SYSTEM_VERSION') == 'Facial Group') {
         setImageLink('PIA-Talking1');
       }
       setResponse(
@@ -1684,10 +1747,7 @@ export default function Whiteboard() {
   function displayAngry() {
     //ADD IF SHORTENED OR FULL
     //INCREASE EXPRESSION TALLY
-    if (
-      JSON.parse(window.localStorage.getItem('SYSTEM_VERSION')) ==
-      'Facial Group'
-    ) {
+    if (StorageData.localStorageJSON('SYSTEM_VERSION') == 'Facial Group') {
       increaseTally('EXPRESSION_ANGRY');
       let imageArray = ['PIA-Angry', 'PIA-Angry2', 'PIA-Angry3'];
       let imageLink = imageArray[Math.floor(Math.random() * imageArray.length)];
@@ -1708,20 +1768,19 @@ export default function Whiteboard() {
   function insertSequence(value) {
     var newValue = value;
     var expression = '';
-    if (window.localStorage.getItem('EXPRESSION_SEQUENCE') != null) {
+    if (StorageData.localStorageRAW('EXPRESSION_SEQUENCE') != null) {
       expression =
-        expression +
-        JSON.parse(window.localStorage.getItem('EXPRESSION_SEQUENCE'));
+        expression + StorageData.localStorageJSON('EXPRESSION_SEQUENCE');
 
       expression = expression + (',' + newValue);
       window.localStorage.setItem(
         'EXPRESSION_SEQUENCE',
-        JSON.stringify(expression)
+        JSON.stringify(SecureStorageData.dataEncryption(expression))
       );
     } else {
       window.localStorage.setItem(
         'EXPRESSION_SEQUENCE',
-        JSON.stringify(newValue)
+        JSON.stringify(SecureStorageData.dataEncryption(newValue))
       );
     }
   }
@@ -1766,15 +1825,12 @@ export default function Whiteboard() {
     let imageArray = ['PIA-Talking1', 'PIA-Talking2', 'PIA-Talking3'];
     let imageLink = imageArray[Math.floor(Math.random() * imageArray.length)];
 
-    if (
-      JSON.parse(window.localStorage.getItem('SYSTEM_VERSION')) ==
-      'Facial Group'
-    ) {
+    if (StorageData.localStorageJSON('SYSTEM_VERSION') == 'Facial Group') {
       setImageLink(imageLink);
       changeResponseColor(hintColor);
     }
 
-    let hintIndex = JSON.parse(window.localStorage.getItem('FINISHED_STEPS'));
+    let hintIndex = StorageData.localStorageJSON('FINISHED_STEPS');
     console.log('hintindex: ' + hintIndex);
     if (hintIndex === null) {
       hintIndex = 0;
@@ -2216,9 +2272,8 @@ export default function Whiteboard() {
         setInterval(currentQuestionTimer, 1000);
       }
 
-      let questionStatus = JSON.parse(
-        window.localStorage.getItem('FINISHED_EQUATION')
-      );
+      let questionStatus = StorageData.localStorageJSON('FINISHED_EQUATION');
+
       if (questionStatus === null) questionStatus = false;
 
       if (questionStatus) {
@@ -2239,19 +2294,22 @@ export default function Whiteboard() {
   //window.localStorage.setItem("DIFFICULTY_TYPE", JSON.stringify("Easy"));
   //END SESSION
   useEffect(() => {
-    if (JSON.parse(window.localStorage.getItem('SESSION_END') == 'true')) {
+    if (StorageData.localStorageJSON('SESSION_END') == 'true') {
       for (let i = 0; i < highestTimeoutId; i++) {
         clearTimeout(i);
       }
       setShowModal(true);
     }
     //END AT 20th
-    if (JSON.parse(window.localStorage.getItem('QUESTION_INDEX') >= 19)) {
+    if (StorageData.localStorageJSON('QUESTION_INDEX') >= 19) {
       for (let i = 0; i < highestTimeoutId; i++) {
         clearTimeout(i);
       }
       setShowModal(true);
-      window.localStorage.setItem('SESSION_END', true);
+      window.localStorage.setItem(
+        'SESSION_END',
+        SecureStorageData.dataEncryption(true)
+      );
     }
   });
 
@@ -2259,22 +2317,34 @@ export default function Whiteboard() {
     for (let i = 0; i < highestTimeoutId; i++) {
       clearTimeout(i);
     }
-    window.localStorage.setItem('SESSION_LEVELUP', JSON.stringify('TRUE'));
-    window.localStorage.setItem('SESSION_LEVELDOWN', JSON.stringify('FALSE'));
-    window.localStorage.setItem('SESSION_SCORE', 20);
-    let diffType = window.localStorage.getItem('DIFFICULTY_TYPE');
+    window.localStorage.setItem(
+      'SESSION_LEVELUP',
+      JSON.stringify(SecureStorageData.dataEncryption('TRUE'))
+    );
+    window.localStorage.setItem(
+      'SESSION_LEVELDOWN',
+      JSON.stringify(SecureStorageData.dataEncryption('FALSE'))
+    );
+    window.localStorage.setItem(
+      'SESSION_SCORE',
+      SecureStorageData.dataEncryption(20)
+    );
+    let diffType = StorageData.localStorageRAW('DIFFICULTY_TYPE');
     if (diffType == '"Easy"' || diffType == 'Easy') {
       window.localStorage.setItem(
         'SESSION_LEVEL_UP',
-        JSON.stringify('average')
+        JSON.stringify(SecureStorageData.dataEncryption('average'))
       );
     } else if (diffType == '"Average"' || diffType == 'Average') {
       window.localStorage.setItem(
         'SESSION_LEVEL_UP',
-        JSON.stringify('difficult')
+        JSON.stringify(SecureStorageData.dataEncryption('difficult'))
       );
     }
-    window.localStorage.setItem('SESSION_END', true);
+    window.localStorage.setItem(
+      'SESSION_END',
+      SecureStorageData.dataEncryption(true)
+    );
     setShowModal(true);
   };
 
@@ -2363,26 +2433,25 @@ export default function Whiteboard() {
   */
 
   useEffect(() => {
-    var localSessionID = JSON.parse(window.localStorage.getItem('SESSION_ID'));
+    var localSessionID = StorageData.localStorageJSON('SESSION_ID');
     if (localSessionID === null) {
       localSessionID = 0;
       navigate('/Homepage');
     }
 
-    var tempSessionID = JSON.parse(
-      window.sessionStorage.getItem('CURRENT_SESSION_ID')
-    );
+    var tempSessionID = StorageData.sessionStorageJSON('CURRENT_SESSION_ID');
+
     if (tempSessionID === null) {
       window.sessionStorage.setItem(
         'CURRENT_SESSION_ID',
-        JSON.stringify(localSessionID)
+        JSON.stringify(SecureStorageData.dataEncryption(localSessionID))
       );
     }
 
     if (localSessionID != tempSessionID) {
       window.sessionStorage.setItem(
         'CURRENT_SESSION_ID',
-        JSON.stringify(localSessionID)
+        JSON.stringify(SecureStorageData.dataEncryption(localSessionID))
       );
       window.location.reload(false);
     }
@@ -2432,11 +2501,11 @@ export default function Whiteboard() {
                   }`}
                   {...(isHelp
                     ? {
-                        dataTooltip:
+                        datatooltip:
                           'Button to gather information by hovering around the system.',
                       }
                     : {})}
-                  {...(isHelp ? { dataTooltipPosition: 'right' } : {})}
+                  {...(isHelp ? { datatooltipposition: 'right' } : {})}
                 >
                   <svg
                     id="help"
@@ -2468,11 +2537,11 @@ export default function Whiteboard() {
                   }`}
                   {...(isHelp
                     ? {
-                        dataTooltip:
+                        datatooltip:
                           'Button to call for the assistance of PIA, like what step should be done.',
                       }
                     : {})}
-                  {...(isHelp ? { dataTooltipPosition: 'right' } : {})}
+                  {...(isHelp ? { datatooltipposition: 'right' } : {})}
                 >
                   <svg
                     id="help_button"
@@ -2514,11 +2583,11 @@ export default function Whiteboard() {
                   }`}
                   {...(isHelp
                     ? {
-                        dataTooltip:
+                        datatooltip:
                           'Button to switch to tutorial video mode, where linear equation is the lesson.',
                       }
                     : {})}
-                  {...(isHelp ? { dataTooltipPosition: 'right' } : {})}
+                  {...(isHelp ? { datatooltipposition: 'right' } : {})}
                 >
                   <svg
                     onClick={tutorialMode}
@@ -2555,11 +2624,11 @@ export default function Whiteboard() {
                   }`}
                   {...(isHelp
                     ? {
-                        dataTooltip:
+                        datatooltip:
                           'Button to enable drawing mode in the whiteboard.',
                       }
                     : {})}
-                  {...(isHelp ? { dataTooltipPosition: 'right' } : {})}
+                  {...(isHelp ? { datatooltipposition: 'right' } : {})}
                 >
                   <svg
                     id="pen_button"
@@ -2591,11 +2660,11 @@ export default function Whiteboard() {
                   }`}
                   {...(isHelp
                     ? {
-                        dataTooltip:
+                        datatooltip:
                           'Button to show guide in writing the final answer.',
                       }
                     : {})}
-                  {...(isHelp ? { dataTooltipPosition: 'right' } : {})}
+                  {...(isHelp ? { datatooltipposition: 'right' } : {})}
                 >
                   <svg
                     id="guide_button"
@@ -2630,11 +2699,11 @@ export default function Whiteboard() {
               }`}
               {...(isHelp
                 ? {
-                    dataTooltip:
+                    datatooltip:
                       'The area for the given question and the equation you need to solve.',
                   }
                 : {})}
-              {...(isHelp ? { dataTooltipPosition: 'bottom' } : {})}
+              {...(isHelp ? { datatooltipposition: 'bottom' } : {})}
             >
               {/* PEN AREA, not modal */}
               {/**FOR TUTORIAL */}
@@ -2836,11 +2905,11 @@ export default function Whiteboard() {
                     <div
                       {...(isHelp
                         ? {
-                            dataTooltip:
+                            datatooltip:
                               'This is the area for facial expression response of PIA.',
                           }
                         : {})}
-                      {...(isHelp ? { dataTooltipPosition: 'bottom' } : {})}
+                      {...(isHelp ? { datatooltipposition: 'bottom' } : {})}
                       id="image_bg"
                       className={`absolute z-10  object-cover hdScreen:h-[29rem] hdScreen:w-[29rem] semihdScreen:h-[25rem] semihdScreen:w-[25rem] laptopScreen:h-[25rem] laptopScreen:w-[25rem]  averageScreen:h-[25rem] averageScreen:w-[25rem] xs:h-[40rem] xs:w-[30rem]
                                  hdScreen:scale-100 semihdScreen:scale-90 laptopScreen:scale-80 averageScreen:scale-75 xs:scale-55 
@@ -2900,11 +2969,11 @@ export default function Whiteboard() {
                 className="flex justify-center invisible "
                 {...(isHelp
                   ? {
-                      dataTooltip:
+                      datatooltip:
                         'This is the area for facial expression response of PIA.',
                     }
                   : {})}
-                {...(isHelp ? { dataTooltipPosition: 'bottom' } : {})}
+                {...(isHelp ? { datatooltipposition: 'bottom' } : {})}
               >
                 <div
                   id="image_bg"
@@ -2928,7 +2997,7 @@ export default function Whiteboard() {
                     title="Proceed to the next given."
                     className="invisible text-gray-500 bg-gray-200/40 px-2 py-0.5 rounded-sm hover:bg-gray-300 hover:text-gray-700"
                   >
-                    Skip Question
+                    Abandon Question
                   </button>
                 </div>
               </div>
@@ -2943,11 +3012,11 @@ export default function Whiteboard() {
               }`}
               {...(isHelp
                 ? {
-                    dataTooltip:
+                    datatooltip:
                       'The feedback area of PIA. Some feedback need your response and there will be options underneath it.',
                   }
                 : {})}
-              {...(isHelp ? { dataTooltipPosition: 'bottom' } : {})}
+              {...(isHelp ? { datatooltipposition: 'bottom' } : {})}
             >
               <div
                 id="message_area_tail"
@@ -3039,11 +3108,11 @@ export default function Whiteboard() {
               }`}
               {...(isHelp
                 ? {
-                    dataTooltip:
+                    datatooltip:
                       'The area for correct step or answers you must input.',
                   }
                 : {})}
-              {...(isHelp ? { dataTooltipPosition: 'right' } : {})}
+              {...(isHelp ? { datatooltipposition: 'right' } : {})}
             >
               <div className="flex">
                 {
@@ -3123,11 +3192,11 @@ export default function Whiteboard() {
               }`}
               {...(isHelp
                 ? {
-                    dataTooltip:
+                    datatooltip:
                       'This is the area to show your input logs, You could copy and paste text from here to input box.',
                   }
                 : {})}
-              {...(isHelp ? { dataTooltipPosition: 'bottom' } : {})}
+              {...(isHelp ? { datatooltipposition: 'bottom' } : {})}
             >
               <div
                 id="logs"
@@ -3178,11 +3247,11 @@ export default function Whiteboard() {
               }`}
               {...(isHelp
                 ? {
-                    dataTooltip:
+                    datatooltip:
                       'The area to put your answers, and submit it. Please write relevant answers only.',
                   }
                 : {})}
-              {...(isHelp ? { dataTooltipPosition: 'top' } : {})}
+              {...(isHelp ? { datatooltipposition: 'top' } : {})}
             >
               <div className="flex flex-col  border-borderBr rounded-5xl border-12 mt-3.5 m-3.5 mx-4 ">
                 <div
@@ -3350,11 +3419,11 @@ export default function Whiteboard() {
                   onClick={clearLogs}
                   {...(isHelp
                     ? {
-                        dataTooltip:
+                        datatooltip:
                           'The trash bin button. It removes all text from the current user logs.',
                       }
                     : {})}
-                  {...(isHelp ? { dataTooltipPosition: 'left' } : {})}
+                  {...(isHelp ? { datatooltipposition: 'left' } : {})}
                 >
                   <svg
                     className={`hdScreen:h-20 semihdScreen:h-[4.5rem] laptopScreen:h-16 averageScreen:h-16 xs:h-12 hdScreen:w-20 semihdScreen:w-[4.5rem] laptopScreen:w-16 averageScreen:w-16 xs:w-12 bg-white rounded-full p-3 hover:bg-gray-300 drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)] ${

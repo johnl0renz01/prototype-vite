@@ -15,6 +15,9 @@ import { Formik, useFormik } from 'formik';
 
 import LoadingSpinner from './LoadingSpinner';
 
+import StorageData from './StorageData';
+import SecureStorageData from './SecureStorageData';
+
 const ViewDetailModal = ({ visible, onClose, onContinue }) => {
   const [showLoading, setShowLoading] = useState(false);
 
@@ -31,9 +34,7 @@ const ViewDetailModal = ({ visible, onClose, onContinue }) => {
   const [messageDetails, setMessageDetails] = useState([]);
 
   useEffect(() => {
-    var requestID = JSON.parse(
-      window.sessionStorage.getItem('CURRENT_VIEW_DETAIL')
-    );
+    var requestID = StorageData.sessionStorageJSON('CURRENT_VIEW_DETAIL');
 
     var viewState = JSON.parse(
       window.sessionStorage.getItem('VIEW_DETAIL_STATE')
@@ -58,7 +59,7 @@ const ViewDetailModal = ({ visible, onClose, onContinue }) => {
 
         window.sessionStorage.setItem(
           'CURRENT_VIEW_DETAIL',
-          JSON.stringify(keys[6])
+          JSON.stringify(SecureStorageData.dataEncryption(keys[6]))
         );
         setShowLoading(false);
         loadValues();
@@ -101,16 +102,14 @@ const ViewDetailModal = ({ visible, onClose, onContinue }) => {
   const onSubmit = async (values, actions) => {
     console.log('HERE');
     setShowLoading(true);
-    var requestID = JSON.parse(
-      window.sessionStorage.getItem('CURRENT_VIEW_DETAIL')
-    );
+    var requestID = StorageData.sessionStorageJSON('CURRENT_VIEW_DETAIL');
     let id = requestID.replace(/"/g, '');
     //console.log(id);
-    var email = JSON.parse(window.localStorage.getItem('SESSION_EMAIL'));
+    var email = StorageData.localStorageJSON('SESSION_EMAIL');
     if (email === null) email = '';
-    console.log(email);
-    var role = JSON.parse(window.localStorage.getItem('ACCOUNT_TYPE'));
-    console.log(role);
+    //console.log(email);
+    var role = StorageData.localStorageJSON('ACCOUNT_TYPE');
+    //console.log(role);
 
     axios
       .post(
@@ -248,14 +247,14 @@ const ViewDetailModal = ({ visible, onClose, onContinue }) => {
                 {messageDetails.length > 0 ? (
                   <>
                     {messageDetails.map((content, index) => (
-                      <>
+                      <div key={index}>
                         {headContent(
                           content.Name,
                           content.Date,
                           content.Message,
                           index
                         )}
-                      </>
+                      </div>
                     ))}
                   </>
                 ) : (
