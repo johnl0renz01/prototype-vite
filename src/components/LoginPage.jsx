@@ -46,6 +46,8 @@ export default function LoginPage() {
   }
 
   useEffect(() => {
+    document.title = 'Log-in';
+
     var logged = JSON.parse(window.localStorage.getItem('LOGGED'));
     if (logged === null) logged = '';
 

@@ -40,6 +40,8 @@ export default function ManageSection() {
   }, []);
 
   useEffect(() => {
+    document.title = 'Manage Sections';
+
     var logged = JSON.parse(window.localStorage.getItem('LOGGED'));
     if (logged == 'FALSE') {
       window.localStorage.setItem('LOGIN_STATUS', JSON.stringify('Terminated'));
@@ -127,6 +129,34 @@ export default function ManageSection() {
         });
     }
   }
+
+  useEffect(() => {
+    var sectionName = StorageData.sessionStorageJSON('CURRENT_SECTION_EDIT');
+    if (sectionName !== null) {
+      try {
+        var objDiv = document.getElementById(sectionName);
+        setTimeout(objDiv.scrollIntoView(), 1);
+
+        highlightRow();
+        setTimeout(removeHighlight, 2500);
+
+        function highlightRow() {
+          document.getElementById(sectionName).style.fontWeight = '600';
+          document.getElementById(sectionName).style.backgroundColor =
+            '#dedede';
+          document.getElementById(sectionName).style.color = '#2563eb';
+        }
+
+        function removeHighlight() {
+          document.getElementById(sectionName).style.fontWeight = '400';
+          document.getElementById(sectionName).style.color = '#111827';
+          document.getElementById(sectionName).style.backgroundColor = '';
+          document.getElementById(sectionName).style.opacity = '';
+        }
+        sessionStorage.removeItem('CURRENT_SECTION_EDIT');
+      } catch {}
+    }
+  }, [section]);
 
   const [showLoading, setShowLoading] = useState(false);
   const [tableLoader, setTableLoader] = useState(false);
@@ -502,6 +532,7 @@ export default function ManageSection() {
                         <tbody className=" ">
                           {section.map((currentSection, index) => (
                             <tr
+                              id={currentSection.SectionName}
                               key={index}
                               className="odd:bg-white even:bg-slate-50/30 border-b border-gray-200 bg-white hover:bg-gray-100 text-gray-900 hover:text-indigo-600"
                             >

@@ -26,6 +26,8 @@ export default function HomePageAdmin() {
   }, []);
 
   useEffect(() => {
+    document.title = 'Overview';
+
     var logged = JSON.parse(window.localStorage.getItem('LOGGED'));
     if (logged == 'FALSE') {
       window.localStorage.setItem('LOGIN_STATUS', JSON.stringify('Terminated'));

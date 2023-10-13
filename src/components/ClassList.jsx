@@ -86,11 +86,13 @@ export default function ClassList() {
           JSON.stringify(SecureStorageData.dataEncryption(data))
         );
         currentSection = data;
+        document.title = '7 - ' + currentSection;
         currentSection = currentSection.replace(/ /g, '_');
         getCurrentSection();
       } else {
         data2 = data2.replace(/"/g, '');
         currentSection = data2;
+        document.title = '7 - ' + currentSection;
         currentSection = currentSection.replace(/ /g, '_');
         getCurrentSection();
       }
@@ -187,6 +189,8 @@ export default function ClassList() {
       'CURRENT_ACCOUNT',
       JSON.stringify(SecureStorageData.dataEncryption(currentAccount))
     );
+
+    window.open('/StudentDetail', '_blank');
   };
 
   const StudentDetailPage = () => {
@@ -238,6 +242,7 @@ export default function ClassList() {
     setShowModal(false);
     const data = StorageData.sessionStorageRAW('CURRENT_SECTION');
     if (data !== null) currentSection = JSON.parse(data);
+    document.title = '7 - ' + currentSection;
     currentSection = currentSection.replace(/ /g, '_');
     getCurrentSection();
   };
@@ -440,7 +445,6 @@ export default function ClassList() {
                                   onClick={function () {
                                     currentAccount = account.Email;
                                     setCurrentAccount();
-                                    setTimeout(StudentDetailPage, 1);
                                   }}
                                 >
                                   <button className="relative lg:text-base md:text-sm xs:text-xs  md:w-36 sm:w-28 xs:w-20 text-gray-700 hover:text-white   font-semibold  transition duration-500 border-gray-400 border-2  hover:bg-gray-500 hover:border-gray-500 py-2 rounded-xl shadow-md">

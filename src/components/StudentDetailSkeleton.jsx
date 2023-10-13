@@ -5,7 +5,13 @@ import axios from 'axios';
 import * as ReactDOM from 'react-dom';
 import $ from 'jquery';
 
-import { BsCaretUpFill } from 'react-icons/bs';
+import {
+  BsCaretUpFill,
+  BsArrowDownSquareFill,
+  BsFileEarmarkArrowDownFill,
+} from 'react-icons/bs';
+
+import { BsClipboard2X } from 'react-icons/bs';
 
 export default function StudentDetailSkeleton() {
   document.body.style.height = '100vh';
@@ -121,7 +127,7 @@ export default function StudentDetailSkeleton() {
             <BsCaretUpFill
               onClick={ClassListPage}
               title="Go back"
-              className="cursor-pointer text-gray-100 bg-gray-400 averageScreen:border-4 xs:border-2 border-gray-400 averageScreen:mr-3 xs:mr-1 hover:text-white hover:bg-gray-600 hover:border-gray-600 rounded-full averageScreen:pb-1 xs:pb-0.5 rotate-[270deg] averageScreen:mt-3.5 averageScreen:text-[2.25rem] xs:mt-0.5 xs:text-[1.25rem]"
+              className="hidden cursor-pointer text-gray-100 bg-gray-400 averageScreen:border-4 xs:border-2 border-gray-400 averageScreen:mr-3 xs:mr-1 hover:text-white hover:bg-gray-600 hover:border-gray-600 rounded-full averageScreen:pb-1 xs:pb-0.5 rotate-[270deg] averageScreen:mt-3.5 averageScreen:text-[2.25rem] xs:mt-0.5 xs:text-[1.25rem]"
             />
             <span className="">Report Details</span>
           </div>
