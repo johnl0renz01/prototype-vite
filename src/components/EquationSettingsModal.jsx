@@ -23,6 +23,9 @@ import { VscQuestion } from 'react-icons/vsc';
 
 import LoadingSpinner from './LoadingSpinner';
 
+import StorageData from './StorageData';
+import SecureStorageData from './SecureStorageData';
+
 const EquationSettingsModal = ({ visible, onClose, onContinue }) => {
   const [showLoading, setShowLoading] = useState(false);
   const navigate = useNavigate();
@@ -35,9 +38,8 @@ const EquationSettingsModal = ({ visible, onClose, onContinue }) => {
 
   const onSubmit = async (values, actions) => {
     setShowLoading(true);
-    var tableName = JSON.parse(
-      window.localStorage.getItem('SESSION_USER_LOGS')
-    );
+    var tableName = StorageData.localStorageJSON('SESSION_USER_LOGS');
+
     let tableLink = tableName + '_equation_settings';
 
     axios
@@ -78,12 +80,10 @@ const EquationSettingsModal = ({ visible, onClose, onContinue }) => {
   });
 
   useEffect(() => {
-    var tableName = JSON.parse(
-      window.localStorage.getItem('SESSION_USER_LOGS')
-    );
+    var tableName = StorageData.localStorageJSON('SESSION_USER_LOGS');
 
-    var settingsState = JSON.parse(
-      window.sessionStorage.getItem('EQUATION_SETTINGS_STATE')
+    var settingsState = StorageData.sessionStorageJSON(
+      'EQUATION_SETTINGS_STATE'
     );
 
     if (settingsState == true) {

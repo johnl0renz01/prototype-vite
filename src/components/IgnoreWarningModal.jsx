@@ -30,7 +30,7 @@ const IgnoreWarningModal = ({ visible, onClose, onContinue }) => {
   const [length, setLength] = useState(0);
 
   useEffect(() => {
-    var resetStates = StorageData.sessionStorageRAW(
+    var resetStates = StorageData.sessionStorageJSON(
       'IS_ERROR_RESET_STATES_IGNORE'
     );
     if (resetStates !== null) {
@@ -40,13 +40,13 @@ const IgnoreWarningModal = ({ visible, onClose, onContinue }) => {
       window.sessionStorage.removeItem('IS_ERROR_RESET_STATES_IGNORE');
     }
 
-    var accDuplicateRows = StorageData.sessionStorageRAW(
+    var accDuplicateRows = StorageData.sessionStorageJSON(
       'IS_ERROR_DUPLICATE_ROW'
     );
 
     console.log(accDuplicateRows);
 
-    var accMultipleRows = StorageData.sessionStorageRAW(
+    var accMultipleRows = StorageData.sessionStorageJSON(
       'IS_ERROR_MULTIPLE_ROW'
     );
 

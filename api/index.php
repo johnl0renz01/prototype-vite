@@ -177,6 +177,8 @@ switch($requestLink) {
     case "/api/exportAll":
         include('exportAll.php');
     break;
+
+
    
     //FOR CUSTOMIZATION
     case "/api/editAccount":
@@ -348,24 +350,5 @@ switch($requestLink) {
         include('resetPasswordCode.php');
     break;
 
-
-
-    //FOR DATA
-
-    case "/api/0GenerateData":
-        include('0GenerateData.php');
-    break;
-
-    case "/api/0GenerateTable":
-        include('0GenerateTable.php');
-    break;
-
-    case "/api/0GenerateSessionData":
-        include('0GenerateSessionData.php');
-    break;
-
-    case "/api/0GenerateSessionTable":
-        include('0GenerateSessionTable.php');
-    break;
 }
 
