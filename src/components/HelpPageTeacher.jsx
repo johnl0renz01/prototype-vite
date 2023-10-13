@@ -14,6 +14,9 @@ import CreateEquation from './CreateEquation';
 
 import HelpPageTeacherSkeleton from './HelpPageTeacherSkeleton';
 
+import StorageData from './StorageData';
+import SecureStorageData from './SecureStorageData';
+
 export default function HelpPageTeacher() {
   document.body.style.overflow = 'visible';
 
