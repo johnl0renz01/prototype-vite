@@ -78,7 +78,7 @@ const ResetPasswordModal = ({ visible, onClose, onContinue }) => {
       .then(function (response) {
         setShowLoading(false);
         getAccounts();
-        //onContinue();
+        onContinue();
       })
       .catch(function (error) {
         setShowLoading(false);

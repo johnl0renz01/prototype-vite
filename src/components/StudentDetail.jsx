@@ -362,13 +362,13 @@ export default function StudentDetail() {
                 ))}
 
                 <p className="hdScreen:text-lg semihdScreen:text-base laptopScreen:text-base averageScreen:text-base xs:text-xs text-gray-700 font-medium leading-4 hdScreen:mb-3 semihdScreen:mb-2 laptopScreen:mb-1 averageScreen:mb-0.5">
-                  Answered Equations:{' '}
+                  Answered Questions:{' '}
                   <span id="correct" className="font-normal">
                     {totalAnswered}
                   </span>
                 </p>
                 <p className="hdScreen:text-lg semihdScreen:text-base laptopScreen:text-base averageScreen:text-base xs:text-xs text-gray-700 font-medium leading-4 hdScreen:mb-3 semihdScreen:mb-2 laptopScreen:mb-1 averageScreen:mb-0.5">
-                  Abandoned Equations:{' '}
+                  Abandoned Questions:{' '}
                   <span id="incorrect" className="font-normal">
                     {totalUnanswered}
                   </span>

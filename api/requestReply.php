@@ -79,7 +79,7 @@ switch($_SESSION['method']) {
         date_default_timezone_set('Asia/Singapore');
         $date = date('M d, Y - h:i A');
         $stmt->bindParam(':date', $date);
-        $time = date('d-m-Y H:i:s');
+        $time = date('Y-m-d H:i:s');
         $stmt->bindParam(':time', $time);
 
         $stmt->bindParam(':message', $user->message);

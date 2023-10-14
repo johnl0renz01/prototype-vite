@@ -40,6 +40,8 @@ export default function ManageAccount() {
     function setTabIndex() {
       window.localStorage.setItem('CURRENT_TAB_INDEX', 1);
     }
+
+    sessionStorage.removeItem('CURRENT_ACCOUNT_EDIT');
   }, []);
 
   useEffect(() => {
@@ -296,7 +298,7 @@ export default function ManageAccount() {
   const handleOnCloseResetModal = () => setShowResetModal(false);
 
   const handleOnContinueResetModal = () => {
-    var option = StorageData.localStorageJSON('REQUEST_OPTION');
+    var option = StorageData.sessionStorageJSON('REQUEST_OPTION');
     if (option !== null) option = option.replace(/"/g, '');
 
     console.log(option);
@@ -526,9 +528,6 @@ export default function ManageAccount() {
                         <tbody className=" ">
                           {accounts.map((currentAccount, index) => (
                             <tr
-                              onMouseEnter={e => {
-                                console.log(currentAccount.Email);
-                              }}
                               id={currentAccount.Email}
                               key={index}
                               className="odd:bg-white even:bg-slate-50/30 border-b border-gray-200 bg-white hover:bg-gray-100 text-gray-900 hover:text-indigo-600"

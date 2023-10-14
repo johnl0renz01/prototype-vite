@@ -156,7 +156,7 @@ switch($_SESSION['method']) {
         //$time_start_seconds = isset($seconds) ? $hours *   3600 + $minutes * 60 + $seconds : $hours * 60 + $minutes;
         //GET CURRENT TIME
         
-        $current_time = date('d-m-Y H:i:s');
+        $current_time = date('Y-m-d H:i:s');
         $current_time = strtotime($current_time);
         //sscanf($current_time, "%d:%d:%d", $hours, $minutes, $seconds);
         //$time_end_seconds = isset($seconds) ? $hours * 3600 + $minutes * 60 + $seconds : $hours * 60 + $minutes;

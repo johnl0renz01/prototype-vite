@@ -39,7 +39,7 @@ switch($_SESSION['method']) {
         date_default_timezone_set('Asia/Singapore');
         $timestamp = date('M d, Y - h:i A');
         $stmt->bindParam(':timestamp', $timestamp);
-        $start_time = date('d-m-Y H:i:s');
+        $start_time = date('Y-m-d H:i:s');
         $stmt->bindParam(':start_time', $start_time);
         
         if($stmt->execute()) {

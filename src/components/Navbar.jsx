@@ -192,9 +192,30 @@ function Navbar() {
 
   const handleOnContinueModal = () => {
     window.localStorage.setItem('QUESTION_STATUS', JSON.stringify('ABANDONED'));
+
+    //CHECK IF STUDENT TRIED TO ANSWER THE CURRENT QUESTION
+    if (
+      StorageData.localStorageRAW('EXPRESSION_SEQUENCE') != null &&
+      StorageData.localStorageRAW('EXPRESSION_SEQUENCE') != ''
+    ) {
+      //INCREASE ABANDON TALLY
+      var data = StorageData.localStorageRAW('QUESTION_ABANDONED');
+      if (data == null || data == undefined || data == '0') {
+        data = '0';
+      }
+
+      data = parseInt(data);
+      data++;
+      window.localStorage.setItem(
+        'QUESTION_ABANDONED',
+        SecureStorageData.dataEncryption(data)
+      );
+    }
+
     setShowLoading(true);
     EndSession.recordData();
     ClearStorage.clearData();
+    window.localStorage.removeItem('EXPRESSION_SEQUENCE');
     setChoiceModal(true);
     setShowModal(false);
     window.localStorage.setItem('SESSION_USER', JSON.stringify(''));

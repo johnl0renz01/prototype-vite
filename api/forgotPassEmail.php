@@ -136,7 +136,7 @@ switch($_SESSION['method']) {
                 date_default_timezone_set('Asia/Singapore');
                 $timestamp = date('M d, Y - h:i A');
                 $stmt2->bindParam(':timestamp', $timestamp);
-                $timestamp2 = date('d-m-Y H:i:s');
+                $timestamp2 = date('Y-m-d H:i:s');
                 $stmt2->bindParam(':timestamp2', $timestamp2);
                 $stmt2->execute();
 

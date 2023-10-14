@@ -95,7 +95,7 @@ switch($_SESSION['method']) {
             $stmt = $conn->prepare($sql);
 
             
-            $start_time = date('d-m-Y H:i:s');
+            $start_time = date('Y-m-d H:i:s');
             $stmt->bindParam(':start_time', $start_time);
 
             if($stmt->execute()) {
@@ -113,7 +113,7 @@ switch($_SESSION['method']) {
             $time_start = strtotime($time_start);
 
             //GET CURRENT TIME
-            $current_time = date('d-m-Y H:i:s');
+            $current_time = date('Y-m-d H:i:s');
             $current_time = strtotime($current_time);
 
             //DEDUCT TIME
@@ -128,6 +128,14 @@ switch($_SESSION['method']) {
             } else {
                 $response = ['status' => 0, 'message' => 'Failed to create record.'];
             }
+        }
+
+        if ($expression_sequence == "EMPTY") {
+            $sqlRemove = "DELETE FROM ".$session_database." WHERE Question = '$question' ORDER BY QuestionID ASC LIMIT 1";
+            //$path = explode('/', $_SERVER['REQUEST_URI']);
+            
+            $stmtRemove = $conn->prepare($sqlRemove);
+            $stmtRemove->execute();
         }
         
         break;
