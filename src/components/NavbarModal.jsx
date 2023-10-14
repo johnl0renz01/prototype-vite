@@ -33,8 +33,8 @@ const NavbarModal = ({ visible, onClose, onContinue }) => {
               <span className="text-orange-600 font-bold">Warning:</span> There
               is session on going.
               <p className="text-gray-500 text-lg font-normal">
-                (Choosing to continue will end the current session and marks all
-                unanswered questions as abandoned.)
+                (Choosing to continue will end the current session and marks the
+                current question as abandoned.)
               </p>
               <p className="text-xl font-semibold py-4">
                 Do you still want to sign out?

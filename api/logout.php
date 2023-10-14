@@ -28,10 +28,13 @@ switch($_SESSION['method']) {
     case "POST":
         $user = json_decode( file_get_contents('php://input') );
         
-        $sql = "UPDATE sessions SET Logged = 'FALSE'
+        date_default_timezone_set('Asia/Singapore');
+        $sql = "UPDATE sessions SET Logged = 'FALSE', Timestamp = :timestamp
                 WHERE UniqueID = '$unique'";
 
         $stmt = $conn->prepare($sql);
+        $timestamp = date('M d, Y - h:i A');
+        $stmt->bindParam(':timestamp', $timestamp);
         
         if($stmt->execute()) {
             $response = ['status' => 1, 'message' => 'Record created successfully.'];

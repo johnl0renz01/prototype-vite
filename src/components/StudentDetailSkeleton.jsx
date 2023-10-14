@@ -146,7 +146,7 @@ export default function StudentDetailSkeleton() {
                 </p>
                 <p className="hdScreen:text-lg semihdScreen:text-base laptopScreen:text-base averageScreen:text-base xs:text-xs text-gray-700 font-medium leading-4 hdScreen:mb-3 semihdScreen:mb-2 laptopScreen:mb-1 averageScreen:mb-0.5">
                   <span className="bg-gray-300 text-gray-300 rounded-md mr-1 relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_2s_infinite]">
-                    Answered Equations:{' '}
+                    Answered Questions:{' '}
                   </span>
                   <span
                     id="correct"
@@ -157,7 +157,7 @@ export default function StudentDetailSkeleton() {
                 </p>
                 <p className="hdScreen:text-lg semihdScreen:text-base laptopScreen:text-base averageScreen:text-base xs:text-xs text-gray-700 font-medium leading-4 hdScreen:mb-3 semihdScreen:mb-2 laptopScreen:mb-1 averageScreen:mb-0.5">
                   <span className="bg-gray-300 text-gray-300 rounded-md mr-1 relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/50  before:animate-[shimmer_2s_infinite]">
-                    Abandoned Equations:{' '}
+                    Abandoned Questions:{' '}
                   </span>
                   <span
                     id="incorrect"

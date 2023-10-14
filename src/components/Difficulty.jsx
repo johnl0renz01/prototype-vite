@@ -327,10 +327,28 @@ export default function DifficultyPage() {
   const [choiceModal, setChoiceModal] = useState(false);
 
   const handleOnContinueModal = () => {
-    window.localStorage.removeItem('EXPRESSION_SEQUENCE');
+    //CHECK IF STUDENT TRIED TO ANSWER THE CURRENT QUESTION
+    if (
+      StorageData.localStorageRAW('EXPRESSION_SEQUENCE') != null &&
+      StorageData.localStorageRAW('EXPRESSION_SEQUENCE') != ''
+    ) {
+      //INCREASE ABANDON TALLY
+      var data = StorageData.localStorageRAW('QUESTION_ABANDONED');
+      if (data == null || data == undefined || data == '0') {
+        data = '0';
+      }
+
+      data = parseInt(data);
+      data++;
+      window.localStorage.setItem(
+        'QUESTION_ABANDONED',
+        SecureStorageData.dataEncryption(data)
+      );
+    }
     window.localStorage.setItem('QUESTION_STATUS', JSON.stringify('ABANDONED'));
     EndSession.recordData();
     ClearStorage.clearData();
+    window.localStorage.removeItem('EXPRESSION_SEQUENCE');
     setShowLoading(true);
     setChoiceModal(true);
     setShowModal(false);
@@ -391,7 +409,6 @@ export default function DifficultyPage() {
   };
 
   const pickDifficulty = () => {
-    window.localStorage.removeItem('EXPRESSION_SEQUENCE');
     setChoiceModal(false);
     var sessionID = '';
     try {
@@ -401,6 +418,7 @@ export default function DifficultyPage() {
     }
 
     if (sessionID == '""' || sessionID == null || sessionID == undefined) {
+      window.localStorage.removeItem('EXPRESSION_SEQUENCE');
       setShowLoading(true);
       window.localStorage.setItem(
         'SESSION_SCORE',

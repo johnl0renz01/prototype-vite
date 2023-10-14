@@ -66,7 +66,7 @@ var EndSession = (function () {
     var userDatabase = StorageData.localStorageRAW('SESSION_USER_LOGS');
     var currentQuestion = StorageData.localStorageRAW('PREVIOUS_QUESTION');
     var sequence = StorageData.localStorageRAW('EXPRESSION_SEQUENCE');
-    if (sequence === null) sequence = '';
+    if (sequence === null) sequence = 'EMPTY';
 
     var questionStatus = StorageData.localStorageRAW('QUESTION_STATUS');
     if (questionStatus === null) questionStatus = 'ABANDONED';
