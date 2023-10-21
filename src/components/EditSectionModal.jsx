@@ -288,7 +288,7 @@ const EditSectionModal = ({ visible, onClose, onContinue }) => {
                 <div className="inline-flex w-full mt-8">
                   <label
                     htmlFor="adviserName"
-                    className="inline-block pt-2 lg:pl-[3.25rem] xs:pl-1 text-right"
+                    className="inline-block pt-2 lg:pl-[3.25rem] xs:pl-8 text-right"
                   >
                     Teacher:{' '}
                   </label>

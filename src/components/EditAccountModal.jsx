@@ -31,7 +31,7 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
 
   useEffect(() => {
     getSections();
-    setEmail('@sf.edu.ph');
+    setEmail('@sfe.edu.ph');
   }, []);
 
   const [middleName, setMiddleName] = useState('');
@@ -249,15 +249,15 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
     fName = emailValue;
 
     if (lastName != '') {
-      setEmail(lastName + '.' + emailValue + '@sf.edu.ph');
-      tempEmail = lastName + '.' + emailValue + '@sf.edu.ph';
+      setEmail(lastName + '.' + emailValue + '@sfe.edu.ph');
+      tempEmail = lastName + '.' + emailValue + '@sfe.edu.ph';
     } else {
       if (firstName === '') {
-        setEmail('@sf.edu.ph');
+        setEmail('@sfe.edu.ph');
         tempEmail = '';
       } else {
-        setEmail(emailValue + '@sf.edu.ph');
-        tempEmail = emailValue + '@sf.edu.ph';
+        setEmail(emailValue + '@sfe.edu.ph');
+        tempEmail = emailValue + '@sfe.edu.ph';
       }
     }
 
@@ -312,15 +312,15 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
     lName = emailValue;
 
     if (firstName != '') {
-      setEmail(emailValue + '.' + firstName + '@sf.edu.ph');
-      tempEmail = emailValue + '.' + firstName + '@sf.edu.ph';
+      setEmail(emailValue + '.' + firstName + '@sfe.edu.ph');
+      tempEmail = emailValue + '.' + firstName + '@sfe.edu.ph';
     } else {
       if (lastName === '') {
-        setEmail('@sf.edu.ph');
+        setEmail('@sfe.edu.ph');
         tempEmail = '';
       } else {
-        setEmail(emailValue + '@sf.edu.ph');
-        tempEmail = emailValue + '@sf.edu.ph';
+        setEmail(emailValue + '@sfe.edu.ph');
+        tempEmail = emailValue + '@sfe.edu.ph';
       }
     }
 
@@ -719,7 +719,7 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
                     <div className="inline-flex w-full">
                       <label
                         htmlFor="email"
-                        className="inline-block pt-2 pr-2 text-right lg:w-[136px]"
+                        className="inline-block pt-2 pr-2 text-right lg:w-[136px] lg:pl-0 sm:pl-6"
                       >
                         Email:{' '}
                       </label>

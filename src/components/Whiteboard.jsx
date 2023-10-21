@@ -788,14 +788,6 @@ export default function Whiteboard() {
       clearTimeout(i);
     }
 
-    window.localStorage.setItem(
-      'QUESTION_STATUS',
-      JSON.stringify(SecureStorageData.dataEncryption('SOLVED'))
-    );
-
-    UpdateSession.recordData();
-    //SESSION SCORE
-
     ReactDOM.findDOMNode(confirmationArea).style.visibility = 'hidden';
     ReactDOM.findDOMNode(choiceArea).style.visibility = 'hidden';
     ReactDOM.findDOMNode(choiceArea2).style.visibility = 'hidden';
@@ -1122,6 +1114,10 @@ export default function Whiteboard() {
             currentScore = parseInt(currentScore);
             currentScore++;
             window.localStorage.setItem(
+              'QUESTION_STATUS',
+              JSON.stringify(SecureStorageData.dataEncryption('SOLVED'))
+            );
+            window.localStorage.setItem(
               'SESSION_SCORE',
               SecureStorageData.dataEncryption(currentScore)
             );
@@ -1189,6 +1185,10 @@ export default function Whiteboard() {
 
             currentScore = parseInt(currentScore);
             currentScore++;
+            window.localStorage.setItem(
+              'QUESTION_STATUS',
+              JSON.stringify(SecureStorageData.dataEncryption('SOLVED'))
+            );
             window.localStorage.setItem(
               'SESSION_SCORE',
               SecureStorageData.dataEncryption(currentScore)

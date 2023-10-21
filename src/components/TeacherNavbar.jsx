@@ -5,7 +5,14 @@ import axios from 'axios';
 import * as ReactDOM from 'react-dom';
 import $ from 'jquery';
 
-import { BsPersonPlusFill } from 'react-icons/bs';
+import {
+  BsPersonPlusFill,
+  BsPersonFill,
+  BsGear,
+  BsArchive,
+  BsBoxSeam,
+  BsInboxes,
+} from 'react-icons/bs';
 import { BsFillPersonVcardFill } from 'react-icons/bs';
 import { BsGearFill } from 'react-icons/bs';
 //import { IconName } from "react-icons/fa";
@@ -40,6 +47,9 @@ import LoadingSpinner from './LoadingSpinner';
 
 import StorageData from './StorageData';
 import SecureStorageData from './SecureStorageData';
+
+import ChangePasswordModal from './ChangePasswordModal';
+import ChangePasswordMessageModal from './ChangePasswordMessageModal';
 
 export default function TeacherNavbar() {
   const [showLoading, setShowLoading] = useState(false);
@@ -217,7 +227,14 @@ export default function TeacherNavbar() {
         }
       }
     }
+
+    var accountName = StorageData.localStorageJSON('SESSION_FULLNAME');
+    if (accountName !== null) {
+      setSessionName(accountName);
+    }
   });
+
+  const [sessionName, setSessionName] = useState('');
 
   const [logoutState, setLogoutState] = useState(false);
 
@@ -369,13 +386,26 @@ export default function TeacherNavbar() {
   const handleOnContinueModal = () => {
     setShowModal(false);
     setShowMessageModal(true);
-    updateTable();
   };
 
   // MODAL VIEW MESSAGE
 
   const [showMessageModal, setShowMessageModal] = useState(false);
   const handleOnCloseMessageModal = () => setShowMessageModal(false);
+
+  // MODAL CHANGE
+  const [showModal2, setShowModal2] = useState(false);
+  const handleOnCloseModal2 = () => setShowModal2(false);
+
+  const handleOnContinueModal2 = () => {
+    setShowModal2(false);
+    setShowMessageModal2(true);
+  };
+
+  // MODAL CHANGE MESSAGE
+
+  const [showMessageModal2, setShowMessageModal2] = useState(false);
+  const handleOnCloseMessageModal2 = () => setShowMessageModal2(false);
 
   return (
     <>
@@ -391,16 +421,16 @@ export default function TeacherNavbar() {
         
         `}
       >
-        <div className="absolute z-[50] averageScreen:right-0 sm:-right-3 xs:-right-3 averageScreen:mt-1 sm:-mt-4 xs:-mt-2 ">
-          <li className="flex items-center">
-            <ul className="p-8">
+        <div className="absolute z-[50] right-0 averageScreen:mt-1 sm:-mt-4 xs:-mt-2 ">
+          <li className="flex items-center lg:p-8 xs:p-8 lg:gap-x-2 xs:gap-x-0">
+            <ul className="">
               <Menu as="div" className="relative inline-block text-left">
                 <div>
                   <Menu.Button className="averageScreen:scale-100 sm:scale-60 xs:scale-50 inline-flex w-full justify-center rounded-md  sm:p-6 xs:p-4 lg:mt-0 md:mt-0 sm:mt-0 xs:mt-0.5  bg-gray-200/40 hover:bg-gray-200  lg:text-xl md:text-xl sm:text-sm xs:text-xs font-normal text-gray-700   focus:outline-none  focus:ring-offset-gray-200">
                     <p className="flex">
                       <span
                         title="Notifications"
-                        className={` fa fa-bell  w-7 h-7 lg:text-3xl md:text-2xl  xs:text-lg averageScreen:-ml-3 sm:-ml-2 -mt-3
+                        className={` fa fa-bell  w-7 h-7 lg:text-3xl md:text-2xl  xs:text-lg averageScreen:-ml-3 sm:-ml-2 -mt-3 sm:pt-0 xs:pt-1
                                   ${
                                     requests.length > 0 ? 'bell' : 'steady-bell'
                                   }`}
@@ -443,7 +473,7 @@ export default function TeacherNavbar() {
                                     id={currentRequest.RequestID}
                                     className={classNames(
                                       active
-                                        ? 'bg-gray-100 text-gray-900 border-b-2 border-b-black/20'
+                                        ? 'bg-gray-100 text-gray-900 '
                                         : 'text-gray-700 border-b-2 border-b-black/20 ',
                                       `block px-2 py-2 text-sm text-left bg-white hover:bg-gray-200
                                       `
@@ -486,6 +516,87 @@ export default function TeacherNavbar() {
                           </Menu.Item>
                         </>
                       )}
+                    </div>
+                  </Menu.Items>
+                </Transition>
+              </Menu>
+            </ul>
+
+            <ul className="">
+              <Menu as="div" className="relative inline-block text-left">
+                <div>
+                  <Menu.Button className="sm:p-[0.45rem] xs:p-1.5 cursor-pointer rounded-md text-gray-400 bg-gray-200/40 hover:bg-gray-200">
+                    <BsPersonFill className="lg:w-9 lg:h-9 sm:h-auto sm:w-auto xs:h-2.5 xs:w-2.5"></BsPersonFill>
+                  </Menu.Button>
+                </div>
+
+                <Transition
+                  as={Fragment}
+                  enter="transition ease-out duration-100"
+                  enterFrom="transform opacity-0 scale-95"
+                  enterTo="transform opacity-100 scale-100"
+                  leave="transition ease-in duration-75"
+                  leaveFrom="transform opacity-100 scale-100"
+                  leaveTo="transform opacity-0 scale-95"
+                >
+                  <Menu.Items
+                    className={` absolute right-0 z-10 averageScreen:mt-2 sm:mt-1 xs:mt-0.5  origin-top-right rounded-md bg-white shadow-lg border-2 border-black/20 ring-1 ring-black ring-opacity-5 focus:outline-none 
+                     
+                    }`}
+                  >
+                    <div className="py-1 overflow-y-auto max-h-[70vh] ">
+                      <Menu.Item>
+                        <div className=" select-none text-gray-700 border-b-2 border-b-gray-300 block w-full px-2 py-2 text-left text-sm whitespace-nowrap ">
+                          <p className="flex px-1">
+                            {' '}
+                            <span className="font-semibold  mt-[0.1rem]  min-w-[3.5rem] semihdScreen:text-lg laptopScreen:text-base averageScreen:text-base xs:text-sm lg:mt-0 md:mt-1  xs:-mt-0.5">
+                              {sessionName}
+                            </span>
+                          </p>
+                        </div>
+                      </Menu.Item>
+                      <Menu.Item>
+                        {({ active }) => (
+                          <button
+                            onClick={() => setShowModal2(true)}
+                            className={classNames(
+                              active
+                                ? 'bg-gray-100 text-gray-900 '
+                                : 'text-gray-700 border-b-2 border-b-gray-200/80',
+                              'block w-full px-4 py-2 text-left text-sm whitespace-nowrap '
+                            )}
+                          >
+                            <p className="flex px-1">
+                              {' '}
+                              <BsGear className="lg:text-2xl md:text-2xl sm:text-sm  xs:text-xs -ml-2" />
+                              <span className="ml-1.5 mt-[0.1rem]  min-w-[3.5rem] semihdScreen:text-base laptopScreen:text-sm averageScreen:text-sm xs:text-xs lg:mt-0 md:mt-1  xs:-mt-0.5">
+                                Change Password
+                              </span>
+                            </p>
+                          </button>
+                        )}
+                      </Menu.Item>
+                      <Menu.Item>
+                        {({ active }) => (
+                          <button
+                            onClick={null}
+                            className={classNames(
+                              active
+                                ? 'bg-gray-100 text-gray-900 '
+                                : 'text-gray-700 border-b-2 border-b-gray-200/80',
+                              'block w-full px-4 py-2 text-left text-sm whitespace-nowrap '
+                            )}
+                          >
+                            <p className="flex px-1">
+                              {' '}
+                              <BsInboxes className="lg:text-2xl md:text-2xl sm:text-sm  xs:text-xs -ml-2" />
+                              <span className="ml-1.5 mt-[0.1rem]  min-w-[3.5rem] semihdScreen:text-base laptopScreen:text-sm averageScreen:text-sm xs:text-xs lg:mt-0 md:mt-1  xs:-mt-0.5">
+                                Manage Subscription
+                              </span>
+                            </p>
+                          </button>
+                        )}
+                      </Menu.Item>
                     </div>
                   </Menu.Items>
                 </Transition>
@@ -714,6 +825,16 @@ export default function TeacherNavbar() {
       <ViewDetailMessageModal
         onClose={handleOnCloseMessageModal}
         visible={showMessageModal}
+      />
+
+      <ChangePasswordModal
+        onClose={handleOnCloseModal2}
+        visible={showModal2}
+        onContinue={handleOnContinueModal2}
+      />
+      <ChangePasswordMessageModal
+        onClose={handleOnCloseMessageModal2}
+        visible={showMessageModal2}
       />
       <LoadingSpinner visible={showLoading} />
     </>

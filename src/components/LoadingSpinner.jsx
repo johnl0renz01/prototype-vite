@@ -13,15 +13,18 @@ const LoadingSpinner = ({ visible }) => {
 
   useEffect(() => {
     var logged = StorageData.localStorageJSON('SESSION_USER');
-    if (logged === null || logged == '') {
+    if (logged === null || logged == '' || logged == 'FALSE') {
       setLoginPage(true);
     } else {
       setLoginPage(false);
     }
 
     var account = StorageData.localStorageJSON('ACCOUNT_TYPE');
+
     if (account !== null) {
       checkAccountType(account);
+    } else {
+      setAccType('Student');
     }
   });
 

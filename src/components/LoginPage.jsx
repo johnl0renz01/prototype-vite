@@ -769,9 +769,7 @@ export default function LoginPage() {
                           setResetType('Email');
                           window.sessionStorage.setItem(
                             'RESET_TYPE',
-                            JSON.stringify(
-                              SecureStorageData.dataEncryption('Email')
-                            )
+                            JSON.stringify('Email')
                           );
                         }}
                         className={`grow text-base lg:px-4 xs:px-1 py-1 rounded-lg  border-2   transition duration-200 ${
@@ -787,9 +785,7 @@ export default function LoginPage() {
                           setResetType('Code');
                           window.sessionStorage.setItem(
                             'RESET_TYPE',
-                            JSON.stringify(
-                              SecureStorageData.dataEncryption('Code')
-                            )
+                            JSON.stringify('Code')
                           );
                         }}
                         className={`grow text-base ml-4 lg:px-4 xs:px-1 rounded-lg border-2  transition duration-200 ${
@@ -869,7 +865,7 @@ export default function LoginPage() {
                         name={accType == 'Student' ? 'email' : 'username'}
                         placeholder={
                           accType == 'Student'
-                            ? 'lastname.firstname@sf.edu.ph'
+                            ? 'lastname.firstname@sfe.edu.ph'
                             : 'Enter your username'
                         }
                         autoComplete="off"

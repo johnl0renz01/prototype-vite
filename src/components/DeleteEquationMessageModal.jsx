@@ -38,7 +38,7 @@ const DeleteEquationMessageModal = ({ visible, onClose }) => {
                 onClick={onClose}
                 className="transition duration-200 bg-gray-400/60 h-8 w-20 tracking-wide inline-block rounded-lg hover:bg-gray-400 hover:text-gray-100"
               >
-                Close
+                OK
               </button>
             </div>
           </div>

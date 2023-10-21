@@ -22,13 +22,25 @@ for ($i = strlen($unique) - 1; $i > 0; $i--) {
 switch($_SESSION['method']) {
     case "GET":
 
-        $sql = "SELECT Logged FROM sessions WHERE UniqueID = '$unique'";
+        $sql0 = "SELECT * FROM sessions WHERE UniqueID = '$unique'";
         
+        $stmt0 = $conn->prepare($sql0);
+        $stmt0->execute();
+        $resultCheck = $stmt0->fetchAll(PDO::FETCH_ASSOC);
+
+        $sql = "SELECT Logged FROM sessions WHERE UniqueID = '$unique'";
         $stmt = $conn->prepare($sql);
         $stmt->execute();
+
+        
         $result = $stmt->fetchColumn();
 
-        echo json_encode($result);
+        if (count($resultCheck) > 0) {
+            echo json_encode($result);
+        } else {
+            echo json_encode("FALSE");
+        }
+        
         break;
     case "POST":
         break;

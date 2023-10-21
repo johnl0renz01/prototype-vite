@@ -112,7 +112,7 @@ function Registration() {
 
   useEffect(() => {
     getSections();
-    setEmail('@sf.edu.ph');
+    setEmail('@sfe.edu.ph');
     window.sessionStorage.setItem(
       'IS_VALID_FORM',
       SecureStorageData.dataEncryption(false)
@@ -212,15 +212,15 @@ function Registration() {
     fName = emailValue;
 
     if (lastName != '') {
-      setEmail(lastName + '.' + emailValue + '@sf.edu.ph');
-      tempEmail = lastName + '.' + emailValue + '@sf.edu.ph';
+      setEmail(lastName + '.' + emailValue + '@sfe.edu.ph');
+      tempEmail = lastName + '.' + emailValue + '@sfe.edu.ph';
     } else {
       if (firstName === '') {
-        setEmail('@sf.edu.ph');
+        setEmail('@sfe.edu.ph');
         tempEmail = '';
       } else {
-        setEmail(emailValue + '@sf.edu.ph');
-        tempEmail = emailValue + '@sf.edu.ph';
+        setEmail(emailValue + '@sfe.edu.ph');
+        tempEmail = emailValue + '@sfe.edu.ph';
       }
     }
 
@@ -271,15 +271,15 @@ function Registration() {
     lName = emailValue;
 
     if (firstName != '') {
-      setEmail(emailValue + '.' + firstName + '@sf.edu.ph');
-      tempEmail = emailValue + '.' + firstName + '@sf.edu.ph';
+      setEmail(emailValue + '.' + firstName + '@sfe.edu.ph');
+      tempEmail = emailValue + '.' + firstName + '@sfe.edu.ph';
     } else {
       if (lastName === '') {
-        setEmail('@sf.edu.ph');
+        setEmail('@sfe.edu.ph');
         tempEmail = '';
       } else {
-        setEmail(emailValue + '@sf.edu.ph');
-        tempEmail = emailValue + '@sf.edu.ph';
+        setEmail(emailValue + '@sfe.edu.ph');
+        tempEmail = emailValue + '@sfe.edu.ph';
       }
     }
 
@@ -414,7 +414,7 @@ function Registration() {
     values.email = '';
     values.password = 'default';
 
-    setEmail('@sf.edu.ph');
+    setEmail('@sfe.edu.ph');
     setFirstName('');
     setLastName('');
     setDuplicateState(false);
@@ -720,7 +720,7 @@ function Registration() {
               let fname = userData[2].replace(/ /g, '');
               let lname = userData[5].replace(/ /g, '');
               var email =
-                lname.toLowerCase() + '.' + fname.toLowerCase() + '@sf.edu.ph';
+                lname.toLowerCase() + '.' + fname.toLowerCase() + '@sfe.edu.ph';
 
               //for duplication within excel file
               for (let j = 0; j < emails.length; j++) {
@@ -928,7 +928,7 @@ function Registration() {
           userData[4].toLowerCase() +
           '.' +
           userData[1].toLowerCase() +
-          '@sf.edu.ph';
+          '@sfe.edu.ph';
 
         //console.log(email);
         axios

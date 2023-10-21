@@ -387,7 +387,6 @@ export default function AdminNavbar() {
   const handleOnContinueModal = () => {
     setShowModal(false);
     setShowMessageModal(true);
-    updateTable();
   };
 
   // MODAL VIEW MESSAGE
