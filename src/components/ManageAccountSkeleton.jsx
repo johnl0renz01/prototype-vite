@@ -253,62 +253,62 @@ export default function ManageAccountSkeleton() {
                       <tbody className=" ">
                         {sampleRow(
                           'John Lorenz Dela Cruz',
-                          'delacruz.johnlorenz@sf.edu.ph',
+                          'delacruz.johnlorenz@sfe.edu.ph',
                           'Student'
                         )}
                         {sampleRow(
                           'John Lorenz Dela Cruz',
-                          'delacruz.johnlorenz@sf.edu.ph',
+                          'delacruz.johnlorenz@sfe.edu.ph',
                           'Teacher'
                         )}
                         {sampleRow(
                           'John Lorenz Dela Cruz',
-                          'delacruz.johnlorenz@sf.edu.ph',
+                          'delacruz.johnlorenz@sfe.edu.ph',
                           'Student'
                         )}
                         {sampleRow(
                           'John Lorenz Dela Cruz',
-                          'delacruz.johnlorenz@sf.edu.ph',
+                          'delacruz.johnlorenz@sfe.edu.ph',
                           'Teacher'
                         )}
                         {sampleRow(
                           'John Lorenz Dela Cruz',
-                          'delacruz.johnlorenz@sf.edu.ph',
+                          'delacruz.johnlorenz@sfe.edu.ph',
                           'Student'
                         )}
                         {sampleRow(
                           'John Lorenz Dela Cruz',
-                          'delacruz.johnlorenz@sf.edu.ph',
+                          'delacruz.johnlorenz@sfe.edu.ph',
                           'Teacher'
                         )}
                         {sampleRow(
                           'John Lorenz Dela Cruz',
-                          'delacruz.johnlorenz@sf.edu.ph',
+                          'delacruz.johnlorenz@sfe.edu.ph',
                           'Student'
                         )}
                         {sampleRow(
                           'John Lorenz Dela Cruz',
-                          'delacruz.johnlorenz@sf.edu.ph',
+                          'delacruz.johnlorenz@sfe.edu.ph',
                           'Teacher'
                         )}
                         {sampleRow(
                           'John Lorenz Dela Cruz',
-                          'delacruz.johnlorenz@sf.edu.ph',
+                          'delacruz.johnlorenz@sfe.edu.ph',
                           'Student'
                         )}
                         {sampleRow(
                           'John Lorenz Dela Cruz',
-                          'delacruz.johnlorenz@sf.edu.ph',
+                          'delacruz.johnlorenz@sfe.edu.ph',
                           'Teacher'
                         )}
                         {sampleRow(
                           'John Lorenz Dela Cruz',
-                          'delacruz.johnlorenz@sf.edu.ph',
+                          'delacruz.johnlorenz@sfe.edu.ph',
                           'Student'
                         )}
                         {sampleRow(
                           'John Lorenz Dela Cruz',
-                          'delacruz.johnlorenz@sf.edu.ph',
+                          'delacruz.johnlorenz@sfe.edu.ph',
                           'Teacher'
                         )}
                       </tbody>

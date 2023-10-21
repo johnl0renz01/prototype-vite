@@ -153,7 +153,7 @@ const CreateSectionModal = ({ visible, onClose, onContinue }) => {
         className={`fixed top-0 z-50 inset-0 bg-black bg-opacity-50 backdrop-blur-[1.5px] flex justify-center items-center "
                 ${showLoading ? 'invisible' : ''}`}
       >
-        <div className="bg-white hdScreen:w-1/3 semihdScreen:w-[40%] laptopScreen:w-[45%] averageScreen:w-[45%] hdScreen:scale-100 semihdScreen:scale-95 laptopScreen:scale-90 averageScreen:scale-90 rounded lg:text-lg md:text-base sm:text-sm xs:text-xs shadow-md ">
+        <div className="bg-white hdScreen:w-1/3 semihdScreen:w-[40%] laptopScreen:w-[45%] averageScreen:w-[45%] md:w-[50%] sm:w-[65%] xs:w-[70%] hdScreen:scale-100 semihdScreen:scale-90 laptopScreen:scale-85 averageScreen:scale-80 md:scale-80 sm:scale-80 xs:scale-75 rounded lg:text-lg md:text-base sm:text-sm xs:text-xs shadow-md ">
           <div className="grid grid-cols-2 bg-gray-300 ">
             <span className="lg:text-xl xs:text-lg ml-2 flex items-center text-black/60 font-semibold">
               {' '}
@@ -242,7 +242,7 @@ const CreateSectionModal = ({ visible, onClose, onContinue }) => {
                 <div className="inline-flex w-full mt-8">
                   <label
                     htmlFor="adviserName"
-                    className="inline-block pt-2 lg:pl-[3.25rem] xs:pl-1 text-right"
+                    className="inline-block pt-2 lg:pl-[3.25rem] xs:pl-8 text-right"
                   >
                     Teacher:{' '}
                   </label>

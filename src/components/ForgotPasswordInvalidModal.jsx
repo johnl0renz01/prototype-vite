@@ -1,6 +1,6 @@
 import React from 'react';
 import { MdClose } from 'react-icons/md';
-import { VscInfo } from 'react-icons/vsc';
+import { VscInfo, VscWarning } from 'react-icons/vsc';
 
 const ForgotPasswordInvalidModal = ({ visible, onClose }) => {
   const handleOnClose = e => {
@@ -15,11 +15,11 @@ const ForgotPasswordInvalidModal = ({ visible, onClose }) => {
       <div
         id="mainContainer"
         onClick={handleOnClose}
-        className="fixed top-0 inset-0 z-50 bg-black rounded-2xl bg-opacity-50 backdrop-blur-[1.5px] flex justify-center items-center "
+        className="fixed top-0 inset-0 z-50 bg-black rounded-2xl bg-opacity-20 backdrop-blur-[1.5px] flex justify-center items-center "
       >
         <div className="bg-white  rounded text-lg hdScreen:scale-100 semihdScreen:scale-95 laptopScreen:scale-90 averageScreen:scale-90 md:scale-85 sm:scale-80 xs:scale-75 ">
-          <div className="grid grid-cols-2 bg-gray-400">
-            <VscInfo className="text-[1.85rem] ml-1 mt-0.5 text-black/60" />
+          <div className="grid grid-cols-2 bg-red-500">
+            <VscWarning className="text-[1.85rem] ml-1 mt-0.5 text-black/60" />
             <div className="text-right">
               <button
                 onClick={onClose}

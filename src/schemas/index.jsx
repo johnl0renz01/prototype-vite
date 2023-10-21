@@ -82,3 +82,8 @@ export const contactAdminSchema = yup.object().shape({
 export const forgotPasswordSchema = yup.object().shape({
   emailReset: yup.string().required(),
 });
+
+export const changePasswordSchema = yup.object().shape({
+  oldPassword: yup.string().required('* Required Field'),
+  newPassword: yup.string().required('* Required Field'),
+});

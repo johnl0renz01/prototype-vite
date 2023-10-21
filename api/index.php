@@ -337,6 +337,11 @@ switch($requestLink) {
         include('setNewPassword.php');
     break;
 
+    // EDIT PASSWORD
+    case "/Prototype-Vite/my-project/api/editPassword":
+        include('editPassword.php');
+    break;
+
     // FORGOT PASSWORD
     case "/Prototype-Vite/my-project/api/forgotPassEmail":
         include('forgotPassEmail.php');

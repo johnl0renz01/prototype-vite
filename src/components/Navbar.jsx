@@ -17,12 +17,21 @@ import { HiOutlineArrowLeftOnRectangle } from 'react-icons/hi2';
 import { HiChevronDoubleRight } from 'react-icons/hi2';
 import { HiArrowUturnRight } from 'react-icons/hi2';
 
-import { BsChevronBarRight } from 'react-icons/bs';
+import {
+  BsChevronBarRight,
+  BsGearFill,
+  BsGear,
+  BsPersonCircle,
+  BsPerson,
+} from 'react-icons/bs';
 
 import LoadingSpinner from './LoadingSpinner';
 
 import StorageData from './StorageData';
 import SecureStorageData from './SecureStorageData';
+
+import ChangePasswordModal from './ChangePasswordModal';
+import ChangePasswordMessageModal from './ChangePasswordMessageModal';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
@@ -148,7 +157,13 @@ function Navbar() {
         }
       }
     }
+    var accountName = StorageData.localStorageJSON('SESSION_FULLNAME');
+    if (accountName !== null) {
+      setSessionName(accountName);
+    }
   });
+
+  const [sessionName, setSessionName] = useState('');
 
   const [logoutState, setLogoutState] = useState(false);
 
@@ -243,6 +258,20 @@ function Navbar() {
         setShowLoading(false);
       });
   };
+
+  // MODAL CHANGE
+  const [showModal2, setShowModal2] = useState(false);
+  const handleOnCloseModal2 = () => setShowModal2(false);
+
+  const handleOnContinueModal2 = () => {
+    setShowModal2(false);
+    setShowMessageModal2(true);
+  };
+
+  // MODAL CHANGE MESSAGE
+
+  const [showMessageModal2, setShowMessageModal2] = useState(false);
+  const handleOnCloseMessageModal2 = () => setShowMessageModal2(false);
 
   return (
     <>
@@ -380,8 +409,8 @@ function Navbar() {
                               >
                                 <p className="flex px-1 min-w-[8.2rem]">
                                   {' '}
-                                  <BsChevronBarRight className="lg:text-2xl md:text-2xl sm:text-sm  xs:text-xs -ml-3" />
-                                  <span className="ml-1 mt-[0.1rem]">
+                                  <BsChevronBarRight className="lg:text-2xl md:text-2xl sm:text-sm  xs:text-xs -ml-2" />
+                                  <span className="ml-1.5 mt-[0.1rem]">
                                     Continue Session
                                   </span>
                                 </p>
@@ -394,7 +423,27 @@ function Navbar() {
                       ) : (
                         ''
                       )}
-
+                      <Menu.Item>
+                        {({ active }) => (
+                          <button
+                            onClick={() => setShowModal2(true)}
+                            className={classNames(
+                              active
+                                ? 'bg-gray-100 text-gray-900 '
+                                : 'text-gray-700 border-b-2 border-b-gray-200/80',
+                              'block w-full px-4 py-2 text-left text-sm whitespace-nowrap '
+                            )}
+                          >
+                            <p className="flex px-1">
+                              {' '}
+                              <BsGear className="lg:text-2xl md:text-2xl sm:text-sm  xs:text-xs -ml-2" />
+                              <span className="ml-1.5 mt-[0.1rem]  min-w-[3.5rem]">
+                                Change Password
+                              </span>
+                            </p>
+                          </button>
+                        )}
+                      </Menu.Item>
                       <Menu.Item>
                         {({ active }) => (
                           <button
@@ -408,8 +457,8 @@ function Navbar() {
                           >
                             <p className="flex px-1">
                               {' '}
-                              <HiOutlineArrowLeftOnRectangle className="lg:text-2xl md:text-2xl sm:text-sm xs:text-xs -ml-3 rotate-180" />
-                              <span className="ml-1 mt-[0.1rem]  min-w-[3.5rem]">
+                              <HiOutlineArrowLeftOnRectangle className="lg:text-2xl md:text-2xl sm:text-sm xs:text-xs -ml-2 rotate-180" />
+                              <span className="ml-1.5 mt-[0.1rem]  min-w-[3.5rem]">
                                 Sign out
                               </span>
                             </p>
@@ -464,6 +513,15 @@ function Navbar() {
         onClose={handleOnCloseModal}
         visible={showModal}
         onContinue={handleOnContinueModal}
+      />
+      <ChangePasswordModal
+        onClose={handleOnCloseModal2}
+        visible={showModal2}
+        onContinue={handleOnContinueModal2}
+      />
+      <ChangePasswordMessageModal
+        onClose={handleOnCloseMessageModal2}
+        visible={showMessageModal2}
       />
       <LoadingSpinner visible={showLoading} />
     </>

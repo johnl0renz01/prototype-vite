@@ -147,7 +147,7 @@ const ForgotPassword = ({ visible, onClose, onContinue }) => {
               values={values.emailReset}
               onChange={handleChange}
               onBlur={handleBlur}
-              placeholder="lastname.firstname@sf.edu.ph"
+              placeholder="lastname.firstname@sfe.edu.ph"
               autoComplete="off"
             />
             {resetType == 'Code' ? (

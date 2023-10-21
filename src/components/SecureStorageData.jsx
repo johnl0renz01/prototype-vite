@@ -4,6 +4,7 @@ import { replace } from 'formik';
 var SecureStorageData = (function () {
   let encryptedValue = '';
   let decryptedValue = '';
+  var CryptoJS = require('crypto-js');
 
   var dataEncryption = function (value) {
     if (value === null || value === undefined) {
