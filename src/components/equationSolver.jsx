@@ -19,6 +19,11 @@ var EquationSolver = (function () {
         return equation;
       }
 
+      if (equation.indexOf('/') > -1) {
+        equation = 'invalid';
+        return equation;
+      }
+
       //console.log("equation: " + equation + "\n\n");
 
       // Separate the left-hand and right-hand side of the equation
@@ -1102,6 +1107,7 @@ var EquationSolver = (function () {
         !containsMultiplyConstant(equation) &&
         !containsMultiplyCoefficient(equation)
       ) {
+        //console.log('AWROOO');
         simpleTranspose = true;
         var [lhs, rhs] = equation.split('=').map(side => side.trim());
         var tempLHS = '';
@@ -1224,7 +1230,11 @@ var EquationSolver = (function () {
         }
 
         // FIRST STEP
-        stepsArray.push([tempLHS, '=', tempRHS].join(''));
+        if (tempLHS + '=' + tempRHS != equation) {
+          stepsArray.push([tempLHS, '=', tempRHS].join(''));
+        } else {
+          //simpleTranspose = false;
+        }
       }
 
       //ENDCODE
@@ -1299,8 +1309,9 @@ var EquationSolver = (function () {
         rhsConstant,
       ].join('');
 
-      //console.log(checkSimilarity);
+      //  console.log(checkSimilarity);
       if (!simpleTranspose) {
+        //console.log('asdsadsa');
         if (
           checkSimilarity != equation &&
           !stepsArray.includes(checkSimilarity)
@@ -1414,8 +1425,38 @@ var EquationSolver = (function () {
       }
       var x = constantDifference / coefficientDifference;
 
-      equationFraction =
-        constantDifference * -1 + '/' + coefficientDifference * -1;
+      let numberString = x.toString();
+      let isFloat = /\d+\.\d+/.test(numberString);
+
+      if (isFloat) {
+        let simplified = reduce(
+          Math.abs(constantDifference),
+          Math.abs(coefficientDifference)
+        );
+        if (
+          (constantDifference < 0 && coefficientDifference < 0) ||
+          (constantDifference > 0 && coefficientDifference > 0)
+        ) {
+          equationFraction =
+            Math.abs(simplified[0]) + '/' + Math.abs(simplified[1]);
+        } else if (
+          (constantDifference < 0 && coefficientDifference > 0) ||
+          (constantDifference > 0 && coefficientDifference < 0)
+        ) {
+          equationFraction =
+            '-' + Math.abs(simplified[0]) + '/' + Math.abs(simplified[1]);
+        }
+      } else {
+        equationFraction = '';
+      }
+
+      function reduce(numerator, denominator) {
+        var gcd = function gcd(a, b) {
+          return b ? gcd(b, a % b) : a;
+        };
+        gcd = gcd(numerator, denominator);
+        return [numerator / gcd, denominator / gcd];
+      }
 
       x = Math.round(x * 100 + Number.EPSILON) / 100;
       ////console.log(`The solution for ${equation} is: x = ${x}`);
@@ -1435,6 +1476,9 @@ var EquationSolver = (function () {
       }
 
       //Push fourth step, final answer
+
+      //console.log(stepsArray);
+      //console.log(coefficientSymbol, '=', x);
 
       if (!stepsArray.includes([coefficientSymbol, '=', x].join(''))) {
         stepsArray.push([coefficientSymbol, '=', x].join(''));
@@ -1482,6 +1526,17 @@ var EquationSolver = (function () {
       equation = x;
       equationSteps = stepsArray;
       //console.log(equationSteps)
+      if (
+        coefficientDifference == 0 ||
+        coefficientDifference == '0' ||
+        x == 'NaN' ||
+        x == '-NaN' ||
+        x == '-Infinity' ||
+        x == 'Infinity'
+      ) {
+        equation = 'invalid';
+      }
+
       return equation;
     } catch {
       equation = 'invalid';

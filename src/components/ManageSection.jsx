@@ -31,6 +31,8 @@ export default function ManageSection() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    sessionStorage.removeItem('CURRENT_SECTION_EDIT');
+
     setTabIndex();
 
     window.addEventListener('focus', setTabIndex);
@@ -298,6 +300,7 @@ export default function ManageSection() {
             `https://pia-sfe.online/api/removeSectionAccounts/${sectionName}`
           )
           .then(function (response) {
+            console.log(response);
             setShowLoading(false);
             setDeleteMessageModal(true);
             setShowDeleteModal(false);

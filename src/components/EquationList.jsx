@@ -23,6 +23,8 @@ import LoadingSpinner from './LoadingSpinner';
 import StorageData from './StorageData';
 import SecureStorageData from './SecureStorageData';
 
+import SubscriptionLocked from './SubscriptionLocked';
+
 export default function EquationList() {
   const navigate = useNavigate();
 
@@ -376,13 +378,35 @@ export default function EquationList() {
     }
   }, []);
 
+  const [lockState, setLockState] = useState(false);
+  useEffect(() => {
+    var subscription = StorageData.localStorageJSON('SUBSCRIPTION_TYPE');
+    if (subscription !== null) {
+      subscription = subscription.replace(/"/g, '');
+      if (
+        subscription == 'PLAN-1' ||
+        subscription == 'PLAN-2' ||
+        subscription == 'PLAN-3'
+      ) {
+        setLockState(false);
+      } else {
+        setLockState(true);
+      }
+    } else {
+      setLockState(true);
+    }
+    setLockState(false);
+  }, []);
+
   return (
     <>
-      <div className={`${!skeletonState ? 'hidden' : ''}`}>
+      <div
+        className={`${lockState ? 'hidden' : !skeletonState ? 'hidden' : ''}`}
+      >
         <EquationListSkeleton />
       </div>
       <div
-        className={`bg-gradient-to-t from-[#e2e2e2] via-[#f1f1f1] to-[#ffffff] h-screen overflow-y-auto
+        className={`relative bg-gradient-to-t from-[#e2e2e2] via-[#f1f1f1] to-[#ffffff] h-screen overflow-y-auto
         ${
           navbarWidth == 160
             ? 'w-[calc(100%-160px)] ml-[160px]'
@@ -401,11 +425,16 @@ export default function EquationList() {
             : navbarWidth == 39
             ? 'w-[calc(100%-39px)] ml-[39px]'
             : ''
-        } ${skeletonState ? 'hidden' : ''}`}
+        } ${lockState ? '' : skeletonState ? 'hidden' : ''}`}
       >
-        <section id="container" className="relative mx-auto p-8 w-full">
-          <div
-            className={`md:-mt-0 xs:-mt-1 border-b-2 text-gray-600 lg:text-4xl font-bold
+        {lockState ? (
+          <div className={``}>
+            <SubscriptionLocked />
+          </div>
+        ) : (
+          <section id="container" className="relative mx-auto p-8 w-full">
+            <div
+              className={`md:-mt-0 xs:-mt-1 border-b-2 text-gray-600 lg:text-4xl font-bold
         ${
           logoHeight == 94.5
             ? 'max-h-[94.5px]'
@@ -413,75 +442,76 @@ export default function EquationList() {
             ? 'max-h-[67.5px]'
             : ''
         }`}
-          >
-            Equation List
-          </div>
-          <div className="flex items-center justify-between text-gray-700 mt-1.5 lg:text-lg sm:text-base xs:text-xs font-semibold tracking-wide pl-2 ">
-            The following are current custom equations created. Drag and drop
-            the equation to change its difficulty.
-            <button
-              onClick={settings}
-              type="button"
-              className="relative hdScreen:w-[17rem] semihdScreen:w-[16.5rem] laptopScreen:w-[16rem] averageScreen:w-[20rem] md:w-[20rem] sm:w-[20rem] xs:w-[16rem]  lg:py-2 lg:px-5 sm:py-1.5 sm:px-2.5 xs:px-1 xs:py-1 text-white font-semibold  shadow-md rounded-2xl bg-gray-500/70 hover:bg-gray-600/70  ease-in-out transition duration-300 transform drop-shadow-[0_3px_0px_rgba(0,0,0,0.1)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.35)]"
             >
-              <span className="md:pl-2 lg:text-xl sm:text-base xs:text-sm flex justify-center">
-                Equation Settings
-                <BsGearFill className="md:block xs:hidden  lg:ml-2 sm:ml-1 xs:ml-0.5 lg:mt-0.5 sm:mt-1 xs:mt-1 lg:text-2xl" />
-              </span>
-            </button>
-          </div>
+              Equation List
+            </div>
+            <div className="flex items-center justify-between text-gray-700 mt-1.5 lg:text-lg sm:text-base xs:text-xs font-semibold tracking-wide pl-2 ">
+              The following are current custom equations created. Drag and drop
+              the equation to change its difficulty.
+              <button
+                onClick={settings}
+                type="button"
+                className="relative hdScreen:w-[17rem] semihdScreen:w-[16.5rem] laptopScreen:w-[16rem] averageScreen:w-[20rem] md:w-[20rem] sm:w-[20rem] xs:w-[16rem]  lg:py-2 lg:px-5 sm:py-1.5 sm:px-2.5 xs:px-1 xs:py-1 text-white font-semibold  shadow-md rounded-2xl bg-gray-500/70 hover:bg-gray-600/70  ease-in-out transition duration-300 transform drop-shadow-[0_3px_0px_rgba(0,0,0,0.1)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.35)]"
+              >
+                <span className="md:pl-2 lg:text-xl sm:text-base xs:text-sm flex justify-center">
+                  Equation Settings
+                  <BsGearFill className="md:block xs:hidden  lg:ml-2 sm:ml-1 xs:ml-0.5 lg:mt-0.5 sm:mt-1 xs:mt-1 lg:text-2xl" />
+                </span>
+              </button>
+            </div>
 
-          <div>
-            <DragDropContext onDragEnd={handleDragAndDrop}>
-              <Droppable droppableId="ROOT" type="group">
-                {provided => (
-                  <div
-                    className="hdScreen:min-h-[calc(100vh-30vh)] hdScreen:max-h-[calc(100vh-30vh)] 
+            <div>
+              <DragDropContext onDragEnd={handleDragAndDrop}>
+                <Droppable droppableId="ROOT" type="group">
+                  {provided => (
+                    <div
+                      className="hdScreen:min-h-[calc(100vh-30vh)] hdScreen:max-h-[calc(100vh-30vh)] 
                   semihdScreen:min-h-[calc(100vh-30vh)] semihdScreen:max-h-[calc(100vh-30vh)]
                   laptopScreen:min-h-[calc(100vh-40vh)] laptopScreen:max-h-[calc(100vh-40vh)]
                   averageScreen:min-h-[calc(100vh-45vh)] averageScreen:max-h-[calc(100vh-45vh)]
                   sm:min-h-[calc(100vh-45vh)] sm:max-h-[calc(100vh-45vh)]
                   xs:min-h-[calc(100vh-45vh)] xs:max-h-[calc(100vh-45vh)]
                   bg-white mt-3.5 relative grid grid-cols-3 text-center lg:text-xl xs:text-base w-full border-t-1  border-gray-400 rounded-xl"
-                    {...provided.droppableProps}
-                    ref={provided.innerRef}
-                  >
-                    <div
-                      className={`-mt-4 absolute flex-col items-center justify-center h-full w-full hdScreen:scale-100 semihdScreen:scale-90 laptopScreen:scale-85 averageScreen:scale-80 md:scale-75 sm:scale-70 xs:scale-60
-                 ${tableLoader ? 'flex' : 'hidden'}`}
+                      {...provided.droppableProps}
+                      ref={provided.innerRef}
                     >
-                      <div className="loader border-8 border-[#89ce1a]"></div>
-                      <p className="pt-2 hdScreen:text-lg semihdScreen:text-lg laptopScreen:text-base averageScreen:text-base sm:text-sm xs:text-xs">
-                        Fetching Data...
-                      </p>
-                    </div>
-
-                    {stores.map((store, index) => (
-                      <Draggable
-                        draggableId={store.id}
-                        index={index}
-                        key={store.id}
-                        isDragDisabled={true}
-                        className={`${tableLoader ? 'hidden' : ''}`}
+                      <div
+                        className={`-mt-4 absolute flex-col items-center justify-center h-full w-full hdScreen:scale-100 semihdScreen:scale-90 laptopScreen:scale-85 averageScreen:scale-80 md:scale-75 sm:scale-70 xs:scale-60
+                 ${tableLoader ? 'flex' : 'hidden'}`}
                       >
-                        {provided => (
-                          <div
-                            {...provided.dragHandleProps}
-                            {...provided.draggableProps}
-                            ref={provided.innerRef}
-                          >
-                            <ListEquations {...store} />
-                          </div>
-                        )}
-                      </Draggable>
-                    ))}
-                    {provided.placeholder}
-                  </div>
-                )}
-              </Droppable>
-            </DragDropContext>
-          </div>
-        </section>
+                        <div className="loader border-8 border-[#89ce1a]"></div>
+                        <p className="pt-2 hdScreen:text-lg semihdScreen:text-lg laptopScreen:text-base averageScreen:text-base sm:text-sm xs:text-xs">
+                          Fetching Data...
+                        </p>
+                      </div>
+
+                      {stores.map((store, index) => (
+                        <Draggable
+                          draggableId={store.id}
+                          index={index}
+                          key={store.id}
+                          isDragDisabled={true}
+                          className={`${tableLoader ? 'hidden' : ''}`}
+                        >
+                          {provided => (
+                            <div
+                              {...provided.dragHandleProps}
+                              {...provided.draggableProps}
+                              ref={provided.innerRef}
+                            >
+                              <ListEquations {...store} />
+                            </div>
+                          )}
+                        </Draggable>
+                      ))}
+                      {provided.placeholder}
+                    </div>
+                  )}
+                </Droppable>
+              </DragDropContext>
+            </div>
+          </section>
+        )}
       </div>
       <DeleteEquationModal
         onClose={handleOnCloseModal}

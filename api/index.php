@@ -338,7 +338,7 @@ switch($requestLink) {
     break;
 
     // EDIT PASSWORD
-    case "/Prototype-Vite/my-project/api/editPassword":
+    case "/api/editPassword":
         include('editPassword.php');
     break;
 

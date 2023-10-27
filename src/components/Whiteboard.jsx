@@ -238,9 +238,14 @@ export default function Whiteboard() {
     EquationSolver.setEquation(questionList[data]);
     EquationSolver.getEquationAnswer();
     let fraction = EquationSolver.getEquationFraction();
-    setFractionDisplay(fraction);
-    fraction = coefficientLetter + '=' + fraction;
-    setFraction(fraction);
+    if (fraction != '') {
+      setFractionDisplay(fraction);
+      fraction = coefficientLetter + '=' + fraction;
+      setFraction(fraction);
+    } else {
+      setFractionDisplay('');
+      setFraction(null);
+    }
   }
 
   //STRING IS OKAY, FIX THE equation solver shit
@@ -3145,7 +3150,11 @@ export default function Whiteboard() {
                             <span className="px-2 border-black border-2">
                               {ans}
                               {fractionState ? (
-                                <> or {answerFractionDisplay}</>
+                                answerFractionDisplay != '' ? (
+                                  <> or {answerFractionDisplay}</>
+                                ) : (
+                                  <></>
+                                )
                               ) : (
                                 <></>
                               )}
@@ -3422,7 +3431,7 @@ export default function Whiteboard() {
                   {...(isHelp
                     ? {
                         datatooltip:
-                          'The trash bin button. It removes all text from the current user logs.',
+                          'The trash bin button. It removes all text from the current input history.',
                       }
                     : {})}
                   {...(isHelp ? { datatooltipposition: 'left' } : {})}

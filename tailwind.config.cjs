@@ -161,7 +161,10 @@ module.exports = {
       },
       fontFamily: {
         poppins: "'Poppins', sans-serif",
-        leagueSpartan: "'League Spartan', sans-serif;",
+        leagueSpartan: "'League Spartan', sans-serif",
+        roboto: 'Roboto, sans-serif',
+        bungee: 'Bungee, sans-serif',
+        bakbak: 'Bakbak One, sans-serif',
       },
       borderWidth: {
         3: '3px',

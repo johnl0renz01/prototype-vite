@@ -24,7 +24,7 @@ switch($_SESSION['method']) {
         break;
     case "POST":
         // LOG OUT ALL ACTIVE SESSIONS OF STUDENTS' ACCOUNTS
-        $sql3 = "SELECT Email FROM accounts WHERE SectionName = '$section'";
+        $sql3 = "SELECT Email FROM accounts WHERE Section = '$section'";
         $stmt3 = $conn->prepare($sql3);
         $stmt3->execute();
         $emailID = $stmt3->fetchAll(PDO::FETCH_ASSOC);
