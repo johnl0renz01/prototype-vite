@@ -30,6 +30,8 @@ var ClearStorage = (function () {
 
     window.localStorage.removeItem('QUESTION_STATUS');
     window.localStorage.removeItem('PREVIOUS_QUESTION');
+
+    window.localStorage.removeItem('IS_INTERACTED');
   };
 
   return {

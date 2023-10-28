@@ -303,6 +303,16 @@ var EquationGeneratorDifficult = (function () {
                   continue;
                 }
 
+                try {
+                  if (difficultEquationList[i][indexChar - 1].match(/[\-]/)) {
+                    difficultEquationList[i] = difficultEquationList[i].replace(
+                      '@@',
+                      'x'
+                    );
+                    continue;
+                  }
+                } catch (err) {}
+
                 if (
                   difficultEquationList[i][indexChar - 2].match(/[\+\-\*\/\=]/)
                 ) {

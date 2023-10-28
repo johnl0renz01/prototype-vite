@@ -1,11 +1,35 @@
 import React from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { MdClose } from 'react-icons/md';
 import { VscWarning } from 'react-icons/vsc';
+
+import StorageData from './StorageData';
+import SecureStorageData from './SecureStorageData';
 
 const NavbarModal = ({ visible, onClose, onContinue }) => {
   const handleOnClose = e => {
     if (e.target.id === 'mainContainer') onClose();
   };
+
+  const [questionStatus, setQuestionStatus] = useState('ABANDONED');
+  const [interactStatus, setInteractStatus] = useState(true);
+
+  useEffect(() => {
+    var question = StorageData.localStorageJSON('QUESTION_STATUS');
+    if (question === null) {
+      question = 'ABANDONED';
+      setQuestionStatus('ABANDONED');
+    } else {
+      setQuestionStatus(question);
+    }
+
+    var interacted = StorageData.localStorageJSON('IS_INTERACTED');
+    if (interacted === null) {
+      setInteractStatus(false);
+    } else {
+      setInteractStatus(true);
+    }
+  });
 
   if (!visible) return null;
 
@@ -33,8 +57,16 @@ const NavbarModal = ({ visible, onClose, onContinue }) => {
               <span className="text-orange-600 font-bold">Warning:</span> There
               is session on going.
               <p className="text-gray-500 text-lg font-normal">
-                (Choosing to continue will end the current session and marks the
-                current question as abandoned.)
+                {questionStatus == 'SOLVED' ? (
+                  <>(Choosing to continue will end the current session.)</>
+                ) : !interactStatus ? (
+                  <>(Choosing to continue will end the current session.)</>
+                ) : (
+                  <>
+                    (Choosing to continue will end the current session and marks
+                    the current question as abandoned.)
+                  </>
+                )}
               </p>
               <p className="text-xl font-semibold py-4">
                 Do you still want to sign out?
@@ -43,13 +75,13 @@ const NavbarModal = ({ visible, onClose, onContinue }) => {
             <div className="mx-auto text-center border-t-2 border-gray-300 py-3">
               <button
                 onClick={onClose}
-                className="transition duration-200 mx-2 text-white bg-red-600/90 h-10 w-28 inline-block rounded-lg hover:bg-red-700 hover:text-gray-100"
+                className="transition duration-200 mx-2 text-white bg-red-600/90 tracking-wide h-9 w-28 inline-block rounded-lg hover:bg-red-700 hover:text-gray-100"
               >
                 No
               </button>
               <button
                 onClick={onContinue}
-                className="transition duration-200 mx-2 text-white bg-lime-600 h-10 w-28 inline-block rounded-lg hover:bg-lime-700 hover:text-gray-200"
+                className="transition duration-200 mx-2 text-white bg-lime-600 tracking-wide h-9 w-28 inline-block rounded-lg hover:bg-lime-700 hover:text-gray-200"
               >
                 Yes
               </button>

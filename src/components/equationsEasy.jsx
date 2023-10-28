@@ -138,6 +138,16 @@ var EquationGeneratorEasy = (function () {
                   continue;
                 }
 
+                try {
+                  if (easyEquationList[i][indexChar - 1].match(/[\-]/)) {
+                    easyEquationList[i] = easyEquationList[i].replace(
+                      '@@',
+                      'x'
+                    );
+                    continue;
+                  }
+                } catch (err) {}
+
                 if (easyEquationList[i][indexChar - 2].match(/[\+\-\*\/\=]/)) {
                   easyEquationList[i] = easyEquationList[i].replace('@@', 'x');
                 } else {
