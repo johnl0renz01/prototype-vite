@@ -198,6 +198,7 @@ export default function LoginPage() {
             currentData = currentData.replace('"MiddleName":', '');
             currentData = currentData.replace('"LastName":', '');
             currentData = currentData.replace('"Section":', '');
+            currentData = currentData.replace('"SubscriptionType":', '');
 
             var userData = [];
             convertStringToArray();
@@ -415,6 +416,12 @@ export default function LoginPage() {
                               setShowLoading(false);
                             });
                         } else if (data == 'Teacher') {
+                          window.localStorage.setItem(
+                            'SUBSCRIPTION_TYPE',
+                            JSON.stringify(
+                              SecureStorageData.dataEncryption(userData[7])
+                            )
+                          );
                           window.localStorage.removeItem('LOGIN_STATUS');
                           var fullName =
                             StorageData.localStorageJSON('SESSION_FULLNAME');
@@ -716,8 +723,8 @@ export default function LoginPage() {
 
   return (
     <>
-      <DataGenerator />
       {/** 
+       * <DataGenerator />
      <div className={`${!skeletonState ? '' : ''}`}>
        <LoginPageSkeleton />
      </div>

@@ -73,14 +73,50 @@ var EquationGeneratorAverage = (function () {
   var averageEquationList = [];
   function generateEquations(
     quantity,
+    teacherTable,
+    occurrenceValue,
+    prioritize,
     minimumValue,
     maximumValue,
     differentVariables
   ) {
     //Equation storage
     averageEquationList = [];
+    var customEquations = [];
 
-    equationProcess();
+    getEquations();
+    function getEquations() {
+      axios
+        .get(
+          `http://localhost:80/Prototype-Vite/my-project/api/getEquation/Average@${teacherTable}`
+        )
+        .then(function (response) {
+          //console.log(response.data);
+          let responseData = response.data;
+          var newArray = [];
+          for (let i = 0; i < responseData.length; i++) {
+            var tempArray = [];
+            var result = Object.keys(responseData[i]).map(key => [
+              key,
+              responseData[i][key],
+            ]);
+
+            for (let j = 0; j < result.length; j++) {
+              tempArray.push(result[j][1]);
+            }
+            //console.log(tempArray);
+
+            let data = JSON.stringify(tempArray[0]);
+            data = data.replace(/"/g, '');
+
+            newArray.push(data);
+          }
+
+          //console.log(newArray);
+          customEquations = newArray;
+          equationProcess();
+        });
+    }
 
     function equationProcess() {
       // GENERATE # EQUATIONS through quantity
@@ -224,16 +260,6 @@ var EquationGeneratorAverage = (function () {
                   continue;
                 }
 
-                try {
-                  if (averageEquationList[i][indexChar - 1].match(/[\-]/)) {
-                    averageEquationList[i] = averageEquationList[i].replace(
-                      '@@',
-                      'x'
-                    );
-                    continue;
-                  }
-                } catch (err) {}
-
                 if (
                   averageEquationList[i][indexChar - 2].match(/[\+\-\*\/\=]/)
                 ) {
@@ -299,16 +325,64 @@ var EquationGeneratorAverage = (function () {
           );
         }
       }
+
+      var indexes = [];
+      for (let i = 0; i < averageEquationList.length; i++) {
+        indexes.push(i);
+      }
+
+      let customArrayLength = customEquations.length;
+      for (let i = 0; i < customArrayLength; i++) {
+        let index = indexes[Math.floor(Math.random() * indexes.length)];
+        let equation =
+          customEquations[Math.floor(Math.random() * customEquations.length)];
+        let percentage = Math.random() * 100;
+        //65% chance custom equation
+        //chance of custom equation
+        if (percentage <= occurrenceValue) {
+          if (equation !== undefined) {
+            //ADD ITEM TO STORAGE ARRAY
+            //IF PRIORITIZED OR NOT
+            if (prioritize == 'TRUE') {
+              averageEquationList[i] = equation;
+            } else {
+              averageEquationList[index] = equation;
+            }
+
+            //REMOVE ITEM FROM ARRAY
+            const itemIndex = customEquations.indexOf(equation);
+            if (itemIndex > -1) {
+              // only splice array when item is found
+              customEquations.splice(itemIndex, 1); // 2nd parameter means remove one item only
+            }
+            //console.log('equations');
+            //console.log(customEquations);
+          }
+        }
+      }
+
+      //console.log(averageEquationList);
     }
   }
 
   var getEquationList = function (
     quantity,
+    teacherTable,
+    occurrenceValue,
+    prioritize,
     minimumValue,
     maximumValue,
     differentVariables
   ) {
-    generateEquations(quantity, minimumValue, maximumValue, differentVariables);
+    generateEquations(
+      quantity,
+      teacherTable,
+      occurrenceValue,
+      prioritize,
+      minimumValue,
+      maximumValue,
+      differentVariables
+    );
     return averageEquationList;
   };
 

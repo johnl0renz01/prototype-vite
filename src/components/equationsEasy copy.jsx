@@ -8,14 +8,60 @@ var EquationGeneratorEasy = (function () {
 
   function generateEquations(
     quantity,
+    teacherTable,
+    occurrenceValue,
+    prioritize,
     minimumValue,
     maximumValue,
     differentVariables
   ) {
+    /*
+    console.log(quantity);
+    console.log(teacherTable);
+    console.log(occurrenceValue);
+    console.log(prioritize);
+    console.log(minimumValue);
+    console.log(maximumValue);
+    console.log(differentVariables);
+    */
+
     //Equation storage
     easyEquationList = [];
+    var customEquations = [];
 
-    equationProcess();
+    getEquations();
+    function getEquations() {
+      axios
+        .get(
+          `http://localhost:80/Prototype-Vite/my-project/api/getEquation/Easy@${teacherTable}`
+        )
+        .then(function (response) {
+          //console.log(response.data);
+          let responseData = response.data;
+          var newArray = [];
+          for (let i = 0; i < responseData.length; i++) {
+            var tempArray = [];
+            var result = Object.keys(responseData[i]).map(key => [
+              key,
+              responseData[i][key],
+            ]);
+
+            for (let j = 0; j < result.length; j++) {
+              tempArray.push(result[j][1]);
+            }
+            //console.log(tempArray);
+
+            let data = JSON.stringify(tempArray[0]);
+            data = data.replace(/"/g, '');
+
+            newArray.push(data);
+          }
+
+          //console.log(newArray);
+          customEquations = newArray;
+          equationProcess();
+        });
+    }
 
     function equationProcess() {
       // GENERATE # EQUATIONS through quantity
@@ -138,16 +184,6 @@ var EquationGeneratorEasy = (function () {
                   continue;
                 }
 
-                try {
-                  if (easyEquationList[i][indexChar - 1].match(/[\-]/)) {
-                    easyEquationList[i] = easyEquationList[i].replace(
-                      '@@',
-                      'x'
-                    );
-                    continue;
-                  }
-                } catch (err) {}
-
                 if (easyEquationList[i][indexChar - 2].match(/[\+\-\*\/\=]/)) {
                   easyEquationList[i] = easyEquationList[i].replace('@@', 'x');
                 } else {
@@ -200,16 +236,59 @@ var EquationGeneratorEasy = (function () {
         }
       }
 
+      var indexes = [];
+      for (let i = 0; i < easyEquationList.length; i++) {
+        indexes.push(i);
+      }
+
+      let customArrayLength = customEquations.length;
+      for (let i = 0; i < customArrayLength; i++) {
+        let index = indexes[Math.floor(Math.random() * indexes.length)];
+        let equation =
+          customEquations[Math.floor(Math.random() * customEquations.length)];
+        let percentage = Math.random() * 100;
+        //chance of custom equation
+        if (percentage <= occurrenceValue) {
+          if (equation !== undefined) {
+            //ADD ITEM TO STORAGE ARRAY
+            //IF PRIORITIZED OR NOT
+            if (prioritize == 'TRUE') {
+              easyEquationList[i] = equation;
+            } else {
+              easyEquationList[index] = equation;
+            }
+
+            //REMOVE ITEM FROM ARRAY
+            const itemIndex = customEquations.indexOf(equation);
+            if (itemIndex > -1) {
+              // only splice array when item is found
+              customEquations.splice(itemIndex, 1); // 2nd parameter means remove one item only
+            }
+          }
+        }
+      }
+
       //console.log(easyEquationList);
     }
   }
   var getEquationList = function (
     quantity,
+    teacherTable,
+    occurrenceValue,
+    prioritize,
     minimumValue,
     maximumValue,
     differentVariables
   ) {
-    generateEquations(quantity, minimumValue, maximumValue, differentVariables);
+    generateEquations(
+      quantity,
+      teacherTable,
+      occurrenceValue,
+      prioritize,
+      minimumValue,
+      maximumValue,
+      differentVariables
+    );
     return easyEquationList;
   };
 

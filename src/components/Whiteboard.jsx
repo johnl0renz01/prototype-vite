@@ -240,9 +240,14 @@ export default function Whiteboard() {
     EquationSolver.setEquation(questionList[data]);
     EquationSolver.getEquationAnswer();
     let fraction = EquationSolver.getEquationFraction();
-    setFractionDisplay(fraction);
-    fraction = coefficientLetter + '=' + fraction;
-    setFraction(fraction);
+    if (fraction != '') {
+      setFractionDisplay(fraction);
+      fraction = coefficientLetter + '=' + fraction;
+      setFraction(fraction);
+    } else {
+      setFractionDisplay('');
+      setFraction(null);
+    }
   }
 
   //STRING IS OKAY, FIX THE equation solver shit
@@ -596,22 +601,76 @@ export default function Whiteboard() {
       setDisplay(fixedEquationSteps);
 
       //ReactDOM.findDOMNode(firstAnswer).style.visibility = 'visible';
+      let questionIndex = parseInt(
+        StorageData.localStorageJSON('QUESTION_INDEX')
+      );
+      var specialCase = false;
+      var equationLink = questionList[questionIndex];
+
+      //CHECK IF SPECIAL CASE
+      let equation = fixedEquationSteps[0];
+      var [lhs, rhs] = equation.split('=').map(side => side.trim());
+      if (fixedEquationSteps.length == 3) {
+        // check if there's character
+        if (/[a-z]/.test(rhs)) {
+          specialCase = true;
+        }
+      } else if (fixedEquationSteps.length == 2) {
+        lhs = lhs.substring(0, lhs.length - 1);
+        rhs = rhs.substring(1);
+        let lhsArray = lhs.split(' ');
+        let rhsArray = rhs.split(' ');
+        if (lhsArray.length > 1 || rhsArray.length > 1) {
+          specialCase = true;
+        }
+      } else if (fixedEquationSteps.length == 1) {
+        equationLink = equationLink.replace(/_/g, ' ');
+        let [lhsEquation, rhsEquation] = equationLink
+          .split('=')
+          .map(side => side.trim());
+
+        lhsEquation = lhsEquation.substring(0, lhsEquation.length - 1);
+        rhsEquation = rhsEquation.substring(1);
+        let lhsArray = lhsEquation.split(' ');
+        let rhsArray = rhsEquation.split(' ');
+        if (lhsArray.length > 1 || rhsArray.length > 1) {
+          specialCase = true;
+        }
+      }
 
       var hintMessage = [];
-      if (fixedEquationSteps.length === 1) {
-        hintMessage.push(FeedbackList.GenerateMessage('stepFinal'));
-      } else if (fixedEquationSteps.length === 2) {
-        hintMessage.push(FeedbackList.GenerateMessage('stepSimplify'));
-        hintMessage.push(FeedbackList.GenerateMessage('stepFinal'));
-      } else if (fixedEquationSteps.length === 3) {
-        hintMessage.push(FeedbackList.GenerateMessage('stepArrange'));
-        hintMessage.push(FeedbackList.GenerateMessage('stepSimplify'));
-        hintMessage.push(FeedbackList.GenerateMessage('stepFinal'));
-      } else if (fixedEquationSteps.length === 4) {
-        hintMessage.push(FeedbackList.GenerateMessage('stepArithmetic'));
-        hintMessage.push(FeedbackList.GenerateMessage('stepArrange'));
-        hintMessage.push(FeedbackList.GenerateMessage('stepSimplify'));
-        hintMessage.push(FeedbackList.GenerateMessage('stepFinal'));
+      if (specialCase) {
+        if (fixedEquationSteps.length === 1) {
+          hintMessage.push(FeedbackList.GenerateMessage('stepSimplify'));
+        } else if (fixedEquationSteps.length === 2) {
+          hintMessage.push(FeedbackList.GenerateMessage('stepArrange'));
+          hintMessage.push(FeedbackList.GenerateMessage('stepSimplify'));
+        } else if (fixedEquationSteps.length === 3) {
+          hintMessage.push(FeedbackList.GenerateMessage('stepArithmetic'));
+          hintMessage.push(FeedbackList.GenerateMessage('stepArrange'));
+          hintMessage.push(FeedbackList.GenerateMessage('stepSimplify'));
+        } else if (fixedEquationSteps.length === 4) {
+          hintMessage.push(FeedbackList.GenerateMessage('stepArithmetic'));
+          hintMessage.push(FeedbackList.GenerateMessage('stepArrange'));
+          hintMessage.push(FeedbackList.GenerateMessage('stepSimplify'));
+          hintMessage.push(FeedbackList.GenerateMessage('stepFinal'));
+        }
+      } else {
+        if (fixedEquationSteps.length === 1) {
+          hintMessage.push(FeedbackList.GenerateMessage('stepFinal'));
+        } else if (fixedEquationSteps.length === 2) {
+          hintMessage.push(FeedbackList.GenerateMessage('stepSimplify'));
+          hintMessage.push(FeedbackList.GenerateMessage('stepFinal'));
+        } else if (fixedEquationSteps.length === 3) {
+          hintMessage.push(FeedbackList.GenerateMessage('stepArrange'));
+          hintMessage.push(FeedbackList.GenerateMessage('stepSimplify'));
+          hintMessage.push(FeedbackList.GenerateMessage('stepFinal'));
+        } else if (fixedEquationSteps.length === 4) {
+          hintMessage.push(FeedbackList.GenerateMessage('stepArithmetic'));
+          hintMessage.push(FeedbackList.GenerateMessage('stepArrange'));
+          hintMessage.push(FeedbackList.GenerateMessage('stepSimplify'));
+          hintMessage.push(FeedbackList.GenerateMessage('stepFinal'));
+        }
       }
       hintMessage.push('');
       setHint(hintMessage);
@@ -789,6 +848,7 @@ export default function Whiteboard() {
   });
 
   const nextQuestion = e => {
+    window.localStorage.removeItem('IS_INTERACTED');
     for (let i = 0; i < highestTimeoutId; i++) {
       clearTimeout(i);
     }
@@ -864,6 +924,7 @@ export default function Whiteboard() {
 
     //var isSkipped = JSON.parse(window.localStorage.getItem('QUESTION_SKIP'));
     if (showHint == false) {
+      window.localStorage.removeItem('IS_INTERACTED');
       var data = StorageData.localStorageRAW('QUESTION_ABANDONED');
       if (data == null || data == undefined || data == '0') {
         data = '0';
@@ -1006,6 +1067,11 @@ export default function Whiteboard() {
 
   //=============================CLICK BUTTON=============================
   const handleClick = event => {
+    window.localStorage.setItem(
+      'IS_INTERACTED',
+      JSON.stringify(SecureStorageData.dataEncryption('TRUE'))
+    );
+
     getCoefficient();
     getFraction();
 
@@ -1103,8 +1169,12 @@ export default function Whiteboard() {
               SecureStorageData.dataEncryption(true)
             );
             increaseCorrectStreak();
-            insertSequence('happy');
-            increaseTally('EXPRESSION_HAPPY');
+            if (
+              StorageData.localStorageJSON('SYSTEM_VERSION') == 'Facial Group'
+            ) {
+              insertSequence('happy');
+              increaseTally('EXPRESSION_HAPPY');
+            }
             increaseTally('QUESTION_ANSWERED');
 
             var currentScore = StorageData.localStorageRAW('SESSION_SCORE');
@@ -1175,8 +1245,12 @@ export default function Whiteboard() {
               SecureStorageData.dataEncryption(true)
             );
             increaseCorrectStreak();
-            insertSequence('happy');
-            increaseTally('EXPRESSION_HAPPY');
+            if (
+              StorageData.localStorageJSON('SYSTEM_VERSION') == 'Facial Group'
+            ) {
+              insertSequence('happy');
+              increaseTally('EXPRESSION_HAPPY');
+            }
             increaseTally('QUESTION_ANSWERED');
 
             var currentScore = StorageData.localStorageRAW('SESSION_SCORE');
@@ -3132,13 +3206,32 @@ export default function Whiteboard() {
                     >
                       {answerDisplay.map((ans, index) =>
                         index === 0 ? (
-                          <div
-                            key={index}
-                            id={'answer' + index}
-                            className="invisible"
-                          >
-                            {ans}
-                          </div>
+                          length === 1 ? (
+                            <div
+                              key={index}
+                              id={'answer' + index}
+                              className="invisible"
+                            >
+                              {ans}
+                              {fractionState ? (
+                                answerFractionDisplay != '' ? (
+                                  <> or {answerFractionDisplay}</>
+                                ) : (
+                                  <></>
+                                )
+                              ) : (
+                                <></>
+                              )}
+                            </div>
+                          ) : (
+                            <div
+                              key={index}
+                              id={'answer' + index}
+                              className="invisible"
+                            >
+                              {ans}
+                            </div>
+                          )
                         ) : length === index + 1 ? (
                           // last one
                           <div
@@ -3152,7 +3245,11 @@ export default function Whiteboard() {
                             <span className="px-2 border-black border-2">
                               {ans}
                               {fractionState ? (
-                                <> or {answerFractionDisplay}</>
+                                answerFractionDisplay != '' ? (
+                                  <> or {answerFractionDisplay}</>
+                                ) : (
+                                  <></>
+                                )
                               ) : (
                                 <></>
                               )}
@@ -3429,7 +3526,7 @@ export default function Whiteboard() {
                   {...(isHelp
                     ? {
                         datatooltip:
-                          'The trash bin button. It removes all text from the current user logs.',
+                          'The trash bin button. It removes all text from the current input history.',
                       }
                     : {})}
                   {...(isHelp ? { datatooltipposition: 'left' } : {})}

@@ -3,6 +3,7 @@ import { useEffect, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
+import EquationSolver from './equationSolver';
 import EquationGeneratorEasy from './equationsEasy';
 import EquationGeneratorAverage from './equationsAverage';
 import EquationGeneratorDifficult from './equationsDifficult';
@@ -64,8 +65,9 @@ const FinishSessionModal = ({ visible, onClose, onContinue }) => {
 
     let session = StorageData.localStorageJSON('SESSION_END');
     if (session == true) {
-      if (StorageData.localStorageJSON('SESSION_RECORDED') !== 'true') {
+      if (StorageData.localStorageJSON('SESSION_RECORDED') !== true) {
         EndSession.recordData();
+        window.localStorage.removeItem('QUESTION_LIST');
         getTimeSpent();
       } else {
         getTimeSpent();
@@ -159,17 +161,7 @@ const FinishSessionModal = ({ visible, onClose, onContinue }) => {
         var result = Object.values(response.data);
         var keys = [];
         for (var k in result[0]) keys.push(result[0][k]);
-        setEquations(
-          EquationGeneratorEasy.getEquationList(
-            20,
-            tableEquations,
-            parseInt(keys[1]),
-            keys[2],
-            parseInt(keys[4]),
-            parseInt(keys[5]),
-            keys[6]
-          )
-        );
+
         if (keys[3] == 'TRUE') {
           window.localStorage.setItem(
             'SESSION_ACCEPT_FRACTION',
@@ -178,7 +170,111 @@ const FinishSessionModal = ({ visible, onClose, onContinue }) => {
         } else {
           window.localStorage.removeItem('SESSION_ACCEPT_FRACTION');
         }
-        setShowLoading(false);
+
+        var occurrenceValue = parseInt(keys[1]);
+        var prioritize = keys[2];
+        var minimumValue = parseInt(keys[4]);
+        var maximumValue = parseInt(keys[5]);
+        var differentVariables = keys[6];
+
+        //Equation storage
+        var allEquations = [];
+        var customEquations = [];
+
+        getEquations();
+        function getEquations() {
+          axios
+            .get(
+              `http://localhost:80/Prototype-Vite/my-project/api/getEquation/Easy@${tableEquations}`
+            )
+            .then(function (response) {
+              let responseData = response.data;
+              var newArray = [];
+
+              //GET CUSTOM EQUATIONS
+              for (let i = 0; i < responseData.length; i++) {
+                var tempArray = [];
+                var result = Object.keys(responseData[i]).map(key => [
+                  key,
+                  responseData[i][key],
+                ]);
+
+                for (let j = 0; j < result.length; j++) {
+                  tempArray.push(result[j][1]);
+                }
+
+                let data = JSON.stringify(tempArray[0]);
+                data = data.replace(/"/g, '');
+
+                newArray.push(data);
+              }
+              customEquations = newArray;
+
+              // CHECK
+              let answer = '';
+              for (let i = 0; i < 20; i++) {
+                equationList = EquationGeneratorEasy.getEquationList(
+                  1,
+                  minimumValue,
+                  maximumValue,
+                  differentVariables
+                );
+
+                EquationSolver.setEquation(equationList[0]);
+                answer = EquationSolver.getEquationAnswer();
+
+                if (answer == 'invalid') {
+                  i--;
+                } else {
+                  allEquations.push(equationList[0]);
+                }
+              }
+
+              var indexes = [];
+              for (let i = 0; i < allEquations.length; i++) {
+                indexes.push(i);
+              }
+
+              let customArrayLength = customEquations.length;
+              for (let i = 0; i < customArrayLength; i++) {
+                let index = indexes[Math.floor(Math.random() * indexes.length)];
+                let equation =
+                  customEquations[
+                    Math.floor(Math.random() * customEquations.length)
+                  ];
+                let percentage = Math.random() * 100;
+                //chance of custom equation
+                if (percentage <= occurrenceValue) {
+                  if (equation !== undefined) {
+                    //ADD ITEM TO STORAGE ARRAY
+                    //IF PRIORITIZED OR NOT
+                    if (prioritize == 'TRUE') {
+                      allEquations[i] = equation;
+                    } else {
+                      allEquations[index] = equation;
+                    }
+
+                    //REMOVE ITEM FROM ARRAY
+                    const itemIndex = customEquations.indexOf(equation);
+                    if (itemIndex > -1) {
+                      // only splice array when item is found
+                      customEquations.splice(itemIndex, 1); // 2nd parameter means remove one item only
+                    }
+                  }
+                }
+              }
+
+              setEquations(allEquations);
+              setShowLoading(false);
+              window.localStorage.setItem(
+                'QUESTION_LIST',
+                JSON.stringify(SecureStorageData.dataEncryption('GENERATED'))
+              );
+            })
+            .catch(function (error) {
+              setShowLoading(false);
+            });
+        }
       })
       .catch(function (error) {
         setShowLoading(false);
@@ -198,17 +294,7 @@ const FinishSessionModal = ({ visible, onClose, onContinue }) => {
         var result = Object.values(response.data);
         var keys = [];
         for (var k in result[0]) keys.push(result[0][k]);
-        setEquations(
-          EquationGeneratorAverage.getEquationList(
-            20,
-            tableEquations,
-            parseInt(keys[1]),
-            keys[2],
-            parseInt(keys[4]),
-            parseInt(keys[5]),
-            keys[6]
-          )
-        );
+
         if (keys[3] == 'TRUE') {
           window.localStorage.setItem(
             'SESSION_ACCEPT_FRACTION',
@@ -217,7 +303,111 @@ const FinishSessionModal = ({ visible, onClose, onContinue }) => {
         } else {
           window.localStorage.removeItem('SESSION_ACCEPT_FRACTION');
         }
-        setShowLoading(false);
+
+        var occurrenceValue = parseInt(keys[1]);
+        var prioritize = keys[2];
+        var minimumValue = parseInt(keys[4]);
+        var maximumValue = parseInt(keys[5]);
+        var differentVariables = keys[6];
+
+        //Equation storage
+        var allEquations = [];
+        var customEquations = [];
+
+        getEquations();
+        function getEquations() {
+          axios
+            .get(
+              `http://localhost:80/Prototype-Vite/my-project/api/getEquation/Average@${tableEquations}`
+            )
+            .then(function (response) {
+              let responseData = response.data;
+              var newArray = [];
+
+              //GET CUSTOM EQUATIONS
+              for (let i = 0; i < responseData.length; i++) {
+                var tempArray = [];
+                var result = Object.keys(responseData[i]).map(key => [
+                  key,
+                  responseData[i][key],
+                ]);
+
+                for (let j = 0; j < result.length; j++) {
+                  tempArray.push(result[j][1]);
+                }
+
+                let data = JSON.stringify(tempArray[0]);
+                data = data.replace(/"/g, '');
+
+                newArray.push(data);
+              }
+              customEquations = newArray;
+
+              // CHECK
+              let answer = '';
+              for (let i = 0; i < 20; i++) {
+                equationList = EquationGeneratorAverage.getEquationList(
+                  1,
+                  minimumValue,
+                  maximumValue,
+                  differentVariables
+                );
+
+                EquationSolver.setEquation(equationList[0]);
+                answer = EquationSolver.getEquationAnswer();
+
+                if (answer == 'invalid') {
+                  i--;
+                } else {
+                  allEquations.push(equationList[0]);
+                }
+              }
+
+              var indexes = [];
+              for (let i = 0; i < allEquations.length; i++) {
+                indexes.push(i);
+              }
+
+              let customArrayLength = customEquations.length;
+              for (let i = 0; i < customArrayLength; i++) {
+                let index = indexes[Math.floor(Math.random() * indexes.length)];
+                let equation =
+                  customEquations[
+                    Math.floor(Math.random() * customEquations.length)
+                  ];
+                let percentage = Math.random() * 100;
+                //chance of custom equation
+                if (percentage <= occurrenceValue) {
+                  if (equation !== undefined) {
+                    //ADD ITEM TO STORAGE ARRAY
+                    //IF PRIORITIZED OR NOT
+                    if (prioritize == 'TRUE') {
+                      allEquations[i] = equation;
+                    } else {
+                      allEquations[index] = equation;
+                    }
+
+                    //REMOVE ITEM FROM ARRAY
+                    const itemIndex = customEquations.indexOf(equation);
+                    if (itemIndex > -1) {
+                      // only splice array when item is found
+                      customEquations.splice(itemIndex, 1); // 2nd parameter means remove one item only
+                    }
+                  }
+                }
+              }
+
+              setEquations(allEquations);
+              setShowLoading(false);
+              window.localStorage.setItem(
+                'QUESTION_LIST',
+                JSON.stringify(SecureStorageData.dataEncryption('GENERATED'))
+              );
+            })
+            .catch(function (error) {
+              setShowLoading(false);
+            });
+        }
       })
       .catch(function (error) {
         setShowLoading(false);
@@ -238,17 +428,7 @@ const FinishSessionModal = ({ visible, onClose, onContinue }) => {
         var result = Object.values(response.data);
         var keys = [];
         for (var k in result[0]) keys.push(result[0][k]);
-        setEquations(
-          EquationGeneratorDifficult.getEquationList(
-            20,
-            tableEquations,
-            parseInt(keys[1]),
-            keys[2],
-            parseInt(keys[4]),
-            parseInt(keys[5]),
-            keys[6]
-          )
-        );
+
         if (keys[3] == 'TRUE') {
           window.localStorage.setItem(
             'SESSION_ACCEPT_FRACTION',
@@ -257,7 +437,111 @@ const FinishSessionModal = ({ visible, onClose, onContinue }) => {
         } else {
           window.localStorage.removeItem('SESSION_ACCEPT_FRACTION');
         }
-        setShowLoading(false);
+
+        var occurrenceValue = parseInt(keys[1]);
+        var prioritize = keys[2];
+        var minimumValue = parseInt(keys[4]);
+        var maximumValue = parseInt(keys[5]);
+        var differentVariables = keys[6];
+
+        //Equation storage
+        var allEquations = [];
+        var customEquations = [];
+
+        getEquations();
+        function getEquations() {
+          axios
+            .get(
+              `http://localhost:80/Prototype-Vite/my-project/api/getEquation/Difficult@${tableEquations}`
+            )
+            .then(function (response) {
+              let responseData = response.data;
+              var newArray = [];
+
+              //GET CUSTOM EQUATIONS
+              for (let i = 0; i < responseData.length; i++) {
+                var tempArray = [];
+                var result = Object.keys(responseData[i]).map(key => [
+                  key,
+                  responseData[i][key],
+                ]);
+
+                for (let j = 0; j < result.length; j++) {
+                  tempArray.push(result[j][1]);
+                }
+
+                let data = JSON.stringify(tempArray[0]);
+                data = data.replace(/"/g, '');
+
+                newArray.push(data);
+              }
+              customEquations = newArray;
+
+              // CHECK
+              let answer = '';
+              for (let i = 0; i < 20; i++) {
+                equationList = EquationGeneratorDifficult.getEquationList(
+                  1,
+                  minimumValue,
+                  maximumValue,
+                  differentVariables
+                );
+
+                EquationSolver.setEquation(equationList[0]);
+                answer = EquationSolver.getEquationAnswer();
+
+                if (answer == 'invalid') {
+                  i--;
+                } else {
+                  allEquations.push(equationList[0]);
+                }
+              }
+
+              var indexes = [];
+              for (let i = 0; i < allEquations.length; i++) {
+                indexes.push(i);
+              }
+
+              let customArrayLength = customEquations.length;
+              for (let i = 0; i < customArrayLength; i++) {
+                let index = indexes[Math.floor(Math.random() * indexes.length)];
+                let equation =
+                  customEquations[
+                    Math.floor(Math.random() * customEquations.length)
+                  ];
+                let percentage = Math.random() * 100;
+                //chance of custom equation
+                if (percentage <= occurrenceValue) {
+                  if (equation !== undefined) {
+                    //ADD ITEM TO STORAGE ARRAY
+                    //IF PRIORITIZED OR NOT
+                    if (prioritize == 'TRUE') {
+                      allEquations[i] = equation;
+                    } else {
+                      allEquations[index] = equation;
+                    }
+
+                    //REMOVE ITEM FROM ARRAY
+                    const itemIndex = customEquations.indexOf(equation);
+                    if (itemIndex > -1) {
+                      // only splice array when item is found
+                      customEquations.splice(itemIndex, 1); // 2nd parameter means remove one item only
+                    }
+                  }
+                }
+              }
+
+              setEquations(allEquations);
+              setShowLoading(false);
+              window.localStorage.setItem(
+                'QUESTION_LIST',
+                JSON.stringify(SecureStorageData.dataEncryption('GENERATED'))
+              );
+            })
+            .catch(function (error) {
+              setShowLoading(false);
+            });
+        }
       })
       .catch(function (error) {
         setShowLoading(false);
@@ -265,16 +549,19 @@ const FinishSessionModal = ({ visible, onClose, onContinue }) => {
   }
 
   function generateQuestion() {
-    let isLevelUp = StorageData.localStorageJSON('SESSION_LEVEL_UP');
-    if (isLevelUp == 'easy') {
-      generateEasy();
-    }
+    var questions = StorageData.localStorageJSON('QUESTION_LIST');
+    if (questions === null) {
+      let isLevelUp = StorageData.localStorageJSON('SESSION_LEVEL_UP');
+      if (isLevelUp == 'easy') {
+        generateEasy();
+      }
 
-    if (isLevelUp == 'average') {
-      generateAverage();
-    }
-    if (isLevelUp == 'difficult') {
-      generateDifficult();
+      if (isLevelUp == 'average') {
+        generateAverage();
+      }
+      if (isLevelUp == 'difficult') {
+        generateDifficult();
+      }
     }
   }
 

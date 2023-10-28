@@ -666,7 +666,7 @@ var FeedbackList = (function () {
       message = messageArray[Math.floor(Math.random() * messageArray.length)];
     } else if (condition == 'abandonNone') {
       var messageArray = [
-        "Wow, you've completed all 20 questions without leaving any unanswered! You're showing excellent perseverance and attention to detail.",
+        "Wow, you've completed without leaving any unanswered! You're showing excellent perseverance and attention to detail.",
         'Your hard work has paid off with a perfect score on the session! Keep up the great effort and continue reviewing questions carefully.',
         'Congratulations on completing the session with 100% accuracy! Your dedication to accuracy and attention to detail is impressive.',
         'Amazing job on finishing the session with a flawless score! Keep up the exceptional work and remember to take your time on each question.',

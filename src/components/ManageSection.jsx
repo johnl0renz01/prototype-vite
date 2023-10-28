@@ -31,6 +31,8 @@ export default function ManageSection() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    sessionStorage.removeItem('CURRENT_SECTION_EDIT');
+
     setTabIndex();
 
     window.addEventListener('focus', setTabIndex);

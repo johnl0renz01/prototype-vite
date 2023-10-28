@@ -961,8 +961,12 @@ function Registration() {
     //var child = document.getElementById('row1').childNodes[3];
     ////console.log(child.nodeName);
 
+    var accounts = [];
+
     var table = document.getElementById('main_table');
     var tbodyRowCount = table.tBodies[0].rows.length;
+
+    //console.log(tbodyRowCount);
 
     for (let i = 0; i < tbodyRowCount; i++) {
       let link = '';
@@ -996,22 +1000,22 @@ function Registration() {
       if (link != '') {
         link = link + '@' + grade_level + '@' + section_name;
         link = link.replace(/ /g, '_');
-        //console.log(link);
-
-        axios
-          .post(
-            `http://localhost:80/Prototype-Vite/my-project/api/registerBulk/${link}`
-          )
-          .then(function (response) {
-            setShowLoading(false);
-            setShowModal4(true);
-            //console.log(response.data);
-          })
-          .catch(function (error) {
-            setShowLoading(false);
-          });
+        accounts.push(link);
       }
     }
+    accounts = accounts.toString();
+    axios
+      .post(
+        `http://localhost:80/Prototype-Vite/my-project/api/registerBulk/${accounts}`
+      )
+      .then(function (response) {
+        setShowLoading(false);
+        setShowModal4(true);
+        //console.log(response.data);
+      })
+      .catch(function (error) {
+        setShowLoading(false);
+      });
   };
 
   useEffect(() => {}, []);

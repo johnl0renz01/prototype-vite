@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { MdClose } from 'react-icons/md';
 import { VscWarning } from 'react-icons/vsc';
+
+import StorageData from './StorageData';
+import SecureStorageData from './SecureStorageData';
 
 const DifficultyModal = ({ visible, onClose, onContinue }) => {
   const handleOnClose = e => {
@@ -8,6 +11,26 @@ const DifficultyModal = ({ visible, onClose, onContinue }) => {
   };
 
   if (!visible) return null;
+
+  const [questionStatus, setQuestionStatus] = useState('ABANDONED');
+  const [interactStatus, setInteractStatus] = useState(true);
+
+  useEffect(() => {
+    var question = StorageData.localStorageJSON('QUESTION_STATUS');
+    if (question === null) {
+      question = 'ABANDONED';
+      setQuestionStatus('ABANDONED');
+    } else {
+      setQuestionStatus(question);
+    }
+
+    var interacted = StorageData.localStorageJSON('IS_INTERACTED');
+    if (interacted === null) {
+      setInteractStatus(false);
+    } else {
+      setInteractStatus(true);
+    }
+  });
 
   return (
     <>
@@ -32,9 +55,17 @@ const DifficultyModal = ({ visible, onClose, onContinue }) => {
             <div className="p-4 text-xl font-semibold">
               <span className="text-orange-600 font-bold">Warning:</span> There
               is another session on going.
-              <p className="text-gray-500 text-lg font-normal">
-                (Choosing to continue will end the current session and marks the
-                current question as abandoned.)
+              <p className={`text-gray-500 text-lg font-normal`}>
+                {questionStatus == 'SOLVED' ? (
+                  <>(Choosing to continue will end the current session.)</>
+                ) : !interactStatus ? (
+                  <>(Choosing to continue will end the current session.)</>
+                ) : (
+                  <>
+                    (Choosing to continue will end the current session and marks
+                    the current question as abandoned.)
+                  </>
+                )}
               </p>
               <p className="text-xl font-semibold py-4">
                 Do you still want to create new session?

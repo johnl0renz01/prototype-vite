@@ -13,7 +13,7 @@ $conn = $objDb->connect();
 
 switch($_SESSION['method']) {
     case "GET":
-        $sql = "SELECT * FROM accounts ORDER BY LastName";
+        $sql = "SELECT * FROM accounts ORDER BY Role DESC, LastName";
         
         $stmt = $conn->prepare($sql);
         $stmt->execute();
@@ -78,10 +78,10 @@ switch($_SESSION['method']) {
                                         OR CONCAT(GivenName, ' ', MiddleName, ' ', LastName) LIKE '%$inputSearch'
                                         OR CONCAT(GivenName, ' ', MiddleName, ' ', LastName) LIKE '$inputSearch%'
                                         
-                                        ORDER BY LastName";
+                                        ORDER BY Role DESC, LastName";
 
         } else {
-            $sql = "SELECT * FROM accounts ORDER BY LastName";
+            $sql = "SELECT * FROM accounts ORDER BY Role DESC, LastName ";
         }
         
         $stmt = $conn->prepare($sql);

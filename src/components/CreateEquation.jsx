@@ -24,6 +24,8 @@ import LoadingSpinner from './LoadingSpinner';
 import StorageData from './StorageData';
 import SecureStorageData from './SecureStorageData';
 
+import SubscriptionLocked from './SubscriptionLocked';
+
 export default function CreateEquation() {
   const navigate = useNavigate();
 
@@ -131,6 +133,7 @@ export default function CreateEquation() {
   };
 
   const validateEquation = () => {
+    setSpecialCase(false);
     setShowLoading(true);
     let equationLink = equationString.replace(/ /g, '');
 
@@ -241,7 +244,7 @@ export default function CreateEquation() {
                 }
 
                 fixedEquationSteps.push(fixedString);
-
+                console.log(fixedString);
                 if (i == 0) {
                   fixedEquationString = equationString.trim();
                   fixedEquationString = fixedEquationString.replace(/ /g, '');
@@ -259,11 +262,45 @@ export default function CreateEquation() {
               }
             }
             setEquationSteps(fixedEquationSteps);
+            let equation = fixedEquationSteps[0];
+            var [lhs, rhs] = equation.split('=').map(side => side.trim());
+            if (fixedEquationSteps.length == 3) {
+              // check if there's character
+              if (/[a-z]/.test(rhs)) {
+                setSpecialCase(true);
+              }
+            } else if (fixedEquationSteps.length == 2) {
+              lhs = lhs.substring(0, lhs.length - 1);
+              rhs = rhs.substring(1);
+              let lhsArray = lhs.split(' ');
+              let rhsArray = rhs.split(' ');
+              if (lhsArray.length > 1 || rhsArray.length > 1) {
+                setSpecialCase(true);
+              }
+            } else if (fixedEquationSteps.length == 1) {
+              equationLink = equationLink.replace(/_/g, ' ');
+              let [lhsEquation, rhsEquation] = equationLink
+                .split('=')
+                .map(side => side.trim());
+
+              lhsEquation = lhsEquation.substring(0, lhsEquation.length - 1);
+              rhsEquation = rhsEquation.substring(1);
+              let lhsArray = lhsEquation.split(' ');
+              let rhsArray = rhsEquation.split(' ');
+              if (lhsArray.length > 1 || rhsArray.length > 1) {
+                setSpecialCase(true);
+              }
+            }
           }
           setShowLoading(false);
         }
+      })
+      .catch(function (error) {
+        setShowLoading(false);
       });
   };
+
+  const [specialCase, setSpecialCase] = useState(false);
 
   const resetEquation = () => {
     document.getElementById('validation_result').style.visibility = 'hidden';
@@ -381,6 +418,26 @@ export default function CreateEquation() {
   }, []);
   */
 
+  const [lockState, setLockState] = useState(false);
+  useEffect(() => {
+    var subscription = StorageData.localStorageJSON('SUBSCRIPTION_TYPE');
+    if (subscription !== null) {
+      subscription = subscription.replace(/"/g, '');
+      if (
+        subscription == 'PLAN-1' ||
+        subscription == 'PLAN-2' ||
+        subscription == 'PLAN-3'
+      ) {
+        setLockState(false);
+      } else {
+        setLockState(true);
+      }
+    } else {
+      setLockState(true);
+    }
+    setLockState(false);
+  }, []);
+
   return (
     <>
       {/*
@@ -388,8 +445,9 @@ export default function CreateEquation() {
         <CreateEquationSkeleton />
       </div>
     */}
+
       <div
-        className={`bg-gradient-to-t from-[#e2e2e2] via-[#f1f1f1] to-[#ffffff] h-full overflow-y-auto
+        className={`relative bg-gradient-to-t from-[#e2e2e2] via-[#f1f1f1] to-[#ffffff] h-full 
       ${
         navbarWidth == 160
           ? 'w-[calc(100%-160px)] ml-[160px]'
@@ -413,9 +471,17 @@ export default function CreateEquation() {
         <div
           className={`bg-gradient-to-t from-[#e2e2e2] via-[#f1f1f1] to-[#ffffff] h-screen`}
         >
-          <section id="container" className=" relative mx-auto p-8 w-full">
-            <div
-              className={`md:-mt-0 xs:-mt-1 border-b-2 text-gray-600 lg:text-4xl font-bold
+          {lockState ? (
+            <div className={``}>
+              <SubscriptionLocked />
+            </div>
+          ) : (
+            <section
+              id="container"
+              className=" relative mx-auto p-8 pb-0 w-full"
+            >
+              <div
+                className={`md:-mt-0 xs:-mt-1 border-b-2 text-gray-600 lg:text-4xl font-bold
           ${
             logoHeight == 94.5
               ? 'max-h-[94.5px]'
@@ -423,13 +489,13 @@ export default function CreateEquation() {
               ? 'max-h-[67.5px]'
               : ''
           }`}
-            >
-              Create Equation
-            </div>
+              >
+                Create Equation
+              </div>
 
-            <div
-              id="create_question"
-              className="flex flex-col 
+              <div
+                id="create_question"
+                className="flex flex-col 
               hdScreen:min-h-[calc(100vh-12.5vh)] hdScreen:max-h-[calc(100vh-12.5vh)]  
               semihdScreen:min-h-[calc(100vh-17.5vh)] semihdScreen:max-h-[calc(100vh-17.5vh)]  
               laptopScreen:min-h-[calc(100vh-22.5vh)] laptopScreen:max-h-[calc(100vh-22.5vh)]  
@@ -437,242 +503,296 @@ export default function CreateEquation() {
               xs:min-h-[calc(100vh-27.5vh)] xs:max-h-[calc(100vh-27.5vh)] 
 
               lg:text-lg xs:text-sm p-4 text-gray-700"
-            >
-              <div className="font-semibold">Enter the equation:</div>
-              <div className="flex mt-0.5">
-                <input
-                  autoComplete="off"
-                  name="input"
-                  value={equationString}
-                  onChange={inputChange}
-                  type="text"
-                  className="w-full grow  p-1 px-2 border-2 rounded-md border-gray-400 focus:outline-teal-500 relative focus:ring-teal-500   shadow-[#808080]"
-                ></input>
-                <button
-                  onClick={equationString != '' ? validateEquation : undefined}
-                  className={`ml-6 py-1.5 lg:w-36 px-4 shadow-md rounded-md transition duration-300 drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)] ${
-                    equationString != ''
-                      ? ' text-white  bg-yellow-600 hover:bg-yellow-700'
-                      : ' cursor-default text-gray-300  bg-gray-400 '
+              >
+                <div className="font-semibold">Enter the equation:</div>
+                <div className="flex mt-0.5">
+                  <input
+                    autoComplete="off"
+                    name="input"
+                    value={equationString}
+                    onChange={inputChange}
+                    type="text"
+                    className="w-full grow  p-1 px-2 border-2 rounded-md border-gray-400 focus:outline-teal-500 relative focus:ring-teal-500   shadow-[#808080]"
+                  ></input>
+                  <button
+                    onClick={
+                      equationString != '' ? validateEquation : undefined
+                    }
+                    className={`ml-6 py-1.5 lg:w-36 px-4 shadow-md rounded-md transition duration-300 drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)] ${
+                      equationString != ''
+                        ? ' text-white  bg-yellow-600 hover:bg-yellow-700'
+                        : ' cursor-default text-gray-300  bg-gray-400 '
+                    }`}
+                  >
+                    <span className="pl-1 lg:text-xl xs:text-xs flex justify-center items-center">
+                      Validate
+                      <GoChecklist className="ml-2  lg:text-2xl" />
+                    </span>
+                  </button>
+                </div>
+                <div className="text-gray-500 lg:text-lg xs:text-xs mt-1">
+                  (Click "Validate" to check if the equation could be solved by
+                  the system.)
+                </div>
+
+                <div
+                  id="validation_result"
+                  className={` invisible transition duration-500 select-none ${
+                    equationString.length >= 30 ? '' : 'flex'
                   }`}
                 >
-                  <span className="pl-1 lg:text-xl xs:text-xs flex justify-center items-center">
-                    Validate
-                    <GoChecklist className="ml-2  lg:text-2xl" />
-                  </span>
-                </button>
-              </div>
-              <div className="text-gray-500 lg:text-lg xs:text-xs mt-1">
-                (Click "Validate" to check if the equation could be solved by
-                the algorithm.)
-              </div>
+                  <div>
+                    <div className="">
+                      <p className=" my-2 border-2  border-gray-300 shadow-md p-1 px-2 inline-block rounded-xl">
+                        {equationResult}
+                      </p>
+                    </div>
+                  </div>
 
-              <div
-                id="validation_result"
-                className={` invisible transition duration-500 select-none ${
-                  equationString.length >= 30 ? '' : 'flex'
-                }`}
-              >
-                <div>
-                  <div className="">
-                    <p className=" my-2 border-2  border-gray-300 shadow-md p-1 px-2 inline-block rounded-xl">
-                      {equationResult}
+                  <div className="flex ">
+                    {isValid ? (
+                      equationString.length >= 30 ? (
+                        <VscPassFilled className="ml-3 mt-1.5  lg:text-2xl text-lime-600" />
+                      ) : (
+                        <VscPassFilled className="ml-3 mt-[1.10rem] lg:text-2xl text-lime-600" />
+                      )
+                    ) : equationString.length >= 30 ? (
+                      <BsXCircleFill className="ml-3 mt-1.5 lg:text-2xl text-red-500" />
+                    ) : (
+                      <BsXCircleFill className="ml-3 mt-[1.10rem] lg:text-2xl text-red-500" />
+                    )}
+                    <p
+                      className={`lg:text-lg xs:text-xs  font-semibold border-gray-300 inline-block p-1 px-2 rounded-xl ${
+                        equationString.length >= 30
+                          ? isValid
+                            ? 'text-lime-600'
+                            : 'text-red-600'
+                          : isValid
+                          ? 'text-lime-600 mt-3'
+                          : 'text-red-600 mt-3'
+                      }`}
+                    >
+                      {...isDuplicate
+                        ? 'Invalid: (This equation already exist in the equation list.)'
+                        : isSolved
+                        ? 'Invalid: (This equation is already solved)'
+                        : isValid
+                        ? 'Valid: (This equation could be solved by the system)'
+                        : 'Invalid: (This equation is unable to solve by the system)'}
                     </p>
                   </div>
                 </div>
 
-                <div className="flex ">
-                  {isValid ? (
-                    equationString.length >= 30 ? (
-                      <VscPassFilled className="ml-3 mt-1.5  lg:text-2xl text-lime-600" />
-                    ) : (
-                      <VscPassFilled className="ml-3 mt-[1.10rem] lg:text-2xl text-lime-600" />
-                    )
-                  ) : equationString.length >= 30 ? (
-                    <BsXCircleFill className="ml-3 mt-1.5 lg:text-2xl text-red-500" />
-                  ) : (
-                    <BsXCircleFill className="ml-3 mt-[1.10rem] lg:text-2xl text-red-500" />
-                  )}
-                  <p
-                    className={`lg:text-lg xs:text-xs  font-semibold border-gray-300 inline-block p-1 px-2 rounded-xl ${
-                      equationString.length >= 30
-                        ? isValid
-                          ? 'text-lime-600'
-                          : 'text-red-600'
-                        : isValid
-                        ? 'text-lime-600 mt-3'
-                        : 'text-red-600 mt-3'
-                    }`}
-                  >
-                    {...isDuplicate
-                      ? 'Invalid: (This equation already exist in the equation list.)'
-                      : isSolved
-                      ? 'Invalid: (This equation is already solved)'
-                      : isValid
-                      ? 'Valid: (This equation could be solved by the algorithm)'
-                      : 'Invalid: (This equation is unable to solve by the algorithm)'}
-                  </p>
-                </div>
-              </div>
-
-              <div
-                className={`hdScreen:mt-4 semihdScreen:mt-2 laptopScreen:mt-2 averageScreen:mt-2 lg:text-xl font-semibold  transition select-none ${
-                  isValid ? 'opacity-100  duration-[1500ms]' : 'opacity-0'
-                }`}
-              >
-                What is the difficulty level of this equation?
-                <div className="mt-2 text-lg flex">
-                  <button
-                    onClick={isValid ? optionEasy : undefined}
-                    className={`hdScreen:py-1.5 semihdScreen:py-1.5 laptopScreen:py-1 averageScreen:py-1 md:px-10 xs:px-5  shadow-md rounded-xl  transition duration-300 ${
-                      isValid
-                        ? choice == 'Easy'
-                          ? 'bg-gray-700  text-gray-200'
-                          : 'bg-gray-400 hover:bg-gray-600 text-white'
-                        : choice == 'Easy'
-                        ? 'bg-gray-700  text-gray-200 cursor-default'
-                        : 'bg-gray-400 hover:bg-gray-600 text-white cursor-default'
-                    }`}
-                  >
-                    <span className="lg:text-lg xs:text-sm">Easy</span>
-                  </button>
-                  <button
-                    onClick={isValid ? optionAverage : undefined}
-                    className={`ml-6 hdScreen:py-1.5 semihdScreen:py-1.5 laptopScreen:py-1 averageScreen:py-1  md:px-10 xs:px-5  shadow-md rounded-xl  transition duration-300 ${
-                      isValid
-                        ? choice == 'Average'
-                          ? 'bg-gray-700  text-gray-200'
-                          : 'bg-gray-400 hover:bg-gray-600 text-white'
-                        : choice == 'Average'
-                        ? 'bg-gray-700  text-gray-200 cursor-default'
-                        : 'bg-gray-400 hover:bg-gray-600 text-white cursor-default'
-                    }`}
-                  >
-                    <span className="lg:text-lg xs:text-sm">Average</span>
-                  </button>
-                  <button
-                    onClick={isValid ? optionDifficult : undefined}
-                    className={`ml-6 hdScreen:py-1.5 semihdScreen:py-1.5 laptopScreen:py-1 averageScreen:py-1  md:px-10 xs:px-5  shadow-md rounded-xl  transition duration-300 ${
-                      isValid
-                        ? choice == 'Difficult'
-                          ? 'bg-gray-700  text-gray-200'
-                          : 'bg-gray-400 hover:bg-gray-600 text-white'
-                        : choice == 'Difficult'
-                        ? 'bg-gray-700  text-gray-200 cursor-default'
-                        : 'bg-gray-400 hover:bg-gray-600 text-white cursor-default'
-                    }`}
-                  >
-                    <span className="lg:text-lg xs:text-sm">Difficult</span>
-                  </button>
-                </div>
-              </div>
-              <div
-                className={`flex  hdScreen:mt-6 semihdScreen:mt-6 laptopScreen:mt-4 averageScreen:mt-4 xs:mt-4 shadow-md transition  select-none ${
-                  showSteps ? 'opacity-100  duration-[1500ms]' : 'opacity-0'
-                }`}
-              >
-                <div className="">
-                  <div className="bg-gray-400 px-2 py-1 transition duration-300">
-                    Steps to solve:
+                <div
+                  className={`hdScreen:mt-4 semihdScreen:mt-2 laptopScreen:mt-2 averageScreen:mt-2 lg:text-xl font-semibold  transition select-none ${
+                    isValid ? 'opacity-100  duration-[1500ms]' : 'opacity-0'
+                  }`}
+                >
+                  What is the difficulty level of this equation?
+                  <div className="mt-2 text-lg flex">
+                    <button
+                      onClick={isValid ? optionEasy : undefined}
+                      className={`hdScreen:py-1.5 semihdScreen:py-1.5 laptopScreen:py-1 averageScreen:py-1 md:px-10 xs:px-5  shadow-md rounded-xl  transition duration-300 ${
+                        isValid
+                          ? choice == 'Easy'
+                            ? 'bg-gray-700  text-gray-200'
+                            : 'bg-gray-400 hover:bg-gray-600 text-white'
+                          : choice == 'Easy'
+                          ? 'bg-gray-700  text-gray-200 cursor-default'
+                          : 'bg-gray-400 hover:bg-gray-600 text-white cursor-default'
+                      }`}
+                    >
+                      <span className="lg:text-lg xs:text-sm">Easy</span>
+                    </button>
+                    <button
+                      onClick={isValid ? optionAverage : undefined}
+                      className={`ml-6 hdScreen:py-1.5 semihdScreen:py-1.5 laptopScreen:py-1 averageScreen:py-1  md:px-10 xs:px-5  shadow-md rounded-xl  transition duration-300 ${
+                        isValid
+                          ? choice == 'Average'
+                            ? 'bg-gray-700  text-gray-200'
+                            : 'bg-gray-400 hover:bg-gray-600 text-white'
+                          : choice == 'Average'
+                          ? 'bg-gray-700  text-gray-200 cursor-default'
+                          : 'bg-gray-400 hover:bg-gray-600 text-white cursor-default'
+                      }`}
+                    >
+                      <span className="lg:text-lg xs:text-sm">Average</span>
+                    </button>
+                    <button
+                      onClick={isValid ? optionDifficult : undefined}
+                      className={`ml-6 hdScreen:py-1.5 semihdScreen:py-1.5 laptopScreen:py-1 averageScreen:py-1  md:px-10 xs:px-5  shadow-md rounded-xl  transition duration-300 ${
+                        isValid
+                          ? choice == 'Difficult'
+                            ? 'bg-gray-700  text-gray-200'
+                            : 'bg-gray-400 hover:bg-gray-600 text-white'
+                          : choice == 'Difficult'
+                          ? 'bg-gray-700  text-gray-200 cursor-default'
+                          : 'bg-gray-400 hover:bg-gray-600 text-white cursor-default'
+                      }`}
+                    >
+                      <span className="lg:text-lg xs:text-sm">Difficult</span>
+                    </button>
                   </div>
-                  {equationSteps.map((step, index) =>
-                    index % 2 == 0 ? (
-                      <div className="bg-gray-200 px-2 py-1">{step}</div>
+                </div>
+                <div
+                  className={`flex  hdScreen:mt-6 semihdScreen:mt-6 laptopScreen:mt-4 averageScreen:mt-4 xs:mt-4 shadow-md transition  select-none ${
+                    showSteps ? 'opacity-100  duration-[1500ms]' : 'opacity-0'
+                  }`}
+                >
+                  <div className="">
+                    <div className="bg-gray-400 px-2 py-1 transition duration-300">
+                      Steps to solve:
+                    </div>
+                    {equationSteps.map((step, index) =>
+                      index % 2 == 0 ? (
+                        <div className="bg-gray-200 px-2 py-1">{step}</div>
+                      ) : (
+                        <div className="bg-gray-300 px-2 py-1">{step}</div>
+                      )
+                    )}
+                  </div>
+                  <div className="grow border-l-2 border-gray-500/80">
+                    <div className="bg-gray-400 px-2 py-1">Explanation:</div>
+                    {equationSteps.length === 1 ? (
+                      <>
+                        <div className="bg-gray-200 px-2 py-1">
+                          {specialCase ? (
+                            <>
+                              The equation is solved. Simplifying both
+                              expressions.{' '}
+                            </>
+                          ) : (
+                            <>
+                              The equation is solved. Dividing both sides by the
+                              coefficient.{' '}
+                            </>
+                          )}
+                        </div>
+                      </>
+                    ) : equationSteps.length === 2 ? (
+                      <>
+                        <div className="bg-gray-200 px-2 py-1">
+                          {specialCase ? (
+                            <>
+                              Arrange expressions. Variables in the left side
+                              and constants in the right side.{' '}
+                            </>
+                          ) : (
+                            <>Simplify both expressions. </>
+                          )}
+                        </div>
+                        <div className="bg-gray-300 px-2 py-1">
+                          {specialCase ? (
+                            <>
+                              The equation is solved. Simplifying both
+                              expressions.{' '}
+                            </>
+                          ) : (
+                            <>
+                              The equation is solved. Dividing both sides by the
+                              coefficient.{' '}
+                            </>
+                          )}
+                        </div>
+                      </>
+                    ) : equationSteps.length === 3 ? (
+                      <>
+                        <div className="bg-gray-200 px-2 py-1">
+                          {specialCase ? (
+                            <>
+                              {' '}
+                              Arithmetic operations performed in both variables
+                              and constants.{' '}
+                            </>
+                          ) : (
+                            <>
+                              Arrange expressions. Variables in the left side
+                              and constants in the right side.{' '}
+                            </>
+                          )}
+                        </div>
+                        <div className="bg-gray-300 px-2 py-1">
+                          {specialCase ? (
+                            <>
+                              Arrange expressions. Variables in the left side
+                              and constants in the right side.{' '}
+                            </>
+                          ) : (
+                            <>Simplify both remaining expressions. </>
+                          )}
+                        </div>
+                        <div className="bg-gray-200 px-2 py-1">
+                          {specialCase ? (
+                            <>
+                              The equation is solved. Simplifying both remaining
+                              expressions.{' '}
+                            </>
+                          ) : (
+                            <>
+                              The equation is solved. Dividing both sides by the
+                              coefficient.{' '}
+                            </>
+                          )}
+                        </div>
+                      </>
+                    ) : equationSteps.length === 4 ? (
+                      <>
+                        <div className="bg-gray-200 px-2 py-1">
+                          Arithmetic operations performed in both variables and
+                          constants.{' '}
+                        </div>
+                        <div className="bg-gray-300 px-2 py-1">
+                          Arrange expressions. Variables in the left side and
+                          constant in the right side.{' '}
+                        </div>
+                        <div className="bg-gray-200 px-2 py-1">
+                          Simplify both remaining expressions.{' '}
+                        </div>
+                        <div className="bg-gray-300 px-2 py-1">
+                          The equation is solved. Dividing both sides by the
+                          coefficient.{' '}
+                        </div>
+                      </>
                     ) : (
-                      <div className="bg-gray-300 px-2 py-1">{step}</div>
-                    )
-                  )}
+                      <></>
+                    )}
+                  </div>
                 </div>
-                <div className="grow border-l-2 border-gray-500/80">
-                  <div className="bg-gray-400 px-2 py-1">Explanation:</div>
-                  {equationSteps.length === 1 ? (
-                    <>
-                      <div className="bg-gray-200 px-2 py-1">
-                        The equation is solved. Dividing constant by the
-                        coefficient.{' '}
-                      </div>
-                    </>
-                  ) : equationSteps.length === 2 ? (
-                    <>
-                      <div className="bg-gray-200 px-2 py-1">
-                        Simplify both expression.{' '}
-                      </div>
-                      <div className="bg-gray-300 px-2 py-1">
-                        The equation is solved. Dividing constant by the
-                        coefficient.{' '}
-                      </div>
-                    </>
-                  ) : equationSteps.length === 3 ? (
-                    <>
-                      <div className="bg-gray-200 px-2 py-1">
-                        Arrange expressions. Variables in the left side and
-                        constant in the right side.{' '}
-                      </div>
-                      <div className="bg-gray-300 px-2 py-1">
-                        Simplify both remaining expression.{' '}
-                      </div>
-                      <div className="bg-gray-200 px-2 py-1">
-                        The equation is solved. Dividing constant by the
-                        coefficient.{' '}
-                      </div>
-                    </>
-                  ) : equationSteps.length === 4 ? (
-                    <>
-                      <div className="bg-gray-200 px-2 py-1">
-                        Arithmetic operations performed in both variables and
-                        constant.{' '}
-                      </div>
-                      <div className="bg-gray-300 px-2 py-1">
-                        Arrange expressions. Variables in the left side and
-                        constant in the right side.{' '}
-                      </div>
-                      <div className="bg-gray-200 px-2 py-1">
-                        Simplify both remaining expression.{' '}
-                      </div>
-                      <div className="bg-gray-300 px-2 py-1">
-                        The equation is solved. Dividing constant by the
-                        coefficient.{' '}
-                      </div>
-                    </>
-                  ) : (
-                    <></>
-                  )}
-                </div>
-              </div>
 
-              <div
-                className={`flex  mt-auto justify-end pt-4
+                <div
+                  className={`flex  mt-auto justify-end pt-4
               ${skeletonState ? '' : ''}`}
-              >
-                <button
-                  onClick={showSteps ? resetEquation : undefined}
-                  className={`ml-6 py-1.5 pb-2 px-4 shadow-md rounded-md  transition duration-300 drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)] ${
-                    showSteps
-                      ? 'text-white bg-red-600 hover:bg-red-700'
-                      : 'cursor-default text-gray-300 bg-gray-400'
-                  }`}
                 >
-                  <span className="pl-1 lg:text-xl xs:text-sm flex justify-center items-center">
-                    Reset
-                    <BsArrowCounterclockwise className="ml-2 lg:text-xl xs:text-xs -rotate-45" />
-                  </span>
-                </button>
-                <button
-                  onClick={showSteps ? addEquation : undefined}
-                  className={` ml-6 py-1.5 pb-2 px-3 shadow-md rounded-md  transition duration-300 drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)] ${
-                    showSteps
-                      ? 'text-white bg-lime-600 hover:bg-lime-700'
-                      : 'cursor-default text-gray-300 bg-gray-400'
-                  }`}
-                >
-                  <span className="pl-2 lg:text-xl xs:text-sm flex justify-center items-center">
-                    Add Equation
-                    <HiPlusSmall className="ml-1 lg:text-2xl xs:text-base" />
-                  </span>
-                </button>
+                  <button
+                    onClick={showSteps ? resetEquation : undefined}
+                    className={`ml-6 py-1.5 pb-2 px-4 shadow-md rounded-md  transition duration-300 drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)] ${
+                      showSteps
+                        ? 'text-white bg-red-600 hover:bg-red-700'
+                        : 'cursor-default text-gray-300 bg-gray-400'
+                    }`}
+                  >
+                    <span className="pl-1 lg:text-xl xs:text-sm flex justify-center items-center">
+                      Reset
+                      <BsArrowCounterclockwise className="ml-2 lg:text-xl xs:text-xs -rotate-45" />
+                    </span>
+                  </button>
+                  <button
+                    onClick={showSteps ? addEquation : undefined}
+                    className={` ml-6 py-1.5 pb-2 px-3 shadow-md rounded-md  transition duration-300 drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)] ${
+                      showSteps
+                        ? 'text-white bg-lime-600 hover:bg-lime-700'
+                        : 'cursor-default text-gray-300 bg-gray-400'
+                    }`}
+                  >
+                    <span className="pl-2 lg:text-xl xs:text-sm flex justify-center items-center">
+                      Add Equation
+                      <HiPlusSmall className="ml-1 lg:text-2xl xs:text-base" />
+                    </span>
+                  </button>
+                </div>
               </div>
-            </div>
-          </section>
+            </section>
+          )}
         </div>
       </div>
       <CreateEquationMessageModal
