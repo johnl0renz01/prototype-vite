@@ -435,7 +435,6 @@ export default function CreateEquation() {
     } else {
       setLockState(true);
     }
-    setLockState(false);
   }, []);
 
   return (

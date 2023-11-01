@@ -36,7 +36,7 @@ const SubscriptionLocked = ({ visible, onClose }) => {
                   </h1>
                   <div className="averageScreen:mt-0 xs:-mt-2 averageScreen:mb-4 xs:mb-3">
                     <h2 className="hdScreen:text-5xl semihdScreen:text-4xl laptopScreen:text-3.5xl averageScreen:text-3.5xl sm:text-3xl xs:text-xl font-bold mt-4 text-black mb-1">
-                      ₱100
+                      ₱50
                     </h2>
                     <p className="hdScreen:text-lg semihdScreen:text-base averageScreen:text-sm xs:text-xs font-normal ">
                       per month
@@ -87,7 +87,7 @@ const SubscriptionLocked = ({ visible, onClose }) => {
                   </h1>
                   <div className="averageScreen:mt-0 xs:-mt-2 averageScreen:mb-4 xs:mb-3">
                     <h2 className="hdScreen:text-5xl semihdScreen:text-4xl laptopScreen:text-3.5xl averageScreen:text-3.5xl sm:text-3xl xs:text-xl font-bold mt-4 text-black mb-1">
-                      ₱150
+                      ₱75
                     </h2>
                     <p className="hdScreen:text-lg semihdScreen:text-base averageScreen:text-sm xs:text-xs font-normal ">
                       per month
@@ -139,11 +139,11 @@ const SubscriptionLocked = ({ visible, onClose }) => {
                 </div>
                 <div className="bg-gray-100 hover:bg-white shadow-lg  w-full h-full rounded-xl flex flex-col hdScreen:px-8 semihdScreen:px-6 averageScreen:px-2 xs:px-1 semihdScreen:pb-8 xs:pb-2 averageScreen:pt-8 xs:pt-4">
                   <h1 className="hdScreen:text-2.5xl semihdScreen:text-2xl laptopScreen:text-1.5xl averageScreen:text-1.5xl xs:text-lg font-roboto  font-[600] uppercase text-black/80">
-                    Plan 2: Equation Master
+                    Plan 3: Equation Master
                   </h1>
                   <div className="averageScreen:mt-0 xs:-mt-2 averageScreen:mb-4 xs:mb-3">
                     <h2 className="hdScreen:text-5xl semihdScreen:text-4xl laptopScreen:text-3.5xl averageScreen:text-3.5xl sm:text-3xl xs:text-xl font-bold mt-4 text-black mb-1">
-                      ₱200
+                      ₱100
                     </h2>
                     <p className="hdScreen:text-lg semihdScreen:text-base averageScreen:text-sm xs:text-xs font-normal ">
                       per month

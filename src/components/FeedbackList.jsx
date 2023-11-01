@@ -624,16 +624,16 @@ var FeedbackList = (function () {
       message = messageArray[Math.floor(Math.random() * messageArray.length)];
     } else if (condition == 'abandonNormal') {
       var messageArray = [
-        'Well done on your performance! You have answered most of the questions correctly and left only a few unanswered. Keep up the good work!',
-        "You're doing a great job with the questions you answered! Don't forget to review the unanswered questions and take your time to ensure precision.",
-        'Your effort is impressive! Continue to take your time with each question and review them thoroughly. This will help you to improve your accuracy.',
-        'Keep up the great work! You are doing an excellent job at tackling most of the questions with precision.',
-        "You're on the right track! Remember to double-check your answers and take your time with each question to ensure accuracy.",
-        "Congratulations on your progress! Keep going and don't give up on the questions you couldn't answer.",
-        'Your dedication to answering the questions is impressive! Remember to take your time and carefully review each question.',
-        "Great job on the questions you answered! Don't worry about the unanswered questions, just keep pushing forward.",
-        "You're doing an excellent job of answering most of the questions. Keep practicing and reviewing to improve your precision.",
-        'Your hard work is paying off! Keep persevering and taking your time with each question to ensure accuracy.',
+        'Remember to stay focused and avoid rushing through the questions. Taking your time will help you identify and solve the problems more accurately.',
+        "Don't be discouraged if you didn't answer all the questions correctly. Keep practicing and working hard to improve your skills!",
+        'Your effort is good! Continue to take your time with each question and review them thoroughly. This will help you to improve your accuracy.',
+        "Good session! It's essential to take the time to understand each question's requirements to increase your chances of answering correctly.",
+        'Taking your time to review the questions carefully will help improve your accuracy. Well done on getting some answers right!',
+        "Keep striving for accuracy and take your time to review each question. Even if you didn't get them all right, your effort is commendable.",
+        'Your dedication to answering the questions is good! Remember to take your time and carefully review each question.',
+        'Keep practicing! With dedication and effort, you can improve your precision and solve more questions correctly.',
+        "Even though you didn't get all the answers right, your effort is appreciated. Keep reviewing the questions carefully for great outcome.",
+        "I can see you're putting effort into your work! Remember to take your time and carefully go through each question to ensure accuracy.",
       ];
       message = messageArray[Math.floor(Math.random() * messageArray.length)];
     } else if (condition == 'abandonLow') {

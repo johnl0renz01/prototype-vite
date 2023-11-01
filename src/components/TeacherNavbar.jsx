@@ -51,6 +51,8 @@ import SecureStorageData from './SecureStorageData';
 import ChangePasswordModal from './ChangePasswordModal';
 import ChangePasswordMessageModal from './ChangePasswordMessageModal';
 
+import ManageSubscription from './ManageSubscription';
+
 export default function TeacherNavbar() {
   const [showLoading, setShowLoading] = useState(false);
   const [tableLoader, setTableLoader] = useState(false);
@@ -413,6 +415,13 @@ export default function TeacherNavbar() {
   const [showMessageModal2, setShowMessageModal2] = useState(false);
   const handleOnCloseMessageModal2 = () => setShowMessageModal2(false);
 
+  // MODAL MANAGE SUBSCRIPTION
+  const [showModal3, setShowModal3] = useState(false);
+  const handleOnCloseModal3 = () => setShowModal3(false);
+
+  const handleOnContinueModal3 = () => {
+    setShowModal3(false);
+  };
   return (
     <>
       {/** 
@@ -585,7 +594,7 @@ export default function TeacherNavbar() {
                       <Menu.Item>
                         {({ active }) => (
                           <button
-                            onClick={null}
+                            onClick={() => setShowModal3(true)}
                             className={classNames(
                               active
                                 ? 'bg-gray-100 text-gray-900 '
@@ -842,6 +851,13 @@ export default function TeacherNavbar() {
         onClose={handleOnCloseMessageModal2}
         visible={showMessageModal2}
       />
+
+      <ManageSubscription
+        onClose={handleOnCloseModal3}
+        visible={showModal3}
+        onContinue={handleOnContinueModal3}
+      />
+
       <LoadingSpinner visible={showLoading} />
     </>
   );

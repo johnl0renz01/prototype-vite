@@ -90,6 +90,9 @@ switch($requestLink) {
     case "/Prototype-Vite/my-project/api/verifyEmailBulk":
         include('verifyEmailBulk.php');
     break;
+    case "/Prototype-Vite/my-project/api/sectionAvailable":
+        include('sectionAvailable.php');
+    break;
 
 
     //FOR MANAGE SECTION

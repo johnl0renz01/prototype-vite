@@ -518,6 +518,7 @@ export default function DifficultyPage() {
                 EquationSolver.setEquation(equationList[0]);
                 answer = EquationSolver.getEquationAnswer();
 
+                //console.log("EQUATION: " +equationList[0]+ "   :  STATUS:  " + answer)
                 if (answer == 'invalid') {
                   i--;
                 } else {
@@ -559,6 +560,7 @@ export default function DifficultyPage() {
                 }
               }
 
+              console.log(allEquations);
               setQuestions(allEquations);
               setOption('difficult');
               setDiffType('Difficult');

@@ -11,7 +11,7 @@ $conn = $objDb->connect();
 
 switch($_SESSION['method']) {
     case "GET":
-        $sql = "SELECT * FROM section_list ORDER BY SectionName";
+        $sql = "SELECT * FROM section_list ORDER BY ABS(GradeLevel) ASC, SectionName ASC";
         //$path = explode('/', $_SERVER['REQUEST_URI']);
         
         $stmt = $conn->prepare($sql);
@@ -52,10 +52,10 @@ switch($_SESSION['method']) {
                                         OR Code LIKE '%$inputSearch'
                                         OR Code LIKE '$inputSearch%'
 
-                                        ORDER BY GradeLevel ASC, SectionName ASC";
+                                        ORDER BY ABS(GradeLevel) ASC, SectionName ASC";
 
         } else {
-            $sql = "SELECT * FROM section_list ORDER BY GradeLevel ASC, SectionName ASC";
+            $sql = "SELECT * FROM section_list ORDER BY ABS(GradeLevel) ASC, SectionName ASC";
         }
         
         $stmt = $conn->prepare($sql);

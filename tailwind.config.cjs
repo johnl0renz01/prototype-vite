@@ -165,6 +165,7 @@ module.exports = {
         roboto: 'Roboto, sans-serif',
         bungee: 'Bungee, sans-serif',
         bakbak: 'Bakbak One, sans-serif',
+        tauri: 'Tauri, sans-serif',
       },
       borderWidth: {
         3: '3px',

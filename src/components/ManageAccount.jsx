@@ -269,7 +269,7 @@ export default function ManageAccount() {
 
   const handleOnContinueDeleteModal = () => {
     setShowLoading(true);
-    let accountEmail = StorageData.localStorageJSON('CURRENT_ACCOUNT_DELETE');
+    let accountEmail = StorageData.sessionStorageJSON('CURRENT_ACCOUNT_DELETE');
 
     axios
       .post(
@@ -277,7 +277,7 @@ export default function ManageAccount() {
       )
       .then(function (response) {
         setShowLoading(false);
-        //console.log(response.data);
+        console.log(response.data);
         setShowDeleteModal(false);
         setShowDeleteMessageModal(true);
       })

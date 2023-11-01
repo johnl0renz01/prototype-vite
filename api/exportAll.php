@@ -46,10 +46,29 @@ switch($_SESSION['method']) {
             $stmt4 = $conn->prepare($sql4);
             $stmt4->execute();
             $output = $stmt4->fetchAll(PDO::FETCH_ASSOC);
+            $tables = array_merge($tables, $output);
 
+        }
+
+        for ($i = 0; $i < count($sessions); $i++) {
+            $session_table = $session_database.$sessions[$i];
+
+            $sql5 = "SELECT CONCAT('') AS QuestionID, CONCAT('') AS Question, CONCAT('') AS Expressions, CONCAT('') AS Status, 
+            CONCAT('') AS TimeSpent,  CONCAT('') AS TimeStart,  CONCAT('SESSION-', $sessions[$i], ' - HINTS: ', COUNT(*)) AS Difficulty FROM user_logs WHERE input = 'Hint Button Clicked' AND user_email = '$session_database' AND session_id = '$sessions[$i]'";
+            $stmt5 = $conn->prepare($sql5);
+            $stmt5->execute();
+            $output = $stmt5->fetchAll(PDO::FETCH_ASSOC);
             $tables = array_merge($tables, $output);
         }
 
+        $sql5 = "SELECT CONCAT('') AS QuestionID, CONCAT('') AS Question, CONCAT('') AS Expressions, CONCAT('') AS Status,
+        CONCAT('') AS TimeSpent,  CONCAT('') AS TimeStart,  CONCAT('TOTAL HINTS: ', COUNT(*)) AS Difficulty FROM user_logs WHERE input = 'Hint Button Clicked' AND user_email = '$session_database'";
+        $stmt5 = $conn->prepare($sql5);
+        $stmt5->execute();
+        $output = $stmt5->fetchAll(PDO::FETCH_ASSOC);
+
+        $tables = array_merge($tables, $output);
+        
 
         $result = $tables;
 

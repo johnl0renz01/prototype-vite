@@ -17,15 +17,31 @@ for ($i = strlen($session_database) - 1; $i > 0; $i--) {
     }
 }
 
+
+$database = preg_replace('/[0-9]+/', '', $session_database);
+$sessionid = preg_replace('/[a-z\_]+/', '', $session_database);
+
 switch($_SESSION['method']) {
     case "GET":
         break;
     case "POST":
-        $sql = "SELECT * FROM ".$session_database." ORDER BY QuestionID ASC";
+        $tables = array();
         
+        $sql = "SELECT * FROM ".$session_database." ORDER BY QuestionID ASC";
         $stmt = $conn->prepare($sql);
         $stmt->execute();
-        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $output = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $tables = array_merge($tables, $output);
+
+
+        $sql5 = "SELECT CONCAT('') AS QuestionID, CONCAT('') AS Question, CONCAT('') AS Expressions, CONCAT('') AS Status,
+        CONCAT('') AS TimeSpent,  CONCAT('') AS TimeStart, CONCAT('TOTAL HINTS: ', COUNT(*)) AS Difficulty FROM user_logs WHERE input = 'Hint Button Clicked' AND user_email = '$database' AND session_id = '$sessionid'";
+        $stmt5 = $conn->prepare($sql5);
+        $stmt5->execute();
+        $output = $stmt5->fetchAll(PDO::FETCH_ASSOC);
+        $tables = array_merge($tables, $output);
+
+        $result = $tables;
 
         echo json_encode($result);
 

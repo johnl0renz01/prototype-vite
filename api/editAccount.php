@@ -47,6 +47,10 @@ switch($_SESSION['method']) {
         $section = $user->section;
         $groupType = $user->groupType;
 
+        $subscribed = $user->subscribed;
+        $subscription_type = $user->subscriptionType;
+        $due_date = $user->dueDate;
+
         $email = $user->email;
 
         //GET PREVIOUS FULL NAME OF TEACHER
@@ -85,7 +89,7 @@ switch($_SESSION['method']) {
 
         $sql = "UPDATE accounts SET GivenName = '$firstName', MiddleName = '$middleName', LastName = '$lastName', 
                 Gender = '$sex', GradeLevel = '$gradeLevel', Section = '$section', GroupType = '$groupType', 
-                Email = '$email' 
+                Email = '$email', Subscribed = '$subscribed', SubscriptionType = '$subscription_type', Due = '$due_date' 
                 WHERE Email = '$original_email'";
 
         $stmt = $conn->prepare($sql);
@@ -134,6 +138,30 @@ switch($_SESSION['method']) {
                     $stmt4 = $conn->prepare($sql4);
                     $stmt4->execute();
                 }
+            } else {
+                $userTable = $original_email;
+                $atSign = strpos($userTable, "@");
+                $userTable = substr($userTable, 0, $atSign);
+                $userTable = str_replace(".", "_", $userTable);
+
+                $old_equation_list = $userTable."_equation_list";
+                $old_equation_settings = $userTable."_equation_settings";
+
+                $newTable = $user->email;
+                $atSign2 = strpos($newTable, "@");
+                $newTable = substr($newTable, 0, $atSign2);
+                $newTable = str_replace(".", "_", $newTable);
+
+                $new_equation_list = $newTable."_equation_list";
+                $new_equation_settings = $newTable."_equation_settings";
+    
+                $sql2 = "ALTER TABLE ".$old_equation_list." RENAME TO ".$new_equation_list."";
+                $stmt2 = $conn->prepare($sql2);
+                $stmt2->execute();
+
+                $sql3 = "ALTER TABLE ".$old_equation_settings." RENAME TO ".$new_equation_settings."";
+                $stmt3 = $conn->prepare($sql3);
+                $stmt3->execute();
             }
         } else {
             $response = ['status' => 0, 'message' => 'Failed to create record.'];

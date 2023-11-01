@@ -21,16 +21,19 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
   const [sectionData, setSectionData] = useState([]);
 
   function getSections() {
+    var gradeLevel = values.gradeLevel;
+    gradeLevel = gradeLevel.replace('Grade ', '');
     axios
-      .get('http://localhost:80/Prototype-Vite/my-project/api/sectionList/')
+      .get(
+        `http://localhost:80/Prototype-Vite/my-project/api/sectionAvailable/${gradeLevel}`
+      )
       .then(function (response) {
-        //console.log(response.data);
+        ////console.log(response.data);
         setSectionData(response.data);
       });
   }
 
   useEffect(() => {
-    getSections();
     setEmail('@sfe.edu.ph');
   }, []);
 
@@ -41,6 +44,8 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
   const [section, setSection] = useState('');
   const [originalEmail, setOriginalEmail] = useState('');
   const [newEmail, setNewEmail] = useState('');
+
+  const [subscribedState, setSubscribedState] = useState(false);
 
   useEffect(() => {
     var accountName = StorageData.sessionStorageJSON('CURRENT_ACCOUNT_EDIT');
@@ -100,6 +105,8 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
           setNewEmail(keys[10]);
           setAccountRole(keys[12]);
 
+          console.log(keys[12]);
+
           values.firstName = keys[1];
           values.middleName = keys[2];
           values.lastName = keys[3];
@@ -108,6 +115,28 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
           values.section = keys[8];
           values.groupType = keys[9];
           values.email = keys[10];
+
+          if (keys[13] == 'TRUE') {
+            values.subscribed = 'TRUE';
+            setSubscribedState(true);
+          } else {
+            values.subscribed = '';
+            setSubscribedState(false);
+          }
+
+          values.subscriptionType = keys[14];
+          values.dueDate = keys[15];
+
+          var gradeLevel = values.gradeLevel;
+          gradeLevel = gradeLevel.replace('Grade ', '');
+          axios
+            .get(
+              `http://localhost:80/Prototype-Vite/my-project/api/sectionAvailable/${gradeLevel}`
+            )
+            .then(function (response) {
+              ////console.log(response.data);
+              setSectionData(response.data);
+            });
         }
 
         setValues();
@@ -121,6 +150,7 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
   const onSubmit = async (values, actions) => {
     //console.log('SUBMITTED');
     var validForm = StorageData.sessionStorageJSON('IS_VALID_FORM');
+
     if (validForm && validForm !== null) {
       setShowLoading(true);
       axios
@@ -156,7 +186,10 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
   const gradeLevelChange = event => {
     const value = event.target.value;
     values.gradeLevel = value;
-    setGradeLevel(value);
+    values.section = '';
+    handleChange.gradeLevel;
+    handleChange.section;
+    getSections();
   };
 
   const genderChange = event => {
@@ -372,6 +405,18 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
     }
   };
 
+  const subscribedChange = event => {
+    const value = event.target.value;
+    values.subscribed = value;
+    handleChange.subscribed;
+
+    if (value === 'TRUE') {
+      setSubscribedState(true);
+    } else {
+      setSubscribedState(false);
+    }
+  };
+
   const {
     values,
     handleBlur,
@@ -396,6 +441,9 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
       //password: '',
       //confirmPassword: '',
       isDuplicate: false,
+      subscribed: '',
+      subscriptionType: '',
+      dueDate: '',
     },
     validationSchema: editAccountModalSchema,
     onSubmit,
@@ -529,198 +577,279 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
                   </div>
                 </div>
 
-                <div
-                  className={` grid-cols-3 gap-x-3 mt-8 ${
-                    accountRole == 'Teacher' ? 'hidden' : 'grid'
-                  }`}
-                >
-                  {/*Birthday Input*/}
-                  <div className="hidden">
-                    <div className="inline-flex w-full">
-                      <label
-                        htmlFor="birthDay"
-                        className="inline-block pt-2 pr-2 text-right lg:w-[136px]"
-                      >
-                        Birth date:{' '}
-                      </label>
-                      <input
-                        id="birthDay"
-                        name="birthDay"
-                        type="date"
-                        autoComplete="new-password"
-                        className="grow py-2 lg:px-2 border-[1px]  focus:border-none rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500  shadow-[#808080]"
-                        onChange={dateChange}
-                        onBlur={handleBlur}
-                        value={birthday}
-                        min="2000-01-01"
-                        max="2013-12-31"
-                      />
+                {accountRole == 'Student' ? (
+                  <div className={` grid-cols-3 gap-x-3 mt-8 grid`}>
+                    {/*Birthday Input*/}
+                    <div className="hidden">
+                      <div className="inline-flex w-full">
+                        <label
+                          htmlFor="birthDay"
+                          className="inline-block pt-2 pr-2 text-right lg:w-[136px]"
+                        >
+                          Birth date:{' '}
+                        </label>
+                        <input
+                          id="birthDay"
+                          name="birthDay"
+                          type="date"
+                          autoComplete="new-password"
+                          className="grow py-2 lg:px-2 border-[1px]  focus:border-none rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500  shadow-[#808080]"
+                          onChange={dateChange}
+                          onBlur={handleBlur}
+                          value={birthday}
+                          min="2000-01-01"
+                          max="2013-12-31"
+                        />
+                      </div>
+                    </div>
+
+                    {/*Age Input*/}
+                    <div className="hidden">
+                      <div className="inline-flex w-full">
+                        <label
+                          htmlFor="age"
+                          className="inline-block pt-2 pr-2 text-right lg:w-[120px]"
+                        >
+                          Age:{' '}
+                        </label>
+                        <input
+                          readOnly
+                          id="age"
+                          name="age"
+                          type="text"
+                          placeholder="Set birthday"
+                          autoComplete="new-password"
+                          className={`py-2 lg:px-2 border-[1px] w-[9rem] rounded-md focus:border-none border-gray-500 focus:outline-teal-500 focus:ring-teal-500 relative  shadow-[#808080] ${
+                            errors.age && touched.age
+                              ? ' shadow-red-500 border-red-500 focus:border-red-500 border-3 border-solid'
+                              : ''
+                          }`}
+                          value={currentAge}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                        />
+                      </div>
+                      {errors.age && touched.age && (
+                        <p className="text-red-500  absolute ml-[120px] ">
+                          {errors.age}
+                        </p>
+                      )}
+                    </div>
+
+                    {/*Gender Input*/}
+                    <div>
+                      <div className="inline-flex w-full ">
+                        <label
+                          htmlFor="sex"
+                          className="inline-block pt-2 pr-2 text-right lg:w-[136px]"
+                        >
+                          Gender:{' '}
+                        </label>
+                        <div className="mt-2.5 text-left">
+                          <input
+                            name="sex"
+                            type="radio"
+                            className=""
+                            value="Male"
+                            checked={values.sex === 'Male'}
+                            onChange={handleChange}
+                          />{' '}
+                          Male
+                          <input
+                            name="sex"
+                            type="radio"
+                            className="lg:ml-4 sm:ml-2 xs:ml-1"
+                            value="Female"
+                            checked={values.sex === 'Female'}
+                            onChange={handleChange}
+                          />{' '}
+                          Female
+                        </div>
+                      </div>
+                      {touched.sex ||
+                        (errors.sex && (
+                          <p className="text-red-500 absolute ml-[7rem]">
+                            {errors.sex}
+                          </p>
+                        ))}
+                    </div>
+
+                    {/*Group Type Input*/}
+                    <div className="col-span-1">
+                      <div className="inline-flex w-full">
+                        <label
+                          htmlFor="groupType"
+                          className="inline-block pt-2 pr-2 text-right lg:w-[120px]"
+                        >
+                          Group Type:{' '}
+                        </label>
+                        <div className="mt-2.5 text-left">
+                          <input
+                            name="groupType"
+                            type="radio"
+                            className=""
+                            value="Facial Group"
+                            checked={values.groupType === 'Facial Group'}
+                            onChange={handleChange}
+                          />{' '}
+                          Facial
+                          <input
+                            name="groupType"
+                            type="radio"
+                            className="lg:ml-4 sm:ml-2 xs:ml-1"
+                            value="Non-Facial Group"
+                            checked={values.groupType === 'Non-Facial Group'}
+                            onChange={handleChange}
+                          />{' '}
+                          Non-Facial
+                        </div>
+                      </div>
+                    </div>
+
+                    {/*Subscribed Input*/}
+                    <div className="col-span-1">
+                      <div className="inline-flex w-full">
+                        <label
+                          htmlFor="subscribed"
+                          className="inline-block pt-2 pr-2 text-right lg:w-[120px]"
+                        >
+                          Subscribed:{' '}
+                        </label>
+                        <div className="mt-2.5  text-left">
+                          <input
+                            id="subscribed"
+                            name="subscribed"
+                            type="radio"
+                            className=""
+                            value="TRUE"
+                            checked={values.subscribed === 'TRUE'}
+                            onChange={subscribedChange}
+                          />{' '}
+                          Yes
+                          <input
+                            name="subscribed"
+                            type="radio"
+                            className="lg:ml-4 sm:ml-2 xs:ml-1"
+                            value=""
+                            checked={values.subscribed === ''}
+                            onChange={subscribedChange}
+                          />{' '}
+                          No
+                        </div>
+                      </div>
                     </div>
                   </div>
+                ) : (
+                  <></>
+                )}
 
-                  {/*Age Input*/}
-                  <div className="hidden">
-                    <div className="inline-flex w-full">
-                      <label
-                        htmlFor="age"
-                        className="inline-block pt-2 pr-2 text-right lg:w-[120px]"
-                      >
-                        Age:{' '}
-                      </label>
-                      <input
-                        readOnly
-                        id="age"
-                        name="age"
-                        type="text"
-                        placeholder="Set birthday"
-                        autoComplete="new-password"
-                        className={`py-2 lg:px-2 border-[1px] w-[9rem] rounded-md focus:border-none border-gray-500 focus:outline-teal-500 focus:ring-teal-500 relative  shadow-[#808080] ${
-                          errors.age && touched.age
+                {accountRole == 'Student' ? (
+                  <div className={` grid-cols-3 gap-x-3 mt-8 grid`}>
+                    {/*GradeLevel Input*/}
+                    <div>
+                      <div className="inline-flex w-full">
+                        <label
+                          htmlFor="gradeLevel"
+                          className="inline-block pt-2 pr-2 text-right lg:w-[136px] sm:w-auto xs:w-[40px]"
+                        >
+                          Grade Level:{' '}
+                        </label>
+                        <select
+                          value={values.gradeLevel}
+                          onChange={gradeLevelChange}
+                          name="gradeLevel"
+                          className="py-2 lg:px-2 border-[1px] focus:border-none rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500  shadow-[#808080]"
+                        >
+                          <option className="hdScreen:text-lg semihdScreen:text-base laptopScreen:text-base averageScreen:text-base">
+                            Grade 7
+                          </option>
+                          <option className="hdScreen:text-lg semihdScreen:text-base laptopScreen:text-base averageScreen:text-base">
+                            Grade 8
+                          </option>
+                          <option className="hdScreen:text-lg semihdScreen:text-base laptopScreen:text-base averageScreen:text-base">
+                            Grade 9
+                          </option>
+                          <option className="hdScreen:text-lg semihdScreen:text-base laptopScreen:text-base averageScreen:text-base">
+                            Grade 10
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+
+                    {/*Section Input*/}
+                    <div className="relative">
+                      <div className="inline-flex w-full">
+                        <label
+                          htmlFor="section"
+                          className="inline-block pt-2 pr-2 text-right lg:w-[120px]"
+                        >
+                          Section:
+                        </label>
+                        <select
+                          value={values.section}
+                          onChange={handleChange}
+                          name="section"
+                          className={`py-2 lg:px-2 border-[1px] focus:border-none rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500  shadow-[#808080]
+                        ${
+                          errors.section && touched.section
                             ? ' shadow-red-500 border-red-500 focus:border-red-500 border-3 border-solid'
                             : ''
-                        }`}
-                        value={currentAge}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                      />
-                    </div>
-                    {errors.age && touched.age && (
-                      <p className="text-red-500  absolute ml-[120px] ">
-                        {errors.age}
-                      </p>
-                    )}
-                  </div>
+                        }
+                        `}
+                        >
+                          <option selected value="" disabled>
+                            {' '}
+                          </option>
+                          {sectionData.map((section, index) => (
+                            <option
+                              key={index}
+                              className="hdScreen:text-lg semihdScreen:text-base laptopScreen:text-base averageScreen:text-base"
 
-                  {/*Gender Input*/}
-                  <div>
-                    <div className="inline-flex w-full ">
-                      <label
-                        htmlFor="sex"
-                        className="inline-block pt-2 pr-2 text-right lg:w-[136px]"
-                      >
-                        Gender:{' '}
-                      </label>
-                      <div className="mt-2.5">
-                        <input
-                          name="sex"
-                          type="radio"
-                          className=""
-                          value="Male"
-                          checked={values.sex === 'Male'}
-                          onChange={handleChange}
-                        />{' '}
-                        Male
-                        <input
-                          name="sex"
-                          type="radio"
-                          className="ml-4"
-                          value="Female"
-                          checked={values.sex === 'Female'}
-                          onChange={handleChange}
-                        />{' '}
-                        Female
-                      </div>
-                    </div>
-                    {touched.sex ||
-                      (errors.sex && (
-                        <p className="text-red-500 absolute ml-[7rem]">
-                          {errors.sex}
-                        </p>
-                      ))}
-                  </div>
-
-                  {/*Group Type Input*/}
-                  <div className="col-span-2">
-                    <div className="inline-flex w-full">
-                      <label
-                        htmlFor="groupType"
-                        className="inline-block pt-2 pr-2 text-right lg:w-[120px]"
-                      >
-                        Group Type:{' '}
-                      </label>
-                      <div className="mt-2.5">
-                        <input
-                          name="groupType"
-                          type="radio"
-                          className=""
-                          value="Facial Group"
-                          checked={values.groupType === 'Facial Group'}
-                          onChange={handleChange}
-                        />{' '}
-                        Facial Group
-                        <input
-                          name="groupType"
-                          type="radio"
-                          className="ml-4"
-                          value="Non-Facial Group"
-                          checked={values.groupType === 'Non-Facial Group'}
-                          onChange={handleChange}
-                        />{' '}
-                        Non-Facial Group
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div
-                  className={` grid-cols-3 gap-x-3 mt-8 ${
-                    accountRole == 'Teacher' ? 'hidden' : 'grid'
-                  }`}
-                >
-                  {/*GradeLevel Input*/}
-                  <div>
-                    <div className="inline-flex w-full">
-                      <label
-                        htmlFor="gradeLevel"
-                        className="inline-block pt-2 pr-2 text-right lg:w-[136px]"
-                      >
-                        Grade Level:{' '}
-                      </label>
-                      <select
-                        value={values.gradeLevel}
-                        onChange={handleChange}
-                        name="gradeLevel"
-                        className="py-2 lg:px-2 border-[1px] focus:border-none rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500  shadow-[#808080]"
-                      >
-                        <option className="hdScreen:text-lg semihdScreen:text-base laptopScreen:text-base averageScreen:text-base">
-                          Grade 7
-                        </option>
-                      </select>
-                    </div>
-                  </div>
-
-                  {/*Section Input*/}
-                  <div>
-                    <div className="inline-flex w-full">
-                      <label
-                        htmlFor="section"
-                        className="inline-block pt-2 pr-2 text-right lg:w-[120px]"
-                      >
-                        Section:
-                      </label>
-                      <select
-                        value={values.section}
-                        onChange={handleChange}
-                        name="section"
-                        className="py-2 lg:px-2 border-[1px] focus:border-none rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500  shadow-[#808080] "
-                      >
-                        {sectionData.map((section, index) => (
-                          <option
-                            key={index}
-                            className="hdScreen:text-lg semihdScreen:text-base laptopScreen:text-base averageScreen:text-base"
-
-                            /* {...(section == section.SectionName
+                              /* {...(section == section.SectionName
                               ? { selected }
                               : {})}
                               */
-                          >
-                            {section.SectionName}
+                            >
+                              {section.SectionName}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                      {errors.section && touched.section && (
+                        <p className="lg:ml-28 md:ml-14 xs:ml-12 text-red-500 absolute ">
+                          {errors.section}
+                        </p>
+                      )}
+                    </div>
+
+                    {/*Subscription Type Input*/}
+                    <div className={`${!subscribedState ? 'hidden' : ''}`}>
+                      <div className="inline-flex w-full">
+                        <label
+                          htmlFor="subscriptionType"
+                          className="inline-block pt-2 pr-2 text-right lg:w-[120px]"
+                        >
+                          Type:{' '}
+                        </label>
+                        <select
+                          value={values.subscriptionType}
+                          onChange={handleChange}
+                          name="subscriptionType"
+                          className={`py-2 lg:px-2 border-[1px] focus:border-none rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500  shadow-[#808080]`}
+                        >
+                          <option selected value="">
+                            {' '}
                           </option>
-                        ))}
-                      </select>
+                          <option className="hdScreen:text-lg semihdScreen:text-base laptopScreen:text-base averageScreen:text-base">
+                            STUDENT-PLAN-1
+                          </option>
+                        </select>
+                      </div>
                     </div>
                   </div>
-                </div>
+                ) : (
+                  <></>
+                )}
 
                 <div className="grid grid-cols-3 gap-x-3 mt-8">
                   <div className="col-span-2">
@@ -767,7 +896,135 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
                   ) : (
                     ''
                   )}
+
+                  {/*Subscribed Input*/}
+                  {accountRole == 'Teacher' ? (
+                    <div className={`col-span-1`}>
+                      <div className="inline-flex w-full">
+                        <label
+                          htmlFor="subscribed"
+                          className="inline-block pt-2 pr-2 text-right lg:w-[120px]"
+                        >
+                          Subscribed:{' '}
+                        </label>
+                        <div className="mt-2.5  text-left">
+                          <input
+                            id="subscribed"
+                            name="subscribed"
+                            type="radio"
+                            className=""
+                            value="TRUE"
+                            checked={values.subscribed === 'TRUE'}
+                            onChange={subscribedChange}
+                          />{' '}
+                          Yes
+                          <input
+                            name="subscribed"
+                            type="radio"
+                            className="lg:ml-4 sm:ml-2 xs:ml-1"
+                            value=""
+                            checked={values.subscribed === ''}
+                            onChange={subscribedChange}
+                          />{' '}
+                          No
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <></>
+                  )}
+
+                  {/*Due*/}
+                  {accountRole == 'Student' ? (
+                    <div className={`${!subscribedState ? 'hidden' : ''}`}>
+                      <div className="inline-flex w-full">
+                        <label
+                          htmlFor="dueDate"
+                          className="inline-block pt-2 pr-2 text-right lg:w-[120px]"
+                        >
+                          Due:{' '}
+                        </label>
+                        <input
+                          value={values.dueDate}
+                          onChange={handleChange}
+                          type="date"
+                          name="dueDate"
+                          className={`py-2 lg:px-2 border-[1px] focus:border-none rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500  shadow-[#808080]`}
+                        ></input>
+                      </div>
+                    </div>
+                  ) : (
+                    <></>
+                  )}
                 </div>
+
+                {accountRole == 'Teacher' ? (
+                  <div
+                    className={`grid grid-cols-3 gap-x-3 mt-8 ${
+                      !subscribedState ? 'hidden' : ''
+                    }`}
+                  >
+                    {/*Subscription Type Input*/}
+                    <div className={``}>
+                      <div className="inline-flex w-full">
+                        <label
+                          htmlFor="subscriptionType"
+                          className="inline-block mt-2 pr-2 text-right lg:w-[136px]"
+                        >
+                          Type:{' '}
+                        </label>
+                        <select
+                          value={values.subscriptionType}
+                          onChange={handleChange}
+                          name="subscriptionType"
+                          className={`py-2 lg:px-2 border-[1px] focus:border-none rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500  shadow-[#808080]`}
+                        >
+                          <option selected value="">
+                            {' '}
+                          </option>
+                          <option
+                            value="TEACHER-PLAN-1"
+                            className="hdScreen:text-lg semihdScreen:text-base laptopScreen:text-base averageScreen:text-base"
+                          >
+                            TEACHER-PLAN-1
+                          </option>
+                          <option
+                            value="TEACHER-PLAN-2"
+                            className="hdScreen:text-lg semihdScreen:text-base laptopScreen:text-base averageScreen:text-base"
+                          >
+                            TEACHER-PLAN-2
+                          </option>
+                          <option
+                            value="TEACHER-PLAN-3"
+                            className="hdScreen:text-lg semihdScreen:text-base laptopScreen:text-base averageScreen:text-base"
+                          >
+                            TEACHER-PLAN-3
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+                    {/*Due*/}
+                    <div className={`${!subscribedState ? 'hidden' : ''}`}>
+                      <div className="inline-flex w-full">
+                        <label
+                          htmlFor="dueDate"
+                          className="inline-block pt-2 pr-2 text-right lg:w-[120px]"
+                        >
+                          Due:{' '}
+                        </label>
+                        <input
+                          value={values.dueDate}
+                          onChange={handleChange}
+                          type="date"
+                          name="dueDate"
+                          className={`py-2 lg:px-2 border-[1px] focus:border-none rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500  shadow-[#808080]`}
+                        ></input>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <></>
+                )}
 
                 <div className="hidden grid grid-cols-3 gap-x-3 mt-8">
                   {/*Password Input*/}
@@ -843,9 +1100,7 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
                   </span>
                 </button>
                 <button
-                  onClick={function () {
-                    onSubmit;
-                  }}
+                  onClick={onSubmit}
                   type="submit"
                   className="relative ml-6 py-1.5 px-4 mr-1.5  rounded-lg font-semibold  transition duration-300 text-white bg-lime-600 hover:bg-lime-700"
                 >

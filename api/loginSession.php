@@ -38,16 +38,19 @@ switch($_SESSION['method']) {
         $email = $user->email;
 
         date_default_timezone_set('Asia/Singapore');
-        //LOGOUT OTHER SESSIONS
-        $logged = "FALSE";
-        $sql0 = "UPDATE sessions SET Logged = 'FALSE', Timestamp = :timestamp
-        WHERE UserEmail = '$email'
-        AND Logged = 'TRUE'";
-
-        $stmt0 = $conn->prepare($sql0);
         $timestamp = date('M d, Y - h:i A');
-        $stmt0->bindParam(':timestamp', $timestamp);
-        $stmt0->execute();
+        //LOGOUT OTHER SESSIONS
+        if ($email !== "randomstring@random") {
+            $logged = "FALSE";
+            $sql0 = "UPDATE sessions SET Logged = 'FALSE', Timestamp = :timestamp
+            WHERE UserEmail = '$email'
+            AND Logged = 'TRUE'";
+
+            $stmt0 = $conn->prepare($sql0);
+            
+            $stmt0->bindParam(':timestamp', $timestamp);
+            $stmt0->execute();
+        }
         //////
 
         $logged = "TRUE";
