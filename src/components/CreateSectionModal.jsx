@@ -59,6 +59,7 @@ const CreateSectionModal = ({ visible, onClose, onContinue }) => {
           console.log(response.data);
           setShowLoading(false);
           onContinue();
+          handleReset();
         })
         .catch(function (error) {
           setShowLoading(false);
@@ -75,9 +76,10 @@ const CreateSectionModal = ({ visible, onClose, onContinue }) => {
     );
     const value = event.target.value;
     values.sectionName = value;
+
     handleChange.sectionName;
 
-    console.log(values.sectionName);
+    var valueString = value.replace(/ /g, '_');
 
     //UPDATE INSTANTLY
     document.getElementById('sectionName').focus();
@@ -85,7 +87,7 @@ const CreateSectionModal = ({ visible, onClose, onContinue }) => {
     document.getElementById('sectionName').focus();
 
     axios
-      .post(`https://pia-sfe.online/api/verifySection/${values.sectionName}`)
+      .get(`https://pia-sfe.online/api/verifySection/${valueString}`)
       .then(function (response) {
         console.log(response.data);
         if (response.data === 'duplicate') {
@@ -181,13 +183,34 @@ const CreateSectionModal = ({ visible, onClose, onContinue }) => {
 
                   <select
                     value={values.gradeLevel}
-                    onChange={gradeLevelChange}
+                    onChange={handleChange}
                     name="gradeLevel"
                     id="gradeLevel"
                     className="p-1  px-2 mt-1 ml-3 lg:text-lg md:text-base sm:text-sm xs:text-xs border-[1px] w-32  focus:border-none rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 shadow-[#808080]"
                   >
-                    <option className="hdScreen:text-lg semihdScreen:text-base laptopScreen:text-base averageScreen:text-base">
+                    <option
+                      value="7"
+                      className="hdScreen:text-lg semihdScreen:text-base laptopScreen:text-base averageScreen:text-base"
+                    >
                       Grade 7
+                    </option>
+                    <option
+                      value="8"
+                      className="hdScreen:text-lg semihdScreen:text-base laptopScreen:text-base averageScreen:text-base"
+                    >
+                      Grade 8
+                    </option>
+                    <option
+                      value="9"
+                      className="hdScreen:text-lg semihdScreen:text-base laptopScreen:text-base averageScreen:text-base"
+                    >
+                      Grade 9
+                    </option>
+                    <option
+                      value="10"
+                      className="hdScreen:text-lg semihdScreen:text-base laptopScreen:text-base averageScreen:text-base"
+                    >
+                      Grade 10
                     </option>
                   </select>
                 </div>

@@ -983,12 +983,15 @@ export default function Whiteboard() {
 
       window.localStorage.removeItem('QUESTION_SKIP');
 
-      //5th abandoned question
-      var abandonedTally = StorageData.localStorageJSON('QUESTION_ABANDONED');
-      if (abandonedTally === null) abandonedTally = 0;
-      if (abandonedTally >= 5) {
-        displayLevelDown();
-      } else {
+      var difficulty = StorageData.localStorageJSON('DIFFICULTY_TYPE');
+      if (difficulty == 'Average' || difficulty == 'Difficult') {
+        //5th abandoned question
+        var abandonedTally = StorageData.localStorageJSON('QUESTION_ABANDONED');
+        if (abandonedTally === null) abandonedTally = 0;
+        if (abandonedTally >= 5) {
+          displayLevelDown();
+        } else {
+        }
       }
     } else {
       window.localStorage.setItem(
@@ -1049,12 +1052,15 @@ export default function Whiteboard() {
   };
 
   function displayCorrectAnswer() {
-    setImageLink('PIA-Talking2');
+    if (StorageData.localStorageJSON('SYSTEM_VERSION') == 'Facial Group') {
+      setImageLink('PIA-Talking2');
+      changeResponseColor(motivationColor1);
+    }
+
     let messageType = ['showCorrect1'];
     let message = messageType[Math.floor(Math.random() * messageType.length)];
     setResponse(FeedbackList.GenerateMessage(message));
     setSubtext('');
-    changeResponseColor(motivationColor1);
 
     const delay = 7500;
     setTimeout(displayInspiration, delay);
@@ -1062,6 +1068,11 @@ export default function Whiteboard() {
 
   //=============================CLICK BUTTON=============================
   const handleClick = event => {
+    if (levelDownState) {
+      setLevelDownState(false);
+      hideResponseOption();
+    }
+
     window.localStorage.setItem(
       'IS_INTERACTED',
       JSON.stringify(SecureStorageData.dataEncryption('TRUE'))
@@ -1567,7 +1578,7 @@ export default function Whiteboard() {
       );
     } else if (diffType == '"Difficult"' || diffType == 'Difficult') {
       setResponse(
-        'Since you abandoned questions frequently. I suggest that you level down average level equations.'
+        'Since you abandoned questions frequently. I suggest that you level down to average level equations.'
       );
     }
     //ADD IF SHORTENED OR FULL
@@ -1582,6 +1593,7 @@ export default function Whiteboard() {
     setSubtext('');
     setQuestionResponse('Level down difficulty type?');
 
+    ReactDOM.findDOMNode(confirmationArea).style.visibility = 'visible';
     ReactDOM.findDOMNode(choiceArea2).style.visibility = 'visible';
     setLevelUp(true);
   }
@@ -1664,7 +1676,7 @@ export default function Whiteboard() {
     if (dataWrong === null) {
       document.getElementById('skip_button').style.visibility = 'hidden';
     } else {
-      if (dataWrong < 10) {
+      if (dataWrong < 5) {
         document.getElementById('skip_button').style.visibility = 'hidden';
       }
     }
@@ -1753,7 +1765,7 @@ export default function Whiteboard() {
       setResponse(FeedbackList.GenerateMessage('wrong1'));
     }
 
-    if (dataWrong >= 10) {
+    if (dataWrong >= 5) {
       ReactDOM.findDOMNode(skipArea).style.visibility = 'visible';
     }
 
@@ -1768,24 +1780,29 @@ export default function Whiteboard() {
   }
 
   function displayMotivation() {
-    setImageLink('PIA-Talking2');
+    if (StorageData.localStorageJSON('SYSTEM_VERSION') == 'Facial Group') {
+      setImageLink('PIA-Talking2');
+      changeResponseColor(motivationColor1);
+    }
+
     let messageType = ['motivation1', 'motivation2', 'motivation3'];
     let message = messageType[Math.floor(Math.random() * messageType.length)];
     setResponse(FeedbackList.GenerateMessage(message));
     setSubtext('');
-    changeResponseColor(motivationColor1);
 
     const delay = 7500;
     setTimeout(displayInspiration, delay);
   }
 
   function displayInspiration() {
-    let imageArray = ['PIA-Wink', 'PIA-Wink2'];
-    let imageLink = imageArray[Math.floor(Math.random() * imageArray.length)];
-    setImageLink(imageLink);
+    if (StorageData.localStorageJSON('SYSTEM_VERSION') == 'Facial Group') {
+      let imageArray = ['PIA-Wink', 'PIA-Wink2'];
+      let imageLink = imageArray[Math.floor(Math.random() * imageArray.length)];
+      setImageLink(imageLink);
+      changeResponseColor(motivationColor2);
+    }
     setResponse(FeedbackList.GenerateMessage('motivation4'));
     setSubtext('');
-    changeResponseColor(motivationColor2);
   }
 
   function displayMad() {
@@ -1985,6 +2002,8 @@ export default function Whiteboard() {
 
     if (isSolved) {
       setTimeout(hideResponseOption, 1);
+    } else if (levelDownState) {
+      setTimeout(hideResponseOption, 1);
     }
   };
 
@@ -2005,6 +2024,8 @@ export default function Whiteboard() {
         if (isSolved) {
           //setTimeout(displaySolved, 1);  ORIGINAL
           displaySolved(); //MODIFIED
+        } else if (levelDownState) {
+          setTimeout(displayLevelDown, 1);
         } else {
           timer();
         }
@@ -2085,9 +2106,17 @@ export default function Whiteboard() {
     setPenState(false);
     setGuideState(false);
     if (isHint) {
-      timer();
+      if (levelDownState) {
+        setTimeout(displayLevelDown, 1);
+      } else {
+        timer();
+      }
       setHintState(false);
     } else {
+      if (levelDownState) {
+        setTimeout(hideResponseOption, 1);
+      }
+
       clickLog('Hint_Button_Clicked');
       for (let i = 0; i < highestTimeoutId; i++) {
         clearTimeout(i);
@@ -2110,6 +2139,8 @@ export default function Whiteboard() {
     if (isTutorial) {
       if (isSolved) {
         setTimeout(displaySolved, 1);
+      } else if (levelDownState) {
+        setTimeout(displayLevelDown, 1);
       } else {
         timer();
       }
@@ -2117,6 +2148,8 @@ export default function Whiteboard() {
     } else {
       clickLog('Tutorial_Button_Clicked');
       if (isSolved) {
+        setTimeout(hideResponseOption, 1);
+      } else if (levelDownState) {
         setTimeout(hideResponseOption, 1);
       }
       for (let i = 0; i < highestTimeoutId; i++) {
@@ -2294,6 +2327,8 @@ export default function Whiteboard() {
     if (isPen) {
       if (isSolved) {
         setTimeout(displaySolved, 1);
+      } else if (levelDownState) {
+        setTimeout(displayLevelDown, 1);
       } else {
         timer();
       }
@@ -2302,6 +2337,8 @@ export default function Whiteboard() {
     } else {
       clickLog('Pen_Button_Clicked');
       if (isSolved) {
+        setTimeout(hideResponseOption, 1);
+      } else if (levelDownState) {
         setTimeout(hideResponseOption, 1);
       }
       for (let i = 0; i < highestTimeoutId; i++) {
@@ -2335,11 +2372,17 @@ export default function Whiteboard() {
     if (isGuide) {
       if (isSolved) {
         setTimeout(displaySolved, 1);
+      } else if (levelDownState) {
+        setTimeout(displayLevelDown, 1);
       } else {
         timer();
       }
       setGuideState(false);
     } else {
+      if (levelDownState) {
+        setTimeout(hideResponseOption, 1);
+      }
+
       clickLog('Guide_Button_Clicked');
       for (let i = 0; i < highestTimeoutId; i++) {
         clearTimeout(i);
@@ -2408,12 +2451,12 @@ export default function Whiteboard() {
     let diffType = StorageData.localStorageRAW('DIFFICULTY_TYPE');
     if (diffType == '"Easy"' || diffType == 'Easy') {
       window.localStorage.setItem(
-        'SESSION_LEVEL_UP',
+        'SESSION_LEVEL_CHANGE',
         JSON.stringify(SecureStorageData.dataEncryption('average'))
       );
     } else if (diffType == '"Average"' || diffType == 'Average') {
       window.localStorage.setItem(
-        'SESSION_LEVEL_UP',
+        'SESSION_LEVEL_CHANGE',
         JSON.stringify(SecureStorageData.dataEncryption('difficult'))
       );
     }
@@ -2428,18 +2471,30 @@ export default function Whiteboard() {
     for (let i = 0; i < highestTimeoutId; i++) {
       clearTimeout(i);
     }
-    window.localStorage.setItem('SESSION_LEVELUP', JSON.stringify('FALSE'));
-    window.localStorage.setItem('SESSION_LEVELDOWN', JSON.stringify('TRUE'));
-    let diffType = window.localStorage.getItem('DIFFICULTY_TYPE');
+    window.localStorage.setItem(
+      'SESSION_LEVELUP',
+      JSON.stringify(SecureStorageData.dataEncryption('FALSE'))
+    );
+    window.localStorage.setItem(
+      'SESSION_LEVELDOWN',
+      JSON.stringify(SecureStorageData.dataEncryption('TRUE'))
+    );
+    let diffType = StorageData.localStorageRAW('DIFFICULTY_TYPE');
     if (diffType == '"Average"' || diffType == 'Average') {
-      window.localStorage.setItem('SESSION_LEVEL_UP', JSON.stringify('easy'));
+      window.localStorage.setItem(
+        'SESSION_LEVEL_CHANGE',
+        JSON.stringify(SecureStorageData.dataEncryption('easy'))
+      );
     } else if (diffType == '"Difficult"' || diffType == 'Difficult') {
       window.localStorage.setItem(
-        'SESSION_LEVEL_UP',
-        JSON.stringify('average')
+        'SESSION_LEVEL_CHANGE',
+        JSON.stringify(SecureStorageData.dataEncryption('average'))
       );
     }
-    window.localStorage.setItem('SESSION_END', true);
+    window.localStorage.setItem(
+      'SESSION_END',
+      SecureStorageData.dataEncryption(true)
+    );
     setShowModal(true);
   };
 

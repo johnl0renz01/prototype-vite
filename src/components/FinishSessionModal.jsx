@@ -30,7 +30,7 @@ const FinishSessionModal = ({ visible, onClose, onContinue }) => {
 
   const [feedback, setFeedback] = useState('');
 
-  const [levelOption, setLevelUp] = useState(false);
+  const [levelOption, setLevelOption] = useState(false);
 
   const [equations, setEquations] = useState([]);
 
@@ -78,9 +78,9 @@ const FinishSessionModal = ({ visible, onClose, onContinue }) => {
       );
     }
 
-    let isLevelUp = StorageData.localStorageJSON('SESSION_LEVEL_UP');
-    if (isLevelUp !== null && isLevelUp !== undefined) {
-      setLevelUp(true);
+    let isLevelChange = StorageData.localStorageJSON('SESSION_LEVEL_CHANGE');
+    if (isLevelChange !== null && isLevelChange !== undefined) {
+      setLevelOption(true);
     }
 
     let feedbackMessage = StorageData.localStorageJSON('SESSION_FEEDBACK');
@@ -95,7 +95,7 @@ const FinishSessionModal = ({ visible, onClose, onContinue }) => {
         setFeedback(feedbackMessage);
       } else {
         if (data3 == 0) {
-          if (isLevelUp !== null && isLevelUp !== undefined) {
+          if (isLevelChange !== null && isLevelChange !== undefined) {
             feedbackMessage = FeedbackList.GenerateMessage('advanceLevel');
           } else {
             feedbackMessage = FeedbackList.GenerateMessage('abandonNone');
@@ -120,7 +120,7 @@ const FinishSessionModal = ({ visible, onClose, onContinue }) => {
       }
     } else {
       if (data3 == 0) {
-        if (isLevelUp !== null && isLevelUp !== undefined) {
+        if (isLevelChange !== null && isLevelChange !== undefined) {
           feedbackMessage = FeedbackList.GenerateMessage('advanceLevel');
         } else {
           feedbackMessage = FeedbackList.GenerateMessage('abandonNone');
@@ -551,15 +551,15 @@ const FinishSessionModal = ({ visible, onClose, onContinue }) => {
   function generateQuestion() {
     var questions = StorageData.localStorageJSON('QUESTION_LIST');
     if (questions === null) {
-      let isLevelUp = StorageData.localStorageJSON('SESSION_LEVEL_UP');
-      if (isLevelUp == 'easy') {
+      let isLevelChange = StorageData.localStorageJSON('SESSION_LEVEL_CHANGE');
+      if (isLevelChange == 'easy') {
         generateEasy();
       }
 
-      if (isLevelUp == 'average') {
+      if (isLevelChange == 'average') {
         generateAverage();
       }
-      if (isLevelUp == 'difficult') {
+      if (isLevelChange == 'difficult') {
         generateDifficult();
       }
     }
@@ -580,7 +580,7 @@ const FinishSessionModal = ({ visible, onClose, onContinue }) => {
       .catch(function (error) {});
   }
 
-  const levelUp = () => {
+  const levelChange = () => {
     if (equations.length > 0) {
       setShowLoading(true);
       ClearStorage.clearData();
@@ -588,22 +588,22 @@ const FinishSessionModal = ({ visible, onClose, onContinue }) => {
 
       var option = '';
       var difficultyType = '';
-      let isLevelUp = StorageData.localStorageJSON('SESSION_LEVEL_UP');
+      let isLevelChange = StorageData.localStorageJSON('SESSION_LEVEL_CHANGE');
 
-      if (isLevelUp == 'easy') {
+      if (isLevelChange == 'easy') {
         option = 'easy';
         difficultyType = 'Easy';
       }
-      if (isLevelUp == 'average') {
+      if (isLevelChange == 'average') {
         option = 'average';
         difficultyType = 'Average';
       }
-      if (isLevelUp == 'difficult') {
+      if (isLevelChange == 'difficult') {
         option = 'difficult';
         difficultyType = 'Difficult';
       }
 
-      window.localStorage.removeItem('SESSION_LEVEL_UP');
+      window.localStorage.removeItem('SESSION_LEVEL_CHANGE');
 
       window.localStorage.setItem(
         'SESSION_SCORE',
@@ -787,7 +787,7 @@ const FinishSessionModal = ({ visible, onClose, onContinue }) => {
               className="mx-auto text-center border-t-2 border-gray-300 py-3"
             >
               <button
-                onClick={levelOption ? levelUp : homePage}
+                onClick={levelOption ? levelChange : homePage}
                 className="transition duration-200 mx-2 text-white bg-gray-600/60 h-10 px-4 inline-block rounded-3xl hover:bg-gray-600 hover:text-gray-100"
               >
                 Finish Session

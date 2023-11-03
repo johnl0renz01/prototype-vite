@@ -185,115 +185,116 @@ var EquationSolver = (function () {
 
       // FOR LHS
       function getValues(currentString, currentCoefficient, currentConstant) {
-        // //console.log("\n================\n================\n================\n================\n================");
-        var coefficient = '';
-        //Multiplication or Division Symbol Index
-        var MDindex = 0;
-        var coefficientIndex = currentString.length;
-        var resetCoefficientIndex = false;
-        var MDsymbol = false;
-        var MDsymbolAfter = false;
-        var symbolType = '';
+        try {
+          // //console.log("\n================\n================\n================\n================\n================");
+          var coefficient = '';
+          //Multiplication or Division Symbol Index
+          var MDindex = 0;
+          var coefficientIndex = currentString.length;
+          var resetCoefficientIndex = false;
+          var MDsymbol = false;
+          var MDsymbolAfter = false;
+          var symbolType = '';
 
-        var isCoefficient = false;
-        var sliceIndex = 0;
-        var index = 0;
-        var lastIndex = 0;
+          var isCoefficient = false;
+          var sliceIndex = 0;
+          var index = 0;
+          var lastIndex = 0;
 
-        // Check if equal symbol is in first set of digit
-        var equalOccurence = true;
+          // Check if equal symbol is in first set of digit
+          var equalOccurence = true;
 
-        // Check if negative symbol is in first set of digit
-        var negativeCoefficient = false;
+          // Check if negative symbol is in first set of digit
+          var negativeCoefficient = false;
 
-        // Temporary FOR MULTIPLICATION '*'
-        var tempCoefficient = '';
-        var coefficientTerm = '';
+          // Temporary FOR MULTIPLICATION '*'
+          var tempCoefficient = '';
+          var coefficientTerm = '';
 
-        var coefficientString = '';
-        var coefficientQuantity = 0;
-        var evaluateCoefficient = false;
+          var coefficientString = '';
+          var coefficientQuantity = 0;
+          var evaluateCoefficient = false;
 
-        // value of i, passed to count variable
-        var count = 0;
-        var firstCoefficientFinish = false;
+          // value of i, passed to count variable
+          var count = 0;
+          var firstCoefficientFinish = false;
 
-        // PARENTHESIS
-        var openParenthesis = false;
-        var closeParenthesis = false;
+          // PARENTHESIS
+          var openParenthesis = false;
+          var closeParenthesis = false;
 
-        var parenthesisTally = 0;
+          var parenthesisTally = 0;
 
-        var parenthesisCase = 0;
-        var firstParenthesisIndex = null;
-        var insideParenthesisIndex = null;
-        var insideParenthesisTally = 0;
-        var isInsideParenthesis = false;
+          var parenthesisCase = 0;
+          var firstParenthesisIndex = null;
+          var insideParenthesisIndex = null;
+          var insideParenthesisTally = 0;
+          var isInsideParenthesis = false;
 
-        var lastParenthesisIndex = null;
-        var closeParenthesisIndex = null;
-        //tally for coefficient inside parenthesis
-        var coeffInsideTally = 0;
-        var firstOccurence = true;
+          var lastParenthesisIndex = null;
+          var closeParenthesisIndex = null;
+          //tally for coefficient inside parenthesis
+          var coeffInsideTally = 0;
+          var firstOccurence = true;
 
-        for (let i = 1; i < currentString.length; i++) {
-          count = i;
+          for (let i = 1; i < currentString.length; i++) {
+            count = i;
 
-          if (!isCoefficient) {
-            isCoefficient = true;
-            sliceIndex = lastIndex;
-          }
+            if (!isCoefficient) {
+              isCoefficient = true;
+              sliceIndex = lastIndex;
+            }
 
-          if (currentString[i].match(/^[0-9]+$/) === null) {
-            // CHECK IF symbol is present
+            if (currentString[i].match(/^[0-9]+$/) === null) {
+              // CHECK IF symbol is present
 
-            if (currentString[i].match(/[\(]/)) {
-              //ABC //console.log("YEHEY TUMAMA KA IIDOL");
-              openParenthesis = true;
-              parenthesisTally++;
+              if (currentString[i].match(/[\(]/)) {
+                //ABC //console.log("YEHEY TUMAMA KA IIDOL");
+                openParenthesis = true;
+                parenthesisTally++;
 
-              if (firstParenthesisIndex === null) {
-                firstParenthesisIndex = i;
-                coeffInsideTally = 0;
-              }
-            } else if (currentString[i].match(/[\)]/)) {
-              //ABC //console.log("KATAPUSAN MO NA IDOLO");
-              let isFinished = true;
-              closeParenthesis = true;
+                if (firstParenthesisIndex === null) {
+                  firstParenthesisIndex = i;
+                  coeffInsideTally = 0;
+                }
+              } else if (currentString[i].match(/[\)]/)) {
+                //ABC //console.log("KATAPUSAN MO NA IDOLO");
+                let isFinished = true;
+                closeParenthesis = true;
 
-              let parenthesisExpression;
-              if (parenthesisCase === 1) {
-                //  //console.log("CASE 1: " + currentString);
+                let parenthesisExpression;
+                if (parenthesisCase === 1) {
+                  //  //console.log("CASE 1: " + currentString);
 
-                i += parenthesisTally;
-                let closeParenthesisIndex = i;
+                  i += parenthesisTally;
+                  let closeParenthesisIndex = i;
 
-                parenthesisExpression = [
-                  '*',
-                  currentString.slice(
-                    firstParenthesisIndex,
-                    closeParenthesisIndex
-                  ),
-                ].join('');
+                  parenthesisExpression = [
+                    '*',
+                    currentString.slice(
+                      firstParenthesisIndex,
+                      closeParenthesisIndex
+                    ),
+                  ].join('');
 
-                /*
+                  /*
                             for (let j = 0; j < parenthesisTally; j++) {
                                 parenthesisExpression = parenthesisExpression.concat(")");
                             }
                             */
-                /*
+                  /*
                             //console.log("START OF ASD: " + currentCoefficient);
                             //console.log("START OF ASD: " + currentConstant);
                             //console.log("PARR EXPREFASCS : " + parenthesisExpression);
                             */
-                currentCoefficient = currentCoefficient.concat(
-                  parenthesisExpression
-                );
-                currentConstant = currentConstant.replace(
-                  parenthesisExpression,
-                  ''
-                );
-                /*
+                  currentCoefficient = currentCoefficient.concat(
+                    parenthesisExpression
+                  );
+                  currentConstant = currentConstant.replace(
+                    parenthesisExpression,
+                    ''
+                  );
+                  /*
                             //console.log("END OF ASD: " + currentCoefficient);
                             //console.log("END OF ASD: " + currentConstant);
                             //console.log("INDEXINDEIXINDEX: " + coefficientIndex);
@@ -301,235 +302,285 @@ var EquationSolver = (function () {
                             //console.log("mgdg 232: " + currentString[i]);
                             */
 
-                if (currentString[i].match(/[*]/)) {
-                  MDindex = i;
-                  MDsymbolAfter = true;
-                  symbolType = '*';
-                }
-                parenthesisCase = 0;
-              } else if (parenthesisCase === 2) {
-                //   //console.log("Curr coeff: " + currentCoefficient)
-                // //console.log("Curr const: " + currentConstant)
-                //   //console.log("CASE 2: " + currentString);
-
-                i += parenthesisTally;
-                let closeParenthesisIndex = i;
-
-                parenthesisExpression = [
-                  '*',
-                  currentString.slice(
-                    insideParenthesisIndex,
-                    closeParenthesisIndex
-                  ),
-                ].join('');
-
-                let closingParenthesis = '';
-                //  //console.log("insideParenthesisTally: " + insideParenthesisTally)
-                for (let j = 0; j < insideParenthesisTally; j++) {
-                  closingParenthesis = closingParenthesis.concat(')');
-                }
-
-                //   //console.log("currentCoefficient: " + currentCoefficient)
-
-                currentCoefficient = currentCoefficient.concat(
-                  parenthesisExpression
-                );
-
-                //  //console.log("currentCoefficient: " + currentCoefficient)
-
-                currentConstant = currentConstant.replace(
-                  parenthesisExpression,
-                  closingParenthesis
-                );
-
-                insideParenthesisIndex = 0;
-
-                //ABC //console.log("ASD @#@)_ @#(JGKDGKDGK:   " + currentString[i]);
-                if (currentString[i].match(/[*]/)) {
-                  MDindex = i;
-                  MDsymbolAfter = true;
-                  symbolType = '*';
-                }
-
-                isInsideParenthesis = true;
-                parenthesisCase = 0;
-              } else if (coeffInsideTally > 0) {
-                //  //console.log("CASE 3:")
-                let closeParenthesisSymbol = '';
-                //  //console.log(currentString[i+1])
-                if (currentString[i + 1].match(/[\+\-\*]/)) {
-                  ////console.log("???");
-                  parenthesisTally--;
-
-                  isFinished = false;
-                  insideParenthesisTally--;
-                  ////console.log("Inside parenthesis tally: " + insideParenthesisTally);
-
-                  for (let j = 0; j < insideParenthesisTally; j++) {
-                    closeParenthesisSymbol = closeParenthesisSymbol.concat(')');
+                  if (currentString[i].match(/[*]/)) {
+                    MDindex = i;
+                    MDsymbolAfter = true;
+                    symbolType = '*';
                   }
+                  parenthesisCase = 0;
+                } else if (parenthesisCase === 2) {
+                  //   //console.log("Curr coeff: " + currentCoefficient)
+                  // //console.log("Curr const: " + currentConstant)
+                  //   //console.log("CASE 2: " + currentString);
 
-                  if (closeParenthesisSymbol == '') {
-                    closeParenthesisSymbol = ')';
-                  }
-
-                  //    //console.log("Close parenth symbol: " + closeParenthesisSymbol);
-                  closeParenthesisIndex = i;
-                } else {
-                  //     //console.log("IN ELSE: " + insideParenthesisTally)
                   i += parenthesisTally;
+                  let closeParenthesisIndex = i;
+
+                  parenthesisExpression = [
+                    '*',
+                    currentString.slice(
+                      insideParenthesisIndex,
+                      closeParenthesisIndex
+                    ),
+                  ].join('');
+
+                  let closingParenthesis = '';
+                  //  //console.log("insideParenthesisTally: " + insideParenthesisTally)
                   for (let j = 0; j < insideParenthesisTally; j++) {
-                    closeParenthesisSymbol = closeParenthesisSymbol.concat(')');
+                    closingParenthesis = closingParenthesis.concat(')');
                   }
+
+                  //   //console.log("currentCoefficient: " + currentCoefficient)
+
+                  currentCoefficient = currentCoefficient.concat(
+                    parenthesisExpression
+                  );
+
+                  //  //console.log("currentCoefficient: " + currentCoefficient)
+
+                  currentConstant = currentConstant.replace(
+                    parenthesisExpression,
+                    closingParenthesis
+                  );
+
+                  insideParenthesisIndex = 0;
+
+                  //ABC //console.log("ASD @#@)_ @#(JGKDGKDGK:   " + currentString[i]);
+                  if (currentString[i].match(/[*]/)) {
+                    MDindex = i;
+                    MDsymbolAfter = true;
+                    symbolType = '*';
+                  }
+
                   isInsideParenthesis = true;
-                  coeffInsideTally = 0;
+                  parenthesisCase = 0;
+                } else if (coeffInsideTally > 0) {
+                  //  //console.log("CASE 3:")
+                  let closeParenthesisSymbol = '';
+                  //  //console.log(currentString[i+1])
+                  if (currentString[i + 1].match(/[\+\-\*]/)) {
+                    ////console.log("???");
+                    parenthesisTally--;
+
+                    isFinished = false;
+                    insideParenthesisTally--;
+                    ////console.log("Inside parenthesis tally: " + insideParenthesisTally);
+
+                    for (let j = 0; j < insideParenthesisTally; j++) {
+                      closeParenthesisSymbol =
+                        closeParenthesisSymbol.concat(')');
+                    }
+
+                    if (closeParenthesisSymbol == '') {
+                      closeParenthesisSymbol = ')';
+                    }
+
+                    //    //console.log("Close parenth symbol: " + closeParenthesisSymbol);
+                    closeParenthesisIndex = i;
+                  } else {
+                    //     //console.log("IN ELSE: " + insideParenthesisTally)
+                    i += parenthesisTally;
+                    for (let j = 0; j < insideParenthesisTally; j++) {
+                      closeParenthesisSymbol =
+                        closeParenthesisSymbol.concat(')');
+                    }
+                    isInsideParenthesis = true;
+                    coeffInsideTally = 0;
+                  }
+
+                  //   //console.log("CASE 3: " + currentString);
+                  //   //console.log("CASE 3 with i: " + currentString[i]);
+
+                  currentCoefficient = currentCoefficient.concat(
+                    closeParenthesisSymbol
+                  );
+
+                  if (currentString[i].match(/[*]/)) {
+                    MDindex = i;
+                    MDsymbolAfter = true;
+                    symbolType = '*';
+                  }
+
+                  //ABC //console.log("sURRENT COEFFIICIENT: " + currentCoefficient);
                 }
 
-                //   //console.log("CASE 3: " + currentString);
-                //   //console.log("CASE 3 with i: " + currentString[i]);
+                //  //console.log(firstParenthesisIndex);
 
-                currentCoefficient = currentCoefficient.concat(
-                  closeParenthesisSymbol
+                for (let j = currentConstant.length - 1; j > 0; j--) {
+                  if (currentConstant[j] == '(') {
+                    if (currentConstant[j + 1] == ')') {
+                      currentConstant =
+                        currentConstant.substring(0, j) +
+                        '(0' +
+                        currentConstant.substring(j + 1);
+                      break;
+                    }
+                  }
+                }
+
+                if (isFinished) {
+                  parenthesisTally = 0;
+                  openParenthesis = false;
+                  firstParenthesisIndex = null;
+                  lastParenthesisIndex = null;
+                  closeParenthesisIndex = null;
+                }
+
+                currentCoefficient = currentCoefficient.replace(
+                  coefficientSymbol,
+                  ''
                 );
 
-                if (currentString[i].match(/[*]/)) {
-                  MDindex = i;
-                  MDsymbolAfter = true;
-                  symbolType = '*';
-                }
+                if (isFinished) {
+                  var limit = 0;
 
-                //ABC //console.log("sURRENT COEFFIICIENT: " + currentCoefficient);
-              }
+                  for (let z = 0; z < 5; z++) {
+                    try {
+                      if (eval(currentCoefficient)) {
+                        break;
+                      }
+                    } catch {
+                      currentCoefficient = currentCoefficient.concat(')');
+                      limit++;
+                    }
+                  }
 
-              //  //console.log(firstParenthesisIndex);
-
-              for (let j = currentConstant.length - 1; j > 0; j--) {
-                if (currentConstant[j] == '(') {
-                  if (currentConstant[j + 1] == ')') {
-                    currentConstant =
-                      currentConstant.substring(0, j) +
-                      '(0' +
-                      currentConstant.substring(j + 1);
-                    break;
+                  if (limit == 5) {
+                    errorOccured = true;
+                    return;
                   }
                 }
+                //  //console.log("Curr coeff: " + currentCoefficient)
+                //  //console.log("Curr const: " + currentConstant)
               }
 
-              if (isFinished) {
-                parenthesisTally = 0;
-                openParenthesis = false;
-                firstParenthesisIndex = null;
-                lastParenthesisIndex = null;
-                closeParenthesisIndex = null;
-              }
+              if (!openParenthesis) {
+                if (currentString[i].match(/[\+\-\*\/]/)) {
+                  //ABC //console.log("63479063434906437063406903467904390:   " + currentString[i]);
+                  if (
+                    resetCoefficientIndex &&
+                    currentString[i - 1].match(/[*]/) === null
+                  ) {
+                    coefficientIndex = currentString.length;
+                    resetCoefficientIndex = false;
+                  } else if (resetCoefficientIndex) {
+                    coefficientIndex = currentString.length;
+                    resetCoefficientIndex = false;
+                  }
 
-              currentCoefficient = currentCoefficient.replace(
-                coefficientSymbol,
-                ''
-              );
-              //  //console.log("Curr coeff: " + currentCoefficient)
-              //  //console.log("Curr const: " + currentConstant)
-            }
-
-            if (!openParenthesis) {
-              if (currentString[i].match(/[\+\-\*\/]/)) {
-                //ABC //console.log("63479063434906437063406903467904390:   " + currentString[i]);
-                if (
-                  resetCoefficientIndex &&
-                  currentString[i - 1].match(/[*]/) === null
-                ) {
-                  coefficientIndex = currentString.length;
-                  resetCoefficientIndex = false;
-                } else if (resetCoefficientIndex) {
-                  coefficientIndex = currentString.length;
-                  resetCoefficientIndex = false;
-                }
-
-                /*
+                  /*
                             //console.log(": ");
                             //console.log("I ^@^@^@: " + (i));
                             //console.log("Current COEFF ^@^@^@: " + (coefficientIndex));
                             //console.log(": ");
                             */
-                if (currentString[i].match(/[*]/) && i < coefficientIndex) {
-                  MDindex = i;
-                  //ABC //console.log("THE MD INDEX IS @#@#@#@#@: " + MDindex);
-                }
-                equalOccurence = false;
-                //ABC //console.log("Checking COEFFICIENT: " + currentCoefficient);
-                replaceOperators();
-                //ABC //console.log("Checking COEFFICIENT 2222: " + currentCoefficient);
-              }
-            }
-
-            if (currentString[i].match(/=/)) {
-              if (equalOccurence) {
-                currentConstant = currentString.replace('=', '');
-              } else if (currentConstant === '') {
-                currentConstant = currentString;
-              }
-              //ABC //console.log(currentConstant);
-              //ABC //console.log(currentCoefficient);
-              //replaceOperators();
-              currentConstant = currentConstant.replace('=', '');
-              currentCoefficient = currentCoefficient.replace('=', '');
-            }
-
-            if (!equalOccurence) {
-              isCoefficient = false;
-              index++;
-              lastIndex = i + 1;
-            }
-
-            if (currentString[i].match(/[a-z]/)) {
-              //ABC //console.log("sURRENT COEFFIICIENT: " + currentCoefficient);
-              //ABC //console.log("ETO PASOK SA BANGA!!!!!!!!!!!!!!!!!!:  " + currentString[i]);
-              if (currentString[sliceIndex] === '-' && !negativeCoefficient) {
-                //ABC //console.log("IS NEGATIVE!! ");
-                negativeCoefficient = true;
-              }
-
-              // IF coefficient inside parenthesis, increment.
-              if (openParenthesis && parenthesisTally > 0) {
-                coeffInsideTally++;
-                if (insideParenthesisTally === 0) {
-                  insideParenthesisTally = parenthesisTally;
-                }
-              }
-              // Perform coefficient Inside function
-              coefficientInside();
-
-              coefficientIndex = i;
-              coefficientQuantity++;
-              evaluateCoefficient = true;
-              equalOccurence = false;
-
-              // IF THE NEXT symbol of coefficient have parenthesis
-              // Expression with parenthesis have a minimum length of 4 ex. "2(3)"
-              if (currentString.length >= 4) {
-                // //console.log("IN LENGTH");
-                // //console.log(currentString[i + 2]);
-                if (currentString[i + 2] == '(' && parenthesisTally === 0) {
-                  if (currentString[i + 1] == '*') {
-                    //  //console.log("PASOK SA BANGA LODS IIDOL");
-                    openParenthesis = true;
-                    parenthesisCase = 1;
+                  if (currentString[i].match(/[*]/) && i < coefficientIndex) {
+                    MDindex = i;
+                    //ABC //console.log("THE MD INDEX IS @#@#@#@#@: " + MDindex);
                   }
-                } else if (
-                  currentString[i + 2] == '(' &&
-                  parenthesisTally > 0
+                  equalOccurence = false;
+                  //ABC //console.log("Checking COEFFICIENT: " + currentCoefficient);
+                  replaceOperators();
+                  //ABC //console.log("Checking COEFFICIENT 2222: " + currentCoefficient);
+                }
+              }
+
+              if (currentString[i].match(/=/)) {
+                if (equalOccurence) {
+                  currentConstant = currentString.replace('=', '');
+                } else if (currentConstant === '') {
+                  currentConstant = currentString;
+                }
+                //ABC //console.log(currentConstant);
+                //ABC //console.log(currentCoefficient);
+                //replaceOperators();
+                currentConstant = currentConstant.replace('=', '');
+                currentCoefficient = currentCoefficient.replace('=', '');
+              }
+
+              if (!equalOccurence) {
+                isCoefficient = false;
+                index++;
+                lastIndex = i + 1;
+              }
+
+              if (currentString[i].match(/[a-z]/)) {
+                //ABC //console.log("sURRENT COEFFIICIENT: " + currentCoefficient);
+                //ABC //console.log("ETO PASOK SA BANGA!!!!!!!!!!!!!!!!!!:  " + currentString[i]);
+                if (currentString[sliceIndex] === '-' && !negativeCoefficient) {
+                  //ABC //console.log("IS NEGATIVE!! ");
+                  negativeCoefficient = true;
+                }
+
+                // IF coefficient inside parenthesis, increment.
+                if (openParenthesis && parenthesisTally > 0) {
+                  coeffInsideTally++;
+                  if (insideParenthesisTally === 0) {
+                    insideParenthesisTally = parenthesisTally;
+                  }
+                }
+
+                /* TO BE ADDED CONTINUOUS OF () + () etc..
+              
+              console.log("CURRSTRING3535235325235:  " + currentString)
+             console.log("CURRSTRING3535235325235:  " + currentString[i + 1])
+             console.log(currentString[i])
+             */
+
+                var performCondition = 'AND';
+
+                var constantValue = currentConstant.replace(/[a-z]/g, '*0');
+
+                if (
+                  eval(constantValue) == 0 ||
+                  eval(constantValue) == undefined
                 ) {
-                  if (currentString[i + 1] == '*') {
-                    insideParenthesisIndex = i + 2;
-                    openParenthesis = true;
-                    parenthesisCase = 2;
+                  performCondition = 'OR';
+                }
+
+                /*
+            console.log("A: " + currentCoefficient)
+            console.log("B: " + currentConstant)
+            console.log("C: " + constantValue)
+            console.log("D: " + eval(constantValue))
+            console.log("E: " + performCondition)
+            console.log("STRINGGG:  " + currentString)
+            */
+
+                // Perform coefficient Inside function
+                coefficientInside();
+
+                coefficientIndex = i;
+                coefficientQuantity++;
+                evaluateCoefficient = true;
+                equalOccurence = false;
+
+                // IF THE NEXT symbol of coefficient have parenthesis
+                // Expression with parenthesis have a minimum length of 4 ex. "2(3)"
+                if (currentString.length >= 4) {
+                  // //console.log("IN LENGTH");
+                  // //console.log(currentString[i + 2]);
+                  if (currentString[i + 2] == '(' && parenthesisTally === 0) {
+                    if (currentString[i + 1] == '*') {
+                      //  //console.log("PASOK SA BANGA LODS IIDOL");
+                      openParenthesis = true;
+                      parenthesisCase = 1;
+                    }
+                  } else if (
+                    currentString[i + 2] == '(' &&
+                    parenthesisTally > 0
+                  ) {
+                    if (currentString[i + 1] == '*') {
+                      insideParenthesisIndex = i + 2;
+                      openParenthesis = true;
+                      parenthesisCase = 2;
+                    }
                   }
                 }
-              }
 
-              let coefficientFirstIndex = sliceIndex - 1;
+                let coefficientFirstIndex = sliceIndex - 1;
 
-              /*
+                /*
                         //console.log("Slice Indeex: " + sliceIndex);
                         //console.log("Last Inddex: " + lastIndex);
                         //console.log("Coeff SYMBOL: " + coefficientFirstIndex);
@@ -540,379 +591,531 @@ var EquationSolver = (function () {
                         }
                         */
 
-              // CURRENT COEFFICIENT EVALUATED
-              coefficientTerm = currentString.slice(
-                coefficientFirstIndex,
-                lastIndex
-              );
-              coefficientTerm = coefficientTerm.replace('(', '');
-              // //console.log("ZXC: " + coefficientTerm);
-              coefficientString = coefficientString.concat(coefficientTerm);
-              // //console.log("QWE: " + coefficientString);
+                // CURRENT COEFFICIENT EVALUATED
+                coefficientTerm = currentString.slice(
+                  coefficientFirstIndex,
+                  lastIndex
+                );
+                coefficientTerm = coefficientTerm.replace('(', '');
+                // //console.log("ZXC: " + coefficientTerm);
+                coefficientString = coefficientString.concat(coefficientTerm);
+                // //console.log("QWE: " + coefficientString);
 
-              ////console.log("FIRST CURRENT COEFFIICIENT: " + currentCoefficient);
-              if (
-                currentString
-                  .slice(coefficientFirstIndex, coefficientFirstIndex + 1)
-                  .match(/[(]/)
-              ) {
-                coefficientFirstIndex++;
+                ////console.log("FIRST CURRENT COEFFIICIENT: " + currentCoefficient);
+                if (
+                  currentString
+                    .slice(coefficientFirstIndex, coefficientFirstIndex + 1)
+                    .match(/[(]/)
+                ) {
+                  coefficientFirstIndex++;
+                }
+
+                ////console.log("\nfirst index: " + coefficientFirstIndex);
+                ////console.log("\n: " + currentCoefficient);
+                currentCoefficient = currentCoefficient.concat(
+                  currentString.slice(coefficientFirstIndex, lastIndex)
+                );
+
+                ////console.log("CURRENT COEFFIICIENT TOP: " + currentCoefficient);
+                coefficient = currentCoefficient.slice(-1);
+
+                coefficientSymbol = coefficient;
+
+                // GLOBAL VARIABLE COEFFICIENT
+                coefficientLetter = coefficient;
+
+                ////console.log("CURRENT CONSTANT asdad: " + currentConstant);
+                if (currentConstant === '') {
+                  ////console.log("CONSTANT is equal");
+                  currentConstant = currentString.replace(coefficientTerm, '');
+                  currentConstant = currentConstant.replace('=', '');
+                } else {
+                  ////console.log("CONSTANT is else");
+                  ////console.log("coeff term: " + coefficientTerm)
+                  currentConstant = currentConstant.replace(
+                    coefficientTerm,
+                    ''
+                  );
+                }
+                //console.log("coeff term: " + coefficientTerm)
+                //console.log("COEFFICIENT:  " + currentCoefficient);
+                ////console.log("CURRENT CONSTANT: " + currentConstant);
+
+                currentCoefficient = currentCoefficient.replace(
+                  coefficient,
+                  ''
+                );
+                //console.log("LAST CURRENT COEFFIICIENT: " + currentCoefficient);
+                //ABC //console.log
+                // PROCEED TO NEXT INDEX, AFTER coefficient
+                lastIndex++;
+                replaceOperators();
               }
-
-              ////console.log("\nfirst index: " + coefficientFirstIndex);
-              ////console.log("\n: " + currentCoefficient);
-              currentCoefficient = currentCoefficient.concat(
-                currentString.slice(coefficientFirstIndex, lastIndex)
-              );
-
-              ////console.log("CURRENT COEFFIICIENT TOP: " + currentCoefficient);
-              coefficient = currentCoefficient.slice(-1);
-
-              coefficientSymbol = coefficient;
-
-              // GLOBAL VARIABLE COEFFICIENT
-              coefficientLetter = coefficient;
-
-              ////console.log("CURRENT CONSTANT asdad: " + currentConstant);
-              if (currentConstant === '') {
-                ////console.log("CONSTANT is equal");
-                currentConstant = currentString.replace(coefficientTerm, '');
-                currentConstant = currentConstant.replace('=', '');
-              } else {
-                ////console.log("CONSTANT is else");
-                ////console.log("coeff term: " + coefficientTerm)
-                currentConstant = currentConstant.replace(coefficientTerm, '');
-              }
-              ////console.log("coeff term: " + coefficientTerm)
-              ////console.log("COEFFICIENT:  " + currentCoefficient);
-              ////console.log("CURRENT CONSTANT: " + currentConstant);
-
-              currentCoefficient = currentCoefficient.replace(coefficient, '');
-              ////console.log("LAST CURRENT COEFFIICIENT: " + currentCoefficient);
-              //ABC //console.log
-              // PROCEED TO NEXT INDEX, AFTER coefficient
-              lastIndex++;
-              replaceOperators();
             }
-          }
 
-          /*
+            /*
                 //console.log("BORDER=======");
             //console.log("IM IN MDSYMBOL AFTER'''''''!!!!asdsada:" + currentString[i]);
             //console.log("IM IN MDSYMBOL AFTER'''''''!!!! I:" + i);
             //console.log("IM IN MDSYMBOL AFTER'''''''!!!! coefficientIndex:" + (coefficientIndex + 1));
             //console.log("BORDER=======");
             */
-          if (coefficientIndex + 1 === i) {
-            resetCoefficientIndex = true;
-            //ABC //console.log("ARSJFHSAJKFSJ RAF ARFA RAF ARFARAF=======");
-            if (currentString[i].match(/[*]/)) {
-              //ABC //console.log("MD SYMBOL IS NOW TRUE ");
-              symbolType = '*';
-              MDsymbolAfter = true;
-            } else if (currentString[i].match(/[\+\-\/]/)) {
-              //ABC    //console.log("RESET RESET RESET RESET RESET RESET=======");
+            if (coefficientIndex + 1 === i) {
+              resetCoefficientIndex = true;
+              //ABC //console.log("ARSJFHSAJKFSJ RAF ARFA RAF ARFARAF=======");
+              if (currentString[i].match(/[*]/)) {
+                //ABC //console.log("MD SYMBOL IS NOW TRUE ");
+                symbolType = '*';
+                MDsymbolAfter = true;
+              } else if (currentString[i].match(/[\+\-\/]/)) {
+                //ABC    //console.log("RESET RESET RESET RESET RESET RESET=======");
 
-              if (coefficientQuantity === 1) {
-                firstCoefficientFinish = true;
+                if (coefficientQuantity === 1) {
+                  firstCoefficientFinish = true;
+                }
               }
             }
-          }
 
-          if (parenthesisCase != 1 && parenthesisCase != 2) {
-            if (MDsymbolAfter) {
-              //ABC //console.log("IM IN MDSYMBOL AFTER'''''''!!!!")
-              if (closeParenthesis) {
-                for (let j = i + 1; j < currentString.length; j++) {
-                  if (currentString[j].match(/[\+\-\/\=]/)) {
-                    tempCoefficient = currentString.slice(i, j);
+            if (parenthesisCase != 1 && parenthesisCase != 2) {
+              if (MDsymbolAfter) {
+                //ABC console.log("IM IN MDSYMBOL AFTER'''''''!!!!")
+                if (closeParenthesis) {
+                  for (let j = i + 1; j < currentString.length; j++) {
+                    if (currentString[j].match(/[\+\-\/\=]/)) {
+                      tempCoefficient = currentString.slice(i, j);
 
-                    if (!isInsideParenthesis) {
+                      if (!isInsideParenthesis) {
+                        currentConstant = currentConstant.replace(
+                          tempCoefficient,
+                          ''
+                        );
+                      }
+                      isInsideParenthesis = false;
+                      break;
+                    }
+                  }
+                  closeParenthesis = false;
+                } else {
+                  //ABC //console.log("IM IN ELSE!@!@!@!@!")
+                  for (
+                    let j = coefficientIndex + 1;
+                    j < currentString.length;
+                    j++
+                  ) {
+                    if (currentString[j].match(/[\+\-\/\=]/)) {
+                      //ABC    //console.log("J index:  " + j);
+                      //ABC   //console.log("coeff Index " + coefficientIndex);
+
+                      //ABC    //console.log("BEFORE curr coeff: " + currentCoefficient );
+                      tempCoefficient = currentString.slice(
+                        coefficientIndex + 1,
+                        j
+                      );
+                      //ABC    //console.log("temp coeff " + tempCoefficient);
                       currentConstant = currentConstant.replace(
                         tempCoefficient,
                         ''
                       );
+                      //ABC //console.log("TEMP COEFF: " + tempCoefficient);
+                      break;
                     }
-                    isInsideParenthesis = false;
-                    break;
                   }
                 }
-                closeParenthesis = false;
-              } else {
-                //ABC //console.log("IM IN ELSE!@!@!@!@!")
-                for (
-                  let j = coefficientIndex + 1;
-                  j < currentString.length;
-                  j++
-                ) {
-                  if (currentString[j].match(/[\+\-\/\=]/)) {
-                    //ABC    //console.log("J index:  " + j);
-                    //ABC   //console.log("coeff Index " + coefficientIndex);
 
-                    //ABC    //console.log("BEFORE curr coeff: " + currentCoefficient );
-                    tempCoefficient = currentString.slice(
-                      coefficientIndex + 1,
-                      j
-                    );
-                    //ABC    //console.log("temp coeff " + tempCoefficient);
-                    currentConstant = currentConstant.replace(
-                      tempCoefficient,
-                      ''
-                    );
-                    //ABC //console.log("TEMP COEFF: " + tempCoefficient);
-                    break;
-                  }
+                if (symbolType === '*') {
+                  currentCoefficient =
+                    currentCoefficient.concat(tempCoefficient);
+                  //ABC    //console.log("AFTER curr coeff: " + currentCoefficient );
                 }
-              }
 
-              if (symbolType === '*') {
-                currentCoefficient = currentCoefficient.concat(tempCoefficient);
-                //ABC    //console.log("AFTER curr coeff: " + currentCoefficient );
-              }
+                if (coefficientQuantity === 1) {
+                  firstCoefficientFinish = true;
+                }
 
-              if (coefficientQuantity === 1) {
-                firstCoefficientFinish = true;
+                //coefficientIndex = currentString.length;
               }
-
-              //coefficientIndex = currentString.length;
             }
-          }
-          //ABC   //console.log("Current COEFF ^@^@^@: " + (coefficientIndex));
-          tempCoefficient = '';
 
-          /*
+            //ABC   //console.log("Current COEFF ^@^@^@: " + (coefficientIndex));
+            tempCoefficient = '';
+
+            /*
                     //console.log("evaluateCoefficient :+_+_+_+_+: " + evaluateCoefficient);
                     //console.log("MDsymbol :+_+_+_+_+: " + MDsymbol);
                     //console.log("MDindex :+_+_+_+_+: " + MDindex);
                     */
-          let tempConstant = currentConstant;
-          if (evaluateCoefficient) {
-            if (MDsymbol && MDindex != 0) {
-              //ABC //console.log("BEFORE MD SYMBOL LETSZFXZFOZPGO: ");
-              /*
+            let tempConstant = currentConstant;
+            if (evaluateCoefficient) {
+              if (MDsymbol && MDindex != 0) {
+                //ABC //console.log("BEFORE MD SYMBOL LETSZFXZFOZPGO: ");
+                /*
                         //console.log(" ");
                         //console.log("IM IN MDSYMBOL!!!!");
                         //console.log(" ");
                         //console.log("MDindex :" + MDindex);
                         //console.log("currentCoefficient: " + currentCoefficient );
                         */
-              // FOR MULTIPLICATION
-              let isParenthesis = false;
-              let parenthesisCount = 0;
-              let firstParenthesisIndex = 0;
+                // FOR MULTIPLICATION
+                let isParenthesis = false;
+                let parenthesisCount = 0;
+                let firstParenthesisIndex = 0;
 
-              for (let j = MDindex; j >= 0; j--) {
-                if (currentString[j].match(/[\)]/)) {
-                  isParenthesis = true;
-                  parenthesisCount++;
-                }
+                for (let j = MDindex; j >= 0; j--) {
+                  if (currentString[j].match(/[\)]/)) {
+                    isParenthesis = true;
+                    parenthesisCount++;
+                  }
 
-                if (currentString[j].match(/[\(]/)) {
-                  parenthesisCount--;
-                  if (parenthesisCount === 0) {
-                    firstParenthesisIndex = j;
-                    isParenthesis = false;
+                  if (currentString[j].match(/[\(]/)) {
+                    parenthesisCount--;
+                    if (parenthesisCount === 0) {
+                      firstParenthesisIndex = j;
+                      isParenthesis = false;
+                    }
+                  }
+
+                  if (!isParenthesis) {
+                    // //console.log("IM HERE!" + currentString);
+                    if (currentString[j].match(/[\+\-\/]/)) {
+                      tempCoefficient = currentString.slice(j, MDindex);
+                      //ABC //console.log("LOOB NG FOR temp coeff: " + tempCoefficient );
+                      currentConstant = currentConstant.replace(
+                        tempCoefficient,
+                        ''
+                      );
+                      //ABC //console.log("CURRENT COSNTNASTN: " + currentConstant );
+                      break;
+                    }
                   }
                 }
+                if (symbolType === '*') {
+                  //!@#$% //console.log("coefficientIndex : " + coefficientIndex );
+                  if (coefficientIndex === 1) {
+                    coefficientIndex = 0;
+                  }
+                  //removeLastTerm();
+                  if (tempConstant != currentConstant) {
+                    if (firstCoefficientFinish) {
+                      // PALATANDAAN
+                      removeLastTerm();
+                      currentCoefficient =
+                        currentCoefficient.concat(tempCoefficient);
 
-                if (!isParenthesis) {
-                  // //console.log("IM HERE!" + currentString);
-                  if (currentString[j].match(/[\+\-\/]/)) {
-                    tempCoefficient = currentString.slice(j, MDindex);
-                    //ABC //console.log("LOOB NG FOR temp coeff: " + tempCoefficient );
-                    currentConstant = currentConstant.replace(
-                      tempCoefficient,
-                      ''
-                    );
-                    //ABC //console.log("CURRENT COSNTNASTN: " + currentConstant );
+                      //currentCoefficient = currentCoefficient.concat(tempCoefficient);
+                    } else {
+                      removeLastTerm();
+                      currentCoefficient = tempCoefficient;
+                    }
+                  }
+
+                  //ABC //console.log("AFTER curr coeff: " + currentCoefficient );
+                }
+              }
+              MDsymbol = false;
+              evaluateCoefficient = false;
+            }
+            MDsymbolAfter = false;
+
+            tempCoefficient = '';
+
+            ////console.log("ASDASDCURRSTRING:  " + currentString[i])
+            // CHECK for previous parenthesis and expression before opening parenthesis
+            function coefficientInside() {
+              //console.log("\n\nPERFORMED COEFF INSIDE\n");
+              if (coeffInsideTally >= 1 || closeParenthesisIndex != null) {
+                //  //console.log("coeffinsidetally === TRUE")
+                //console.log("asdad coeff: " + currentCoefficient);
+                let coeffParenthesisIndex = firstParenthesisIndex;
+                //console.log(coeffParenthesisIndex);
+                //expression before the opening parenthesis
+                let expBeforeIndex = 0;
+
+                for (let j = i; j > firstParenthesisIndex; j--) {
+                  if (currentString[j].match(/[\(]/)) {
+                    coeffParenthesisIndex = j;
                     break;
                   }
                 }
-              }
-              if (symbolType === '*') {
-                //!@#$% //console.log("coefficientIndex : " + coefficientIndex );
-                if (coefficientIndex === 1) {
-                  coefficientIndex = 0;
+
+                for (let j = firstParenthesisIndex; j > 0; j--) {
+                  if (currentString[j].match(/[\+\-\/]/)) {
+                    expBeforeIndex = j;
+                    break;
+                  }
                 }
-                //removeLastTerm();
-                if (tempConstant != currentConstant) {
-                  if (firstCoefficientFinish) {
-                    // PALATANDAAN
-                    removeLastTerm();
+
+                /*
+             console.log("CURRSTRING3535235325235:  " + currentString)
+             console.log("CURRSTRING3535235325235:  " + currentString[i + 1])
+             console.log(currentString[i])
+             
+             var constantValue = currentConstant.replace(/[a-z]/g, "");
+             var performCondition = "OR";
+             if (eval(constantValue) == 0 || eval(constantValue) == undefined) {
+               performCondition = "AND";
+             }
+
+             console.log(currentCoefficient)
+            console.log(currentConstant)
+            console.log(constantValue)
+            console.log(eval(constantValue))
+            console.log(performCondition)
+            console.log("STRINGGG:  " + currentString)
+            */
+
+                if (performCondition == 'OR') {
+                  if (insideParenthesisTally > 1) {
+                    if (firstOccurence || closeParenthesisIndex == null) {
+                      //console.log("FIRST IF ")
+                      firstOccurence = false;
+                      tempCoefficient = currentString.slice(
+                        expBeforeIndex,
+                        coeffParenthesisIndex + 1
+                      );
+                      removeConstant();
+                      ////console.log("AWAWAWA: " + tempCoefficient)
+                    } else {
+                      //console.log("SECOND IF ");
+
+                      if (currentString[i + 1].match(/[\)]/)) {
+                        if (closeParenthesisIndex != null) {
+                          let expressionBeforeParenthesis = '';
+                          let newParenthesisIndex = 0;
+                          for (
+                            let j = closeParenthesisIndex + 1;
+                            j < currentString.length;
+                            j++
+                          ) {
+                            if (currentString[j].match(/[\(]/)) {
+                              newParenthesisIndex = j;
+                              break;
+                            }
+                          }
+
+                          for (
+                            let j = newParenthesisIndex;
+                            j > firstParenthesisIndex;
+                            j--
+                          ) {
+                            if (currentString[j].match(/[\+\-\/]/)) {
+                              expBeforeIndex = j;
+                              break;
+                            }
+                          }
+
+                          tempCoefficient = [
+                            currentCoefficient,
+                            currentString.slice(
+                              expBeforeIndex,
+                              newParenthesisIndex + 1
+                            ),
+                          ].join('');
+
+                          //console.log("3123: " + tempCoefficient)
+                        }
+                      } else {
+                        tempCoefficient = currentString.slice(
+                          expBeforeIndex,
+                          coeffParenthesisIndex + 1
+                        );
+                        removeConstant();
+                      }
+                    }
+                  } else {
+                    if (firstOccurence && closeParenthesisIndex == null) {
+                      //console.log("FIRST IF ")
+                      firstOccurence = false;
+                      tempCoefficient = currentString.slice(
+                        expBeforeIndex,
+                        coeffParenthesisIndex + 1
+                      );
+                      removeConstant();
+                      ////console.log("AWAWAWA: " + tempCoefficient)
+                    } else {
+                      //console.log("SECOND IF ");
+
+                      if (currentString[i + 1].match(/[\)]/)) {
+                        if (closeParenthesisIndex != null) {
+                          let expressionBeforeParenthesis = '';
+                          let newParenthesisIndex = 0;
+                          for (
+                            let j = closeParenthesisIndex + 1;
+                            j < currentString.length;
+                            j++
+                          ) {
+                            if (currentString[j].match(/[\(]/)) {
+                              newParenthesisIndex = j;
+                              break;
+                            }
+                          }
+
+                          for (
+                            let j = newParenthesisIndex;
+                            j > firstParenthesisIndex;
+                            j--
+                          ) {
+                            if (currentString[j].match(/[\+\-\/]/)) {
+                              expBeforeIndex = j;
+                              break;
+                            }
+                          }
+
+                          tempCoefficient = [
+                            currentCoefficient,
+                            currentString.slice(
+                              expBeforeIndex,
+                              newParenthesisIndex + 1
+                            ),
+                          ].join('');
+
+                          //console.log("3123: " + tempCoefficient)
+                        }
+                      } else {
+                        tempCoefficient = currentString.slice(
+                          expBeforeIndex,
+                          coeffParenthesisIndex + 1
+                        );
+                        removeConstant();
+                      }
+                    }
+                  }
+                } else if (performCondition == 'AND') {
+                  if (firstOccurence && closeParenthesisIndex == null) {
+                    //console.log("FIRST IF ")
+                    firstOccurence = false;
+                    tempCoefficient = currentString.slice(
+                      expBeforeIndex,
+                      coeffParenthesisIndex + 1
+                    );
+                    removeConstant();
+                    ////console.log("AWAWAWA: " + tempCoefficient)
+                  } else {
+                    //console.log("SECOND IF ");
+
+                    if (currentString[i + 1].match(/[\)]/)) {
+                      if (closeParenthesisIndex != null) {
+                        let expressionBeforeParenthesis = '';
+                        let newParenthesisIndex = 0;
+                        for (
+                          let j = closeParenthesisIndex + 1;
+                          j < currentString.length;
+                          j++
+                        ) {
+                          if (currentString[j].match(/[\(]/)) {
+                            newParenthesisIndex = j;
+                            break;
+                          }
+                        }
+
+                        for (
+                          let j = newParenthesisIndex;
+                          j > firstParenthesisIndex;
+                          j--
+                        ) {
+                          if (currentString[j].match(/[\+\-\/]/)) {
+                            expBeforeIndex = j;
+                            break;
+                          }
+                        }
+
+                        tempCoefficient = [
+                          currentCoefficient,
+                          currentString.slice(
+                            expBeforeIndex,
+                            newParenthesisIndex + 1
+                          ),
+                        ].join('');
+
+                        //console.log("3123: " + tempCoefficient)
+                      }
+                    } else {
+                      tempCoefficient = currentString.slice(
+                        expBeforeIndex,
+                        coeffParenthesisIndex + 1
+                      );
+                      removeConstant();
+                    }
+                  }
+                }
+
+                //console.log("temp coeff: " + tempCoefficient);
+                // mark
+                // CHECK IF THERE IS CONSTANT INSIDE PARENTHESIS
+                //  //console.log("parenthesisTally: "+ parenthesisTally)
+                if (tempCoefficient.slice(-1).match(/[\(]/)) {
+                } else {
+                  if (parenthesisTally > 1) {
+                    removeConstant();
+                    //  //console.log("TRUETRUETEUREUTEURE")
+                  }
+                }
+                if (firstOccurence) {
+                  //console.log("SDSDS: " + currentCoefficient);
+                  currentCoefficient =
+                    currentCoefficient.concat(tempCoefficient);
+                } else {
+                  //console.log("ZXCZXCCX: " + currentCoefficient);
+                  if (currentCoefficient > 1) {
+                    //console.log("ASDAS");
                     currentCoefficient =
                       currentCoefficient.concat(tempCoefficient);
-
-                    //currentCoefficient = currentCoefficient.concat(tempCoefficient);
+                  } else if (tempCoefficient == '') {
+                    currentCoefficient = currentCoefficient;
                   } else {
-                    removeLastTerm();
+                    //console.log("AGFGFGDAS");
                     currentCoefficient = tempCoefficient;
                   }
                 }
 
-                //ABC //console.log("AFTER curr coeff: " + currentCoefficient );
-              }
-            }
-            MDsymbol = false;
-            evaluateCoefficient = false;
-          }
-          MDsymbolAfter = false;
+                // //console.log("CURRE FVEOCEOFCOEFF: " + currentCoefficient);
 
-          tempCoefficient = '';
-
-          ////console.log("ASDASDCURRSTRING:  " + currentString[i])
-          // CHECK for previous parenthesis and expression before opening parenthesis
-          function coefficientInside() {
-            ////console.log("\n\nPERFORMED COEFF INSIDE\n");
-            if (coeffInsideTally >= 1 || closeParenthesisIndex != null) {
-              //  //console.log("coeffinsidetally === TRUE")
-              //console.log("asdad coeff: " + currentCoefficient);
-              let coeffParenthesisIndex = firstParenthesisIndex;
-              //expression before the opening parenthesis
-              let expBeforeIndex = 0;
-
-              for (let j = i; j > firstParenthesisIndex; j--) {
-                if (currentString[j].match(/[\(]/)) {
-                  coeffParenthesisIndex = j;
-                  break;
-                }
-              }
-
-              for (let j = firstParenthesisIndex; j > 0; j--) {
-                if (currentString[j].match(/[\+\-\/]/)) {
-                  expBeforeIndex = j;
-                  break;
-                }
-              }
-
-              // //console.log("CURRSTRING3535235325235:  " + currentString[i + 1])
-              if (firstOccurence || closeParenthesisIndex == null) {
-                //console.log("FIRST IF ")
-                firstOccurence = false;
-                tempCoefficient = currentString.slice(
-                  expBeforeIndex,
-                  coeffParenthesisIndex + 1
-                );
-                removeConstant();
-                ////console.log("AWAWAWA: " + tempCoefficient)
-              } else {
-                //console.log("SECOND IF ");
-
-                if (currentString[i + 1].match(/[\)]/)) {
-                  if (closeParenthesisIndex != null) {
-                    let expressionBeforeParenthesis = '';
-                    let newParenthesisIndex = 0;
-                    for (
-                      let j = closeParenthesisIndex + 1;
-                      j < currentString.length;
-                      j++
-                    ) {
-                      if (currentString[j].match(/[\(]/)) {
-                        newParenthesisIndex = j;
-                        break;
-                      }
+                function removeConstant() {
+                  let insideParenthesis = false;
+                  let firstIndex = 0;
+                  for (let k = 0; k < tempCoefficient.length; k++) {
+                    if (tempCoefficient[k].match(/[\(]/)) {
+                      insideParenthesis = true;
+                      firstIndex = k + 1;
+                      continue;
                     }
+                    if (insideParenthesis && firstIndex != k) {
+                      let constantTerm = '';
+                      let endIndex = 0;
 
-                    for (
-                      let j = newParenthesisIndex;
-                      j > firstParenthesisIndex;
-                      j--
-                    ) {
-                      if (currentString[j].match(/[\+\-\/]/)) {
-                        expBeforeIndex = j;
-                        break;
+                      // REPLACE THE CONSTANT VALUE TO '!' exclamation symbol
+                      // THEN REPLACE exclamation symbol to blank
+                      if (tempCoefficient[k].match(/[\+\-\/]/)) {
+                        if (tempCoefficient[k - 1].match(/[x]/)) {
+                          break;
+                        }
+                        let anotherTerm = '';
+                        //endIndex = k + 1;
+                        endIndex = k;
+                        constantTerm = tempCoefficient.slice(
+                          firstIndex,
+                          endIndex
+                        );
+                        ////console.log("CONSTANTASDASDASDAS: " + constantTerm)
+                        for (let l = 0; l < constantTerm.length; l++) {
+                          anotherTerm = anotherTerm.concat('!');
+                        }
+                        constantTerm = anotherTerm;
+
+                        tempCoefficient = [
+                          tempCoefficient.substring(0, firstIndex),
+                          constantTerm,
+                          tempCoefficient.substring(endIndex),
+                        ].join('');
+
+                        // //console.log("CONSTANT TERM:" + tempCoefficient);
+                        tempCoefficient = tempCoefficient.replace(/!/g, '');
+                        // //console.log("CONSTANT TERM:" + tempCoefficient);
                       }
-                    }
-
-                    tempCoefficient = [
-                      currentCoefficient,
-                      currentString.slice(
-                        expBeforeIndex,
-                        newParenthesisIndex + 1
-                      ),
-                    ].join('');
-
-                    //console.log("3123: " + tempCoefficient)
-                  }
-                }
-              }
-
-              //console.log("temp coeff: " + tempCoefficient);
-              // mark
-              // CHECK IF THERE IS CONSTANT INSIDE PARENTHESIS
-              //  //console.log("parenthesisTally: "+ parenthesisTally)
-              if (tempCoefficient.slice(-1).match(/[\(]/)) {
-              } else {
-                if (parenthesisTally > 1) {
-                  removeConstant();
-                  //  //console.log("TRUETRUETEUREUTEURE")
-                }
-              }
-              if (firstOccurence) {
-                //console.log("SDSDS: " + currentCoefficient);
-                currentCoefficient = currentCoefficient.concat(tempCoefficient);
-              } else {
-                //console.log("ZXCZXCCX: " + currentCoefficient);
-                if (currentCoefficient > 1) {
-                  //console.log("ASDAS");
-                  currentCoefficient =
-                    currentCoefficient.concat(tempCoefficient);
-                } else if (tempCoefficient == '') {
-                  currentCoefficient = currentCoefficient;
-                } else {
-                  //console.log("AGFGFGDAS");
-                  currentCoefficient = tempCoefficient;
-                }
-              }
-
-              // //console.log("CURRE FVEOCEOFCOEFF: " + currentCoefficient);
-
-              function removeConstant() {
-                let insideParenthesis = false;
-                let firstIndex = 0;
-                for (let k = 0; k < tempCoefficient.length; k++) {
-                  if (tempCoefficient[k].match(/[\(]/)) {
-                    insideParenthesis = true;
-                    firstIndex = k + 1;
-                    continue;
-                  }
-                  if (insideParenthesis && firstIndex != k) {
-                    let constantTerm = '';
-                    let endIndex = 0;
-
-                    // REPLACE THE CONSTANT VALUE TO '!' exclamation symbol
-                    // THEN REPLACE exclamation symbol to blank
-                    if (tempCoefficient[k].match(/[\+\-\/]/)) {
-                      if (tempCoefficient[k - 1].match(/[x]/)) {
-                        break;
-                      }
-                      let anotherTerm = '';
-                      //endIndex = k + 1;
-                      endIndex = k;
-                      constantTerm = tempCoefficient.slice(
-                        firstIndex,
-                        endIndex
-                      );
-                      ////console.log("CONSTANTASDASDASDAS: " + constantTerm)
-                      for (let l = 0; l < constantTerm.length; l++) {
-                        anotherTerm = anotherTerm.concat('!');
-                      }
-                      constantTerm = anotherTerm;
-
-                      tempCoefficient = [
-                        tempCoefficient.substring(0, firstIndex),
-                        constantTerm,
-                        tempCoefficient.substring(endIndex),
-                      ].join('');
-
-                      // //console.log("CONSTANT TERM:" + tempCoefficient);
-                      tempCoefficient = tempCoefficient.replace(/!/g, '');
-                      // //console.log("CONSTANT TERM:" + tempCoefficient);
                     }
                   }
                 }
               }
-            }
-            /*else if (coeffInsideTally > 1 ) {
+              /*else if (coeffInsideTally > 1 ) {
                 
                 if ()
                 //console.log("IT'S GREATER THAN ONE")
@@ -953,106 +1156,133 @@ var EquationSolver = (function () {
             }
             */
 
-            //REMOVE last term in the coefficient
-            //removeLastTerm();
-          }
-
-          //REMOVE THE LAST VALUE OF COEFFICIENT, in order to concatenate the temporary coeff
-          function removeLastTerm() {
-            let coefficient = coefficientTerm.slice(-1);
-            var coeffValue = coefficientTerm.replace(coefficient, '');
-            let coefficientIndex = currentCoefficient.lastIndexOf(coeffValue);
-            //ABC //console.log("TESgsdgsdg : " + currentCoefficient)
-            currentCoefficient = currentCoefficient.slice(0, coefficientIndex);
-            //ABC //console.log("TESgsdgsdg : " + currentCoefficient)
-            tempCoefficient = tempCoefficient.concat(coeffValue);
-            //ABC //console.log("TEMPTEMPTEMTPEM: " + tempCoefficient);
-          }
-        }
-
-        //ABC  //console.log("MD SYMBOL IS : " + MDsymbol);
-
-        function replaceOperators() {
-          ////console.log("CURREEEEEEEEEEEEEEEEENTT: " + currentCoefficient);
-          // //console.log("CURREEEEEEEEEEEEEEEEENTT: " + coefficientTerm);
-          let coefficientLetter = '';
-          if (currentCoefficient.slice(-1).match(/[a-z]/)) {
-            coefficientLetter = currentCoefficient.slice(-1);
-          } else if (currentCoefficient.slice(-1).match(/[+]/)) {
-            currentCoefficient = currentCoefficient.replace('+', '');
-          } else if (currentCoefficient.slice(-1).match(/[-]/)) {
-            currentCoefficient = currentCoefficient.replace('-', '');
-          } else if (currentCoefficient.slice(-1).match(/[*]/)) {
-            currentCoefficient = currentCoefficient.replace('*', '');
-          } else if (currentCoefficient.slice(-1).match(/[/]/)) {
-            MDsymbol = true;
-            symbolType = '/';
-            currentCoefficient = currentCoefficient.replace('/', '');
-          }
-
-          //currentString[count - 1] != coefficientLetter &&
-          //ABC //console.log("COEFFICIENT  LETTER: " + currentString[count - 1]);
-          if (coefficientTerm[0] === '*') {
-            // //console.log("ANG PASKO AY SUMAPIT");
-            //ABC //console.log("FGASGASGA  count: " + (count - 1));
-            MDsymbol = true;
-            symbolType = '*';
-          } else if (coefficientTerm[0] === '/') {
-            MDsymbol = true;
-            symbolType = '/';
-            currentCoefficient = currentCoefficient.replace('/', '');
-          }
-
-          currentCoefficient = currentCoefficient.replace(
-            coefficientLetter,
-            ''
-          );
-          //currentConstant = currentConstant.replace(coefficientLetter, "");
-        }
-
-        // FOR MULTIPLICATION
-
-        if (computeLHS) {
-          if (negativeCoefficient) {
-            if (currentCoefficient > 0) {
-              lhsFinalCoefficient = currentCoefficient * -1;
-            } else {
-              lhsFinalCoefficient = currentCoefficient;
+              //REMOVE last term in the coefficient
+              //removeLastTerm();
             }
-          } else {
-            ////console.log(lhsFinalCoefficient);
-            lhsFinalCoefficient = eval(currentCoefficient);
-          }
-          LHScoefficientSymbol = coefficient;
-          lhsFinalConstant = currentConstant;
-          computeLHS = false;
-        } else if (computeRHS) {
-          if (negativeCoefficient) {
-            if (currentCoefficient > 0) {
-              rhsFinalCoefficient = currentCoefficient * -1;
-            } else {
-              rhsFinalCoefficient = currentCoefficient;
+
+            //REMOVE THE LAST VALUE OF COEFFICIENT, in order to concatenate the temporary coeff
+            function removeLastTerm() {
+              let coefficient = coefficientTerm.slice(-1);
+              var coeffValue = coefficientTerm.replace(coefficient, '');
+              let coefficientIndex = currentCoefficient.lastIndexOf(coeffValue);
+              //ABC //console.log("TESgsdgsdg : " + currentCoefficient)
+              currentCoefficient = currentCoefficient.slice(
+                0,
+                coefficientIndex
+              );
+              //ABC //console.log("TESgsdgsdg : " + currentCoefficient)
+              tempCoefficient = tempCoefficient.concat(coeffValue);
+              //ABC //console.log("TEMPTEMPTEMTPEM: " + tempCoefficient);
             }
-          } else {
-            ////console.log(rhsFinalCoefficient);
-            rhsFinalCoefficient = eval(currentCoefficient);
           }
-          RHScoefficientSymbol = coefficient;
-          rhsFinalConstant = currentConstant;
-          computeRHS = false;
+
+          //ABC  //console.log("MD SYMBOL IS : " + MDsymbol);
+
+          function replaceOperators() {
+            ////console.log("CURREEEEEEEEEEEEEEEEENTT: " + currentCoefficient);
+            // //console.log("CURREEEEEEEEEEEEEEEEENTT: " + coefficientTerm);
+            let coefficientLetter = '';
+            if (currentCoefficient.slice(-1).match(/[a-z]/)) {
+              coefficientLetter = currentCoefficient.slice(-1);
+            } else if (currentCoefficient.slice(-1).match(/[+]/)) {
+              currentCoefficient = currentCoefficient.replace('+', '');
+            } else if (currentCoefficient.slice(-1).match(/[-]/)) {
+              currentCoefficient = currentCoefficient.replace('-', '');
+            } else if (currentCoefficient.slice(-1).match(/[*]/)) {
+              currentCoefficient = currentCoefficient.replace('*', '');
+            } else if (currentCoefficient.slice(-1).match(/[/]/)) {
+              MDsymbol = true;
+              symbolType = '/';
+              currentCoefficient = currentCoefficient.replace('/', '');
+            }
+
+            //currentString[count - 1] != coefficientLetter &&
+            //ABC //console.log("COEFFICIENT  LETTER: " + currentString[count - 1]);
+            if (coefficientTerm[0] === '*') {
+              // //console.log("ANG PASKO AY SUMAPIT");
+              //ABC //console.log("FGASGASGA  count: " + (count - 1));
+              MDsymbol = true;
+              symbolType = '*';
+            } else if (coefficientTerm[0] === '/') {
+              MDsymbol = true;
+              symbolType = '/';
+              currentCoefficient = currentCoefficient.replace('/', '');
+            }
+
+            currentCoefficient = currentCoefficient.replace(
+              coefficientLetter,
+              ''
+            );
+            //currentConstant = currentConstant.replace(coefficientLetter, "");
+          }
+
+          // FOR MULTIPLICATION
+
+          if (computeLHS) {
+            if (negativeCoefficient) {
+              if (currentCoefficient > 0) {
+                lhsFinalCoefficient = currentCoefficient * -1;
+              } else {
+                lhsFinalCoefficient = currentCoefficient;
+              }
+            } else {
+              ////console.log(lhsFinalCoefficient);
+              try {
+                lhsFinalCoefficient = eval(currentCoefficient);
+              } catch {
+                errorOccured = true;
+                return;
+              }
+            }
+            LHScoefficientSymbol = coefficient;
+            lhsFinalConstant = currentConstant;
+            computeLHS = false;
+          } else if (computeRHS) {
+            if (negativeCoefficient) {
+              if (currentCoefficient > 0) {
+                rhsFinalCoefficient = currentCoefficient * -1;
+              } else {
+                rhsFinalCoefficient = currentCoefficient;
+              }
+            } else {
+              ////console.log(rhsFinalCoefficient);
+              try {
+                rhsFinalCoefficient = eval(currentCoefficient);
+              } catch {
+                errorOccured = true;
+                return;
+              }
+            }
+            RHScoefficientSymbol = coefficient;
+            rhsFinalConstant = currentConstant;
+            computeRHS = false;
+          }
+        } catch {
+          errorOccured = true;
+          return;
         }
       }
 
       computeRHS = true;
       getValues(rhs, rhsFinalCoefficient, rhsFinalConstant);
+
+      if (errorOccured) {
+        equation = 'invalid';
+        return equation;
+      }
       ////console.log("rhs coefficient: " + rhsFinalCoefficient);
       ////console.log("rhs constant: " + rhsFinalConstant);
 
       // Solving Process
       //ABC //console.log("*************************");
       // //console.log(rhsFinalConstant);
-      lhsFinalConstant = eval(lhsFinalConstant);
-      rhsFinalConstant = eval(rhsFinalConstant);
+      try {
+        lhsFinalConstant = eval(lhsFinalConstant);
+        rhsFinalConstant = eval(rhsFinalConstant);
+      } catch {
+        equation = 'invalid';
+        return equation;
+      }
 
       //ABC //console.log(lhsFinalConstant)
       //ABC //console.log(rhsFinalConstant)
@@ -1245,10 +1475,10 @@ var EquationSolver = (function () {
       var rhsConstant = rhsFinalConstant.toString();
 
       /*
-      //console.log('lhsCoefficient: ' + lhsCoefficient);
-      //console.log('lhsConstant: ' + lhsConstant);
-      //console.log('rhsCoefficient: ' + rhsCoefficient);
-      //console.log('rhsConstant: ' + rhsConstant);
+      console.log('lhsCoefficient: ' + lhsCoefficient);
+      console.log('lhsConstant: ' + lhsConstant);
+      console.log('rhsCoefficient: ' + rhsCoefficient);
+      console.log('rhsConstant: ' + rhsConstant);
       */
 
       if (lhsCoefficient == '0' || lhsCoefficient === undefined) {
@@ -1299,6 +1529,23 @@ var EquationSolver = (function () {
         }
       }
 
+      //REMOVE SYMBOL WHEN COEFFICIENT IS 0
+      var temp_LHScoefficientSymbol = LHScoefficientSymbol;
+      var temp_RHScoefficientSymbol = RHScoefficientSymbol;
+
+      if (lhsCoefficient == '') {
+        LHScoefficientSymbol = '';
+      } else {
+        LHScoefficientSymbol = temp_LHScoefficientSymbol;
+      }
+
+      if (rhsCoefficient == '') {
+        RHScoefficientSymbol = '';
+      } else {
+        RHScoefficientSymbol = temp_RHScoefficientSymbol;
+      }
+      ////
+
       let checkSimilarity = [
         lhsCoefficient,
         LHScoefficientSymbol,
@@ -1309,7 +1556,7 @@ var EquationSolver = (function () {
         rhsConstant,
       ].join('');
 
-      //  console.log(checkSimilarity);
+      //console.log(checkSimilarity);
       if (!simpleTranspose) {
         //console.log('asdsadsa');
         if (
@@ -1347,6 +1594,23 @@ var EquationSolver = (function () {
 
       lhsCoefficient = removePlusSymbol(lhsCoefficient);
       rhsConstant = removePlusSymbol(rhsConstant);
+
+      //REMOVE SYMBOL WHEN COEFFICIENT IS 0
+      var temp_LHScoefficientSymbol = LHScoefficientSymbol;
+      var temp_RHScoefficientSymbol = RHScoefficientSymbol;
+
+      if (lhsCoefficient == '') {
+        LHScoefficientSymbol = '';
+      } else {
+        LHScoefficientSymbol = temp_LHScoefficientSymbol;
+      }
+
+      if (rhsCoefficient == '') {
+        RHScoefficientSymbol = '';
+      } else {
+        RHScoefficientSymbol = temp_RHScoefficientSymbol;
+      }
+      ////
 
       //Push second step, add/minus to opposite
       checkSimilarity = [
@@ -1396,8 +1660,14 @@ var EquationSolver = (function () {
 
       var finalCoefficient = [lhsCoefficient, rhsCoefficient].join('');
       var finalConstant = [rhsConstant, lhsConstant].join('');
-      finalCoefficient = eval(finalCoefficient);
-      finalConstant = eval(finalConstant);
+
+      try {
+        finalCoefficient = eval(finalCoefficient);
+        finalConstant = eval(finalConstant);
+      } catch {
+        equation = 'invalid';
+        return equation;
+      }
 
       //Push third step, simplify
 
@@ -1536,7 +1806,6 @@ var EquationSolver = (function () {
       ) {
         equation = 'invalid';
       }
-
       return equation;
     } catch {
       equation = 'invalid';

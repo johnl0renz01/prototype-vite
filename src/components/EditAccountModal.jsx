@@ -21,16 +21,17 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
   const [sectionData, setSectionData] = useState([]);
 
   function getSections() {
+    var gradeLevel = values.gradeLevel;
+    gradeLevel = gradeLevel.replace('Grade ', '');
     axios
-      .get('https://pia-sfe.online/api/sectionList/')
+      .get(`https://pia-sfe.online/api/sectionAvailable/${gradeLevel}`)
       .then(function (response) {
-        //console.log(response.data);
+        ////console.log(response.data);
         setSectionData(response.data);
       });
   }
 
   useEffect(() => {
-    getSections();
     setEmail('@sfe.edu.ph');
   }, []);
 
@@ -106,6 +107,15 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
           values.section = keys[8];
           values.groupType = keys[9];
           values.email = keys[10];
+
+          var gradeLevel = values.gradeLevel;
+          gradeLevel = gradeLevel.replace('Grade ', '');
+          axios
+            .get(`https://pia-sfe.online/api/sectionAvailable/${gradeLevel}`)
+            .then(function (response) {
+              ////console.log(response.data);
+              setSectionData(response.data);
+            });
         }
 
         setValues();
@@ -151,7 +161,10 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
   const gradeLevelChange = event => {
     const value = event.target.value;
     values.gradeLevel = value;
-    setGradeLevel(value);
+    values.section = '';
+    handleChange.gradeLevel;
+    handleChange.section;
+    getSections();
   };
 
   const genderChange = event => {
@@ -669,19 +682,28 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
                       </label>
                       <select
                         value={values.gradeLevel}
-                        onChange={handleChange}
+                        onChange={gradeLevelChange}
                         name="gradeLevel"
                         className="py-2 lg:px-2 border-[1px] focus:border-none rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500  shadow-[#808080]"
                       >
                         <option className="hdScreen:text-lg semihdScreen:text-base laptopScreen:text-base averageScreen:text-base">
                           Grade 7
                         </option>
+                        <option className="hdScreen:text-lg semihdScreen:text-base laptopScreen:text-base averageScreen:text-base">
+                          Grade 8
+                        </option>
+                        <option className="hdScreen:text-lg semihdScreen:text-base laptopScreen:text-base averageScreen:text-base">
+                          Grade 9
+                        </option>
+                        <option className="hdScreen:text-lg semihdScreen:text-base laptopScreen:text-base averageScreen:text-base">
+                          Grade 10
+                        </option>
                       </select>
                     </div>
                   </div>
 
                   {/*Section Input*/}
-                  <div>
+                  <div className="relative">
                     <div className="inline-flex w-full">
                       <label
                         htmlFor="section"
@@ -693,8 +715,17 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
                         value={values.section}
                         onChange={handleChange}
                         name="section"
-                        className="py-2 lg:px-2 border-[1px] focus:border-none rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500  shadow-[#808080] "
+                        className={`py-2 lg:px-2 border-[1px] focus:border-none rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500  shadow-[#808080]
+                        ${
+                          errors.section && touched.section
+                            ? ' shadow-red-500 border-red-500 focus:border-red-500 border-3 border-solid'
+                            : ''
+                        }
+                        `}
                       >
+                        <option selected value="" disabled>
+                          {' '}
+                        </option>
                         {sectionData.map((section, index) => (
                           <option
                             key={index}
@@ -710,6 +741,11 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
                         ))}
                       </select>
                     </div>
+                    {errors.section && touched.section && (
+                      <p className="lg:ml-28 md:ml-14 xs:ml-12 text-red-500 absolute ">
+                        {errors.section}
+                      </p>
+                    )}
                   </div>
                 </div>
 

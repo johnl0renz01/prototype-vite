@@ -102,8 +102,10 @@ function Registration() {
   const [sectionData, setSectionData] = useState([]);
 
   function getSections() {
+    var gradeLevel = values.gradeLevel;
+    gradeLevel = gradeLevel.replace('Grade ', '');
     axios
-      .get('https://pia-sfe.online/api/sectionList/')
+      .get(`https://pia-sfe.online/api/sectionAvailable/${gradeLevel}`)
       .then(function (response) {
         ////console.log(response.data);
         setSectionData(response.data);
@@ -187,6 +189,15 @@ function Registration() {
     setBirthday(value);
     getAge(values.birthDay);
     handleChange.age;
+  };
+
+  const gradeLevelChange = event => {
+    const value = event.target.value;
+    values.gradeLevel = value;
+    values.section = '';
+    handleChange.gradeLevel;
+    handleChange.section;
+    getSections();
   };
 
   const [email, setEmail] = useState('');
@@ -1000,7 +1011,7 @@ function Registration() {
       .then(function (response) {
         setShowLoading(false);
         setShowModal4(true);
-        console.log(response.data);
+        //console.log(response.data);
       })
       .catch(function (error) {
         setShowLoading(false);
@@ -1362,16 +1373,22 @@ function Registration() {
                         <div className="inline-flex w-full">
                           <select
                             value={values.gradeLevel}
-                            onChange={handleChange}
+                            onChange={gradeLevelChange}
                             name="gradeLevel"
                             id="gradeLevel"
                             className="py-2 lg:px-2 border-2 focus:border-none rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500  shadow-[#808080]"
                           >
-                            <option
-                              className=""
-                              defaultValue={values.gradeLevel}
-                            >
+                            <option className="" value={'Grade 7'}>
                               Grade 7
+                            </option>
+                            <option className="" value={'Grade 8'}>
+                              Grade 8
+                            </option>
+                            <option className="" value={'Grade 9'}>
+                              Grade 9
+                            </option>
+                            <option className="" value={'Grade 10'}>
+                              Grade 10
                             </option>
                           </select>
                         </div>
@@ -1470,8 +1487,8 @@ function Registration() {
                                 : ''
                             }`}
                           >
-                            <option selected value="">
-                              {' '}
+                            <option selected value="" disabled>
+                              {''}
                             </option>
                             {sectionData.map((section, index) => (
                               <option key={index} className="">
@@ -1614,7 +1631,7 @@ function Registration() {
                   >
                     <div className="">
                       {/*Email Input*/}
-                      <div className="inline-flex w-full justify-center items-center hdScreen:-ml-[3.5rem] semihdScreen:-ml-[3.5rem] laptopScreen:-ml-[4.2rem] averageScreen:-ml-[4.3rem] md:ml-[3rem]">
+                      <div className="inline-flex w-full justify-center items-center hdScreen:-ml-[3.5rem] semihdScreen:-ml-[3.5rem] laptopScreen:-ml-[4.2rem] averageScreen:-ml-[4.3rem] md:ml-[1.2rem]">
                         <label
                           htmlFor="email"
                           className="md:inline-block xs:hidden  text-right lg:w-[136px] "
@@ -1648,7 +1665,7 @@ function Registration() {
                         </p>
                       )}
                       {duplicateState ? (
-                        <p className="text-red-500  absolute lg:ml-[136px]  xs:ml-[43px]">
+                        <p className="text-red-500  absolute semihdScreen:ml-[92px] lg:ml-[82px] md:ml-[62px] xs:ml-[12px]">
                           * This email is already taken.
                         </p>
                       ) : (

@@ -46,6 +46,7 @@ export const registrationSchema = yup.object().shape({
 export const editAccountModalSchema = yup.object().shape({
   firstName: yup.string().required('* Required Field'),
   lastName: yup.string().required('* Required Field'),
+  section: yup.string().required('* Select a Section'),
   /*
   email: yup
     .string()

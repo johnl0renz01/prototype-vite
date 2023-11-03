@@ -868,7 +868,7 @@ export default function LoginPage() {
                             ? 'lastname.firstname@sfe.edu.ph'
                             : 'Enter your username'
                         }
-                        autoComplete="off"
+                        autoComplete="on"
                         /* Formik email validation Section  */
 
                         value={

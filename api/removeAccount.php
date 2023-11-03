@@ -23,7 +23,6 @@ switch($_SESSION['method']) {
     case "GET":
         break;
     case "POST":
-
         $rl = "SELECT Role FROM accounts WHERE Email = '$email'";
         $rl = $conn->prepare($rl);
         $rl->execute();
@@ -40,25 +39,48 @@ switch($_SESSION['method']) {
             $drop = "DROP TABLE $database";
             $stmtdrop = $conn->prepare($drop);
             $stmtdrop->execute();
-        }
-   
-        $midname = "SELECT MiddleName FROM accounts WHERE Email = '$email'";
-        $mn = $conn->prepare($midname);
-        $mn->execute();
+        } else {    
+            $dbname = "SELECT REPLACE(CONCAT(LastName, '_', GivenName), ' ', '') AS DatabaseName FROM accounts WHERE Email = '$email'";
+            $db = $conn->prepare($dbname);
+            $db->execute();
+            $database = $db->fetchColumn();
+            $database = strtolower($database);
+            $database_equation_list = $database."_equation_list";
+            $database_equation_settings = $database."_equation_settings";
 
-        $output = $mn->fetchColumn();
-        $name = "";
+            $drop = "DROP TABLE $database_equation_list";
+            $stmtdrop = $conn->prepare($drop);
+            $stmtdrop->execute();
 
-        if ($output != "") {
-            $fullname = "SELECT concat(GivenName, ' ', MiddleName, ' ', LastName) AS FullName FROM accounts WHERE Email = '$email'";
-            $fn = $conn->prepare($fullname);
-            $fn->execute();
-            $name = $fn->fetchColumn();
-        } else {
-            $fullname = "SELECT concat(GivenName, ' ', LastName) AS FullName FROM accounts WHERE Email = '$email'";
-            $fn = $conn->prepare($fullname);
-            $fn->execute();
-            $name = $fn->fetchColumn();
+            $drop2 = "DROP TABLE $database_equation_settings";
+            $stmtdrop2 = $conn->prepare($drop2);
+            $stmtdrop2->execute();
+            
+
+
+            $midname = "SELECT MiddleName FROM accounts WHERE Email = '$email'";
+            $mn = $conn->prepare($midname);
+            $mn->execute();
+
+            $output = $mn->fetchColumn();
+            $name = "";
+
+            if ($output != "") {
+                $fullname = "SELECT concat(GivenName, ' ', MiddleName, ' ', LastName) AS FullName FROM accounts WHERE Email = '$email'";
+                $fn = $conn->prepare($fullname);
+                $fn->execute();
+                $name = $fn->fetchColumn();
+            } else {
+                $fullname = "SELECT concat(GivenName, ' ', LastName) AS FullName FROM accounts WHERE Email = '$email'";
+                $fn = $conn->prepare($fullname);
+                $fn->execute();
+                $name = $fn->fetchColumn();
+            }
+
+            $sql2 = "UPDATE section_list SET AdviserName = '' WHERE AdviserName = '$name'";
+
+            $stmt2 = $conn->prepare($sql2);
+            $stmt2->execute();
         }
 
       
@@ -67,10 +89,7 @@ switch($_SESSION['method']) {
         $stmt = $conn->prepare($sql);
         $stmt->execute();
 
-        $sql2 = "UPDATE section_list SET AdviserName = '' WHERE AdviserName = '$name'";
-
-        $stmt2 = $conn->prepare($sql2);
-        $stmt2->execute();
+       
 
 
         $logged = "FALSE";
@@ -79,7 +98,7 @@ switch($_SESSION['method']) {
         $stmt0 = $conn->prepare($sql0);
         $stmt0->execute();
         
-
+        echo "HELLO";
         break;
     case "PUT":
         break;
