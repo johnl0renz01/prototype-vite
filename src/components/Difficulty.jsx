@@ -157,6 +157,7 @@ export default function DifficultyPage() {
   const [expiredState, setExpiredState] = useState(false);
   const [subscribedState, setSubscribedState] = useState(false);
   const [currentSection, setCurrentSection] = useState('');
+  const [teacherSubscribedState, setTeacherSubscribedState] = useState('');
 
   useEffect(() => {
     var section = StorageData.localStorageJSON('SESSION_SECTION_NAME');
@@ -176,8 +177,13 @@ export default function DifficultyPage() {
         } else {
           window.localStorage.setItem(
             'SYSTEM_VERSION',
-            JSON.stringify(SecureStorageData.dataEncryption('Non Facial Group'))
+            JSON.stringify(SecureStorageData.dataEncryption('Non-Facial Group'))
           );
+        }
+      } else {
+        var teacherSubscribed = StorageData.localStorageJSON('S-TEACHER');
+        if (teacherSubscribed !== null) {
+          setTeacherSubscribedState(teacherSubscribed);
         }
       }
     }
@@ -265,6 +271,25 @@ export default function DifficultyPage() {
           var minimumValue = parseInt(keys[4]);
           var maximumValue = parseInt(keys[5]);
           var differentVariables = keys[6];
+
+          if (teacherSubscribedState == 'NOT-SUBSCRIBED') {
+            occurrenceValue = 0;
+            prioritize = 'FALSE';
+            minimumValue = 1;
+            maximumValue = 10;
+            differentVariables = 'FALSE';
+          } else if (teacherSubscribedState == 'TEACHER-PLAN-1') {
+            occurrenceValue = 50;
+            prioritize = 'FALSE';
+            minimumValue = 1;
+            maximumValue = 10;
+            differentVariables = 'FALSE';
+          } else if (teacherSubscribedState == 'TEACHER-PLAN-2') {
+            minimumValue = 1;
+            maximumValue = 10;
+            differentVariables = 'FALSE';
+          } else if (teacherSubscribedState == 'TEACHER-PLAN-3') {
+          }
 
           getEquations();
           function getEquations() {
@@ -432,6 +457,25 @@ export default function DifficultyPage() {
           var maximumValue = parseInt(keys[5]);
           var differentVariables = keys[6];
 
+          if (teacherSubscribedState == 'NOT-SUBSCRIBED') {
+            occurrenceValue = 0;
+            prioritize = 'FALSE';
+            minimumValue = 1;
+            maximumValue = 10;
+            differentVariables = 'FALSE';
+          } else if (teacherSubscribedState == 'TEACHER-PLAN-1') {
+            occurrenceValue = 50;
+            prioritize = 'FALSE';
+            minimumValue = 1;
+            maximumValue = 10;
+            differentVariables = 'FALSE';
+          } else if (teacherSubscribedState == 'TEACHER-PLAN-2') {
+            minimumValue = 1;
+            maximumValue = 10;
+            differentVariables = 'FALSE';
+          } else if (teacherSubscribedState == 'TEACHER-PLAN-3') {
+          }
+
           getEquations();
           function getEquations() {
             axios
@@ -573,6 +617,25 @@ export default function DifficultyPage() {
           var minimumValue = parseInt(keys[4]);
           var maximumValue = parseInt(keys[5]);
           var differentVariables = keys[6];
+
+          if (teacherSubscribedState == 'NOT-SUBSCRIBED') {
+            occurrenceValue = 0;
+            prioritize = 'FALSE';
+            minimumValue = 1;
+            maximumValue = 10;
+            differentVariables = 'FALSE';
+          } else if (teacherSubscribedState == 'TEACHER-PLAN-1') {
+            occurrenceValue = 50;
+            prioritize = 'FALSE';
+            minimumValue = 1;
+            maximumValue = 10;
+            differentVariables = 'FALSE';
+          } else if (teacherSubscribedState == 'TEACHER-PLAN-2') {
+            minimumValue = 1;
+            maximumValue = 10;
+            differentVariables = 'FALSE';
+          } else if (teacherSubscribedState == 'TEACHER-PLAN-3') {
+          }
 
           getEquations();
           function getEquations() {

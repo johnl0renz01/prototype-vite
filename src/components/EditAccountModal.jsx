@@ -535,12 +535,21 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
                         type="text "
                         placeholder="Enter Middle Name"
                         autoComplete="new-password"
-                        className={`grow py-2 lg:px-2 border-[1px]  rounded-md relative border-gray-500 focus:outline-teal-500 focus:ring-teal-500   shadow-[#808080]`}
+                        className={` grow py-2 lg:px-2 border-[1px] rounded-md border-gray-500 focus:outline-teal-500 relative focus:ring-teal-500   shadow-[#808080] ${
+                          errors.middleName && touched.middleName
+                            ? 'shadow-red-500  border-red-500 focus:border-red-500 border-3 border-solid'
+                            : ''
+                        }`}
                         value={values.middleName}
                         onChange={handleChange}
                         onBlur={handleBlur}
                       />
                     </div>
+                    {errors.middleName && touched.middleName && (
+                      <p className="text-red-500 absolute lg:ml-[120px] xs:ml-[43px]">
+                        {errors.middleName}
+                      </p>
+                    )}
                   </div>
 
                   {/*LastName Input*/}

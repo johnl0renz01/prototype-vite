@@ -253,6 +253,10 @@ switch($requestLink) {
         include('getAdviserTable.php');
     break;
 
+    case "/Prototype-Vite/my-project/api/getTeacherSubscription":
+        include('getTeacherSubscription.php');
+    break;
+
     //FOR MANAGE ACCOUNTS
     case "/Prototype-Vite/my-project/api/accountList":
         include('accountList.php');

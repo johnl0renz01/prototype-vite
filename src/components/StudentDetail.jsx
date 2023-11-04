@@ -423,7 +423,7 @@ export default function StudentDetail() {
               {accountHistory.length > 0 ? (
                 <button
                   onClick={exportAll}
-                  className="mr-3 lg:px-7 semihdScreen:py-2 lg:py-1 xs:px-3 xs:py-1 lg:mt-0 xs:mt-1  flex items-center bg-blue-500/90 hover:bg-blue-600 rounded-md whitespace-nowrap overflow-hidden lg:text-lg md:text-base sm:text-sm xs:text-xs text-white hover:text-white font-semibold"
+                  className=" mr-3 lg:px-7 semihdScreen:py-2 lg:py-1 xs:px-3 xs:py-1 lg:mt-0 xs:mt-1  flex items-center bg-blue-500/90 hover:bg-blue-600 rounded-md whitespace-nowrap overflow-hidden lg:text-lg md:text-base sm:text-sm xs:text-xs text-white hover:text-white font-semibold"
                 >
                   Export All
                   <FaArrowRightToBracket className="rotate-90 ml-2" />
@@ -452,7 +452,7 @@ export default function StudentDetail() {
                     {accountHistory.map((history, index) => (
                       <div key={index}>
                         <div
-                          className={`grid lg:grid-cols-12 xs:grid-cols-4 rounded-l-md xs:h-12 averageScreen:-mt-0 xs:-mt-0 shadow relative  p-3  ${
+                          className={`grid lg:grid-cols-12 xs:grid-cols-4 rounded-l-md xs:h-12 averageScreen:-mt-0 xs:-mt-0 shadow relative hover:bg-opacity-50 p-3  ${
                             history.SessionType === 'Easy'
                               ? 'bg-green-500'
                               : history.SessionType === 'Average'
@@ -485,7 +485,15 @@ export default function StudentDetail() {
                             <div
                               id={history.SessionID}
                               onClick={exportRow}
-                              className="pt-0.5 pb-1 sm:mt-0 xs:mt-1 cursor-pointer flex items-center justify-center bg-blue-500/90 hover:bg-blue-600 rounded-md whitespace-nowrap overflow-hidden lg:text-base sm:text-sm xs:text-xs text-gray-200 hover:text-white font-semibold"
+                              className={`div-button pt-0.5 pb-1 sm:mt-0 xs:mt-1 cursor-pointer flex items-center justify-center border-2   rounded-md whitespace-nowrap overflow-hidden lg:text-base sm:text-sm xs:text-xs text-gray-200 hover:text-white font-semibold
+                              ${
+                                history.SessionType === 'Easy'
+                                  ? 'bg-green-600 border-green-600/50 '
+                                  : history.SessionType === 'Average'
+                                  ? 'bg-yellow-600 border-yellow-600/50 '
+                                  : 'bg-red-600 border-red-600/50'
+                              }
+                              `}
                             >
                               <span className="">Export</span>
                               <BsFileEarmarkArrowDownFill className="averageScreen:ml-2 xs:ml-1   " />

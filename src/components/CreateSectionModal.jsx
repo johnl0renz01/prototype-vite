@@ -281,7 +281,7 @@ const CreateSectionModal = ({ visible, onClose, onContinue }) => {
                         : ''
                     }`}
                   >
-                    <option selected value="">
+                    <option selected disabled value="">
                       {' '}
                     </option>
                     {adviserData.map((adviser, index) => (

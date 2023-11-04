@@ -370,11 +370,27 @@ export default function ClassList() {
               <thead className="sticky top-0 z-40 shadow-md border-b-2 border-gray-200 bg-gray-200 text-left uppercase tracking-wider lg:text-base md:text-sm xs:text-xs  font-bold text-gray-600">
                 <tr>
                   <th className="lg:pl-20 pl-6 w-[32.5%] py-3 ">
-                    Student Name
+                    <div
+                      className={`${classList.length > 0 ? '' : 'invisible'}`}
+                    >
+                      Student Name
+                    </div>
                   </th>
 
-                  <th className="w-[22%] py-3 ">Gender</th>
-                  <th className="lg:py-3 ">Group Type</th>
+                  <th className="w-[22%] py-3 ">
+                    <div
+                      className={`${classList.length > 0 ? '' : 'invisible'}`}
+                    >
+                      Gender
+                    </div>
+                  </th>
+                  <th className="lg:py-3 ">
+                    <div
+                      className={`${classList.length > 0 ? '' : 'invisible'}`}
+                    >
+                      Group Type
+                    </div>
+                  </th>
                   <th className="lg:pl-[200px] md:pl-[110px] xs:pl-[80px] md py-3 select-none "></th>
                 </tr>
               </thead>

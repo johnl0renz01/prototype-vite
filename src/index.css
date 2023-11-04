@@ -10,6 +10,20 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  button {
+    @apply active:scale-90 active:transition active:duration-75;
+  }
+
+  .div-button {
+    @apply active:scale-90 active:transition active:duration-75;
+  }
+
+  .input-button {
+    @apply active:scale-90 active:transition active:duration-75;
+  }
+}
+
 .scroll-element {
   scroll-margin: 7vh 0 0 0px;
 }

@@ -441,6 +441,7 @@ function Registration() {
     setLastName('');
     setDuplicateState(false);
 
+    handleChange.sex;
     handleChange.firstName;
     handleChange.middleName;
     handleChange.lastName;
@@ -476,7 +477,7 @@ function Registration() {
     handleReset();
     setTimeout(() => {
       resetValues();
-      values.sex = '';
+      values.sex = 'Male';
       values.section = 'NA';
       values.groupType = '';
       values.gradeLevel = '';
@@ -1356,7 +1357,9 @@ function Registration() {
                               type="radio"
                               className=""
                               value="Male"
-                              checked={values.sex === 'Male'}
+                              checked={
+                                values.sex === 'Male' || values.sex === ''
+                              }
                               onChange={handleChange}
                             />{' '}
                             Male
@@ -1391,7 +1394,7 @@ function Registration() {
                             id="gradeLevel"
                             className="py-2 lg:px-2 border-2 focus:border-none rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500  shadow-[#808080]"
                           >
-                            <option className="" value={'Grade 7'}>
+                            <option className="" value={'Grade 7'} selected>
                               Grade 7
                             </option>
                             <option className="" value={'Grade 8'}>
@@ -1450,12 +1453,21 @@ function Registration() {
                             type="text "
                             placeholder="Enter Middle Name"
                             autoComplete="new-password"
-                            className={`grow w-full py-2 lg:px-2 border-2  rounded-md relative border-gray-500 focus:outline-teal-500 focus:ring-teal-500   shadow-[#808080]`}
+                            className={`grow  w-full py-2 lg:px-2 border-2 rounded-md border-gray-500 focus:outline-teal-500 relative focus:ring-teal-500   shadow-[#808080] ${
+                              errors.middleName && touched.middleName
+                                ? 'shadow-red-500  border-red-500 focus:border-red-500 border-3 border-solid'
+                                : ''
+                            }`}
                             value={values.middleName}
                             onChange={handleChange}
                             onBlur={handleBlur}
                           />
                         </div>
+                        {errors.middleName && touched.middleName && (
+                          <p className="text-red-500 absolute ">
+                            {errors.middleName}
+                          </p>
+                        )}
                       </div>
 
                       <div
@@ -1468,10 +1480,13 @@ function Registration() {
                             type="radio"
                             className=""
                             value="Facial Group"
-                            checked={values.groupType === 'Facial Group'}
+                            checked={
+                              values.groupType === 'Facial Group' ||
+                              values.groupType === ''
+                            }
                             onChange={handleChange}
                           />{' '}
-                          Facial Group
+                          Facial
                           <input
                             name="groupType"
                             type="radio"
@@ -1480,7 +1495,7 @@ function Registration() {
                             checked={values.groupType === 'Non-Facial Group'}
                             onChange={handleChange}
                           />{' '}
-                          Non-Facial Group
+                          Non-Facial
                         </div>
                       </div>
 
@@ -1500,7 +1515,7 @@ function Registration() {
                                 : ''
                             }`}
                           >
-                            <option selected value="" disabled>
+                            <option value="" selected disabled>
                               {''}
                             </option>
                             {sectionData.map((section, index) => (
@@ -1511,7 +1526,11 @@ function Registration() {
                           </select>
                         </div>
                         {errors.section && touched.section && (
-                          <p className="text-red-500 absolute ">
+                          <p
+                            className={`text-red-500 absolute ${
+                              accountRole == 'Teacher' ? 'hidden' : ''
+                            }`}
+                          >
                             {errors.section}
                           </p>
                         )}

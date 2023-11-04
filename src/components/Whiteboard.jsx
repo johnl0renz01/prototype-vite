@@ -227,7 +227,7 @@ export default function Whiteboard() {
         } else {
           window.localStorage.setItem(
             'SYSTEM_VERSION',
-            JSON.stringify(SecureStorageData.dataEncryption('Non Facial Group'))
+            JSON.stringify(SecureStorageData.dataEncryption('Non-Facial Group'))
           );
         }
       }
@@ -257,7 +257,7 @@ export default function Whiteboard() {
       if (endTime < todayTime) {
         window.localStorage.setItem(
           'SYSTEM_VERSION',
-          JSON.stringify(SecureStorageData.dataEncryption('Non Facial Group'))
+          JSON.stringify(SecureStorageData.dataEncryption('Non-Facial Group'))
         );
         setExpiredState(true);
       }

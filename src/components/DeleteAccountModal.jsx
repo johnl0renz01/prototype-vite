@@ -38,20 +38,6 @@ const DeleteAccountModal = ({ visible, onClose, onContinue }) => {
         className="fixed top-0 inset-0 z-50 bg-black bg-opacity-50 backdrop-blur-[1.5px] flex justify-center items-center "
       >
         <div className="bg-white  rounded text-lg hdScreen:scale-100 semihdScreen:scale-95 laptopScreen:scale-90 averageScreen:scale-90 md:scale-85 sm:scale-80 xs:scale-75 ">
-          <div className="flex bg-yellow-500 ">
-            <div className="grow flex items-center">
-              <VscWarning className="text-[1.85rem] ml-1  text-black/60" />
-              <p className="px-1 text-base">[{currentAccount}]</p>
-            </div>
-            <div className="text-right">
-              <button
-                onClick={onClose}
-                className="transition duration-200 p-2 inline-block hover:bg-red-600 hover:text-white"
-              >
-                <MdClose />
-              </button>
-            </div>
-          </div>
           <div className="w-[29rem] text-center text-gray-800">
             <div className="p-4 text-xl font-semibold">
               {accountType == 'Student' ? (

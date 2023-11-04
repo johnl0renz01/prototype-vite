@@ -387,16 +387,34 @@ export default function UserRequest() {
               <thead className="sticky top-0 z-40 shadow-md border-b-2 border-gray-200 bg-gray-200 text-left uppercase tracking-wider lg:text-base md:text-sm xs:text-xs font-bold text-gray-600">
                 <tr>
                   <th className="lg:pl-8 w-[19.85%] py-3 lg:text-base md:text-sm sm:text-xs">
-                    <div className="lg:pl-0 sm:pl-3  xs:pl-3">Subject</div>
+                    <div
+                      className={`lg:pl-0 sm:pl-3  xs:pl-3 ${
+                        requests.length > 0 ? '' : 'invisible'
+                      }`}
+                    >
+                      Subject
+                    </div>
                   </th>
                   <th className="w-[27.25%] py-3 lg:text-base md:text-sm sm:text-xs ">
-                    From
+                    <div
+                      className={`${requests.length > 0 ? '' : 'invisible'}`}
+                    >
+                      From
+                    </div>
                   </th>
                   <th className="w-[12.4%] py-3 lg:text-base md:text-sm sm:text-xs ">
-                    Role
+                    <div
+                      className={`${requests.length > 0 ? '' : 'invisible'}`}
+                    >
+                      Role
+                    </div>
                   </th>
                   <th className="w-[19.85%] py-3 lg:text-base md:text-sm sm:text-xs ">
-                    Updated on
+                    <div
+                      className={`${requests.length > 0 ? '' : 'invisible'}`}
+                    >
+                      Updated on
+                    </div>
                   </th>
                   <th className="">
                     <div className="invisible ">

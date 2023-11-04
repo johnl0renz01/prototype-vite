@@ -460,9 +460,112 @@ export default function LoginPage() {
                                   )
                                 );
                               }
-                              window.localStorage.removeItem('LOGIN_STATUS');
-                              setShowLoading(false);
-                              navigate('/Homepage');
+
+                              var sect = sectionName;
+                              sect = sect.replace(/\_/g, ' ');
+                              console.log(sect);
+                              if (sect != 'SUBSCRIBED-STUDENTS') {
+                                var sectionLink = sectionName;
+                                axios
+                                  .post(
+                                    `http://localhost:80/Prototype-Vite/my-project/api/getTeacherSubscription/${sectionLink}`
+                                  )
+                                  .then(function (response) {
+                                    //console.log(response.data);
+                                    if (response.data == 'NOT-SUBSCRIBED') {
+                                      window.localStorage.setItem(
+                                        'S-TEACHER',
+                                        JSON.stringify(
+                                          SecureStorageData.dataEncryption(
+                                            'NOT-SUBSCRIBED'
+                                          )
+                                        )
+                                      );
+                                      window.localStorage.removeItem(
+                                        'LOGIN_STATUS'
+                                      );
+                                      setShowLoading(false);
+                                      navigate('/Homepage');
+                                    } else {
+                                      let subscriptionDate = response.data;
+                                      subscriptionDate =
+                                        subscriptionDate.split('-');
+
+                                      subscriptionDate[1] =
+                                        parseInt(subscriptionDate[1]) - 1;
+                                      subscriptionDate[1] =
+                                        subscriptionDate[1].toString();
+
+                                      let endDate = new Date(
+                                        subscriptionDate[0],
+                                        subscriptionDate[1],
+                                        subscriptionDate[2],
+                                        0,
+                                        0
+                                      );
+                                      //Output value in milliseconds
+                                      let endTime = endDate.getTime();
+                                      let todayDate = new Date();
+                                      let todayTime = todayDate.getTime();
+
+                                      if (endTime < todayTime) {
+                                        window.localStorage.setItem(
+                                          'S-TEACHER',
+                                          JSON.stringify(
+                                            SecureStorageData.dataEncryption(
+                                              'NOT-SUBSCRIBED'
+                                            )
+                                          )
+                                        );
+                                        window.localStorage.removeItem(
+                                          'LOGIN_STATUS'
+                                        );
+                                        setShowLoading(false);
+                                        navigate('/Homepage');
+                                      } else {
+                                        axios
+                                          .get(
+                                            `http://localhost:80/Prototype-Vite/my-project/api/getTeacherSubscription/${sectionLink}`
+                                          )
+                                          .then(function (response) {
+                                            //console.log(response.data);
+                                            window.localStorage.setItem(
+                                              'S-TEACHER',
+                                              JSON.stringify(
+                                                SecureStorageData.dataEncryption(
+                                                  response.data
+                                                )
+                                              )
+                                            );
+
+                                            window.localStorage.removeItem(
+                                              'LOGIN_STATUS'
+                                            );
+                                            setShowLoading(false);
+                                            navigate('/Homepage');
+                                          })
+                                          .catch(function (error) {
+                                            window.localStorage.removeItem(
+                                              'LOGIN_STATUS'
+                                            );
+                                            setShowLoading(false);
+                                          });
+                                      }
+                                    }
+
+                                    //END
+                                  })
+                                  .catch(function (error) {
+                                    window.localStorage.removeItem(
+                                      'LOGIN_STATUS'
+                                    );
+                                    setShowLoading(false);
+                                  });
+                              } else {
+                                window.localStorage.removeItem('LOGIN_STATUS');
+                                setShowLoading(false);
+                                navigate('/Homepage');
+                              }
                             })
                             .catch(function (error) {
                               window.localStorage.removeItem('LOGIN_STATUS');
