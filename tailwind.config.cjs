@@ -166,6 +166,9 @@ module.exports = {
         bungee: 'Bungee, sans-serif',
         bakbak: 'Bakbak One, sans-serif',
         tauri: 'Tauri, sans-serif',
+        jura: 'Jura, sans-serif',
+        lato: 'Lato, sans-serif',
+        roboto: 'Roboto, sans-serif',
       },
       borderWidth: {
         3: '3px',

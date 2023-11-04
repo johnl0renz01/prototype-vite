@@ -10,6 +10,7 @@ import SecureParseData from './components/SecureParseData';
 import SecureStorageData from './components/SecureStorageData';
 
 import App from './App';
+import StorageData from './components/StorageData';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -72,6 +73,38 @@ function checkLogged() {
         }
         window.localStorage.setItem('LOGGED', JSON.stringify(result));
       });
+  }
+
+  checkDate();
+  function checkDate() {
+    let subscriptionDate = StorageData.localStorageJSON('S-DATE');
+    if (subscriptionDate !== null) {
+      var dateString = subscriptionDate;
+      subscriptionDate = subscriptionDate.split('-');
+
+      subscriptionDate[1] = parseInt(subscriptionDate[1]) - 1;
+      subscriptionDate[1] = subscriptionDate[1].toString();
+
+      let endDate = new Date(
+        subscriptionDate[0],
+        subscriptionDate[1],
+        subscriptionDate[2],
+        0,
+        0
+      );
+      //Output value in milliseconds
+      let endTime = endDate.getTime();
+
+      let todayDate = new Date();
+      let todayTime = todayDate.getTime();
+      if (endTime < todayTime && dateString != '0-0-0') {
+        window.localStorage.setItem(
+          'LOGIN_STATUS',
+          JSON.stringify('Terminated')
+        );
+        window.localStorage.setItem('LOGGED', JSON.stringify(result));
+      }
+    }
   }
 }
 

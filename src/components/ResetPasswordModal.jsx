@@ -162,7 +162,7 @@ const ResetPasswordModal = ({ visible, onClose, onContinue }) => {
                                     name={currentAccount.Email}
                                     type="submit"
                                     value="Reset"
-                                    className={`cursor-pointer py-[0.35rem]  px-4 text-black/80   shadow-md rounded-md font-semibold  transition duration-300 border-black/80 border-2  hover:border-red-500 hover:text-red-600 lg:text-base
+                                    className={`cursor-pointer py-[0.35rem]  px-4    shadow-md rounded-md font-semibold  transition duration-300 text-white bg-red-500 hover:bg-red-700 hover:border-red-700 border-2 border-red-500 lg:text-base
                                               `}
                                   ></input>
                                 </div>
@@ -174,7 +174,7 @@ const ResetPasswordModal = ({ visible, onClose, onContinue }) => {
                                     name={currentAccount.Email}
                                     type="submit"
                                     value="Remove"
-                                    className={`cursor-pointer py-[0.35rem]  px-4  shadow-md rounded-md font-normal  transition duration-300 text-white bg-red-600 hover:bg-red-800 hover:border-red-800 border-2 border-red-600  lg:text-base 
+                                    className={`cursor-pointer py-[0.35rem]  px-4  shadow-md rounded-md font-semibold  transition duration-300 text-white bg-gray-500 hover:bg-gray-700 hover:border-gray-700 border-2 border-gray-500  lg:text-base 
                                               `}
                                   ></input>
                                 </div>

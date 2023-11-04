@@ -377,5 +377,9 @@ switch($requestLink) {
     case "/Prototype-Vite/my-project/api/0GenerateSessionTable":
         include('0GenerateSessionTable.php');
     break;
+
+    case "/Prototype-Vite/my-project/api/upload-image":
+        include('upload-image.php');
+    break;
 }
 

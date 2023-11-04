@@ -388,28 +388,50 @@ export default function EquationList() {
 
   const [lockState, setLockState] = useState(false);
   useEffect(() => {
-    var subscription = StorageData.localStorageJSON('SUBSCRIPTION_TYPE');
-    if (subscription !== null) {
-      subscription = subscription.replace(/"/g, '');
-      if (
-        subscription == 'PLAN-1' ||
-        subscription == 'PLAN-2' ||
-        subscription == 'PLAN-3'
-      ) {
-        setLockState(false);
+    var subscription = StorageData.localStorageJSON('S-STATUS');
+    if (subscription !== null && subscription !== '') {
+      if (subscription === 'TRUE') {
+        let subscriptionDate = StorageData.localStorageJSON('S-DATE');
+        subscriptionDate = subscriptionDate.split('-');
+
+        subscriptionDate[1] = parseInt(subscriptionDate[1]) - 1;
+        subscriptionDate[1] = subscriptionDate[1].toString();
+
+        let endDate = new Date(
+          subscriptionDate[0],
+          subscriptionDate[1],
+          subscriptionDate[2],
+          0,
+          0
+        );
+        //Output value in milliseconds
+        let endTime = endDate.getTime();
+
+        let todayDate = new Date();
+        let todayTime = todayDate.getTime();
+        if (endTime < todayTime) {
+          setLockState(true);
+        } else {
+          setLockState(false);
+        }
       } else {
         setLockState(true);
       }
     } else {
       setLockState(true);
     }
-    setLockState(false);
+
+    setTimeout(setOpacityState(true), 1000);
   }, []);
+
+  const [opacityState, setOpacityState] = useState(false);
 
   return (
     <>
       <div
-        className={`${lockState ? 'hidden' : !skeletonState ? 'hidden' : ''}`}
+        className={`${opacityState ? 'opacity-100' : 'opacity-0'} ${
+          lockState ? 'hidden' : !skeletonState ? 'hidden' : ''
+        }`}
       >
         <EquationListSkeleton />
       </div>
@@ -436,7 +458,7 @@ export default function EquationList() {
         } ${lockState ? '' : skeletonState ? 'hidden' : ''}`}
       >
         {lockState ? (
-          <div className={``}>
+          <div className={`${opacityState ? 'opacity-100' : 'opacity-0'}`}>
             <SubscriptionLocked />
           </div>
         ) : (

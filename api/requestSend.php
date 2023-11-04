@@ -66,6 +66,19 @@ switch($_SESSION['method']) {
     case "POST":
         $user = json_decode( file_get_contents('php://input') );
 
+        $type = "";
+        try {
+           $type = $user->type;
+        } catch (Exception $e) {
+        }
+
+        if ($type != "") {
+            $sql = "UPDATE accounts SET SubscriptionType = '$type'
+            WHERE Email = '$email'";
+            $stmt = $conn->prepare($sql);
+            $stmt->execute();
+        }
+
         //GET FULLNAME
         /*
         $midname = "SELECT MiddleName FROM accounts WHERE Email = '$email'";
@@ -126,11 +139,12 @@ switch($_SESSION['method']) {
                 Name VARCHAR(255) NOT NULL , 
                 Date VARCHAR(255) NOT NULL , 
                 Timestamp VARCHAR(255) NOT NULL ,
-                Message TEXT NOT NULL
+                Message TEXT NOT NULL,
+                File VARCHAR(512) NOT NULL 
                 )";
     
             $conn->exec($create);
-            echo "\nTable created successfully";
+            //echo "\nTable created successfully";
     
             $sql2 = "INSERT INTO ".$id."(MessageID, Name, Date, Timestamp, Message) 
                     VALUES(null, '$name', :date, :time, :message)";
@@ -153,7 +167,7 @@ switch($_SESSION['method']) {
             $response = ['status' => 0, 'message' => 'Failed to create record.'];
         }
 
-        echo json_encode($response);
+        echo json_encode($id);
         break;
     case "PUT":
         break;

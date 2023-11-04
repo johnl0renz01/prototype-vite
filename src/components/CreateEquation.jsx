@@ -420,22 +420,43 @@ export default function CreateEquation() {
 
   const [lockState, setLockState] = useState(false);
   useEffect(() => {
-    var subscription = StorageData.localStorageJSON('SUBSCRIPTION_TYPE');
-    if (subscription !== null) {
-      subscription = subscription.replace(/"/g, '');
-      if (
-        subscription == 'PLAN-1' ||
-        subscription == 'PLAN-2' ||
-        subscription == 'PLAN-3'
-      ) {
-        setLockState(false);
+    var subscription = StorageData.localStorageJSON('S-STATUS');
+    if (subscription !== null && subscription != '') {
+      if (subscription === 'TRUE') {
+        let subscriptionDate = StorageData.localStorageJSON('S-DATE');
+        subscriptionDate = subscriptionDate.split('-');
+
+        subscriptionDate[1] = parseInt(subscriptionDate[1]) - 1;
+        subscriptionDate[1] = subscriptionDate[1].toString();
+
+        let endDate = new Date(
+          subscriptionDate[0],
+          subscriptionDate[1],
+          subscriptionDate[2],
+          0,
+          0
+        );
+        //Output value in milliseconds
+        let endTime = endDate.getTime();
+
+        let todayDate = new Date();
+        let todayTime = todayDate.getTime();
+        if (endTime < todayTime) {
+          setLockState(true);
+        } else {
+          setLockState(false);
+        }
       } else {
         setLockState(true);
       }
     } else {
       setLockState(true);
     }
+
+    setTimeout(setOpacityState(true), 1000);
   }, []);
+
+  const [opacityState, setOpacityState] = useState(false);
 
   return (
     <>
@@ -471,13 +492,14 @@ export default function CreateEquation() {
           className={`bg-gradient-to-t from-[#e2e2e2] via-[#f1f1f1] to-[#ffffff] h-screen`}
         >
           {lockState ? (
-            <div className={``}>
+            <div className={`${opacityState ? 'opacity-100' : 'opacity-0'}`}>
               <SubscriptionLocked />
             </div>
           ) : (
             <section
               id="container"
-              className=" relative mx-auto p-8 pb-0 w-full"
+              className={` relative mx-auto p-8 pb-0 w-full
+              ${opacityState ? 'opacity-100' : 'opacity-0'}`}
             >
               <div
                 className={`md:-mt-0 xs:-mt-1 border-b-2 text-gray-600 lg:text-4xl font-bold

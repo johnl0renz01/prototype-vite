@@ -203,7 +203,6 @@ export default function MyRequest() {
   const handleOnCloseModal = () => setShowModal(false);
 
   const handleOnContinueModal = () => {
-    setShowModal(false);
     setShowMessageModal(true);
     updateTable();
   };
@@ -211,7 +210,11 @@ export default function MyRequest() {
   // MODAL VIEW MESSAGE
 
   const [showMessageModal, setShowMessageModal] = useState(false);
-  const handleOnCloseMessageModal = () => setShowMessageModal(false);
+  const handleOnCloseMessageModal = () => {
+    for (var i = 1; i < 99999; i++) window.clearInterval(i);
+    setShowModal(false);
+    setShowMessageModal(false);
+  };
 
   const contactAdmin = () => {
     setShowModal2(true);
@@ -222,14 +225,17 @@ export default function MyRequest() {
   const handleOnCloseModal2 = () => setShowModal2(false);
 
   const handleOnContinueModal2 = () => {
-    setShowModal2(false);
     updateTable();
     setShowModal3(true);
   };
 
   // MODAL CONTACT ADMIN MESSAGE
   const [showModal3, setShowModal3] = useState(false);
-  const handleOnCloseModal3 = () => setShowModal3(false);
+  const handleOnCloseModal3 = () => {
+    for (var i = 1; i < 99999; i++) window.clearInterval(i);
+    setShowModal2(false);
+    setShowModal3(false);
+  };
 
   const handleOnContinueModal3 = () => {
     setShowModal3(false);

@@ -50,7 +50,7 @@ switch($_SESSION['method']) {
         $subscribed = $user->subscribed;
         $subscription_type = $user->subscriptionType;
         $due_date = $user->dueDate;
-
+//
         $email = $user->email;
 
         //GET PREVIOUS FULL NAME OF TEACHER
@@ -89,7 +89,7 @@ switch($_SESSION['method']) {
 
         $sql = "UPDATE accounts SET GivenName = '$firstName', MiddleName = '$middleName', LastName = '$lastName', 
                 Gender = '$sex', GradeLevel = '$gradeLevel', Section = '$section', GroupType = '$groupType', 
-                Email = '$email', Subscribed = '$subscribed', SubscriptionType = '$subscription_type', Due = '$due_date' 
+                Email = '$email', Subscribed = '$subscribed', SubscriptionType = '$subscription_type', DueDate = '$due_date' 
                 WHERE Email = '$original_email'";
 
         $stmt = $conn->prepare($sql);

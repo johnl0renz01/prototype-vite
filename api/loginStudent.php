@@ -16,7 +16,7 @@ switch($_SESSION['method']) {
         break;
     case "POST":
         $user = json_decode( file_get_contents('php://input') );
-        $sql = "SELECT GivenName, Email, Password, GroupType, MiddleName, LastName, Section, SubscriptionType FROM accounts WHERE Email = :email";
+        $sql = "SELECT GivenName, Email, Password, GroupType, MiddleName, LastName, Section, Subscribed, SubscriptionType, DueDate FROM accounts WHERE Email = :email";
         $stmt = $conn->prepare($sql);
         $stmt->bindParam(':email', $user->email);
         //$stmt->bindParam(':password', $user->password);

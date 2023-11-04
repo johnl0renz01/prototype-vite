@@ -21,6 +21,8 @@ import LoadingSpinner from './LoadingSpinner';
 import StorageData from './StorageData';
 import SecureStorageData from './SecureStorageData';
 
+import FileUpload from './FileUpload';
+
 const ContactAdminModal = ({ visible, onClose, onContinue }) => {
   const [showLoading, setShowLoading] = useState(false);
 
@@ -40,6 +42,14 @@ const ContactAdminModal = ({ visible, onClose, onContinue }) => {
         values
       )
       .then(function (response) {
+        window.sessionStorage.setItem(
+          'CURRENT_VIEW_DETAIL',
+          SecureStorageData.dataEncryption(response.data)
+        );
+        window.sessionStorage.setItem(
+          'UPLOAD_IMAGE',
+          SecureStorageData.dataEncryption('TRUE')
+        );
         setShowLoading(false);
         handleReset();
         onContinue();
@@ -69,10 +79,26 @@ const ContactAdminModal = ({ visible, onClose, onContinue }) => {
   });
 
   const handleOnClose = e => {
-    if (e.target.id === 'mainContainer') onClose();
+    if (e.target.id === 'mainContainer') {
+      for (var i = 1; i < 99999; i++) window.clearInterval(i);
+      onClose();
+    }
   };
 
-  if (!visible) return null;
+  const closeButton = e => {
+    for (var i = 1; i < 99999; i++) window.clearInterval(i);
+    onClose();
+  };
+
+  /*
+   <img
+              src={require('../assets/facial_expressions/' + 'asda' + '.png')}
+            ></img>
+            */
+
+  if (!visible) {
+    return null;
+  }
 
   const sendMessage = () => {
     var email = StorageData.localStorageJSON('SESSION_EMAIL');
@@ -94,7 +120,7 @@ const ContactAdminModal = ({ visible, onClose, onContinue }) => {
             </span>
             <div className="text-right">
               <button
-                onClick={onClose}
+                onClick={closeButton}
                 className=" p-3 inline-block hover:bg-red-600 transition duration-200 hover:text-white"
               >
                 <MdClose />
@@ -108,7 +134,7 @@ const ContactAdminModal = ({ visible, onClose, onContinue }) => {
               autoComplete="off"
               onSubmit={handleSubmit}
             >
-              <div className=" lg:text-lg xs:text-xs relative lg:py-4 lg:pb-10 xs:pb-5 lg:px-8 xs:px-2 ">
+              <div className=" lg:text-lg xs:text-xs relative lg:py-4 lg:pb-6 xs:pb-4 lg:px-8 xs:px-2 ">
                 <div className="inline-flex w-full mt-1">
                   <input
                     id="subject"
@@ -149,11 +175,15 @@ const ContactAdminModal = ({ visible, onClose, onContinue }) => {
                     onBlur={handleBlur}
                   />
                 </div>
-                {errors.message && touched.message && (
-                  <p className=" lg:text-base xs:text-xs text-red-500  absolute ml-[1rem] ">
-                    {errors.message}
-                  </p>
-                )}
+
+                <div className="relative flex w-full">
+                  {errors.message && touched.message && (
+                    <p className=" lg:text-base xs:text-xs text-red-500  absolute ml-[1rem] ">
+                      {errors.message}
+                    </p>
+                  )}
+                  <FileUpload className="" />
+                </div>
               </div>
               <div className="mx-auto text-center border-t-2 border-gray-300 py-3">
                 <button
@@ -166,10 +196,25 @@ const ContactAdminModal = ({ visible, onClose, onContinue }) => {
                   </span>
                 </button>
                 <button
-                  type="submit"
+                  type={
+                    values.message != '' && values.subject != ''
+                      ? 'submit'
+                      : 'button'
+                  }
                   disabled={isSubmitting}
-                  onClick={onSubmit}
-                  className="relative ml-6  pl-8 pr-6 mr-1.5 h-9 w-28 rounded-lg font-semibold  transition duration-300 text-white bg-lime-600 hover:bg-lime-700"
+                  onClick={
+                    values.message != '' && values.subject != ''
+                      ? onSubmit
+                      : null
+                  }
+                  className={`relative ml-6  pl-8 pr-6 mr-1.5 h-9 w-28 rounded-lg font-semibold  transition duration-300 
+                  ${
+                    values.message != '' && values.subject != ''
+                      ? 'cursor-pointer text-white  bg-lime-600 hover:bg-lime-700 border-2 border-lime-600 hover:border-lime-700'
+                      : 'cursor-default text-gray-300 bg-gray-400 border-2 border-gray-400'
+                  }
+                  
+                  `}
                 >
                   <span className="font-normal  lg:text-lg xs:text-xs flex items-center justify-center">
                     Send

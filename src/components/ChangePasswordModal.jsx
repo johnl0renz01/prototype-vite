@@ -194,7 +194,7 @@ const ChangePasswordModal = ({ visible, onClose, onContinue }) => {
                     onClose();
                     handleReset();
                   }}
-                  className={`relative px-12 py-1.5  rounded-lg font-semibold  transition duration-300 text-white bg-red-600 hover:bg-red-700 `}
+                  className={`relative px-12 py-1.5  rounded-lg font-semibold  transition duration-300 text-white bg-gray-400 hover:bg-gray-500 `}
                 >
                   <span className="font-normal lg:text-lg md:text-base sm:text-sm xs:text-xs flex justify-center">
                     Cancel

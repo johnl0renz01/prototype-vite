@@ -822,7 +822,7 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
                       )}
                     </div>
 
-                    {/*Subscription Type Input*/}
+                    {/*Subscription  Type Input*/}
                     <div className={`${!subscribedState ? 'hidden' : ''}`}>
                       <div className="inline-flex w-full">
                         <label
@@ -837,10 +837,10 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
                           name="subscriptionType"
                           className={`py-2 lg:px-2 border-[1px] focus:border-none rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500  shadow-[#808080]`}
                         >
-                          <option selected value="">
-                            {' '}
-                          </option>
-                          <option className="hdScreen:text-lg semihdScreen:text-base laptopScreen:text-base averageScreen:text-base">
+                          <option
+                            selected
+                            className="hdScreen:text-lg semihdScreen:text-base laptopScreen:text-base averageScreen:text-base"
+                          >
                             STUDENT-PLAN-1
                           </option>
                         </select>
@@ -979,10 +979,8 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
                           name="subscriptionType"
                           className={`py-2 lg:px-2 border-[1px] focus:border-none rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500  shadow-[#808080]`}
                         >
-                          <option selected value="">
-                            {' '}
-                          </option>
                           <option
+                            selected
                             value="TEACHER-PLAN-1"
                             className="hdScreen:text-lg semihdScreen:text-base laptopScreen:text-base averageScreen:text-base"
                           >
@@ -1093,7 +1091,7 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
               <div className="mx-auto text-center border-t-2 border-gray-300 py-3">
                 <button
                   onClick={onClose}
-                  className={`relative px-12 py-1.5  rounded-lg font-semibold  transition duration-300 text-white bg-red-600 hover:bg-red-700 `}
+                  className={`relative px-12 py-1.5  rounded-lg font-semibold  transition duration-300 text-white bg-gray-400 hover:bg-gray-500 `}
                 >
                   <span className="font-normal lg:text-lg md:text-base sm:text-sm xs:text-xs flex justify-center">
                     Cancel
