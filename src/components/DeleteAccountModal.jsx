@@ -118,7 +118,7 @@ const DeleteAccountModal = ({ visible, onClose, onContinue }) => {
             <div className="mx-auto text-center  border-t-2 border-gray-300 py-3">
               <button
                 onClick={onClose}
-                className="transition duration-200 mx-2 text-white tracking-wide bg-gray-500/90 h-9 w-28 inline-block rounded-lg hover:bg-gray-600 hover:text-gray-100"
+                className="transition duration-200 mx-2 text-white tracking-wide bg-gray-400 h-9 w-28 inline-block rounded-lg hover:bg-gray-500 hover:text-gray-100"
               >
                 Cancel
               </button>

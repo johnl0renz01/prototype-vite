@@ -168,6 +168,7 @@ module.exports = {
         tauri: 'Tauri, sans-serif',
         jura: 'Jura, sans-serif',
         lato: 'Lato, sans-serif',
+        roboto: 'Roboto, sans-serif',
       },
       borderWidth: {
         3: '3px',

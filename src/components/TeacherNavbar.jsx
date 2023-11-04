@@ -51,6 +51,10 @@ import SecureStorageData from './SecureStorageData';
 import ChangePasswordModal from './ChangePasswordModal';
 import ChangePasswordMessageModal from './ChangePasswordMessageModal';
 
+import ManageSubscription from './ManageSubscription';
+import ManageSubscriptionConfirm from './ManageSubscriptionConfirm';
+import ManageSubscriptionMessage from './ManageSubscriptionMessage';
+
 export default function TeacherNavbar() {
   const [showLoading, setShowLoading] = useState(false);
   const [tableLoader, setTableLoader] = useState(false);
@@ -60,7 +64,7 @@ export default function TeacherNavbar() {
 
   /*
   document.onload = function () {
-    var account = JSON.parse(window.localStorage.getItem('ACCOUNT_TYPE'));
+    var account = JSON.parse(window.localStorage.getItem('ACCOUNT_TYPE')) ;
     if (account === null) account 
     setAccType(account);
   };
@@ -82,6 +86,8 @@ export default function TeacherNavbar() {
       window.localStorage.removeItem('SESSION_SCORE');
       window.localStorage.removeItem('TIMER');
     }
+    // FOR MANAGE SUBSCRIPTION
+    window.sessionStorage.removeItem('UPLOADED');
   }, []);
 
   useEffect(() => {
@@ -226,6 +232,8 @@ export default function TeacherNavbar() {
           setLogoutState(true);
         }
       }
+    } else {
+      setLogoutState(true);
     }
 
     var accountName = StorageData.localStorageJSON('SESSION_FULLNAME');
@@ -407,6 +415,59 @@ export default function TeacherNavbar() {
   const [showMessageModal2, setShowMessageModal2] = useState(false);
   const handleOnCloseMessageModal2 = () => setShowMessageModal2(false);
 
+  // MODAL MANAGE SUBSCRIPTION
+  const [showModal3, setShowModal3] = useState(false);
+  const handleOnCloseModal3 = () => setShowModal3(false);
+
+  const handleOnContinueModal3 = () => {
+    setShowModal3(false);
+    setShowModal4(true);
+  };
+
+  //CHECK CHOOSE SUBSCRIPTION
+
+  useEffect(() => {
+    var account = StorageData.localStorageJSON('ACCOUNT_TYPE');
+    if (account !== null) {
+      if (account == 'Teacher') {
+        var plan = StorageData.sessionStorageJSON('PLAN');
+        if (plan !== null) {
+          if (
+            plan == 'SUBSCRIBE-TEACHER-1' ||
+            plan == 'SUBSCRIBE-TEACHER-2' ||
+            plan == 'SUBSCRIBE-TEACHER-3'
+          ) {
+            setShowModal4(true);
+          } else if (plan == 'EXTEND') {
+            setShowModal4(true);
+          } else {
+            window.sessionStorage.removeItem('PLAN');
+          }
+        } else {
+          window.sessionStorage.removeItem('PLAN');
+        }
+      }
+    }
+  }, []);
+
+  // MODAL MANAGE SUBSCRIPTION CONFIRMATION
+  const [showModal4, setShowModal4] = useState(false);
+  const handleOnCloseModal4 = () => {
+    setShowModal4(false);
+  };
+
+  const handleOnContinueModal4 = () => {
+    setShowModal4(false);
+    setShowMessageModal4(true);
+  };
+
+  const [showMessageModal4, setShowMessageModal4] = useState(false);
+  const handleOnCloseMessageModal4 = () => {
+    for (var i = 1; i < 99999; i++) window.clearInterval(i);
+    window.sessionStorage.removeItem('PLAN');
+
+    setShowMessageModal4(false);
+  };
   return (
     <>
       {/** 
@@ -579,7 +640,7 @@ export default function TeacherNavbar() {
                       <Menu.Item>
                         {({ active }) => (
                           <button
-                            onClick={null}
+                            onClick={() => setShowModal3(true)}
                             className={classNames(
                               active
                                 ? 'bg-gray-100 text-gray-900 '
@@ -836,6 +897,24 @@ export default function TeacherNavbar() {
         onClose={handleOnCloseMessageModal2}
         visible={showMessageModal2}
       />
+
+      <ManageSubscription
+        onClose={handleOnCloseModal3}
+        visible={showModal3}
+        onContinue={handleOnContinueModal3}
+      />
+
+      <ManageSubscriptionConfirm
+        onClose={handleOnCloseModal4}
+        visible={showModal4}
+        onContinue={handleOnContinueModal4}
+      />
+
+      <ManageSubscriptionMessage
+        onClose={handleOnCloseMessageModal4}
+        visible={showMessageModal4}
+      />
+
       <LoadingSpinner visible={showLoading} />
     </>
   );

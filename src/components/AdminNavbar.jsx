@@ -242,6 +242,8 @@ export default function AdminNavbar() {
           setLogoutState(true);
         }
       }
+    } else {
+      setLogoutState(true);
     }
   });
 

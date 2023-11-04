@@ -152,11 +152,68 @@ export default function DifficultyPage() {
   const [result, setResult] = useState([]);
   const [currentQuestion, setCurrentQuestion] = useState([]);
 
+  const [expiredState, setExpiredState] = useState(false);
+  const [subscribedState, setSubscribedState] = useState(false);
+  const [currentSection, setCurrentSection] = useState('');
+
   useEffect(() => {
+    var section = StorageData.localStorageJSON('SESSION_SECTION_NAME');
+    if (section !== null) {
+      console.log(section);
+      setCurrentSection(section);
+
+      if (section == 'SUBSCRIBED-STUDENTS') {
+        var subscribed = StorageData.localStorageJSON('S-STATUS');
+        if (subscribed !== null && subscribed !== '') {
+          window.localStorage.setItem(
+            'SYSTEM_VERSION',
+            JSON.stringify(SecureStorageData.dataEncryption('Facial Group'))
+          );
+          setSubscribedState(true);
+          checkDate();
+        } else {
+          window.localStorage.setItem(
+            'SYSTEM_VERSION',
+            JSON.stringify(SecureStorageData.dataEncryption('Non Facial Group'))
+          );
+        }
+      }
+    }
+
     const data = StorageData.localStorageRAW('QUESTION_LIST');
 
     if (data !== null) setQuestions(JSON.parse(data));
   }, []);
+
+  function checkDate() {
+    let subscriptionDate = StorageData.localStorageJSON('S-DATE');
+    if (subscriptionDate !== null) {
+      subscriptionDate = subscriptionDate.split('-');
+
+      subscriptionDate[1] = parseInt(subscriptionDate[1]) - 1;
+      subscriptionDate[1] = subscriptionDate[1].toString();
+
+      let endDate = new Date(
+        subscriptionDate[0],
+        subscriptionDate[1],
+        subscriptionDate[2],
+        0,
+        0
+      );
+      //Output value in milliseconds
+      let endTime = endDate.getTime();
+
+      let todayDate = new Date();
+      let todayTime = todayDate.getTime();
+      if (endTime < todayTime) {
+        window.localStorage.setItem(
+          'SYSTEM_VERSION',
+          JSON.stringify(SecureStorageData.dataEncryption('Non Facial Group'))
+        );
+        setExpiredState(true);
+      }
+    }
+  }
 
   const [option, setOption] = useState('');
   const [diffType, setDiffType] = useState('');
@@ -175,133 +232,163 @@ export default function DifficultyPage() {
     var tableEquations = tableSettings + '_equation_list';
     tableSettings = tableSettings + '_equation_settings';
 
-    axios
-      .get(
-        `https://pia-sfe.online/api/equationSettingsDetails/${tableSettings}`
-      )
-      .then(function (response) {
-        var result = Object.values(response.data);
-        var keys = [];
-        for (var k in result[0]) keys.push(result[0][k]);
+    //Equation storage
+    var allEquations = [];
+    var customEquations = [];
 
-        if (keys[3] == 'TRUE') {
-          window.localStorage.setItem(
-            'SESSION_ACCEPT_FRACTION',
-            SecureStorageData.dataEncryption(true)
-          );
-        } else {
-          window.localStorage.removeItem('SESSION_ACCEPT_FRACTION');
-        }
+    if (
+      (subscribedState && !expiredState) ||
+      currentSection != 'SUBSCRIBED-STUDENTS'
+    ) {
+      axios
+        .get(
+          `https://pia-sfe.online/api/equationSettingsDetails/${tableSettings}`
+        )
+        .then(function (response) {
+          var result = Object.values(response.data);
+          var keys = [];
+          for (var k in result[0]) keys.push(result[0][k]);
 
-        var occurrenceValue = parseInt(keys[1]);
-        var prioritize = keys[2];
-        var minimumValue = parseInt(keys[4]);
-        var maximumValue = parseInt(keys[5]);
-        var differentVariables = keys[6];
+          if (keys[3] == 'TRUE') {
+            window.localStorage.setItem(
+              'SESSION_ACCEPT_FRACTION',
+              SecureStorageData.dataEncryption(true)
+            );
+          } else {
+            window.localStorage.removeItem('SESSION_ACCEPT_FRACTION');
+          }
 
-        //Equation storage
-        var allEquations = [];
-        var customEquations = [];
+          var occurrenceValue = parseInt(keys[1]);
+          var prioritize = keys[2];
+          var minimumValue = parseInt(keys[4]);
+          var maximumValue = parseInt(keys[5]);
+          var differentVariables = keys[6];
 
-        getEquations();
-        function getEquations() {
-          axios
-            .get(
-              `https://pia-sfe.online/api/getEquation/Easy@${tableEquations}`
-            )
-            .then(function (response) {
-              let responseData = response.data;
-              var newArray = [];
+          getEquations();
+          function getEquations() {
+            axios
+              .get(
+                `https://pia-sfe.online/api/getEquation/Easy@${tableEquations}`
+              )
+              .then(function (response) {
+                let responseData = response.data;
+                var newArray = [];
 
-              //GET CUSTOM EQUATIONS
-              for (let i = 0; i < responseData.length; i++) {
-                var tempArray = [];
-                var result = Object.keys(responseData[i]).map(key => [
-                  key,
-                  responseData[i][key],
-                ]);
+                //GET CUSTOM EQUATIONS
+                for (let i = 0; i < responseData.length; i++) {
+                  var tempArray = [];
+                  var result = Object.keys(responseData[i]).map(key => [
+                    key,
+                    responseData[i][key],
+                  ]);
 
-                for (let j = 0; j < result.length; j++) {
-                  tempArray.push(result[j][1]);
+                  for (let j = 0; j < result.length; j++) {
+                    tempArray.push(result[j][1]);
+                  }
+
+                  let data = JSON.stringify(tempArray[0]);
+                  data = data.replace(/"/g, '');
+
+                  newArray.push(data);
+                }
+                customEquations = newArray;
+
+                // CHECK
+                let answer = '';
+                for (let i = 0; i < 20; i++) {
+                  equationList = EquationGeneratorEasy.getEquationList(
+                    1,
+                    minimumValue,
+                    maximumValue,
+                    differentVariables
+                  );
+
+                  EquationSolver.setEquation(equationList[0]);
+                  answer = EquationSolver.getEquationAnswer();
+
+                  if (answer == 'invalid') {
+                    i--;
+                  } else {
+                    allEquations.push(equationList[0]);
+                  }
                 }
 
-                let data = JSON.stringify(tempArray[0]);
-                data = data.replace(/"/g, '');
-
-                newArray.push(data);
-              }
-              customEquations = newArray;
-
-              // CHECK
-              let answer = '';
-              for (let i = 0; i < 20; i++) {
-                equationList = EquationGeneratorEasy.getEquationList(
-                  1,
-                  minimumValue,
-                  maximumValue,
-                  differentVariables
-                );
-
-                EquationSolver.setEquation(equationList[0]);
-                answer = EquationSolver.getEquationAnswer();
-
-                if (answer == 'invalid') {
-                  i--;
-                } else {
-                  allEquations.push(equationList[0]);
+                var indexes = [];
+                for (let i = 0; i < allEquations.length; i++) {
+                  indexes.push(i);
                 }
-              }
 
-              var indexes = [];
-              for (let i = 0; i < allEquations.length; i++) {
-                indexes.push(i);
-              }
+                let customArrayLength = customEquations.length;
+                for (let i = 0; i < customArrayLength; i++) {
+                  let index =
+                    indexes[Math.floor(Math.random() * indexes.length)];
+                  let equation =
+                    customEquations[
+                      Math.floor(Math.random() * customEquations.length)
+                    ];
+                  let percentage = Math.random() * 100;
+                  //chance of custom equation
+                  if (percentage <= occurrenceValue) {
+                    if (equation !== undefined) {
+                      //ADD ITEM TO STORAGE ARRAY
+                      //IF PRIORITIZED OR NOT
+                      if (prioritize == 'TRUE') {
+                        allEquations[i] = equation;
+                      } else {
+                        allEquations[index] = equation;
+                      }
 
-              let customArrayLength = customEquations.length;
-              for (let i = 0; i < customArrayLength; i++) {
-                let index = indexes[Math.floor(Math.random() * indexes.length)];
-                let equation =
-                  customEquations[
-                    Math.floor(Math.random() * customEquations.length)
-                  ];
-                let percentage = Math.random() * 100;
-                //chance of custom equation
-                if (percentage <= occurrenceValue) {
-                  if (equation !== undefined) {
-                    //ADD ITEM TO STORAGE ARRAY
-                    //IF PRIORITIZED OR NOT
-                    if (prioritize == 'TRUE') {
-                      allEquations[i] = equation;
-                    } else {
-                      allEquations[index] = equation;
-                    }
-
-                    //REMOVE ITEM FROM ARRAY
-                    const itemIndex = customEquations.indexOf(equation);
-                    if (itemIndex > -1) {
-                      // only splice array when item is found
-                      customEquations.splice(itemIndex, 1); // 2nd parameter means remove one item only
+                      //REMOVE ITEM FROM ARRAY
+                      const itemIndex = customEquations.indexOf(equation);
+                      if (itemIndex > -1) {
+                        // only splice array when item is found
+                        customEquations.splice(itemIndex, 1); // 2nd parameter means remove one item only
+                      }
                     }
                   }
                 }
-              }
+                //console.log(allEquations);
+                setQuestions(allEquations);
+                setOption('easy');
+                setDiffType('Easy');
+                isPicked(true);
+                resetCheck();
+                ReactDOM.findDOMNode(option_1).style.visibility = 'visible';
+                setShowLoading(false);
+              })
+              .catch(function (error) {
+                setShowLoading(false);
+              });
+          }
+        })
+        .catch(function (error) {
+          setShowLoading(false);
+        });
+    } else {
+      var allEquations = [];
+      // CHECK
+      let answer = '';
+      for (let i = 0; i < 20; i++) {
+        equationList = EquationGeneratorEasy.getEquationList(1, 1, 10, 'FALSE');
 
-              setQuestions(allEquations);
-              setOption('easy');
-              setDiffType('Easy');
-              isPicked(true);
-              resetCheck();
-              ReactDOM.findDOMNode(option_1).style.visibility = 'visible';
-              setShowLoading(false);
-            })
-            .catch(function (error) {
-              setShowLoading(false);
-            });
+        EquationSolver.setEquation(equationList[0]);
+        answer = EquationSolver.getEquationAnswer();
+
+        if (answer == 'invalid') {
+          i--;
+        } else {
+          allEquations.push(equationList[0]);
         }
-      })
-      .catch(function (error) {
-        setShowLoading(false);
-      });
+      }
+      console.log(allEquations);
+      setQuestions(allEquations);
+      setOption('easy');
+      setDiffType('Easy');
+      isPicked(true);
+      resetCheck();
+      ReactDOM.findDOMNode(option_1).style.visibility = 'visible';
+      setShowLoading(false);
+    }
   };
 
   const averageType = () => {
@@ -311,133 +398,139 @@ export default function DifficultyPage() {
     var tableEquations = tableSettings + '_equation_list';
     tableSettings = tableSettings + '_equation_settings';
 
-    axios
-      .get(
-        `https://pia-sfe.online/api/equationSettingsDetails/${tableSettings}`
-      )
-      .then(function (response) {
-        var result = Object.values(response.data);
-        var keys = [];
-        for (var k in result[0]) keys.push(result[0][k]);
+    //Equation storage
+    var allEquations = [];
+    var customEquations = [];
 
-        if (keys[3] == 'TRUE') {
-          window.localStorage.setItem(
-            'SESSION_ACCEPT_FRACTION',
-            SecureStorageData.dataEncryption(true)
-          );
-        } else {
-          window.localStorage.removeItem('SESSION_ACCEPT_FRACTION');
-        }
+    if (
+      (subscribedState && !expiredState) ||
+      currentSection != 'SUBSCRIBED-STUDENTS'
+    ) {
+      axios
+        .get(
+          `https://pia-sfe.online/api/equationSettingsDetails/${tableSettings}`
+        )
+        .then(function (response) {
+          var result = Object.values(response.data);
+          var keys = [];
+          for (var k in result[0]) keys.push(result[0][k]);
 
-        var occurrenceValue = parseInt(keys[1]);
-        var prioritize = keys[2];
-        var minimumValue = parseInt(keys[4]);
-        var maximumValue = parseInt(keys[5]);
-        var differentVariables = keys[6];
+          if (keys[3] == 'TRUE') {
+            window.localStorage.setItem(
+              'SESSION_ACCEPT_FRACTION',
+              SecureStorageData.dataEncryption(true)
+            );
+          } else {
+            window.localStorage.removeItem('SESSION_ACCEPT_FRACTION');
+          }
 
-        //Equation storage
-        var allEquations = [];
-        var customEquations = [];
+          var occurrenceValue = parseInt(keys[1]);
+          var prioritize = keys[2];
+          var minimumValue = parseInt(keys[4]);
+          var maximumValue = parseInt(keys[5]);
+          var differentVariables = keys[6];
 
-        getEquations();
-        function getEquations() {
-          axios
-            .get(
-              `https://pia-sfe.online/api/getEquation/Average@${tableEquations}`
-            )
-            .then(function (response) {
-              let responseData = response.data;
-              var newArray = [];
+          getEquations();
+          function getEquations() {
+            axios
+              .get(
+                `https://pia-sfe.online/api/getEquation/Average@${tableEquations}`
+              )
+              .then(function (response) {
+                let responseData = response.data;
+                var newArray = [];
 
-              //GET CUSTOM EQUATIONS
-              for (let i = 0; i < responseData.length; i++) {
-                var tempArray = [];
-                var result = Object.keys(responseData[i]).map(key => [
-                  key,
-                  responseData[i][key],
-                ]);
+                //GET CUSTOM EQUATIONS
+                for (let i = 0; i < responseData.length; i++) {
+                  var tempArray = [];
+                  var result = Object.keys(responseData[i]).map(key => [
+                    key,
+                    responseData[i][key],
+                  ]);
 
-                for (let j = 0; j < result.length; j++) {
-                  tempArray.push(result[j][1]);
+                  for (let j = 0; j < result.length; j++) {
+                    tempArray.push(result[j][1]);
+                  }
+
+                  let data = JSON.stringify(tempArray[0]);
+                  data = data.replace(/"/g, '');
+
+                  newArray.push(data);
+                }
+                customEquations = newArray;
+
+                // CHECK
+                let answer = '';
+                for (let i = 0; i < 20; i++) {
+                  equationList = EquationGeneratorAverage.getEquationList(
+                    1,
+                    minimumValue,
+                    maximumValue,
+                    differentVariables
+                  );
+
+                  EquationSolver.setEquation(equationList[0]);
+                  answer = EquationSolver.getEquationAnswer();
+
+                  if (answer == 'invalid') {
+                    i--;
+                  } else {
+                    allEquations.push(equationList[0]);
+                  }
                 }
 
-                let data = JSON.stringify(tempArray[0]);
-                data = data.replace(/"/g, '');
-
-                newArray.push(data);
-              }
-              customEquations = newArray;
-
-              // CHECK
-              let answer = '';
-              for (let i = 0; i < 20; i++) {
-                equationList = EquationGeneratorAverage.getEquationList(
-                  1,
-                  minimumValue,
-                  maximumValue,
-                  differentVariables
-                );
-
-                EquationSolver.setEquation(equationList[0]);
-                answer = EquationSolver.getEquationAnswer();
-
-                if (answer == 'invalid') {
-                  i--;
-                } else {
-                  allEquations.push(equationList[0]);
+                var indexes = [];
+                for (let i = 0; i < allEquations.length; i++) {
+                  indexes.push(i);
                 }
-              }
 
-              var indexes = [];
-              for (let i = 0; i < allEquations.length; i++) {
-                indexes.push(i);
-              }
+                let customArrayLength = customEquations.length;
+                for (let i = 0; i < customArrayLength; i++) {
+                  let index =
+                    indexes[Math.floor(Math.random() * indexes.length)];
+                  let equation =
+                    customEquations[
+                      Math.floor(Math.random() * customEquations.length)
+                    ];
+                  let percentage = Math.random() * 100;
+                  //chance of custom equation
+                  if (percentage <= occurrenceValue) {
+                    if (equation !== undefined) {
+                      //ADD ITEM TO STORAGE ARRAY
+                      //IF PRIORITIZED OR NOT
+                      if (prioritize == 'TRUE') {
+                        allEquations[i] = equation;
+                      } else {
+                        allEquations[index] = equation;
+                      }
 
-              let customArrayLength = customEquations.length;
-              for (let i = 0; i < customArrayLength; i++) {
-                let index = indexes[Math.floor(Math.random() * indexes.length)];
-                let equation =
-                  customEquations[
-                    Math.floor(Math.random() * customEquations.length)
-                  ];
-                let percentage = Math.random() * 100;
-                //chance of custom equation
-                if (percentage <= occurrenceValue) {
-                  if (equation !== undefined) {
-                    //ADD ITEM TO STORAGE ARRAY
-                    //IF PRIORITIZED OR NOT
-                    if (prioritize == 'TRUE') {
-                      allEquations[i] = equation;
-                    } else {
-                      allEquations[index] = equation;
-                    }
-
-                    //REMOVE ITEM FROM ARRAY
-                    const itemIndex = customEquations.indexOf(equation);
-                    if (itemIndex > -1) {
-                      // only splice array when item is found
-                      customEquations.splice(itemIndex, 1); // 2nd parameter means remove one item only
+                      //REMOVE ITEM FROM ARRAY
+                      const itemIndex = customEquations.indexOf(equation);
+                      if (itemIndex > -1) {
+                        // only splice array when item is found
+                        customEquations.splice(itemIndex, 1); // 2nd parameter means remove one item only
+                      }
                     }
                   }
                 }
-              }
 
-              setQuestions(allEquations);
-              setOption('average');
-              setDiffType('Average');
-              isPicked(true);
-              resetCheck();
-              ReactDOM.findDOMNode(option_2).style.visibility = 'visible';
-              setShowLoading(false);
-            })
-            .catch(function (error) {
-              setShowLoading(false);
-            });
-        }
-      })
-      .catch(function (error) {
-        setShowLoading(false);
-      });
+                setQuestions(allEquations);
+                setOption('average');
+                setDiffType('Average');
+                isPicked(true);
+                resetCheck();
+                ReactDOM.findDOMNode(option_2).style.visibility = 'visible';
+                setShowLoading(false);
+              })
+              .catch(function (error) {
+                setShowLoading(false);
+              });
+          }
+        })
+        .catch(function (error) {
+          setShowLoading(false);
+        });
+    }
   };
 
   const difficultType = () => {
@@ -447,133 +540,140 @@ export default function DifficultyPage() {
     var tableEquations = tableSettings + '_equation_list';
     tableSettings = tableSettings + '_equation_settings';
 
-    axios
-      .get(
-        `https://pia-sfe.online/api/equationSettingsDetails/${tableSettings}`
-      )
-      .then(function (response) {
-        var result = Object.values(response.data);
-        var keys = [];
-        for (var k in result[0]) keys.push(result[0][k]);
+    //Equation storage
+    var allEquations = [];
+    var customEquations = [];
 
-        if (keys[3] == 'TRUE') {
-          window.localStorage.setItem(
-            'SESSION_ACCEPT_FRACTION',
-            SecureStorageData.dataEncryption(true)
-          );
-        } else {
-          window.localStorage.removeItem('SESSION_ACCEPT_FRACTION');
-        }
+    if (
+      (subscribedState && !expiredState) ||
+      currentSection != 'SUBSCRIBED-STUDENTS'
+    ) {
+      axios
+        .get(
+          `https://pia-sfe.online/api/equationSettingsDetails/${tableSettings}`
+        )
+        .then(function (response) {
+          var result = Object.values(response.data);
+          var keys = [];
+          for (var k in result[0]) keys.push(result[0][k]);
 
-        var occurrenceValue = parseInt(keys[1]);
-        var prioritize = keys[2];
-        var minimumValue = parseInt(keys[4]);
-        var maximumValue = parseInt(keys[5]);
-        var differentVariables = keys[6];
+          if (keys[3] == 'TRUE') {
+            window.localStorage.setItem(
+              'SESSION_ACCEPT_FRACTION',
+              SecureStorageData.dataEncryption(true)
+            );
+          } else {
+            window.localStorage.removeItem('SESSION_ACCEPT_FRACTION');
+          }
 
-        //Equation storage
-        var allEquations = [];
-        var customEquations = [];
+          var occurrenceValue = parseInt(keys[1]);
+          var prioritize = keys[2];
+          var minimumValue = parseInt(keys[4]);
+          var maximumValue = parseInt(keys[5]);
+          var differentVariables = keys[6];
 
-        getEquations();
-        function getEquations() {
-          axios
-            .get(
-              `https://pia-sfe.online/api/getEquation/Difficult@${tableEquations}`
-            )
-            .then(function (response) {
-              let responseData = response.data;
-              var newArray = [];
+          getEquations();
+          function getEquations() {
+            axios
+              .get(
+                `https://pia-sfe.online/api/getEquation/Difficult@${tableEquations}`
+              )
+              .then(function (response) {
+                let responseData = response.data;
+                var newArray = [];
 
-              //GET CUSTOM EQUATIONS
-              for (let i = 0; i < responseData.length; i++) {
-                var tempArray = [];
-                var result = Object.keys(responseData[i]).map(key => [
-                  key,
-                  responseData[i][key],
-                ]);
+                //GET CUSTOM EQUATIONS
+                for (let i = 0; i < responseData.length; i++) {
+                  var tempArray = [];
+                  var result = Object.keys(responseData[i]).map(key => [
+                    key,
+                    responseData[i][key],
+                  ]);
 
-                for (let j = 0; j < result.length; j++) {
-                  tempArray.push(result[j][1]);
+                  for (let j = 0; j < result.length; j++) {
+                    tempArray.push(result[j][1]);
+                  }
+
+                  let data = JSON.stringify(tempArray[0]);
+                  data = data.replace(/"/g, '');
+
+                  newArray.push(data);
+                }
+                customEquations = newArray;
+
+                // CHECK
+                let answer = '';
+                for (let i = 0; i < 20; i++) {
+                  equationList = EquationGeneratorDifficult.getEquationList(
+                    1,
+                    minimumValue,
+                    maximumValue,
+                    differentVariables
+                  );
+
+                  EquationSolver.setEquation(equationList[0]);
+                  answer = EquationSolver.getEquationAnswer();
+
+                  //console.log("EQUATION: " +equationList[0]+ "   :  STATUS:  " + answer)
+                  if (answer == 'invalid') {
+                    i--;
+                  } else {
+                    allEquations.push(equationList[0]);
+                  }
                 }
 
-                let data = JSON.stringify(tempArray[0]);
-                data = data.replace(/"/g, '');
-
-                newArray.push(data);
-              }
-              customEquations = newArray;
-
-              // CHECK
-              let answer = '';
-              for (let i = 0; i < 20; i++) {
-                equationList = EquationGeneratorDifficult.getEquationList(
-                  1,
-                  minimumValue,
-                  maximumValue,
-                  differentVariables
-                );
-
-                EquationSolver.setEquation(equationList[0]);
-                answer = EquationSolver.getEquationAnswer();
-
-                if (answer == 'invalid') {
-                  i--;
-                } else {
-                  allEquations.push(equationList[0]);
+                var indexes = [];
+                for (let i = 0; i < allEquations.length; i++) {
+                  indexes.push(i);
                 }
-              }
 
-              var indexes = [];
-              for (let i = 0; i < allEquations.length; i++) {
-                indexes.push(i);
-              }
+                let customArrayLength = customEquations.length;
+                for (let i = 0; i < customArrayLength; i++) {
+                  let index =
+                    indexes[Math.floor(Math.random() * indexes.length)];
+                  let equation =
+                    customEquations[
+                      Math.floor(Math.random() * customEquations.length)
+                    ];
+                  let percentage = Math.random() * 100;
+                  //chance of custom equation
+                  if (percentage <= occurrenceValue) {
+                    if (equation !== undefined) {
+                      //ADD ITEM TO STORAGE ARRAY
+                      //IF PRIORITIZED OR NOT
+                      if (prioritize == 'TRUE') {
+                        allEquations[i] = equation;
+                      } else {
+                        allEquations[index] = equation;
+                      }
 
-              let customArrayLength = customEquations.length;
-              for (let i = 0; i < customArrayLength; i++) {
-                let index = indexes[Math.floor(Math.random() * indexes.length)];
-                let equation =
-                  customEquations[
-                    Math.floor(Math.random() * customEquations.length)
-                  ];
-                let percentage = Math.random() * 100;
-                //chance of custom equation
-                if (percentage <= occurrenceValue) {
-                  if (equation !== undefined) {
-                    //ADD ITEM TO STORAGE ARRAY
-                    //IF PRIORITIZED OR NOT
-                    if (prioritize == 'TRUE') {
-                      allEquations[i] = equation;
-                    } else {
-                      allEquations[index] = equation;
-                    }
-
-                    //REMOVE ITEM FROM ARRAY
-                    const itemIndex = customEquations.indexOf(equation);
-                    if (itemIndex > -1) {
-                      // only splice array when item is found
-                      customEquations.splice(itemIndex, 1); // 2nd parameter means remove one item only
+                      //REMOVE ITEM FROM ARRAY
+                      const itemIndex = customEquations.indexOf(equation);
+                      if (itemIndex > -1) {
+                        // only splice array when item is found
+                        customEquations.splice(itemIndex, 1); // 2nd parameter means remove one item only
+                      }
                     }
                   }
                 }
-              }
 
-              setQuestions(allEquations);
-              setOption('difficult');
-              setDiffType('Difficult');
-              isPicked(true);
-              resetCheck();
-              ReactDOM.findDOMNode(option_3).style.visibility = 'visible';
-              setShowLoading(false);
-            })
-            .catch(function (error) {
-              setShowLoading(false);
-            });
-        }
-      })
-      .catch(function (error) {
-        setShowLoading(false);
-      });
+                setQuestions(allEquations);
+                setOption('difficult');
+                setDiffType('Difficult');
+                isPicked(true);
+                resetCheck();
+                ReactDOM.findDOMNode(option_3).style.visibility = 'visible';
+                setShowLoading(false);
+              })
+              .catch(function (error) {
+                setShowLoading(false);
+              });
+          }
+        })
+        .catch(function (error) {
+          setShowLoading(false);
+        });
+    }
   };
 
   function resetCheck() {
@@ -783,6 +883,35 @@ export default function DifficultyPage() {
     }
   }, []);
 
+  const [statusState, setStatusState] = useState('lock');
+
+  const unlock = e => {
+    var classes = document.querySelectorAll('.status');
+    for (var i = 0; i < classes.length; i++) {
+      var currentClass = classes[i];
+      currentClass.textContent = 'Unlock';
+    }
+    setStatusState('unlock');
+  };
+
+  const lock = e => {
+    var classes = document.querySelectorAll('.status');
+    for (var i = 0; i < classes.length; i++) {
+      var currentClass = classes[i];
+      currentClass.textContent = 'Locked';
+    }
+
+    setStatusState('lock');
+  };
+
+  const subscribe = e => {
+    window.sessionStorage.setItem(
+      'PLAN',
+      SecureStorageData.dataEncryption('SUBSCRIBE-STUDENT-1')
+    );
+    window.location.reload('true');
+  };
+
   return (
     <>
       <div className={`${!skeletonState ? 'hidden' : ''}`}>
@@ -803,12 +932,11 @@ export default function DifficultyPage() {
                   </p>
                 </div>
                 <div className="w-full grid gap-x-[1rem] lg:grid-cols-3 -mt-12 select-none">
-                  <button
+                  <div
                     name="easy"
                     onClick={easyType}
-                    className={` w-full transform transition duration-500 hover:scale-95  ${
-                      option == 'easy' ? 'scale-95 ' : 'scale-90'
-                    }`}
+                    className={`cursor-pointer  relative w-full transform transition duration-500 hover:scale-95
+                    }  ${option == 'easy' ? 'scale-95' : 'scale-90'}`}
                   >
                     <div className="relative h-12 w-20 m-auto bg-gray-400 rounded-tl-full rounded-tr-full border-l-4 border-l-gray-500 border-r-4 border-r-gray-300"></div>
                     <div className="relative -mt-9 h-9 w-12 pl-1 border-r-4 border-gray-500 m-auto bg-white rounded-tl-full rounded-tr-full "></div>
@@ -904,25 +1032,74 @@ export default function DifficultyPage() {
                         </svg>
                       </div>
                     </div>
-                  </button>
+                  </div>
                   {/*  </form> */}
 
                   {/*<!--Average-->*/}
 
-                  <button
+                  <div
                     name="average"
-                    onClick={averageType}
-                    className={` w-full transform transition duration-500 hover:scale-95  ${
-                      option == 'average' ? 'scale-95' : 'scale-90'
-                    }`}
+                    onClick={
+                      currentSection != 'SUBSCRIBED-STUDENTS'
+                        ? averageType
+                        : subscribedState && !expiredState
+                        ? averageType
+                        : null
+                    }
+                    className={`relative w-full transform transition duration-500 ${
+                      currentSection != 'SUBSCRIBED-STUDENTS'
+                        ? 'cursor-pointer hover:scale-95'
+                        : subscribedState && !expiredState
+                        ? 'cursor-pointer hover:scale-95'
+                        : 'cursor-default'
+                    }  ${option == 'average' ? 'scale-95' : 'scale-90'}`}
                   >
+                    <div
+                      className={`select-none absolute left-0 top-0 z-[100] opacity-100  w-full h-full bg-white/60 rounded-xl  backdrop-blur-[0.5px]  flex flex-col justify-center items-center text-center transition duration-150 
+                                ${
+                                  currentSection != 'SUBSCRIBED-STUDENTS'
+                                    ? 'hidden'
+                                    : subscribedState && !expiredState
+                                    ? 'hidden'
+                                    : ''
+                                }`}
+                    >
+                      <div
+                        onClick={subscribe}
+                        onMouseEnter={unlock}
+                        onMouseLeave={lock}
+                        className="flex flex-col cursor-pointer text-gray-600"
+                      >
+                        <i
+                          className={`fa lg:text-[6rem] sm:text-[5rem] xs:text-[4rem] mb-2 drop-shadow-[0_1px_0px_rgba(255,255,255,255.45)]
+                          ${statusState == 'lock' ? 'fa-lock' : 'fa-unlock'}`}
+                        />
+                        <span
+                          id=""
+                          className="status font-bakbak bg-white/50 p-2 rounded-t-md sm:text-4xl xs:text-2xl tracking-tight drop-shadow-[0_1px_0px_rgba(255,255,255,255.45)] "
+                        >
+                          Locked
+                        </span>
+                        <span className="hidden bg-white/50 pb-1 px-2 rounded-md sm:text-2xl xs:text-sm  font-bold  drop-shadow-[0_1px_0px_rgba(255,255,255,255.45)] ">
+                          Unused
+                        </span>
+                      </div>
+                    </div>
                     <div className="relative h-12 w-20 m-auto bg-gray-400 rounded-tl-full rounded-tr-full border-l-4 border-l-gray-500 border-r-4 border-r-gray-300"></div>
                     <div className="relative -mt-9 h-9 w-12 pl-1 border-r-4 border-gray-500 m-auto bg-white rounded-tl-full rounded-tr-full "></div>
 
                     <div className="relative -mt-10">
                       <div className="relative rounded-5xl bg-gray-600 w-7/12 h-14 mx-auto mt-6 z-10 border-l-6 border-b-6 border-gray-700/80 border-r-6 border-r-gray-500 overflow-hidden"></div>
                       <div
-                        className={`relative -mt-10 transform transition duration-500 hover:shadow-xl hover:text-yellow-500 hover:shadow-yellow-400 bg-mainBGBrown rounded-4xl border-l-8 border-b-8 border-yellow-700 border-r-8 border-r-brTwo shadow-md pl-8 pr-8 py-6 pb-12 ${
+                        className={`relative -mt-10 transform transition duration-500 bg-mainBGBrown rounded-4xl border-l-8 border-b-8 border-yellow-700 border-r-8 border-r-brTwo  pl-8 pr-8 py-6 pb-12 
+                        ${
+                          currentSection != 'SUBSCRIBED-STUDENTS'
+                            ? 'shadow-md  hover:shadow-xl hover:text-yellow-500 hover:shadow-yellow-400'
+                            : subscribedState && !expiredState
+                            ? 'shadow-md  hover:shadow-xl hover:text-yellow-500 hover:shadow-yellow-400'
+                            : ''
+                        }
+                        ${
                           option == 'average'
                             ? 'shadow-xl shadow-yellow-500 text-yellow-500'
                             : ' shadow-yellow-900/90 text-gray-700'
@@ -998,24 +1175,73 @@ export default function DifficultyPage() {
                         </svg>
                       </div>
                     </div>
-                  </button>
+                  </div>
 
                   {/*<!--DIFFICULT-->*/}
 
-                  <button
+                  <div
                     name="difficult"
-                    onClick={difficultType}
-                    className={`w-full transform transition duration-500 hover:scale-95  ${
-                      option == 'difficult' ? 'scale-95 ' : 'scale-90'
-                    }`}
+                    onClick={
+                      currentSection != 'SUBSCRIBED-STUDENTS'
+                        ? difficultType
+                        : subscribedState && !expiredState
+                        ? difficultType
+                        : null
+                    }
+                    className={`relative w-full transform transition duration-500 ${
+                      currentSection != 'SUBSCRIBED-STUDENTS'
+                        ? 'cursor-pointer hover:scale-95'
+                        : subscribedState && !expiredState
+                        ? 'cursor-pointer hover:scale-95'
+                        : 'cursor-default'
+                    }  ${option == 'difficult' ? 'scale-95' : 'scale-90'}`}
                   >
+                    <div
+                      className={`select-none absolute left-0 top-0 z-[100] opacity-100  w-full h-full bg-white/60 rounded-xl  backdrop-blur-[0.5px]  flex flex-col justify-center items-center text-center transition duration-150 
+                                ${
+                                  currentSection != 'SUBSCRIBED-STUDENTS'
+                                    ? 'hidden'
+                                    : subscribedState && !expiredState
+                                    ? 'hidden'
+                                    : ''
+                                }`}
+                    >
+                      <div
+                        onClick={subscribe}
+                        onMouseEnter={unlock}
+                        onMouseLeave={lock}
+                        className="flex flex-col cursor-pointer text-gray-600"
+                      >
+                        <i
+                          className={`fa lg:text-[6rem] sm:text-[5rem] xs:text-[4rem] mb-2 drop-shadow-[0_1px_0px_rgba(255,255,255,255.45)]
+                          ${statusState == 'lock' ? 'fa-lock' : 'fa-unlock'}`}
+                        />
+                        <span
+                          id=""
+                          className="status font-bakbak bg-white/50 p-2 rounded-t-md sm:text-4xl xs:text-2xl tracking-tight drop-shadow-[0_1px_0px_rgba(255,255,255,255.45)] "
+                        >
+                          Locked
+                        </span>
+                        <span className="hidden bg-white/50 pb-1 px-2 rounded-md sm:text-2xl xs:text-sm  font-bold  drop-shadow-[0_1px_0px_rgba(255,255,255,255.45)] ">
+                          Unused
+                        </span>
+                      </div>
+                    </div>
                     <div className="relative h-12 w-20 m-auto bg-gray-400 rounded-tl-full rounded-tr-full border-l-4 border-l-gray-500 border-r-4 border-r-gray-300"></div>
                     <div className="relative -mt-9 h-9 w-12 pl-1 border-r-4 border-gray-500 m-auto bg-white rounded-tl-full rounded-tr-full "></div>
 
                     <div className="relative -mt-10">
                       <div className="relative rounded-5xl bg-gray-600 w-7/12 h-14 mx-auto mt-6 z-10 border-l-6 border-b-6 border-gray-700/80 border-r-6 border-r-gray-500 overflow-hidden"></div>
                       <div
-                        className={`relative -mt-10  transform transition duration-500 hover:shadow-xl hover:text-red-500 hover:shadow-red-500 bg-mainBGBrown rounded-4xl border-l-8 border-b-8 border-yellow-700 border-r-8 border-r-brTwo shadow-md  pl-8 pr-8 py-6 pb-12 ${
+                        className={`relative -mt-10  transform transition duration-500 bg-mainBGBrown rounded-4xl border-l-8 border-b-8 border-yellow-700 border-r-8 border-r-brTwo pl-8 pr-8 py-6 pb-12 
+                        ${
+                          currentSection != 'SUBSCRIBED-STUDENTS'
+                            ? 'shadow-md hover:shadow-xl hover:text-red-500 hover:shadow-red-500'
+                            : subscribedState && !expiredState
+                            ? 'shadow-md hover:shadow-xl hover:text-red-500 hover:shadow-red-500'
+                            : ''
+                        }
+                        ${
                           option == 'difficult'
                             ? 'shadow-xl shadow-red-500 text-red-500'
                             : ' shadow-yellow-900/90 text-gray-700'
@@ -1108,7 +1334,7 @@ export default function DifficultyPage() {
                         </svg>
                       </div>
                     </div>
-                  </button>
+                  </div>
                 </div>
                 <div className="w-full mx-auto text-center pt-8 pb-10">
                   <button

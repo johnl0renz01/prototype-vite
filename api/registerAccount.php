@@ -78,7 +78,7 @@ switch($_SESSION['method']) {
 
         if($role == "Student") {
             try {
-                $connect = new mysqli('localhost','root','','prototype_sfe');
+                $connect = new mysqli('localhost','PIA','!PedagogicalSFE144','prototype_sfe');
 
                 $create = "CREATE TABLE ".$userTable." (
                     SessionID INT UNSIGNED AUTO_INCREMENT PRIMARY KEY   , 
@@ -106,7 +106,7 @@ switch($_SESSION['method']) {
         } else {
             try {
                 $teacherTable = $userTable."_equation_list";
-                $connect = new mysqli('localhost','root','','prototype_sfe');
+                $connect = new mysqli('localhost','PIA','!PedagogicalSFE144','prototype_sfe');
 
                 $create = "CREATE TABLE ".$teacherTable." (
                     EquationID INT UNSIGNED AUTO_INCREMENT PRIMARY KEY   , 
@@ -116,7 +116,7 @@ switch($_SESSION['method']) {
 
                 $conn->exec($create);
 
-                $connect2 = new mysqli('localhost','root','','prototype_sfe');
+                $connect2 = new mysqli('localhost','PIA','!PedagogicalSFE144','prototype_sfe');
 
                 $teacherTable2 = $userTable."_equation_settings";
                 $create2 = "CREATE TABLE ".$teacherTable2." (

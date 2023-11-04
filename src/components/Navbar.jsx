@@ -23,6 +23,7 @@ import {
   BsGear,
   BsPersonCircle,
   BsPerson,
+  BsInboxes,
 } from 'react-icons/bs';
 
 import LoadingSpinner from './LoadingSpinner';
@@ -32,6 +33,10 @@ import SecureStorageData from './SecureStorageData';
 
 import ChangePasswordModal from './ChangePasswordModal';
 import ChangePasswordMessageModal from './ChangePasswordMessageModal';
+
+import ManageSubscription from './ManageSubscription';
+import ManageSubscriptionConfirm from './ManageSubscriptionConfirm';
+import ManageSubscriptionMessage from './ManageSubscriptionMessage';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
@@ -54,6 +59,8 @@ function Navbar() {
     ) {
       Initiation.initiatePage();
     }
+    // FOR MANAGE SUBSCRIPTION
+    window.sessionStorage.removeItem('UPLOADED');
   }, []);
 
   //FOR LINKS/NAVBAR/BREADCRUMBS
@@ -156,6 +163,8 @@ function Navbar() {
           setLogoutState(true);
         }
       }
+    } else {
+      setLogoutState(true);
     }
     var accountName = StorageData.localStorageJSON('SESSION_FULLNAME');
     if (accountName !== null) {
@@ -185,6 +194,7 @@ function Navbar() {
         .then(function (response) {
           setShowLoading(false);
           setLogoutState(true);
+          localStorage.clear();
           window.localStorage.removeItem('LOGIN_STATUS');
           window.localStorage.removeItem('UNIQUE_ID');
           window.localStorage.setItem('LOGGED', JSON.stringify('FALSE'));
@@ -268,6 +278,69 @@ function Navbar() {
 
   const [showMessageModal2, setShowMessageModal2] = useState(false);
   const handleOnCloseMessageModal2 = () => setShowMessageModal2(false);
+
+  // MODAL MANAGE SUBSCRIPTION
+  const [showModal3, setShowModal3] = useState(false);
+  const handleOnCloseModal3 = () => setShowModal3(false);
+
+  const handleOnContinueModal3 = () => {
+    setShowModal3(false);
+    setShowModal4(true);
+  };
+
+  //CHECK CHOOSE SUBSCRIPTION
+
+  useEffect(() => {
+    var account = StorageData.localStorageJSON('ACCOUNT_TYPE');
+    if (account !== null) {
+      if (account == 'Student') {
+        var plan = StorageData.sessionStorageJSON('PLAN');
+        if (plan !== null) {
+          if (plan == 'SUBSCRIBE-STUDENT-1') {
+            setShowModal4(true);
+          } else if (plan == 'EXTEND') {
+            setShowModal4(true);
+          } else {
+            window.sessionStorage.removeItem('PLAN');
+          }
+        } else {
+          window.sessionStorage.removeItem('PLAN');
+        }
+      }
+    }
+  }, []);
+
+  // MODAL MANAGE SUBSCRIPTION CONFIRMATION
+  const [showModal4, setShowModal4] = useState(false);
+  const handleOnCloseModal4 = () => {
+    window.sessionStorage.removeItem('PLAN');
+    setShowModal4(false);
+  };
+
+  const handleOnContinueModal4 = () => {
+    window.sessionStorage.removeItem('PLAN');
+    setShowModal4(false);
+    setShowMessageModal4(true);
+  };
+
+  const [showMessageModal4, setShowMessageModal4] = useState(false);
+
+  const handleOnContinueMessageModal4 = () => {};
+
+  const handleOnCloseMessageModal4 = () => {
+    for (var i = 1; i < 99999; i++) window.clearInterval(i);
+    window.sessionStorage.removeItem('PLAN');
+    setShowMessageModal4(false);
+  };
+
+  const [currentSection, setCurrentSection] = useState('');
+
+  useEffect(() => {
+    var section = StorageData.localStorageJSON('SESSION_SECTION_NAME');
+    if (section !== null) {
+      setCurrentSection(section);
+    }
+  }, []);
 
   return (
     <>
@@ -440,6 +513,33 @@ function Navbar() {
                           </button>
                         )}
                       </Menu.Item>
+                      {currentSection == 'SUBSCRIBED-STUDENTS' ? (
+                        <>
+                          <Menu.Item>
+                            {({ active }) => (
+                              <button
+                                onClick={() => setShowModal3(true)}
+                                className={classNames(
+                                  active
+                                    ? 'bg-gray-100 text-gray-900 '
+                                    : 'text-gray-700 border-b-2 border-b-gray-200/80',
+                                  'block w-full px-4 py-2 text-left text-sm whitespace-nowrap '
+                                )}
+                              >
+                                <p className="flex px-1">
+                                  {' '}
+                                  <BsInboxes className="lg:text-2xl md:text-2xl sm:text-sm xs:text-xs -ml-2" />
+                                  <span className="ml-1.5 mt-[0.1rem]  min-w-[3.5rem]">
+                                    Manage Subscription
+                                  </span>
+                                </p>
+                              </button>
+                            )}
+                          </Menu.Item>
+                        </>
+                      ) : (
+                        <></>
+                      )}
                       <Menu.Item>
                         {({ active }) => (
                           <button
@@ -519,6 +619,25 @@ function Navbar() {
         onClose={handleOnCloseMessageModal2}
         visible={showMessageModal2}
       />
+
+      <ManageSubscription
+        onClose={handleOnCloseModal3}
+        visible={showModal3}
+        onContinue={handleOnContinueModal3}
+      />
+
+      <ManageSubscriptionConfirm
+        onClose={handleOnCloseModal4}
+        visible={showModal4}
+        onContinue={handleOnContinueModal4}
+      />
+
+      <ManageSubscriptionMessage
+        onContinue={handleOnContinueMessageModal4}
+        visible={showMessageModal4}
+        onClose={handleOnCloseMessageModal4}
+      />
+
       <LoadingSpinner visible={showLoading} />
     </>
   );

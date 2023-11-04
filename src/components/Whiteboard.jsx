@@ -201,6 +201,67 @@ export default function Whiteboard() {
 
   //END END END END END END END END END END END END
 
+  //SUBSCRIPTION
+
+  const [expiredState, setExpiredState] = useState(false);
+  const [subscribedState, setSubscribedState] = useState(false);
+  const [currentSection, setCurrentSection] = useState('');
+
+  useEffect(() => {
+    var section = StorageData.localStorageJSON('SESSION_SECTION_NAME');
+    if (section !== null) {
+      console.log(section);
+      setCurrentSection(section);
+
+      if (section == 'SUBSCRIBED-STUDENTS') {
+        var subscribed = StorageData.localStorageJSON('S-STATUS');
+        if (subscribed !== null && subscribed !== '') {
+          window.localStorage.setItem(
+            'SYSTEM_VERSION',
+            JSON.stringify(SecureStorageData.dataEncryption('Facial Group'))
+          );
+          setSubscribedState(true);
+          checkDate();
+        } else {
+          window.localStorage.setItem(
+            'SYSTEM_VERSION',
+            JSON.stringify(SecureStorageData.dataEncryption('Non Facial Group'))
+          );
+        }
+      }
+    }
+  }, []);
+
+  function checkDate() {
+    let subscriptionDate = StorageData.localStorageJSON('S-DATE');
+    if (subscriptionDate !== null) {
+      subscriptionDate = subscriptionDate.split('-');
+
+      subscriptionDate[1] = parseInt(subscriptionDate[1]) - 1;
+      subscriptionDate[1] = subscriptionDate[1].toString();
+
+      let endDate = new Date(
+        subscriptionDate[0],
+        subscriptionDate[1],
+        subscriptionDate[2],
+        0,
+        0
+      );
+      //Output value in milliseconds
+      let endTime = endDate.getTime();
+
+      let todayDate = new Date();
+      let todayTime = todayDate.getTime();
+      if (endTime < todayTime) {
+        window.localStorage.setItem(
+          'SYSTEM_VERSION',
+          JSON.stringify(SecureStorageData.dataEncryption('Non Facial Group'))
+        );
+        setExpiredState(true);
+      }
+    }
+  }
+
   const [questionList, setQuestions] = useState([]);
   const questionAnswers = [];
   const questionSteps = [];
@@ -367,6 +428,7 @@ export default function Whiteboard() {
   }, []);
 
   const loadAnswers = e => {
+    focusInputBox();
     //GET CURRENT COEFFICIENT
     getCoefficient();
     getFraction();
@@ -843,6 +905,7 @@ export default function Whiteboard() {
   });
 
   const nextQuestion = e => {
+    focusInputBox();
     window.localStorage.removeItem('IS_INTERACTED');
     for (let i = 0; i < highestTimeoutId; i++) {
       clearTimeout(i);
@@ -903,6 +966,7 @@ export default function Whiteboard() {
   };
 
   const skipQuestion = () => {
+    focusInputBox();
     for (let i = 0; i < highestTimeoutId; i++) {
       clearTimeout(i);
     }
@@ -1066,6 +1130,12 @@ export default function Whiteboard() {
     setTimeout(displayInspiration, delay);
   }
 
+  const inputID = document.getElementById('input_box');
+
+  // FOR OTHER STUFF
+  function focusInputBox() {
+    ReactDOM.findDOMNode(inputID).focus();
+  }
   //=============================CLICK BUTTON=============================
   const handleClick = event => {
     if (levelDownState) {
@@ -1083,9 +1153,7 @@ export default function Whiteboard() {
 
     console.log('ANSWER: ' + answerFraction);
 
-    //Focus inputbox
-    let inputID = document.getElementById('input_box');
-    ReactDOM.findDOMNode(inputID).focus();
+    focusInputBox();
 
     //If string is not empty
     if (textInput.trim() !== '') {
@@ -1512,23 +1580,31 @@ export default function Whiteboard() {
       setSubtext('');
     }
 
-    //10th question easy
-    let diffType = StorageData.localStorageRAW('DIFFICULTY_TYPE');
-    var abandonedTally = StorageData.localStorageJSON('QUESTION_ABANDONED');
-
-    if (abandonedTally === null) abandonedTally = 0;
     if (
-      StorageData.localStorageJSON('QUESTION_ANSWERED') >= 9 &&
-      (diffType == '"Easy"' || diffType == 'Easy') &&
-      abandonedTally == 0
+      (subscribedState && !expiredState) ||
+      currentSection != 'SUBSCRIBED-STUDENTS'
     ) {
-      setTimeout(displayLevelUp, 3500);
-    } else if (
-      StorageData.localStorageJSON('QUESTION_ANSWERED') >= 5 &&
-      (diffType == '"Average"' || diffType == 'Average') &&
-      abandonedTally == 0
-    ) {
-      setTimeout(displayLevelUp, 3500);
+      //10th question easy
+      let diffType = StorageData.localStorageRAW('DIFFICULTY_TYPE');
+      var abandonedTally = StorageData.localStorageJSON('QUESTION_ABANDONED');
+
+      if (abandonedTally === null) abandonedTally = 0;
+      if (
+        StorageData.localStorageJSON('QUESTION_ANSWERED') >= 9 &&
+        (diffType == '"Easy"' || diffType == 'Easy') &&
+        abandonedTally == 0
+      ) {
+        setTimeout(displayLevelUp, 3500);
+      } else if (
+        StorageData.localStorageJSON('QUESTION_ANSWERED') >= 5 &&
+        (diffType == '"Average"' || diffType == 'Average') &&
+        abandonedTally == 0
+      ) {
+        setTimeout(displayLevelUp, 3500);
+      } else {
+        setQuestionResponse('Proceed to next question?');
+        ReactDOM.findDOMNode(choiceArea).style.visibility = 'visible';
+      }
     } else {
       setQuestionResponse('Proceed to next question?');
       ReactDOM.findDOMNode(choiceArea).style.visibility = 'visible';
@@ -1982,6 +2058,8 @@ export default function Whiteboard() {
     clickLog('Trash_Button_Clicked');
     arrSetLog([]);
     window.localStorage.removeItem('USER_LOGS');
+    //Focus inputbox
+    focusInputBox();
   };
 
   //HELP BUTTON
@@ -2031,6 +2109,7 @@ export default function Whiteboard() {
         }
         document.body.removeEventListener('click', changeCursor);
         setHelpState(false);
+        focusInputBox();
       }
     }
   }
@@ -2112,6 +2191,7 @@ export default function Whiteboard() {
         timer();
       }
       setHintState(false);
+      focusInputBox();
     } else {
       if (levelDownState) {
         setTimeout(hideResponseOption, 1);
@@ -2378,6 +2458,7 @@ export default function Whiteboard() {
         timer();
       }
       setGuideState(false);
+      focusInputBox();
     } else {
       if (levelDownState) {
         setTimeout(hideResponseOption, 1);
@@ -2420,7 +2501,7 @@ export default function Whiteboard() {
       setShowModal(true);
     }
     //END AT 20th
-    if (StorageData.localStorageJSON('QUESTION_INDEX') >= 19) {
+    if (StorageData.localStorageJSON('QUESTION_INDEX') >= 20) {
       for (let i = 0; i < highestTimeoutId; i++) {
         clearTimeout(i);
       }
@@ -2533,10 +2614,13 @@ export default function Whiteboard() {
           />
         </div>
 
-        <div className=" whitespace-nowrap overflow-hidden text-ellipsis p-0.5 text-center hdScreen:text-sm averageScreen:text-xs  xs:text-xs absolute bottom-0 bg-slate-600 text-white border-t-3 border-slate-700 w-full">
+        <div
+          title={linkTitle + ' ' + linkAuthor}
+          className=" whitespace-nowrap overflow-hidden text-ellipsis p-0.5 text-center hdScreen:text-sm averageScreen:text-xs  xs:text-xs absolute bottom-0 bg-slate-600 text-white border-t-3 border-slate-700 w-full"
+        >
           <span className="">{linkTitle}</span>
           <br></br>
-          {linkAuthor}
+          <span>{linkAuthor}</span>
         </div>
       </div>
     );
@@ -2721,6 +2805,12 @@ export default function Whiteboard() {
                   {...(isHelp ? { datatooltipposition: 'right' } : {})}
                 >
                   <svg
+                    onMouseEnter={() => {
+                      setInterval(focusInputBox, 100);
+                    }}
+                    onMouseLeave={() => {
+                      clearInterval(focusInputBox);
+                    }}
                     onClick={tutorialMode}
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
@@ -2762,6 +2852,12 @@ export default function Whiteboard() {
                   {...(isHelp ? { datatooltipposition: 'right' } : {})}
                 >
                   <svg
+                    onMouseEnter={() => {
+                      setInterval(focusInputBox, 100);
+                    }}
+                    onMouseLeave={() => {
+                      clearInterval(focusInputBox);
+                    }}
                     id="pen_button"
                     onClick={penMode}
                     className={`cursor-pointer  hdScreen:h-11 semihdScreen:h-10 laptopScreen:h-9 averageScreen:h-8 xs:h-7  hdScreen:w-11 semihdScreen:w-10 laptopScreen:w-9 averageScreen:w-8  xs:w-7 rounded-full hover:fill-lime-600/90 hover:bg-lime-600/90 hover:text-white p-1 focus:text-white drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)] ${

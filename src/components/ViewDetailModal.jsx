@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
 
@@ -9,6 +9,7 @@ import {
   BsFillSendFill,
   BsDashCircle,
   BsCheckCircle,
+  BsArrowDownSquare,
 } from 'react-icons/bs';
 
 import { Formik, useFormik } from 'formik';
@@ -17,6 +18,9 @@ import LoadingSpinner from './LoadingSpinner';
 
 import StorageData from './StorageData';
 import SecureStorageData from './SecureStorageData';
+
+import ViewDetailPicture from './ViewDetailPicture';
+import FileUpload from './FileUpload';
 
 const ViewDetailModal = ({ visible, onClose, onContinue }) => {
   const [showLoading, setShowLoading] = useState(false);
@@ -95,8 +99,15 @@ const ViewDetailModal = ({ visible, onClose, onContinue }) => {
   const handleOnClose = e => {
     if (e.target.id === 'mainContainer') {
       setReplyMode(false);
+      for (var i = 1; i < 99999; i++) window.clearInterval(i);
       onClose();
     }
+  };
+
+  const closeButton = e => {
+    setReplyMode(false);
+    for (var i = 1; i < 99999; i++) window.clearInterval(i);
+    onClose();
   };
 
   const onSubmit = async (values, actions) => {
@@ -118,6 +129,10 @@ const ViewDetailModal = ({ visible, onClose, onContinue }) => {
       )
       .then(function (response) {
         console.log(response.data);
+        window.sessionStorage.setItem(
+          'UPLOAD_IMAGE',
+          SecureStorageData.dataEncryption('TRUE')
+        );
         setShowLoading(false);
         setReplyMode(false);
         handleReset();
@@ -144,11 +159,6 @@ const ViewDetailModal = ({ visible, onClose, onContinue }) => {
     },
     onSubmit,
   });
-
-  const closeButton = () => {
-    setReplyMode(false);
-    onClose();
-  };
 
   const [replyMode, setReplyMode] = useState(false);
   const replyArea = document.getElementById('message');
@@ -177,23 +187,150 @@ const ViewDetailModal = ({ visible, onClose, onContinue }) => {
 
   const sendReply = () => {};
 
+  // MODAL IMAGE
+  const [showModal, setShowModal] = useState(false);
+  const handleOnCloseModal = () => setShowModal(false);
+  const handleOnContinueModal = () => {
+    setShowModal(false);
+  };
+
+  function imagePreview(file) {
+    var data = file;
+    var dataName = data.substring(8);
+    var fileDetails = data.split('.');
+    var img = fileDetails[0];
+    var extensionType = fileDetails[1];
+    //console.log(extensionType);
+
+    if (extensionType == 'jpg') {
+      return (
+        <>
+          {' '}
+          <div className="lg:pb-4 xs:pb-2">
+            <img
+              className="cursor-pointer"
+              onClick={function () {
+                setShowModal(true),
+                  window.sessionStorage.setItem(
+                    'IMAGE_LINK_VIEW',
+                    JSON.stringify(file)
+                  );
+              }}
+              src={'https://pia-sfe.online/api/' + img + '.jpg'}
+            ></img>
+          </div>
+        </>
+      );
+    } else if (extensionType == 'jpeg') {
+      return (
+        <>
+          {' '}
+          <div className="lg:pb-4 xs:pb-2">
+            <img
+              className="cursor-pointer"
+              onClick={function () {
+                setShowModal(true),
+                  window.sessionStorage.setItem(
+                    'IMAGE_LINK_VIEW',
+                    JSON.stringify(file)
+                  );
+              }}
+              src={'https://pia-sfe.online/api/' + img + '.jpeg'}
+            ></img>
+          </div>
+        </>
+      );
+    }
+    if (extensionType == 'png') {
+      return (
+        <>
+          {' '}
+          <div className="lg:pb-4 xs:pb-2">
+            <img
+              className="cursor-pointer"
+              onClick={function () {
+                setShowModal(true),
+                  window.sessionStorage.setItem(
+                    'IMAGE_LINK_VIEW',
+                    JSON.stringify(file)
+                  );
+              }}
+              src={'https://pia-sfe.online/api/' + img + '.png'}
+            ></img>
+          </div>
+        </>
+      );
+    } else if (
+      extensionType !== '' &&
+      extensionType !== undefined &&
+      extensionType !== null
+    ) {
+      return (
+        <>
+          <div className=" lg:max-w-[15rem] sm:max-w-[8rem] xs:max-w-[7.5rem]">
+            <span className="text-gray-500 font-semibold md:text-base sm:text-sm xs:text-xs">
+              Attached File(s):
+            </span>
+            <Link
+              role="button"
+              to={'https://pia-sfe.online/api/' + data}
+              target="_blank"
+              download
+              className="  flex justify-start items-center hdScreen:text-base semihdScreen:text-sm  laptopScreen:text-sm averageScreen:text-sm xs:text-xs   hdScreen:py-1 semihdScreen:py-1 laptopScreen:py-1 averageScreen:py-0.5  text-gray-600 hover:text-gray-700 relative   "
+            >
+              <i className=" fa fa-paperclip mr-1 "></i>{' '}
+              <p
+                title={dataName}
+                className=" lg:max-w-[15rem] sm:max-w-[8rem] xs:max-w-[7.5rem] text-ellipsis overflow-hidden whitespace-nowrap"
+              >
+                {dataName}
+              </p>
+            </Link>
+          </div>
+        </>
+      );
+    }
+  }
+
   if (!visible) return null;
 
-  function headContent(person, timestamp, content, index) {
-    return (
-      <div id={index}>
-        <hr />
+  function headContent(person, timestamp, content, file, index) {
+    if (file !== 0 && file !== null) {
+      return (
+        <div id={index}>
+          <hr />
 
-        <div className="flex my-3 items-center">
-          <p className="text-left text-base mr-2 font-semibold">By: {person}</p>
-          <p className="text-left text-sm">({timestamp})</p>
-        </div>
+          <div className="flex my-3 items-center">
+            <p className="text-left text-base mr-2 font-semibold">
+              By: {person}
+            </p>
+            <p className="text-left text-sm">({timestamp})</p>
+          </div>
 
-        <div className="inline-flex w-full mb-3 whitespace-pre-line">
-          {content}
+          <div className="relative inline-flex w-full mb-3 whitespace-pre-line">
+            {content}
+          </div>
+          <div className="max-w-[50%]">{imagePreview(file)}</div>
         </div>
-      </div>
-    );
+      );
+    } else if (file == null) {
+      return (
+        <div id={index}>
+          <hr />
+
+          <div className="flex my-3 items-center">
+            <p className="text-left text-base mr-2 font-semibold">
+              By: {person}
+            </p>
+            <p className="text-left text-sm">({timestamp})</p>
+          </div>
+
+          <div className="relative inline-flex w-full mb-3 whitespace-pre-line">
+            {content}
+          </div>
+        </div>
+      );
+    }
   }
 
   return (
@@ -252,13 +389,14 @@ const ViewDetailModal = ({ visible, onClose, onContinue }) => {
                           content.Name,
                           content.Date,
                           content.Message,
+                          content.File,
                           index
                         )}
                       </div>
                     ))}
                   </>
                 ) : (
-                  <>{headContent('System', date, message, 0)}</>
+                  <>{headContent('System', date, message, null, 0)}</>
                 )}
 
                 <div className={`my-3 ${replyMode ? '' : 'hidden'}`}>
@@ -275,6 +413,7 @@ const ViewDetailModal = ({ visible, onClose, onContinue }) => {
                     className={` mt-4 w-full lg:py-2  lg:px-3  lg:text-lg xs:text-xs rounded-md border-2 border-gray-500 focus:outline-teal-500 focus:ring-teal-500 focus:border-none 
                       `}
                   />
+                  <FileUpload />
                 </div>
               </div>
               <div
@@ -297,7 +436,7 @@ const ViewDetailModal = ({ visible, onClose, onContinue }) => {
                     Cancel
                   </button>
                   <button
-                    type="submit"
+                    type={values.message != '' ? 'submit' : 'button'}
                     disabled={isSubmitting}
                     onClick={values.message != '' ? onSubmit : null}
                     className={` ml-4 relative lg:py-0.5 lg:px-3 sm:py-1.5 sm:px-2.5 xs:px-1 xs:py-1  rounded-md   ease-in-out transition duration-300 
@@ -354,6 +493,11 @@ const ViewDetailModal = ({ visible, onClose, onContinue }) => {
           </div>
         </div>
       </div>
+      <ViewDetailPicture
+        onClose={handleOnCloseModal}
+        visible={showModal}
+        onContinue={handleOnContinueModal}
+      />
       <LoadingSpinner visible={showLoading} />
     </>
   );

@@ -23,8 +23,11 @@ import LoginPageSkeleton from './LoginPageSkeleton';
 
 import LoadingSpinner from './LoadingSpinner';
 
+//import DataGenerator from './DataGenerator';
+
 import StorageData from './StorageData';
 import SecureStorageData from './SecureStorageData';
+import FileUpload from './FileUpload';
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -85,6 +88,7 @@ export default function LoginPage() {
   document.body.style.backgroundImage =
     'linear-gradient(to top, #bef264, #d9f99d , #ccf779)';
 
+  /*
   useEffect(() => {
     document.body.style.backgroundImage =
       'linear-gradient(to top, #bef264, #d9f99d , #ccf779)';
@@ -110,6 +114,7 @@ export default function LoginPage() {
     document.body.style.backgroundImage =
       'linear-gradient(to top, #bef264, #d9f99d , #ccf779)';
   }
+  */
 
   //END END END END END END END END END END END END
 
@@ -193,6 +198,9 @@ export default function LoginPage() {
             currentData = currentData.replace('"MiddleName":', '');
             currentData = currentData.replace('"LastName":', '');
             currentData = currentData.replace('"Section":', '');
+            currentData = currentData.replace('"Subscribed":', '');
+            currentData = currentData.replace('"SubscriptionType":', '');
+            currentData = currentData.replace('"DueDate":', '');
 
             var userData = [];
             convertStringToArray();
@@ -236,16 +244,64 @@ export default function LoginPage() {
                   'SESSION_EMAIL',
                   JSON.stringify(SecureStorageData.dataEncryption(userData[1]))
                 );
-                /*
+
                 window.localStorage.setItem(
                   'SESSION_SECTION_NAME',
-                  JSON.stringify(userData[6])
+                  JSON.stringify(SecureStorageData.dataEncryption(userData[6]))
                 );
-                */
+
                 window.localStorage.setItem(
                   'SYSTEM_VERSION',
                   JSON.stringify(SecureStorageData.dataEncryption(userData[3]))
                 );
+
+                var subscribed = userData[7];
+
+                if (subscribed == 'TRUE') {
+                  checkDate(userData[9]);
+
+                  function checkDate(date) {
+                    var subscriptionDate = date;
+                    subscriptionDate = subscriptionDate.split('-');
+
+                    subscriptionDate[1] = parseInt(subscriptionDate[1]) - 1;
+                    subscriptionDate[1] = subscriptionDate[1].toString();
+
+                    let endDate = new Date(
+                      subscriptionDate[0],
+                      subscriptionDate[1],
+                      subscriptionDate[2],
+                      0,
+                      0
+                    );
+                    //Output value in milliseconds
+                    let endTime = endDate.getTime();
+
+                    let todayDate = new Date();
+                    let todayTime = todayDate.getTime();
+                    if (endTime < todayTime) {
+                      userData[9] = '0-0-0';
+                    }
+                  }
+                  window.localStorage.setItem(
+                    'S-STATUS',
+                    JSON.stringify(
+                      SecureStorageData.dataEncryption(userData[7])
+                    )
+                  );
+                  window.localStorage.setItem(
+                    'S-TYPE',
+                    JSON.stringify(
+                      SecureStorageData.dataEncryption(userData[8])
+                    )
+                  );
+                  window.localStorage.setItem(
+                    'S-DATE',
+                    JSON.stringify(
+                      SecureStorageData.dataEncryption(userData[9])
+                    )
+                  );
+                }
 
                 var sectionName = userData[6];
                 sectionName = sectionName.replace(/"/g, '');
@@ -407,6 +463,12 @@ export default function LoginPage() {
                               setShowLoading(false);
                             });
                         } else if (data == 'Teacher') {
+                          window.localStorage.setItem(
+                            'SUBSCRIPTION_TYPE',
+                            JSON.stringify(
+                              SecureStorageData.dataEncryption(userData[7])
+                            )
+                          );
                           window.localStorage.removeItem('LOGIN_STATUS');
                           var fullName =
                             StorageData.localStorageJSON('SESSION_FULLNAME');
@@ -709,6 +771,9 @@ export default function LoginPage() {
   return (
     <>
       {/** 
+       * <FileUpload />
+       * 
+       * <DataGenerator />
      <div className={`${!skeletonState ? '' : ''}`}>
        <LoginPageSkeleton />
      </div>

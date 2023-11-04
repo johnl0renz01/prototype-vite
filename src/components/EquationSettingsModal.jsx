@@ -16,6 +16,7 @@ import {
   BsSlashCircle,
   BsQuestionCircleFill,
   BsQuestionCircle,
+  BsLockFill,
 } from 'react-icons/bs';
 
 import { MdClose } from 'react-icons/md';
@@ -229,6 +230,16 @@ const EquationSettingsModal = ({ visible, onClose, onContinue }) => {
     }
   };
 
+  const [planType, setPlanType] = useState('');
+  useEffect(() => {
+    var plan = StorageData.localStorageJSON('S-TYPE');
+    if (plan !== null && plan !== '') {
+      setPlanType(plan);
+    } else {
+      setPlanType('');
+    }
+  }, []);
+
   if (!visible) return null;
 
   return (
@@ -239,7 +250,7 @@ const EquationSettingsModal = ({ visible, onClose, onContinue }) => {
         className={`fixed top-0 z-50 inset-0 bg-black bg-opacity-50 backdrop-blur-[1.5px] flex justify-center items-center "
                 ${showLoading ? 'invisible' : ''}`}
       >
-        <div className="bg-white hdScreen:w-1/3 semihdScreen:w-[40%] laptopScreen:w-[45%] averageScreen:w-[45%] hdScreen:scale-100 semihdScreen:scale-95 laptopScreen:scale-90 averageScreen:scale-90 rounded lg:text-lg md:text-base sm:text-sm xs:text-xs shadow-md ">
+        <div className="bg-white  hdScreen:scale-100 semihdScreen:scale-95 laptopScreen:scale-90 averageScreen:scale-90 xs:scale-85 rounded lg:text-lg md:text-base sm:text-sm xs:text-xs shadow-md ">
           <div className="grid grid-cols-2 bg-gray-300 ">
             <span className="lg:text-xl xs:text-lg ml-2 flex items-center text-black/60 font-semibold">
               {' '}
@@ -257,167 +268,338 @@ const EquationSettingsModal = ({ visible, onClose, onContinue }) => {
           <form action="" autoComplete="off" onSubmit={handleSubmit}>
             <div className="p-4 pb-8 text-gray-800">
               <div className="grid grid-cols-2">
-                <div className=" px-6 border-r-[1px]  border-black/50">
-                  <h1 className="font-bold text-xl text-center  border-b-[1px] pb-2 mb-2 border-black/50">
-                    Custom Equations
-                  </h1>
-                  <div className="font-semibold flex items-center justify-between">
-                    Chance of occurrence: {occurrenceVal}%
-                    <BsQuestionCircle
-                      title="Set the chance value for the custom equation to appear in the question list."
-                      className="text-gray-500 hover:text-lime-600 rounded-full cursor-pointer"
-                    />
-                  </div>
-                  <div className="range my-2">
-                    <input
-                      type="range"
-                      min="0"
-                      max="100"
-                      className="input-range"
-                      value={occurrenceVal}
-                      onChange={occurrenceValueChange}
-                    />
+                <div className="relative px-6 py-2 border-r-[1px]  border-black/50">
+                  <div
+                    className={`select-none text-gray-600 absolute left-0 top-0 opacity-100  w-full h-full  backdrop-blur-[5px]  flex flex-col justify-center items-center text-center transition duration-150
+                                ${
+                                  planType == 'TEACHER-PLAN-1' ? '' : 'hidden'
+                                }`}
+                  >
+                    <i className="fa fa-lock lg:text-[4rem] sm:text-[4rem] xs:text-[3rem] mb-2 drop-shadow-[0_1px_0px_rgba(255,255,255,255.45)]" />
+                    <span className="bg-gray-100/50 p-1 rounded-t-md sm:text-3xl xs:text-2xl  font-bold  drop-shadow-[0_1px_0px_rgba(255,255,255,255.45)] ">
+                      Plan 2: Locked
+                    </span>
+                    <span className="bg-gray-100/50 px-2 rounded-md sm:text-base xs:text-sm  font-bold  drop-shadow-[0_1px_0px_rgba(255,255,255,255.45)] ">
+                      Unlock in Manage Subscription
+                    </span>
                   </div>
 
-                  <div className="py-2 font-semibold flex items-center justify-between">
-                    Prioritize custom equations:
-                    <BsQuestionCircle
-                      title="Give all the custom equations first in the list of questions."
-                      className="text-gray-500 hover:text-lime-600 rounded-full cursor-pointer"
-                    />
-                  </div>
-                  <div className="flex justify-evenly gap-x-10">
-                    <button
-                      type="button"
-                      onClick={prioritize}
-                      className={`w-full  rounded-md 
+                  {planType == 'TEACHER-PLAN-2' ||
+                  planType == 'TEACHER-PLAN-3' ? (
+                    <>
+                      <h1 className="font-bold text-xl text-center  border-b-[1px] pb-2 mb-2 border-black/50">
+                        Custom Equations
+                      </h1>
+                      <div className="font-semibold flex items-center justify-between">
+                        Chance of occurrence: {occurrenceVal}%
+                        <BsQuestionCircle
+                          title="Set the chance value for the custom equation to appear in the question list."
+                          className="text-gray-500 hover:text-lime-600 rounded-full cursor-pointer"
+                        />
+                      </div>
+                      <div className="range my-2">
+                        <input
+                          type="range"
+                          min="0"
+                          max="100"
+                          className="input-range"
+                          value={occurrenceVal}
+                          onChange={occurrenceValueChange}
+                        />
+                      </div>
+
+                      <div className="py-2 font-semibold flex items-center justify-between">
+                        Prioritize custom equations:
+                        <BsQuestionCircle
+                          title="Give all the custom equations first in the list of questions."
+                          className="text-gray-500 hover:text-lime-600 rounded-full cursor-pointer"
+                        />
+                      </div>
+                      <div className="flex justify-evenly gap-x-10">
+                        <button
+                          type="button"
+                          onClick={prioritize}
+                          className={`w-full  rounded-md 
                                     ${
                                       !isPrioritize
                                         ? 'bg-red-600 font-semibold text-white'
                                         : 'bg-gray-200 hover:font-semibold hover:text-white hover:bg-gray-400'
                                     }`}
-                    >
-                      No
-                    </button>
-                    <button
-                      type="button"
-                      onClick={prioritize}
-                      className={`w-full rounded-md 
+                        >
+                          No
+                        </button>
+                        <button
+                          type="button"
+                          onClick={prioritize}
+                          className={`w-full rounded-md 
                                   ${
                                     isPrioritize
                                       ? 'bg-lime-600 font-semibold text-white'
                                       : 'bg-gray-200 hover:font-semibold hover:text-white hover:bg-gray-400'
                                   }`}
-                    >
-                      Yes
-                    </button>
-                  </div>
+                        >
+                          Yes
+                        </button>
+                      </div>
 
-                  <div className="py-2 font-semibold flex items-center justify-between">
-                    Accept fraction as answer:
-                    <BsQuestionCircle
-                      title="Accepts the fraction form answer from the students."
-                      className="text-gray-500 hover:text-lime-600 rounded-full cursor-pointer"
-                    />
-                  </div>
-                  <div className="flex justify-evenly gap-x-10">
-                    <button
-                      type="button"
-                      onClick={fraction}
-                      className={`w-full  rounded-md 
+                      <div className="py-2 font-semibold flex items-center justify-between">
+                        Accept fraction as answer:
+                        <BsQuestionCircle
+                          title="Accepts the fraction form answer from the students."
+                          className="text-gray-500 hover:text-lime-600 rounded-full cursor-pointer"
+                        />
+                      </div>
+                      <div className="flex justify-evenly gap-x-10">
+                        <button
+                          type="button"
+                          onClick={fraction}
+                          className={`w-full  rounded-md 
                                     ${
                                       !isFraction
                                         ? 'bg-red-600 font-semibold text-white'
                                         : 'bg-gray-200 hover:font-semibold hover:text-white hover:bg-gray-400'
                                     }`}
-                    >
-                      No
-                    </button>
-                    <button
-                      type="button"
-                      onClick={fraction}
-                      className={`w-full rounded-md 
+                        >
+                          No
+                        </button>
+                        <button
+                          type="button"
+                          onClick={fraction}
+                          className={`w-full rounded-md 
                                   ${
                                     isFraction
                                       ? 'bg-lime-600 font-semibold text-white'
                                       : 'bg-gray-200 hover:font-semibold hover:text-white hover:bg-gray-400'
                                   }`}
-                    >
-                      Yes
-                    </button>
-                  </div>
+                        >
+                          Yes
+                        </button>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <h1 className="font-bold text-xl text-center  border-b-[1px] pb-2 mb-2 border-black/50">
+                        Custom Equations
+                      </h1>
+                      <div className="font-semibold flex items-center justify-between">
+                        Chance of occurrence: 50%
+                        <BsQuestionCircle
+                          title="Set the chance value for the custom equation to appear in the question list."
+                          className="text-gray-500 hover:text-lime-600 rounded-full cursor-pointer"
+                        />
+                      </div>
+                      <div className="range my-2">
+                        <input
+                          type="range"
+                          min="0"
+                          max="100"
+                          className="input-range"
+                          value="50"
+                        />
+                      </div>
+
+                      <div className="py-2 font-semibold flex items-center justify-between">
+                        Prioritize custom equations:
+                        <BsQuestionCircle
+                          title="Give all the custom equations first in the list of questions."
+                          className="text-gray-500 hover:text-lime-600 rounded-full cursor-pointer"
+                        />
+                      </div>
+                      <div className="flex justify-evenly gap-x-10">
+                        <button
+                          type="button"
+                          onClick={prioritize}
+                          className={`w-full  rounded-md bg-red-600 font-semibold text-white`}
+                        >
+                          No
+                        </button>
+                        <button
+                          type="button"
+                          onClick={prioritize}
+                          className={`w-full rounded-md bg-gray-200 hover:font-semibold hover:text-white hover:bg-gray-400`}
+                        >
+                          Yes
+                        </button>
+                      </div>
+
+                      <div className="py-2 font-semibold flex items-center justify-between">
+                        Accept fraction as answer:
+                        <BsQuestionCircle
+                          title="Accepts the fraction form answer from the students."
+                          className="text-gray-500 hover:text-lime-600 rounded-full cursor-pointer"
+                        />
+                      </div>
+                      <div className="flex justify-evenly gap-x-10">
+                        <button
+                          type="button"
+                          className={`w-full  rounded-md bg-red-600 font-semibold text-white`}
+                        >
+                          No
+                        </button>
+                        <button
+                          type="button"
+                          className={`w-full rounded-md 
+                          bg-gray-200 hover:font-semibold hover:text-white hover:bg-gray-400`}
+                        >
+                          Yes
+                        </button>
+                      </div>
+                    </>
+                  )}
                 </div>
-                <div className="flex flex-col px-6 border-l-[1px] border-black/50">
-                  <h1 className="font-bold text-xl text-center  border-b-[1px] pb-2 mb-2 border-black/50">
-                    Auto Generated Equations
-                  </h1>
-                  <div className="font-semibold flex items-center justify-between">
-                    Value range: {minimumVal} - {maximumVal}
-                    <BsQuestionCircle
-                      title="Set the value range for each generated equations."
-                      className="text-gray-500 hover:text-lime-600 rounded-full cursor-pointer"
-                    />
-                  </div>
-                  <p className="text-base text-gray-500">
-                    (Use arrow keys for precision)
-                  </p>
 
-                  <div className="range my-2 flex">
-                    <p className="mr-1">Min: </p>
-                    <input
-                      type="range"
-                      min="1"
-                      max="998"
-                      className="input-range"
-                      value={minimumVal}
-                      onChange={minimumValueChange}
-                    />
-                  </div>
-                  <div className="range my-2">
-                    <p className="mr-1">Max: </p>
-                    <input
-                      type="range"
-                      min="1"
-                      max="999"
-                      className="input-range"
-                      value={maximumVal}
-                      onChange={maximumValueChange}
-                    />
+                <div className="relative flex flex-col px-6 border-l-[1px] border-black/50">
+                  <div
+                    className={`select-none text-gray-600 absolute left-0 top-0 opacity-100  w-full h-full  backdrop-blur-[5px]  flex flex-col justify-center items-center text-center transition duration-150
+                                ${
+                                  planType == 'TEACHER-PLAN-1' ||
+                                  planType == 'TEACHER-PLAN-2'
+                                    ? ''
+                                    : 'hidden'
+                                }`}
+                  >
+                    <i className="fa fa-lock lg:text-[4rem] sm:text-[4rem] xs:text-[3rem] mb-2 drop-shadow-[0_1px_0px_rgba(255,255,255,255.45)]" />
+                    <span className="bg-gray-100/50 p-1 rounded-t-md sm:text-3xl xs:text-2xl  font-bold  drop-shadow-[0_1px_0px_rgba(255,255,255,255.45)] ">
+                      Plan 3: Locked
+                    </span>
+                    <span className="bg-gray-100/50 px-2 rounded-md sm:text-base xs:text-sm  font-bold  drop-shadow-[0_1px_0px_rgba(255,255,255,255.45)] ">
+                      Unlock in Manage Subscription
+                    </span>
                   </div>
 
-                  <div className="py-2 font-semibold flex items-center justify-between">
-                    Use different letter variables:
-                    <BsQuestionCircle
-                      title="Use different letter variables (a, b, c, ...z) for each equation generated."
-                      className="text-gray-500 hover:text-lime-600 rounded-full cursor-pointer"
-                    />
-                  </div>
-                  <div className="flex justify-evenly gap-x-10">
-                    <button
-                      type="button"
-                      onClick={differentVariables}
-                      className={`w-full  rounded-md 
+                  {planType == 'TEACHER-PLAN-3' ? (
+                    <>
+                      <h1 className="font-bold text-xl text-center  border-b-[1px] pb-2 mb-2 border-black/50">
+                        Auto Generated Equations
+                      </h1>
+                      <div className="font-semibold flex items-center justify-between">
+                        Value range: {minimumVal} - {maximumVal}
+                        <BsQuestionCircle
+                          title="Set the value range for each generated equations."
+                          className="text-gray-500 hover:text-lime-600 rounded-full cursor-pointer"
+                        />
+                      </div>
+                      <p className="text-base text-gray-500">
+                        (Use arrow keys for precision)
+                      </p>
+
+                      <div className="range my-2 flex">
+                        <p className="mr-1">Min: </p>
+                        <input
+                          type="range"
+                          min="1"
+                          max="998"
+                          className="input-range"
+                          value={minimumVal}
+                          onChange={minimumValueChange}
+                        />
+                      </div>
+                      <div className="range my-2">
+                        <p className="mr-1">Max: </p>
+                        <input
+                          type="range"
+                          min="1"
+                          max="999"
+                          className="input-range"
+                          value={maximumVal}
+                          onChange={maximumValueChange}
+                        />
+                      </div>
+
+                      <div className="py-2 font-semibold flex items-center justify-between">
+                        Use different letter variables:
+                        <BsQuestionCircle
+                          title="Use different letter variables (a, b, c, ...z) for each equation generated."
+                          className="text-gray-500 hover:text-lime-600 rounded-full cursor-pointer"
+                        />
+                      </div>
+                      <div className="flex justify-evenly gap-x-10">
+                        <button
+                          type="button"
+                          onClick={differentVariables}
+                          className={`w-full  rounded-md 
                                     ${
                                       !isDifferentVariables
                                         ? 'bg-red-600 font-semibold text-white'
                                         : 'bg-gray-200 hover:font-semibold hover:text-white hover:bg-gray-400'
                                     }`}
-                    >
-                      No
-                    </button>
-                    <button
-                      type="button"
-                      onClick={differentVariables}
-                      className={`w-full rounded-md 
+                        >
+                          No
+                        </button>
+                        <button
+                          type="button"
+                          onClick={differentVariables}
+                          className={`w-full rounded-md 
                                   ${
                                     isDifferentVariables
                                       ? 'bg-lime-600 font-semibold text-white'
                                       : 'bg-gray-200 hover:font-semibold hover:text-white hover:bg-gray-400'
                                   }`}
-                    >
-                      Yes
-                    </button>
-                  </div>
+                        >
+                          Yes
+                        </button>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <h1 className="font-bold text-xl text-center  border-b-[1px] pb-2 mb-2 border-black/50">
+                        Auto Generated Equations
+                      </h1>
+                      <div className="font-semibold flex items-center justify-between">
+                        Value range: 1 - 10
+                        <BsQuestionCircle
+                          title="Set the value range for each generated equations."
+                          className="text-gray-500 hover:text-lime-600 rounded-full cursor-pointer"
+                        />
+                      </div>
+                      <p className="text-base text-gray-500">
+                        (Use arrow keys for precision)
+                      </p>
+
+                      <div className="range my-2 flex">
+                        <p className="mr-1">Min: </p>
+                        <input
+                          type="range"
+                          min="1"
+                          max="998"
+                          className="input-range"
+                          value="1"
+                        />
+                      </div>
+                      <div className="range my-2">
+                        <p className="mr-1">Max: </p>
+                        <input
+                          type="range"
+                          min="1"
+                          max="999"
+                          className="input-range"
+                          value="10"
+                        />
+                      </div>
+
+                      <div className="py-2 font-semibold flex items-center justify-between">
+                        Use different letter variables:
+                        <BsQuestionCircle
+                          title="Use different letter variables (a, b, c, ...z) for each equation generated."
+                          className="text-gray-500 hover:text-lime-600 rounded-full cursor-pointer"
+                        />
+                      </div>
+                      <div className="flex justify-evenly gap-x-10">
+                        <button
+                          type="button"
+                          className={`w-full  rounded-md  bg-red-600 font-semibold text-white`}
+                        >
+                          No
+                        </button>
+                        <button
+                          type="button"
+                          className={`w-full rounded-md bg-gray-200 hover:font-semibold hover:text-white hover:bg-gray-400`}
+                        >
+                          Yes
+                        </button>
+                      </div>
+                    </>
+                  )}
                 </div>
               </div>
             </div>
@@ -433,7 +615,7 @@ const EquationSettingsModal = ({ visible, onClose, onContinue }) => {
               <button
                 type="submit"
                 onClick={onSubmit}
-                className={`ml-4 relative lg:py-0.5 w-[10rem] lg:px-3 sm:py-1.5 sm:px-2.5 xs:px-1 xs:py-1 text-gray-800    rounded-md  border-gray-300 border-2 hover:border-gray-500  hover:bg-gray-500 hover:text-white  ease-in-out transition duration-300 
+                className={`ml-4 relative lg:py-0.5 w-[10rem] lg:px-3 sm:py-1.5 sm:px-2.5 xs:px-1 xs:py-1 text-gray-800    rounded-md  border-gray-300 border-2 hover:border-lime-600  hover:bg-lime-600 hover:text-white  ease-in-out transition duration-300 
                   `}
               >
                 <span className=" hdScreen:text-lg semihdScreen:text-lg laptopScreen:text-base averageScreen:text-base sm:text-sm xs:text-xs flex items-center justify-center">

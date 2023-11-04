@@ -32,7 +32,7 @@ switch($_SESSION['method']) {
     case "GET":
         break;
     case "POST":
-        $connect = new mysqli('localhost','root','','prototype_sfe');
+        $connect = new mysqli('localhost','PIA','!PedagogicalSFE144','prototype_sfe');
         
         $session_database = $account.$session_id;
 

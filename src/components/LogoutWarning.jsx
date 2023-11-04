@@ -109,8 +109,23 @@ export default function LogoutWarning() {
     window.localStorage.removeItem('DIFFICULTY_TYPE');
     window.localStorage.removeItem('LOGIN_STATUS');
     window.localStorage.removeItem('UNIQUE_ID');
+    window.localStorage.removeItem('S-STATUS');
+    window.localStorage.removeItem('S-TYPE');
+    window.localStorage.removeItem('S-DATE');
+
+    sessionStorage.clear();
+    window.localStorage.removeItem('SESSION_TEACHER_TABLE');
+    window.localStorage.removeItem('SESSION_ACCEPT_FRACTION');
+    window.localStorage.removeItem('UPDATE_REQUEST_STATE');
+    window.localStorage.setItem('ACCOUNT_TYPE', JSON.stringify(''));
+    window.localStorage.setItem('SESSION_EMAIL', JSON.stringify(''));
+    window.localStorage.setItem('SESSION_USER', JSON.stringify(''));
+    window.localStorage.setItem('LOGIN_TYPE', JSON.stringify('Student'));
+    window.localStorage.setItem('SESSION_FULLNAME', JSON.stringify(''));
+    window.localStorage.setItem('IS_CLOSED', false);
+
     setAccType('');
-    navigate('/LoginPage');
+    window.location.reload(false);
   };
 
   return (
@@ -134,7 +149,7 @@ export default function LogoutWarning() {
           </div>
           <div className="">
             <div className="p-4 text-center">
-              Account has been logged-in to a different device or browser
+              Account has been logged-in to a different browser
               <br />
               or this account has been modified by the administrator.
               <br></br>
