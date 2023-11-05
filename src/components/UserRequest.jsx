@@ -512,13 +512,13 @@ export default function UserRequest() {
                                 <p>{currentRequest.Timestamp}</p>
                               </td>
                               <td className="text-right lg:text-base md:text-sm xs:text-xs whitespace-no-wrap ">
-                                <div className="relative ">
+                                <div className="relative div-button">
                                   <input
                                     onClick={viewMode}
                                     name={currentRequest.RequestID}
                                     type="button"
                                     value="View Details"
-                                    className="cursor-pointer py-[0.2rem]  md:px-4 md:w-auto xs:w-20 text-gray-700 hover:text-white  shadow-md rounded-md font-semibold  transition duration-500 border-gray-400 border-2  hover:bg-gray-500 hover:border-gray-500 lg:text-base"
+                                    className=" cursor-pointer py-[0.2rem]  md:px-4 md:w-auto xs:w-20 text-gray-700 hover:text-white  shadow-md rounded-md font-semibold  transition duration-500 border-gray-400 border-2  hover:bg-gray-500 hover:border-gray-500 lg:text-base"
                                   ></input>
                                   <span
                                     className={`select-none z-10 absolute sm:-right-2 xs:-right-2.5 averageScreen:top-1.5 sm:top-[0.2rem] xs:top-0.5 pr-2 pt-0.5 w-5 h-5 font-semibold rounded-full bg-black text-xs text-white averageScreen:scale-100 sm:scale-70 xs:scale-60
@@ -548,7 +548,7 @@ export default function UserRequest() {
                                   </>
                                 ) : (
                                   <>
-                                    <div className="relative ">
+                                    <div className="relative div-button">
                                       <input
                                         onClick={solved}
                                         name={currentRequest.RequestID}

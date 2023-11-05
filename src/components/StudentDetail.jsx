@@ -232,7 +232,7 @@ export default function StudentDetail() {
   }
 
   // Converts your Array<Object> to a CsvOutput string based on the configs
-
+  //
   const exportAll = e => {
     //var sessionID = e.currentTarget.id;
     var account = StorageData.sessionStorageJSON('CURRENT_ACCOUNT');

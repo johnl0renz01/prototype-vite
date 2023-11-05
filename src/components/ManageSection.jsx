@@ -591,7 +591,7 @@ export default function ManageSection() {
                                 <p>{currentSection.Code}</p>
                               </td>
                               <td className="text-right lg:text-base md:text-sm xs:text-xs">
-                                <div className="relative">
+                                <div className="relative div-button">
                                   <input
                                     onClick={editMode}
                                     name={currentSection.SectionName}
@@ -605,7 +605,7 @@ export default function ManageSection() {
                                 </div>
                               </td>
                               <td className="text-right hdScreen:pr-6 semihdScreen:pr-1 laptopScreen:pr-0.5 averageScreen:pr-0 lg:text-base md:text-sm xs:text-xs">
-                                <div className="relative ">
+                                <div className="relative div-button">
                                   <input
                                     onClick={deleteSection}
                                     name={currentSection.SectionName}

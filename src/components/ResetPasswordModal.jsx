@@ -156,25 +156,25 @@ const ResetPasswordModal = ({ visible, onClose, onContinue }) => {
                                 <p>{currentAccount.Email}</p>
                               </td>
                               <td className="text-right md:text-base xs:text-xs pr-2">
-                                <div className="relative">
+                                <div className="relative div-button">
                                   <input
                                     onClick={resetPass}
                                     name={currentAccount.Email}
                                     type="submit"
                                     value="Reset"
-                                    className={`cursor-pointer py-[0.35rem]  px-4    shadow-md rounded-md font-semibold  transition duration-300 text-white bg-red-500 hover:bg-red-700 hover:border-red-700 border-2 border-red-500 lg:text-base
+                                    className={` cursor-pointer py-[0.35rem]  px-4    shadow-md rounded-md font-semibold  transition duration-300 text-white bg-red-500 hover:bg-red-700 hover:border-red-700 border-2 border-red-500 lg:text-base
                                               `}
                                   ></input>
                                 </div>
                               </td>
                               <td className="text-right md:text-base xs:text-xs pr-2">
-                                <div className="relative">
+                                <div className="relative div-button">
                                   <input
                                     onClick={removeRequest}
                                     name={currentAccount.Email}
                                     type="submit"
                                     value="Remove"
-                                    className={`cursor-pointer py-[0.35rem]  px-4  shadow-md rounded-md font-semibold  transition duration-300 text-white bg-gray-500 hover:bg-gray-700 hover:border-gray-700 border-2 border-gray-500  lg:text-base 
+                                    className={` cursor-pointer py-[0.35rem]  px-4  shadow-md rounded-md font-semibold  transition duration-300 text-white bg-gray-500 hover:bg-gray-700 hover:border-gray-700 border-2 border-gray-500  lg:text-base 
                                               `}
                                   ></input>
                                 </div>

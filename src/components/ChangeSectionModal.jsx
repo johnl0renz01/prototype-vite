@@ -322,7 +322,7 @@ const ChangeSection = ({ visible, onClose, onContinue }) => {
                                     name={currentSection.SectionName}
                                     type="submit"
                                     value="Select Section"
-                                    className={` py-[0.5rem]  px-4  shadow-md rounded-md font-normal  transition duration-300   lg:text-base drop-shadow-[0_2px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_2px_0px_rgba(0,0,0,0.6)]
+                                    className={`input-button py-[0.5rem]  px-4  shadow-md rounded-md font-normal  transition duration-300   lg:text-base drop-shadow-[0_2px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_2px_0px_rgba(0,0,0,0.6)]
                                   ${
                                     selectedSection ==
                                     currentSection.SectionName

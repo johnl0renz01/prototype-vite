@@ -216,7 +216,7 @@ export default function DifficultyPage() {
       if (endTime < todayTime) {
         window.localStorage.setItem(
           'SYSTEM_VERSION',
-          JSON.stringify(SecureStorageData.dataEncryption('Non Facial Group'))
+          JSON.stringify(SecureStorageData.dataEncryption('Non-Facial Group'))
         );
         setExpiredState(true);
       }

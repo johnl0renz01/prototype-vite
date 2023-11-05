@@ -561,7 +561,7 @@ export default function ManageAccount() {
                                 <p>{`${currentAccount.Role}`}</p>
                               </td>
                               <td className="text-right lg:text-base md:text-sm xs:text-xs">
-                                <div className="relative">
+                                <div className="relative div-button">
                                   <input
                                     onClick={editMode}
                                     name={currentAccount.Email}
@@ -575,7 +575,7 @@ export default function ManageAccount() {
                                 </div>
                               </td>
                               <td className="text-right hdScreen:pr-6 semihdScreen:pr-1 laptopScreen:pr-0.5 averageScreen:pr-0 lg:text-base md:text-sm xs:text-xs">
-                                <div className="relative ">
+                                <div className="relative div-button">
                                   <input
                                     onClick={deleteAccount}
                                     name={currentAccount.Email}

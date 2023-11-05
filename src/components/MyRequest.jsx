@@ -501,7 +501,7 @@ export default function MyRequest() {
                                 <p>{currentRequest.Timestamp}</p>
                               </td>
                               <td className="text-right lg:text-base md:text-sm xs:text-xs whitespace-no-wrap ">
-                                <div className="relative ">
+                                <div className="relative div-button">
                                   <input
                                     onClick={viewMode}
                                     name={currentRequest.RequestID}

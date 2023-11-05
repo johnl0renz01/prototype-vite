@@ -2718,7 +2718,7 @@ export default function Whiteboard() {
               <nav className="flex flex-col items-center  ">
                 {/*<!--Question-->*/}
                 <div
-                  className={`text-gray-500 hover:text-white focus:outline-none focus:text-white rounded-full ${
+                  className={`div-button text-gray-500 hover:text-white focus:outline-none focus:text-white rounded-full ${
                     isHelp ? 'ml-2 my-1' : 'px-3 py-2'
                   }`}
                   {...(isHelp
@@ -2754,7 +2754,7 @@ export default function Whiteboard() {
 
                 {/*<!--Hint-->*/}
                 <div
-                  className={`text-gray-500 hover:text-white focus:outline-none focus:text-white ${
+                  className={`div-button text-gray-500 hover:text-white focus:outline-none focus:text-white ${
                     isHelp ? 'ml-2 my-1' : 'px-3 py-2'
                   }`}
                   {...(isHelp
@@ -2800,7 +2800,7 @@ export default function Whiteboard() {
 
                 {/*<!--Video-->*/}
                 <div
-                  className={`text-gray-500 hover:text-white focus:outline-none  ${
+                  className={`div-button text-gray-500 hover:text-white focus:outline-none   ${
                     isHelp ? 'ml-2 my-1' : 'px-3 py-2'
                   }`}
                   {...(isHelp
@@ -2847,7 +2847,7 @@ export default function Whiteboard() {
 
                 {/*<!--Pen-->*/}
                 <div
-                  className={`text-gray-500 hover:text-white focus:outline-none  ${
+                  className={`div-button text-gray-500 hover:text-white focus:outline-none  ${
                     isHelp ? 'ml-2 my-1' : 'px-3 py-2'
                   }`}
                   {...(isHelp
@@ -2889,7 +2889,7 @@ export default function Whiteboard() {
 
                 {/*<!--Guide-->*/}
                 <div
-                  className={`text-gray-500 hover:text-white focus:outline-none  ${
+                  className={`div-button text-gray-500 hover:text-white focus:outline-none  ${
                     isHelp ? 'ml-2 my-1' : 'px-3 py-2'
                   }`}
                   {...(isHelp
