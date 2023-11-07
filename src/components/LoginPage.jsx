@@ -86,7 +86,7 @@ export default function LoginPage() {
   }, []);
 
   document.body.style.backgroundImage =
-    'linear-gradient(to top, #bef264, #d9f99d , #ccf779)';
+    'linear-gradient(to top, #9ee622, #b1eb52, #ccf779)';
 
   /*
   useEffect(() => {
@@ -258,49 +258,59 @@ export default function LoginPage() {
                 var subscribed = userData[7];
 
                 if (subscribed == 'TRUE') {
-                  checkDate(userData[9]);
+                  if (userData[8] != '') {
+                    if (userData[9] != '') {
+                      checkDate(userData[9]);
 
-                  function checkDate(date) {
-                    var subscriptionDate = date;
-                    subscriptionDate = subscriptionDate.split('-');
+                      function checkDate(date) {
+                        var subscriptionDate = date;
+                        subscriptionDate = subscriptionDate.split('-');
 
-                    subscriptionDate[1] = parseInt(subscriptionDate[1]) - 1;
-                    subscriptionDate[1] = subscriptionDate[1].toString();
+                        subscriptionDate[1] = parseInt(subscriptionDate[1]) - 1;
+                        subscriptionDate[1] = subscriptionDate[1].toString();
 
-                    let endDate = new Date(
-                      subscriptionDate[0],
-                      subscriptionDate[1],
-                      subscriptionDate[2],
-                      0,
-                      0
-                    );
-                    //Output value in milliseconds
-                    let endTime = endDate.getTime();
+                        let endDate = new Date(
+                          subscriptionDate[0],
+                          subscriptionDate[1],
+                          subscriptionDate[2],
+                          0,
+                          0
+                        );
+                        //Output value in milliseconds
+                        let endTime = endDate.getTime();
 
-                    let todayDate = new Date();
-                    let todayTime = todayDate.getTime();
-                    if (endTime < todayTime) {
-                      userData[9] = '0-0-0';
+                        let todayDate = new Date();
+                        let todayTime = todayDate.getTime();
+                        if (endTime < todayTime) {
+                          userData[9] = '0-0-0';
+                        }
+                      }
+                      window.localStorage.setItem(
+                        'S-STATUS',
+                        JSON.stringify(
+                          SecureStorageData.dataEncryption(userData[7])
+                        )
+                      );
+                      window.localStorage.setItem(
+                        'S-TYPE',
+                        JSON.stringify(
+                          SecureStorageData.dataEncryption(userData[8])
+                        )
+                      );
+                      window.localStorage.setItem(
+                        'S-DATE',
+                        JSON.stringify(
+                          SecureStorageData.dataEncryption(userData[9])
+                        )
+                      );
+                    } else {
+                      subscribed = '';
+                      userData[7] = '';
                     }
+                  } else {
+                    subscribed = '';
+                    userData[7] = '';
                   }
-                  window.localStorage.setItem(
-                    'S-STATUS',
-                    JSON.stringify(
-                      SecureStorageData.dataEncryption(userData[7])
-                    )
-                  );
-                  window.localStorage.setItem(
-                    'S-TYPE',
-                    JSON.stringify(
-                      SecureStorageData.dataEncryption(userData[8])
-                    )
-                  );
-                  window.localStorage.setItem(
-                    'S-DATE',
-                    JSON.stringify(
-                      SecureStorageData.dataEncryption(userData[9])
-                    )
-                  );
                 }
 
                 var sectionName = userData[6];
@@ -454,9 +464,112 @@ export default function LoginPage() {
                                   )
                                 );
                               }
-                              window.localStorage.removeItem('LOGIN_STATUS');
-                              setShowLoading(false);
-                              navigate('/Homepage');
+
+                              var sect = sectionName;
+                              sect = sect.replace(/\_/g, ' ');
+                              console.log(sect);
+                              if (sect != '!SUBSCRIBED-STUDENTS') {
+                                var sectionLink = sectionName;
+                                axios
+                                  .post(
+                                    `https://pia-sfe.online/api/getTeacherSubscription/${sectionLink}`
+                                  )
+                                  .then(function (response) {
+                                    //console.log(response.data);
+                                    if (response.data == 'NOT-SUBSCRIBED') {
+                                      window.localStorage.setItem(
+                                        'S-TEACHER',
+                                        JSON.stringify(
+                                          SecureStorageData.dataEncryption(
+                                            'NOT-SUBSCRIBED'
+                                          )
+                                        )
+                                      );
+                                      window.localStorage.removeItem(
+                                        'LOGIN_STATUS'
+                                      );
+                                      setShowLoading(false);
+                                      navigate('/Homepage');
+                                    } else {
+                                      let subscriptionDate = response.data;
+                                      subscriptionDate =
+                                        subscriptionDate.split('-');
+
+                                      subscriptionDate[1] =
+                                        parseInt(subscriptionDate[1]) - 1;
+                                      subscriptionDate[1] =
+                                        subscriptionDate[1].toString();
+
+                                      let endDate = new Date(
+                                        subscriptionDate[0],
+                                        subscriptionDate[1],
+                                        subscriptionDate[2],
+                                        0,
+                                        0
+                                      );
+                                      //Output value in milliseconds
+                                      let endTime = endDate.getTime();
+                                      let todayDate = new Date();
+                                      let todayTime = todayDate.getTime();
+
+                                      if (endTime < todayTime) {
+                                        window.localStorage.setItem(
+                                          'S-TEACHER',
+                                          JSON.stringify(
+                                            SecureStorageData.dataEncryption(
+                                              'NOT-SUBSCRIBED'
+                                            )
+                                          )
+                                        );
+                                        window.localStorage.removeItem(
+                                          'LOGIN_STATUS'
+                                        );
+                                        setShowLoading(false);
+                                        navigate('/Homepage');
+                                      } else {
+                                        axios
+                                          .get(
+                                            `https://pia-sfe.online/api/getTeacherSubscription/${sectionLink}`
+                                          )
+                                          .then(function (response) {
+                                            //console.log(response.data);
+                                            window.localStorage.setItem(
+                                              'S-TEACHER',
+                                              JSON.stringify(
+                                                SecureStorageData.dataEncryption(
+                                                  response.data
+                                                )
+                                              )
+                                            );
+
+                                            window.localStorage.removeItem(
+                                              'LOGIN_STATUS'
+                                            );
+                                            setShowLoading(false);
+                                            navigate('/Homepage');
+                                          })
+                                          .catch(function (error) {
+                                            window.localStorage.removeItem(
+                                              'LOGIN_STATUS'
+                                            );
+                                            setShowLoading(false);
+                                          });
+                                      }
+                                    }
+
+                                    //END
+                                  })
+                                  .catch(function (error) {
+                                    window.localStorage.removeItem(
+                                      'LOGIN_STATUS'
+                                    );
+                                    setShowLoading(false);
+                                  });
+                              } else {
+                                window.localStorage.removeItem('LOGIN_STATUS');
+                                setShowLoading(false);
+                                navigate('/Homepage');
+                              }
                             })
                             .catch(function (error) {
                               window.localStorage.removeItem('LOGIN_STATUS');
@@ -779,9 +892,22 @@ export default function LoginPage() {
      </div>
      */}
       <div
-        className={` flex items-center select-none
+        className={` flex items-center select-none 
                      ${skeletonState ? '' : ''}`}
       >
+        <div className="">
+          <button
+            onClick={function () {
+              changeAccountType();
+            }}
+            type="button"
+            className={`absolute bottom-0 right-0 px-2 rounded-br-2xl text-gray-500 lg:text-sm xs:text-xs  ${
+              newPass ? 'invisible' : forgotPass ? 'invisible' : ''
+            }`}
+          >
+            {accType == 'Student' ? 'Admin Login' : 'Default Login.'}
+          </button>
+        </div>
         <div className="mx-auto w-full  grid place-items-center overflow-y-auto h-screen ">
           <div
             className="
@@ -795,7 +921,7 @@ export default function LoginPage() {
               </div>
               <hr />
               <div className="hdScreen:text-4xl semihdScreen:text-4xl laptopScreen:text-3xl  averageScreen:text-3xl sm:text-2xl xs:text-lg text-gray-700 font-bold text-center">
-                <div className="averageScreen:pt-4 xs:pt-2 averageScreen:pb-2 select-none">
+                <div className="averageScreen:pt-4 xs:pt-2 averageScreen:pb-2 select-none  font-bold">
                   {newPass ? (
                     <>Set New Password</>
                   ) : forgotPass ? (
@@ -1190,16 +1316,12 @@ export default function LoginPage() {
                 <div className="">
                   <button
                     onClick={function () {
-                      changeAccountType();
+                      navigate('/Inquiry');
                     }}
                     type="button"
-                    className={`absolute bottom-0 right-0 px-2 rounded-br-2xl text-gray-500 lg:text-sm xs:text-xs  ${
-                      newPass ? 'invisible' : forgotPass ? 'invisible' : ''
-                    }`}
+                    className={`absolute bottom-0 right-0 px-2 rounded-br-2xl text-gray-500 lg:text-sm xs:text-xs  `}
                   >
-                    {accType == 'Student'
-                      ? 'Are you an admin?'
-                      : 'Go back to default.'}
+                    Don't have an account?
                   </button>
                 </div>
               </div>

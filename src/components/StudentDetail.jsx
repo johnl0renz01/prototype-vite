@@ -226,7 +226,7 @@ export default function StudentDetail() {
   }
 
   // Converts your Array<Object> to a CsvOutput string based on the configs
-
+  //
   const exportAll = e => {
     //var sessionID = e.currentTarget.id;
     var account = StorageData.sessionStorageJSON('CURRENT_ACCOUNT');
@@ -351,19 +351,19 @@ export default function StudentDetail() {
                   </div>
                 ))}
 
-                <p className="hdScreen:text-lg semihdScreen:text-base laptopScreen:text-base averageScreen:text-base xs:text-xs text-gray-700 font-medium leading-4 hdScreen:mb-3 semihdScreen:mb-2 laptopScreen:mb-1 averageScreen:mb-0.5">
+                <p className="hdScreen:text-lg semihdScreen:text-base laptopScreen:text-base averageScreen:text-base xs:text-xs text-gray-700 font-semibold leading-4 hdScreen:mb-3 semihdScreen:mb-2 laptopScreen:mb-1 averageScreen:mb-0.5">
                   Answered Questions:{' '}
                   <span id="correct" className="font-normal">
                     {totalAnswered}
                   </span>
                 </p>
-                <p className="hdScreen:text-lg semihdScreen:text-base laptopScreen:text-base averageScreen:text-base xs:text-xs text-gray-700 font-medium leading-4 hdScreen:mb-3 semihdScreen:mb-2 laptopScreen:mb-1 averageScreen:mb-0.5">
+                <p className="hdScreen:text-lg semihdScreen:text-base laptopScreen:text-base averageScreen:text-base xs:text-xs text-gray-700 font-semibold leading-4 hdScreen:mb-3 semihdScreen:mb-2 laptopScreen:mb-1 averageScreen:mb-0.5">
                   Abandoned Questions:{' '}
                   <span id="incorrect" className="font-normal">
                     {totalUnanswered}
                   </span>
                 </p>
-                <p className="hdScreen:text-lg semihdScreen:text-base laptopScreen:text-base averageScreen:text-base xs:text-xs text-gray-700 font-medium leading-4 hdScreen:mb-3 semihdScreen:mb-2 laptopScreen:mb-1 averageScreen:mb-0.5">
+                <p className="hdScreen:text-lg semihdScreen:text-base laptopScreen:text-base averageScreen:text-base xs:text-xs text-gray-700 font-semibold leading-4 hdScreen:mb-3 semihdScreen:mb-2 laptopScreen:mb-1 averageScreen:mb-0.5">
                   Accuracy Rate:{' '}
                   <span id="accuracy" className="font-normal">
                     {accuracyRate + '%'}
@@ -372,7 +372,7 @@ export default function StudentDetail() {
               </div>
               <div className="grid grid-cols-3 text-center averageScreen:mb-2 ">
                 <div>
-                  <p className="hdScreen:text-2xl semihdScreen:text-xl laptopScreen:text-xl averageScreen:text-2xl sm:text-lg xs:text-base text-gray-700 font-medium leading-4 averageScreen:mb-5 xs:mb-1">
+                  <p className="hdScreen:text-2xl semihdScreen:text-xl laptopScreen:text-xl averageScreen:text-2xl sm:text-lg xs:text-base text-gray-700 font-semibold leading-4 averageScreen:mb-5 xs:mb-1">
                     Easy
                   </p>
                   <div className="hdScreen:w-32 hdScreen:h-32 semihdScreen:w-[7.5rem] semihdScreen:h-[7.5rem]  laptopScreen:w-[7rem] laptopScreen:h-[7rem] averageScreen:w-[6.5rem] averageScreen:h-[6.5rem] xs:w-16 xs:h-16 bg-green-500 rounded-full text-center flex items-center justify-center  mx-auto ">
@@ -382,7 +382,7 @@ export default function StudentDetail() {
                   </div>
                 </div>
                 <div>
-                  <p className="hdScreen:text-2xl semihdScreen:text-xl laptopScreen:text-xl averageScreen:text-2xl sm:text-lg xs:text-base text-gray-700 font-medium leading-4 averageScreen:mb-5 xs:mb-1">
+                  <p className="hdScreen:text-2xl semihdScreen:text-xl laptopScreen:text-xl averageScreen:text-2xl sm:text-lg xs:text-base text-gray-700 font-semibold leading-4 averageScreen:mb-5 xs:mb-1">
                     Average
                   </p>
                   <div className="hdScreen:w-32 hdScreen:h-32 semihdScreen:w-[7.5rem] semihdScreen:h-[7.5rem]  laptopScreen:w-[7rem] laptopScreen:h-[7rem] averageScreen:w-[6.5rem] averageScreen:h-[6.5rem] xs:w-16 xs:h-16 bg-yellow-500 rounded-full text-center flex items-center justify-center mx-auto">
@@ -392,7 +392,7 @@ export default function StudentDetail() {
                   </div>
                 </div>
                 <div>
-                  <p className="hdScreen:text-2xl semihdScreen:text-xl laptopScreen:text-xl averageScreen:text-2xl sm:text-lg xs:text-base text-gray-700 font-medium leading-4 averageScreen:mb-5 xs:mb-1">
+                  <p className="hdScreen:text-2xl semihdScreen:text-xl laptopScreen:text-xl averageScreen:text-2xl sm:text-lg xs:text-base text-gray-700 font-semibold leading-4 averageScreen:mb-5 xs:mb-1">
                     Difficult
                   </p>
                   <div className="hdScreen:w-32 hdScreen:h-32 semihdScreen:w-[7.5rem] semihdScreen:h-[7.5rem]  laptopScreen:w-[7rem] laptopScreen:h-[7rem] averageScreen:w-[6.5rem] averageScreen:h-[6.5rem] xs:w-16 xs:h-16 bg-red-500 rounded-full text-center flex items-center justify-center mx-auto">
@@ -413,7 +413,7 @@ export default function StudentDetail() {
               {accountHistory.length > 0 ? (
                 <button
                   onClick={exportAll}
-                  className="mr-3 lg:px-7 semihdScreen:py-2 lg:py-1 xs:px-3 xs:py-1 lg:mt-0 xs:mt-1  flex items-center bg-blue-500/90 hover:bg-blue-600 rounded-md whitespace-nowrap overflow-hidden lg:text-lg md:text-base sm:text-sm xs:text-xs text-white hover:text-white font-semibold"
+                  className=" mr-3 lg:px-7 semihdScreen:py-2 lg:py-1 xs:px-3 xs:py-1 lg:mt-0 xs:mt-1  flex items-center bg-blue-500/90 hover:bg-blue-600 rounded-md whitespace-nowrap overflow-hidden lg:text-lg md:text-base sm:text-sm xs:text-xs text-white hover:text-white font-semibold"
                 >
                   Export All
                   <FaArrowRightToBracket className="rotate-90 ml-2" />
@@ -442,7 +442,7 @@ export default function StudentDetail() {
                     {accountHistory.map((history, index) => (
                       <div key={index}>
                         <div
-                          className={`grid lg:grid-cols-12 xs:grid-cols-4 rounded-l-md xs:h-12 averageScreen:-mt-0 xs:-mt-0 shadow relative  p-3  ${
+                          className={`grid lg:grid-cols-12 xs:grid-cols-4 rounded-l-md xs:h-12 averageScreen:-mt-0 xs:-mt-0 shadow relative hover:bg-opacity-50 p-3  ${
                             history.SessionType === 'Easy'
                               ? 'bg-green-500'
                               : history.SessionType === 'Average'
@@ -453,7 +453,7 @@ export default function StudentDetail() {
                           <div className="lg:col-span-3">
                             <p
                               id={'type' + history.SessionID}
-                              className="lg:text-[1.75rem] text-gray-100 font-medium leading-4 mt-1"
+                              className="lg:text-[1.75rem] text-gray-100 font-semibold leading-4 mt-1"
                             >
                               {history.SessionType}
                               <span className="lg:text-sm sm:text-xs xs:text-xs text-white font-normal ">
@@ -475,7 +475,15 @@ export default function StudentDetail() {
                             <div
                               id={history.SessionID}
                               onClick={exportRow}
-                              className="pt-0.5 pb-1 sm:mt-0 xs:mt-1 cursor-pointer flex items-center justify-center bg-blue-500/90 hover:bg-blue-600 rounded-md whitespace-nowrap overflow-hidden lg:text-base sm:text-sm xs:text-xs text-gray-200 hover:text-white font-semibold"
+                              className={`div-button pt-0.5 pb-1 sm:mt-0 xs:mt-1 cursor-pointer flex items-center justify-center border-2   rounded-md whitespace-nowrap overflow-hidden lg:text-base sm:text-sm xs:text-xs text-gray-200 hover:text-white font-semibold
+                              ${
+                                history.SessionType === 'Easy'
+                                  ? 'bg-green-600 border-green-600/50 '
+                                  : history.SessionType === 'Average'
+                                  ? 'bg-yellow-600 border-yellow-600/50 '
+                                  : 'bg-red-600 border-red-600/50'
+                              }
+                              `}
                             >
                               <span className="">Export</span>
                               <BsFileEarmarkArrowDownFill className="averageScreen:ml-2 xs:ml-1   " />

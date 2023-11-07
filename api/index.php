@@ -253,6 +253,10 @@ switch($requestLink) {
         include('getAdviserTable.php');
     break;
 
+    case "/api/getTeacherSubscription":
+        include('getTeacherSubscription.php');
+    break;
+
     //FOR MANAGE ACCOUNTS
     case "/api/accountList":
         include('accountList.php');

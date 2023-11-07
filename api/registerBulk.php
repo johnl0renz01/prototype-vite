@@ -122,6 +122,10 @@ switch($_SESSION['method']) {
                 }
             }
 
+            if ($role == "Teacher") {
+                $section_name = "NA";
+            }
+
             $code = random_str(8);
             $false = "FALSE";
 
@@ -150,7 +154,9 @@ switch($_SESSION['method']) {
             ///
 
             $grade_level_string = "";
+            
             $section_string = "";
+            $section_string = $section_name;
 
             $adviser_name = "";
 
@@ -159,7 +165,7 @@ switch($_SESSION['method']) {
             if ($role == "Student") {
                 $group_type = "Facial Group";
                 $grade_level_string = "Grade " . $grade_level;
-                $section_string = $section_name;
+                
             } else {
                 $gender = "";
                 // FOR SECTION
@@ -289,4 +295,4 @@ switch($_SESSION['method']) {
 
 
 
-?>
+?

@@ -374,13 +374,27 @@ export default function MyRequest() {
               <thead className="sticky top-0 z-40 shadow-md border-b-2 border-gray-200 bg-gray-200 text-left uppercase tracking-wider lg:text-base md:text-sm xs:text-xs font-bold text-gray-600">
                 <tr>
                   <th className="lg:pl-8 w-[26.85%] py-3 lg:text-base md:text-sm sm:text-xs">
-                    <div className="lg:pl-0 sm:pl-3  xs:pl-3">Subject</div>
+                    <div
+                      className={`font-bold lg:pl-0 sm:pl-3  xs:pl-3 ${
+                        requests.length > 0 ? '' : 'invisible'
+                      }`}
+                    >
+                      Subject
+                    </div>
                   </th>
-                  <th className="w-[26.25%] py-3 lg:text-base md:text-sm sm:text-xs ">
-                    Recipient
+                  <th className="font-bold w-[26.25%] py-3 lg:text-base md:text-sm sm:text-xs ">
+                    <div
+                      className={`${requests.length > 0 ? '' : 'invisible'}`}
+                    >
+                      Recipient
+                    </div>
                   </th>
-                  <th className="w-[19.85%] py-3 lg:text-base md:text-sm sm:text-xs ">
-                    Updated on
+                  <th className="whitespace-nowrap font-bold w-[19.85%] py-3 lg:text-base md:text-sm sm:text-xs ">
+                    <div
+                      className={`${requests.length > 0 ? '' : 'invisible'}`}
+                    >
+                      Updated on
+                    </div>
                   </th>
                   <th className="">
                     <div className="invisible ">
@@ -472,7 +486,7 @@ export default function MyRequest() {
                                 <p>{currentRequest.Timestamp}</p>
                               </td>
                               <td className="text-right lg:text-base md:text-sm xs:text-xs whitespace-no-wrap ">
-                                <div className="relative ">
+                                <div className="relative div-button">
                                   <input
                                     onClick={viewMode}
                                     name={currentRequest.RequestID}

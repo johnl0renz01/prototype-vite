@@ -79,14 +79,14 @@ const DeleteSectionModal = ({ visible, onClose, onContinue }) => {
               </button>
             </div>
           </div>
-          <div className="w-[32rem] text-center text-gray-800">
+          <div className=" text-center text-gray-800">
             <div className="p-4 text-xl font-semibold">
               {sectionStatus == 'Active' ? (
                 <>
                   <span className="text-orange-600 font-bold">Warning:</span>{' '}
                   This section have students enrolled.
                   <div className="flex py-2 ">
-                    <p className=" shrink-0 mt-2  text-left text-red-500  font-bold lg:text-lg md:text-base sm:text-sm xs:text-xs">
+                    <p className=" shrink-0 lg:mt-0.5 sm:mt-1 xs:mt-2  text-left text-red-500  font-bold lg:text-lg  sm:text-base xs:text-xs">
                       Deletion type:
                     </p>
                     <button
@@ -112,13 +112,13 @@ const DeleteSectionModal = ({ visible, onClose, onContinue }) => {
                   </div>
                   {deleteType != '' ? (
                     deleteType == 'Section' ? (
-                      <p className="text-gray-500 lg:text-lg md:text-base sm:text-sm xs:text-xs font-normal">
+                      <p className="max-w-[32rem] text-gray-500 lg:text-lg md:text-base sm:text-sm xs:text-xs font-normal">
                         (Choosing to delete this section only. The students
                         won't be able to use system until they're enrolled
                         again.)
                       </p>
                     ) : (
-                      <p className="text-gray-500 lg:text-lg md:text-base sm:text-sm xs:text-xs font-normal">
+                      <p className="max-w-[32rem] text-gray-500 lg:text-lg md:text-base sm:text-sm xs:text-xs font-normal">
                         (Choosing to delete both section and students. All
                         students' accounts enrolled in this section will be
                         deleted.)

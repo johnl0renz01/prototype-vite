@@ -28,6 +28,7 @@ export default function HelpPageTeacher() {
       window.localStorage.setItem('CURRENT_TAB_INDEX', 5);
     }
     //document.getElementById('mainHeader').focus();
+    document.documentElement.style.scrollBehavior = 'auto';
   }, []);
 
   useEffect(() => {

@@ -430,6 +430,7 @@ function Registration() {
     setLastName('');
     setDuplicateState(false);
 
+    handleChange.sex;
     handleChange.firstName;
     handleChange.middleName;
     handleChange.lastName;
@@ -465,7 +466,7 @@ function Registration() {
     handleReset();
     setTimeout(() => {
       resetValues();
-      values.sex = '';
+      values.sex = 'Male';
       values.section = 'NA';
       values.groupType = '';
       values.gradeLevel = '';
@@ -1343,7 +1344,9 @@ function Registration() {
                               type="radio"
                               className=""
                               value="Male"
-                              checked={values.sex === 'Male'}
+                              checked={
+                                values.sex === 'Male' || values.sex === ''
+                              }
                               onChange={handleChange}
                             />{' '}
                             Male
@@ -1376,9 +1379,9 @@ function Registration() {
                             onChange={gradeLevelChange}
                             name="gradeLevel"
                             id="gradeLevel"
-                            className="py-2 lg:px-2 border-2 focus:border-none rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500  shadow-[#808080]"
+                            className="py-2 lg:px-2 border-2  rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500  shadow-[#808080]"
                           >
-                            <option className="" value={'Grade 7'}>
+                            <option className="" value={'Grade 7'} selected>
                               Grade 7
                             </option>
                             <option className="" value={'Grade 8'}>
@@ -1437,12 +1440,21 @@ function Registration() {
                             type="text "
                             placeholder="Enter Middle Name"
                             autoComplete="new-password"
-                            className={`grow w-full py-2 lg:px-2 border-2  rounded-md relative border-gray-500 focus:outline-teal-500 focus:ring-teal-500   shadow-[#808080]`}
+                            className={`grow  w-full py-2 lg:px-2 border-2 rounded-md border-gray-500 focus:outline-teal-500 relative focus:ring-teal-500   shadow-[#808080] ${
+                              errors.middleName && touched.middleName
+                                ? 'shadow-red-500  border-red-500 focus:border-red-500 border-3 border-solid'
+                                : ''
+                            }`}
                             value={values.middleName}
                             onChange={handleChange}
                             onBlur={handleBlur}
                           />
                         </div>
+                        {errors.middleName && touched.middleName && (
+                          <p className="text-red-500 absolute ">
+                            {errors.middleName}
+                          </p>
+                        )}
                       </div>
 
                       <div
@@ -1455,10 +1467,13 @@ function Registration() {
                             type="radio"
                             className=""
                             value="Facial Group"
-                            checked={values.groupType === 'Facial Group'}
+                            checked={
+                              values.groupType === 'Facial Group' ||
+                              values.groupType === ''
+                            }
                             onChange={handleChange}
                           />{' '}
-                          Facial Group
+                          Facial
                           <input
                             name="groupType"
                             type="radio"
@@ -1467,7 +1482,7 @@ function Registration() {
                             checked={values.groupType === 'Non-Facial Group'}
                             onChange={handleChange}
                           />{' '}
-                          Non-Facial Group
+                          Non-Facial
                         </div>
                       </div>
 
@@ -1480,14 +1495,14 @@ function Registration() {
                             value={values.section}
                             onChange={handleChange}
                             name="section"
-                            className={`py-2 lg:px-2 border-2 focus:border-none rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500  shadow-[#808080] 
+                            className={`py-2 lg:px-2 border-2  rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500  shadow-[#808080] 
                             ${
                               errors.section && touched.section
                                 ? ' shadow-red-500 border-red-500 focus:border-red-500 border-3 border-solid'
                                 : ''
                             }`}
                           >
-                            <option selected value="" disabled>
+                            <option value="" selected disabled>
                               {''}
                             </option>
                             {sectionData.map((section, index) => (
@@ -1498,7 +1513,11 @@ function Registration() {
                           </select>
                         </div>
                         {errors.section && touched.section && (
-                          <p className="text-red-500 absolute ">
+                          <p
+                            className={`text-red-500 absolute ${
+                              accountRole == 'Teacher' ? 'hidden' : ''
+                            }`}
+                          >
                             {errors.section}
                           </p>
                         )}
@@ -1576,7 +1595,7 @@ function Registration() {
                           name="birthDay"
                           type="date"
                           autoComplete="new-password"
-                          className="grow py-2 lg:px-2 border-2  focus:border-none rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500  shadow-[#808080]"
+                          className="grow py-2 lg:px-2 border-2   rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500  shadow-[#808080]"
                           onChange={dateChange}
                           onBlur={handleBlur}
                           value={birthday}
@@ -1602,7 +1621,7 @@ function Registration() {
                           type="text"
                           placeholder="Set birthday"
                           autoComplete="new-password"
-                          className={`py-2 lg:px-2 border-2 w-[9rem] rounded-md focus:border-none border-gray-500 focus:outline-teal-500 focus:ring-teal-500 relative  shadow-[#808080] ${
+                          className={`py-2 lg:px-2 border-2 w-[9rem] rounded-md  border-gray-500 focus:outline-teal-500 focus:ring-teal-500 relative  shadow-[#808080] ${
                             errors.age && touched.age
                               ? ' shadow-red-500 border-red-500 focus:border-red-500 border-3 border-solid'
                               : ''
@@ -1689,7 +1708,7 @@ function Registration() {
                           type="password"
                           autoComplete="new-password"
                           placeholder="Enter Password"
-                          className={`grow py-2 lg:px-2 py-[14.5px] border-2  rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 focus:border-none relative  shadow-[#808080] ${
+                          className={`grow py-2 lg:px-2 py-[14.5px] border-2  rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500  relative  shadow-[#808080] ${
                             errors.password && touched.password
                               ? ' shadow-red-500 border-red-500 focus:border-red-500 border-3 border-solid'
                               : ''
@@ -1720,7 +1739,7 @@ function Registration() {
                           type="password"
                           autoComplete="new-password"
                           placeholder="Confirm Password"
-                          className={`grow py-2 lg:px-2 border-2  rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 focus:border-none  shadow-[#808080] ${
+                          className={`grow py-2 lg:px-2 border-2  rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500   shadow-[#808080] ${
                             errors.confirmPassword && touched.confirmPassword
                               ? ' shadow-red-500 border-red-500 focus:border-red-500 border-3 border-solid'
                               : ''
@@ -1806,7 +1825,7 @@ function Registration() {
                   to="/files/Bulk_Registration-TEMPLATE.xlsx"
                   target="_blank"
                   download
-                  className=" grow flex text-center justify-center items-center hdScreen:text-base semihdScreen:text-sm laptopScreen:text-sm averageScreen:text-sm xs:text-xs rounded-xl bg-blue-500 hover:bg-blue-600 hdScreen:py-1 semihdScreen:py-1 laptopScreen:py-1 averageScreen:py-0.5 px-5  text-white relative    drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)] "
+                  className="div-button grow flex text-center justify-center items-center hdScreen:text-base semihdScreen:text-sm laptopScreen:text-sm averageScreen:text-sm xs:text-xs rounded-xl bg-blue-500 hover:bg-blue-600 hdScreen:py-1 semihdScreen:py-1 laptopScreen:py-1 averageScreen:py-0.5 px-5  text-white relative    drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)] "
                 >
                   Template File
                   <span
@@ -1831,7 +1850,7 @@ function Registration() {
                         index > 1 && index != 3 ? (
                           <th
                             key={key}
-                            className={` py-3 lg:text-base md:text-sm sm:text-sm
+                            className={` py-3 lg:text-base md:text-sm sm:text-sm font-bold
                             ${index == 2 ? 'w-[15%]' : ''} 
                             ${index == 4 ? 'w-[15%]' : ''}
                             ${index == 5 ? 'w-[16.75%]' : ''}
@@ -1844,7 +1863,7 @@ function Registration() {
                           <></>
                         )
                       )}
-                      <th className="w-[19.5%] lg:text-base md:text-sm sm:text-sm">
+                      <th className="w-[19.5%] lg:text-base md:text-sm sm:text-sm font-bold">
                         Status
                       </th>
                     </tr>

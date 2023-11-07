@@ -522,12 +522,21 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
                         type="text "
                         placeholder="Enter Middle Name"
                         autoComplete="new-password"
-                        className={`grow py-2 lg:px-2 border-[1px]  rounded-md relative border-gray-500 focus:outline-teal-500 focus:ring-teal-500   shadow-[#808080]`}
+                        className={` grow py-2 lg:px-2 border-[1px] rounded-md border-gray-500 focus:outline-teal-500 relative focus:ring-teal-500   shadow-[#808080] ${
+                          errors.middleName && touched.middleName
+                            ? 'shadow-red-500  border-red-500 focus:border-red-500 border-3 border-solid'
+                            : ''
+                        }`}
                         value={values.middleName}
                         onChange={handleChange}
                         onBlur={handleBlur}
                       />
                     </div>
+                    {errors.middleName && touched.middleName && (
+                      <p className="text-red-500 absolute lg:ml-[120px] xs:ml-[43px]">
+                        {errors.middleName}
+                      </p>
+                    )}
                   </div>
 
                   {/*LastName Input*/}
@@ -580,7 +589,7 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
                           name="birthDay"
                           type="date"
                           autoComplete="new-password"
-                          className="grow py-2 lg:px-2 border-[1px]  focus:border-none rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500  shadow-[#808080]"
+                          className="grow py-2 lg:px-2 border-[1px]   rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500  shadow-[#808080]"
                           onChange={dateChange}
                           onBlur={handleBlur}
                           value={birthday}
@@ -606,7 +615,7 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
                           type="text"
                           placeholder="Set birthday"
                           autoComplete="new-password"
-                          className={`py-2 lg:px-2 border-[1px] w-[9rem] rounded-md focus:border-none border-gray-500 focus:outline-teal-500 focus:ring-teal-500 relative  shadow-[#808080] ${
+                          className={`py-2 lg:px-2 border-[1px] w-[9rem] rounded-md  border-gray-500 focus:outline-teal-500 focus:ring-teal-500 relative  shadow-[#808080] ${
                             errors.age && touched.age
                               ? ' shadow-red-500 border-red-500 focus:border-red-500 border-3 border-solid'
                               : ''
@@ -694,7 +703,14 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
                     </div>
 
                     {/*Subscribed Input*/}
-                    <div className="col-span-1">
+                    <div
+                      className={`col-span-1 ${
+                        values.section == '!SUBSCRIBED-STUDENTS' ||
+                        sectionData == '!SUBSCRIBED-STUDENTS'
+                          ? ''
+                          : 'hidden'
+                      }`}
+                    >
                       <div className="inline-flex w-full">
                         <label
                           htmlFor="subscribed"
@@ -745,7 +761,7 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
                           value={values.gradeLevel}
                           onChange={gradeLevelChange}
                           name="gradeLevel"
-                          className="py-2 lg:px-2 border-[1px] focus:border-none rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500  shadow-[#808080]"
+                          className="py-2 lg:px-2 border-[1px]  rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500  shadow-[#808080]"
                         >
                           <option className="hdScreen:text-lg semihdScreen:text-base laptopScreen:text-base averageScreen:text-base">
                             Grade 7
@@ -776,7 +792,7 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
                           value={values.section}
                           onChange={handleChange}
                           name="section"
-                          className={`py-2 lg:px-2 border-[1px] focus:border-none rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500  shadow-[#808080]
+                          className={`py-2 lg:px-2 border-[1px]  rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500  shadow-[#808080]
                         ${
                           errors.section && touched.section
                             ? ' shadow-red-500 border-red-500 focus:border-red-500 border-3 border-solid'
@@ -784,9 +800,6 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
                         }
                         `}
                         >
-                          <option selected value="" disabled>
-                            {' '}
-                          </option>
                           {sectionData.map((section, index) => (
                             <option
                               key={index}
@@ -810,7 +823,14 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
                     </div>
 
                     {/*Subscription  Type Input*/}
-                    <div className={`${!subscribedState ? 'hidden' : ''}`}>
+                    <div
+                      className={`${
+                        !subscribedState ||
+                        values.section != '!SUBSCRIBED-STUDENTS'
+                          ? 'hidden'
+                          : ''
+                      }`}
+                    >
                       <div className="inline-flex w-full">
                         <label
                           htmlFor="subscriptionType"
@@ -822,12 +842,12 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
                           value={values.subscriptionType}
                           onChange={handleChange}
                           name="subscriptionType"
-                          className={`py-2 lg:px-2 border-[1px] focus:border-none rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500  shadow-[#808080]`}
+                          className={`py-2 lg:px-2 border-[1px]  rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500  shadow-[#808080]`}
                         >
-                          <option
-                            selected
-                            className="hdScreen:text-lg semihdScreen:text-base laptopScreen:text-base averageScreen:text-base"
-                          >
+                          <option selected value="" disabled>
+                            {' '}
+                          </option>
+                          <option className="hdScreen:text-lg semihdScreen:text-base laptopScreen:text-base averageScreen:text-base">
                             STUDENT-PLAN-1
                           </option>
                         </select>
@@ -923,7 +943,14 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
 
                   {/*Due*/}
                   {accountRole == 'Student' ? (
-                    <div className={`${!subscribedState ? 'hidden' : ''}`}>
+                    <div
+                      className={`${
+                        !subscribedState ||
+                        values.section != '!SUBSCRIBED-STUDENTS'
+                          ? 'hidden'
+                          : ''
+                      }`}
+                    >
                       <div className="inline-flex w-full">
                         <label
                           htmlFor="dueDate"
@@ -936,7 +963,7 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
                           onChange={handleChange}
                           type="date"
                           name="dueDate"
-                          className={`py-2 lg:px-2 border-[1px] focus:border-none rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500  shadow-[#808080]`}
+                          className={`py-2 lg:px-2 border-[1px]  rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500  shadow-[#808080]`}
                         ></input>
                       </div>
                     </div>
@@ -964,10 +991,12 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
                           value={values.subscriptionType}
                           onChange={handleChange}
                           name="subscriptionType"
-                          className={`py-2 lg:px-2 border-[1px] focus:border-none rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500  shadow-[#808080]`}
+                          className={`py-2 lg:px-2 border-[1px]  rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500  shadow-[#808080]`}
                         >
+                          <option selected value="" className="" disabled>
+                            {' '}
+                          </option>
                           <option
-                            selected
                             value="TEACHER-PLAN-1"
                             className="hdScreen:text-lg semihdScreen:text-base laptopScreen:text-base averageScreen:text-base"
                           >
@@ -1002,7 +1031,7 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
                           onChange={handleChange}
                           type="date"
                           name="dueDate"
-                          className={`py-2 lg:px-2 border-[1px] focus:border-none rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500  shadow-[#808080]`}
+                          className={`py-2 lg:px-2 border-[1px]  rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500  shadow-[#808080]`}
                         ></input>
                       </div>
                     </div>
@@ -1026,7 +1055,7 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
                         type="password"
                         autoComplete="new-password"
                         placeholder="Enter Password"
-                        className={`grow py-2 lg:px-2 py-[14.5px] border-[1px]  rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 focus:border-none relative  shadow-[#808080] ${
+                        className={`grow py-2 lg:px-2 py-[14.5px] border-[1px]  rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500  relative  shadow-[#808080] ${
                           errors.password && touched.password
                             ? ' shadow-red-500 border-red-500 focus:border-red-500 border-3 border-solid'
                             : ''
@@ -1057,7 +1086,7 @@ const EditAccountModal = ({ visible, onClose, onContinue }) => {
                         type="password"
                         autoComplete="new-password"
                         placeholder="Confirm Password"
-                        className={`grow py-2 lg:px-2 border-[1px]  rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 focus:border-none  shadow-[#808080] ${
+                        className={`grow py-2 lg:px-2 border-[1px]  rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500   shadow-[#808080] ${
                           errors.confirmPassword && touched.confirmPassword
                             ? ' shadow-red-500 border-red-500 focus:border-red-500 border-3 border-solid'
                             : ''

@@ -22,7 +22,7 @@ for ($i = strlen($adviser) - 1; $i > 0; $i--) {
 
 switch($_SESSION['method']) {
     case "GET":
-        $sql = "SELECT * FROM section_list WHERE AdviserName = '$adviser' ORDER BY SectionName";
+        $sql = "SELECT * FROM section_list WHERE AdviserName = '$adviser' ORDER BY ABS(GradeLevel) ASC, SectionName ASC";
 
         $stmt = $conn->prepare($sql);
         $stmt->execute();

@@ -124,7 +124,7 @@ const ManageSubscriptionConfirm = ({ visible, onClose, onContinue }) => {
       }
 
       if (plan == 'DOWNGRADE-1') {
-        values.subject = 'Downgrade to Plan 1: Equation Builder';
+        values.subject = '#Downgrade to Plan 1: Equation Builder';
         handleChange.subject;
 
         values.type = 'TEACHER-PLAN-1';
@@ -143,7 +143,7 @@ const ManageSubscriptionConfirm = ({ visible, onClose, onContinue }) => {
           SecureStorageData.dataEncryption('TEACHER-PLAN-1')
         );
       } else if (plan == 'DOWNGRADE-2') {
-        values.subject = 'Downgrade to Plan 2: Equation Architect';
+        values.subject = '#Downgrade to Plan 2: Equation Architect';
         handleChange.subject;
 
         values.type = 'TEACHER-PLAN-2';
@@ -159,7 +159,7 @@ const ManageSubscriptionConfirm = ({ visible, onClose, onContinue }) => {
           SecureStorageData.dataEncryption('TEACHER-PLAN-2')
         );
       } else if (plan == 'UPGRADE-2') {
-        values.subject = 'Upgrade to Plan 2: Equation Architect';
+        values.subject = '#Upgrade to Plan 2: Equation Architect';
         handleChange.subject;
 
         if (current == 'TEACHER-PLAN-1') {
@@ -168,7 +168,7 @@ const ManageSubscriptionConfirm = ({ visible, onClose, onContinue }) => {
           handleChange.message;
         }
       } else if (plan == 'UPGRADE-3') {
-        values.subject = 'Upgrade to Plan 3: Equation Master';
+        values.subject = '#Upgrade to Plan 3: Equation Master';
         handleChange.subject;
 
         if (current == 'TEACHER-PLAN-1') {
@@ -181,17 +181,17 @@ const ManageSubscriptionConfirm = ({ visible, onClose, onContinue }) => {
           handleChange.message;
         }
       } else if (plan == 'SUBSCRIBE-TEACHER-1') {
-        values.subject = 'Subscribe to Plan 1: Equation Builder';
+        values.subject = '#Subscribe to Plan 1: Equation Builder';
         handleChange.subject;
         values.message = 'Subscribe to Plan 1\nExtended: 1 Month\nPrice: ₱50';
         handleChange.message;
       } else if (plan == 'SUBSCRIBE-TEACHER-2') {
-        values.subject = 'Subscribe to Plan 2: Equation Architect';
+        values.subject = '#Subscribe to Plan 2: Equation Architect';
         handleChange.subject;
         values.message = 'Subscribe to Plan 2\nExtended: 1 Month\nPrice: ₱75';
         handleChange.message;
       } else if (plan == 'SUBSCRIBE-TEACHER-3') {
-        values.subject = 'Subscribe to Plan 3: Equation Master';
+        values.subject = '#Subscribe to Plan 3: Equation Master';
         handleChange.subject;
         values.message = 'Subscribe to Plan 3\nExtended: 1 Month\nPrice: ₱100';
         handleChange.message;
@@ -199,21 +199,21 @@ const ManageSubscriptionConfirm = ({ visible, onClose, onContinue }) => {
         // NONE
       } else if (plan == 'EXTEND') {
         if (current == 'TEACHER-PLAN-1') {
-          values.subject = 'Subscription Plan 1: Extend Time';
+          values.subject = '#Subscription Plan 1: Extend Time';
           handleChange.subject;
 
           values.message =
             'Extend subscription for Plan 1\nExtended: 1 Month\nPrice: ₱50';
           handleChange.message;
         } else if (current == 'TEACHER-PLAN-2') {
-          values.subject = 'Subscription Plan 2: Extend Time';
+          values.subject = '#Subscription Plan 2: Extend Time';
           handleChange.subject;
 
           values.message =
             'Extend subscription for Plan 2\nExtended: 1 Month\nPrice: ₱75';
           handleChange.message;
         } else if (current == 'TEACHER-PLAN-3') {
-          values.subject = 'Subscription Plan 3: Extend Time';
+          values.subject = '#Subscription Plan 3: Extend Time';
           handleChange.subject;
 
           values.message =
@@ -525,7 +525,7 @@ const ManageSubscriptionConfirm = ({ visible, onClose, onContinue }) => {
                         </h1>
                         <div>
                           <p className="font-normal text-gray-600 hdScreen:text-base semihdScreen:text-md averageScreen:text-sm  xs:text-xs font-roboto averageScreen:mb-0.5 xs:mb-0">
-                            Please save the screenshot of your payment, <br />
+                            Please save the screenshot of your payment <br />
                             and email it to{' '}
                             <span className="text-blue-600 underline font-semibold">
                               pedagogical.agent.sfe@gmail.com
@@ -549,7 +549,7 @@ const ManageSubscriptionConfirm = ({ visible, onClose, onContinue }) => {
                   )}
 
                   <div
-                    className={`lg:mt-4 xs:mt-3  w-full flex flex-col   font-bold lg:text-xl
+                    className={`lg:mt-4 xs:mt-3  w-full flex flex-col   font-semibold lg:text-xl
                   ${
                     planType == 'SUBSCRIBE-STUDENT-1' ||
                     currentPlan == 'STUDENT-PLAN-1'

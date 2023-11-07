@@ -363,12 +363,28 @@ export default function ClassList() {
             <table className="w-full leading-normal ">
               <thead className="sticky top-0 z-40 shadow-md border-b-2 border-gray-200 bg-gray-200 text-left uppercase tracking-wider lg:text-base md:text-sm xs:text-xs  font-bold text-gray-600">
                 <tr>
-                  <th className="lg:pl-20 pl-6 w-[32.5%] py-3 ">
-                    Student Name
+                  <th className="font-bold lg:pl-20 pl-6 w-[32.5%] py-3 ">
+                    <div
+                      className={`${classList.length > 0 ? '' : 'invisible'}`}
+                    >
+                      Student Name
+                    </div>
                   </th>
 
-                  <th className="w-[22%] py-3 ">Gender</th>
-                  <th className="lg:py-3 ">Group Type</th>
+                  <th className="font-bold w-[22%] py-3 ">
+                    <div
+                      className={`${classList.length > 0 ? '' : 'invisible'}`}
+                    >
+                      Gender
+                    </div>
+                  </th>
+                  <th className="font-bold lg:py-3 ">
+                    <div
+                      className={`${classList.length > 0 ? '' : 'invisible'}`}
+                    >
+                      Group Type
+                    </div>
+                  </th>
                   <th className="lg:pl-[200px] md:pl-[110px] xs:pl-[80px] md py-3 select-none "></th>
                 </tr>
               </thead>
@@ -449,7 +465,7 @@ export default function ClassList() {
                                 >
                                   <button className="relative lg:text-base md:text-sm xs:text-xs  md:w-36 sm:w-28 xs:w-20 text-gray-700 hover:text-white   font-semibold  transition duration-500 border-gray-400 border-2  hover:bg-gray-500 hover:border-gray-500 py-2 rounded-xl shadow-md">
                                     <p className="md:pr-2">View details</p>
-                                    <VscEye className="md:block xs:hidden absolute md:right-3 xs:right-1 top-1/3" />
+                                    <VscEye className=" md:block xs:hidden absolute md:right-2 xs:right-1 top-1/3" />
                                   </button>
                                 </a>
                               </td>

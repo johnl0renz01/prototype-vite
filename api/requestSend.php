@@ -65,19 +65,24 @@ switch($_SESSION['method']) {
         break;
     case "POST":
         $user = json_decode( file_get_contents('php://input') );
+        $status = "UNSOLVED";
 
         $type = "";
         try {
            $type = $user->type;
         } catch (Exception $e) {
         }
-
+        
         if ($type != "") {
             $sql = "UPDATE accounts SET SubscriptionType = '$type'
             WHERE Email = '$email'";
             $stmt = $conn->prepare($sql);
             $stmt->execute();
+            $status="SOLVED";
+        } else {
+            $status="UNSOLVED";
         }
+
         //GET FULLNAME
         /*
         $midname = "SELECT MiddleName FROM accounts WHERE Email = '$email'";
@@ -101,7 +106,7 @@ switch($_SESSION['method']) {
         */
         //END OF CODE^
 
-        $status = "UNSOLVED";
+        
         $id = $c;
         $id[0] = "z";
         $id[1] = "z";

@@ -200,7 +200,7 @@ function Navbar() {
           window.localStorage.setItem('LOGGED', JSON.stringify('FALSE'));
           navigate('/LoginPage');
           document.body.style.backgroundImage =
-            'linear-gradient(to top, #bef264, #d9f99d , #ccf779)';
+            'linear-gradient(to top, #9ee622, #b1eb52, #ccf779)';
         })
         .catch(function (error) {
           setShowLoading(false);
@@ -258,7 +258,7 @@ function Navbar() {
         window.localStorage.setItem('LOGGED', JSON.stringify('FALSE'));
         navigate('/LoginPage');
         document.body.style.backgroundImage =
-          'linear-gradient(to top, #bef264, #d9f99d , #ccf779)';
+          'linear-gradient(to top, #9ee622, #b1eb52, #ccf779)';
       })
       .catch(function (error) {
         setShowLoading(false);
@@ -340,7 +340,7 @@ function Navbar() {
     if (section !== null) {
       setCurrentSection(section);
     }
-  }, []);
+  });
 
   return (
     <>
@@ -513,7 +513,7 @@ function Navbar() {
                           </button>
                         )}
                       </Menu.Item>
-                      {currentSection == 'SUBSCRIBED-STUDENTS' ? (
+                      {currentSection == '!SUBSCRIBED-STUDENTS' ? (
                         <>
                           <Menu.Item>
                             {({ active }) => (

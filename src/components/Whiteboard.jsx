@@ -188,7 +188,7 @@ export default function Whiteboard() {
     document.getElementById('whiteboard').click();
 
     document.body.style.backgroundImage =
-      'linear-gradient(to top, #bef264, #d9f99d , #ccf779)';
+      'linear-gradient(to top, #9ee622, #b1eb52, #ccf779)';
   }, []);
 
   useEffect(() => {
@@ -213,7 +213,7 @@ export default function Whiteboard() {
       console.log(section);
       setCurrentSection(section);
 
-      if (section == 'SUBSCRIBED-STUDENTS') {
+      if (section == '!SUBSCRIBED-STUDENTS') {
         var subscribed = StorageData.localStorageJSON('S-STATUS');
         if (subscribed !== null && subscribed !== '') {
           window.localStorage.setItem(
@@ -225,7 +225,7 @@ export default function Whiteboard() {
         } else {
           window.localStorage.setItem(
             'SYSTEM_VERSION',
-            JSON.stringify(SecureStorageData.dataEncryption('Non Facial Group'))
+            JSON.stringify(SecureStorageData.dataEncryption('Non-Facial Group'))
           );
         }
       }
@@ -255,7 +255,7 @@ export default function Whiteboard() {
       if (endTime < todayTime) {
         window.localStorage.setItem(
           'SYSTEM_VERSION',
-          JSON.stringify(SecureStorageData.dataEncryption('Non Facial Group'))
+          JSON.stringify(SecureStorageData.dataEncryption('Non-Facial Group'))
         );
         setExpiredState(true);
       }
@@ -669,6 +669,9 @@ export default function Whiteboard() {
 
       //CHECK IF SPECIAL CASE
       let equation = fixedEquationSteps[0];
+
+      //if (equation !== undefined) {} ADD TO REMOVE ERROR, UP TO WHITEBOARD.CLICK()
+
       var [lhs, rhs] = equation.split('=').map(side => side.trim());
       if (fixedEquationSteps.length == 3) {
         // check if there's character
@@ -736,6 +739,12 @@ export default function Whiteboard() {
       setHint(hintMessage);
 
       document.getElementById('whiteboard').click();
+      /*
+      document.getElementById('input_box').click();
+      document.getElementById('submit_button').click();
+      focusInputBox();
+      */
+
       setTimeout(checkAnswered, 1);
     }
 
@@ -842,6 +851,10 @@ export default function Whiteboard() {
 
     const name = event.target.name;
     const value = event.target.value;
+
+    if (value.length == 1) {
+      loadAnswers();
+    }
     setInputs(values => ({ ...values, [name]: value }));
   };
 
@@ -947,6 +960,7 @@ export default function Whiteboard() {
 
     computeEquation();
     loadAnswers();
+    //setTimeout(loadAnswers, 1);
     window.localStorage.setItem(
       'FINISHED_EQUATION',
       SecureStorageData.dataEncryption(false)
@@ -1130,12 +1144,16 @@ export default function Whiteboard() {
     setTimeout(displayInspiration, delay);
   }
 
-  const inputID = document.getElementById('input_box');
+  //const inputID = document.getElementById('input_box');
 
   // FOR OTHER STUFF
   function focusInputBox() {
-    ReactDOM.findDOMNode(inputID).focus();
+    document.getElementById('input_box').focus();
   }
+
+  useEffect(() => {
+    focusInputBox();
+  });
   //=============================CLICK BUTTON=============================
   const handleClick = event => {
     if (levelDownState) {
@@ -1536,6 +1554,8 @@ export default function Whiteboard() {
       'QUESTION_STATUS',
       JSON.stringify(SecureStorageData.dataEncryption('SOLVED'))
     );
+    document.getElementById('answer_area').style.visibility = 'visible';
+    ReactDOM.findDOMNode(answerArea).style.visibility = 'visible';
     ReactDOM.findDOMNode(confirmationArea).style.visibility = 'visible';
 
     if (levelUp) {
@@ -1582,7 +1602,7 @@ export default function Whiteboard() {
 
     if (
       (subscribedState && !expiredState) ||
-      currentSection != 'SUBSCRIBED-STUDENTS'
+      currentSection != '!SUBSCRIBED-STUDENTS'
     ) {
       //10th question easy
       let diffType = StorageData.localStorageRAW('DIFFICULTY_TYPE');
@@ -2672,6 +2692,28 @@ export default function Whiteboard() {
     }
   });
 
+  useEffect(() => {
+    window.sessionStorage.removeItem('HOVERED_PAGE');
+  }, []);
+
+  function hoverPage() {
+    var status = window.sessionStorage.getItem('HOVERED_PAGE');
+    if (status !== null) {
+    } else {
+      loadAnswers();
+      window.sessionStorage.setItem('HOVERED_PAGE', true);
+    }
+  }
+
+  function hoverHint() {
+    var status = window.sessionStorage.getItem('HOVERED_HINT');
+    if (status !== null) {
+    } else {
+      loadAnswers();
+      window.sessionStorage.setItem('HOVERED_HINT', true);
+    }
+  }
+
   return (
     <>
       {/*<!--Container pang edit ng grids--> min-h-[calc(100vh-20rem)] grid-rows-11*/}
@@ -2685,7 +2727,7 @@ export default function Whiteboard() {
         id="whiteboard"
         className={`hdScreen:scale-90 semihdScreen:scale-90 laptopScreen:scale-[82.5%] averageScreen:scale-80 hdScreen:-mt-8 semihdScreen:-mt-8 laptopScreen:-mt-12 averageScreen:-mt-16  averageScreen:pt-0 xs:pt-4 mx-auto hdScreen:w-11/12 semihdScreen:w-11/12 laptopScreen:w-12/12 averageScreen:w-12/12 averageScreen:min-h-[calc(100vh-2rem)] flex items-center justify-center  h-screen averageScreen:overflow-y-hidden xs:overflow-y-auto
                   ${skeletonState ? '' : ''}`}
-        onMouseEnter={loadAnswers}
+        onMouseOver={hoverPage}
         onClick={loadAnswers}
       >
         <div
@@ -2711,7 +2753,7 @@ export default function Whiteboard() {
               <nav className="flex flex-col items-center  ">
                 {/*<!--Question-->*/}
                 <div
-                  className={`text-gray-500 hover:text-white focus:outline-none focus:text-white rounded-full ${
+                  className={`div-button text-gray-500 hover:text-white focus:outline-none focus:text-white rounded-full ${
                     isHelp ? 'ml-2 my-1' : 'px-3 py-2'
                   }`}
                   {...(isHelp
@@ -2747,7 +2789,7 @@ export default function Whiteboard() {
 
                 {/*<!--Hint-->*/}
                 <div
-                  className={`text-gray-500 hover:text-white focus:outline-none focus:text-white ${
+                  className={`div-button text-gray-500 hover:text-white focus:outline-none focus:text-white ${
                     isHelp ? 'ml-2 my-1' : 'px-3 py-2'
                   }`}
                   {...(isHelp
@@ -2759,6 +2801,7 @@ export default function Whiteboard() {
                   {...(isHelp ? { datatooltipposition: 'right' } : {})}
                 >
                   <svg
+                    onMouseOver={hoverHint}
                     id="help_button"
                     onClick={!isSolved ? hintMode : undefined}
                     className={` hdScreen:h-11 semihdScreen:h-10 laptopScreen:h-9 averageScreen:h-8 xs:h-7  hdScreen:w-11 semihdScreen:w-10 laptopScreen:w-9 xs:w-7 rounded-full   p-1 drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)] ${
@@ -2793,7 +2836,7 @@ export default function Whiteboard() {
 
                 {/*<!--Video-->*/}
                 <div
-                  className={`text-gray-500 hover:text-white focus:outline-none  ${
+                  className={`div-button text-gray-500 hover:text-white focus:outline-none   ${
                     isHelp ? 'ml-2 my-1' : 'px-3 py-2'
                   }`}
                   {...(isHelp
@@ -2840,7 +2883,7 @@ export default function Whiteboard() {
 
                 {/*<!--Pen-->*/}
                 <div
-                  className={`text-gray-500 hover:text-white focus:outline-none  ${
+                  className={`div-button text-gray-500 hover:text-white focus:outline-none  ${
                     isHelp ? 'ml-2 my-1' : 'px-3 py-2'
                   }`}
                   {...(isHelp
@@ -2882,7 +2925,7 @@ export default function Whiteboard() {
 
                 {/*<!--Guide-->*/}
                 <div
-                  className={`text-gray-500 hover:text-white focus:outline-none  ${
+                  className={`div-button text-gray-500 hover:text-white focus:outline-none  ${
                     isHelp ? 'ml-2 my-1' : 'px-3 py-2'
                   }`}
                   {...(isHelp
@@ -3517,7 +3560,7 @@ export default function Whiteboard() {
                       maxLength="50"
                       type="text"
                       name="chat"
-                      className={` block rounded-5xl w-full p-5  averageScreen:text-2xl xs:text-base  ${
+                      className={` block rounded-5xl w-full p-5 px-8 averageScreen:text-2xl xs:text-base font-[600] text-gray-600 focus:outline-yellow-700 focus:ring-yellow-700  ${
                         isTutorial ? 'bg-gray-300 placeholder-gray-500' : ''
                       }`}
                       placeholder="Input your answer here..."
@@ -3528,6 +3571,7 @@ export default function Whiteboard() {
                         : {})}
                     ></input>
                     <button
+                      id="submit-button"
                       onClick={textInput !== '' ? handleClick : undefined}
                       value={textInput}
                       className={`averageScreen:mb-0 xs:mb-[0.0.8rem] flex items-center select-none text-white averageScreen:text-xl xs:text-sm font-light absolute  right-2.5 bottom-3  rounded-full px-4 py-2.5  ${

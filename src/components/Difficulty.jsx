@@ -116,7 +116,7 @@ export default function DifficultyPage() {
     });
 
     document.body.style.backgroundImage =
-      'linear-gradient(to top, #bef264, #d9f99d , #ccf779)';
+      'linear-gradient(to top, #9ee622, #b1eb52, #ccf779)';
   }, []);
 
   useEffect(() => {
@@ -155,6 +155,7 @@ export default function DifficultyPage() {
   const [expiredState, setExpiredState] = useState(false);
   const [subscribedState, setSubscribedState] = useState(false);
   const [currentSection, setCurrentSection] = useState('');
+  const [teacherSubscribedState, setTeacherSubscribedState] = useState('');
 
   useEffect(() => {
     var section = StorageData.localStorageJSON('SESSION_SECTION_NAME');
@@ -162,7 +163,7 @@ export default function DifficultyPage() {
       console.log(section);
       setCurrentSection(section);
 
-      if (section == 'SUBSCRIBED-STUDENTS') {
+      if (section == '!SUBSCRIBED-STUDENTS') {
         var subscribed = StorageData.localStorageJSON('S-STATUS');
         if (subscribed !== null && subscribed !== '') {
           window.localStorage.setItem(
@@ -174,8 +175,13 @@ export default function DifficultyPage() {
         } else {
           window.localStorage.setItem(
             'SYSTEM_VERSION',
-            JSON.stringify(SecureStorageData.dataEncryption('Non Facial Group'))
+            JSON.stringify(SecureStorageData.dataEncryption('Non-Facial Group'))
           );
+        }
+      } else {
+        var teacherSubscribed = StorageData.localStorageJSON('S-TEACHER');
+        if (teacherSubscribed !== null) {
+          setTeacherSubscribedState(teacherSubscribed);
         }
       }
     }
@@ -208,7 +214,7 @@ export default function DifficultyPage() {
       if (endTime < todayTime) {
         window.localStorage.setItem(
           'SYSTEM_VERSION',
-          JSON.stringify(SecureStorageData.dataEncryption('Non Facial Group'))
+          JSON.stringify(SecureStorageData.dataEncryption('Non-Facial Group'))
         );
         setExpiredState(true);
       }
@@ -238,7 +244,7 @@ export default function DifficultyPage() {
 
     if (
       (subscribedState && !expiredState) ||
-      currentSection != 'SUBSCRIBED-STUDENTS'
+      currentSection != '!SUBSCRIBED-STUDENTS'
     ) {
       axios
         .get(
@@ -263,6 +269,25 @@ export default function DifficultyPage() {
           var minimumValue = parseInt(keys[4]);
           var maximumValue = parseInt(keys[5]);
           var differentVariables = keys[6];
+
+          if (teacherSubscribedState == 'NOT-SUBSCRIBED') {
+            occurrenceValue = 0;
+            prioritize = 'FALSE';
+            minimumValue = 1;
+            maximumValue = 10;
+            differentVariables = 'FALSE';
+          } else if (teacherSubscribedState == 'TEACHER-PLAN-1') {
+            occurrenceValue = 50;
+            prioritize = 'FALSE';
+            minimumValue = 1;
+            maximumValue = 10;
+            differentVariables = 'FALSE';
+          } else if (teacherSubscribedState == 'TEACHER-PLAN-2') {
+            minimumValue = 1;
+            maximumValue = 10;
+            differentVariables = 'FALSE';
+          } else if (teacherSubscribedState == 'TEACHER-PLAN-3') {
+          }
 
           getEquations();
           function getEquations() {
@@ -404,7 +429,7 @@ export default function DifficultyPage() {
 
     if (
       (subscribedState && !expiredState) ||
-      currentSection != 'SUBSCRIBED-STUDENTS'
+      currentSection != '!SUBSCRIBED-STUDENTS'
     ) {
       axios
         .get(
@@ -429,6 +454,25 @@ export default function DifficultyPage() {
           var minimumValue = parseInt(keys[4]);
           var maximumValue = parseInt(keys[5]);
           var differentVariables = keys[6];
+
+          if (teacherSubscribedState == 'NOT-SUBSCRIBED') {
+            occurrenceValue = 0;
+            prioritize = 'FALSE';
+            minimumValue = 1;
+            maximumValue = 10;
+            differentVariables = 'FALSE';
+          } else if (teacherSubscribedState == 'TEACHER-PLAN-1') {
+            occurrenceValue = 50;
+            prioritize = 'FALSE';
+            minimumValue = 1;
+            maximumValue = 10;
+            differentVariables = 'FALSE';
+          } else if (teacherSubscribedState == 'TEACHER-PLAN-2') {
+            minimumValue = 1;
+            maximumValue = 10;
+            differentVariables = 'FALSE';
+          } else if (teacherSubscribedState == 'TEACHER-PLAN-3') {
+          }
 
           getEquations();
           function getEquations() {
@@ -546,7 +590,7 @@ export default function DifficultyPage() {
 
     if (
       (subscribedState && !expiredState) ||
-      currentSection != 'SUBSCRIBED-STUDENTS'
+      currentSection != '!SUBSCRIBED-STUDENTS'
     ) {
       axios
         .get(
@@ -571,6 +615,25 @@ export default function DifficultyPage() {
           var minimumValue = parseInt(keys[4]);
           var maximumValue = parseInt(keys[5]);
           var differentVariables = keys[6];
+
+          if (teacherSubscribedState == 'NOT-SUBSCRIBED') {
+            occurrenceValue = 0;
+            prioritize = 'FALSE';
+            minimumValue = 1;
+            maximumValue = 10;
+            differentVariables = 'FALSE';
+          } else if (teacherSubscribedState == 'TEACHER-PLAN-1') {
+            occurrenceValue = 50;
+            prioritize = 'FALSE';
+            minimumValue = 1;
+            maximumValue = 10;
+            differentVariables = 'FALSE';
+          } else if (teacherSubscribedState == 'TEACHER-PLAN-2') {
+            minimumValue = 1;
+            maximumValue = 10;
+            differentVariables = 'FALSE';
+          } else if (teacherSubscribedState == 'TEACHER-PLAN-3') {
+          }
 
           getEquations();
           function getEquations() {
@@ -1040,14 +1103,14 @@ export default function DifficultyPage() {
                   <div
                     name="average"
                     onClick={
-                      currentSection != 'SUBSCRIBED-STUDENTS'
+                      currentSection != '!SUBSCRIBED-STUDENTS'
                         ? averageType
                         : subscribedState && !expiredState
                         ? averageType
                         : null
                     }
                     className={`relative w-full transform transition duration-500 ${
-                      currentSection != 'SUBSCRIBED-STUDENTS'
+                      currentSection != '!SUBSCRIBED-STUDENTS'
                         ? 'cursor-pointer hover:scale-95'
                         : subscribedState && !expiredState
                         ? 'cursor-pointer hover:scale-95'
@@ -1057,7 +1120,7 @@ export default function DifficultyPage() {
                     <div
                       className={`select-none absolute left-0 top-0 z-[100] opacity-100  w-full h-full bg-white/60 rounded-xl  backdrop-blur-[0.5px]  flex flex-col justify-center items-center text-center transition duration-150 
                                 ${
-                                  currentSection != 'SUBSCRIBED-STUDENTS'
+                                  currentSection != '!SUBSCRIBED-STUDENTS'
                                     ? 'hidden'
                                     : subscribedState && !expiredState
                                     ? 'hidden'
@@ -1093,7 +1156,7 @@ export default function DifficultyPage() {
                       <div
                         className={`relative -mt-10 transform transition duration-500 bg-mainBGBrown rounded-4xl border-l-8 border-b-8 border-yellow-700 border-r-8 border-r-brTwo  pl-8 pr-8 py-6 pb-12 
                         ${
-                          currentSection != 'SUBSCRIBED-STUDENTS'
+                          currentSection != '!SUBSCRIBED-STUDENTS'
                             ? 'shadow-md  hover:shadow-xl hover:text-yellow-500 hover:shadow-yellow-400'
                             : subscribedState && !expiredState
                             ? 'shadow-md  hover:shadow-xl hover:text-yellow-500 hover:shadow-yellow-400'
@@ -1182,14 +1245,14 @@ export default function DifficultyPage() {
                   <div
                     name="difficult"
                     onClick={
-                      currentSection != 'SUBSCRIBED-STUDENTS'
+                      currentSection != '!SUBSCRIBED-STUDENTS'
                         ? difficultType
                         : subscribedState && !expiredState
                         ? difficultType
                         : null
                     }
                     className={`relative w-full transform transition duration-500 ${
-                      currentSection != 'SUBSCRIBED-STUDENTS'
+                      currentSection != '!SUBSCRIBED-STUDENTS'
                         ? 'cursor-pointer hover:scale-95'
                         : subscribedState && !expiredState
                         ? 'cursor-pointer hover:scale-95'
@@ -1199,7 +1262,7 @@ export default function DifficultyPage() {
                     <div
                       className={`select-none absolute left-0 top-0 z-[100] opacity-100  w-full h-full bg-white/60 rounded-xl  backdrop-blur-[0.5px]  flex flex-col justify-center items-center text-center transition duration-150 
                                 ${
-                                  currentSection != 'SUBSCRIBED-STUDENTS'
+                                  currentSection != '!SUBSCRIBED-STUDENTS'
                                     ? 'hidden'
                                     : subscribedState && !expiredState
                                     ? 'hidden'
@@ -1235,7 +1298,7 @@ export default function DifficultyPage() {
                       <div
                         className={`relative -mt-10  transform transition duration-500 bg-mainBGBrown rounded-4xl border-l-8 border-b-8 border-yellow-700 border-r-8 border-r-brTwo pl-8 pr-8 py-6 pb-12 
                         ${
-                          currentSection != 'SUBSCRIBED-STUDENTS'
+                          currentSection != '!SUBSCRIBED-STUDENTS'
                             ? 'shadow-md hover:shadow-xl hover:text-red-500 hover:shadow-red-500'
                             : subscribedState && !expiredState
                             ? 'shadow-md hover:shadow-xl hover:text-red-500 hover:shadow-red-500'

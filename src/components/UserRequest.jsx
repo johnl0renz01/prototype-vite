@@ -376,16 +376,34 @@ export default function UserRequest() {
               <thead className="sticky top-0 z-40 shadow-md border-b-2 border-gray-200 bg-gray-200 text-left uppercase tracking-wider lg:text-base md:text-sm xs:text-xs font-bold text-gray-600">
                 <tr>
                   <th className="lg:pl-8 w-[19.85%] py-3 lg:text-base md:text-sm sm:text-xs">
-                    <div className="lg:pl-0 sm:pl-3  xs:pl-3">Subject</div>
+                    <div
+                      className={`font-bold lg:pl-0 sm:pl-3  xs:pl-3 ${
+                        requests.length > 0 ? '' : 'invisible'
+                      }`}
+                    >
+                      Subject
+                    </div>
                   </th>
-                  <th className="w-[27.25%] py-3 lg:text-base md:text-sm sm:text-xs ">
-                    From
+                  <th className="font-bold w-[27.25%] py-3 lg:text-base md:text-sm sm:text-xs ">
+                    <div
+                      className={`${requests.length > 0 ? '' : 'invisible'}`}
+                    >
+                      From
+                    </div>
                   </th>
-                  <th className="w-[12.4%] py-3 lg:text-base md:text-sm sm:text-xs ">
-                    Role
+                  <th className="font-bold w-[12.4%] py-3 lg:text-base md:text-sm sm:text-xs ">
+                    <div
+                      className={`${requests.length > 0 ? '' : 'invisible'}`}
+                    >
+                      Role
+                    </div>
                   </th>
-                  <th className="w-[19.85%] py-3 lg:text-base md:text-sm sm:text-xs ">
-                    Updated on
+                  <th className="font-bold whitespace-nowrap w-[19.85%] py-3 lg:text-base md:text-sm sm:text-xs ">
+                    <div
+                      className={`${requests.length > 0 ? '' : 'invisible'}`}
+                    >
+                      Updated on
+                    </div>
                   </th>
                   <th className="">
                     <div className="invisible ">
@@ -483,13 +501,13 @@ export default function UserRequest() {
                                 <p>{currentRequest.Timestamp}</p>
                               </td>
                               <td className="text-right lg:text-base md:text-sm xs:text-xs whitespace-no-wrap ">
-                                <div className="relative ">
+                                <div className="relative div-button">
                                   <input
                                     onClick={viewMode}
                                     name={currentRequest.RequestID}
                                     type="button"
                                     value="View Details"
-                                    className="cursor-pointer py-[0.2rem]  md:px-4 md:w-auto xs:w-20 text-gray-700 hover:text-white  shadow-md rounded-md font-semibold  transition duration-500 border-gray-400 border-2  hover:bg-gray-500 hover:border-gray-500 lg:text-base"
+                                    className=" cursor-pointer py-[0.2rem]  md:px-4 md:w-auto xs:w-20 text-gray-700 hover:text-white  shadow-md rounded-md font-semibold  transition duration-500 border-gray-400 border-2  hover:bg-gray-500 hover:border-gray-500 lg:text-base"
                                   ></input>
                                   <span
                                     className={`select-none z-10 absolute sm:-right-2 xs:-right-2.5 averageScreen:top-1.5 sm:top-[0.2rem] xs:top-0.5 pr-2 pt-0.5 w-5 h-5 font-semibold rounded-full bg-black text-xs text-white averageScreen:scale-100 sm:scale-70 xs:scale-60
@@ -519,7 +537,7 @@ export default function UserRequest() {
                                   </>
                                 ) : (
                                   <>
-                                    <div className="relative ">
+                                    <div className="relative div-button">
                                       <input
                                         onClick={solved}
                                         name={currentRequest.RequestID}

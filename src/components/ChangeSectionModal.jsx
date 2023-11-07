@@ -94,6 +94,13 @@ const ChangeSection = ({ visible, onClose, onContinue }) => {
       });
   }
 
+  //
+  /*
+  //SORT STRING NUMERICALLY
+      var collator = new Intl.Collator([], {numeric: true});
+      tally2.sort((a, b) => collator.compare(a, b));
+  */
+
   function total() {
     //console.log('SECTION NAMES:');
     //console.log(sectionNames);
@@ -108,6 +115,9 @@ const ChangeSection = ({ visible, onClose, onContinue }) => {
       Promise.all([...promises2]).then(function (values) {
         tally.push(values);
         tally = tally[0];
+        //SORT STRING NUMERICALLY
+        var collator = new Intl.Collator([], { numeric: true });
+        tally.sort((a, b) => collator.compare(a, b));
         //console.log(values);
 
         let newArray = [];
@@ -136,7 +146,12 @@ const ChangeSection = ({ visible, onClose, onContinue }) => {
         Promise.all([...promises3]).then(function (values) {
           tally2.push(values);
           tally2 = tally2[0];
-          console.log(values);
+          //SORT STRING NUMERICALLY
+          var collator = new Intl.Collator([], { numeric: true });
+          tally2.sort((a, b) => collator.compare(a, b));
+
+          //
+          //console.log(values);
 
           let newArray2 = [];
           for (let i = 0; i < sectionTotal; i++) {
@@ -226,11 +241,15 @@ const ChangeSection = ({ visible, onClose, onContinue }) => {
             <table className="w-full leading-normal ">
               <thead className="sticky top-0 z-40 shadow-md border-b-2 border-gray-200 bg-gray-200 text-left uppercase tracking-wider md:text-base xs:text-xs font-bold text-gray-600">
                 <tr>
-                  <th className="lg:pl-8 w-[10%]  md:text-base sm:text-sm ">
-                    <div className="lg:pl-0 sm:pl-3  xs:pl-3">Section</div>
+                  <th className="lg:pl-8 laptopScreen:w-[10%] lg:w-[6%] md:w-[5%] sm:w-[4.5%] xs:w-[3.5%] md:text-base sm:text-sm ">
+                    <div className="font-bold lg:pl-0 sm:pl-3  xs:pl-3">
+                      Section
+                    </div>
                   </th>
-                  <th className="w-[10%]  md:text-base sm:text-xs ">Total</th>
-                  <th className="w-[10%]  md:text-base sm:text-xs ">
+                  <th className="font-bold laptopScreen:w-[10%] lg:w-[6%]  md:w-[5%] sm:w-[4.5%] xs:w-[3.5%]  md:text-base sm:text-xs ">
+                    Total
+                  </th>
+                  <th className="font-bold whitespace-nowrap w-[10%]  md:text-base sm:text-xs ">
                     Reset Code
                   </th>
                   <th className="w-[7%] "></th>
@@ -253,10 +272,10 @@ const ChangeSection = ({ visible, onClose, onContinue }) => {
                     <table className="min-w-full leading-normal -mt-[28px]">
                       <thead className="invisible text-left uppercase tracking-wider font-bold md:text-base xs:text-xs">
                         <tr>
-                          <th className="lg:pl-8 w-[10%] md:text-base sm:text-sm   whitespace-no-wrap">
+                          <th className="lg:pl-8 w-[10.5%] md:text-base sm:text-sm   whitespace-no-wrap">
                             Section
                           </th>
-                          <th className="w-[11%]  md:text-base sm:text-sm ">
+                          <th className="w-[11.5%]  md:text-base sm:text-sm ">
                             Total
                           </th>
                           <th className="w-[10%]  md:text-base sm:text-sm ">
@@ -297,7 +316,7 @@ const ChangeSection = ({ visible, onClose, onContinue }) => {
                                     name={currentSection.SectionName}
                                     type="submit"
                                     value="Select Section"
-                                    className={` py-[0.5rem]  px-4  shadow-md rounded-md font-normal  transition duration-300   lg:text-base drop-shadow-[0_2px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_2px_0px_rgba(0,0,0,0.6)]
+                                    className={`input-button py-[0.5rem]  px-4  shadow-md rounded-md font-normal  transition duration-300   lg:text-base drop-shadow-[0_2px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_2px_0px_rgba(0,0,0,0.6)]
                                   ${
                                     selectedSection ==
                                     currentSection.SectionName

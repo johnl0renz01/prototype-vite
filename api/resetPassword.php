@@ -39,6 +39,14 @@ switch($_SESSION['method']) {
         $stmt2 = $conn->prepare($sql2);
         $stmt2->execute();
 
+        $solved = "SOLVED";
+        $subject = "#Forgot Password: Request";
+
+        $sql3 = "UPDATE user_request SET Status = '$solved' WHERE Email = '$email' AND Subject = '$subject'";
+        $stmt3 = $conn->prepare($sql3);
+        $stmt3->execute();
+
+        #Forgot Password: Request
         echo json_encode($response);
         break;
     case "PUT":

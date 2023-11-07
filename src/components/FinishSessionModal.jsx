@@ -23,26 +23,92 @@ const FinishSessionModal = ({ visible, onClose, onContinue }) => {
     if (e.target.id === 'mainContainer') onClose();
   };
 
-  const [difficulty, setDifficulty] = useState('');
-  const [answered, setAnswered] = useState('');
-  const [abandoned, setAbandoned] = useState('');
-  const [timeSpent, setTimeSpent] = useState('');
-
-  const [feedback, setFeedback] = useState('');
-
-  const [levelOption, setLevelOption] = useState(false);
-
-  const [equations, setEquations] = useState([]);
+  const [expiredState, setExpiredState] = useState(false);
+  const [subscribedState, setSubscribedState] = useState(false);
+  const [currentSection, setCurrentSection] = useState('');
+  const [teacherSubscribedState, setTeacherSubscribedState] = useState('');
 
   const [groupType, setGroupType] = useState('');
 
   useEffect(() => {
-    let group = StorageData.localStorageJSON('SYSTEM_VERSION');
-    if (group == 'Facial Group') {
-      setGroupType('Facial Group');
-    } else {
-      setGroupType('Non Facial Group');
+    var section = StorageData.localStorageJSON('SESSION_SECTION_NAME');
+    if (section !== null) {
+      //console.log(section);
+      setCurrentSection(section);
+
+      if (section == '!SUBSCRIBED-STUDENTS') {
+        var subscribed = StorageData.localStorageJSON('S-STATUS');
+        if (subscribed !== null && subscribed !== '') {
+          window.localStorage.setItem(
+            'SYSTEM_VERSION',
+            JSON.stringify(SecureStorageData.dataEncryption('Facial Group'))
+          );
+          setSubscribedState(true);
+          checkDate();
+        } else {
+          window.localStorage.setItem(
+            'SYSTEM_VERSION',
+            JSON.stringify(SecureStorageData.dataEncryption('Non-Facial Group'))
+          );
+          setGroupType('Non Facial Group');
+        }
+      } else {
+        let group = StorageData.localStorageJSON('SYSTEM_VERSION');
+        if (group == 'Facial Group') {
+          setGroupType('Facial Group');
+        } else {
+          setGroupType('Non Facial Group');
+        }
+
+        var teacherSubscribed = StorageData.localStorageJSON('S-TEACHER');
+        if (teacherSubscribed !== null) {
+          setTeacherSubscribedState(teacherSubscribed);
+        }
+      }
     }
+  });
+
+  function checkDate() {
+    let subscriptionDate = StorageData.localStorageJSON('S-DATE');
+    if (subscriptionDate !== null) {
+      subscriptionDate = subscriptionDate.split('-');
+
+      subscriptionDate[1] = parseInt(subscriptionDate[1]) - 1;
+      subscriptionDate[1] = subscriptionDate[1].toString();
+
+      let endDate = new Date(
+        subscriptionDate[0],
+        subscriptionDate[1],
+        subscriptionDate[2],
+        0,
+        0
+      );
+      //Output value in milliseconds
+      let endTime = endDate.getTime();
+
+      let todayDate = new Date();
+      let todayTime = todayDate.getTime();
+      if (endTime < todayTime) {
+        window.localStorage.setItem(
+          'SYSTEM_VERSION',
+          JSON.stringify(SecureStorageData.dataEncryption('Non-Facial Group'))
+        );
+        setExpiredState(true);
+      } else {
+        setGroupType('Facial Group');
+      }
+    }
+  }
+
+  const [difficulty, setDifficulty] = useState('');
+  const [answered, setAnswered] = useState('');
+  const [abandoned, setAbandoned] = useState('');
+  const [timeSpent, setTimeSpent] = useState('');
+  const [feedback, setFeedback] = useState('');
+  const [levelOption, setLevelOption] = useState(false);
+  const [equations, setEquations] = useState([]);
+
+  useEffect(() => {
     //console.log(groupType);
 
     let data1 = StorageData.localStorageJSON('DIFFICULTY_TYPE');
@@ -148,405 +214,507 @@ const FinishSessionModal = ({ visible, onClose, onContinue }) => {
   var equationList = [];
 
   function generateEasy() {
+    setShowLoading(true);
     var tableSettings = StorageData.localStorageJSON('SESSION_TEACHER_TABLE');
 
     var tableEquations = tableSettings + '_equation_list';
     tableSettings = tableSettings + '_equation_settings';
-    setShowLoading(true);
-    axios
-      .get(
-        `https://pia-sfe.online/api/equationSettingsDetails/${tableSettings}`
-      )
-      .then(function (response) {
-        var result = Object.values(response.data);
-        var keys = [];
-        for (var k in result[0]) keys.push(result[0][k]);
 
-        if (keys[3] == 'TRUE') {
-          window.localStorage.setItem(
-            'SESSION_ACCEPT_FRACTION',
-            SecureStorageData.dataEncryption(true)
-          );
-        } else {
-          window.localStorage.removeItem('SESSION_ACCEPT_FRACTION');
-        }
+    //Equation storage
+    var allEquations = [];
+    var customEquations = [];
 
-        var occurrenceValue = parseInt(keys[1]);
-        var prioritize = keys[2];
-        var minimumValue = parseInt(keys[4]);
-        var maximumValue = parseInt(keys[5]);
-        var differentVariables = keys[6];
+    if (
+      (subscribedState && !expiredState) ||
+      currentSection != '!SUBSCRIBED-STUDENTS'
+    ) {
+      axios
+        .get(
+          `https://pia-sfe.online/api/equationSettingsDetails/${tableSettings}`
+        )
+        .then(function (response) {
+          var result = Object.values(response.data);
+          var keys = [];
+          for (var k in result[0]) keys.push(result[0][k]);
 
-        //Equation storage
-        var allEquations = [];
-        var customEquations = [];
+          if (keys[3] == 'TRUE') {
+            window.localStorage.setItem(
+              'SESSION_ACCEPT_FRACTION',
+              SecureStorageData.dataEncryption(true)
+            );
+          } else {
+            window.localStorage.removeItem('SESSION_ACCEPT_FRACTION');
+          }
 
-        getEquations();
-        function getEquations() {
-          axios
-            .get(
-              `https://pia-sfe.online/api/getEquation/Easy@${tableEquations}`
-            )
-            .then(function (response) {
-              let responseData = response.data;
-              var newArray = [];
+          var occurrenceValue = parseInt(keys[1]);
+          var prioritize = keys[2];
+          var minimumValue = parseInt(keys[4]);
+          var maximumValue = parseInt(keys[5]);
+          var differentVariables = keys[6];
 
-              //GET CUSTOM EQUATIONS
-              for (let i = 0; i < responseData.length; i++) {
-                var tempArray = [];
-                var result = Object.keys(responseData[i]).map(key => [
-                  key,
-                  responseData[i][key],
-                ]);
+          if (teacherSubscribedState == 'NOT-SUBSCRIBED') {
+            occurrenceValue = 0;
+            prioritize = 'FALSE';
+            minimumValue = 1;
+            maximumValue = 10;
+            differentVariables = 'FALSE';
+          } else if (teacherSubscribedState == 'TEACHER-PLAN-1') {
+            occurrenceValue = 50;
+            prioritize = 'FALSE';
+            minimumValue = 1;
+            maximumValue = 10;
+            differentVariables = 'FALSE';
+          } else if (teacherSubscribedState == 'TEACHER-PLAN-2') {
+            minimumValue = 1;
+            maximumValue = 10;
+            differentVariables = 'FALSE';
+          } else if (teacherSubscribedState == 'TEACHER-PLAN-3') {
+          }
 
-                for (let j = 0; j < result.length; j++) {
-                  tempArray.push(result[j][1]);
+          getEquations();
+          function getEquations() {
+            axios
+              .get(
+                `https://pia-sfe.online/api/getEquation/Easy@${tableEquations}`
+              )
+              .then(function (response) {
+                let responseData = response.data;
+                var newArray = [];
+
+                //GET CUSTOM EQUATIONS
+                for (let i = 0; i < responseData.length; i++) {
+                  var tempArray = [];
+                  var result = Object.keys(responseData[i]).map(key => [
+                    key,
+                    responseData[i][key],
+                  ]);
+
+                  for (let j = 0; j < result.length; j++) {
+                    tempArray.push(result[j][1]);
+                  }
+
+                  let data = JSON.stringify(tempArray[0]);
+                  data = data.replace(/"/g, '');
+
+                  newArray.push(data);
+                }
+                customEquations = newArray;
+
+                // CHECK
+                let answer = '';
+                for (let i = 0; i < 20; i++) {
+                  equationList = EquationGeneratorEasy.getEquationList(
+                    1,
+                    minimumValue,
+                    maximumValue,
+                    differentVariables
+                  );
+
+                  EquationSolver.setEquation(equationList[0]);
+                  answer = EquationSolver.getEquationAnswer();
+
+                  if (answer == 'invalid') {
+                    i--;
+                  } else {
+                    allEquations.push(equationList[0]);
+                  }
                 }
 
-                let data = JSON.stringify(tempArray[0]);
-                data = data.replace(/"/g, '');
-
-                newArray.push(data);
-              }
-              customEquations = newArray;
-
-              // CHECK
-              let answer = '';
-              for (let i = 0; i < 20; i++) {
-                equationList = EquationGeneratorEasy.getEquationList(
-                  1,
-                  minimumValue,
-                  maximumValue,
-                  differentVariables
-                );
-
-                EquationSolver.setEquation(equationList[0]);
-                answer = EquationSolver.getEquationAnswer();
-
-                if (answer == 'invalid') {
-                  i--;
-                } else {
-                  allEquations.push(equationList[0]);
+                var indexes = [];
+                for (let i = 0; i < allEquations.length; i++) {
+                  indexes.push(i);
                 }
-              }
 
-              var indexes = [];
-              for (let i = 0; i < allEquations.length; i++) {
-                indexes.push(i);
-              }
+                let customArrayLength = customEquations.length;
+                for (let i = 0; i < customArrayLength; i++) {
+                  let index =
+                    indexes[Math.floor(Math.random() * indexes.length)];
+                  let equation =
+                    customEquations[
+                      Math.floor(Math.random() * customEquations.length)
+                    ];
+                  let percentage = Math.random() * 100;
+                  //chance of custom equation
+                  if (percentage <= occurrenceValue) {
+                    if (equation !== undefined) {
+                      //ADD ITEM TO STORAGE ARRAY
+                      //IF PRIORITIZED OR NOT
+                      if (prioritize == 'TRUE') {
+                        allEquations[i] = equation;
+                      } else {
+                        allEquations[index] = equation;
+                      }
 
-              let customArrayLength = customEquations.length;
-              for (let i = 0; i < customArrayLength; i++) {
-                let index = indexes[Math.floor(Math.random() * indexes.length)];
-                let equation =
-                  customEquations[
-                    Math.floor(Math.random() * customEquations.length)
-                  ];
-                let percentage = Math.random() * 100;
-                //chance of custom equation
-                if (percentage <= occurrenceValue) {
-                  if (equation !== undefined) {
-                    //ADD ITEM TO STORAGE ARRAY
-                    //IF PRIORITIZED OR NOT
-                    if (prioritize == 'TRUE') {
-                      allEquations[i] = equation;
-                    } else {
-                      allEquations[index] = equation;
-                    }
-
-                    //REMOVE ITEM FROM ARRAY
-                    const itemIndex = customEquations.indexOf(equation);
-                    if (itemIndex > -1) {
-                      // only splice array when item is found
-                      customEquations.splice(itemIndex, 1); // 2nd parameter means remove one item only
+                      //REMOVE ITEM FROM ARRAY
+                      const itemIndex = customEquations.indexOf(equation);
+                      if (itemIndex > -1) {
+                        // only splice array when item is found
+                        customEquations.splice(itemIndex, 1); // 2nd parameter means remove one item only
+                      }
                     }
                   }
                 }
-              }
+                //console.log(allEquations);
+                setEquations(allEquations);
+                setShowLoading(false);
+                window.localStorage.setItem(
+                  'QUESTION_LIST',
+                  JSON.stringify(SecureStorageData.dataEncryption('GENERATED'))
+                );
+              })
+              .catch(function (error) {
+                setShowLoading(false);
+              });
+          }
+        })
+        .catch(function (error) {
+          setShowLoading(false);
+        });
+    } else {
+      var allEquations = [];
+      // CHECK
+      let answer = '';
+      for (let i = 0; i < 20; i++) {
+        equationList = EquationGeneratorEasy.getEquationList(1, 1, 10, 'FALSE');
 
-              setEquations(allEquations);
-              setShowLoading(false);
-              window.localStorage.setItem(
-                'QUESTION_LIST',
-                JSON.stringify(SecureStorageData.dataEncryption('GENERATED'))
-              );
-            })
-            .catch(function (error) {
-              setShowLoading(false);
-            });
+        EquationSolver.setEquation(equationList[0]);
+        answer = EquationSolver.getEquationAnswer();
+
+        if (answer == 'invalid') {
+          i--;
+        } else {
+          allEquations.push(equationList[0]);
         }
-      })
-      .catch(function (error) {
-        setShowLoading(false);
-      });
+      }
+      setEquations(allEquations);
+      setShowLoading(false);
+      window.localStorage.setItem(
+        'QUESTION_LIST',
+        JSON.stringify(SecureStorageData.dataEncryption('GENERATED'))
+      );
+    }
   }
 
   function generateAverage() {
-    var tableSettings = StorageData.localStorageJSON('SESSION_TEACHER_TABLE');
-    var tableEquations = tableSettings + '_equation_list';
-    tableSettings = tableSettings + '_equation_settings';
     setShowLoading(true);
-    axios
-      .get(
-        `https://pia-sfe.online/api/equationSettingsDetails/${tableSettings}`
-      )
-      .then(function (response) {
-        var result = Object.values(response.data);
-        var keys = [];
-        for (var k in result[0]) keys.push(result[0][k]);
-
-        if (keys[3] == 'TRUE') {
-          window.localStorage.setItem(
-            'SESSION_ACCEPT_FRACTION',
-            SecureStorageData.dataEncryption(true)
-          );
-        } else {
-          window.localStorage.removeItem('SESSION_ACCEPT_FRACTION');
-        }
-
-        var occurrenceValue = parseInt(keys[1]);
-        var prioritize = keys[2];
-        var minimumValue = parseInt(keys[4]);
-        var maximumValue = parseInt(keys[5]);
-        var differentVariables = keys[6];
-
-        //Equation storage
-        var allEquations = [];
-        var customEquations = [];
-
-        getEquations();
-        function getEquations() {
-          axios
-            .get(
-              `https://pia-sfe.online/api/getEquation/Average@${tableEquations}`
-            )
-            .then(function (response) {
-              let responseData = response.data;
-              var newArray = [];
-
-              //GET CUSTOM EQUATIONS
-              for (let i = 0; i < responseData.length; i++) {
-                var tempArray = [];
-                var result = Object.keys(responseData[i]).map(key => [
-                  key,
-                  responseData[i][key],
-                ]);
-
-                for (let j = 0; j < result.length; j++) {
-                  tempArray.push(result[j][1]);
-                }
-
-                let data = JSON.stringify(tempArray[0]);
-                data = data.replace(/"/g, '');
-
-                newArray.push(data);
-              }
-              customEquations = newArray;
-
-              // CHECK
-              let answer = '';
-              for (let i = 0; i < 20; i++) {
-                equationList = EquationGeneratorAverage.getEquationList(
-                  1,
-                  minimumValue,
-                  maximumValue,
-                  differentVariables
-                );
-
-                EquationSolver.setEquation(equationList[0]);
-                answer = EquationSolver.getEquationAnswer();
-
-                if (answer == 'invalid') {
-                  i--;
-                } else {
-                  allEquations.push(equationList[0]);
-                }
-              }
-
-              var indexes = [];
-              for (let i = 0; i < allEquations.length; i++) {
-                indexes.push(i);
-              }
-
-              let customArrayLength = customEquations.length;
-              for (let i = 0; i < customArrayLength; i++) {
-                let index = indexes[Math.floor(Math.random() * indexes.length)];
-                let equation =
-                  customEquations[
-                    Math.floor(Math.random() * customEquations.length)
-                  ];
-                let percentage = Math.random() * 100;
-                //chance of custom equation
-                if (percentage <= occurrenceValue) {
-                  if (equation !== undefined) {
-                    //ADD ITEM TO STORAGE ARRAY
-                    //IF PRIORITIZED OR NOT
-                    if (prioritize == 'TRUE') {
-                      allEquations[i] = equation;
-                    } else {
-                      allEquations[index] = equation;
-                    }
-
-                    //REMOVE ITEM FROM ARRAY
-                    const itemIndex = customEquations.indexOf(equation);
-                    if (itemIndex > -1) {
-                      // only splice array when item is found
-                      customEquations.splice(itemIndex, 1); // 2nd parameter means remove one item only
-                    }
-                  }
-                }
-              }
-
-              setEquations(allEquations);
-              setShowLoading(false);
-              window.localStorage.setItem(
-                'QUESTION_LIST',
-                JSON.stringify(SecureStorageData.dataEncryption('GENERATED'))
-              );
-            })
-            .catch(function (error) {
-              setShowLoading(false);
-            });
-        }
-      })
-      .catch(function (error) {
-        setShowLoading(false);
-      });
-  }
-
-  function generateDifficult() {
     var tableSettings = StorageData.localStorageJSON('SESSION_TEACHER_TABLE');
 
     var tableEquations = tableSettings + '_equation_list';
     tableSettings = tableSettings + '_equation_settings';
-    setShowLoading(true);
-    axios
-      .get(
-        `https://pia-sfe.online/api/equationSettingsDetails/${tableSettings}`
-      )
-      .then(function (response) {
-        var result = Object.values(response.data);
-        var keys = [];
-        for (var k in result[0]) keys.push(result[0][k]);
 
-        if (keys[3] == 'TRUE') {
-          window.localStorage.setItem(
-            'SESSION_ACCEPT_FRACTION',
-            SecureStorageData.dataEncryption(true)
-          );
-        } else {
-          window.localStorage.removeItem('SESSION_ACCEPT_FRACTION');
-        }
+    //Equation storage
+    var allEquations = [];
+    var customEquations = [];
 
-        var occurrenceValue = parseInt(keys[1]);
-        var prioritize = keys[2];
-        var minimumValue = parseInt(keys[4]);
-        var maximumValue = parseInt(keys[5]);
-        var differentVariables = keys[6];
+    if (
+      (subscribedState && !expiredState) ||
+      currentSection != '!SUBSCRIBED-STUDENTS'
+    ) {
+      axios
+        .get(
+          `https://pia-sfe.online/api/equationSettingsDetails/${tableSettings}`
+        )
+        .then(function (response) {
+          var result = Object.values(response.data);
+          var keys = [];
+          for (var k in result[0]) keys.push(result[0][k]);
 
-        //Equation storage
-        var allEquations = [];
-        var customEquations = [];
+          if (keys[3] == 'TRUE') {
+            window.localStorage.setItem(
+              'SESSION_ACCEPT_FRACTION',
+              SecureStorageData.dataEncryption(true)
+            );
+          } else {
+            window.localStorage.removeItem('SESSION_ACCEPT_FRACTION');
+          }
 
-        getEquations();
-        function getEquations() {
-          axios
-            .get(
-              `https://pia-sfe.online/api/getEquation/Difficult@${tableEquations}`
-            )
-            .then(function (response) {
-              let responseData = response.data;
-              var newArray = [];
+          var occurrenceValue = parseInt(keys[1]);
+          var prioritize = keys[2];
+          var minimumValue = parseInt(keys[4]);
+          var maximumValue = parseInt(keys[5]);
+          var differentVariables = keys[6];
 
-              //GET CUSTOM EQUATIONS
-              for (let i = 0; i < responseData.length; i++) {
-                var tempArray = [];
-                var result = Object.keys(responseData[i]).map(key => [
-                  key,
-                  responseData[i][key],
-                ]);
+          if (teacherSubscribedState == 'NOT-SUBSCRIBED') {
+            occurrenceValue = 0;
+            prioritize = 'FALSE';
+            minimumValue = 1;
+            maximumValue = 10;
+            differentVariables = 'FALSE';
+          } else if (teacherSubscribedState == 'TEACHER-PLAN-1') {
+            occurrenceValue = 50;
+            prioritize = 'FALSE';
+            minimumValue = 1;
+            maximumValue = 10;
+            differentVariables = 'FALSE';
+          } else if (teacherSubscribedState == 'TEACHER-PLAN-2') {
+            minimumValue = 1;
+            maximumValue = 10;
+            differentVariables = 'FALSE';
+          } else if (teacherSubscribedState == 'TEACHER-PLAN-3') {
+          }
 
-                for (let j = 0; j < result.length; j++) {
-                  tempArray.push(result[j][1]);
+          getEquations();
+          function getEquations() {
+            axios
+              .get(
+                `https://pia-sfe.online/api/getEquation/Average@${tableEquations}`
+              )
+              .then(function (response) {
+                let responseData = response.data;
+                var newArray = [];
+
+                //GET CUSTOM EQUATIONS
+                for (let i = 0; i < responseData.length; i++) {
+                  var tempArray = [];
+                  var result = Object.keys(responseData[i]).map(key => [
+                    key,
+                    responseData[i][key],
+                  ]);
+
+                  for (let j = 0; j < result.length; j++) {
+                    tempArray.push(result[j][1]);
+                  }
+
+                  let data = JSON.stringify(tempArray[0]);
+                  data = data.replace(/"/g, '');
+
+                  newArray.push(data);
+                }
+                customEquations = newArray;
+
+                // CHECK
+                let answer = '';
+                for (let i = 0; i < 20; i++) {
+                  equationList = EquationGeneratorAverage.getEquationList(
+                    1,
+                    minimumValue,
+                    maximumValue,
+                    differentVariables
+                  );
+
+                  EquationSolver.setEquation(equationList[0]);
+                  answer = EquationSolver.getEquationAnswer();
+
+                  if (answer == 'invalid') {
+                    i--;
+                  } else {
+                    allEquations.push(equationList[0]);
+                  }
                 }
 
-                let data = JSON.stringify(tempArray[0]);
-                data = data.replace(/"/g, '');
-
-                newArray.push(data);
-              }
-              customEquations = newArray;
-
-              // CHECK
-              let answer = '';
-              for (let i = 0; i < 20; i++) {
-                equationList = EquationGeneratorDifficult.getEquationList(
-                  1,
-                  minimumValue,
-                  maximumValue,
-                  differentVariables
-                );
-
-                EquationSolver.setEquation(equationList[0]);
-                answer = EquationSolver.getEquationAnswer();
-
-                if (answer == 'invalid') {
-                  i--;
-                } else {
-                  allEquations.push(equationList[0]);
+                var indexes = [];
+                for (let i = 0; i < allEquations.length; i++) {
+                  indexes.push(i);
                 }
-              }
 
-              var indexes = [];
-              for (let i = 0; i < allEquations.length; i++) {
-                indexes.push(i);
-              }
+                let customArrayLength = customEquations.length;
+                for (let i = 0; i < customArrayLength; i++) {
+                  let index =
+                    indexes[Math.floor(Math.random() * indexes.length)];
+                  let equation =
+                    customEquations[
+                      Math.floor(Math.random() * customEquations.length)
+                    ];
+                  let percentage = Math.random() * 100;
+                  //chance of custom equation
+                  if (percentage <= occurrenceValue) {
+                    if (equation !== undefined) {
+                      //ADD ITEM TO STORAGE ARRAY
+                      //IF PRIORITIZED OR NOT
+                      if (prioritize == 'TRUE') {
+                        allEquations[i] = equation;
+                      } else {
+                        allEquations[index] = equation;
+                      }
 
-              let customArrayLength = customEquations.length;
-              for (let i = 0; i < customArrayLength; i++) {
-                let index = indexes[Math.floor(Math.random() * indexes.length)];
-                let equation =
-                  customEquations[
-                    Math.floor(Math.random() * customEquations.length)
-                  ];
-                let percentage = Math.random() * 100;
-                //chance of custom equation
-                if (percentage <= occurrenceValue) {
-                  if (equation !== undefined) {
-                    //ADD ITEM TO STORAGE ARRAY
-                    //IF PRIORITIZED OR NOT
-                    if (prioritize == 'TRUE') {
-                      allEquations[i] = equation;
-                    } else {
-                      allEquations[index] = equation;
-                    }
-
-                    //REMOVE ITEM FROM ARRAY
-                    const itemIndex = customEquations.indexOf(equation);
-                    if (itemIndex > -1) {
-                      // only splice array when item is found
-                      customEquations.splice(itemIndex, 1); // 2nd parameter means remove one item only
+                      //REMOVE ITEM FROM ARRAY
+                      const itemIndex = customEquations.indexOf(equation);
+                      if (itemIndex > -1) {
+                        // only splice array when item is found
+                        customEquations.splice(itemIndex, 1); // 2nd parameter means remove one item only
+                      }
                     }
                   }
                 }
-              }
 
-              setEquations(allEquations);
-              setShowLoading(false);
-              window.localStorage.setItem(
-                'QUESTION_LIST',
-                JSON.stringify(SecureStorageData.dataEncryption('GENERATED'))
-              );
-            })
-            .catch(function (error) {
-              setShowLoading(false);
-            });
-        }
-      })
-      .catch(function (error) {
-        setShowLoading(false);
-      });
+                setEquations(allEquations);
+                setShowLoading(false);
+                window.localStorage.setItem(
+                  'QUESTION_LIST',
+                  JSON.stringify(SecureStorageData.dataEncryption('GENERATED'))
+                );
+              })
+              .catch(function (error) {
+                setShowLoading(false);
+              });
+          }
+        })
+        .catch(function (error) {
+          setShowLoading(false);
+        });
+    }
   }
+
+  const difficultType = () => {
+    setShowLoading(true);
+    var tableSettings = StorageData.localStorageJSON('SESSION_TEACHER_TABLE');
+
+    var tableEquations = tableSettings + '_equation_list';
+    tableSettings = tableSettings + '_equation_settings';
+
+    //Equation storage
+    var allEquations = [];
+    var customEquations = [];
+
+    if (
+      (subscribedState && !expiredState) ||
+      currentSection != '!SUBSCRIBED-STUDENTS'
+    ) {
+      axios
+        .get(
+          `https://pia-sfe.online/api/equationSettingsDetails/${tableSettings}`
+        )
+        .then(function (response) {
+          var result = Object.values(response.data);
+          var keys = [];
+          for (var k in result[0]) keys.push(result[0][k]);
+
+          if (keys[3] == 'TRUE') {
+            window.localStorage.setItem(
+              'SESSION_ACCEPT_FRACTION',
+              SecureStorageData.dataEncryption(true)
+            );
+          } else {
+            window.localStorage.removeItem('SESSION_ACCEPT_FRACTION');
+          }
+
+          var occurrenceValue = parseInt(keys[1]);
+          var prioritize = keys[2];
+          var minimumValue = parseInt(keys[4]);
+          var maximumValue = parseInt(keys[5]);
+          var differentVariables = keys[6];
+
+          if (teacherSubscribedState == 'NOT-SUBSCRIBED') {
+            occurrenceValue = 0;
+            prioritize = 'FALSE';
+            minimumValue = 1;
+            maximumValue = 10;
+            differentVariables = 'FALSE';
+          } else if (teacherSubscribedState == 'TEACHER-PLAN-1') {
+            occurrenceValue = 50;
+            prioritize = 'FALSE';
+            minimumValue = 1;
+            maximumValue = 10;
+            differentVariables = 'FALSE';
+          } else if (teacherSubscribedState == 'TEACHER-PLAN-2') {
+            minimumValue = 1;
+            maximumValue = 10;
+            differentVariables = 'FALSE';
+          } else if (teacherSubscribedState == 'TEACHER-PLAN-3') {
+          }
+
+          getEquations();
+          function getEquations() {
+            axios
+              .get(
+                `https://pia-sfe.online/api/getEquation/Difficult@${tableEquations}`
+              )
+              .then(function (response) {
+                let responseData = response.data;
+                var newArray = [];
+
+                //GET CUSTOM EQUATIONS
+                for (let i = 0; i < responseData.length; i++) {
+                  var tempArray = [];
+                  var result = Object.keys(responseData[i]).map(key => [
+                    key,
+                    responseData[i][key],
+                  ]);
+
+                  for (let j = 0; j < result.length; j++) {
+                    tempArray.push(result[j][1]);
+                  }
+
+                  let data = JSON.stringify(tempArray[0]);
+                  data = data.replace(/"/g, '');
+
+                  newArray.push(data);
+                }
+                customEquations = newArray;
+
+                // CHECK
+                let answer = '';
+                for (let i = 0; i < 20; i++) {
+                  equationList = EquationGeneratorDifficult.getEquationList(
+                    1,
+                    minimumValue,
+                    maximumValue,
+                    differentVariables
+                  );
+
+                  EquationSolver.setEquation(equationList[0]);
+                  answer = EquationSolver.getEquationAnswer();
+
+                  //console.log("EQUATION: " +equationList[0]+ "   :  STATUS:  " + answer)
+                  if (answer == 'invalid') {
+                    i--;
+                  } else {
+                    allEquations.push(equationList[0]);
+                  }
+                }
+
+                var indexes = [];
+                for (let i = 0; i < allEquations.length; i++) {
+                  indexes.push(i);
+                }
+
+                let customArrayLength = customEquations.length;
+                for (let i = 0; i < customArrayLength; i++) {
+                  let index =
+                    indexes[Math.floor(Math.random() * indexes.length)];
+                  let equation =
+                    customEquations[
+                      Math.floor(Math.random() * customEquations.length)
+                    ];
+                  let percentage = Math.random() * 100;
+                  //chance of custom equation
+                  if (percentage <= occurrenceValue) {
+                    if (equation !== undefined) {
+                      //ADD ITEM TO STORAGE ARRAY
+                      //IF PRIORITIZED OR NOT
+                      if (prioritize == 'TRUE') {
+                        allEquations[i] = equation;
+                      } else {
+                        allEquations[index] = equation;
+                      }
+
+                      //REMOVE ITEM FROM ARRAY
+                      const itemIndex = customEquations.indexOf(equation);
+                      if (itemIndex > -1) {
+                        // only splice array when item is found
+                        customEquations.splice(itemIndex, 1); // 2nd parameter means remove one item only
+                      }
+                    }
+                  }
+                }
+
+                setEquations(allEquations);
+                setShowLoading(false);
+                window.localStorage.setItem(
+                  'QUESTION_LIST',
+                  JSON.stringify(SecureStorageData.dataEncryption('GENERATED'))
+                );
+              })
+              .catch(function (error) {
+                setShowLoading(false);
+              });
+          }
+        })
+        .catch(function (error) {
+          setShowLoading(false);
+        });
+    }
+  };
 
   function generateQuestion() {
     var questions = StorageData.localStorageJSON('QUESTION_LIST');

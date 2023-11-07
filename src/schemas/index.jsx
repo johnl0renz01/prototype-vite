@@ -12,8 +12,15 @@ export const loginSchema = yup.object().shape({
 });
 
 export const registrationSchema = yup.object().shape({
-  firstName: yup.string().required('* Required Field'),
-  lastName: yup.string().required('* Required Field'),
+  firstName: yup
+    .string()
+    .required('* Required Field')
+    .matches(/^[aA-zZ\s]+$/, '* Alphabet letters only.'),
+  middleName: yup.string().matches(/^[aA-zZ\s]+$/, '* Alphabet letters only.'),
+  lastName: yup
+    .string()
+    .required('* Required Field')
+    .matches(/^[aA-zZ\s]+$/, '* Alphabet letters only.'),
   section: yup.string().required('* Select a Section'),
 
   /*
@@ -44,8 +51,15 @@ export const registrationSchema = yup.object().shape({
 });
 
 export const editAccountModalSchema = yup.object().shape({
-  firstName: yup.string().required('* Required Field'),
-  lastName: yup.string().required('* Required Field'),
+  firstName: yup
+    .string()
+    .required('* Required Field')
+    .matches(/^[aA-zZ\s]+$/, '* Alphabet letters only.'),
+  middleName: yup.string().matches(/^[aA-zZ\s]+$/, '* Alphabet letters only.'),
+  lastName: yup
+    .string()
+    .required('* Required Field')
+    .matches(/^[aA-zZ\s]+$/, '* Alphabet letters only.'),
   section: yup.string().required('* Select a Section'),
   /*
   email: yup
@@ -64,14 +78,20 @@ export const editAccountSchema = yup.object().shape({
 });
 
 export const editSectionSchema = yup.object().shape({
-  editSectionName: yup.string().required('* Section Name is Required'),
+  editSectionName: yup
+    .string()
+    .required('* Section Name is Required')
+    .matches(/^[aA-zZ\s]+$/, '* Alphabet letters only.'),
   editAdviserName: yup.string().required('* Adviser Name is Required'),
   editAdviserSurname: yup.string().required('* Adviser Surname is Required'),
   editTitle: yup.string().required('* Title is Required'),
 });
 
 export const addSectionSchema = yup.object().shape({
-  sectionName: yup.string().required('* Required Field'),
+  sectionName: yup
+    .string()
+    .required('* Required Field')
+    .matches(/^[aA-zZ\s]+$/, '* Alphabet letters only.'),
   adviserName: yup.string().required('* Select an Adviser'),
 });
 

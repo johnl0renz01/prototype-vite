@@ -25,6 +25,13 @@ switch($_SESSION['method']) {
         $sql = "DELETE FROM reset_request WHERE Email = '$email'";
         $stmt = $conn->prepare($sql);
         $stmt->execute();
+
+        $solved = "SOLVED";
+        $subject = "#Forgot Password: Request";
+
+        $sql2 = "UPDATE user_request SET Status = '$solved' WHERE Email = '$email' AND Subject = '$subject'";
+        $stmt2 = $conn->prepare($sql2);
+        $stmt2->execute();
     
         break;
     case "PUT":

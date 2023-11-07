@@ -300,7 +300,6 @@ export default function ManageSection() {
             `https://pia-sfe.online/api/removeSectionAccounts/${sectionName}`
           )
           .then(function (response) {
-            console.log(response);
             setShowLoading(false);
             setDeleteMessageModal(true);
             setShowDeleteModal(false);
@@ -451,16 +450,27 @@ export default function ManageSection() {
               <thead className="sticky top-0 z-40 shadow-md border-b-2 border-gray-200 bg-gray-200 text-left uppercase tracking-wider lg:text-base md:text-sm xs:text-xs font-bold text-gray-600">
                 <tr>
                   <th className="lg:pl-8 w-[17.25%] py-3 lg:text-base md:text-sm sm:text-xs">
-                    <div className="lg:pl-0 sm:pl-3  xs:pl-3">Grade Level</div>
+                    <div
+                      className={`font-bold lg:pl-0 sm:pl-3  xs:pl-3
+                    ${section.length > 0 ? '' : 'invisible'}`}
+                    >
+                      Grade Level
+                    </div>
                   </th>
-                  <th className="w-[19.85%] py-3 lg:text-base md:text-sm sm:text-xs ">
-                    Section Name
+                  <th className="font-bold w-[19.85%] py-3 lg:text-base md:text-sm sm:text-xs ">
+                    <div className={`${section.length > 0 ? '' : 'invisible'}`}>
+                      Section Name
+                    </div>
                   </th>
-                  <th className="w-[25%] py-3 lg:text-base md:text-sm sm:text-xs ">
-                    Assigned Teacher
+                  <th className="font-bold w-[25%] py-3 lg:text-base md:text-sm sm:text-xs ">
+                    <div className={`${section.length > 0 ? '' : 'invisible'}`}>
+                      Assigned Teacher
+                    </div>
                   </th>
-                  <th className="w-[26%] py-3 lg:text-base md:text-sm sm:text-xs ">
-                    Reset Code
+                  <th className="font-bold w-[26%] py-3 lg:text-base md:text-sm sm:text-xs ">
+                    <div className={`${section.length > 0 ? '' : 'invisible'}`}>
+                      Reset Code
+                    </div>
                   </th>
                   <th className="w-[5%]">
                     <div className="invisible">
@@ -566,7 +576,7 @@ export default function ManageSection() {
                                 <p>{currentSection.Code}</p>
                               </td>
                               <td className="text-right lg:text-base md:text-sm xs:text-xs">
-                                <div className="relative">
+                                <div className="relative div-button">
                                   <input
                                     onClick={editMode}
                                     name={currentSection.SectionName}
@@ -580,7 +590,7 @@ export default function ManageSection() {
                                 </div>
                               </td>
                               <td className="text-right hdScreen:pr-6 semihdScreen:pr-1 laptopScreen:pr-0.5 averageScreen:pr-0 lg:text-base md:text-sm xs:text-xs">
-                                <div className="relative ">
+                                <div className="relative div-button">
                                   <input
                                     onClick={deleteSection}
                                     name={currentSection.SectionName}

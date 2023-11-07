@@ -264,7 +264,7 @@ export default function AdminNavbar() {
         setTabHighlight(0);
         navigate('/LoginPage');
         document.body.style.backgroundImage =
-          'linear-gradient(to top, #bef264, #d9f99d , #ccf779)';
+          'linear-gradient(to top, #9ee622, #b1eb52, #ccf779)';
       })
       .catch(function (error) {
         setShowLoading(false);
