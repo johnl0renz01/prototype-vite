@@ -19,7 +19,7 @@ export default function LoadingStudent() {
               />
             </div>
             <div className=" inline-flex blink ">
-              <span className="font-league-spartan tracking-wide text-gray-700 text-2xl font-bold">
+              <span className="font-nunito tracking-wide text-gray-700 drop-shadow text-2xl font-bold">
                 LOADING
               </span>
             </div>

@@ -32,6 +32,22 @@ import FileUpload from './FileUpload';
 export default function LoginPage() {
   const navigate = useNavigate();
 
+  /*
+  var string =
+    'sad,happy,SOLVED,happy,SOLVED,happy,SOLVED,happy,SOLVED,happy,SOLVED,happy,SOLVED,happy,happy,SOLVED,happy,SOLVED,happy,SOLVED,surprised,sad,sad,motivation,sad,sad,motivation,sad,happy,SOLVED,sad,sad,motivation,sad,sad,motivation,sad,sad,happy,happy,SOLVED,surprised,sad,sad,motivation,happy,SOLVED,sad,happy,SOLVED,happy,SOLVED,sad,sad,motivation,sad,sad,motivation,happy,happy,happy,SOLVED,surprised,happy,happy,SOLVED,sad,sad,motivation,sad,sad,motivation,sad,happy,happy,SOLVED,surprised,sad,sad,motivation,happy,happy,happy,SOLVED,surprised,sad,happy,happy,surprised,happy,SOLVED,sad,happy,happy,SOLVED,surprised,sad,sad,motivation,sad,sad,motivation,happy,happy,SOLVED,surprised,happy,sad,happy,SOLVED,happy,happy,SOLVED,happy,SOLVED,surprised,happy,sad,happy,SOLVED,happy,happy,SOLVED,happy,surprised,happy,SOLVED,happy,surprised,sad,sad,motivation,sad,sad,motivation,sad,happy,SOLVED,happy,surprised,sad,sad,motivation,sad,sad,motivation,happy,SOLVED,happy,sad,sad,motivation,happy,SOLVED,happy,happy,SOLVED,happy,happy,SOLVED,happy,happy,SOLVED,happy,happy,SOLVED,surprised,happy,happy,SOLVED,happy,surprised,sad,happy,SOLVED,happy,happy,SOLVED,happy,happy,SOLVED,happy,surprised,happy,SOLVED,happy,happy,happy,SOLVED,sad,sad,motivation,sad,sad,motivation,happy,SOLVED,happy,SOLVED,surprised,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,happy,SOLVED,sad,sad,motivation,happy,SOLVED,happy,SOLVED,happy,SOLVED,surprised,sad,sad,motivation,sad,happy,SOLVED,sad,happy,SOLVED,happy,SOLVED,surprised,sad,sad,motivation,happy,SOLVED,happy,SOLVED,surprised,sad,happy,SOLVED,happy,SOLVED,surprised,sad,sad,motivation,sad,sad,motivation,happy,SOLVED,sad,sad,motivation,sad,happy,SOLVED,sad,happy,SOLVED,sad,sad,motivation,sad,sad,motivation,happy,happy,surprised,sad,happy,SOLVED,sad,sad,motivation,sad,sad,motivation,happy,SOLVED,sad,sad,motivation,sad,sad,motivation,sad,sad,sad,motivation,sad,happy,happy,SOLVED,surprised,happy,SOLVED,sad,sad,motivation,happy,SOLVED,happy,SOLVED,surprised,sad,happy,happy,SOLVED,surprised,sad,happy,SOLVED,sad,sad,motivation,happy,SOLVED,sad,happy,SOLVED,sad,happy,SOLVED,sad,sad,motivation,happy,SOLVED,happy,SOLVED,happy,SOLVED,surprised,happy,SOLVED,sad,sad,motivation,sad,happy,SOLVED,sad,sad,motivation,sad,sad,motivation,happy,SOLVED,sad,happy,SOLVED,sad,happy,SOLVED,sad,sad,motivation,happy,happy,SOLVED,sad,happy,happy,SOLVED,sad,happy,sad,sad,motivation,happy,SOLVED,happy,sad,sad,motivation,sad,happy,SOLVED,sad,sad,motivation,happy,happy,SOLVED,happy,SOLVED,sad,happy,SOLVED,happy,SOLVED,sad,sad,motivation,happy,SOLVED,happy,SOLVED,sad,sad,motivation,happy,SOLVED,sad,sad,motivation,happy,happy,SOLVED,sad,happy,SOLVED,sad,sad,motivation,happy,SOLVED,happy,SOLVED,surprised,sad,sad,motivation,happy,SOLVED,sad,happy,SOLVED,sad,happy,SOLVED,happy,SOLVED,happy,SOLVED,surprised,happy,SOLVED,happy,SOLVED,sad,sad,motivation,sad,happy,SOLVED,happy,SOLVED,happy,SOLVED,happy,SOLVED,surprised,sad,happy,SOLVED,sad,ABANDONED,sad,sad,motivation,happy,sad,sad,motivation,happy,SOLVED,sad,sad,motivation,sad,sad,motivation,sad,happy,happy,surprised,happy,SOLVED,happy,surprised,sad,sad,motivation,happy,SOLVED,happy,SOLVED,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,happy,SOLVED,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,happy,sad,sad,motivation,happy,SOLVED,sad,sad,motivation,happy,happy,surprised,happy,SOLVED,sad,sad,motivation,sad,sad,motivation,happy,SOLVED,sad,happy,sad,happy,SOLVED,happy,happy,surprised,sad,sad,motivation,happy,SOLVED,happy,happy,surprised,sad,happy,SOLVED,happy,happy,SOLVED,happy,SOLVED,surprised,happy,happy,surprised,sad,happy,SOLVED,happy,sad,sad,motivation,happy,SOLVED,happy,sad,sad,motivation,happy,happy,SOLVED,happy,happy,happy,SOLVED,happy,happy,surprised,happy,SOLVED,happy,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,sad,happy,SOLVED,happy,happy,SOLVED,sad,happy,SOLVED,happy,happy,surprised,happy,SOLVED,happy,surprised,sad,sad,motivation,sad,happy,sad,sad,motivation,sad,sad,motivation,sad,happy,SOLVED,sad,happy,happy,surprised,sad,sad,motivation,sad,sad,motivation,sad,happy,SOLVED,happy,sad,sad,motivation,sad,happy,happy,SOLVED,happy,surprised,sad,happy,sad,happy,SOLVED,happy,surprised,sad,sad,motivation,sad,sad,motivation,sad,sad,sad,motivation,happy,SOLVED,happy,surprised,happy,SOLVED,sad,happy,SOLVED,sad,happy,sad,happy,SOLVED,sad,happy,happy,SOLVED,surprised,sad,sad,motivation,sad,sad,motivation,sad,happy,sad,happy,SOLVED,sad,happy,happy,SOLVED,surprised,happy,happy,SOLVED,happy,sad,sad,motivation,happy,SOLVED,happy,surprised,sad,sad,motivation,sad,sad,motivation,happy,SOLVED,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,sad,happy,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,sad,happy,SOLVED,sad,sad,motivation,sad,sad,motivation,sad,happy,SOLVED,sad,sad,motivation,happy,SOLVED,happy,SOLVED,surprised,sad,sad,motivation,sad,sad,motivation,sad,happy,SOLVED,sad,sad,motivation,sad,happy,happy,SOLVED,surprised,sad,happy,sad,happy,SOLVED,sad,sad,motivation,happy,sad,sad,motivation,happy,SOLVED,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,happy,happy,SOLVED,happy,surprised,happy,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,happy,SOLVED,happy,happy,SOLVED,happy,happy,happy,SOLVED,happy,happy,happy,SOLVED,happy,surprised,sad,sad,motivation,sad,sad,motivation,sad,happy,sad,sad,motivation,happy,SOLVED,happy,happy,happy,SOLVED,happy,surprised,sad,happy,sad,happy,SOLVED,sad,happy,SOLVED,happy,happy,surprised,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,happy,SOLVED,happy,happy,surprised,happy,SOLVED,happy,happy,SOLVED,happy,happy,happy,SOLVED,happy,happy,surprised,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,happy,SOLVED,happy,happy,happy,SOLVED,happy,SOLVED,happy,happy,happy,SOLVED,happy,happy,SOLVED,surprised,happy,happy,happy,SOLVED,happy,happy,surprised,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,happy,ABANDONEDsad,sad,motivation,happy,happy,ABANDONED,sad,sad,motivation,sad,sad,motivation,happy,happy,SOLVED,surprised,sad,sad,motivation,happy,sad,happy,SOLVED,sad,sad,motivation,sad,sad,motivation,sad,sad,sad,motivation,sad,happy,sad,sad,motivation,sad,sad,motivation,sad,happy,SOLVED,happy,happy,surprised,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,happy,SOLVED,sad,happy,happy,SOLVED,sad,sad,motivation,sad,happy,sad,sad,motivation,sad,happy,SOLVED,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,sad,happy,sad,happy,SOLVED,sad,sad,motivation,sad,happy,happy,SOLVED,surprised,sad,sad,motivation,sad,happy,SOLVED,sad,happy,sad,sad,motivation,happy,SOLVED,sad,sad,motivation,happy,happy,SOLVED,surprised,happy,happy,happy,SOLVED,happy,happy,SOLVED,happy,happy,SOLVED,happy,SOLVED,happy,happy,SOLVED,surprised,happy,sad,happy,SOLVED,happy,SOLVED,surprised,sad,sad,motivation,happy,happy,surprised,happy,SOLVED,happy,happy,surprised,sad,happy,SOLVED,sad,sad,motivation,sad,sad,motivation,happy,sad,sad,motivation,sad,sad,motivation,sad,happy,happy,SOLVED,happy,happy,SOLVED,happy,happy,surprised,sad,sad,motivation,happy,SOLVED,happy,happy,surprised,happy,SOLVED,happy,happy,happy,SOLVED,happy,happy,SOLVED,happy,surprised,happy,sad,happy,SOLVED,sad,happy,happy,surprised,sad,happy,SOLVED,happy,happy,surprised,happy,SOLVED,happy,happy,happy,SOLVED,happy,happy,happy,SOLVED,surprised,sad,happy,SOLVED,happy,SOLVED,happy,sad,happy,happy,happy,SOLVED,happy,happy,surprised,happy,SOLVED,sad,sad,motivation,sad,sad,motivation,sad,happy,happy,surprised,sad,sad,motivation,happy,SOLVED,happy,surprised,sad,happy,sad,sad,motivation,happy,sad,happy,SOLVED,sad,sad,motivation,sad,sad,motivation,sad,sad,happy,SOLVED,sad,happy,SOLVED,sad,sad,motivation,sad,happy,SOLVED,sad,sad,motivation,sad,sad,motivation,sad,happy,SOLVED,sad,sad,motivation,sad,sad,motivation,happy,SOLVED,sad,happy,SOLVED,happy,SOLVED,surprised,happy,SOLVED,sad,happy,SOLVED,sad,sad,motivation,sad,sad,motivation,sad,sad,sad,motivation,sad,happy,SOLVED,sad,sad,motivation,sad,happy,SOLVED,sad,sad,motivation,sad,sad,motivation,happy,SOLVED,happy,SOLVED,surprised,sad,happy,SOLVED,sad,sad,motivation,happy,SOLVED,happy,SOLVED,happy,SOLVED,surprised,happy,SOLVED,sad,sad,motivation,sad,sad,motivation,sad,happy,SOLVED,happy,SOLVED,sad,happy,SOLVED,sad,sad,motivation,sad,happy,SOLVED,sad,sad,motivation,happy,SOLVED,sad,happy,SOLVED,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,sad,happy,sad,sad,motivation,happy,happy,SOLVED,sad,sad,motivation,sad,sad,motivation,happy,SOLVED,sad,sad,motivation,sad,happy,SOLVED,happy,happy,surprised,sad,happy,SOLVED,sad,happy,sad,sad,motivation,sad,happy,SOLVED,sad,happy,happy,SOLVED,sad,sad,motivation,sad,sad,motivation,sad,happy,SOLVED,sad,happy,sad,sad,motivation,sad,sad,motivation,sad,happy,SOLVED,happy,surprised,sad,sad,motivation,sad,sad,motivation,sad,happy,SOLVED,sad,sad,motivation,sad,sad,motivation,sad,happy,sad,sad,motivation,angry,angry,sad,sad,motivation,sad,happy,SOLVED,happy,happy,happy,SOLVED,happy,happy,surprised,happy,SOLVED,happy,surprised,happy,happy,SOLVED,happy,happy,happy,SOLVED,happy,happy,happy,SOLVED,happy,happy,happy,SOLVED,happy,surprised,sad,happy,SOLVED,sad,sad,motivation,sad,sad,motivation,happy,SOLVED,happy,SOLVED,happy,SOLVED,happy,SOLVED,surprised,happy,SOLVED,happy,SOLVED,happy,SOLVED,happy,SOLVED,happy,SOLVED,surprised,sad,sad,motivation,happy,SOLVED,sad,sad,motivation,happy,SOLVED,happy,SOLVED,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,happy,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,sad,happy,SOLVED,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,sad,happy,sad,sad,motivation,happy,SOLVED,sad,happy,sad,sad,motivation,happy,SOLVED,sad,happy,happy,SOLVED,surprised,sad,sad,motivation,happy,sad,sad,motivation,happy,SOLVED,sad,happy,happy,SOLVED,surprised,happy,happy,SOLVED,surprised,happy,happy,SOLVED,surprised,sad,sad,motivation,sad,sad,motivation,sad,sad,sad,motivation,happy,happy,SOLVED,happy,surprised,sad,happy,SOLVED,sad,happy,happy,SOLVED,surprised,happy,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,sad,happy,SOLVED,sad,happy,happy,SOLVED,surprised,sad,sad,motivation,sad,sad,motivation,ABANDONED,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,sad,happy,sad,sad,motivation,sad,sad,motivation,sad,happy,SOLVED,happy,sad,sad,motivation,sad,happy,SOLVED,happy,surprised,happy,SOLVED,happy,happy,SOLVED,surprised,sad,sad,motivation,happy,SOLVED,happy,SOLVED,happy,SOLVED,happy,SOLVED,surprised,sad,sad,motivation,sad,sad,motivation,sad,sad,happy,SOLVED,happy,happy,SOLVED,surprised,happy,SOLVED,sad,sad,motivation,sad,happy,happy,SOLVED,surprised,happy,happy,SOLVED,happy,happy,SOLVED,happy,happy,SOLVED,happy,happy,SOLVED,happy,happy,SOLVED,surprised,happy,happy,SOLVED,happy,happy,SOLVED,happy,surprised,sad,happy,SOLVED,sad,sad,motivation,sad,sad,motivation,happy,happy,SOLVED,sad,angry,angry,angry,sad,motivation,sad,angry,angry,angry,angry,angry,angry,angry,angry,sad,motivation,sad,happy,sad,sad,motivation,sad,sad,motivation,happy,SOLVED,sad,sad,motivation,sad,sad,motivation,sad,happy,SOLVED,sad,angry,angry,sad,motivation,angry,angry,sad,sad,motivation,angry,sad,sad,happy,happy,SOLVED,happy,happy,surprised,happy,SOLVED,happy,surprised,happy,happy,SOLVED,surprised,sad,happy,SOLVED,happy,happy,SOLVED,sad,sad,motivation,happy,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,sad,happy,SOLVED,happy,sad,happy,SOLVED,happy,sad,happy,SOLVED,sad,sad,motivation,happy,happy,SOLVED,happy,surprised,happy,SOLVED,happy,surprised,happy,SOLVED,happy,SOLVED,happy,happy,SOLVED,happy,happy,SOLVED,happy,surprised,happy,SOLVED,sad,happy,happy,SOLVED,happy,happy,SOLVED,happy,sad,happy,SOLVED,happy,surprised,happy,SOLVED,sad,happy,SOLVED,angry,sad,sad,motivation,sad,sad,motivation,sad,sad,sad,motivation,sad,ABANDONED,sad,sad,motivation,sad,sad,motivation,happy,SOLVED,sad,sad,motivation,sad,sad,motivation,sad,sad,happy,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,sad,happy,SOLVED,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,sad,happy,sad,sad,motivation,happy,SOLVED,sad,sad,motivation,sad,sad,motivation,sad,sad,sad,motivation,happy,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,sad,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,happy,SOLVED,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,sad,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,sad,ABANDONED,sad,sad,motivation,sad,sad,motivation,sad,happy,SOLVED,sad,sad,motivation,sad,sad,motivation,sad,sad,sad,motivation,happy,SOLVED,sad,happy,happy,SOLVED,sad,sad,motivation,sad,sad,motivation,sad,happy,SOLVED,sad,sad,motivation,sad,sad,motivation,happy,SOLVED,sad,sad,motivation,sad,sad,motivation,sad,happy,SOLVED,happy,SOLVED,surprised,sad,happy,SOLVED,sad,happy,happy,SOLVED,sad,sad,motivation,happy,SOLVED,sad,happy,SOLVED,sad,sad,motivation,sad,sad,motivation,sad,happy,SOLVED,sad,sad,motivation,happy,SOLVED,happy,SOLVED,happy,SOLVED,happy,SOLVED,happy,SOLVED,surprised,happy,SOLVED,sad,sad,motivation,happy,SOLVED,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,sad,happy,SOLVED,sad,sad,motivation,sad,sad,motivation,sad,happy,SOLVED,happy,SOLVED,surprised,sad,sad,motivation,sad,happy,SOLVED,happy,SOLVED,sad,sad,motivation,happy,SOLVED,happy,SOLVED,surprised,happy,SOLVED,happy,SOLVED,sad,happy,SOLVED,sad,happy,SOLVED,happy,SOLVED,surprised,happy,SOLVED,happy,surprised,sad,happy,SOLVED,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,sad,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,sad,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,sad,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,happy,SOLVED,happy,SOLVED,sad,happy,SOLVED,sad,sad,motivation,sad,sad,motivation,sad,happy,happy,SOLVED,surprised,happy,sad,sad,motivation,happy,SOLVED,sad,sad,motivation,sad,sad,motivation,sad,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,happy,sad,sad,motivation,happy,SOLVED,sad,happy,SOLVED,sad,sad,motivation,sad,sad,motivation,sad,happy,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,happy,SOLVED,sad,sad,motivation,sad,sad,motivation,angry,angry,angry,sad,sad,sad,motivation,happy,happy,SOLVED,surprised,happy,sad,sad,motivation,sad,happy,happy,SOLVED,surprised,angry,angry,angry,angry,sad,sad,motivation,sad,angry,angry,sad,motivation,angry,angry,angry,angry,angry,angry,angry,angry,angry,angry,angry,angry,angry,angry,angry,angry,angry,sad,angry,ABANDONED,sad,sad,motivation,sad,happy,SOLVED,sad,sad,motivation,sad,happy,SOLVED,sad,happy,sad,sad,motivation,sad,happy,sad,happy,SOLVED,happy,surprised,sad,happy,SOLVED,happy,happy,happy,SOLVED,happy,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,happy,SOLVED,happy,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,sad,happy,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,happy,SOLVED,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,happy,sad,happy,SOLVED,sad,angry,angry,angry,angry,angry,angry,angry,angry,angry,angry,angry,angry,angry,angry,angry,angry,angry,angry,angry,angry,angry,angry,sad,motivation,sad,happy,sad,sad,motivation,sad,sad,motivation,sad,happy,SOLVED,sad,sad,motivation,sad,happy,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,sad,angry,angry,angry,sad,motivation,happy,SOLVED,happy,sad,happy,SOLVED,happy,happy,surprised,sad,sad,motivation,sad,angry,sad,motivation,angry,angry,sad,sad,motivation,sad,happy,SOLVED,happy,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,sad,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,angry,angry,happy,SOLVED,happy,happy,happy,SOLVED,surprised,happy,happy,happy,SOLVED,surprised,sad,sad,motivation,sad,sad,motivation,sad,angry,angry,happy,SOLVED,happy,surprised,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,sad,happy,SOLVED,sad,sad,motivation,happy,sad,happy,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,happy,SOLVED,sad,happy,happy,surprised,sad,happy,SOLVED,happy,happy,surprised,happy,SOLVED,sad,sad,motivation,sad,sad,motivation,happy,SOLVED,sad,sad,motivation,sad,happy,SOLVED,sad,sad,motivation,sad,happy,SOLVED,sad,happy,SOLVED,sad,sad,motivation,sad,happy,SOLVED,sad,happy,SOLVED,sad,happy,SOLVED,sad,sad,motivation,happy,SOLVED,happy,SOLVED,surprised,sad,happy,SOLVED,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,sad,happy,SOLVED,sad,sad,motivation,sad,sad,motivation,sad,happy,SOLVED,sad,happy,SOLVED,sad,sad,motivation,happy,SOLVED,sad,happy,SOLVED,sad,sad,motivation,happy,SOLVED,sad,sad,motivation,happy,SOLVED,sad,happy,SOLVED,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,happy,SOLVED,sad,sad,motivation,sad,sad,motivation,happy,SOLVED,sad,sad,motivation,sad,sad,motivation,sad,sad,happy,SOLVED,happy,SOLVED,surprised,happy,SOLVED,sad,happy,SOLVED,sad,sad,motivation,sad,sad,motivation,happy,SOLVED,sad,sad,motivation,sad,ABANDONED,sad,sad,motivation,sad,sad,motivation,sad,sad,sad,motivation,happy,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,happy,SOLVED,happy,happy,surprised,sad,sad,motivation,happy,SOLVED,sad,sad,motivation,happy,SOLVED,happy,SOLVED,happy,SOLVED,surprised,happy,SOLVED,happy,SOLVED,surprised,happy,SOLVED,happy,SOLVED,happy,SOLVED,sad,sad,motivation,happy,SOLVED,sad,sad,motivation,sad,sad,motivation,sad,happy,sad,sad,motivation,sad,happy,SOLVED,happy,SOLVED,happy,SOLVED,surprised,happy,SOLVED,happy,SOLVED,happy,SOLVED,happy,SOLVED,surprised,happy,SOLVED,happy,SOLVED,happy,SOLVED,sad,sad,motivation,sad,happy,SOLVED,sad,sad,motivation,sad,happy,SOLVED,happy,SOLVED,happy,SOLVED,surprised,sad,happy,SOLVED,sad,sad,motivation,sad,sad,motivation,sad,sad,motivation,sad,happy,SOLVED,happy,SOLVED,happy,SOLVED,surprised,sad,sad,motivation,happy,SOLVED,happy,SOLVED,surprised,sad,sad,motivation,happy,SOLVED';
+  var arr = string.split(',');
+  for (let i = 0; i < arr.length; i++) {
+    if ((i + 1) % 3 == 0) {
+      //i+1  and //i
+      console.log('.');
+    } else {
+      console.log(arr[i] + ' ');
+    }
+  }
+  //console.log(arr);
+  console.log(arr);
+  */
+
   function checkLogged() {
     var logged = JSON.parse(window.localStorage.getItem('LOGGED'));
 
@@ -86,7 +102,7 @@ export default function LoginPage() {
   }, []);
 
   document.body.style.backgroundImage =
-    'linear-gradient(to top, #bef264, #d9f99d , #ccf779)';
+    'linear-gradient(to top, #9ee622, #b1eb52, #ccf779)';
 
   /*
   useEffect(() => {
@@ -176,7 +192,7 @@ export default function LoginPage() {
           values
         )
         .then(function (response) {
-          console.log(response.data);
+          //console.log(response.data);
           let message = response.data;
           if (typeof message === 'string') {
             message = message.replace(/"/g, '');
@@ -261,49 +277,59 @@ export default function LoginPage() {
                 var subscribed = userData[7];
 
                 if (subscribed == 'TRUE') {
-                  checkDate(userData[9]);
+                  if (userData[8] != '') {
+                    if (userData[9] != '') {
+                      checkDate(userData[9]);
 
-                  function checkDate(date) {
-                    var subscriptionDate = date;
-                    subscriptionDate = subscriptionDate.split('-');
+                      function checkDate(date) {
+                        var subscriptionDate = date;
+                        subscriptionDate = subscriptionDate.split('-');
 
-                    subscriptionDate[1] = parseInt(subscriptionDate[1]) - 1;
-                    subscriptionDate[1] = subscriptionDate[1].toString();
+                        subscriptionDate[1] = parseInt(subscriptionDate[1]) - 1;
+                        subscriptionDate[1] = subscriptionDate[1].toString();
 
-                    let endDate = new Date(
-                      subscriptionDate[0],
-                      subscriptionDate[1],
-                      subscriptionDate[2],
-                      0,
-                      0
-                    );
-                    //Output value in milliseconds
-                    let endTime = endDate.getTime();
+                        let endDate = new Date(
+                          subscriptionDate[0],
+                          subscriptionDate[1],
+                          subscriptionDate[2],
+                          0,
+                          0
+                        );
+                        //Output value in milliseconds
+                        let endTime = endDate.getTime();
 
-                    let todayDate = new Date();
-                    let todayTime = todayDate.getTime();
-                    if (endTime < todayTime) {
-                      userData[9] = '0-0-0';
+                        let todayDate = new Date();
+                        let todayTime = todayDate.getTime();
+                        if (endTime < todayTime) {
+                          userData[9] = '0-0-0';
+                        }
+                      }
+                      window.localStorage.setItem(
+                        'S-STATUS',
+                        JSON.stringify(
+                          SecureStorageData.dataEncryption(userData[7])
+                        )
+                      );
+                      window.localStorage.setItem(
+                        'S-TYPE',
+                        JSON.stringify(
+                          SecureStorageData.dataEncryption(userData[8])
+                        )
+                      );
+                      window.localStorage.setItem(
+                        'S-DATE',
+                        JSON.stringify(
+                          SecureStorageData.dataEncryption(userData[9])
+                        )
+                      );
+                    } else {
+                      subscribed = '';
+                      userData[7] = '';
                     }
+                  } else {
+                    subscribed = '';
+                    userData[7] = '';
                   }
-                  window.localStorage.setItem(
-                    'S-STATUS',
-                    JSON.stringify(
-                      SecureStorageData.dataEncryption(userData[7])
-                    )
-                  );
-                  window.localStorage.setItem(
-                    'S-TYPE',
-                    JSON.stringify(
-                      SecureStorageData.dataEncryption(userData[8])
-                    )
-                  );
-                  window.localStorage.setItem(
-                    'S-DATE',
-                    JSON.stringify(
-                      SecureStorageData.dataEncryption(userData[9])
-                    )
-                  );
                 }
 
                 var sectionName = userData[6];
@@ -464,7 +490,7 @@ export default function LoginPage() {
                               var sect = sectionName;
                               sect = sect.replace(/\_/g, ' ');
                               console.log(sect);
-                              if (sect != 'SUBSCRIBED-STUDENTS') {
+                              if (sect != '!SUBSCRIBED-STUDENTS') {
                                 var sectionLink = sectionName;
                                 axios
                                   .post(
@@ -820,6 +846,8 @@ export default function LoginPage() {
         .catch(function (error) {
           setShowLoading(false);
         });
+    } else {
+      setShowLoading(false);
     }
   };
 
@@ -888,9 +916,22 @@ export default function LoginPage() {
      </div>
      */}
       <div
-        className={` flex items-center select-none
+        className={` flex items-center select-none 
                      ${skeletonState ? '' : ''}`}
       >
+        <div className="">
+          <button
+            onClick={function () {
+              changeAccountType();
+            }}
+            type="button"
+            className={`absolute bottom-0 right-0 px-2 rounded-br-2xl text-gray-500 lg:text-sm xs:text-xs  ${
+              newPass ? 'invisible' : forgotPass ? 'invisible' : ''
+            }`}
+          >
+            {accType == 'Student' ? 'Admin Login' : 'Default Login.'}
+          </button>
+        </div>
         <div className="mx-auto w-full  grid place-items-center overflow-y-auto h-screen ">
           <div
             className="
@@ -904,7 +945,7 @@ export default function LoginPage() {
               </div>
               <hr />
               <div className="hdScreen:text-4xl semihdScreen:text-4xl laptopScreen:text-3xl  averageScreen:text-3xl sm:text-2xl xs:text-lg text-gray-700 font-bold text-center">
-                <div className="averageScreen:pt-4 xs:pt-2 averageScreen:pb-2 select-none">
+                <div className="averageScreen:pt-4 xs:pt-2 averageScreen:pb-2 select-none  font-bold">
                   {newPass ? (
                     <>Set New Password</>
                   ) : forgotPass ? (
@@ -1124,132 +1165,141 @@ export default function LoginPage() {
                 {/* Set New Password */}
                 {newPass ? (
                   <div className="mt-2">
-                    <div className="border-2 border-gray-400 p-4 pb-6 rounded-xl">
-                      <p className="text-justify">
-                        The password must be at least 8 characters long, and it
-                        must not contain any special characters or spaces.
-                      </p>
-                      {/* New Password Input */}
-                      <div className="my-1 text-left h-20">
-                        <div className="relative">
-                          <div className="inline-flex ">
-                            <label
-                              htmlFor="newPassword"
-                              className="mr-2 lg:text-lg sm:text-base xs:text-xs mt-1.5 ml-1 font-semibold"
-                            >
-                              {' '}
-                              New Password:{' '}
-                            </label>
+                    <form
+                      action=""
+                      autoComplete="off"
+                      onSubmit={e => {
+                        e.preventDefault();
+                      }}
+                    >
+                      <div className="border-2 border-gray-400 p-4 pb-6 rounded-xl">
+                        <p className="text-justify">
+                          The password must be at least 8 characters long, and
+                          it must not contain any special characters or spaces.
+                        </p>
+                        {/* New Password Input */}
+                        <div className="my-1 text-left h-20">
+                          <div className="relative">
+                            <div className="inline-flex ">
+                              <label
+                                htmlFor="newPassword"
+                                className="mr-2 lg:text-lg sm:text-base xs:text-xs mt-1.5 ml-1 font-semibold"
+                              >
+                                {' '}
+                                New Password:{' '}
+                              </label>
 
-                            <div className="mt-2">
-                              {errors.newPassword && touched.newPassword ? (
-                                <p className="text-red-500 flex-w lg:text-base xs:text-xs">
-                                  {errors.newPassword}
-                                </p>
-                              ) : newPassword == '' ? (
-                                <></>
-                              ) : validNewPass ? (
-                                <div className="text-lime-600 flex lg:text-base xs:text-xs">
-                                  <VscPassFilled className="mt-1.5 mr-1 lg:text-sm text-lime-600" />
-                                  Valid
-                                </div>
-                              ) : (
-                                <div className="text-red-500 flex lg:text-base xs:text-xs">
-                                  <BsXCircleFill className="mt-1.5 mr-1 lg:text-sm text-red-500" />
-                                  Invalid
-                                </div>
-                              )}
+                              <div className="mt-2">
+                                {errors.newPassword && touched.newPassword ? (
+                                  <p className="text-red-500 flex-w lg:text-base xs:text-xs">
+                                    {errors.newPassword}
+                                  </p>
+                                ) : newPassword == '' ? (
+                                  <></>
+                                ) : validNewPass ? (
+                                  <div className="text-lime-600 flex lg:text-base xs:text-xs">
+                                    <VscPassFilled className="mt-1.5 mr-1 lg:text-sm text-lime-600" />
+                                    Valid
+                                  </div>
+                                ) : (
+                                  <div className="text-red-500 flex lg:text-base xs:text-xs">
+                                    <BsXCircleFill className="mt-1.5 mr-1 lg:text-sm text-red-500" />
+                                    Invalid
+                                  </div>
+                                )}
+                              </div>
                             </div>
-                          </div>
-                          <input
-                            onFocus={function () {
-                              setPasswordValidation(true);
-                            }}
-                            id="newPassword"
-                            className={` bg-[#e0e0e0] rounded-xl w-full lg:text-lg sm:text-base xs:text-xs text-gray-700 px-4 pr-10 py-1.5 mr-3 ${
-                              errors.newPassword && touched.newPassword
-                                ? ' border-red-500 focus:border-red-500 border-2 border-solid'
-                                : ''
-                            } `}
-                            type="password"
-                            name="newPassword"
-                            placeholder="Input password"
-                            autoComplete="off"
-                            /* Formik password validation Section */
+                            <input
+                              onFocus={function () {
+                                setPasswordValidation(true);
+                              }}
+                              id="newPassword"
+                              className={` bg-[#e0e0e0] rounded-xl w-full lg:text-lg sm:text-base xs:text-xs text-gray-700 px-4 pr-10 py-1.5 mr-3 ${
+                                errors.newPassword && touched.newPassword
+                                  ? ' border-red-500 focus:border-red-500 border-2 border-solid'
+                                  : ''
+                              } `}
+                              type="password"
+                              name="newPassword"
+                              placeholder="Input password"
+                              autoComplete="off"
+                              /* Formik password validation Section */
 
-                            value={newPassword}
-                            onChange={newPasswordChange}
-                            onBlur={handleBlur}
-                          />
+                              value={newPassword}
+                              onChange={newPasswordChange}
+                              onBlur={handleBlur}
+                            />
+                          </div>
+                        </div>
+                        {/* Confirm Password Input */}
+                        <div className="my-1 text-left h-20">
+                          <div className="relative">
+                            <div className="inline-flex ">
+                              <label
+                                htmlFor="confirmPassword"
+                                className="mr-2 lg:text-lg sm:text-base xs:text-xs mt-1.5 ml-1 font-semibold"
+                              >
+                                {' '}
+                                Confirm Password:{' '}
+                              </label>
+
+                              <div className="mt-2">
+                                {errors.confirmPassword &&
+                                touched.confirmPassword ? (
+                                  <p className="text-red-500 flex-w lg:text-base xs:text-xs">
+                                    {errors.confirmPassword}
+                                  </p>
+                                ) : confirmPassword == '' ? (
+                                  <></>
+                                ) : validConfirmPass ? (
+                                  <div className="text-lime-600 flex lg:text-base xs:text-xs">
+                                    <VscPassFilled className="mt-1.5 mr-1 lg:text-sm text-lime-600" />
+                                    Matched
+                                  </div>
+                                ) : (
+                                  <div className="text-red-500 flex lg:text-base xs:text-xs">
+                                    <BsXCircleFill className="mt-1.5 mr-1 lg:text-sm text-red-500" />
+                                    Not matched
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                            <input
+                              onFocus={function () {
+                                setPasswordValidation(true);
+                              }}
+                              className={` bg-[#e0e0e0] rounded-xl w-full lg:text-lg sm:text-base xs:text-xs text-gray-700 px-4 pr-10 py-1.5 mr-3 ${
+                                errors.confirmPassword &&
+                                touched.confirmPassword
+                                  ? ' border-red-500 focus:border-red-500 border-2 border-solid'
+                                  : ''
+                              } `}
+                              id="confirmPassword"
+                              type="password"
+                              name="confirmPassword"
+                              placeholder="Confirm password"
+                              autoComplete="off"
+                              /* Formik password validation Section */
+
+                              value={confirmPassword}
+                              onChange={confirmPasswordChange}
+                              onBlur={handleBlur}
+                            />
+                          </div>
                         </div>
                       </div>
-                      {/* Confirm Password Input */}
-                      <div className="my-1 text-left h-20">
-                        <div className="relative">
-                          <div className="inline-flex ">
-                            <label
-                              htmlFor="confirmPassword"
-                              className="mr-2 lg:text-lg sm:text-base xs:text-xs mt-1.5 ml-1 font-semibold"
-                            >
-                              {' '}
-                              Confirm Password:{' '}
-                            </label>
 
-                            <div className="mt-2">
-                              {errors.confirmPassword &&
-                              touched.confirmPassword ? (
-                                <p className="text-red-500 flex-w lg:text-base xs:text-xs">
-                                  {errors.confirmPassword}
-                                </p>
-                              ) : confirmPassword == '' ? (
-                                <></>
-                              ) : validConfirmPass ? (
-                                <div className="text-lime-600 flex lg:text-base xs:text-xs">
-                                  <VscPassFilled className="mt-1.5 mr-1 lg:text-sm text-lime-600" />
-                                  Matched
-                                </div>
-                              ) : (
-                                <div className="text-red-500 flex lg:text-base xs:text-xs">
-                                  <BsXCircleFill className="mt-1.5 mr-1 lg:text-sm text-red-500" />
-                                  Not matched
-                                </div>
-                              )}
-                            </div>
-                          </div>
-                          <input
-                            onFocus={function () {
-                              setPasswordValidation(true);
-                            }}
-                            className={` bg-[#e0e0e0] rounded-xl w-full lg:text-lg sm:text-base xs:text-xs text-gray-700 px-4 pr-10 py-1.5 mr-3 ${
-                              errors.confirmPassword && touched.confirmPassword
-                                ? ' border-red-500 focus:border-red-500 border-2 border-solid'
-                                : ''
-                            } `}
-                            id="confirmPassword"
-                            type="password"
-                            name="confirmPassword"
-                            placeholder="Confirm password"
-                            autoComplete="off"
-                            /* Formik password validation Section */
-
-                            value={confirmPassword}
-                            onChange={confirmPasswordChange}
-                            onBlur={handleBlur}
-                          />
-                        </div>
+                      <div className=" mt-7 text-center w-full ">
+                        <button
+                          onClick={submitNewPassword}
+                          className="bg-lime-600 rounded-2xl w-1/2 py-2 lg:lg:text-lg sm:text-base xs:text-xs sm:text-md font-semibold hover:bg-lime-700 text-white ease-in-out transition duration-200 transform drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)]"
+                        >
+                          <span className="lg:text-xl sm:text-base xs:text-xs font-semibold">
+                            SUBMIT
+                          </span>
+                        </button>
                       </div>
-                    </div>
-
-                    <div className=" mt-7 text-center w-full ">
-                      <button
-                        onClick={submitNewPassword}
-                        className="bg-lime-600 rounded-2xl w-1/2 py-2 lg:lg:text-lg sm:text-base xs:text-xs sm:text-md font-semibold hover:bg-lime-700 text-white ease-in-out transition duration-200 transform drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)]"
-                      >
-                        <span className="lg:text-xl sm:text-base xs:text-xs font-semibold">
-                          SUBMIT
-                        </span>
-                      </button>
-                    </div>
+                    </form>
                   </div>
                 ) : (
                   <></>
@@ -1299,16 +1349,12 @@ export default function LoginPage() {
                 <div className="">
                   <button
                     onClick={function () {
-                      changeAccountType();
+                      navigate('/Inquiry');
                     }}
                     type="button"
-                    className={`absolute bottom-0 right-0 px-2 rounded-br-2xl text-gray-500 lg:text-sm xs:text-xs  ${
-                      newPass ? 'invisible' : forgotPass ? 'invisible' : ''
-                    }`}
+                    className={`absolute bottom-0 right-0 px-2 rounded-br-2xl text-gray-500 lg:text-sm xs:text-xs  `}
                   >
-                    {accType == 'Student'
-                      ? 'Are you an admin?'
-                      : 'Go back to default.'}
+                    Don't have an account?
                   </button>
                 </div>
               </div>

@@ -61,13 +61,37 @@ switch($_SESSION['method']) {
             $tables = array_merge($tables, $output);
         }
 
-        $sql5 = "SELECT CONCAT('') AS QuestionID, CONCAT('') AS Question, CONCAT('') AS Expressions, CONCAT('') AS Status,
-        CONCAT('') AS TimeSpent,  CONCAT('') AS TimeStart,  CONCAT('TOTAL HINTS: ', COUNT(*)) AS Difficulty FROM user_logs WHERE input = 'Hint Button Clicked' AND user_email = '$session_database'";
+        $sql5 = "SELECT CONCAT('SessionID:') AS QuestionID, CONCAT('TOTAL ANGRY:') AS Question, CONCAT('TOTAL HAPPY:') AS Expressions, CONCAT('TOTAL SAD:') AS Status,
+        CONCAT('TOTAL SURPRISED:') AS TimeSpent,  CONCAT('TOTAL MOTIVATION:') AS TimeStart,  CONCAT('TOTAL HINTS: ', COUNT(*)) AS Difficulty FROM user_logs WHERE input = 'Hint Button Clicked' AND user_email = '$session_database'";
         $stmt5 = $conn->prepare($sql5);
         $stmt5->execute();
         $output = $stmt5->fetchAll(PDO::FETCH_ASSOC);
-
         $tables = array_merge($tables, $output);
+
+        /*
+        $sql6 = "SELECT CONCAT('SessionID:') AS QuestionID, CONCAT('TOTAL ANGRY:') AS Question, CONCAT('TOTAL HAPPY:') AS Expressions, CONCAT('TOTAL SAD:') AS Status,
+        CONCAT('TOTAL SURPRISED:') AS TimeSpent,  CONCAT('TOTAL MOTIVATION:') AS TimeStart,  CONCAT('TOTAL HINTS: ', COUNT(*)) AS Difficulty 
+        FROM user_logs WHERE input = 'Hint Button Clicked' AND user_email = '$session_database'";
+        $stmt6 = $conn->prepare($sql6);
+        $stmt6->execute();
+        $output = $stmt6->fetchAll(PDO::FETCH_ASSOC);
+        */
+
+
+        for ($i = 0; $i < count($sessions); $i++) {
+            //$session_table = $session_database.$sessions[$i];
+
+            $sql7 = "SELECT CONCAT('$sessions[$i]') AS QuestionID, ExpressionAngry  AS Question, ExpressionHappy  AS Expressions, ExpressionSad AS Status,
+            ExpressionSurprised AS TimeSpent,  ExpressionMotivation AS TimeStart, CONCAT('') AS Difficulty 
+            FROM ".$session_database." WHERE SessionID = '$sessions[$i]'";
+            $stmt7 = $conn->prepare($sql7);
+            $stmt7->execute();
+            $output = $stmt7->fetchAll(PDO::FETCH_ASSOC);
+    
+            $tables = array_merge($tables, $output);
+        }
+
+       
         
 
         $result = $tables;

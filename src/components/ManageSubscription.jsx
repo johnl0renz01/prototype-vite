@@ -333,7 +333,7 @@ const ManageSubscription = ({ visible, onClose, onContinue }) => {
                           <div className="text-gray-700 lg:pb-2 xs:pb-1 lg:mt-2 sm:mt-0.5">
                             <h1 className="font-bakbak lg:text-4xl sm:text-3xl xs:text-2xl border-black/50  leading-8 ">
                               Price:{' '}
-                              <span className="font-sans font-bold text-lime-700 lg:text-3.5xl sm:text-2xl xs:text-xl">
+                              <span className="font-sans font-semibold text-lime-700 lg:text-3.5xl sm:text-2xl xs:text-xl">
                                 {planType == 'TEACHER-PLAN-1'
                                   ? '₱50'
                                   : planType == 'TEACHER-PLAN-2'
@@ -352,41 +352,41 @@ const ManageSubscription = ({ visible, onClose, onContinue }) => {
                           <h1 className="font-bakbak  lg:text-4xl sm:text-3xl xs:text-2xl border-black/50 leading-8 text-gray-700 mb-4">
                             Remaining Time
                           </h1>
-                          <div className="shadow-md grid grid-cols-5 w-full text-center leading-[5rem] font-bold ">
-                            <div className="border-2 lg:text-5xl md:text-4xl sm:text-3.5xl xs:text-3xl  ">
-                              <div className="text-lime-700 shadow">
+                          <div className="shadow-md grid grid-cols-5 w-full text-center leading-[5rem] font-semibold ">
+                            <div className="border-2 lg:text-5xl md:text-4xl sm:text-3.5xl xs:text-3xl  font-sans">
+                              <div className="text-lime-700 shadow ">
                                 {monthTally}
                               </div>
                               <div className="border-t-2 text-base  text-ellipsis overflow-hidden py-1">
                                 Month(s)
                               </div>
                             </div>
-                            <div className="border-2 lg:text-5xl md:text-4xl sm:text-3.5xl xs:text-3xl">
-                              <div className="text-lime-700/[95%] shadow">
+                            <div className="border-2 lg:text-5xl md:text-4xl sm:text-3.5xl xs:text-3xl font-sans">
+                              <div className="text-lime-700/[95%] shadow ">
                                 {dayTally}
                               </div>
                               <div className="border-t-2 text-base text-ellipsis overflow-hidden py-1">
                                 Day(s)
                               </div>
                             </div>
-                            <div className="border-2 lg:text-5xl md:text-4xl sm:text-3.5xl xs:text-3xl ">
-                              <div className="text-lime-700/90 shadow">
+                            <div className="border-2 lg:text-5xl md:text-4xl sm:text-3.5xl xs:text-3xl font-sans">
+                              <div className="text-lime-700/90 shadow ">
                                 {hourTally}
                               </div>
                               <div className="border-t-2 text-base text-ellipsis overflow-hidden py-1">
                                 Hour(s)
                               </div>
                             </div>
-                            <div className="border-2 lg:text-5xl md:text-4xl sm:text-3.5xl xs:text-3xl  ">
-                              <div className="text-lime-700/[85%] shadow">
+                            <div className="border-2 lg:text-5xl md:text-4xl sm:text-3.5xl xs:text-3xl  font-sans">
+                              <div className="text-lime-700/[85%] shadow ">
                                 {minuteTally}
                               </div>
                               <div className="border-t-2 text-base text-ellipsis overflow-hidden py-1">
                                 Minute(s)
                               </div>
                             </div>
-                            <div className="border-2 lg:text-5xl md:text-4xl sm:text-3.5xl xs:text-3xl ">
-                              <div className="text-lime-700/[85%] shadow">
+                            <div className="border-2 lg:text-5xl md:text-4xl sm:text-3.5xl xs:text-3xl font-sans">
+                              <div className="text-lime-700/[85%] shadow ">
                                 {secondTally}
                               </div>
                               <div className="border-t-2 text-base text-ellipsis overflow-hidden py-1">

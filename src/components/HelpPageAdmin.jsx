@@ -30,6 +30,7 @@ export default function HelpPageAdmin() {
     function setTabIndex() {
       window.localStorage.setItem('CURRENT_TAB_INDEX', 5);
     }
+    document.documentElement.style.scrollBehavior = 'auto';
   }, []);
 
   useEffect(() => {

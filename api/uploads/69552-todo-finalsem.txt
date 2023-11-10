@@ -1,0 +1,470 @@
+
+//Bulk creation of equations // IGNORED******
+
+==============================================================
+
+
+
+//Increase chance of custom questions occurring
+// DONE****
+
+Premium:- Unique Equation list (per section)  ++
+- Value slider (1-999+) of equation (ex. 536x - 231x)  + +
+(generating question)  // DONE**** 
+
+APPLY TO STUDENTS' END // DONE****
+
+✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓
+✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓
+==============================================================
+
+- Accept fraction as answer  ++  // DONE****
+
+✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓
+✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓
+=========================================================
+=====
+
+
+- Simplified fraction as answer  ++  // DONE ***
+
+✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓
+✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓
+=========================================================
+
+- Highlight in manage section in edit  // DONE***
+
+✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓
+✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓
+=========================================================
+
+
+- How teachers can see section code?  (IN CHANGE SECTION)  // DONE****
+
+✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓
+✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓
+==============================================================
+
+
+PEN ICON IN DRAWING WHITEBOARD?  // DONE****
+- it is default fix it? 
+✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓
+✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓
+
+==============================================================
+-Guide in answering whiteboard // DONE****
+
+✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓
+✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓
+==============================================================
+
+
+==============================================================
+- NOTIFICATION IN REQUEST top right page  // DONE //FINISHED:: 
+NOTE(Mark as read, clickable show modal of request, read etc.)
+
+Add columns in user request:
+ReadAdmin,  ReadUser: 
+
+MSG: There is a new request from "Name" (Student).
+MSG: "Name" (Teacher) replied to "Subject".
+
+✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓
+✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓
+==============================================================
+
+
+- Custom equation database per teacher(connection to api etc) ++
+// DONE
+
+✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓
+✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓
+========================================================
+EQUATION PROBLEM::  // DONE
+3x + (3 - 2) = 4x + 5(3 - 2x) - 5x  
+WRONG ANSWER ^
+Test case
+
+= "4x" is disregarded
+
+✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓
+✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓
+
+=======================================================
+
+INTERVENE PIA IN MOTIVATION (SKIP) // DONE
+✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓
+
+
+======================================
+
+- DOWNLOADABLE LOG FILES IN STUDENT DETAILS  // DONE
+ADD MORE AUTOMATION AND DETAILS in logs // DONE
+
+
+- DOWNLOAD ALL LOG FILES IN DATABASE // DONE 
+
+
+---------------------------------
+- HOW ALL LOG FILES SHOULD LOOK LIKE???????????
+-------------------------------
+
+ADD MORE USER LOG DATAS
+
+
+- TIME PER SESSION/QUESTION //DONE ✓✓
+
+
+- LEVEL DOWN // add function in whiteboard // DONE
+
+
+FIX "1x" // DONE
+
+=====================================================
+
+FINAL :
+
+-Fix all help page // DONE
+
+✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓
+✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓
+
+=================================
+
+MULTIPLE LOGIN PAGE:
+UPDATE WHEN LOGGED IN  /// DONE
+
+✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓
+✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓
+==========================================================
+
+
+LOG OUT ACCOUNT WHEN SECTION IS DELETED OR ACCOUNT IS DELETED.
+
+===========================================================
+
+AFTER EVERYTHING, ADD COMMERCIALIZATION AND FUNCTIONALITIES GCASH BLABLABLABLALBAL
+
+//ALMOST DONE
+✓XXXXXX✓✓✓✓✓✓✓✓✓✓XXXXXXXXX✓✓✓✓✓✓XXXXXXXX✓✓✓✓✓✓✓✓✓✓✓✓
+
+=======================================================
+
+ADD SUBSCRIPTION IN DATABASE ETC.
+
+//DONE
+✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓
+✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓
+
+=============================================================
+
+:: After clicking choose
+-> Details about the order > Next
+-> Terms and Agreement *REQUIRED TO CHECK > NEXT
+-> PROCEED PAYMENT 
+
+
+-> MODAL GCASH LINK
+-> VERIFY PAYMENT
+Subscription required:
+- Gcash
+- Email receipt or Mobile Number
+- 
+
+
+-> Will go to user request after paying.
+-> Create request when paying confirmed.
+-> Details of request subscription
+
+//DONE
+✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓
+✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓
+
+===================================================
+
+MANAGE SUBSCRIPTION
+
+- Remaining time
+- 
+
+//DONE
+✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓
+✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓
+
+===================================================
+
+Teacher: 20 pesos for registration. Get access to the teacher module. Increase chance of custom questions occurring Bulk creation of equations Unlocks Custom Equation Feature Unique Equation list (per section) - Value slider (1-999+) of equation (ex. 536x - 231x) (generating question) 
+
++20 each student - access to all levels (Minimum of students: 15)
++15 each student - access to all levels (Minimum of students: 30)
++10 each student - access to all levels (Minimum of students: 45)
+
+Students Outside: Upon registration, 20 pesos. Once logged in, restricted only to easy level only but with unlimited equations and non facial only. Subscribe for 30 pesos per month, get access to unlimited equations for average and difficult levels and facial expressions.
+
+//DONE
+✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓
+✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓
+
+===================================================
+
+STUDENT SUBSCRIPTION (no teacher/ solo)
+30 pesos per month
+
+before:
+- Locked Average and Difficult
+- Single Variable (x)
+- Non Facial Group
+- Not accepting fraction answer
+
+
+after:
+- Unlocked Average and Difficult
+- Different Variables (a...z)
+- Facial Group
+- Accept fraction answer
+✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓
+
+
+===================================================
+
+SUBSCRIPTION END:
+
+Teachers: 
+- Reset Settings
+- Make chance of occurence 0% custom
+- Prioritize no
+- Value 1-10 only
+
+<><><><><><<><>
+
+Individual Student:
+ALL FIXED in difficult.jsx
+- Easy difficulty only
+Check Section -> IF section is free-section
+  if subscribed:
+	facial group
+  if not:
+        non-facial group
+- fixed value 1-10 (Not from database)
+- no fraction
+- single variable (x)
+
+✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓
+✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓
+
+
+=================================================
+
+ADD in "edit account" modal
+
+- Subscribed: <>Yes  <>NO
+- Type : Multiple box
+- Due: 
+
+//DONE
+✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓
+✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓
+
+===================================================
+
+FIX MESSAGE IN NEW SESSION, IF THERE IS EXISTING // DONE
+- about abandon etc.
+✓✓✓✓✓✓✓✓
+
+FIX "-1x" // DONE
+✓✓✓✓✓✓✓✓
+
+FIX finish session message. // DONE
+✓✓✓✓✓✓✓✓
+
+FIX hint message. // DONE
+✓✓✓✓✓✓✓✓
+
+FIX MULTIPLICATION? 
+//NOPE
+
+=========================================
+
+UPDATE SCORE ONCE EQUATION IS FINISHED //DONE
+//DONE
+✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓
+✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓
+
+========================================
+
+-Change password of student and teacher   ++ //DONE
+-add change password option in dropdown student  //DONE
+- Add user name + dropdown in teacher  //DONE
+
+
+✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓
+✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓
+
+==================================================
+
+ADD ENCRYPTION IN LOCAL / SESSION STORAGE
+
+StorageData.localStorageJSON
+StorageData.localStorageRAW
+
+SecureStorageData.dataEncryption(
+
+
+STUDENT SIDE : // DONE
+TEACHER SIDE // DONE
+ADMIN SIDE: // DONE
+
+
+✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓
+✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓
+=========================================
+
+
+APPLY EXPORT DATA TO DEPLOYEDPROJECT FROM STUDENTDETAIL  MYPROJECT ANYTIME
+//studentdetail
+//studentdetailskeleton 
+
+DONE
+
+✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓
+✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓
+
+=================================================
+
+STUDENT DETAIL, OPEN IN BLANK PAGE ( NEW TAB) // DONE
+
+✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓
+✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓
+
+=========================================
+
+
+ADD TITLE in each page // DONE
+https://stackoverflow.com/questions/46160461/how-do-you-set-the-document-title-in-react
+
+✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓
+✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓
+
+===================================
+
+FOCUS ON LAST "EDITED" SECTION/ACCOUNT // DONE
+
+✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓
+✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓
+
+=================================
+
+✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓ //DONE ALL
+FIX minimal errors
+
+Equation settings modal, not fixed // DONE
+=============
+After submitting in equation settings, nababaliw  // DONE
+===================
+MY subscription teacher side  // DONE
+==================
+Downgrade plans should be green  // DONE
+=================
+Not uploading file in deployment // DONE
+================
+fix subscription locked etc. // DONE
+
+make class invisible then if not true, remove 
+================
+remove manage subscription if enrolled in valid section   // DONE
+================
+✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓
+
+============================================================
+============================================================
+
+AFTER RESET/REMOVE IN RESET PASSWORD, UPDATE USER REQUEST
+to solved   // DONE
+✓✓✓✓✓✓✓✓
+==============================
+
+Downgrade plan, same make it solved afterwards.  // DONE
+✓✓✓✓✓✓✓✓
+==============================
+
+When teacher is not subsrcribed or expired:
+check database in login student
+section -> section list -> teacher_name -> account == teacher name -> subscription status, -> subscription expired //DONE
+✓✓✓✓✓✓✓✓
+
+=============================
+
+Add # in start of subject for all auto generated subject //DONE
+✓✓✓✓✓✓✓✓
+=============================
+
+Change name of Section Free
+
+============================
+
+section sort alphabetically //DONE
+✓✓✓✓✓✓✓✓
+
+
+
+======================================================
+
+FINAL PAGE ( ONE LONG SHIT)
+
+HOME PAGE ETC.
+- Home
+- About
+- Demo page
+- Pricing
+- terms and condition / privacy policy
+
+// DONE// DONE// DONE// DONE// DONE// DONE
+======================================
+
+ULTRA MINOR revision
+
+- change password modal, not aligned
+- manage subscription number (font-sans)
+- nawawala border pag focus sa select type
+- inquiry -> email "our" business account instead of "the".
+- edit account, sub type etc. make default = "";
+
+// DONE// DONE// DONE// DONE// DONE
+=====================================
+
+if not enrolled in !FREESECTION, dont show subscription // DONE
+
+- fix hover etc etc. redirect to blabla in INQUIRY page (if logged in)  // DONE
+
+
+No section is shown in "FREE SECTION" free.section account 
+//DONE *name is the problem*
+
+======================================
+
+Fix bulk registration, "NA" section in teacher // DONE FIXED IN API
+//DONE
+
+======================================
+
+LoadAnswer() After next/skip question  // DONE
+//DONE
+
+---------------------------------
+
+If given created new line, make text smaller ??
+// idk
+
+==================================
+
+Fix title of student detail from 7-Garnet, to 8-Garnet etc. // FIXED
+
+==================================
+
+FIX: Bulk registration, capture all
+
+====================================
+
+LAST: fix equation solver
+
+ 

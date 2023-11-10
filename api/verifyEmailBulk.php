@@ -18,18 +18,18 @@ for ($i = strlen($email) - 1; $i > 0; $i--) {
     }
 }
 
+
 $row_id = "";
 
 //FOR ROW ID
 for ($i = strlen($email) - 1; $i > 0; $i--) {
     if ($email[$i] == "@") {
         $row_id = substr($email, ($i + 1));
+        $row_id = str_replace("_"," ", $row_id);
         $email = substr($email, 0, $i);
-        $email = str_replace("_"," ", $email);
         break;
     }
 }
-
 
 switch($_SESSION['method']) {
     case "GET":

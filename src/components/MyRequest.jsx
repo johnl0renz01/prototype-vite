@@ -390,21 +390,21 @@ export default function MyRequest() {
                 <tr>
                   <th className="lg:pl-8 w-[26.85%] py-3 lg:text-base md:text-sm sm:text-xs">
                     <div
-                      className={`lg:pl-0 sm:pl-3  xs:pl-3 ${
+                      className={`font-bold lg:pl-0 sm:pl-3  xs:pl-3 ${
                         requests.length > 0 ? '' : 'invisible'
                       }`}
                     >
                       Subject
                     </div>
                   </th>
-                  <th className="w-[26.25%] py-3 lg:text-base md:text-sm sm:text-xs ">
+                  <th className="font-bold w-[26.25%] py-3 lg:text-base md:text-sm sm:text-xs ">
                     <div
                       className={`${requests.length > 0 ? '' : 'invisible'}`}
                     >
                       Recipient
                     </div>
                   </th>
-                  <th className="w-[19.85%] py-3 lg:text-base md:text-sm sm:text-xs ">
+                  <th className="whitespace-nowrap font-bold w-[19.85%] py-3 lg:text-base md:text-sm sm:text-xs ">
                     <div
                       className={`${requests.length > 0 ? '' : 'invisible'}`}
                     >

@@ -191,7 +191,7 @@ const CreateSectionModal = ({ visible, onClose, onContinue }) => {
                     onChange={handleChange}
                     name="gradeLevel"
                     id="gradeLevel"
-                    className="p-1  px-2 mt-1 ml-3 lg:text-lg md:text-base sm:text-sm xs:text-xs border-[1px] w-32  focus:border-none rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 shadow-[#808080]"
+                    className="p-1  px-2 mt-1 ml-3 lg:text-lg md:text-base sm:text-sm xs:text-xs border-[1px] w-32   rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 shadow-[#808080]"
                   >
                     <option
                       value="7"
@@ -236,7 +236,7 @@ const CreateSectionModal = ({ visible, onClose, onContinue }) => {
                     type="text"
                     autoComplete="off"
                     placeholder="Enter Section Name"
-                    className={`grow p-1  px-2 mt-1 ml-3 border-[1px] lg:text-lg md:text-base sm:text-sm xs:text-xs rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500 focus:border-none  shadow-[#808080] ${
+                    className={`grow p-1  px-2 mt-1 ml-3 border-[1px] lg:text-lg md:text-base sm:text-sm xs:text-xs rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500   shadow-[#808080] ${
                       errors.sectionName && touched.sectionName
                         ? ' shadow-red-500 border-red-500 focus:border-red-500 border-3 border-solid'
                         : ''
@@ -274,7 +274,7 @@ const CreateSectionModal = ({ visible, onClose, onContinue }) => {
                     onChange={handleChange}
                     name="adviserName"
                     id="adviserName"
-                    className={`p-1  px-2 mt-1 ml-3 lg:text-lg md:text-base sm:text-sm xs:text-xs border-[1px] w-full  focus:border-none rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500  shadow-[#808080]
+                    className={`p-1  px-2 mt-1 ml-3 lg:text-lg md:text-base sm:text-sm xs:text-xs border-[1px] w-full   rounded-md border-gray-500 focus:outline-teal-500 focus:ring-teal-500  shadow-[#808080]
                     ${
                       errors.adviserName && touched.adviserName
                         ? ' shadow-red-500 border-red-500 focus:border-red-500 border-3 border-solid'

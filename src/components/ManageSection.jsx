@@ -462,26 +462,26 @@ export default function ManageSection() {
                 <tr>
                   <th className="lg:pl-8 w-[17.25%] py-3 lg:text-base md:text-sm sm:text-xs">
                     <div
-                      className={`lg:pl-0 sm:pl-3  xs:pl-3
+                      className={`font-bold lg:pl-0 sm:pl-3  xs:pl-3
                     ${section.length > 0 ? '' : 'invisible'}`}
                     >
                       Grade Level
                     </div>
                   </th>
-                  <th className="w-[19.85%] py-3 lg:text-base md:text-sm sm:text-xs ">
+                  <th className="font-bold w-[19.85%] py-3 lg:text-base md:text-sm sm:text-xs ">
                     <div className={`${section.length > 0 ? '' : 'invisible'}`}>
                       Section Name
                     </div>
                   </th>
-                  <th className="w-[25%] py-3 lg:text-base md:text-sm sm:text-xs ">
+                  <th className="font-bold w-[25%] py-3 lg:text-base md:text-sm sm:text-xs ">
                     <div className={`${section.length > 0 ? '' : 'invisible'}`}>
                       Assigned Teacher
                     </div>
                   </th>
-                  <th className="w-[26%] py-3 lg:text-base md:text-sm sm:text-xs ">
+                  <th className="font-bold w-[26%] py-3 lg:text-base md:text-sm sm:text-xs ">
                     <div
                       className={`${
-                        section.length > 0 ? 'invisible' : 'invisible'
+                        section.length > 0 ? '' : 'invisible'
                       }`}
                     >
                       Reset Code

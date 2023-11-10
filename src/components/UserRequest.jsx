@@ -388,28 +388,28 @@ export default function UserRequest() {
                 <tr>
                   <th className="lg:pl-8 w-[19.85%] py-3 lg:text-base md:text-sm sm:text-xs">
                     <div
-                      className={`lg:pl-0 sm:pl-3  xs:pl-3 ${
+                      className={`font-bold lg:pl-0 sm:pl-3  xs:pl-3 ${
                         requests.length > 0 ? '' : 'invisible'
                       }`}
                     >
                       Subject
                     </div>
                   </th>
-                  <th className="w-[27.25%] py-3 lg:text-base md:text-sm sm:text-xs ">
+                  <th className="font-bold w-[27.25%] py-3 lg:text-base md:text-sm sm:text-xs ">
                     <div
                       className={`${requests.length > 0 ? '' : 'invisible'}`}
                     >
                       From
                     </div>
                   </th>
-                  <th className="w-[12.4%] py-3 lg:text-base md:text-sm sm:text-xs ">
+                  <th className="font-bold w-[12.4%] py-3 lg:text-base md:text-sm sm:text-xs ">
                     <div
                       className={`${requests.length > 0 ? '' : 'invisible'}`}
                     >
                       Role
                     </div>
                   </th>
-                  <th className="w-[19.85%] py-3 lg:text-base md:text-sm sm:text-xs ">
+                  <th className="font-bold whitespace-nowrap w-[19.85%] py-3 lg:text-base md:text-sm sm:text-xs ">
                     <div
                       className={`${requests.length > 0 ? '' : 'invisible'}`}
                     >

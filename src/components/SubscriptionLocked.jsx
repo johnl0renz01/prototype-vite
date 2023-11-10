@@ -144,7 +144,7 @@ const SubscriptionLocked = ({ visible, onClose }) => {
                   </h1>
                   <div className="averageScreen:mt-0 xs:-mt-2 averageScreen:mb-4 xs:mb-3">
                     <h2 className="hdScreen:text-5xl semihdScreen:text-4xl laptopScreen:text-3.5xl averageScreen:text-3.5xl sm:text-3xl xs:text-xl font-bold mt-4 text-black mb-1">
-                      ₱50
+                      <span className='font-sans'>₱</span>50
                     </h2>
                     <p className="hdScreen:text-lg semihdScreen:text-base averageScreen:text-sm xs:text-xs font-normal ">
                       per month
@@ -229,7 +229,7 @@ const SubscriptionLocked = ({ visible, onClose }) => {
                   </h1>
                   <div className="averageScreen:mt-0 xs:-mt-2 averageScreen:mb-4 xs:mb-3">
                     <h2 className="hdScreen:text-5xl semihdScreen:text-4xl laptopScreen:text-3.5xl averageScreen:text-3.5xl sm:text-3xl xs:text-xl font-bold mt-4 text-black mb-1">
-                      ₱75
+                    <span className='font-sans'>₱</span>75
                     </h2>
                     <p className="hdScreen:text-lg semihdScreen:text-base averageScreen:text-sm xs:text-xs font-normal ">
                       per month
@@ -319,7 +319,7 @@ const SubscriptionLocked = ({ visible, onClose }) => {
                   </h1>
                   <div className="averageScreen:mt-0 xs:-mt-2 averageScreen:mb-4 xs:mb-3">
                     <h2 className="hdScreen:text-5xl semihdScreen:text-4xl laptopScreen:text-3.5xl averageScreen:text-3.5xl sm:text-3xl xs:text-xl font-bold mt-4 text-black mb-1">
-                      ₱100
+                    <span className='font-sans'>₱</span>100
                     </h2>
                     <p className="hdScreen:text-lg semihdScreen:text-base averageScreen:text-sm xs:text-xs font-normal ">
                       per month

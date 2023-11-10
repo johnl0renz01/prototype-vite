@@ -153,7 +153,7 @@ const ChangePasswordModal = ({ visible, onClose, onContinue }) => {
                   />
                 </div>
                 {errors.oldPassword && touched.oldPassword && (
-                  <p className=" lg:text-base xs:text-xs text-red-500 absolute ml-[8rem]">
+                  <p className=" lg:text-base xs:text-xs text-red-500 absolute  ml-[8.8rem]">
                     {errors.oldPassword}
                   </p>
                 )}
@@ -183,7 +183,7 @@ const ChangePasswordModal = ({ visible, onClose, onContinue }) => {
                   />
                 </div>
                 {errors.newPassword && touched.newPassword && (
-                  <p className=" lg:text-base xs:text-xs text-red-500 absolute ml-[8rem]">
+                  <p className=" lg:text-base xs:text-xs text-red-500 absolute ml-[8.8rem]">
                     {errors.newPassword}
                   </p>
                 )}

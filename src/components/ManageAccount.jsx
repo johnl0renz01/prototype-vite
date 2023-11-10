@@ -448,7 +448,7 @@ export default function ManageAccount() {
                 <tr>
                   <th className="lg:pl-8 w-[29.6%] py-3 lg:text-base md:text-sm sm:text-xs ">
                     <div
-                      className={`lg:pl-0 sm:pl-3  xs:pl-3 ${
+                      className={`font-bold lg:pl-0 sm:pl-3  xs:pl-3 ${
                         accounts.length > 0 ? '' : 'invisible'
                       }`}
                     >
@@ -456,14 +456,14 @@ export default function ManageAccount() {
                     </div>
                   </th>
                   <th
-                    className={` w-[30.7%] py-3 lg:text-base md:text-sm sm:text-xs ${
+                    className={`font-bold w-[30.7%] py-3 lg:text-base md:text-sm sm:text-xs ${
                       accounts.length > 0 ? '' : 'invisible'
                     }`}
                   >
                     Email
                   </th>
                   <th
-                    className={`w-[19%] py-3 lg:text-base md:text-sm sm:text-xs ${
+                    className={`font-bold w-[19%] py-3 lg:text-base md:text-sm sm:text-xs ${
                       accounts.length > 0 ? '' : 'invisible'
                     }`}
                   >

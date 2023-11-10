@@ -1,6 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ['./src/**/*.{js,jsx}'],
+
   theme: {
     extend: {
       screens: {
@@ -169,6 +170,10 @@ module.exports = {
         jura: 'Jura, sans-serif',
         lato: 'Lato, sans-serif',
         roboto: 'Roboto, sans-serif',
+        kanit: 'Kanit, sans-serif',
+        nunito: 'Nunito, sans-serif',
+        rubik: 'Rubik, sans-serif',
+        ubuntu: 'Ubuntu, sans-serif',
       },
       borderWidth: {
         3: '3px',
@@ -195,6 +200,17 @@ module.exports = {
       maxHeight: {
         '31rem': '31rem',
       },
+      fontWeight: {
+        thin: '100',
+        hairline: '100',
+        extralight: '200',
+        light: '300',
+        normal: '400',
+        medium: '500',
+        semibold: '700', //orign 600
+        bold: '800', //orig 700
+        extrabold: '900', //orig 800
+      }
     },
     keyframes: {
       shimmer: {
@@ -202,5 +218,5 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+ 
 };

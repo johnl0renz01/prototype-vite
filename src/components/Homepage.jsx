@@ -14,7 +14,7 @@ import SecureStorageData from './SecureStorageData';
 
 export default function Homepage() {
   document.body.style.backgroundImage =
-    'linear-gradient(to top, #bef264, #d9f99d , #ccf779)';
+    'linear-gradient(to top, #9ee622, #b1eb52, #ccf779)';
 
   const navigate = useNavigate();
 
@@ -78,7 +78,7 @@ export default function Homepage() {
     }
 
     document.body.style.backgroundImage =
-      'linear-gradient(to top, #bef264, #d9f99d , #ccf779)';
+      'linear-gradient(to top, #9ee622, #b1eb52, #ccf779)';
   }, []);
 
   useEffect(() => {
@@ -172,14 +172,14 @@ export default function Homepage() {
                 </div>
                 <div className="grid p-8 bg-white  lg:pl-10 lg:w-3/4">
                   <div>
-                    <p className="mb-3 inline-block text-xs lg:font-semibold sm:font-semibold tracking-wider uppercase rounded-full">
+                    <p className="mb-3 inline-block text-sm lg:font-bold sm:font-bold tracking-wider uppercase rounded-full">
                       Let's learn Linear Equations!
                     </p>
-                    <h5 className="mb-5 lg:text-4xl sm:text-2xl xs:text-sm pr-10 font-bold leading-none ">
+                    <h5 className="mb-5 lg:text-4xl sm:text-2xl xs:text-sm pr-10 font-extrabold leading-none ">
                       PERSONAL INSTRUCTING AGENT
                     </h5>
-                    <p className="text-gray-800 text-justify lg:text-base sm:text-sm xs:text-xs">
-                      <span className="font-bold ">
+                    <p className="text-gray-800 text-justify lg:text-lg sm:text-base xs:text-sm">
+                      <span className="font-extrabold ">
                         {' '}
                         Personal Instructing Agents (PIA){' '}
                       </span>{' '}
@@ -196,7 +196,7 @@ export default function Homepage() {
                           ? DifficultyPage
                           : undefined
                       }
-                      className={`sm:mt-4 xs:mt-4 inline-flex items-center justify-center lg:text-xl sm:text-base xs:text-sm rounded-full lg:h-12 sm:h-10 xs:h-8 lg:px-28 sm:px-10 xs:px-8 font-medium tracking-wide shadow-md    
+                      className={`sm:mt-4 xs:mt-4 inline-flex items-center justify-center lg:text-lg sm:text-base xs:text-sm rounded-full lg:h-12 sm:h-10 xs:h-8 lg:px-28 sm:px-10 xs:px-8 font-semibold uppercase tracking-wide shadow-md    
                       ${
                         !enrolledState
                           ? 'aria-disabled: text-gray-100 bg-gray-500/50 cursor-help '

@@ -102,9 +102,9 @@ const ResetPasswordModal = ({ visible, onClose, onContinue }) => {
                 <thead className="sticky top-0 z-40 shadow-md border-b-2 border-gray-200 bg-gray-200 text-left uppercase tracking-wider md:text-base xs:text-xs font-bold text-gray-600">
                   <tr>
                     <th className="lg:pl-8 w-[40%]  md:text-base sm:text-sm ">
-                      <div className="lg:pl-0 sm:pl-3  xs:pl-3">Name</div>
+                      <div className="font-bold lg:pl-0 sm:pl-3  xs:pl-3">Name</div>
                     </th>
-                    <th className="w-[9.5%]  md:text-base sm:text-xs ">
+                    <th className="font-bold w-[9.5%]  md:text-base sm:text-xs ">
                       Email
                     </th>
 

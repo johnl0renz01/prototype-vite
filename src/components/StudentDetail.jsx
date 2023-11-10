@@ -361,19 +361,19 @@ export default function StudentDetail() {
                   </div>
                 ))}
 
-                <p className="hdScreen:text-lg semihdScreen:text-base laptopScreen:text-base averageScreen:text-base xs:text-xs text-gray-700 font-medium leading-4 hdScreen:mb-3 semihdScreen:mb-2 laptopScreen:mb-1 averageScreen:mb-0.5">
+                <p className="hdScreen:text-lg semihdScreen:text-base laptopScreen:text-base averageScreen:text-base xs:text-xs text-gray-700 font-semibold leading-4 hdScreen:mb-3 semihdScreen:mb-2 laptopScreen:mb-1 averageScreen:mb-0.5">
                   Answered Questions:{' '}
                   <span id="correct" className="font-normal">
                     {totalAnswered}
                   </span>
                 </p>
-                <p className="hdScreen:text-lg semihdScreen:text-base laptopScreen:text-base averageScreen:text-base xs:text-xs text-gray-700 font-medium leading-4 hdScreen:mb-3 semihdScreen:mb-2 laptopScreen:mb-1 averageScreen:mb-0.5">
+                <p className="hdScreen:text-lg semihdScreen:text-base laptopScreen:text-base averageScreen:text-base xs:text-xs text-gray-700 font-semibold leading-4 hdScreen:mb-3 semihdScreen:mb-2 laptopScreen:mb-1 averageScreen:mb-0.5">
                   Abandoned Questions:{' '}
                   <span id="incorrect" className="font-normal">
                     {totalUnanswered}
                   </span>
                 </p>
-                <p className="hdScreen:text-lg semihdScreen:text-base laptopScreen:text-base averageScreen:text-base xs:text-xs text-gray-700 font-medium leading-4 hdScreen:mb-3 semihdScreen:mb-2 laptopScreen:mb-1 averageScreen:mb-0.5">
+                <p className="hdScreen:text-lg semihdScreen:text-base laptopScreen:text-base averageScreen:text-base xs:text-xs text-gray-700 font-semibold leading-4 hdScreen:mb-3 semihdScreen:mb-2 laptopScreen:mb-1 averageScreen:mb-0.5">
                   Accuracy Rate:{' '}
                   <span id="accuracy" className="font-normal">
                     {accuracyRate + '%'}
@@ -382,7 +382,7 @@ export default function StudentDetail() {
               </div>
               <div className="grid grid-cols-3 text-center averageScreen:mb-2 ">
                 <div>
-                  <p className="hdScreen:text-2xl semihdScreen:text-xl laptopScreen:text-xl averageScreen:text-2xl sm:text-lg xs:text-base text-gray-700 font-medium leading-4 averageScreen:mb-5 xs:mb-1">
+                  <p className="hdScreen:text-2xl semihdScreen:text-xl laptopScreen:text-xl averageScreen:text-2xl sm:text-lg xs:text-base text-gray-700 font-semibold leading-4 averageScreen:mb-5 xs:mb-1">
                     Easy
                   </p>
                   <div className="hdScreen:w-32 hdScreen:h-32 semihdScreen:w-[7.5rem] semihdScreen:h-[7.5rem]  laptopScreen:w-[7rem] laptopScreen:h-[7rem] averageScreen:w-[6.5rem] averageScreen:h-[6.5rem] xs:w-16 xs:h-16 bg-green-500 rounded-full text-center flex items-center justify-center  mx-auto ">
@@ -392,7 +392,7 @@ export default function StudentDetail() {
                   </div>
                 </div>
                 <div>
-                  <p className="hdScreen:text-2xl semihdScreen:text-xl laptopScreen:text-xl averageScreen:text-2xl sm:text-lg xs:text-base text-gray-700 font-medium leading-4 averageScreen:mb-5 xs:mb-1">
+                  <p className="hdScreen:text-2xl semihdScreen:text-xl laptopScreen:text-xl averageScreen:text-2xl sm:text-lg xs:text-base text-gray-700 font-semibold leading-4 averageScreen:mb-5 xs:mb-1">
                     Average
                   </p>
                   <div className="hdScreen:w-32 hdScreen:h-32 semihdScreen:w-[7.5rem] semihdScreen:h-[7.5rem]  laptopScreen:w-[7rem] laptopScreen:h-[7rem] averageScreen:w-[6.5rem] averageScreen:h-[6.5rem] xs:w-16 xs:h-16 bg-yellow-500 rounded-full text-center flex items-center justify-center mx-auto">
@@ -402,7 +402,7 @@ export default function StudentDetail() {
                   </div>
                 </div>
                 <div>
-                  <p className="hdScreen:text-2xl semihdScreen:text-xl laptopScreen:text-xl averageScreen:text-2xl sm:text-lg xs:text-base text-gray-700 font-medium leading-4 averageScreen:mb-5 xs:mb-1">
+                  <p className="hdScreen:text-2xl semihdScreen:text-xl laptopScreen:text-xl averageScreen:text-2xl sm:text-lg xs:text-base text-gray-700 font-semibold leading-4 averageScreen:mb-5 xs:mb-1">
                     Difficult
                   </p>
                   <div className="hdScreen:w-32 hdScreen:h-32 semihdScreen:w-[7.5rem] semihdScreen:h-[7.5rem]  laptopScreen:w-[7rem] laptopScreen:h-[7rem] averageScreen:w-[6.5rem] averageScreen:h-[6.5rem] xs:w-16 xs:h-16 bg-red-500 rounded-full text-center flex items-center justify-center mx-auto">
@@ -463,7 +463,7 @@ export default function StudentDetail() {
                           <div className="lg:col-span-3">
                             <p
                               id={'type' + history.SessionID}
-                              className="lg:text-[1.75rem] text-gray-100 font-medium leading-4 mt-1"
+                              className="lg:text-[1.75rem] text-gray-100 font-semibold leading-4 mt-1"
                             >
                               {history.SessionType}
                               <span className="lg:text-sm sm:text-xs xs:text-xs text-white font-normal ">

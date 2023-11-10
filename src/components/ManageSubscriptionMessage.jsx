@@ -68,17 +68,17 @@ const ManageSubscriptionMessage = ({ visible, onClose }) => {
                 <>
                   <div className=" font-roboto">
                     <div className="mx-auto px-6 hdScreen:py-6 semihdScreen:py-4 lg:py-2 bg-dark-200 rounded-lg text-gray-600 flex flex-col items-center">
-                      <h2 className="semihdScreen:text-3xl lg:text-2xl xs:text-xl font-extrabold text-green-700 mb-4 text-center drop-shadow">
+                      <h2 className="semihdScreen:text-3xl lg:text-2xl xs:text-xl font-extrabold text-green-700 mb-4 text-center ">
                         Thank you for your support!
                       </h2>
 
-                      <p className="semihdScreen:text-lg xs:text-base mb-4 text-justify font-lato drop-shadow">
+                      <p className="semihdScreen:text-lg xs:text-base mb-4 text-center font-lato ">
                         Your purchase not only supports our website but also
                         validates our commitment to providing you with the best
                         products and services.
                       </p>
 
-                      <p className="semihdScreen:text-lg xs:text-base mb-4 text-justify font-lato drop-shadow">
+                      <p className="semihdScreen:text-lg xs:text-base mb-4 text-center font-lato ">
                         For now, we will{' '}
                         <span className="text-lime-700 font-bold">verify</span>{' '}
                         your payment. If you have any questions, feedback, or

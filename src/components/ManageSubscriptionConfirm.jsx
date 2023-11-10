@@ -525,7 +525,7 @@ const ManageSubscriptionConfirm = ({ visible, onClose, onContinue }) => {
                         </h1>
                         <div>
                           <p className="font-normal text-gray-600 hdScreen:text-base semihdScreen:text-md averageScreen:text-sm  xs:text-xs font-roboto averageScreen:mb-0.5 xs:mb-0">
-                            Please save the screenshot of your payment, <br />
+                            Please save the screenshot of your payment <br />
                             and email it to{' '}
                             <span className="text-blue-600 underline font-semibold">
                               pedagogical.agent.sfe@gmail.com
@@ -549,7 +549,7 @@ const ManageSubscriptionConfirm = ({ visible, onClose, onContinue }) => {
                   )}
 
                   <div
-                    className={`lg:mt-4 xs:mt-3  w-full flex flex-col   font-bold lg:text-xl
+                    className={`lg:mt-4 xs:mt-3  w-full flex flex-col   font-semibold lg:text-xl
                   ${
                     planType == 'SUBSCRIBE-STUDENT-1' ||
                     currentPlan == 'STUDENT-PLAN-1'

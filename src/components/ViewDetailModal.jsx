@@ -284,7 +284,7 @@ const ViewDetailModal = ({ visible, onClose, onContinue }) => {
       return (
         <>
           <div className=" lg:max-w-[15rem] sm:max-w-[8rem] xs:max-w-[7.5rem]">
-            <span className="text-gray-500 font-semibold md:text-base sm:text-sm xs:text-xs">
+            <span className="text-gray-500 font-normal md:text-base sm:text-sm xs:text-xs">
               Attached File(s):
             </span>
             <Link

@@ -118,7 +118,7 @@ export default function DifficultyPage() {
     });
 
     document.body.style.backgroundImage =
-      'linear-gradient(to top, #bef264, #d9f99d , #ccf779)';
+      'linear-gradient(to top, #9ee622, #b1eb52, #ccf779)';
   }, []);
 
   useEffect(() => {
@@ -165,7 +165,7 @@ export default function DifficultyPage() {
       console.log(section);
       setCurrentSection(section);
 
-      if (section == 'SUBSCRIBED-STUDENTS') {
+      if (section == '!SUBSCRIBED-STUDENTS') {
         var subscribed = StorageData.localStorageJSON('S-STATUS');
         if (subscribed !== null && subscribed !== '') {
           window.localStorage.setItem(
@@ -246,7 +246,7 @@ export default function DifficultyPage() {
 
     if (
       (subscribedState && !expiredState) ||
-      currentSection != 'SUBSCRIBED-STUDENTS'
+      currentSection != '!SUBSCRIBED-STUDENTS'
     ) {
       axios
         .get(
@@ -431,7 +431,7 @@ export default function DifficultyPage() {
 
     if (
       (subscribedState && !expiredState) ||
-      currentSection != 'SUBSCRIBED-STUDENTS'
+      currentSection != '!SUBSCRIBED-STUDENTS'
     ) {
       axios
         .get(
@@ -592,7 +592,7 @@ export default function DifficultyPage() {
 
     if (
       (subscribedState && !expiredState) ||
-      currentSection != 'SUBSCRIBED-STUDENTS'
+      currentSection != '!SUBSCRIBED-STUDENTS'
     ) {
       axios
         .get(
@@ -1015,19 +1015,19 @@ export default function DifficultyPage() {
                       <div
                         className={`relative  hover:shadow-xl transform transition duration-500 hover:text-green-500 hover:shadow-green-400 -mt-10 bg-mainBGBrown rounded-4xl border-l-8 border-b-8 border-yellow-700 border-r-8 border-r-brTwo shadow-md  pl-8 pr-8 py-6 pb-12 ${
                           option == 'easy'
-                            ? 'shadow-xl shadow-green-500 text-green-500'
+                            ? 'shadow-xl shadow-green-500 text-green-600'
                             : ' shadow-yellow-900/90 text-gray-700'
                         }`}
                       >
                         <div className=" border-l-4 border-b-4 border-gray-600/60 border-r-4 border-r-gray-300/80 shadow-md shadow-yellow-800 ">
                           <div className="bg-white border-b-2 border-black/70   pt-6 pb-2">
-                            <p className=" lg:text-3xl md:text-3xl sm:text-lg  xs:text-base left-0 right-0 font-bold leading-none text-center text-white">
+                            <p className=" lg:text-3xl md:text-3xl sm:text-lg  xs:text-base left-0 right-0 font-extrabold leading-none text-center text-white">
                               EASY
                             </p>
-                            <p className="absolute lg:text-3xl md:text-3xl sm:text-lg  xs:text-base z-10 left-0 right-0 lg:top-[47px] md:top-[47px] sm:top-[47.5px] xs:top-[47.5px] font-bold leading-none  text-center">
+                            <p className="absolute lg:text-3xl md:text-3xl sm:text-lg  xs:text-base z-10 left-0 right-0 lg:top-[47px] md:top-[47px] sm:top-[47.5px] xs:top-[47.5px] font-extrabold leading-none  text-center">
                               EASY
                             </p>
-                            <p className="absolute lg:text-3xl md:text-3xl sm:text-lg  xs:text-base pt-0.5 text-gray-800/60 left-0 right-0 lg:top-[47px] md:top-[47px] sm:top-[47.5px] xs:top-[47px] font-bold leading-none  text-center">
+                            <p className="absolute lg:text-3xl md:text-3xl sm:text-lg  xs:text-base pt-0.5 text-gray-800/60 left-0 right-0 lg:top-[47px] md:top-[47px] sm:top-[47.5px] xs:top-[47px] font-extrabold leading-none  text-center">
                               EASY
                             </p>
                           </div>
@@ -1109,14 +1109,14 @@ export default function DifficultyPage() {
                   <div
                     name="average"
                     onClick={
-                      currentSection != 'SUBSCRIBED-STUDENTS'
+                      currentSection != '!SUBSCRIBED-STUDENTS'
                         ? averageType
                         : subscribedState && !expiredState
                         ? averageType
                         : null
                     }
                     className={`relative w-full transform transition duration-500 ${
-                      currentSection != 'SUBSCRIBED-STUDENTS'
+                      currentSection != '!SUBSCRIBED-STUDENTS'
                         ? 'cursor-pointer hover:scale-95'
                         : subscribedState && !expiredState
                         ? 'cursor-pointer hover:scale-95'
@@ -1126,7 +1126,7 @@ export default function DifficultyPage() {
                     <div
                       className={`select-none absolute left-0 top-0 z-[100] opacity-100  w-full h-full bg-white/60 rounded-xl  backdrop-blur-[0.5px]  flex flex-col justify-center items-center text-center transition duration-150 
                                 ${
-                                  currentSection != 'SUBSCRIBED-STUDENTS'
+                                  currentSection != '!SUBSCRIBED-STUDENTS'
                                     ? 'hidden'
                                     : subscribedState && !expiredState
                                     ? 'hidden'
@@ -1162,7 +1162,7 @@ export default function DifficultyPage() {
                       <div
                         className={`relative -mt-10 transform transition duration-500 bg-mainBGBrown rounded-4xl border-l-8 border-b-8 border-yellow-700 border-r-8 border-r-brTwo  pl-8 pr-8 py-6 pb-12 
                         ${
-                          currentSection != 'SUBSCRIBED-STUDENTS'
+                          currentSection != '!SUBSCRIBED-STUDENTS'
                             ? 'shadow-md  hover:shadow-xl hover:text-yellow-500 hover:shadow-yellow-400'
                             : subscribedState && !expiredState
                             ? 'shadow-md  hover:shadow-xl hover:text-yellow-500 hover:shadow-yellow-400'
@@ -1170,19 +1170,19 @@ export default function DifficultyPage() {
                         }
                         ${
                           option == 'average'
-                            ? 'shadow-xl shadow-yellow-500 text-yellow-500'
+                            ? 'shadow-xl shadow-yellow-500 text-yellow-600'
                             : ' shadow-yellow-900/90 text-gray-700'
                         }`}
                       >
                         <div className="border-l-4 border-b-4 border-gray-600/60 border-r-4 border-r-gray-300/80 shadow-md shadow-yellow-800">
                           <div className="bg-white border-b-2 border-black/70 py-4">
-                            <p className=" lg:text-3xl md:text-3xl sm:text-lg  xs:text-base left-0 right-0 font-bold leading-none  text-center text-white">
+                            <p className=" lg:text-3xl md:text-3xl sm:text-lg  xs:text-base left-0 right-0 font-extrabold leading-none  text-center text-white">
                               AVERAGE
                             </p>
-                            <p className="absolute lg:text-3xl md:text-3xl sm:text-lg  xs:text-base z-10 left-0 right-0 lg:top-[47px] md:top-[47px] sm:top-[47.5px] xs:top-[47.5px]  font-bold leading-none text-center">
+                            <p className="absolute lg:text-3xl md:text-3xl sm:text-lg  xs:text-base z-10 left-0 right-0 lg:top-[47px] md:top-[47px] sm:top-[47.5px] xs:top-[47.5px]  font-extrabold leading-none text-center">
                               AVERAGE
                             </p>
-                            <p className="absolute lg:text-3xl md:text-3xl sm:text-lg  xs:text-base pt-0.5 text-gray-800/60 left-0 right-0 lg:top-[47px] md:top-[47px] sm:top-[47.5px] xs:top-[47px]  text-xl font-bold leading-none text-center">
+                            <p className="absolute lg:text-3xl md:text-3xl sm:text-lg  xs:text-base pt-0.5 text-gray-800/60 left-0 right-0 lg:top-[47px] md:top-[47px] sm:top-[47.5px] xs:top-[47px]  text-xl font-extrabold leading-none text-center">
                               AVERAGE
                             </p>
                           </div>
@@ -1251,14 +1251,14 @@ export default function DifficultyPage() {
                   <div
                     name="difficult"
                     onClick={
-                      currentSection != 'SUBSCRIBED-STUDENTS'
+                      currentSection != '!SUBSCRIBED-STUDENTS'
                         ? difficultType
                         : subscribedState && !expiredState
                         ? difficultType
                         : null
                     }
                     className={`relative w-full transform transition duration-500 ${
-                      currentSection != 'SUBSCRIBED-STUDENTS'
+                      currentSection != '!SUBSCRIBED-STUDENTS'
                         ? 'cursor-pointer hover:scale-95'
                         : subscribedState && !expiredState
                         ? 'cursor-pointer hover:scale-95'
@@ -1268,7 +1268,7 @@ export default function DifficultyPage() {
                     <div
                       className={`select-none absolute left-0 top-0 z-[100] opacity-100  w-full h-full bg-white/60 rounded-xl  backdrop-blur-[0.5px]  flex flex-col justify-center items-center text-center transition duration-150 
                                 ${
-                                  currentSection != 'SUBSCRIBED-STUDENTS'
+                                  currentSection != '!SUBSCRIBED-STUDENTS'
                                     ? 'hidden'
                                     : subscribedState && !expiredState
                                     ? 'hidden'
@@ -1304,7 +1304,7 @@ export default function DifficultyPage() {
                       <div
                         className={`relative -mt-10  transform transition duration-500 bg-mainBGBrown rounded-4xl border-l-8 border-b-8 border-yellow-700 border-r-8 border-r-brTwo pl-8 pr-8 py-6 pb-12 
                         ${
-                          currentSection != 'SUBSCRIBED-STUDENTS'
+                          currentSection != '!SUBSCRIBED-STUDENTS'
                             ? 'shadow-md hover:shadow-xl hover:text-red-500 hover:shadow-red-500'
                             : subscribedState && !expiredState
                             ? 'shadow-md hover:shadow-xl hover:text-red-500 hover:shadow-red-500'
@@ -1312,19 +1312,19 @@ export default function DifficultyPage() {
                         }
                         ${
                           option == 'difficult'
-                            ? 'shadow-xl shadow-red-500 text-red-500'
+                            ? 'shadow-xl shadow-red-500 text-red-600'
                             : ' shadow-yellow-900/90 text-gray-700'
                         }`}
                       >
                         <div className="border-l-4 border-b-4 border-gray-600/60 border-r-4 border-r-gray-300/80 shadow-md shadow-yellow-800 ">
                           <div className="bg-white border-b-2 border-black/70 py-4">
-                            <p className="lg:text-3xl md:text-3xl sm:text-lg  xs:text-base left-0 right-0 font-bold leading-none text-center text-white">
+                            <p className="lg:text-3xl md:text-3xl sm:text-lg  xs:text-base left-0 right-0 font-extrabold leading-none text-center text-white">
                               DIFFICULT
                             </p>
-                            <p className="absolute lg:text-3xl md:text-3xl sm:text-lg  xs:text-base z-10 left-0 right-0 lg:top-[47px] md:top-[47px] sm:top-[47.5px] xs:top-[47.5px]  font-bold leading-none text-center">
+                            <p className="absolute lg:text-3xl md:text-3xl sm:text-lg  xs:text-base z-10 left-0 right-0 lg:top-[47px] md:top-[47px] sm:top-[47.5px] xs:top-[47.5px]  font-extrabold leading-none text-center">
                               DIFFICULT
                             </p>
-                            <p className="absolute lg:text-3xl md:text-3xl sm:text-lg  xs:text-base pt-0.5 text-gray-800/60 left-0 right-0 lg:top-[47px] md:top-[47px] sm:top-[47.5px] xs:top-[47px]  text-xl font-bold leading-none text-center">
+                            <p className="absolute lg:text-3xl md:text-3xl sm:text-lg  xs:text-base pt-0.5 text-gray-800/60 left-0 right-0 lg:top-[47px] md:top-[47px] sm:top-[47.5px] xs:top-[47px]  text-xl font-extrabold leading-none text-center">
                               DIFFICULT
                             </p>
                           </div>

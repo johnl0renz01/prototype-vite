@@ -58,13 +58,13 @@ const ViewErrorModal = ({ visible, onClose, onContinue }) => {
       'IS_ERROR_DUPLICATE_ROW'
     );
 
-    console.log(accDuplicateRows);
+    //console.log(accDuplicateRows);
 
     var accMultipleRows = StorageData.sessionStorageJSON(
       'IS_ERROR_MULTIPLE_ROW'
     );
 
-    console.log(accMultipleRows);
+    //console.log(accMultipleRows);
 
     var accDuplicate = StorageData.sessionStorageJSON(
       'IS_ERROR_ACCOUNT_DUPLICATE'
@@ -104,13 +104,13 @@ const ViewErrorModal = ({ visible, onClose, onContinue }) => {
             }
           }
           if (isEnd) {
-            //console.log(currentData.substring(firstIndex, endIndex));
+            ////console.log(currentData.substring(firstIndex, endIndex));
             data1.push(currentData.substring(firstIndex, endIndex));
             isEnd = false;
           }
         }
 
-        console.log(data1);
+        //console.log(data1);
         setAccountDuplicateRows(data1);
       }
     }
@@ -152,13 +152,13 @@ const ViewErrorModal = ({ visible, onClose, onContinue }) => {
             }
           }
           if (isEnd) {
-            //console.log(currentData.substring(firstIndex, endIndex));
+            ////console.log(currentData.substring(firstIndex, endIndex));
             data2.push(currentData.substring(firstIndex, endIndex));
             isEnd = false;
           }
         }
 
-        console.log(data2);
+        //console.log(data2);
         setLength(data2.length);
         setAccountMultipleRows(data2);
       }
@@ -167,7 +167,7 @@ const ViewErrorModal = ({ visible, onClose, onContinue }) => {
 
   function convertStringToArray(array) {
     var currentData = array;
-    console.log(currentData);
+    //console.log(currentData);
     var convertedData = [];
 
     if (currentData !== null && currentData !== undefined) {
@@ -193,7 +193,7 @@ const ViewErrorModal = ({ visible, onClose, onContinue }) => {
           }
         }
         if (isEnd) {
-          //console.log(currentData.substring(firstIndex, endIndex));
+          ////console.log(currentData.substring(firstIndex, endIndex));
           convertedData.push(currentData.substring(firstIndex, endIndex));
           isEnd = false;
         }

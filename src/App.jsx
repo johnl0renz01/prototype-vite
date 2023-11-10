@@ -35,6 +35,8 @@ import HomePageAdmin from './components/HomePageAdmin';
 import ErrorPage from './components/ErrorPage';
 import LogoutWarning from './components/LogoutWarning';
 
+import Inquiry from './components/Inquiry';
+
 class App extends Component {
   componentWillUnmount() {
     localStorage.clear();
@@ -45,7 +47,7 @@ class App extends Component {
     document.body.style.height = '100vh';
 
     document.body.style.backgroundImage =
-      'linear-gradient(to top, #bef264, #d9f99d , #ccf779)';
+      'linear-gradient(to top, #9ee622, #b1eb52, #ccf779)';
 
     /*
     window.localStorage.setItem("NAVBAR_PAGE", JSON.stringify(""));
@@ -76,6 +78,7 @@ class App extends Component {
 
         <Routes>
           <Route path="/" element={<LoginPage />} />
+          <Route path="Inquiry" element={<Inquiry />} />
           <Route path="Homepage" element={<Homepage />} />
           <Route path="Difficulty" element={<Difficulty />} />
 

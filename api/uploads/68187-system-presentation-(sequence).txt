@@ -1,0 +1,21 @@
+Website / Login Page
+
+
+Ready Materials:
+- 
+
+
+Admin Side first:
+-> To login we need account first
+-> Registration Page
+-> Show how to register in one account only
+-> Proceed to Bulk Registration
+-> Download File
+-> Needed to be opened in google spreadsheets
+-> Fill out then explain data restrictions
+-> Now upload in bulk registration
+
+- There are 3 errors that can occur:
+~ multiple account (same names),
+~ duplicate account (existing account),
+~ section error (existing section),
