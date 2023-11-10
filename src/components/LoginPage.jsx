@@ -173,7 +173,7 @@ export default function LoginPage() {
       axios
         .post(`https://pia-sfe.online/api/${accountType}/save`, values)
         .then(function (response) {
-          console.log(response.data);
+          //console.log(response.data);
           let message = response.data;
           if (typeof message === 'string') {
             message = message.replace(/"/g, '');
@@ -824,6 +824,8 @@ export default function LoginPage() {
         .catch(function (error) {
           setShowLoading(false);
         });
+    } else {
+      setShowLoading(false);
     }
   };
 
@@ -1141,132 +1143,141 @@ export default function LoginPage() {
                 {/* Set New Password */}
                 {newPass ? (
                   <div className="mt-2">
-                    <div className="border-2 border-gray-400 p-4 pb-6 rounded-xl">
-                      <p className="text-justify">
-                        The password must be at least 8 characters long, and it
-                        must not contain any special characters or spaces.
-                      </p>
-                      {/* New Password Input */}
-                      <div className="my-1 text-left h-20">
-                        <div className="relative">
-                          <div className="inline-flex ">
-                            <label
-                              htmlFor="newPassword"
-                              className="mr-2 lg:text-lg sm:text-base xs:text-xs mt-1.5 ml-1 font-semibold"
-                            >
-                              {' '}
-                              New Password:{' '}
-                            </label>
+                    <form
+                      action=""
+                      autoComplete="off"
+                      onSubmit={e => {
+                        e.preventDefault();
+                      }}
+                    >
+                      <div className="border-2 border-gray-400 p-4 pb-6 rounded-xl">
+                        <p className="text-justify">
+                          The password must be at least 8 characters long, and
+                          it must not contain any special characters or spaces.
+                        </p>
+                        {/* New Password Input */}
+                        <div className="my-1 text-left h-20">
+                          <div className="relative">
+                            <div className="inline-flex ">
+                              <label
+                                htmlFor="newPassword"
+                                className="mr-2 lg:text-lg sm:text-base xs:text-xs mt-1.5 ml-1 font-semibold"
+                              >
+                                {' '}
+                                New Password:{' '}
+                              </label>
 
-                            <div className="mt-2">
-                              {errors.newPassword && touched.newPassword ? (
-                                <p className="text-red-500 flex-w lg:text-base xs:text-xs">
-                                  {errors.newPassword}
-                                </p>
-                              ) : newPassword == '' ? (
-                                <></>
-                              ) : validNewPass ? (
-                                <div className="text-lime-600 flex lg:text-base xs:text-xs">
-                                  <VscPassFilled className="mt-1.5 mr-1 lg:text-sm text-lime-600" />
-                                  Valid
-                                </div>
-                              ) : (
-                                <div className="text-red-500 flex lg:text-base xs:text-xs">
-                                  <BsXCircleFill className="mt-1.5 mr-1 lg:text-sm text-red-500" />
-                                  Invalid
-                                </div>
-                              )}
+                              <div className="mt-2">
+                                {errors.newPassword && touched.newPassword ? (
+                                  <p className="text-red-500 flex-w lg:text-base xs:text-xs">
+                                    {errors.newPassword}
+                                  </p>
+                                ) : newPassword == '' ? (
+                                  <></>
+                                ) : validNewPass ? (
+                                  <div className="text-lime-600 flex lg:text-base xs:text-xs">
+                                    <VscPassFilled className="mt-1.5 mr-1 lg:text-sm text-lime-600" />
+                                    Valid
+                                  </div>
+                                ) : (
+                                  <div className="text-red-500 flex lg:text-base xs:text-xs">
+                                    <BsXCircleFill className="mt-1.5 mr-1 lg:text-sm text-red-500" />
+                                    Invalid
+                                  </div>
+                                )}
+                              </div>
                             </div>
-                          </div>
-                          <input
-                            onFocus={function () {
-                              setPasswordValidation(true);
-                            }}
-                            id="newPassword"
-                            className={` bg-[#e0e0e0] rounded-xl w-full lg:text-lg sm:text-base xs:text-xs text-gray-700 px-4 pr-10 py-1.5 mr-3 ${
-                              errors.newPassword && touched.newPassword
-                                ? ' border-red-500 focus:border-red-500 border-2 border-solid'
-                                : ''
-                            } `}
-                            type="password"
-                            name="newPassword"
-                            placeholder="Input password"
-                            autoComplete="off"
-                            /* Formik password validation Section */
+                            <input
+                              onFocus={function () {
+                                setPasswordValidation(true);
+                              }}
+                              id="newPassword"
+                              className={` bg-[#e0e0e0] rounded-xl w-full lg:text-lg sm:text-base xs:text-xs text-gray-700 px-4 pr-10 py-1.5 mr-3 ${
+                                errors.newPassword && touched.newPassword
+                                  ? ' border-red-500 focus:border-red-500 border-2 border-solid'
+                                  : ''
+                              } `}
+                              type="password"
+                              name="newPassword"
+                              placeholder="Input password"
+                              autoComplete="off"
+                              /* Formik password validation Section */
 
-                            value={newPassword}
-                            onChange={newPasswordChange}
-                            onBlur={handleBlur}
-                          />
+                              value={newPassword}
+                              onChange={newPasswordChange}
+                              onBlur={handleBlur}
+                            />
+                          </div>
+                        </div>
+                        {/* Confirm Password Input */}
+                        <div className="my-1 text-left h-20">
+                          <div className="relative">
+                            <div className="inline-flex ">
+                              <label
+                                htmlFor="confirmPassword"
+                                className="mr-2 lg:text-lg sm:text-base xs:text-xs mt-1.5 ml-1 font-semibold"
+                              >
+                                {' '}
+                                Confirm Password:{' '}
+                              </label>
+
+                              <div className="mt-2">
+                                {errors.confirmPassword &&
+                                touched.confirmPassword ? (
+                                  <p className="text-red-500 flex-w lg:text-base xs:text-xs">
+                                    {errors.confirmPassword}
+                                  </p>
+                                ) : confirmPassword == '' ? (
+                                  <></>
+                                ) : validConfirmPass ? (
+                                  <div className="text-lime-600 flex lg:text-base xs:text-xs">
+                                    <VscPassFilled className="mt-1.5 mr-1 lg:text-sm text-lime-600" />
+                                    Matched
+                                  </div>
+                                ) : (
+                                  <div className="text-red-500 flex lg:text-base xs:text-xs">
+                                    <BsXCircleFill className="mt-1.5 mr-1 lg:text-sm text-red-500" />
+                                    Not matched
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                            <input
+                              onFocus={function () {
+                                setPasswordValidation(true);
+                              }}
+                              className={` bg-[#e0e0e0] rounded-xl w-full lg:text-lg sm:text-base xs:text-xs text-gray-700 px-4 pr-10 py-1.5 mr-3 ${
+                                errors.confirmPassword &&
+                                touched.confirmPassword
+                                  ? ' border-red-500 focus:border-red-500 border-2 border-solid'
+                                  : ''
+                              } `}
+                              id="confirmPassword"
+                              type="password"
+                              name="confirmPassword"
+                              placeholder="Confirm password"
+                              autoComplete="off"
+                              /* Formik password validation Section */
+
+                              value={confirmPassword}
+                              onChange={confirmPasswordChange}
+                              onBlur={handleBlur}
+                            />
+                          </div>
                         </div>
                       </div>
-                      {/* Confirm Password Input */}
-                      <div className="my-1 text-left h-20">
-                        <div className="relative">
-                          <div className="inline-flex ">
-                            <label
-                              htmlFor="confirmPassword"
-                              className="mr-2 lg:text-lg sm:text-base xs:text-xs mt-1.5 ml-1 font-semibold"
-                            >
-                              {' '}
-                              Confirm Password:{' '}
-                            </label>
 
-                            <div className="mt-2">
-                              {errors.confirmPassword &&
-                              touched.confirmPassword ? (
-                                <p className="text-red-500 flex-w lg:text-base xs:text-xs">
-                                  {errors.confirmPassword}
-                                </p>
-                              ) : confirmPassword == '' ? (
-                                <></>
-                              ) : validConfirmPass ? (
-                                <div className="text-lime-600 flex lg:text-base xs:text-xs">
-                                  <VscPassFilled className="mt-1.5 mr-1 lg:text-sm text-lime-600" />
-                                  Matched
-                                </div>
-                              ) : (
-                                <div className="text-red-500 flex lg:text-base xs:text-xs">
-                                  <BsXCircleFill className="mt-1.5 mr-1 lg:text-sm text-red-500" />
-                                  Not matched
-                                </div>
-                              )}
-                            </div>
-                          </div>
-                          <input
-                            onFocus={function () {
-                              setPasswordValidation(true);
-                            }}
-                            className={` bg-[#e0e0e0] rounded-xl w-full lg:text-lg sm:text-base xs:text-xs text-gray-700 px-4 pr-10 py-1.5 mr-3 ${
-                              errors.confirmPassword && touched.confirmPassword
-                                ? ' border-red-500 focus:border-red-500 border-2 border-solid'
-                                : ''
-                            } `}
-                            id="confirmPassword"
-                            type="password"
-                            name="confirmPassword"
-                            placeholder="Confirm password"
-                            autoComplete="off"
-                            /* Formik password validation Section */
-
-                            value={confirmPassword}
-                            onChange={confirmPasswordChange}
-                            onBlur={handleBlur}
-                          />
-                        </div>
+                      <div className=" mt-7 text-center w-full ">
+                        <button
+                          onClick={submitNewPassword}
+                          className="bg-lime-600 rounded-2xl w-1/2 py-2 lg:lg:text-lg sm:text-base xs:text-xs sm:text-md font-semibold hover:bg-lime-700 text-white ease-in-out transition duration-200 transform drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)]"
+                        >
+                          <span className="lg:text-xl sm:text-base xs:text-xs font-semibold">
+                            SUBMIT
+                          </span>
+                        </button>
                       </div>
-                    </div>
-
-                    <div className=" mt-7 text-center w-full ">
-                      <button
-                        onClick={submitNewPassword}
-                        className="bg-lime-600 rounded-2xl w-1/2 py-2 lg:lg:text-lg sm:text-base xs:text-xs sm:text-md font-semibold hover:bg-lime-700 text-white ease-in-out transition duration-200 transform drop-shadow-[0_3px_0px_rgba(0,0,0,0.45)] hover:drop-shadow-[0_3px_0px_rgba(0,0,0,0.6)]"
-                      >
-                        <span className="lg:text-xl sm:text-base xs:text-xs font-semibold">
-                          SUBMIT
-                        </span>
-                      </button>
-                    </div>
+                    </form>
                   </div>
                 ) : (
                   <></>

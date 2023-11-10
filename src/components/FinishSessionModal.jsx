@@ -555,7 +555,7 @@ const FinishSessionModal = ({ visible, onClose, onContinue }) => {
     }
   }
 
-  const difficultType = () => {
+  const generateDifficult = () => {
     setShowLoading(true);
     var tableSettings = StorageData.localStorageJSON('SESSION_TEACHER_TABLE');
 

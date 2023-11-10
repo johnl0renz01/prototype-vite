@@ -20,6 +20,10 @@ html {
     @apply font-nunito;
   }
 
+  [datatooltip] {
+    @apply font-sans;
+  }
+
   button {
     @apply active:scale-90 active:transition active:duration-75;
   }

@@ -44,13 +44,13 @@ const IgnoreWarningModal = ({ visible, onClose, onContinue }) => {
       'IS_ERROR_DUPLICATE_ROW'
     );
 
-    console.log(accDuplicateRows);
+    //console.log(accDuplicateRows);
 
     var accMultipleRows = StorageData.sessionStorageJSON(
       'IS_ERROR_MULTIPLE_ROW'
     );
 
-    console.log(accMultipleRows);
+    //console.log(accMultipleRows);
 
     var accDuplicate = StorageData.sessionStorageJSON(
       'IS_ERROR_ACCOUNT_DUPLICATE_IGNORE'
@@ -95,7 +95,7 @@ const IgnoreWarningModal = ({ visible, onClose, onContinue }) => {
           }
         }
 
-        console.log(data1);
+        //console.log(data1);
         setAccountDuplicateRows(data1);
       }
     }
@@ -143,7 +143,7 @@ const IgnoreWarningModal = ({ visible, onClose, onContinue }) => {
           }
         }
 
-        console.log(data2);
+        //console.log(data2);
         setLength(data2.length);
         setAccountMultipleRows(data2);
       }

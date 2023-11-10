@@ -122,9 +122,11 @@ switch($_SESSION['method']) {
                 }
             }
 
+            /*
             if ($role == "Teacher") {
                 $section_name = "NA";
             }
+            */
 
             $code = random_str(8);
             $false = "FALSE";
@@ -199,15 +201,19 @@ switch($_SESSION['method']) {
             // FOR REGISTER
 
             if ($registered == false) {
-                $sql = "INSERT INTO accounts(AccountID, GivenName, MiddleName, LastName, Gender, GradeLevel, Section, GroupType, Email, Password, Role) 
-                        VALUES(null, '$first_name', '$middle_name', '$last_name', '$gender', '$grade_level_string', '$section_string', '$group_type', '$email', '$hashedPassword', '$role')";
-                $stmt = $conn->prepare($sql);
-                
-                if($stmt->execute()) {
-                    $response = ['status' => 1, 'message' => 'Record created successfully.'];
+                if ($role == "Teacher") {
+                    $sql = "INSERT INTO accounts(AccountID, GivenName, MiddleName, LastName, Gender, GradeLevel, Section, GroupType, Email, Password, Role) 
+                    VALUES(null, '$first_name', '$middle_name', '$last_name', '$gender', '$grade_level_string', 'NA', '$group_type', '$email', '$hashedPassword', '$role')";
+                    $stmt = $conn->prepare($sql);
+                    $stmt->execute();
                 } else {
-                    $response = ['status' => 0, 'message' => 'Failed to create record.'];
+                    $sql = "INSERT INTO accounts(AccountID, GivenName, MiddleName, LastName, Gender, GradeLevel, Section, GroupType, Email, Password, Role) 
+                    VALUES(null, '$first_name', '$middle_name', '$last_name', '$gender', '$grade_level_string', '$section_string', '$group_type', '$email', '$hashedPassword', '$role')";
+                    $stmt = $conn->prepare($sql);
+                    $stmt->execute();
                 }
+              
+            
             } else {
                 $registered = false;
             }
@@ -295,4 +301,4 @@ switch($_SESSION['method']) {
 
 
 
-?
+?>

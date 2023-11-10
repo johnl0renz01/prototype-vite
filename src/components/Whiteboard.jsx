@@ -3119,8 +3119,17 @@ export default function Whiteboard() {
                     <ul className="averageScreen:px-4 hdScreen:py-1.5 semihdScreen:py- hdScreen:text-lg averageScreen:text-sm semihdScreen:text-base xs:text-xs hdScreen:leading-[1.6rem] semihdScreen:leading-[1.4rem]">
                       <li className="list-disc hdScreen:py-0.5 xs:py-[1px]">
                         Final answer should be in{' '}
-                        <span className="">decimal format.</span> <br />
-                        Example: 26/7 ={' '}
+                        <span className="">
+                          decimal format or fraction (if subsbcribed).
+                        </span>{' '}
+                        <br />
+                        Example: x ={' '}
+                        <span className="border-[1px] border-black py-0.5 px-1">
+                          26/7
+                        </span>{' '}
+                        (Lowest term)
+                        <br />
+                        Example: x ={' '}
                         <span className="border-[1px] border-black py-0.5 px-1">
                           3.71
                         </span>
@@ -3132,13 +3141,6 @@ export default function Whiteboard() {
                         <span className="border-[1px] border-black py-0.5 px-1">
                           2.13
                         </span>{' '}
-                        <br />
-                        <div className="mt-1">
-                          Example: 0.008231 =
-                          <span className="border-[1px] border-black py-0.5 px-1">
-                            0.01
-                          </span>
-                        </div>
                       </li>
                       <li className="list-disc hdScreen:py-0.5 xs:py-[1px]">
                         <span className="">Remove extra zeros</span> "0" in

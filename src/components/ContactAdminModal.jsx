@@ -73,6 +73,7 @@ const ContactAdminModal = ({ visible, onClose, onContinue }) => {
     initialValues: {
       subject: '',
       message: '',
+      type: '',
     },
     validationSchema: contactAdminSchema,
     onSubmit,

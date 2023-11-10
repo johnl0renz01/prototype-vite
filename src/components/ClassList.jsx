@@ -86,13 +86,13 @@ export default function ClassList() {
           JSON.stringify(SecureStorageData.dataEncryption(data))
         );
         currentSection = data;
-        document.title = '7 - ' + currentSection;
+        //document.title = '7 - ' + currentSection;
         currentSection = currentSection.replace(/ /g, '_');
         getCurrentSection();
       } else {
         data2 = data2.replace(/"/g, '');
         currentSection = data2;
-        document.title = '7 - ' + currentSection;
+        //document.title = '7 - ' + currentSection;
         currentSection = currentSection.replace(/ /g, '_');
         getCurrentSection();
       }
@@ -112,6 +112,14 @@ export default function ClassList() {
       .get(`https://pia-sfe.online/api/sectionAdviser/${currentSection}`)
       .then(function (response) {
         //console.log(response.data);
+        var result = Object.values(response.data);
+
+        var keys = [];
+        for (var k in result[0]) keys.push(result[0][k]);
+
+        var tempSection = currentSection.replace(/\_/g, ' ');
+        document.title = keys[1] + ' - ' + tempSection;
+
         setCurrentSection(response.data);
 
         getClassList();
